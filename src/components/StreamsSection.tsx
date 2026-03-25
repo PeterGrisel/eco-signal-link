@@ -1,30 +1,44 @@
 import { motion } from "framer-motion";
 import { Users, Briefcase, Handshake, Globe } from "lucide-react";
 
+import { Trophy, Package, Car, Wrench, Building2, Stethoscope } from "lucide-react";
+
 const streams = [
   {
-    icon: Briefcase,
-    title: "Nieuwe Klanten",
-    description: "MKB-ondernemers en beslissers die zoeken naar financiering, advies of diensten. Bereik op basis van groeisignalen, niet koude lijsten.",
-    signals: ["Nieuwe vacatures", "Bedrijfsregistraties", "Websitebezoek", "LinkedIn-interactie"],
+    icon: Trophy,
+    title: "Profvoetbal",
+    description: "Sponsorwerving, partnerschappen en seizoensgebonden campagnes voor clubs en organisaties. Bereik beslissers bij merken die investeren in sport.",
+    signals: ["Sponsorbudget signalen", "Merkactivaties", "Evenementplanning", "Mediaexposure"],
   },
   {
-    icon: Users,
-    title: "Recruitment",
-    description: "Adviseurs, specialisten en talent dat bij u past. Van actieve kandidaten tot professionals die over 1 tot 2 jaar de perfecte fit zijn.",
-    signals: ["Functiewijzigingen", "Opleiding afgerond", "Gedeelde connecties", "Profielactiviteit"],
+    icon: Package,
+    title: "Groothandel",
+    description: "Nieuwe afnemers en retailers identificeren op basis van inkooppatronen, assortimentsuitbreiding en marktbewegingen.",
+    signals: ["Nieuwe vestigingen", "Assortimentswijzigingen", "Inkoopvolume", "Seizoenspieken"],
   },
   {
-    icon: Handshake,
-    title: "Partners",
-    description: "Strategische samenwerkingen identificeren op basis van complementaire diensten, gedeelde doelgroepen en marktbewegingen.",
-    signals: ["Marktexpansie", "Nieuwe diensten", "Branche-events", "Publicaties"],
+    icon: Car,
+    title: "Leasemaatschappijen",
+    description: "Bedrijven met groeiend wagenpark, contractverlengingen en fleet managers die actief vergelijken. Timing is alles.",
+    signals: ["Wagenparkgroei", "Contractverloop", "Nieuwe vestigingen", "FTE-groei"],
   },
   {
-    icon: Globe,
-    title: "Internationaal",
-    description: "Hetzelfde systeem, nieuwe markten. Dezelfde signaalstructuur werkt in elk land; alleen de targeting wordt aangepast.",
-    signals: ["Marktentry signalen", "Regulatory changes", "Partnernetwerken", "Lokale events"],
+    icon: Wrench,
+    title: "Engineering",
+    description: "Technische beslissers en projectmanagers bij industriële bedrijven. Van bouwprojecten tot productie-innovatie.",
+    signals: ["Projectaankondigingen", "Investeringsrondes", "Capaciteitsuitbreiding", "Vacatures"],
+  },
+  {
+    icon: Building2,
+    title: "Zakelijke Dienstverlening",
+    description: "Accountants, juristen en consultants die groeien. Bereik partners en directies op het juiste moment met de juiste boodschap.",
+    signals: ["Partnerwijzigingen", "Kantooruitbreiding", "Nieuwe diensten", "Thought leadership"],
+  },
+  {
+    icon: Stethoscope,
+    title: "Gezondheidszorg",
+    description: "Zorginstellingen, klinieken en healthtech-bedrijven die investeren in groei, digitalisering of specialisatie.",
+    signals: ["Subsidietoekenning", "Uitbreiding locaties", "Digitaliseringsprojecten", "Leiderschapswissels"],
   },
 ];
 
@@ -40,20 +54,20 @@ const StreamsSection = () => {
           className="mb-16 max-w-2xl"
         >
           <p className="text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4">
-            Eén funnel. Vier doelgroepen.
+            Eén systeem. Elke sector.
           </p>
           <h2 className="font-display font-bold text-4xl md:text-5xl lg:text-6xl tracking-tight leading-tight mb-6">
-            Dezelfde motor.
+            Bewezen in
             <br />
-            <span className="text-gradient">Ander doel.</span>
+            <span className="text-gradient">diverse branches.</span>
           </h2>
           <p className="text-muted-foreground text-lg leading-relaxed">
-            Onze infrastructuur is generiek, de targeting en boodschap zijn specifiek. 
-            Eén systeem dat parallel draait voor elke stroom die u nodig heeft.
+            Dezelfde motor, aangepast aan uw markt. Van profvoetbal tot engineering — 
+            wij bouwen de outreach die past bij uw sector en doelgroep.
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {streams.map((stream, i) => (
             <motion.div
               key={stream.title}
