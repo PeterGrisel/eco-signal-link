@@ -140,6 +140,19 @@ const AdminKpi = () => {
     setAdvisorLoading(false);
   };
 
+  const handleAudit = async () => {
+    setAuditLoading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("seo-audit", { body: {} });
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+      setAudit(data);
+    } catch (e: any) {
+      toast({ title: "SEO Audit mislukt", description: e.message, variant: "destructive" });
+    }
+    setAuditLoading(false);
+  };
+
   const handleQueueSuggestion = async (suggestion: AiSuggestion, index: number) => {
     try {
       const { data, error } = await supabase.functions.invoke("kpi-advisor", {
