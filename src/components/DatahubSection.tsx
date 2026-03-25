@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Database, Brain, RefreshCw, Lock, MessageCircleQuestion } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import datahubScreenshot from "@/assets/datahub-screenshot.png";
 
 const features = [
   {
