@@ -71,7 +71,7 @@ const OverOns = () => {
       <section className="relative pt-32 pb-24 overflow-hidden">
         <div className="absolute inset-0">
           <img
-            src={teamBanner}
+            src={teamAbout}
             alt="Team Rebel Force"
             className="w-full h-full object-cover"
           />
