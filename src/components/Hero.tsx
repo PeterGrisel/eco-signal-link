@@ -5,6 +5,16 @@ import teamBanner from "@/assets/team-banner.jpg";
 const Hero = () => {
   return (
     <section className="relative min-h-screen flex items-center pt-16 overflow-hidden">
+      {/* Background banner image */}
+      <div className="absolute inset-0">
+        <img 
+          src={teamBanner} 
+          alt="Team Rebel Force" 
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" />
+      </div>
+      
       {/* Glow effect */}
       <div className="absolute inset-0 glow-bg pointer-events-none" />
       
