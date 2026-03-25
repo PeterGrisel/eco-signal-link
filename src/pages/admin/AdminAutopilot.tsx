@@ -91,9 +91,17 @@ const AdminAutopilot = () => {
     setGenerating(false);
   };
 
-  // Approve / Decline
-  const handleStatusChange = async (id: string, status: QueueStatus) => {
-    await supabase.from("content_queue").update({ status }).eq("id", id);
+  // Approve → auto-generate
+  const handleApprove = async (item: QueueItem) => {
+    await supabase.from("content_queue").update({ status: "approved" as any }).eq("id", item.id);
+    fetchQueue();
+    // Auto-trigger generation
+    handleGenerateArticle({ ...item, status: "approved" });
+  };
+
+  // Decline
+  const handleDecline = async (id: string) => {
+    await supabase.from("content_queue").update({ status: "declined" as any }).eq("id", id);
     fetchQueue();
   };
 
