@@ -7,6 +7,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PageLoader from "@/components/PageLoader";
 import CtaSection from "@/components/CtaSection";
+import FunnelCalculatorSection from "@/components/FunnelCalculatorSection";
 import { getSectorBySlug, sectors } from "@/data/sectors";
 
 const fadeUp = {
@@ -174,6 +175,8 @@ const SectorPage = () => {
             </div>
           </div>
         </section>
+
+        <FunnelCalculatorSection />
 
         {/* Other sectors */}
         <section className="py-24 border-t border-border">
