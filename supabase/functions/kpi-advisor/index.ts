@@ -65,6 +65,29 @@ serve(async (req) => {
       // Missed opportunities: impressions but 0 clicks
       const missed = topQueries.filter(q => q.impressions > 20 && q.clicks === 0);
 
+      // Run SEO audit inline
+      let auditContext = "";
+      try {
+        const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+        const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+        const auditRes = await fetch(`${supabaseUrl}/functions/v1/seo-audit`, {
+          method: "POST",
+          headers: { Authorization: `Bearer ${serviceKey}`, "Content-Type": "application/json" },
+          body: JSON.stringify({}),
+        });
+        if (auditRes.ok) {
+          const audit = await auditRes.json();
+          const issues = (audit.checks || []).filter((c: any) => c.status !== "pass");
+          if (issues.length > 0) {
+            auditContext = `\n\nTECHNISCHE SEO AUDIT (score: ${audit.score}/100):\n${issues.map((c: any) => `[${c.status.toUpperCase()}] ${c.title}: ${c.detail} (impact: ${c.impact})`).join("\n")}`;
+          } else {
+            auditContext = `\n\nTECHNISCHE SEO AUDIT: Score ${audit.score}/100 — alle checks geslaagd.`;
+          }
+        }
+      } catch (e) {
+        console.error("Audit in advisor failed:", e);
+      }
+
       const config = (settingsRes.data?.config as any) || {};
 
       const prompt = `Je bent een B2B SEO-strateeg voor ${config.site_name || "B2B Groeimachine"}.
@@ -91,13 +114,15 @@ ${missed.slice(0, 10).map(q => `"${q.query}" → ${q.impressions} imp, pos ${q.a
 
 BESTAANDE CONTENT:
 ${(postsRes.data || []).slice(0, 20).map((p: any) => `- ${p.title}`).join("\n")}
+${auditContext}
 
 Geef 5 suggesties. Elk type kan zijn:
 - "new_page": Nieuwe pagina/artikel ontwikkelen (geef headline, keyword, content_type)
 - "optimize": Bestaande pagina optimaliseren (geef target page, optimalisatie acties)
-- "strategy": Strategische aanbeveling (geef beschrijving)
+- "strategy": Strategische aanbeveling (geef beschrijving) — gebruik ook technische SEO audit bevindingen
+- "technical_fix": Technische SEO fix (geef beschrijving van het probleem en de oplossing)
 
-BELANGRIJK: Suggesties moeten ACTIEGERICHT zijn en direct bijdragen aan conversie of organische groei.`;
+BELANGRIJK: Suggesties moeten ACTIEGERICHT zijn en direct bijdragen aan conversie of organische groei. Als er technische SEO problemen zijn, neem minstens 1 technical_fix suggestie op.`;
 
       const aiRes = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
         method: "POST",
