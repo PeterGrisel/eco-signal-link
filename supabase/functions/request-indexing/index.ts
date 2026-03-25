@@ -6,13 +6,20 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
-// Convert PEM private key to CryptoKey for signing JWTs
 async function importPrivateKey(pem: string): Promise<CryptoKey> {
-  const pemContents = pem
-    .replace("-----BEGIN PRIVATE KEY-----", "")
-    .replace("-----END PRIVATE KEY-----", "")
-    .replace(/\n/g, "");
+  // Handle both real newlines and literal \n sequences
+  const normalized = pem.replace(/\\n/g, "\n");
+  console.log("Key starts with:", normalized.substring(0, 40));
+  console.log("Key length:", normalized.length);
+  const pemContents = normalized
+    .replace(/-----BEGIN PRIVATE KEY-----/g, "")
+    .replace(/-----END PRIVATE KEY-----/g, "")
+    .replace(/\s/g, "");
+  console.log("Base64 length:", pemContents.length);
+  console.log("Base64 first 20:", pemContents.substring(0, 20));
   const binaryDer = Uint8Array.from(atob(pemContents), (c) => c.charCodeAt(0));
+  console.log("DER bytes length:", binaryDer.length);
+  console.log("First 5 DER bytes:", Array.from(binaryDer.slice(0, 5)));
   return crypto.subtle.importKey(
     "pkcs8",
     binaryDer,
@@ -29,13 +36,13 @@ function base64url(data: Uint8Array): string {
     .replace(/=+$/, "");
 }
 
-async function createSignedJwt(serviceAccount: { client_email: string; private_key: string; token_uri: string }): Promise<string> {
+async function createSignedJwt(clientEmail: string, privateKey: string): Promise<string> {
   const now = Math.floor(Date.now() / 1000);
   const header = { alg: "RS256", typ: "JWT" };
   const payload = {
-    iss: serviceAccount.client_email,
+    iss: clientEmail,
     scope: "https://www.googleapis.com/auth/indexing",
-    aud: serviceAccount.token_uri,
+    aud: "https://oauth2.googleapis.com/token",
     iat: now,
     exp: now + 3600,
   };
@@ -45,15 +52,15 @@ async function createSignedJwt(serviceAccount: { client_email: string; private_k
   const payloadB64 = base64url(encoder.encode(JSON.stringify(payload)));
   const signingInput = `${headerB64}.${payloadB64}`;
 
-  const key = await importPrivateKey(serviceAccount.private_key);
+  const key = await importPrivateKey(privateKey);
   const signature = await crypto.subtle.sign("RSASSA-PKCS1-v1_5", key, encoder.encode(signingInput));
 
   return `${signingInput}.${base64url(new Uint8Array(signature))}`;
 }
 
-async function getAccessToken(serviceAccount: { client_email: string; private_key: string; token_uri: string }): Promise<string> {
-  const jwt = await createSignedJwt(serviceAccount);
-  const res = await fetch(serviceAccount.token_uri, {
+async function getAccessToken(clientEmail: string, privateKey: string): Promise<string> {
+  const jwt = await createSignedJwt(clientEmail, privateKey);
+  const res = await fetch("https://oauth2.googleapis.com/token", {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body: `grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer&assertion=${jwt}`,
@@ -75,21 +82,11 @@ serve(async (req) => {
     const targetUrls = urls || (url ? [url] : []);
     if (targetUrls.length === 0) throw new Error("Geen URL(s) opgegeven");
 
-    const saJson = Deno.env.get("GOOGLE_SERVICE_ACCOUNT_JSON");
-    if (!saJson) throw new Error("GOOGLE_SERVICE_ACCOUNT_JSON secret niet geconfigureerd");
+    const clientEmail = Deno.env.get("GOOGLE_SA_CLIENT_EMAIL");
+    const privateKey = Deno.env.get("GOOGLE_SA_PRIVATE_KEY");
+    if (!clientEmail || !privateKey) throw new Error("Google service account secrets niet geconfigureerd");
 
-    console.log("Secret first 20 chars:", saJson.substring(0, 20));
-    console.log("Secret length:", saJson.length);
-
-    let serviceAccount;
-    const trimmed = saJson.trim();
-    if (trimmed.startsWith("{")) {
-      serviceAccount = JSON.parse(trimmed);
-    } else {
-      // Secret may be stored without braces
-      serviceAccount = JSON.parse(`{${trimmed}}`);
-    }
-    const accessToken = await getAccessToken(serviceAccount);
+    const accessToken = await getAccessToken(clientEmail, privateKey);
 
     const results = [];
 
