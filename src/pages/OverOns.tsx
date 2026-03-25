@@ -3,7 +3,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { ArrowRight, Zap, Users, Brain, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import teamBanner from "@/assets/team-banner.jpg";
+import teamAbout from "@/assets/team-about.jpg";
 
 const fadeUp = {
   initial: { opacity: 0, y: 30 },
