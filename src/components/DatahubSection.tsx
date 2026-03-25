@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Database, Brain, RefreshCw, Lock, MessageCircleQuestion } from "lucide-react";
+import { Database, Brain, RefreshCw, Lock, MessageCircleQuestion, ShieldCheck, Cpu, Workflow } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import datahubScreenshot from "@/assets/datahub-screenshot.png";
 
@@ -16,8 +16,18 @@ const features = [
   },
   {
     icon: Brain,
-    title: "AI-context voor uw processen",
-    description: "Het systeem leert van elke interactie. Hoe langer het draait, hoe gerichter de output.",
+    title: "AI Context Centrum",
+    description: "Elk gesprek, signaal en resultaat bouwt context op. Hoe langer het draait, hoe slimmer uw AI-modellen sturen en personaliseren.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "AI Governance ingebouwd",
+    description: "Volledige controle over welke data AI mag gebruiken. Transparante besluitvorming, audittrails en GDPR-conforme dataverwerking.",
+  },
+  {
+    icon: Cpu,
+    title: "Klaar voor full AI Automation",
+    description: "De eerste stappen naar veilige AI-automatisering. Van scoring tot opvolging: bouw gecontroleerd op richting autonome workflows.",
   },
   {
     icon: RefreshCw,
