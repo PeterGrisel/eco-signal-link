@@ -37,6 +37,7 @@ serve(async (req) => {
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
 
     const settings = await loadSettings();
+    const existingPosts = await loadExistingPosts();
     const { keyword, audience, length, headline, content_type } = await req.json();
     const topic = headline || keyword;
     if (!topic) throw new Error("keyword or headline is required");
