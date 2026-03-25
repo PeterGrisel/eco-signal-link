@@ -1,6 +1,61 @@
 import { supabase } from "@/integrations/supabase/client";
 import type { Json } from "@/integrations/supabase/types";
 
+// ── Admin detection ──
+let _isAdmin: boolean | null = null;
+
+const isAdminUser = async (): Promise<boolean> => {
+  if (_isAdmin !== null) return _isAdmin;
+  try {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) { _isAdmin = false; return false; }
+    const { data } = await supabase
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", session.user.id)
+      .eq("role", "admin")
+      .maybeSingle();
+    _isAdmin = !!data;
+  } catch { _isAdmin = false; }
+  return _isAdmin;
+};
+
+// Reset cache on auth state change
+supabase.auth.onAuthStateChange(() => { _isAdmin = null; });
+
+// ── IP blocklist ──
+let _blockedIPs: Set<string> | null = null;
+let _myIP: string | null = null;
+
+const fetchBlockedIPs = async (): Promise<Set<string>> => {
+  if (_blockedIPs) return _blockedIPs;
+  const { data } = await supabase.from("blocked_tracking_ips").select("ip_address");
+  _blockedIPs = new Set((data || []).map(r => r.ip_address));
+  // Refresh every 5 minutes
+  setTimeout(() => { _blockedIPs = null; }, 5 * 60 * 1000);
+  return _blockedIPs;
+};
+
+const getMyIP = async (): Promise<string> => {
+  if (_myIP) return _myIP;
+  try {
+    const res = await fetch("https://api.ipify.org?format=json");
+    const json = await res.json();
+    _myIP = json.ip;
+    return _myIP!;
+  } catch { return ""; }
+};
+
+const isBlockedIP = async (): Promise<boolean> => {
+  const [blocked, ip] = await Promise.all([fetchBlockedIPs(), getMyIP()]);
+  return ip ? blocked.has(ip) : false;
+};
+
+const shouldSkipTracking = async (): Promise<boolean> => {
+  const [admin, blocked] = await Promise.all([isAdminUser(), isBlockedIP()]);
+  return admin || blocked;
+};
+
 // ── Session ID (persists per browser session) ──
 const getSessionId = (): string => {
   let sid = sessionStorage.getItem("b2b_session_id");
@@ -29,12 +84,14 @@ const sendGA4Event = (
 };
 
 // ── Internal tracking (fire & forget) ──
-const sendInternalEvent = (
+const sendInternalEvent = async (
   eventName: string,
   category: string,
   label?: string,
   metadata?: Record<string, unknown>
 ) => {
+  if (await shouldSkipTracking()) return;
+
   supabase
     .from("site_events")
     .insert([{
