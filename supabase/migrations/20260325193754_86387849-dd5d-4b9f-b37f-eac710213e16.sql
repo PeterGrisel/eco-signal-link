@@ -1,0 +1,7 @@
+UPDATE blog_posts 
+SET content = regexp_replace(
+  content, 
+  E'```infographic-process\n.*$',
+  E'```infographic-process\n{"title":"Het recruitment marketing proces","phases":[{"title":"Aantrekken","icon":"lightbulb","items":["Employer brand versterken","Content creatie (blogs, video)","Social media campagnes"]},{"title":"Engageren","icon":"message","items":["Talent communities opbouwen","Gepersonaliseerde communicatie","Evenementen en webinars"]},{"title":"Nurturing","icon":"mail","items":["Geautomatiseerde e-mail flows","Waardevolle content delen","Relatie onderhouden"]},{"title":"Converteren","icon":"target","items":["Sollicitatie optimalisatie","Snelle opvolging","Candidate experience meten"]}],"stats":[{"value":"3x","label":"Meer kandidaten"},{"value":"40%","label":"Lagere cost-per-hire"},{"value":"2x","label":"Snellere time-to-fill"},{"value":"65%","label":"Betere retentie"}]}\n```\n\n```infographic-compare\n{"title":"Traditioneel vs recruitment marketing","columns":[{"title":"Traditioneel","subtitle":"Reactief","items":{"Focus":"Vacature centraal","Aanpak":"Publiceer en wacht","Kanalen":"Jobboards","Meting":"Aantal sollicitaties","Kosten":"Hoog per hire"}},{"title":"Recruitment Marketing","subtitle":"Proactief","highlight":true,"items":{"Focus":"Kandidaat centraal","Aanpak":"Attract en nurture","Kanalen":"Multi-channel","Meting":"Funnel conversies","Kosten":"Dalend per hire"}}]}\n```'
+)
+WHERE slug = 'recruitment-marketing-traditionele-werving';
