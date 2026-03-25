@@ -5,6 +5,7 @@ import StreamsSection from "@/components/StreamsSection";
 import SystemSection from "@/components/SystemSection";
 import FunnelSection from "@/components/FunnelSection";
 import ProcessSection from "@/components/ProcessSection";
+import DatahubSection from "@/components/DatahubSection";
 import PricingSection from "@/components/PricingSection";
 import ResultsSection from "@/components/ResultsSection";
 import CtaSection from "@/components/CtaSection";
@@ -20,6 +21,7 @@ const Index = () => {
       <SystemSection />
       <FunnelSection />
       <ProcessSection />
+      <DatahubSection />
       <PricingSection />
       <ResultsSection />
       <CtaSection />
