@@ -1,45 +1,87 @@
 
 
-# SEO Verbeteringen — Plan
+# CMS + AI SEO Toolsuite voor B2BGroeiMachine
 
-## Wat er al goed staat
-Basis meta tags, JSON-LD structured data, sitemap, robots.txt, canonical URLs, taalattribuut.
+## Overzicht
 
-## Voorgestelde verbeteringen
+We bouwen drie interne tools op Lovable Cloud (Supabase):
 
-### 1. Sectorpagina's toevoegen aan sitemap.xml
-De 8 sectorpagina's staan niet in de sitemap. Google kan ze hierdoor missen.
+1. **CMS + AI Blog** -- Artikelen beheren en automatisch genereren met AI
+2. **Listing Tool** -- Directory submissions bijhouden en beheren
+3. **Index Rusher** -- Google Indexing API aanspreken om pagina's snel te indexeren
 
-### 2. FAQ JSON-LD structured data
-Een FAQ-sectie toevoegen (bijv. op de homepage of per sectorpagina) met bijbehorende `FAQPage` JSON-LD markup. Dit kan rich snippets opleveren in Google zoekresultaten.
+## Architectuur
 
-### 3. Interne links versterken
-- Sectorpagina's linken vanuit de footer
-- Een "Sectoren" overzichtspagina maken (bijv. `/sectoren`) die als hub dient
+```text
+┌─────────────────────────────────────────────┐
+│              Frontend (React)               │
+│                                             │
+│  /blog             - Publieke blog listing  │
+│  /blog/:slug       - Artikel pagina         │
+│  /admin/blog       - CMS beheer             │
+│  /admin/listings   - Directory tracker      │
+│  /admin/indexing   - Index Rusher dashboard  │
+└──────────────┬──────────────────────────────┘
+               │
+┌──────────────▼──────────────────────────────┐
+│           Lovable Cloud (Supabase)          │
+│                                             │
+│  Tables:                                    │
+│  - blog_posts (title, slug, content,        │
+│    category, featured_image, meta_desc,     │
+│    status, published_at)                    │
+│  - blog_categories                          │
+│  - directory_listings (name, url, status,   │
+│    dr_score, submitted_at, live_at)         │
+│  - indexing_requests (url, status,          │
+│    requested_at, indexed_at)                │
+│                                             │
+│  Edge Functions:                            │
+│  - generate-article (Lovable AI)            │
+│  - request-indexing (Google Indexing API)    │
+└─────────────────────────────────────────────┘
+```
 
-### 4. Afbeelding alt-teksten & lazy loading
-Controleren of alle afbeeldingen `alt` attributen hebben (accessibility + SEO). Lazy loading toevoegen waar nodig.
+## Stap-voor-stap
 
-### 5. Preconnect & performance hints
-`<link rel="preconnect">` toevoegen voor externe bronnen (fonts, analytics) in `index.html` om laadtijd te verbeteren — Core Web Vitals tellen mee voor ranking.
+### Stap 1: Lovable Cloud + Database
+- Enable Lovable Cloud
+- Creeer tabellen: `blog_posts`, `blog_categories`, `directory_listings`, `indexing_requests`
+- Basis auth voor admin pages (simpele login)
 
-### 6. Hreflang tag (toekomst)
-Als er ooit een Belgisch-Franse of Engelse versie komt, hreflang tags toevoegen. Nu niet nodig, maar goed om te weten.
+### Stap 2: CMS + Publieke Blog
+- **Admin**: CRUD voor artikelen met rich text editor, categorie-selectie, featured image upload, SEO meta-velden, draft/published status
+- **Publiek**: Blog listing page (`/blog`) met kaarten, categorie-filter. Artikel pagina (`/blog/:slug`) met dezelfde look als het rebelforce.nl voorbeeld -- hero image, categorie-label, titel, content
+- SEO: JSON-LD Article schema, Open Graph tags, canonical URLs, sitemap update
 
-### 7. `noindex` op 404-pagina
-Voorkomt dat een eventuele 404-pagina wordt geïndexeerd.
+### Stap 3: AI Artikel Generator
+- Edge function `generate-article` met Lovable AI
+- Input: onderwerp/keyword, doelgroep, gewenste lengte
+- Output: titel, meta description, volledige markdown artikel met headings, interne links
+- Admin UI: "Genereer Artikel" knop, preview, bewerken, publiceren
 
----
+### Stap 4: Directory Listing Tracker
+- Admin pagina om directory submissions bij te houden
+- Velden: directory naam, URL, categorie, DR score, status (todo/submitted/live/rejected), datum
+- Bulk import van directories (CSV)
+- Dashboard met statistieken: hoeveel live, gemiddelde DR, submissions deze maand
 
-## Aanbevolen aanpak (wat nu impact heeft)
-1. **Sectorpagina's in sitemap** — snel, direct effect
-2. **FAQ sectie + JSON-LD** — rich snippets in Google
-3. **Sectorenlinks in footer** — interne linkstructuur
-4. **404 noindex meta tag** — clean index
+### Stap 5: Index Rusher
+- Edge function die Google Indexing API aanroept (vereist Google Service Account key als secret)
+- Admin UI: URL invoeren of selecteren uit blog posts, "Request Indexing" knop
+- Status tracking: requested/indexed/failed
+- Batch indexing van meerdere URLs
 
-## Technische details
-- Sitemap: 8 sectorpagina's toevoegen aan `public/sitemap.xml`
-- FAQ: nieuw component `FaqSection.tsx` met `application/ld+json` script
-- Footer: sectorlinks grid toevoegen
-- 404: `usePageMeta` aanroepen met robots noindex, of meta tag in NotFound.tsx
+## Vereisten
+- **Lovable Cloud** moet geactiveerd worden (database, auth, edge functions, storage)
+- **Google Service Account** met Indexing API toegang (voor Index Rusher) -- gebruiker moet dit later configureren
+- Geen externe services nodig voor CMS en AI blog (Lovable AI is ingebouwd)
+
+## Technische Details
+- Blog content opgeslagen als markdown in database
+- Markdown rendering met `react-markdown` + `remark-gfm`
+- Image upload via Supabase Storage
+- AI generatie via Lovable AI edge function (google/gemini-3-flash-preview)
+- Google Indexing API via edge function met service account credentials
+- RLS policies: publieke leestoegang voor gepubliceerde posts, admin-only schrijftoegang
 
