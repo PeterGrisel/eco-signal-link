@@ -1,6 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
-import LogoTicker from "@/components/LogoTicker";
+
 import StreamsSection from "@/components/StreamsSection";
 import SystemSection from "@/components/SystemSection";
 import FunnelSection from "@/components/FunnelSection";
@@ -16,7 +16,7 @@ const Index = () => {
     <div className="min-h-screen">
       <Navbar />
       <Hero />
-      <LogoTicker />
+      
       <StreamsSection />
       <SystemSection />
       <FunnelSection />
