@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const navLinks = [
@@ -10,11 +11,28 @@ const navLinks = [
   { href: "/#datahub", label: "Datahub" },
   { href: "/#pricing", label: "Pricing" },
   { href: "/#resultaten", label: "Resultaten" },
-  { href: "/over-ons", label: "Over Ons" },
+];
+
+const kennisLinks = [
+  { href: "/blog", label: "Blog", description: "Artikelen & inzichten" },
+  { href: "/over-ons", label: "Over Ons", description: "Het team achter B2BGroeiMachine" },
 ];
 
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [kennisOpen, setKennisOpen] = useState(false);
+  const [mobileKennisOpen, setMobileKennisOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClick = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setKennisOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
@@ -31,6 +49,40 @@ const Navbar = () => {
               {link.label}
             </a>
           ))}
+
+          {/* Kennis dropdown */}
+          <div ref={dropdownRef} className="relative">
+            <button
+              onClick={() => setKennisOpen(!kennisOpen)}
+              className="flex items-center gap-1 hover:text-primary transition-colors whitespace-nowrap"
+            >
+              Kennis
+              <ChevronDown className={`w-3.5 h-3.5 transition-transform ${kennisOpen ? "rotate-180" : ""}`} />
+            </button>
+            <AnimatePresence>
+              {kennisOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: 4 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 4 }}
+                  transition={{ duration: 0.15 }}
+                  className="absolute top-full right-0 mt-2 w-56 bg-card border border-border rounded-lg shadow-xl overflow-hidden"
+                >
+                  {kennisLinks.map((link) => (
+                    <Link
+                      key={link.href}
+                      to={link.href}
+                      onClick={() => setKennisOpen(false)}
+                      className="block px-4 py-3 hover:bg-secondary transition-colors"
+                    >
+                      <span className="text-sm font-medium text-foreground">{link.label}</span>
+                      <span className="block text-xs text-muted-foreground mt-0.5">{link.description}</span>
+                    </Link>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </div>
 
         <div className="flex items-center gap-2">
@@ -72,6 +124,38 @@ const Navbar = () => {
                   {link.label}
                 </a>
               ))}
+
+              {/* Kennis section */}
+              <button
+                onClick={() => setMobileKennisOpen(!mobileKennisOpen)}
+                className="flex items-center justify-between py-2.5 px-3 rounded-md text-foreground font-medium text-sm hover:bg-secondary transition-colors"
+              >
+                Kennis
+                <ChevronDown className={`w-4 h-4 transition-transform ${mobileKennisOpen ? "rotate-180" : ""}`} />
+              </button>
+              <AnimatePresence>
+                {mobileKennisOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.15 }}
+                    className="overflow-hidden"
+                  >
+                    {kennisLinks.map((link) => (
+                      <Link
+                        key={link.href}
+                        to={link.href}
+                        onClick={() => { setMobileOpen(false); setMobileKennisOpen(false); }}
+                        className="block py-2 px-6 text-sm text-muted-foreground hover:text-foreground transition-colors"
+                      >
+                        {link.label}
+                      </Link>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
               <div className="pt-3 border-t border-border mt-2">
                 <Button variant="hero" size="sm" asChild className="w-full">
                   <a href="https://app.usemotion.com/meet/Rebel-Force/meeting" target="_blank" rel="noopener noreferrer">
