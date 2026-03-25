@@ -10,10 +10,11 @@ const Navbar = () => {
         </a>
 
         <div className="hidden md:flex items-center gap-8 text-sm font-medium text-muted-foreground">
-          <a href="#systeem" className="hover:text-foreground transition-colors">Het Systeem</a>
-          <a href="#doelgroepen" className="hover:text-foreground transition-colors">Doelgroepen</a>
-          <a href="#hoe-het-werkt" className="hover:text-foreground transition-colors">Hoe het Werkt</a>
-          <a href="#resultaten" className="hover:text-foreground transition-colors">Resultaten</a>
+          <a href="/#systeem" className="hover:text-foreground transition-colors">Het Systeem</a>
+          <a href="/#doelgroepen" className="hover:text-foreground transition-colors">Doelgroepen</a>
+          <a href="/#hoe-het-werkt" className="hover:text-foreground transition-colors">Hoe het Werkt</a>
+          <a href="/#resultaten" className="hover:text-foreground transition-colors">Resultaten</a>
+          <a href="/over-ons" className="hover:text-foreground transition-colors">Over Ons</a>
         </div>
 
         <Button variant="hero" size="sm" asChild>
