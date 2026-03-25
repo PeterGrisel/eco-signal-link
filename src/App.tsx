@@ -38,8 +38,6 @@ const AnimatedRoutes = () => {
   }, [location.pathname]);
 
   return (
-
-  return (
     <AnimatePresence mode="wait">
       <motion.div
         key={location.pathname}
