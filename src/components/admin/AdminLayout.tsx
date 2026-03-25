@@ -2,11 +2,12 @@ import { ReactNode, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAdminAuth } from "@/hooks/useAdminAuth";
-import { FileText, Globe, Zap, LogOut, Sparkles, Settings, FolderTree, BarChart3, Circle, CalendarDays } from "lucide-react";
+import { FileText, Globe, Zap, LogOut, Sparkles, Settings, FolderTree, BarChart3, Circle, CalendarDays, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const navItems = [
   { href: "/admin/kpi", label: "KPI Dashboard", icon: BarChart3 },
+  { href: "/admin/leads", label: "Leads", icon: Users },
   { href: "/admin/blog", label: "Blog CMS", icon: FileText },
   { href: "/admin/autopilot", label: "Autopilot", icon: Sparkles, showPilotBadge: true },
   { href: "/admin/calendar", label: "Content Kalender", icon: CalendarDays },
