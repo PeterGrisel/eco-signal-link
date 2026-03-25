@@ -130,7 +130,7 @@ const PricingSection = () => {
 
             <div className="mt-4 mb-6">
               <div className="flex items-baseline gap-1">
-                <span className="font-display font-bold text-5xl">€67–€84</span>
+                <span className="font-display font-bold text-5xl">€67–€76</span>
                 <span className="text-muted-foreground text-sm">/uur</span>
               </div>
               <p className="text-muted-foreground text-sm mt-2">
@@ -140,9 +140,9 @@ const PricingSection = () => {
 
             <div className="grid grid-cols-3 gap-3">
               {[
-                { hours: "10 uur", total3: "€2.340", total6: "€2.260", total12: "€2.170", label: "Startpakket" },
-                { hours: "20 uur", total3: "€3.180", total6: "€3.020", total12: "€2.840", label: "Meest gekozen", highlight: true },
-                { hours: "40 uur", total3: "€4.860", total6: "€4.540", total12: "€4.180", label: "Maximale output" },
+                { hours: "10 uur", total6: "€2.260", total12: "€2.170", label: "Startpakket" },
+                { hours: "20 uur", total6: "€3.020", total12: "€2.840", label: "Meest gekozen", highlight: true },
+                { hours: "40 uur", total6: "€4.540", total12: "€4.180", label: "Maximale output" },
               ].map((pkg) => (
                 <div
                   key={pkg.hours}
@@ -160,7 +160,6 @@ const PricingSection = () => {
                   <p className="font-display font-bold text-2xl mt-1">{pkg.hours}</p>
                   <p className="text-muted-foreground text-xs mt-1">/maand</p>
                   <div className="mt-3 space-y-1 text-xs text-muted-foreground">
-                    <p>3 mnd: <span className="text-foreground font-semibold">{pkg.total3}</span></p>
                     <p>6 mnd: <span className="text-foreground font-semibold">{pkg.total6}</span></p>
                     <p>12 mnd: <span className="text-foreground font-semibold">{pkg.total12}</span></p>
                   </div>
@@ -168,6 +167,9 @@ const PricingSection = () => {
                 </div>
               ))}
             </div>
+            <p className="text-muted-foreground text-xs mt-4 text-center">
+              Minimale commitment: 6 maanden
+            </p>
           </motion.div>
         </div>
 
