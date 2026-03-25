@@ -27,6 +27,7 @@ import AdminTaxonomy from "./pages/admin/AdminTaxonomy.tsx";
 import AdminKpi from "./pages/admin/AdminKpi.tsx";
 import AdminCalendar from "./pages/admin/AdminCalendar.tsx";
 import AdminLeads from "./pages/admin/AdminLeads.tsx";
+import AdminAnalytics from "./pages/admin/AdminAnalytics.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -70,6 +71,7 @@ const AnimatedRoutes = () => {
           <Route path="/admin/kpi" element={<AdminKpi />} />
           <Route path="/admin/calendar" element={<AdminCalendar />} />
           <Route path="/admin/leads" element={<AdminLeads />} />
+          <Route path="/admin/analytics" element={<AdminAnalytics />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
