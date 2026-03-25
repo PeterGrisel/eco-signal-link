@@ -224,11 +224,13 @@ const PricingSection = () => {
                 icon: Briefcase,
                 label: "Add-on: Klantwerving",
                 title: "Full Sales Management",
-                description: "Van strategie tot uitvoering: wij nemen uw volledige salesproces over. Pipeline-opbouw, opvolging en closing.",
+                description: "Van strategie tot uitvoering: wij nemen uw volledige commerciële proces over. Salesgesprekken, marketing, relatiebeheer en strategische groei.",
                 price: "Prijs op aanvraag",
                 items: [
-                  "Website & SEO-optimalisatie",
-                  "AI Avatar video-outreach",
+                  "Sales: gestructureerde acquisitie en professionele opvolging",
+                  "Marketing: campagnes, content en online zichtbaarheid",
+                  "Strategie: propositie aanscherpen en commercieel plan",
+                  "Relatiebeheer: klantbehoud en herhaalopdrachten vergroten",
                 ],
               },
             ].map(({ icon: Icon, label, title, description, price, items }, i) => (
