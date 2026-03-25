@@ -376,6 +376,97 @@ const AdminKpi = () => {
         )}
       </div>
 
+      {/* SEO Audit Panel */}
+      <div className="bg-card border border-border rounded-lg p-5 mb-8">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <Shield className="w-5 h-5 text-primary" />
+            <h2 className="font-display font-semibold text-foreground">Technische SEO Audit</h2>
+            {audit && (
+              <Badge variant="outline" className={`text-[10px] gap-1 ${
+                audit.score >= 80 ? "bg-green-500/10 text-green-400 border-green-500/20" :
+                audit.score >= 50 ? "bg-yellow-500/10 text-yellow-400 border-yellow-500/20" :
+                "bg-red-500/10 text-red-400 border-red-500/20"
+              }`}>
+                Score: {audit.score}/100
+              </Badge>
+            )}
+          </div>
+          <Button variant="heroOutline" size="sm" onClick={handleAudit} disabled={auditLoading} className="gap-1.5">
+            {auditLoading ? (
+              <><Loader2 className="w-4 h-4 animate-spin" /> Scannen...</>
+            ) : (
+              <><Shield className="w-4 h-4" /> Run Audit</>
+            )}
+          </Button>
+        </div>
+
+        {!audit && !auditLoading && (
+          <p className="text-sm text-muted-foreground">
+            Scan je website op technische SEO problemen: indexering, snelheid, meta tags, sitemap en meer.
+          </p>
+        )}
+
+        {auditLoading && (
+          <div className="flex items-center gap-3 py-6 justify-center">
+            <Loader2 className="w-5 h-5 animate-spin text-primary" />
+            <span className="text-sm text-muted-foreground">Website scannen op technische SEO problemen...</span>
+          </div>
+        )}
+
+        {audit && (
+          <div className="space-y-3">
+            <div className="grid grid-cols-4 gap-3">
+              <div className="p-3 rounded-lg bg-background border border-border text-center">
+                <p className="text-lg font-bold text-foreground">{audit.summary.total}</p>
+                <p className="text-[10px] text-muted-foreground">Checks</p>
+              </div>
+              <div className="p-3 rounded-lg bg-background border border-border text-center">
+                <p className="text-lg font-bold text-green-400">{audit.summary.passed}</p>
+                <p className="text-[10px] text-muted-foreground">Geslaagd</p>
+              </div>
+              <div className="p-3 rounded-lg bg-background border border-border text-center">
+                <p className="text-lg font-bold text-yellow-400">{audit.summary.warnings}</p>
+                <p className="text-[10px] text-muted-foreground">Waarschuwingen</p>
+              </div>
+              <div className="p-3 rounded-lg bg-background border border-border text-center">
+                <p className="text-lg font-bold text-red-400">{audit.summary.fails}</p>
+                <p className="text-[10px] text-muted-foreground">Fouten</p>
+              </div>
+            </div>
+
+            <div className="space-y-1.5 max-h-[400px] overflow-y-auto">
+              {audit.checks.map((check, i) => (
+                <div key={i} className="flex items-start gap-3 py-2 px-3 rounded-lg hover:bg-muted/50 text-xs">
+                  <div className="flex-shrink-0 mt-0.5">
+                    {check.status === "pass" ? (
+                      <CheckCircle className="w-4 h-4 text-green-400" />
+                    ) : check.status === "warning" ? (
+                      <AlertCircle className="w-4 h-4 text-yellow-400" />
+                    ) : (
+                      <XCircle className="w-4 h-4 text-red-400" />
+                    )}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2">
+                      <span className="font-medium text-foreground">{check.title}</span>
+                      <Badge variant="outline" className="text-[10px] text-muted-foreground">{check.category}</Badge>
+                      {check.impact === "high" && check.status !== "pass" && (
+                        <Badge variant="outline" className="text-[10px] bg-red-500/10 text-red-400 border-red-500/20">
+                          high impact
+                        </Badge>
+                      )}
+                    </div>
+                    <p className="text-muted-foreground mt-0.5">{check.detail}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <p className="text-[10px] text-muted-foreground text-right">Audit voltooid in {audit.audit_time_ms}ms</p>
+          </div>
+        )}
+      </div>
+
       <div className="grid grid-cols-2 gap-6 mb-8">
         {/* Top Keywords */}
         <div className="bg-card border border-border rounded-lg p-4">
