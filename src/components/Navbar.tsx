@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { trackCTA, trackNavClick } from "@/lib/tracking";
 
 const navLinks = [
   { href: "/#doelgroepen", label: "Doelgroepen" },
@@ -87,7 +88,8 @@ const Navbar = () => {
 
         <div className="flex items-center gap-2">
           <Button variant="hero" size="sm" asChild className="hidden sm:inline-flex">
-            <a href="https://app.usemotion.com/meet/Rebel-Force/meeting" target="_blank" rel="noopener noreferrer">
+            <a href="https://app.usemotion.com/meet/Rebel-Force/meeting" target="_blank" rel="noopener noreferrer"
+              onClick={() => trackCTA("Navbar — Plan een Demo", "https://app.usemotion.com/meet/Rebel-Force/meeting")}>
               Plan een Demo →
             </a>
           </Button>
