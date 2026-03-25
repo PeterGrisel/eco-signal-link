@@ -54,6 +54,7 @@ export const sectors: Sector[] = [
       "Groei in marketingbudget (jaarverslag)",
       "Evenement- of sportgerelateerde vacatures geplaatst",
     ],
+    funnelDefaults: { monthlyRevenue: 150000, expenseRate: 35, marketingRate: 8, avgDealSize: 25000, optInRate: 2, optInToSqlRate: 15, sqlToCallRate: 50, salesConversionRate: 25, ltv: 24 },
   },
   {
     slug: "groothandel",
@@ -82,9 +83,8 @@ export const sectors: Sector[] = [
       "Concurrent verliest distributieovereenkomst",
       "Groei in omzet of personeelsbestand",
     ],
+    funnelDefaults: { monthlyRevenue: 200000, expenseRate: 25, marketingRate: 4, avgDealSize: 8000, optInRate: 3, optInToSqlRate: 20, sqlToCallRate: 60, salesConversionRate: 30, ltv: 18 },
   },
-  {
-    slug: "leasemaatschappijen",
     icon: Car,
     title: "Leasemaatschappijen",
     tagline: "Timing is alles bij fleet management.",
@@ -110,9 +110,8 @@ export const sectors: Sector[] = [
       "Leasecontract loopt af (KvK/branchedata)",
       "Vacatures voor buitendienstmedewerkers geplaatst",
     ],
+    funnelDefaults: { monthlyRevenue: 250000, expenseRate: 30, marketingRate: 5, avgDealSize: 15000, optInRate: 2.5, optInToSqlRate: 18, sqlToCallRate: 55, salesConversionRate: 28, ltv: 36 },
   },
-  {
-    slug: "engineering",
     icon: Wrench,
     title: "Engineering",
     tagline: "Technische beslissers, bereikbaar gemaakt.",
@@ -138,9 +137,8 @@ export const sectors: Sector[] = [
       "Uitbreiding productiecapaciteit (persberichten)",
       "Certificering of kwaliteitskeurmerk behaald",
     ],
+    funnelDefaults: { monthlyRevenue: 180000, expenseRate: 28, marketingRate: 4, avgDealSize: 20000, optInRate: 2, optInToSqlRate: 15, sqlToCallRate: 50, salesConversionRate: 25, ltv: 12 },
   },
-  {
-    slug: "zakelijke-dienstverlening",
     icon: Building2,
     title: "Zakelijke Dienstverlening",
     tagline: "Groei voor accountants, juristen en consultants.",
@@ -166,9 +164,8 @@ export const sectors: Sector[] = [
       "Groei in personeelsbestand (HR-signaal)",
       "Wijziging in KvK-registratie of rechtsvorm",
     ],
+    funnelDefaults: { monthlyRevenue: 120000, expenseRate: 35, marketingRate: 6, avgDealSize: 10000, optInRate: 3.5, optInToSqlRate: 22, sqlToCallRate: 65, salesConversionRate: 35, ltv: 24 },
   },
-  {
-    slug: "financiele-sector",
     icon: Landmark,
     title: "Financiële Sector",
     tagline: "Nieuwe klanten in een competitieve markt.",
@@ -194,9 +191,8 @@ export const sectors: Sector[] = [
       "Overname of investeringsronde afgerond",
       "Groei in omzet boven sectorgemiddelde",
     ],
+    funnelDefaults: { monthlyRevenue: 300000, expenseRate: 30, marketingRate: 5, avgDealSize: 30000, optInRate: 1.5, optInToSqlRate: 12, sqlToCallRate: 45, salesConversionRate: 20, ltv: 36 },
   },
-  {
-    slug: "maakindustrie",
     icon: Factory,
     title: "Maakindustrie",
     tagline: "Van productievloer naar nieuwe markten.",
@@ -222,9 +218,8 @@ export const sectors: Sector[] = [
       "ISO-certificering of kwaliteitsaudit gepland",
       "Vacatures voor productiemedewerkers (capaciteitsgroei)",
     ],
+    funnelDefaults: { monthlyRevenue: 250000, expenseRate: 25, marketingRate: 3, avgDealSize: 12000, optInRate: 2, optInToSqlRate: 16, sqlToCallRate: 50, salesConversionRate: 25, ltv: 18 },
   },
-  {
-    slug: "opleiding-training",
     icon: GraduationCap,
     title: "Opleiding & Training",
     tagline: "B2B-klanten voor incompany programma's.",
@@ -250,8 +245,8 @@ export const sectors: Sector[] = [
       "Branche-certificering vereist bijscholing",
       "Jaarlijks opleidingsbudget vrijgegeven (Q1/Q4 signaal)",
     ],
+    funnelDefaults: { monthlyRevenue: 80000, expenseRate: 30, marketingRate: 7, avgDealSize: 5000, optInRate: 4, optInToSqlRate: 25, sqlToCallRate: 65, salesConversionRate: 35, ltv: 6 },
   },
-];
 
 export const getSectorBySlug = (slug: string): Sector | undefined =>
   sectors.find((s) => s.slug === slug);
