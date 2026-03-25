@@ -6,6 +6,63 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
+// Convert PEM private key to CryptoKey for signing JWTs
+async function importPrivateKey(pem: string): Promise<CryptoKey> {
+  const pemContents = pem
+    .replace("-----BEGIN PRIVATE KEY-----", "")
+    .replace("-----END PRIVATE KEY-----", "")
+    .replace(/\n/g, "");
+  const binaryDer = Uint8Array.from(atob(pemContents), (c) => c.charCodeAt(0));
+  return crypto.subtle.importKey(
+    "pkcs8",
+    binaryDer,
+    { name: "RSASSA-PKCS1-v1_5", hash: "SHA-256" },
+    false,
+    ["sign"]
+  );
+}
+
+function base64url(data: Uint8Array): string {
+  return btoa(String.fromCharCode(...data))
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=+$/, "");
+}
+
+async function createSignedJwt(serviceAccount: { client_email: string; private_key: string; token_uri: string }): Promise<string> {
+  const now = Math.floor(Date.now() / 1000);
+  const header = { alg: "RS256", typ: "JWT" };
+  const payload = {
+    iss: serviceAccount.client_email,
+    scope: "https://www.googleapis.com/auth/indexing",
+    aud: serviceAccount.token_uri,
+    iat: now,
+    exp: now + 3600,
+  };
+
+  const encoder = new TextEncoder();
+  const headerB64 = base64url(encoder.encode(JSON.stringify(header)));
+  const payloadB64 = base64url(encoder.encode(JSON.stringify(payload)));
+  const signingInput = `${headerB64}.${payloadB64}`;
+
+  const key = await importPrivateKey(serviceAccount.private_key);
+  const signature = await crypto.subtle.sign("RSASSA-PKCS1-v1_5", key, encoder.encode(signingInput));
+
+  return `${signingInput}.${base64url(new Uint8Array(signature))}`;
+}
+
+async function getAccessToken(serviceAccount: { client_email: string; private_key: string; token_uri: string }): Promise<string> {
+  const jwt = await createSignedJwt(serviceAccount);
+  const res = await fetch(serviceAccount.token_uri, {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: `grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer&assertion=${jwt}`,
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(`Token exchange failed: ${data.error_description || data.error}`);
+  return data.access_token;
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
@@ -18,41 +75,29 @@ serve(async (req) => {
     const targetUrls = urls || (url ? [url] : []);
     if (targetUrls.length === 0) throw new Error("Geen URL(s) opgegeven");
 
-    const googleKey = Deno.env.get("GOOGLE_INDEXING_KEY");
-    
+    const saJson = Deno.env.get("GOOGLE_SERVICE_ACCOUNT_JSON");
+    if (!saJson) throw new Error("GOOGLE_SERVICE_ACCOUNT_JSON secret niet geconfigureerd");
+
+    const serviceAccount = JSON.parse(saJson);
+    const accessToken = await getAccessToken(serviceAccount);
+
     const results = [];
 
     for (const targetUrl of targetUrls) {
-      // Save request to DB
       const { data: record } = await supabase.from("indexing_requests").insert({
         url: targetUrl,
         status: "requested",
         requested_at: new Date().toISOString(),
       }).select().single();
 
-      if (!googleKey) {
-        // No Google key configured - save as pending
-        await supabase.from("indexing_requests").update({
-          status: "pending",
-          response_message: "Google Indexing API key niet geconfigureerd. Configureer GOOGLE_INDEXING_KEY in secrets.",
-        }).eq("id", record.id);
-
-        results.push({ url: targetUrl, status: "pending", message: "API key niet geconfigureerd" });
-        continue;
-      }
-
       try {
-        // Call Google Indexing API
         const response = await fetch("https://indexing.googleapis.com/v3/urlNotifications:publish", {
           method: "POST",
           headers: {
-            Authorization: `Bearer ${googleKey}`,
+            Authorization: `Bearer ${accessToken}`,
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            url: targetUrl,
-            type: "URL_UPDATED",
-          }),
+          body: JSON.stringify({ url: targetUrl, type: "URL_UPDATED" }),
         });
 
         const data = await response.json();
