@@ -91,7 +91,7 @@ serve(async (req) => {
             log.push(`Afbeelding generatie mislukt voor "${item.headline}", doorgaan zonder`);
           }
 
-          // Save as draft
+          // Save and publish directly
           const { data: post, error: postError } = await supabase.from("blog_posts").insert({
             title: articleData.title,
             slug: articleData.slug,
@@ -100,7 +100,8 @@ serve(async (req) => {
             meta_description: articleData.meta_description,
             featured_image: featuredImage,
             topic_id: item.topic_id || null,
-            status: "draft",
+            status: "published",
+            published_at: new Date().toISOString(),
           }).select("id").single();
 
           if (postError) throw postError;
