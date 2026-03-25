@@ -9,6 +9,14 @@ import OverOns from "./pages/OverOns.tsx";
 import SectorPage from "./pages/SectorPage.tsx";
 import FullSalesManagement from "./pages/FullSalesManagement.tsx";
 import FullServiceRecruitment from "./pages/FullServiceRecruitment.tsx";
+import Blog from "./pages/Blog.tsx";
+import BlogPost from "./pages/BlogPost.tsx";
+import AdminLogin from "./pages/AdminLogin.tsx";
+import AdminBlog from "./pages/admin/AdminBlog.tsx";
+import AdminBlogEditor from "./pages/admin/AdminBlogEditor.tsx";
+import AdminBlogGenerate from "./pages/admin/AdminBlogGenerate.tsx";
+import AdminListings from "./pages/admin/AdminListings.tsx";
+import AdminIndexing from "./pages/admin/AdminIndexing.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
