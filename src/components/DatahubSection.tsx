@@ -62,7 +62,7 @@ const DatahubSection = () => {
             <span className="text-gradient">Uw commerciële geheugen.</span>
           </h2>
           <p className="text-muted-foreground mt-6 text-lg leading-relaxed max-w-xl">
-            Ons eigen metadataplatform waar elk gesprek, signaal en campagneresultaat context opbouwt. Hoe langer het draait, hoe slimmer u stuurt en automatiseert.
+            Wij bouwen met processen en automation. De context die ontstaat stelt u in staat om nog verder met AI te werken.
           </p>
         </motion.div>
 
