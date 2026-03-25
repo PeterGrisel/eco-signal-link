@@ -1,14 +1,14 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAdminAuth } from "@/hooks/useAdminAuth";
-import { FileText, Globe, Zap, LogOut, Sparkles, Settings, FolderTree, BarChart3 } from "lucide-react";
+import { FileText, Globe, Zap, LogOut, Sparkles, Settings, FolderTree, BarChart3, Circle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const navItems = [
   { href: "/admin/kpi", label: "KPI Dashboard", icon: BarChart3 },
   { href: "/admin/blog", label: "Blog CMS", icon: FileText },
-  { href: "/admin/autopilot", label: "Autopilot", icon: Sparkles },
+  { href: "/admin/autopilot", label: "Autopilot", icon: Sparkles, showPilotBadge: true },
   { href: "/admin/taxonomy", label: "Content Strategie", icon: FolderTree },
   { href: "/admin/listings", label: "Listings", icon: Globe },
   { href: "/admin/indexing", label: "Index Rusher", icon: Zap },
@@ -19,6 +19,18 @@ const AdminLayout = ({ children }: { children: ReactNode }) => {
   const { loading, isAdmin } = useAdminAuth();
   const location = useLocation();
   const navigate = useNavigate();
+  const [autopilotActive, setAutopilotActive] = useState(false);
+
+  useEffect(() => {
+    const checkAutopilot = async () => {
+      const { count } = await supabase
+        .from("content_queue")
+        .select("id", { count: "exact", head: true })
+        .eq("status", "approved");
+      setAutopilotActive((count || 0) > 0);
+    };
+    checkAutopilot();
+  }, []);
 
   if (loading || !isAdmin) {
     return (
@@ -59,6 +71,12 @@ const AdminLayout = ({ children }: { children: ReactNode }) => {
               >
                 <Icon className="w-4 h-4" />
                 {item.label}
+                {item.showPilotBadge && autopilotActive && (
+                  <span className="ml-auto flex items-center gap-1 text-[10px] text-green-400 font-semibold">
+                    <Circle className="w-2 h-2 fill-green-400 text-green-400 animate-pulse" />
+                    LIVE
+                  </span>
+                )}
               </Link>
             );
           })}
