@@ -9,6 +9,14 @@ import OverOns from "./pages/OverOns.tsx";
 import SectorPage from "./pages/SectorPage.tsx";
 import FullSalesManagement from "./pages/FullSalesManagement.tsx";
 import FullServiceRecruitment from "./pages/FullServiceRecruitment.tsx";
+import Blog from "./pages/Blog.tsx";
+import BlogPost from "./pages/BlogPost.tsx";
+import AdminLogin from "./pages/AdminLogin.tsx";
+import AdminBlog from "./pages/admin/AdminBlog.tsx";
+import AdminBlogEditor from "./pages/admin/AdminBlogEditor.tsx";
+import AdminBlogGenerate from "./pages/admin/AdminBlogGenerate.tsx";
+import AdminListings from "./pages/admin/AdminListings.tsx";
+import AdminIndexing from "./pages/admin/AdminIndexing.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -31,6 +39,15 @@ const AnimatedRoutes = () => {
           <Route path="/sectoren/:slug" element={<SectorPage />} />
           <Route path="/full-service-recruitment" element={<FullServiceRecruitment />} />
           <Route path="/full-sales-management" element={<FullSalesManagement />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:slug" element={<BlogPost />} />
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin/blog" element={<AdminBlog />} />
+          <Route path="/admin/blog/new" element={<AdminBlogEditor />} />
+          <Route path="/admin/blog/edit/:id" element={<AdminBlogEditor />} />
+          <Route path="/admin/blog/generate" element={<AdminBlogGenerate />} />
+          <Route path="/admin/listings" element={<AdminListings />} />
+          <Route path="/admin/indexing" element={<AdminIndexing />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
