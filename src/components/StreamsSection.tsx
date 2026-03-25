@@ -1,44 +1,46 @@
 import { motion } from "framer-motion";
-import { Users, Briefcase, Handshake, Globe } from "lucide-react";
-
-import { Trophy, Package, Car, Wrench, Building2, Stethoscope } from "lucide-react";
+import { Trophy, Package, Car, Wrench, Building2, Landmark, Factory, GraduationCap } from "lucide-react";
 
 const streams = [
   {
     icon: Trophy,
     title: "Profvoetbal",
     description: "Sponsorwerving, partnerschappen en seizoensgebonden campagnes voor clubs en organisaties. Bereik beslissers bij merken die investeren in sport.",
-    signals: ["Sponsorbudget signalen", "Merkactivaties", "Evenementplanning", "Mediaexposure"],
   },
   {
     icon: Package,
     title: "Groothandel",
     description: "Nieuwe afnemers en retailers identificeren op basis van inkooppatronen, assortimentsuitbreiding en marktbewegingen.",
-    signals: ["Nieuwe vestigingen", "Assortimentswijzigingen", "Inkoopvolume", "Seizoenspieken"],
   },
   {
     icon: Car,
     title: "Leasemaatschappijen",
     description: "Bedrijven met groeiend wagenpark, contractverlengingen en fleet managers die actief vergelijken. Timing is alles.",
-    signals: ["Wagenparkgroei", "Contractverloop", "Nieuwe vestigingen", "FTE-groei"],
   },
   {
     icon: Wrench,
     title: "Engineering",
     description: "Technische beslissers en projectmanagers bij industriële bedrijven. Van bouwprojecten tot productie-innovatie.",
-    signals: ["Projectaankondigingen", "Investeringsrondes", "Capaciteitsuitbreiding", "Vacatures"],
   },
   {
     icon: Building2,
     title: "Zakelijke Dienstverlening",
     description: "Accountants, juristen en consultants die groeien. Bereik partners en directies op het juiste moment met de juiste boodschap.",
-    signals: ["Partnerwijzigingen", "Kantooruitbreiding", "Nieuwe diensten", "Thought leadership"],
   },
   {
-    icon: Stethoscope,
-    title: "Gezondheidszorg",
-    description: "Zorginstellingen, klinieken en healthtech-bedrijven die investeren in groei, digitalisering of specialisatie.",
-    signals: ["Subsidietoekenning", "Uitbreiding locaties", "Digitaliseringsprojecten", "Leiderschapswissels"],
+    icon: Landmark,
+    title: "Financiële Sector",
+    description: "Vermogensbeheerders, verzekeraars en fintechs die nieuwe klanten of distributiekanalen zoeken in een competitieve markt.",
+  },
+  {
+    icon: Factory,
+    title: "Maakindustrie",
+    description: "Productiebedrijven die investeren in automatisering, nieuwe markten betreden of hun supply chain uitbreiden.",
+  },
+  {
+    icon: GraduationCap,
+    title: "Opleiding & Training",
+    description: "Trainingsbureaus en EdTech-bedrijven die B2B-klanten werven voor incompany trainingen, certificeringen en programma's.",
   },
 ];
 
@@ -67,7 +69,7 @@ const StreamsSection = () => {
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {streams.map((stream, i) => (
             <motion.div
               key={stream.title}
@@ -79,23 +81,7 @@ const StreamsSection = () => {
             >
               <stream.icon className="w-8 h-8 text-primary mb-5" />
               <h3 className="font-display font-bold text-xl mb-3">{stream.title}</h3>
-              <p className="text-muted-foreground leading-relaxed mb-6">{stream.description}</p>
-              
-              <div>
-                <p className="text-xs font-display font-semibold text-primary tracking-[0.15em] uppercase mb-3">
-                  Signalen
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {stream.signals.map((signal) => (
-                    <span
-                      key={signal}
-                      className="text-xs px-3 py-1.5 rounded-full bg-secondary text-secondary-foreground font-medium"
-                    >
-                      {signal}
-                    </span>
-                  ))}
-                </div>
-              </div>
+              <p className="text-muted-foreground leading-relaxed text-sm">{stream.description}</p>
             </motion.div>
           ))}
         </div>
