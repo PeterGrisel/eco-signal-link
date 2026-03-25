@@ -15,6 +15,20 @@ async function loadSettings() {
   return data?.config || {};
 }
 
+async function loadExistingPosts() {
+  const supabase = createClient(
+    Deno.env.get("SUPABASE_URL")!,
+    Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
+  );
+  const { data } = await supabase
+    .from("blog_posts")
+    .select("title, slug")
+    .eq("status", "published")
+    .order("published_at", { ascending: false })
+    .limit(50);
+  return data || [];
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
