@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import PageLoader from "@/components/PageLoader";
+import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 
 import StreamsSection from "@/components/StreamsSection";
 import SystemSection from "@/components/SystemSection";
@@ -16,6 +17,7 @@ const Index = () => {
   return (
     <PageLoader>
     <div className="min-h-screen">
+      <BreadcrumbJsonLd items={[{ name: "Home", url: "https://eco-signal-link.lovable.app/" }]} />
       <Navbar />
       <Hero />
       

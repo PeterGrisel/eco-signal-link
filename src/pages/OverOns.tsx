@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import PageLoader from "@/components/PageLoader";
 import Footer from "@/components/Footer";
+import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 import { ArrowRight, Zap, Users, Brain, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import teamAbout from "@/assets/team-about.jpg";
@@ -67,6 +68,10 @@ const OverOns = () => {
   return (
     <PageLoader>
     <div className="min-h-screen">
+      <BreadcrumbJsonLd items={[
+        { name: "Home", url: "https://eco-signal-link.lovable.app/" },
+        { name: "Over Ons", url: "https://eco-signal-link.lovable.app/over-ons" },
+      ]} />
       <Navbar />
 
       {/* Hero */}
