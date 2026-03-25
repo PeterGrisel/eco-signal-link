@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Settings, Brain, MessageSquare, Target, RefreshCw, Database, Zap } from "lucide-react";
+import SignalDashboardMockup from "./SignalDashboardMockup";
 
 const layers = [
   {
