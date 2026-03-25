@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Puzzle, ShieldCheck, Repeat } from "lucide-react";
 
 const ResultsSection = () => {
   return (
@@ -11,12 +12,12 @@ const ResultsSection = () => {
           className="mb-16"
         >
           <p className="text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4">
-            Waarom RebelForce
+            Waarom B2BGroeiMachine
           </p>
           <h2 className="font-display font-bold text-4xl md:text-5xl lg:text-6xl tracking-tight leading-tight">
-            Geen bulk.
+            Geen platform.
             <br />
-            <span className="text-gradient">Geen gokken.</span>
+            <span className="text-gradient">Geen lock-in.</span>
           </h2>
         </motion.div>
 
@@ -29,20 +30,26 @@ const ResultsSection = () => {
           >
             {[
               {
-                title: "Signaal-gedreven, niet volume-gedreven",
-                text: "We benaderen mensen op basis van echte signalen — functiewijzigingen, groeisignalen, websitebezoek. Geen koude spray-and-pray.",
+                icon: Puzzle,
+                title: "100% toolagnostisch",
+                text: "Wij werken met uw bestaande CRM, mailtools en LinkedIn. Geen duur platform dat u moet afnemen — wij integreren wat werkt voor uw situatie.",
               },
               {
+                icon: Repeat,
+                title: "Opzetten of overnemen — uw keuze",
+                text: "Wij bouwen het systeem en beheren het volledig, óf we zetten alles op, trainen uw team en dragen het over. Geen afhankelijkheid.",
+              },
+              {
+                icon: ShieldCheck,
                 title: "Uw domein blijft veilig",
                 text: "Subdomein-architectuur en opwarmprotocollen beschermen uw reputatie. Geen verbrande namen, geen blacklists.",
               },
-              {
-                title: "Schaalbaar zonder extra headcount",
-                text: "Het systeem draait 5 dagen per week op de achtergrond. Uw team focust op gesprekken, niet op outreach.",
-              },
             ].map((item, i) => (
               <div key={i} className="border-l-2 border-primary/30 pl-6">
-                <h3 className="font-display font-bold text-lg mb-2">{item.title}</h3>
+                <div className="flex items-center gap-3 mb-2">
+                  <item.icon className="w-5 h-5 text-primary" />
+                  <h3 className="font-display font-bold text-lg">{item.title}</h3>
+                </div>
                 <p className="text-muted-foreground leading-relaxed">{item.text}</p>
               </div>
             ))}
@@ -65,8 +72,9 @@ const ResultsSection = () => {
                 "Persoonlijke omnichannel outreach",
                 "Gekwalificeerde gesprekken in uw agenda",
                 "Dashboards & real-time inzicht",
-                "CRM-integratie met uw bestaande tools",
+                "Integratie met uw bestaande tools",
                 "Domeinbescherming & compliance",
+                "Overdracht óf volledig beheer",
               ].map((item) => (
                 <div key={item} className="flex items-center gap-3">
                   <div className="w-2 h-2 rounded-full bg-primary shrink-0" />
