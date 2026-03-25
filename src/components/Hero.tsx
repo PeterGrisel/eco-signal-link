@@ -4,7 +4,7 @@ import teamBanner from "@/assets/team-banner.jpg";
 
 const Hero = () => {
   return (
-    <section className="relative min-h-screen flex items-center pt-16 overflow-hidden">
+    <section className="relative min-h-screen flex items-center pt-14 md:pt-16 overflow-hidden">
       {/* Background banner image */}
       <div className="absolute inset-0">
         <img 
@@ -18,13 +18,13 @@ const Hero = () => {
       {/* Glow effect */}
       <div className="absolute inset-0 glow-bg pointer-events-none" />
       
-      <div className="container mx-auto px-6 relative z-10">
+      <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className="max-w-4xl">
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6 }}
-            className="text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-6"
+            className="text-primary font-display font-semibold text-xs md:text-sm tracking-[0.2em] uppercase mb-4 md:mb-6"
           >
             Proces · Data · Resultaat
           </motion.p>
@@ -33,7 +33,7 @@ const Hero = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.1 }}
-            className="font-display font-bold text-5xl md:text-7xl lg:text-8xl leading-[0.95] tracking-tight mb-8"
+            className="font-display font-bold text-[2.5rem] md:text-7xl lg:text-8xl leading-[0.95] tracking-tight mb-6 md:mb-8"
           >
             Wij bouwen
             <br />
@@ -46,7 +46,7 @@ const Hero = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="text-muted-foreground text-lg md:text-xl max-w-2xl mb-10 leading-relaxed"
+            className="text-muted-foreground text-base md:text-xl max-w-2xl mb-8 md:mb-10 leading-relaxed"
           >
             Een voorspelbaar groeiproces dat data oplevert. Met die data optimaliseert u continu 
             en stuurt u gerichter. Voor klanten, recruitment, partners of internationale expansie.
