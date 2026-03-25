@@ -8,7 +8,7 @@ import {
   BarChart3, TrendingUp, MousePointerClick, Eye, Target,
   RefreshCw, Loader2, Plus, X, ArrowUp, ArrowDown, Minus,
   Sparkles, FileText, Wrench, Globe, Check, Send,
-  Lightbulb, Zap, AlertTriangle
+  Lightbulb, Zap, AlertTriangle, Shield, CheckCircle, XCircle, AlertCircle
 } from "lucide-react";
 
 interface GscOverview {
@@ -26,7 +26,7 @@ interface ConversionPage {
 }
 
 interface AiSuggestion {
-  type: "new_page" | "optimize" | "strategy";
+  type: "new_page" | "optimize" | "strategy" | "technical_fix";
   priority: "high" | "medium" | "low";
   title: string;
   description: string;
@@ -34,6 +34,21 @@ interface AiSuggestion {
   keyword?: string;
   content_type?: string;
   target_page?: string;
+}
+
+interface AuditCheck {
+  category: string;
+  status: "pass" | "warning" | "fail";
+  title: string;
+  detail: string;
+  impact: string;
+}
+
+interface AuditResult {
+  score: number;
+  audit_time_ms: number;
+  summary: { total: number; passed: number; warnings: number; fails: number };
+  checks: AuditCheck[];
 }
 
 interface AdvisorResult {
@@ -47,10 +62,11 @@ const priorityConfig = {
   low: { color: "bg-blue-500/10 text-blue-400 border-blue-500/20", icon: <Lightbulb className="w-3 h-3" /> },
 };
 
-const typeConfig = {
+const typeConfig: Record<string, { label: string; icon: React.ReactNode; color: string }> = {
   new_page: { label: "Nieuwe pagina", icon: <FileText className="w-3.5 h-3.5" />, color: "text-green-400" },
   optimize: { label: "Optimalisatie", icon: <Wrench className="w-3.5 h-3.5" />, color: "text-yellow-400" },
   strategy: { label: "Strategie", icon: <Zap className="w-3.5 h-3.5" />, color: "text-purple-400" },
+  technical_fix: { label: "Technische fix", icon: <Shield className="w-3.5 h-3.5" />, color: "text-red-400" },
 };
 
 const AdminKpi = () => {
@@ -65,6 +81,8 @@ const AdminKpi = () => {
   const [advisor, setAdvisor] = useState<AdvisorResult | null>(null);
   const [advisorLoading, setAdvisorLoading] = useState(false);
   const [queuedSuggestions, setQueuedSuggestions] = useState<Set<number>>(new Set());
+  const [audit, setAudit] = useState<AuditResult | null>(null);
+  const [auditLoading, setAuditLoading] = useState(false);
   const { toast } = useToast();
 
   const fetchConvPages = useCallback(async () => {
@@ -120,6 +138,19 @@ const AdminKpi = () => {
       toast({ title: "AI Advisor mislukt", description: e.message, variant: "destructive" });
     }
     setAdvisorLoading(false);
+  };
+
+  const handleAudit = async () => {
+    setAuditLoading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("seo-audit", { body: {} });
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+      setAudit(data);
+    } catch (e: any) {
+      toast({ title: "SEO Audit mislukt", description: e.message, variant: "destructive" });
+    }
+    setAuditLoading(false);
   };
 
   const handleQueueSuggestion = async (suggestion: AiSuggestion, index: number) => {
@@ -341,6 +372,97 @@ const AdminKpi = () => {
                 );
               })}
             </div>
+          </div>
+        )}
+      </div>
+
+      {/* SEO Audit Panel */}
+      <div className="bg-card border border-border rounded-lg p-5 mb-8">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <Shield className="w-5 h-5 text-primary" />
+            <h2 className="font-display font-semibold text-foreground">Technische SEO Audit</h2>
+            {audit && (
+              <Badge variant="outline" className={`text-[10px] gap-1 ${
+                audit.score >= 80 ? "bg-green-500/10 text-green-400 border-green-500/20" :
+                audit.score >= 50 ? "bg-yellow-500/10 text-yellow-400 border-yellow-500/20" :
+                "bg-red-500/10 text-red-400 border-red-500/20"
+              }`}>
+                Score: {audit.score}/100
+              </Badge>
+            )}
+          </div>
+          <Button variant="heroOutline" size="sm" onClick={handleAudit} disabled={auditLoading} className="gap-1.5">
+            {auditLoading ? (
+              <><Loader2 className="w-4 h-4 animate-spin" /> Scannen...</>
+            ) : (
+              <><Shield className="w-4 h-4" /> Run Audit</>
+            )}
+          </Button>
+        </div>
+
+        {!audit && !auditLoading && (
+          <p className="text-sm text-muted-foreground">
+            Scan je website op technische SEO problemen: indexering, snelheid, meta tags, sitemap en meer.
+          </p>
+        )}
+
+        {auditLoading && (
+          <div className="flex items-center gap-3 py-6 justify-center">
+            <Loader2 className="w-5 h-5 animate-spin text-primary" />
+            <span className="text-sm text-muted-foreground">Website scannen op technische SEO problemen...</span>
+          </div>
+        )}
+
+        {audit && (
+          <div className="space-y-3">
+            <div className="grid grid-cols-4 gap-3">
+              <div className="p-3 rounded-lg bg-background border border-border text-center">
+                <p className="text-lg font-bold text-foreground">{audit.summary.total}</p>
+                <p className="text-[10px] text-muted-foreground">Checks</p>
+              </div>
+              <div className="p-3 rounded-lg bg-background border border-border text-center">
+                <p className="text-lg font-bold text-green-400">{audit.summary.passed}</p>
+                <p className="text-[10px] text-muted-foreground">Geslaagd</p>
+              </div>
+              <div className="p-3 rounded-lg bg-background border border-border text-center">
+                <p className="text-lg font-bold text-yellow-400">{audit.summary.warnings}</p>
+                <p className="text-[10px] text-muted-foreground">Waarschuwingen</p>
+              </div>
+              <div className="p-3 rounded-lg bg-background border border-border text-center">
+                <p className="text-lg font-bold text-red-400">{audit.summary.fails}</p>
+                <p className="text-[10px] text-muted-foreground">Fouten</p>
+              </div>
+            </div>
+
+            <div className="space-y-1.5 max-h-[400px] overflow-y-auto">
+              {audit.checks.map((check, i) => (
+                <div key={i} className="flex items-start gap-3 py-2 px-3 rounded-lg hover:bg-muted/50 text-xs">
+                  <div className="flex-shrink-0 mt-0.5">
+                    {check.status === "pass" ? (
+                      <CheckCircle className="w-4 h-4 text-green-400" />
+                    ) : check.status === "warning" ? (
+                      <AlertCircle className="w-4 h-4 text-yellow-400" />
+                    ) : (
+                      <XCircle className="w-4 h-4 text-red-400" />
+                    )}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2">
+                      <span className="font-medium text-foreground">{check.title}</span>
+                      <Badge variant="outline" className="text-[10px] text-muted-foreground">{check.category}</Badge>
+                      {check.impact === "high" && check.status !== "pass" && (
+                        <Badge variant="outline" className="text-[10px] bg-red-500/10 text-red-400 border-red-500/20">
+                          high impact
+                        </Badge>
+                      )}
+                    </div>
+                    <p className="text-muted-foreground mt-0.5">{check.detail}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <p className="text-[10px] text-muted-foreground text-right">Audit voltooid in {audit.audit_time_ms}ms</p>
           </div>
         )}
       </div>
