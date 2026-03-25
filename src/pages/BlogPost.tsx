@@ -175,7 +175,13 @@ const BlogPost = () => {
             prose-tr:transition-colors hover:prose-tr:bg-secondary/30
             prose-figure:my-8
           ">
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>{post.content}</ReactMarkdown>
+            {splitContentWithInfographics(post.content).map((part, i) =>
+              part.type === "infographic" ? (
+                <div key={i} className="not-prose">{renderInfographic(part.block)}</div>
+              ) : (
+                <ReactMarkdown key={i} remarkPlugins={[remarkGfm]}>{part.content}</ReactMarkdown>
+              )
+            )}
           </div>
 
           {/* Bottom CTA */}
