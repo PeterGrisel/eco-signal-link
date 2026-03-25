@@ -68,7 +68,7 @@ const OverOns = () => {
       <Navbar />
 
       {/* Hero */}
-      <section className="relative pt-32 pb-24 overflow-hidden min-h-[500px]">
+      <section className="relative min-h-screen flex items-center pt-16 overflow-hidden">
         <div className="absolute inset-0">
           <img
             src={teamAbout}
