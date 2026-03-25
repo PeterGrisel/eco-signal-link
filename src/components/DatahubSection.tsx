@@ -44,15 +44,15 @@ const DatahubSection = () => {
           className="mb-16 max-w-2xl"
         >
           <p className="text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4">
-            Datahub
+            Ons SaaS Metadataplatform
           </p>
           <h2 className="font-display font-bold text-4xl md:text-5xl lg:text-6xl tracking-tight leading-tight">
-            Uw eigen
+            Datahub.
             <br />
-            <span className="text-gradient">AI-contextcentrum.</span>
+            <span className="text-gradient">Uw commerciële geheugen.</span>
           </h2>
           <p className="text-muted-foreground mt-6 text-lg leading-relaxed max-w-xl">
-            Elk gesprek, elk signaal en elke campagne bouwt context op. Die context slaan we op in uw omgeving, zodat u steeds slimmer kunt sturen en automatiseren.
+            Ons eigen metadataplatform waar elk gesprek, signaal en campagneresultaat context opbouwt. Hoe langer het draait, hoe slimmer u stuurt en automatiseert.
           </p>
         </motion.div>
 
