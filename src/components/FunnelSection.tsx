@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Bot, Zap, Users, CalendarCheck, ArrowDown } from "lucide-react";
+import ProspectingMockup from "./ProspectingMockup";
 
 const funnelStages = [
   {
@@ -84,6 +85,11 @@ const FunnelSection = () => {
             toe doet: het persoonlijke gesprek.
           </p>
         </motion.div>
+
+        {/* Prospecting Mockup */}
+        <div className="mt-12 mb-20">
+          <ProspectingMockup />
+        </div>
 
         {/* Funnel with floating integration tools */}
         <div className="mt-16 relative">
