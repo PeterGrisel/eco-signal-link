@@ -102,6 +102,7 @@ export type Database = {
           keyword: string | null
           notes: string | null
           status: Database["public"]["Enums"]["content_queue_status"]
+          topic_id: string | null
           updated_at: string
         }
         Insert: {
@@ -114,6 +115,7 @@ export type Database = {
           keyword?: string | null
           notes?: string | null
           status?: Database["public"]["Enums"]["content_queue_status"]
+          topic_id?: string | null
           updated_at?: string
         }
         Update: {
@@ -126,6 +128,7 @@ export type Database = {
           keyword?: string | null
           notes?: string | null
           status?: Database["public"]["Enums"]["content_queue_status"]
+          topic_id?: string | null
           updated_at?: string
         }
         Relationships: [
@@ -134,6 +137,54 @@ export type Database = {
             columns: ["blog_post_id"]
             isOneToOne: false
             referencedRelation: "blog_posts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "content_queue_topic_id_fkey"
+            columns: ["topic_id"]
+            isOneToOne: false
+            referencedRelation: "content_topics"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      content_topics: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          name: string
+          parent_id: string | null
+          slug: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name: string
+          parent_id?: string | null
+          slug: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name?: string
+          parent_id?: string | null
+          slug?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "content_topics_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "content_topics"
             referencedColumns: ["id"]
           },
         ]
