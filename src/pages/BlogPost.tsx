@@ -29,17 +29,32 @@ const BlogPost = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetch = async () => {
-      const { data } = await supabase
+    const fetchPost = async () => {
+      // First try: get published post (public)
+      let { data } = await supabase
         .from("blog_posts")
         .select("*, category:blog_categories(name, slug)")
         .eq("slug", slug!)
         .eq("status", "published")
         .maybeSingle();
+
+      // If not found, try as admin (draft preview)
+      if (!data) {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session) {
+          const { data: draft } = await supabase
+            .from("blog_posts")
+            .select("*, category:blog_categories(name, slug)")
+            .eq("slug", slug!)
+            .maybeSingle();
+          data = draft;
+        }
+      }
+
       if (data) setPost(data as unknown as Post);
       setLoading(false);
     };
-    fetch();
+    fetchPost();
   }, [slug]);
 
   usePageMeta({
