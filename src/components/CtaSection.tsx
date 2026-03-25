@@ -37,6 +37,9 @@ const CtaSection = () => {
           <p className="text-muted-foreground text-xs mt-2 max-w-md mx-auto">
             Wij raden minimaal 6 maanden aan; in een kleine markt is geduld de sleutel tot duurzame resultaten.
           </p>
+          <p className="text-muted-foreground/50 text-xs mt-6 italic max-w-md mx-auto">
+            P.S. Wij zijn géén leadgenerator. Wij bouwen systemen die dat voor u doen. Subtiel verschil. 😉
+          </p>
         </motion.div>
       </div>
     </section>
