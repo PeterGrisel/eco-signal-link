@@ -1,48 +1,6 @@
 import { motion } from "framer-motion";
-import { Trophy, Package, Car, Wrench, Building2, Landmark, Factory, GraduationCap } from "lucide-react";
+import { sectors } from "@/data/sectors";
 
-const streams = [
-  {
-    icon: Trophy,
-    title: "Profvoetbal",
-    description: "Sponsorwerving, partnerschappen en seizoensgebonden campagnes voor clubs en organisaties. Bereik beslissers bij merken die investeren in sport.",
-  },
-  {
-    icon: Package,
-    title: "Groothandel",
-    description: "Nieuwe afnemers en retailers identificeren op basis van inkooppatronen, assortimentsuitbreiding en marktbewegingen.",
-  },
-  {
-    icon: Car,
-    title: "Leasemaatschappijen",
-    description: "Bedrijven met groeiend wagenpark, contractverlengingen en fleet managers die actief vergelijken. Timing is alles.",
-  },
-  {
-    icon: Wrench,
-    title: "Engineering",
-    description: "Technische beslissers en projectmanagers bij industriële bedrijven. Van bouwprojecten tot productie-innovatie.",
-  },
-  {
-    icon: Building2,
-    title: "Zakelijke Dienstverlening",
-    description: "Accountants, juristen en consultants die groeien. Bereik partners en directies op het juiste moment met de juiste boodschap.",
-  },
-  {
-    icon: Landmark,
-    title: "Financiële Sector",
-    description: "Vermogensbeheerders, verzekeraars en fintechs die nieuwe klanten of distributiekanalen zoeken in een competitieve markt.",
-  },
-  {
-    icon: Factory,
-    title: "Maakindustrie",
-    description: "Productiebedrijven die investeren in automatisering, nieuwe markten betreden of hun supply chain uitbreiden.",
-  },
-  {
-    icon: GraduationCap,
-    title: "Opleiding & Training",
-    description: "Trainingsbureaus en EdTech-bedrijven die B2B-klanten werven voor incompany trainingen, certificeringen en programma's.",
-  },
-];
 
 const StreamsSection = () => {
   return (
