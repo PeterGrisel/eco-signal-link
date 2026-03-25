@@ -4,13 +4,13 @@ import teamBanner from "@/assets/team-banner.jpg";
 
 const Hero = () => {
   return (
-    <section className="relative min-h-screen flex items-center pt-14 md:pt-16 overflow-hidden">
+    <section className="relative min-h-[85vh] lg:min-h-screen flex items-center pt-14 md:pt-16 overflow-hidden">
       {/* Background banner image */}
       <div className="absolute inset-0">
         <img 
           src={teamBanner} 
           alt="Team Rebel Force" 
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover object-center"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/70 to-background/50" />
       </div>
