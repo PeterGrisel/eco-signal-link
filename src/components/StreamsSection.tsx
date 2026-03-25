@@ -54,16 +54,16 @@ const StreamsSection = () => {
           className="mb-16 max-w-2xl"
         >
           <p className="text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4">
-            Eén funnel. Vier doelgroepen.
+            Eén systeem. Elke sector.
           </p>
           <h2 className="font-display font-bold text-4xl md:text-5xl lg:text-6xl tracking-tight leading-tight mb-6">
-            Dezelfde motor.
+            Bewezen in
             <br />
-            <span className="text-gradient">Ander doel.</span>
+            <span className="text-gradient">diverse branches.</span>
           </h2>
           <p className="text-muted-foreground text-lg leading-relaxed">
-            Onze infrastructuur is generiek, de targeting en boodschap zijn specifiek. 
-            Eén systeem dat parallel draait voor elke stroom die u nodig heeft.
+            Dezelfde motor, aangepast aan uw markt. Van profvoetbal tot engineering — 
+            wij bouwen de outreach die past bij uw sector en doelgroep.
           </p>
         </motion.div>
 
