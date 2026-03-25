@@ -1,9 +1,19 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
+
+async function loadSettings() {
+  const supabase = createClient(
+    Deno.env.get("SUPABASE_URL")!,
+    Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
+  );
+  const { data } = await supabase.from("seo_settings").select("config").limit(1).single();
+  return data?.config || {};
+}
 
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
@@ -12,67 +22,83 @@ serve(async (req) => {
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
 
+    const settings = await loadSettings();
     const { keyword, audience, length, headline, content_type } = await req.json();
     const topic = headline || keyword;
     if (!topic) throw new Error("keyword or headline is required");
 
+    const siteName = settings.name || "B2BGroeiMachine";
+    const lang = settings.primary_language || "Nederlands";
+    const targetAudience = audience || settings.target_audience_summary || "MKB en midmarket B2B-bedrijven in Nederland";
+    const blogTheme = settings.blog_theme || "";
+    const competitorPrompt = settings.competitor_prompt || "";
+    const ctaTitle = settings.cta_title || "";
+    const ctaDescription = settings.cta_description || "";
+    const ctaButtonText = settings.cta_button_text || "";
+    const ctaNote = settings.cta_note || "";
     const wordCount = length === "kort" ? 800 : length === "lang" ? 2500 : 1500;
 
-    const systemPrompt = `You are an expert SEO content writer. You write in English for a professional B2B audience.
+    const systemPrompt = `Je bent een expert SEO content schrijver voor ${siteName}. Je schrijft in het ${lang} voor een professionele B2B doelgroep.
 
-Target audience: ${audience || "Mid-to-large enterprises, business leaders, and decision-makers focused on leveraging data and AI to transform their organizations."}
+Doelgroep: ${targetAudience}
 
-Blog theme: Practical and in-depth content on AI Enablement, data-driven transformation, and flow management. Rebel Force shows how organizations apply focus, discipline, and system-level interventions to turn AI into measurable business value.
+Blog thema: ${blogTheme}
 
-WRITING STYLE (Apply this style, voice and tone):
-- Use simple, clear, conversational language — as if explaining to a friend
-- Start with a bold statement, surprising fact, or the conclusion (inverted pyramid)
-- Use "you" to directly address the reader
-- Keep paragraphs short (2-3 sentences max)
-- Use bullet points, bold text, and tables for scannability
-- Include specific, actionable advice — not generic tips
-- Avoid marketing fluff, promotional language, or overly complex vocabulary
-- Use plain, everyday words and clear, concise phrasing
-- Break down complicated concepts into bite-sized explanations
-- Retain professional and technical terms critical to the subject area
-- Avoid repetitive language patterns (don't start multiple points with "Remember..." or "Keep in mind...")
+SCHRIJFSTIJL:
+- Gebruik eenvoudige, heldere, conversationele taal, alsof je het aan een collega uitlegt
+- Begin met een bold statement, verrassend feit of de conclusie (inverted pyramid)
+- Gebruik "u" of "je" om de lezer direct aan te spreken
+- Houd alinea's kort (2 tot 3 zinnen max)
+- Gebruik bullet points, bold tekst en tabellen voor scanbaarheid
+- Geef specifiek, actionable advies, geen generieke tips
+- Vermijd marketing fluff, promotionele taal of te complex vocabulaire
+- Gebruik alledaagse woorden en duidelijke, beknopte formuleringen
+- Breek complexe concepten op in hapklare uitleg
+- Behoud professionele en technische termen die cruciaal zijn voor het onderwerp
+- Vermijd herhalende taalpatronen (begin niet meerdere punten met "Onthoud..." of "Vergeet niet...")
+- Vermijd overmatig gebruik van streepjes, gebruik komma's of dubbele punten
 
-ARTICLE STRUCTURE:
-1. Hook (1 sentence): Bold statement, surprising fact, or key benefit
-2. Value Summary (2-3 sentences): Key findings, solutions, or insights
-3. Quick Overview: Bullet points or comparison table of key information
-4. Main sections (max 5 root sections, each with 0-3 subsections)
-5. Conclusion: Summary of essential points
+ARTIKELSTRUCTUUR:
+1. Hook (1 zin): Bold statement, verrassend feit of key benefit
+2. Waarde-samenvatting (2 tot 3 zinnen): Belangrijkste bevindingen of inzichten
+3. Quick Overview: Bullet points of vergelijkingstabel
+4. Hoofdsecties (max 5 root secties, elk met 0 tot 3 subsecties)
+5. Conclusie: Samenvatting van essentiële punten
 
-FORMATTING RULES:
-- Use ## for H2, ### for H3, #### for H4 headers
-- Headers must be cold, simple, straightforward — no marketing fluff
-- Use Markdown tables where information is better suited for tabular presentation (min 3 data rows)
-- Format quotes with > syntax
-- Use bold, italic for emphasis
-- Include comparison tables for versus/comparison articles
-- No fabricated or hallucinated details
-- If real examples are not available, clearly mark hypothetical cases
+FORMATTING:
+- Gebruik ## voor H2, ### voor H3, #### voor H4 headers
+- Headers moeten koud, simpel, recht-door-zee zijn, geen marketing fluff
+- Gebruik Markdown tabellen waar informatie beter past (min 3 data rows)
+- Gebruik > syntax voor quotes
+- Gebruik bold, italic voor nadruk
+- Vergelijkingstabellen voor versus/vergelijkingsartikelen
+- Geen verzonnen of gehalluccineerde details
+- Markeer hypothetische voorbeelden duidelijk als zodanig
 
-SEO RULES:
-- Front-load the primary keyword in the title
-- Use the keyword naturally in the first paragraph, headings, and throughout
-- Write a meta description that summarizes key points (50-140 chars)
-- Generate 5-10 relevant meta keywords
+SEO:
+- Front-load het primaire keyword in de titel
+- Gebruik het keyword natuurlijk in de eerste alinea, headings en door het artikel
+- Schrijf een meta description die key points samenvat (50 tot 140 tekens)
+- Genereer 5 tot 10 relevante meta keywords
 
-CTA: Include a subtle call-to-action mentioning Rebel Force's AI-powered enablement systems at the end.
+${competitorPrompt ? `CONCURRENTEN: ${competitorPrompt}` : ""}
 
-Do not mention, reference, or compare with any direct competitors.`;
+CTA: Sluit af met een subtiele call-to-action:
+${ctaTitle ? `Titel: "${ctaTitle}"` : ""}
+${ctaDescription ? `Beschrijving: "${ctaDescription}"` : ""}
+${ctaButtonText ? `Button: "${ctaButtonText}"` : ""}
+${ctaNote ? `Noot: "${ctaNote}"` : ""}`;
 
-    const userPrompt = `Write a comprehensive, SEO-optimized blog article about: "${topic}"
+    const userPrompt = `Schrijf een uitgebreid, SEO-geoptimaliseerd blogartikel over: "${topic}"
 
-Requirements:
-- Approximately ${wordCount} words
+Vereisten:
+- Ongeveer ${wordCount} woorden
 - Content type: ${content_type || "article"}
-- Follow all style, structure, and formatting rules from the system prompt
-- Generate all metadata (title, meta_description, excerpt, slug, keywords)
+- Volg alle stijl-, structuur- en formatting-regels uit de system prompt
+- Genereer alle metadata (title, meta_description, excerpt, slug, keywords)
+- Schrijf in het ${lang}
 
-The article should provide genuine value and actionable insights. Be direct and concrete.`;
+Het artikel moet echte waarde en actionable inzichten bieden. Wees direct en concreet.`;
 
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
