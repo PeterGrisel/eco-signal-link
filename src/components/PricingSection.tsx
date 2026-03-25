@@ -4,6 +4,11 @@ import { Check, Plus, Users, Briefcase } from "lucide-react";
 
 const recruitmentAddOns = [
   {
+    title: "Full Service Recruitment",
+    description: "Volledig recruitmentproces van outreach tot aanname. Geen maandelijkse kosten, alleen een succesfee.",
+    price: "15% bruto jaarsalaris",
+  },
+  {
     title: "Auto-Kwalificatie & AI-Testing",
     description: "AI-gestuurde vragenreeks via e-mail of chat. Alleen profielen boven de drempel komen door.",
     price: "Prijs op aanvraag",
@@ -13,14 +18,14 @@ const recruitmentAddOns = [
     description: "Onze recruiters voeren het kwalificatiegesprek namens u. Vaste prijs per gekwalificeerd gesprek.",
     price: "Vaste prijs per gesprek",
   },
-  {
-    title: "Full Service Recruitment",
-    description: "Volledig recruitmentproces van outreach tot aanname. Geen maandelijkse kosten, alleen een succesfee.",
-    price: "15% bruto jaarsalaris",
-  },
 ];
 
 const leadsAddOns = [
+  {
+    title: "Full Sales Management",
+    description: "Van strategie tot uitvoering: wij nemen uw volledige salesproces over. Pipeline-opbouw, opvolging en closing.",
+    price: "Prijs op aanvraag",
+  },
   {
     title: "Website & SEO-Optimalisatie",
     description: "Technische SEO tot conversiegerichte landingspagina's zodat prospects u organisch vinden.",
@@ -29,11 +34,6 @@ const leadsAddOns = [
   {
     title: "AI Avatar Video",
     description: "Gepersonaliseerde video-outreach via AI-avatar, schaalbaar als eerste contact of follow-up.",
-    price: "Prijs op aanvraag",
-  },
-  {
-    title: "Full Sales Management",
-    description: "Van strategie tot uitvoering: wij nemen uw volledige salesproces over. Pipeline-opbouw, opvolging en closing.",
     price: "Prijs op aanvraag",
   },
 ];
