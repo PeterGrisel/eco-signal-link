@@ -5,28 +5,18 @@ import AdminLayout from "@/components/admin/AdminLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
+  Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter,
 } from "@/components/ui/dialog";
 import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
+  Collapsible, CollapsibleContent, CollapsibleTrigger,
 } from "@/components/ui/collapsible";
-import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import {
-  ChevronRight,
-  ChevronDown,
-  Plus,
-  Pencil,
-  Trash2,
-  FolderTree,
-  GripVertical,
+  ChevronRight, ChevronDown, Plus, Pencil, Trash2, FolderTree,
+  Target, TrendingUp, Pause, Play, Check, X,
 } from "lucide-react";
 
 interface Topic {
@@ -36,7 +26,13 @@ interface Topic {
   slug: string;
   description: string | null;
   sort_order: number;
+  target_keywords: string[] | null;
+  target_article_count: number;
+  priority: number;
+  status: string;
   children?: Topic[];
+  published_count?: number;
+  queued_count?: number;
 }
 
 interface TopicFormData {
@@ -44,6 +40,9 @@ interface TopicFormData {
   slug: string;
   description: string;
   parent_id: string | null;
+  target_keywords: string;
+  target_article_count: number;
+  priority: number;
 }
 
 const defaultForm: TopicFormData = {
@@ -51,12 +50,14 @@ const defaultForm: TopicFormData = {
   slug: "",
   description: "",
   parent_id: null,
+  target_keywords: "",
+  target_article_count: 3,
+  priority: 0,
 };
 
 function buildTree(topics: Topic[]): Topic[] {
   const map = new Map<string, Topic>();
   const roots: Topic[] = [];
-
   topics.forEach((t) => map.set(t.id, { ...t, children: [] }));
   topics.forEach((t) => {
     const node = map.get(t.id)!;
@@ -66,9 +67,8 @@ function buildTree(topics: Topic[]): Topic[] {
       roots.push(node);
     }
   });
-
   const sortNodes = (nodes: Topic[]) => {
-    nodes.sort((a, b) => a.sort_order - b.sort_order);
+    nodes.sort((a, b) => b.priority - a.priority || a.sort_order - b.sort_order);
     nodes.forEach((n) => n.children && sortNodes(n.children));
   };
   sortNodes(roots);
@@ -76,97 +76,83 @@ function buildTree(topics: Topic[]): Topic[] {
 }
 
 function slugify(text: string): string {
-  return text
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "");
-}
-
-function countDescendants(topic: Topic): number {
-  if (!topic.children?.length) return 0;
-  return topic.children.reduce(
-    (acc, c) => acc + 1 + countDescendants(c),
-    0
-  );
+  return text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 }
 
 const TopicNode = ({
-  topic,
-  depth,
-  onEdit,
-  onDelete,
-  onAddChild,
+  topic, depth, onEdit, onDelete, onAddChild,
 }: {
-  topic: Topic;
-  depth: number;
-  onEdit: (t: Topic) => void;
-  onDelete: (t: Topic) => void;
-  onAddChild: (parentId: string) => void;
+  topic: Topic; depth: number;
+  onEdit: (t: Topic) => void; onDelete: (t: Topic) => void; onAddChild: (parentId: string) => void;
 }) => {
   const [open, setOpen] = useState(depth < 1);
   const hasChildren = topic.children && topic.children.length > 0;
-  const descendantCount = countDescendants(topic);
+  const published = topic.published_count || 0;
+  const queued = topic.queued_count || 0;
+  const target = topic.target_article_count || 3;
+  const total = published + queued;
+  const progress = Math.min(100, Math.round((published / target) * 100));
+  const gap = Math.max(0, target - total);
+  const isPaused = topic.status === "paused";
+  const isCompleted = topic.status === "completed";
 
   return (
     <div className="group">
       <Collapsible open={open} onOpenChange={setOpen}>
         <div
-          className="flex items-center gap-2 py-2 px-3 rounded-lg hover:bg-secondary/50 transition-colors"
+          className={`flex items-center gap-2 py-3 px-3 rounded-lg hover:bg-secondary/50 transition-colors ${isPaused ? "opacity-50" : ""}`}
           style={{ paddingLeft: `${depth * 24 + 12}px` }}
         >
-          <GripVertical className="w-4 h-4 text-muted-foreground/40 opacity-0 group-hover:opacity-100 transition-opacity cursor-grab" />
-
           {hasChildren ? (
             <CollapsibleTrigger asChild>
               <button className="p-0.5 rounded hover:bg-secondary">
-                {open ? (
-                  <ChevronDown className="w-4 h-4 text-muted-foreground" />
-                ) : (
-                  <ChevronRight className="w-4 h-4 text-muted-foreground" />
-                )}
+                {open ? <ChevronDown className="w-4 h-4 text-muted-foreground" /> : <ChevronRight className="w-4 h-4 text-muted-foreground" />}
               </button>
             </CollapsibleTrigger>
           ) : (
             <span className="w-5" />
           )}
 
-          <span className="font-medium text-sm flex-1">{topic.name}</span>
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2">
+              <span className="font-medium text-sm">{topic.name}</span>
+              {isPaused && <Badge variant="secondary" className="text-xs"><Pause className="w-3 h-3 mr-1" />Paused</Badge>}
+              {isCompleted && <Badge variant="secondary" className="text-xs bg-emerald-500/10 text-emerald-400 border-emerald-500/20"><Check className="w-3 h-3 mr-1" />Compleet</Badge>}
+              {topic.priority > 0 && <Badge variant="outline" className="text-xs text-primary border-primary/30">P{topic.priority}</Badge>}
+            </div>
+            {topic.target_keywords && topic.target_keywords.length > 0 && (
+              <div className="flex flex-wrap gap-1 mt-1">
+                {topic.target_keywords.map((kw, i) => (
+                  <span key={i} className="text-[10px] font-mono text-primary bg-primary/5 border border-primary/10 rounded px-1.5 py-0.5">{kw}</span>
+                ))}
+              </div>
+            )}
+          </div>
 
-          {topic.description && (
-            <span className="text-xs text-muted-foreground max-w-[200px] truncate hidden md:inline">
-              {topic.description}
+          {/* Coverage meter */}
+          <div className="hidden md:flex items-center gap-3 min-w-[200px]">
+            <div className="flex-1">
+              <Progress value={progress} className="h-1.5" />
+            </div>
+            <span className="text-xs text-muted-foreground whitespace-nowrap">
+              {published}/{target}
+              {queued > 0 && <span className="text-primary"> +{queued}</span>}
             </span>
-          )}
-
-          {descendantCount > 0 && (
-            <Badge variant="secondary" className="text-xs">
-              {descendantCount} sub
-            </Badge>
-          )}
+            {gap > 0 && (
+              <Badge variant="outline" className="text-xs text-amber-400 border-amber-500/20 bg-amber-500/5">
+                {gap} gap
+              </Badge>
+            )}
+          </div>
 
           <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-7 w-7"
-              onClick={() => onAddChild(topic.id)}
-            >
+            <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => onAddChild(topic.id)}>
               <Plus className="w-3.5 h-3.5" />
             </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-7 w-7"
-              onClick={() => onEdit(topic)}
-            >
+            <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => onEdit(topic)}>
               <Pencil className="w-3.5 h-3.5" />
             </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-7 w-7 text-destructive hover:text-destructive"
-              onClick={() => onDelete(topic)}
-            >
+            <Button variant="ghost" size="icon" className="h-7 w-7 text-destructive hover:text-destructive" onClick={() => onDelete(topic)}>
               <Trash2 className="w-3.5 h-3.5" />
             </Button>
           </div>
@@ -175,14 +161,7 @@ const TopicNode = ({
         {hasChildren && (
           <CollapsibleContent>
             {topic.children!.map((child) => (
-              <TopicNode
-                key={child.id}
-                topic={child}
-                depth={depth + 1}
-                onEdit={onEdit}
-                onDelete={onDelete}
-                onAddChild={onAddChild}
-              />
+              <TopicNode key={child.id} topic={child} depth={depth + 1} onEdit={onEdit} onDelete={onDelete} onAddChild={onAddChild} />
             ))}
           </CollapsibleContent>
         )}
@@ -210,7 +189,40 @@ const AdminTaxonomy = () => {
     },
   });
 
-  const tree = buildTree(topics);
+  // Fetch coverage data
+  const { data: coverageData } = useQuery({
+    queryKey: ["topic_coverage"],
+    queryFn: async () => {
+      const [{ data: posts }, { data: queued }] = await Promise.all([
+        supabase.from("blog_posts").select("topic_id").not("topic_id", "is", null),
+        supabase.from("content_queue").select("topic_id, status").not("topic_id", "is", null).in("status", ["pending", "approved", "generating"] as any),
+      ]);
+
+      const published: Record<string, number> = {};
+      const queuedCounts: Record<string, number> = {};
+      posts?.forEach(p => { published[p.topic_id] = (published[p.topic_id] || 0) + 1; });
+      queued?.forEach(q => { if (q.topic_id) queuedCounts[q.topic_id] = (queuedCounts[q.topic_id] || 0) + 1; });
+      return { published, queued: queuedCounts };
+    },
+  });
+
+  // Merge coverage into topics
+  const enrichedTopics = topics.map(t => ({
+    ...t,
+    published_count: coverageData?.published[t.id] || 0,
+    queued_count: coverageData?.queued[t.id] || 0,
+  }));
+
+  const tree = buildTree(enrichedTopics);
+
+  // Stats
+  const totalTopics = topics.filter(t => !t.parent_id).length;
+  const totalGap = enrichedTopics.reduce((acc, t) => {
+    const pub = coverageData?.published[t.id] || 0;
+    const q = coverageData?.queued[t.id] || 0;
+    return acc + Math.max(0, (t.target_article_count || 3) - pub - q);
+  }, 0);
+  const totalPublished = Object.values(coverageData?.published || {}).reduce((a, b) => a + b, 0);
 
   const saveMutation = useMutation({
     mutationFn: async (payload: TopicFormData & { id?: string }) => {
@@ -219,23 +231,22 @@ const AdminTaxonomy = () => {
         slug: payload.slug,
         description: payload.description || null,
         parent_id: payload.parent_id || null,
+        target_keywords: payload.target_keywords ? payload.target_keywords.split(",").map(k => k.trim()).filter(Boolean) : [],
+        target_article_count: payload.target_article_count,
+        priority: payload.priority,
       };
 
       if (payload.id) {
-        const { error } = await supabase
-          .from("content_topics")
-          .update(record)
-          .eq("id", payload.id);
+        const { error } = await supabase.from("content_topics").update(record as any).eq("id", payload.id);
         if (error) throw error;
       } else {
-        const { error } = await supabase
-          .from("content_topics")
-          .insert(record);
+        const { error } = await supabase.from("content_topics").insert(record as any);
         if (error) throw error;
       }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["content_topics"] });
+      queryClient.invalidateQueries({ queryKey: ["topic_coverage"] });
       setDialogOpen(false);
       setEditingTopic(null);
       setForm(defaultForm);
@@ -246,10 +257,7 @@ const AdminTaxonomy = () => {
 
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase
-        .from("content_topics")
-        .delete()
-        .eq("id", id);
+      const { error } = await supabase.from("content_topics").delete().eq("id", id);
       if (error) throw error;
     },
     onSuccess: () => {
@@ -273,6 +281,9 @@ const AdminTaxonomy = () => {
       slug: topic.slug,
       description: topic.description || "",
       parent_id: topic.parent_id,
+      target_keywords: (topic.target_keywords || []).join(", "),
+      target_article_count: topic.target_article_count || 3,
+      priority: topic.priority || 0,
     });
     setDialogOpen(true);
   };
@@ -280,60 +291,66 @@ const AdminTaxonomy = () => {
   const handleSave = () => {
     if (!form.name.trim()) return toast.error("Naam is verplicht");
     const slug = form.slug.trim() || slugify(form.name);
-    saveMutation.mutate({
-      ...form,
-      slug,
-      id: editingTopic?.id,
-    });
+    saveMutation.mutate({ ...form, slug, id: editingTopic?.id });
   };
 
-  const parentName = form.parent_id
-    ? topics.find((t) => t.id === form.parent_id)?.name
-    : null;
+  const parentName = form.parent_id ? topics.find((t) => t.id === form.parent_id)?.name : null;
 
   return (
     <AdminLayout>
-      <div className="max-w-4xl">
+      <div className="max-w-5xl">
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="text-2xl font-display font-bold flex items-center gap-2">
-              <FolderTree className="w-6 h-6 text-primary" />
-              Taxonomy
+              <FolderTree className="w-6 h-6 text-primary" /> Content Strategie
             </h1>
             <p className="text-muted-foreground text-sm mt-1">
-              Organiseer content in thema's en subtopics
+              Topic clusters, keyword mapping en gap analyse
             </p>
           </div>
           <Button onClick={() => openCreate(null)}>
-            <Plus className="w-4 h-4 mr-1" /> Nieuw topic
+            <Plus className="w-4 h-4 mr-1" /> Nieuw topic cluster
           </Button>
         </div>
 
-        {isLoading ? (
-          <div className="text-muted-foreground text-sm py-12 text-center">
-            Laden...
+        {/* Strategy stats */}
+        <div className="grid grid-cols-3 gap-4 mb-8">
+          <div className="p-4 rounded-lg bg-card border border-border">
+            <p className="text-2xl font-bold text-foreground">{totalTopics}</p>
+            <p className="text-xs text-muted-foreground">Topic clusters</p>
           </div>
+          <div className="p-4 rounded-lg bg-card border border-border">
+            <p className="text-2xl font-bold text-emerald-400">{totalPublished}</p>
+            <p className="text-xs text-muted-foreground">Gepubliceerd</p>
+          </div>
+          <div className="p-4 rounded-lg bg-card border border-border">
+            <p className="text-2xl font-bold text-amber-400">{totalGap}</p>
+            <p className="text-xs text-muted-foreground">Content gap</p>
+          </div>
+        </div>
+
+        {isLoading ? (
+          <div className="text-muted-foreground text-sm py-12 text-center">Laden...</div>
         ) : tree.length === 0 ? (
           <div className="border border-dashed border-border rounded-xl p-12 text-center">
-            <FolderTree className="w-10 h-10 mx-auto text-muted-foreground/40 mb-3" />
-            <p className="text-muted-foreground text-sm mb-4">
-              Nog geen topics. Maak je eerste topic aan om je content te organiseren.
+            <Target className="w-10 h-10 mx-auto text-muted-foreground/40 mb-3" />
+            <p className="text-muted-foreground text-sm mb-2">Nog geen content strategie.</p>
+            <p className="text-muted-foreground text-xs mb-4">
+              Maak topic clusters aan met target keywords. De Autopilot genereert dan automatisch headlines per cluster en vult gaps.
             </p>
             <Button variant="outline" onClick={() => openCreate(null)}>
-              <Plus className="w-4 h-4 mr-1" /> Eerste topic aanmaken
+              <Plus className="w-4 h-4 mr-1" /> Eerste topic cluster aanmaken
             </Button>
           </div>
         ) : (
           <div className="border border-border rounded-xl bg-card">
+            <div className="flex items-center gap-4 px-4 py-2.5 border-b border-border text-xs text-muted-foreground">
+              <span className="flex-1">Topic</span>
+              <span className="hidden md:block min-w-[200px] text-right">Dekking</span>
+              <span className="w-[100px]" />
+            </div>
             {tree.map((topic) => (
-              <TopicNode
-                key={topic.id}
-                topic={topic}
-                depth={0}
-                onEdit={openEdit}
-                onDelete={setDeleteTarget}
-                onAddChild={(pid) => openCreate(pid)}
-              />
+              <TopicNode key={topic.id} topic={topic} depth={0} onEdit={openEdit} onDelete={setDeleteTarget} onAddChild={(pid) => openCreate(pid)} />
             ))}
           </div>
         )}
@@ -341,11 +358,9 @@ const AdminTaxonomy = () => {
 
       {/* Create / Edit dialog */}
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent>
+        <DialogContent className="max-w-lg">
           <DialogHeader>
-            <DialogTitle>
-              {editingTopic ? "Topic bewerken" : "Nieuw topic"}
-            </DialogTitle>
+            <DialogTitle>{editingTopic ? "Topic bewerken" : "Nieuw topic cluster"}</DialogTitle>
           </DialogHeader>
 
           {parentName && (
@@ -361,45 +376,56 @@ const AdminTaxonomy = () => {
                 value={form.name}
                 onChange={(e) => {
                   const name = e.target.value;
-                  setForm((f) => ({
-                    ...f,
-                    name,
-                    slug: editingTopic ? f.slug : slugify(name),
-                  }));
+                  setForm((f) => ({ ...f, name, slug: editingTopic ? f.slug : slugify(name) }));
                 }}
                 placeholder="Bijv. Lead Generatie"
               />
             </div>
             <div>
               <label className="text-sm font-medium mb-1 block">Slug</label>
-              <Input
-                value={form.slug}
-                onChange={(e) =>
-                  setForm((f) => ({ ...f, slug: e.target.value }))
-                }
-                placeholder="lead-generatie"
+              <Input value={form.slug} onChange={(e) => setForm((f) => ({ ...f, slug: e.target.value }))} placeholder="lead-generatie" />
+            </div>
+            <div>
+              <label className="text-sm font-medium mb-1 block">Beschrijving <span className="text-muted-foreground font-normal">(context voor AI)</span></label>
+              <Textarea
+                value={form.description}
+                onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))}
+                placeholder="Beschrijf dit topic cluster: waar gaat het over, welke sub-thema's..."
+                rows={3}
               />
             </div>
             <div>
               <label className="text-sm font-medium mb-1 block">
-                Beschrijving{" "}
-                <span className="text-muted-foreground font-normal">(optioneel)</span>
+                Target keywords <span className="text-muted-foreground font-normal">(komma-gescheiden)</span>
               </label>
-              <Textarea
-                value={form.description}
-                onChange={(e) =>
-                  setForm((f) => ({ ...f, description: e.target.value }))
-                }
-                placeholder="Korte omschrijving van dit topic..."
-                rows={3}
+              <Input
+                value={form.target_keywords}
+                onChange={(e) => setForm((f) => ({ ...f, target_keywords: e.target.value }))}
+                placeholder="lead generatie, B2B leads, outbound leads"
               />
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="text-sm font-medium mb-1 block">Target artikelen</label>
+                <Input
+                  type="number" min={1} max={50}
+                  value={form.target_article_count}
+                  onChange={(e) => setForm((f) => ({ ...f, target_article_count: parseInt(e.target.value) || 3 }))}
+                />
+              </div>
+              <div>
+                <label className="text-sm font-medium mb-1 block">Prioriteit <span className="text-muted-foreground font-normal">(0-10)</span></label>
+                <Input
+                  type="number" min={0} max={10}
+                  value={form.priority}
+                  onChange={(e) => setForm((f) => ({ ...f, priority: parseInt(e.target.value) || 0 }))}
+                />
+              </div>
             </div>
           </div>
 
           <DialogFooter>
-            <Button variant="outline" onClick={() => setDialogOpen(false)}>
-              Annuleren
-            </Button>
+            <Button variant="outline" onClick={() => setDialogOpen(false)}>Annuleren</Button>
             <Button onClick={handleSave} disabled={saveMutation.isPending}>
               {saveMutation.isPending ? "Opslaan..." : "Opslaan"}
             </Button>
@@ -408,27 +434,15 @@ const AdminTaxonomy = () => {
       </Dialog>
 
       {/* Delete confirmation */}
-      <Dialog
-        open={!!deleteTarget}
-        onOpenChange={() => setDeleteTarget(null)}
-      >
+      <Dialog open={!!deleteTarget} onOpenChange={() => setDeleteTarget(null)}>
         <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Topic verwijderen?</DialogTitle>
-          </DialogHeader>
+          <DialogHeader><DialogTitle>Topic verwijderen?</DialogTitle></DialogHeader>
           <p className="text-sm text-muted-foreground">
-            <strong className="text-foreground">{deleteTarget?.name}</strong> en
-            alle subtopics worden permanent verwijderd.
+            <strong className="text-foreground">{deleteTarget?.name}</strong> en alle subtopics worden permanent verwijderd.
           </p>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setDeleteTarget(null)}>
-              Annuleren
-            </Button>
-            <Button
-              variant="destructive"
-              onClick={() => deleteTarget && deleteMutation.mutate(deleteTarget.id)}
-              disabled={deleteMutation.isPending}
-            >
+            <Button variant="outline" onClick={() => setDeleteTarget(null)}>Annuleren</Button>
+            <Button variant="destructive" onClick={() => deleteTarget && deleteMutation.mutate(deleteTarget.id)} disabled={deleteMutation.isPending}>
               {deleteMutation.isPending ? "Verwijderen..." : "Verwijderen"}
             </Button>
           </DialogFooter>
