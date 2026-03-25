@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Check, TrendingUp, Megaphone, Target, Handshake, ArrowRight } from "lucide-react";
@@ -7,6 +6,7 @@ import Footer from "@/components/Footer";
 import PageLoader from "@/components/PageLoader";
 import CtaSection from "@/components/CtaSection";
 import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
+import { usePageMeta } from "@/hooks/usePageMeta";
 
 const fadeUp = {
   initial: { opacity: 0, y: 20 },
@@ -71,18 +71,11 @@ const pillars = [
 ];
 
 const FullSalesManagement = () => {
-  useEffect(() => {
-    document.title = "Full Sales Management — B2B GroeiMachine";
-    const metaDesc = document.querySelector('meta[name="description"]');
-    if (metaDesc)
-      metaDesc.setAttribute(
-        "content",
-        "Van strategie tot uitvoering: wij nemen uw volledige commerciële proces over. Sales, marketing, strategie en relatiebeheer in één pakket."
-      );
-    return () => {
-      document.title = "B2B Groeimachine — Schaalbare Leadgeneratie & Sales Automation";
-    };
-  }, []);
+  usePageMeta({
+    title: "Full Sales Management — B2BGroeiMachine",
+    description: "Van strategie tot uitvoering: wij nemen uw volledige commerciële proces over. Sales, marketing, strategie en relatiebeheer in één pakket.",
+    canonical: "https://eco-signal-link.lovable.app/full-sales-management",
+  });
 
   return (
     <PageLoader>

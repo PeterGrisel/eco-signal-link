@@ -1,5 +1,5 @@
 import { useParams, Navigate } from "react-router-dom";
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { CheckCircle, AlertTriangle, Radio } from "lucide-react";
@@ -10,6 +10,7 @@ import CtaSection from "@/components/CtaSection";
 import FunnelCalculatorSection from "@/components/FunnelCalculatorSection";
 import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 import { getSectorBySlug, sectors } from "@/data/sectors";
+import { usePageMeta } from "@/hooks/usePageMeta";
 
 const fadeUp = {
   initial: { opacity: 0, y: 20 },
@@ -22,21 +23,11 @@ const SectorPage = () => {
   const { slug } = useParams<{ slug: string }>();
   const sector = slug ? getSectorBySlug(slug) : undefined;
 
-  useEffect(() => {
-    if (sector) {
-      document.title = sector.metaTitle;
-      const metaDesc = document.querySelector('meta[name="description"]');
-      if (metaDesc) metaDesc.setAttribute("content", sector.metaDescription);
-
-      const ogTitle = document.querySelector('meta[property="og:title"]');
-      if (ogTitle) ogTitle.setAttribute("content", sector.metaTitle);
-      const ogDesc = document.querySelector('meta[property="og:description"]');
-      if (ogDesc) ogDesc.setAttribute("content", sector.metaDescription);
-    }
-    return () => {
-      document.title = "B2B Groeimachine — Schaalbare Leadgeneratie & Sales Automation";
-    };
-  }, [sector]);
+  usePageMeta({
+    title: sector?.metaTitle ?? "Sector — B2BGroeiMachine",
+    description: sector?.metaDescription,
+    canonical: sector ? `https://eco-signal-link.lovable.app/sectoren/${slug}` : undefined,
+  });
 
   if (!sector) return <Navigate to="/404" replace />;
 
