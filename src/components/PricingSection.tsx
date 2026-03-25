@@ -2,41 +2,25 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Check, Plus, Users, Briefcase } from "lucide-react";
 
-const recruitmentAddOns = [
-  {
-    title: "Full Service Recruitment",
-    description: "Volledig recruitmentproces van outreach tot aanname. Geen maandelijkse kosten, alleen een succesfee.",
-    price: "15% bruto jaarsalaris",
-  },
-  {
-    title: "Auto-Kwalificatie & AI-Testing",
-    description: "AI-gestuurde vragenreeks via e-mail of chat. Alleen profielen boven de drempel komen door.",
-    price: "Prijs op aanvraag",
-  },
-  {
-    title: "Persoonlijke Kwalificatiegesprekken",
-    description: "Onze recruiters voeren het kwalificatiegesprek namens u. Vaste prijs per gekwalificeerd gesprek.",
-    price: "Vaste prijs per gesprek",
-  },
-];
+const recruitmentFullService = {
+  title: "Full Service Recruitment",
+  description: "Volledig recruitmentproces van outreach tot aanname. Geen maandelijkse kosten, alleen een succesfee.",
+  price: "15% bruto jaarsalaris",
+  subItems: [
+    "Auto-kwalificatie & AI-testing via e-mail of chat",
+    "Persoonlijke kwalificatiegesprekken namens u",
+  ],
+};
 
-const leadsAddOns = [
-  {
-    title: "Full Sales Management",
-    description: "Van strategie tot uitvoering: wij nemen uw volledige salesproces over. Pipeline-opbouw, opvolging en closing.",
-    price: "Prijs op aanvraag",
-  },
-  {
-    title: "Website & SEO-Optimalisatie",
-    description: "Technische SEO tot conversiegerichte landingspagina's zodat prospects u organisch vinden.",
-    price: "Prijs op aanvraag",
-  },
-  {
-    title: "AI Avatar Video",
-    description: "Gepersonaliseerde video-outreach via AI-avatar, schaalbaar als eerste contact of follow-up.",
-    price: "Prijs op aanvraag",
-  },
-];
+const leadsFullService = {
+  title: "Full Sales Management",
+  description: "Van strategie tot uitvoering: wij nemen uw volledige salesproces over. Pipeline-opbouw, opvolging en closing.",
+  price: "Prijs op aanvraag",
+  subItems: [
+    "Website & SEO-optimalisatie",
+    "AI Avatar video-outreach",
+  ],
+};
 
 const baseFeatures = [
   "Beide stromen actief (recruitment + leads)",
@@ -175,65 +159,47 @@ const PricingSection = () => {
 
         {/* Add-ons split by stream */}
         <div className="grid lg:grid-cols-2 gap-6">
-          <div className="space-y-4">
-            <div className="flex items-center gap-2 lg:ml-2">
-              <Users className="w-4 h-4 text-primary" />
-              <p className="text-xs font-display font-semibold text-muted-foreground tracking-[0.15em] uppercase">
-                Add-ons: Recruitment
-              </p>
-            </div>
-            {recruitmentAddOns.map((addon, i) => (
-              <motion.div
-                key={addon.title}
-                initial={{ opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.4, delay: i * 0.06 }}
-                className="card-gradient border border-glow rounded-lg p-6 hover:border-primary/30 transition-colors group"
-              >
-                <div className="flex items-center gap-2 mb-3">
-                  <Plus className="w-4 h-4 text-primary group-hover:rotate-90 transition-transform" />
-                  <h3 className="font-display font-bold text-sm">{addon.title}</h3>
-                </div>
-                <p className="text-muted-foreground text-sm leading-relaxed mb-3">
-                  {addon.description}
+          {[
+            { data: recruitmentFullService, icon: Users, label: "Add-on: Recruitment" },
+            { data: leadsFullService, icon: Briefcase, label: "Add-on: Klantwerving" },
+          ].map(({ data, icon: Icon, label }, i) => (
+            <motion.div
+              key={data.title}
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.4, delay: i * 0.06 }}
+              className="card-gradient border border-glow rounded-lg p-8 hover:border-primary/30 transition-colors group"
+            >
+              <div className="flex items-center gap-2 mb-5">
+                <Icon className="w-4 h-4 text-primary" />
+                <p className="text-xs font-display font-semibold text-muted-foreground tracking-[0.15em] uppercase">
+                  {label}
                 </p>
-                <span className="text-xs font-display font-semibold text-primary">
-                  {addon.price}
-                </span>
-              </motion.div>
-            ))}
-          </div>
+              </div>
 
-          <div className="space-y-4">
-            <div className="flex items-center gap-2 lg:ml-2">
-              <Briefcase className="w-4 h-4 text-primary" />
-              <p className="text-xs font-display font-semibold text-muted-foreground tracking-[0.15em] uppercase">
-                Add-ons: Klantwerving
+              <div className="flex items-center gap-2 mb-3">
+                <Plus className="w-4 h-4 text-primary group-hover:rotate-90 transition-transform" />
+                <h3 className="font-display font-bold text-lg">{data.title}</h3>
+              </div>
+              <p className="text-muted-foreground text-sm leading-relaxed mb-4">
+                {data.description}
               </p>
-            </div>
-            {leadsAddOns.map((addon, i) => (
-              <motion.div
-                key={addon.title}
-                initial={{ opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.4, delay: i * 0.06 }}
-                className="card-gradient border border-glow rounded-lg p-6 hover:border-primary/30 transition-colors group"
-              >
-                <div className="flex items-center gap-2 mb-3">
-                  <Plus className="w-4 h-4 text-primary group-hover:rotate-90 transition-transform" />
-                  <h3 className="font-display font-bold text-sm">{addon.title}</h3>
-                </div>
-                <p className="text-muted-foreground text-sm leading-relaxed mb-3">
-                  {addon.description}
-                </p>
-                <span className="text-xs font-display font-semibold text-primary">
-                  {addon.price}
-                </span>
-              </motion.div>
-            ))}
-          </div>
+
+              <ul className="space-y-2 mb-5">
+                {data.subItems.map((item) => (
+                  <li key={item} className="flex items-start gap-3 text-sm text-muted-foreground">
+                    <Check className="w-4 h-4 text-primary mt-0.5 shrink-0" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <span className="text-xs font-display font-semibold text-primary">
+                {data.price}
+              </span>
+            </motion.div>
+          ))}
         </div>
 
         {/* Bottom CTA */}
