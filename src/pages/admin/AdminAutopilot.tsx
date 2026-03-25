@@ -112,6 +112,7 @@ const AdminAutopilot = () => {
     fetchQueue();
 
     try {
+      // Step 1: Generate article content
       const { data, error } = await supabase.functions.invoke("generate-article", {
         body: {
           headline: item.headline,
@@ -123,13 +124,28 @@ const AdminAutopilot = () => {
       if (error) throw error;
       if (data?.error) throw new Error(data.error);
 
-      // Save as draft blog post
+      // Step 2: Generate featured image (non-blocking)
+      let featuredImage: string | null = null;
+      try {
+        const { data: imgData } = await supabase.functions.invoke("generate-blog-image", {
+          body: {
+            title: data.title,
+            keyword: item.keyword || item.headline,
+          },
+        });
+        if (imgData?.image_url) featuredImage = imgData.image_url;
+      } catch (imgErr) {
+        console.warn("Image generation failed, continuing without image:", imgErr);
+      }
+
+      // Step 3: Save as draft blog post
       const { data: post, error: postError } = await supabase.from("blog_posts").insert({
         title: data.title,
         slug: data.slug,
         content: data.content,
         excerpt: data.excerpt,
         meta_description: data.meta_description,
+        featured_image: featuredImage,
         status: "draft",
       }).select("id").single();
 
