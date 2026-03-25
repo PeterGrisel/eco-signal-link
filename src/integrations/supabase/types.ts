@@ -49,6 +49,7 @@ export type Database = {
           slug: string
           status: Database["public"]["Enums"]["blog_post_status"]
           title: string
+          topic_id: string | null
           updated_at: string
         }
         Insert: {
@@ -64,6 +65,7 @@ export type Database = {
           slug: string
           status?: Database["public"]["Enums"]["blog_post_status"]
           title: string
+          topic_id?: string | null
           updated_at?: string
         }
         Update: {
@@ -79,6 +81,7 @@ export type Database = {
           slug?: string
           status?: Database["public"]["Enums"]["blog_post_status"]
           title?: string
+          topic_id?: string | null
           updated_at?: string
         }
         Relationships: [
@@ -87,6 +90,13 @@ export type Database = {
             columns: ["category_id"]
             isOneToOne: false
             referencedRelation: "blog_categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "blog_posts_topic_id_fkey"
+            columns: ["topic_id"]
+            isOneToOne: false
+            referencedRelation: "content_topics"
             referencedColumns: ["id"]
           },
         ]
@@ -155,8 +165,12 @@ export type Database = {
           id: string
           name: string
           parent_id: string | null
+          priority: number | null
           slug: string
           sort_order: number
+          status: string | null
+          target_article_count: number | null
+          target_keywords: string[] | null
           updated_at: string
         }
         Insert: {
@@ -165,8 +179,12 @@ export type Database = {
           id?: string
           name: string
           parent_id?: string | null
+          priority?: number | null
           slug: string
           sort_order?: number
+          status?: string | null
+          target_article_count?: number | null
+          target_keywords?: string[] | null
           updated_at?: string
         }
         Update: {
@@ -175,8 +193,12 @@ export type Database = {
           id?: string
           name?: string
           parent_id?: string | null
+          priority?: number | null
           slug?: string
           sort_order?: number
+          status?: string | null
+          target_article_count?: number | null
+          target_keywords?: string[] | null
           updated_at?: string
         }
         Relationships: [
