@@ -32,8 +32,8 @@ const leadsAddOns = [
     price: "Prijs op aanvraag",
   },
   {
-    title: "META Ads Management",
-    description: "Betaalde advertentiecampagnes op Meta-platformen als extra kanaal naast outbound.",
+    title: "Full Sales Management",
+    description: "Van strategie tot uitvoering — wij nemen uw volledige salesproces over. Pipeline-opbouw, opvolging en closing.",
     price: "Prijs op aanvraag",
   },
 ];
