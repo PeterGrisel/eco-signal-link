@@ -91,9 +91,17 @@ const AdminAutopilot = () => {
     setGenerating(false);
   };
 
-  // Approve / Decline
-  const handleStatusChange = async (id: string, status: QueueStatus) => {
-    await supabase.from("content_queue").update({ status }).eq("id", id);
+  // Approve → auto-generate
+  const handleApprove = async (item: QueueItem) => {
+    await supabase.from("content_queue").update({ status: "approved" as any }).eq("id", item.id);
+    fetchQueue();
+    // Auto-trigger generation
+    handleGenerateArticle({ ...item, status: "approved" });
+  };
+
+  // Decline
+  const handleDecline = async (id: string) => {
+    await supabase.from("content_queue").update({ status: "declined" as any }).eq("id", id);
     fetchQueue();
   };
 
@@ -233,8 +241,8 @@ const AdminAutopilot = () => {
                   <QueueCard
                     key={item.id}
                     item={item}
-                    onApprove={() => handleStatusChange(item.id, "approved")}
-                    onDecline={() => handleStatusChange(item.id, "declined")}
+                    onApprove={() => handleApprove(item)}
+                    onDecline={() => handleDecline(item.id)}
                   />
                 ))}
               </div>
@@ -255,7 +263,7 @@ const AdminAutopilot = () => {
                     item={item}
                     onGenerate={() => handleGenerateArticle(item)}
                     isGenerating={processingId === item.id}
-                    onDecline={() => handleStatusChange(item.id, "declined")}
+                    onDecline={() => handleDecline(item.id)}
                   />
                 ))}
               </div>
@@ -273,7 +281,7 @@ const AdminAutopilot = () => {
                   <QueueCard
                     key={item.id}
                     item={item}
-                    onRetry={item.status === "failed" ? () => handleStatusChange(item.id, "approved") : undefined}
+                    onRetry={item.status === "failed" ? () => handleApprove(item) : undefined}
                   />
                 ))}
               </div>
