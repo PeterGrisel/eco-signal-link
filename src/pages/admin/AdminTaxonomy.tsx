@@ -299,6 +299,48 @@ const AdminTaxonomy = () => {
     saveMutation.mutate({ ...form, slug, id: editingTopic?.id });
   };
 
+  // Strategy Agent
+  const runStrategyAgent = async (mode: "generate" | "evaluate" = "generate") => {
+    setStrategyLoading(true);
+    try {
+      const competitors = competitorInput.split("\n").map(u => u.trim()).filter(Boolean);
+      const { data, error } = await supabase.functions.invoke("strategy-agent", {
+        body: { mode, competitors },
+      });
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+      setStrategyResult(data);
+      setStrategyDialogOpen(true);
+    } catch (e: any) {
+      toast.error(e.message || "Strategy agent mislukt");
+    }
+    setStrategyLoading(false);
+  };
+
+  const applyStrategy = async () => {
+    if (!strategyResult?.clusters?.length) return;
+    try {
+      for (const cluster of strategyResult.clusters) {
+        const { error } = await supabase.from("content_topics").insert({
+          name: cluster.name,
+          slug: cluster.slug,
+          description: cluster.description,
+          target_keywords: cluster.target_keywords,
+          target_article_count: cluster.target_article_count || cluster.subtopics?.length || 5,
+          priority: cluster.priority || 0,
+        } as any);
+        if (error) console.error("Insert topic error:", error);
+      }
+      queryClient.invalidateQueries({ queryKey: ["content_topics"] });
+      queryClient.invalidateQueries({ queryKey: ["topic_coverage"] });
+      setStrategyDialogOpen(false);
+      setStrategyResult(null);
+      toast.success(`${strategyResult.clusters.length} topic clusters aangemaakt!`);
+    } catch (e: any) {
+      toast.error(e.message);
+    }
+  };
+
   const parentName = form.parent_id ? topics.find((t) => t.id === form.parent_id)?.name : null;
 
   return (
