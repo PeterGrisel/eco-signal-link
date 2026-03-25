@@ -14,8 +14,8 @@ const Footer = () => {
             <a href="https://rebelforce.nl" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">
               rebelforce.nl
             </a>
-            <a href="https://ai-readyscan.nl" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">
-              AI-ReadyScan
+            <a href="https://ai-fctry.com" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">
+              AI-FCTRY
             </a>
             <a href="https://rebelforce-hubs.com" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">
               RebelHub
