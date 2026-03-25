@@ -16,7 +16,8 @@ import {
 import { toast } from "sonner";
 import {
   ChevronRight, ChevronDown, Plus, Pencil, Trash2, FolderTree,
-  Target, TrendingUp, Pause, Play, Check, X,
+  Target, TrendingUp, Pause, Play, Check, X, Brain, Loader2,
+  Sparkles, ArrowRight, ExternalLink,
 } from "lucide-react";
 
 interface Topic {
