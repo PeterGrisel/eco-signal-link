@@ -68,14 +68,15 @@ const OverOns = () => {
       <Navbar />
 
       {/* Hero */}
-      <section className="relative pt-32 pb-24 overflow-hidden">
+      <section className="relative pt-32 pb-24 overflow-hidden min-h-[500px]">
         <div className="absolute inset-0">
           <img
             src={teamAbout}
             alt="Team Rebel Force"
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover object-top"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-background/95 via-background/80 to-background" />
+          <div className="absolute inset-0 bg-gradient-to-r from-background/85 via-background/60 to-background/40" />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background" />
         </div>
 
         <div className="container mx-auto px-6 relative z-10">
