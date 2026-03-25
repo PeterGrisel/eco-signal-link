@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
+import PageLoader from "@/components/PageLoader";
 import Footer from "@/components/Footer";
 import { ArrowRight, Zap, Users, Brain, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -64,6 +65,7 @@ const values = [
 
 const OverOns = () => {
   return (
+    <PageLoader>
     <div className="min-h-screen">
       <Navbar />
 
@@ -257,6 +259,7 @@ const OverOns = () => {
 
       <Footer />
     </div>
+    </PageLoader>
   );
 };
 
