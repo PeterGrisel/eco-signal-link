@@ -36,15 +36,15 @@ const sendInternalEvent = (
 ) => {
   supabase
     .from("site_events")
-    .insert({
+    .insert([{
       event_name: eventName,
       event_category: category,
       event_label: label || null,
       page_path: window.location.pathname,
       referrer: document.referrer || null,
       session_id: getSessionId(),
-      metadata: metadata || {},
-    })
+      metadata: (metadata || {}) as Record<string, unknown>,
+    }])
     .then(({ error }) => {
       if (error) console.warn("[tracking] insert error:", error.message);
     });
