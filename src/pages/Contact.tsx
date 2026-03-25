@@ -51,6 +51,7 @@ const Contact = () => {
       toast({ title: "Fout bij verzenden", description: error.message, variant: "destructive" });
     } else {
       setSubmitted(true);
+      trackFormSubmit("contact", { company: result.data.company });
       toast({ title: "Bericht verzonden!", description: "We nemen zo snel mogelijk contact op." });
     }
     setSubmitting(false);
