@@ -36,6 +36,11 @@ const leadsAddOns = [
     description: "Van strategie tot uitvoering: wij nemen uw volledige salesproces over. Pipeline-opbouw, opvolging en closing.",
     price: "Prijs op aanvraag",
   },
+  {
+    title: "Datahub",
+    description: "Uw eigen AI-contextcentrum. Alle procesdata, contacthistorie en inzichten gebundeld in één omgeving, zodat u doelgericht kunt automatiseren en sturen.",
+    price: "Prijs op aanvraag",
+  },
 ];
 
 const baseFeatures = [
