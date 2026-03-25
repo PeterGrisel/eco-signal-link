@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Check, Plus, Users, Briefcase } from "lucide-react";
+import { Check, Plus, Users, Briefcase, Database } from "lucide-react";
 
 const recruitmentFullService = {
   title: "Full Service Recruitment",
@@ -158,10 +158,24 @@ const PricingSection = () => {
         </div>
 
         {/* Add-ons split by stream */}
-        <div className="grid lg:grid-cols-2 gap-6">
+        <div className="grid lg:grid-cols-3 gap-6">
           {[
             { data: recruitmentFullService, icon: Users, label: "Add-on: Recruitment" },
             { data: leadsFullService, icon: Briefcase, label: "Add-on: Klantwerving" },
+            {
+              data: {
+                title: "Datahub",
+                description: "Uw commercieel geheugen. Centraliseer al uw commerciële data en AI-context in één platform. Stel duizenden vragen aan uw data zonder vendor lock-in.",
+                price: "€500 /maand",
+                subItems: [
+                  "Commerciële data & AI-context gecentraliseerd",
+                  "Query-based inzichten (1.000+ vragen/maand)",
+                  "Geen vendor lock-in, uw data blijft van u",
+                ],
+              },
+              icon: Database,
+              label: "Add-on: Data",
+            },
           ].map(({ data, icon: Icon, label }, i) => (
             <motion.div
               key={data.title}
