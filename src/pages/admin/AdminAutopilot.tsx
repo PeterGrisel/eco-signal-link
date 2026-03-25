@@ -21,6 +21,7 @@ interface QueueItem {
   notes: string | null;
   blog_post_id: string | null;
   error_message: string | null;
+  topic_id: string | null;
   created_at: string;
 }
 
@@ -79,6 +80,7 @@ const AdminAutopilot = () => {
           content_type: h.content_type,
           keyword: h.keyword,
           notes: h.notes,
+          topic_id: h.topic_id || null,
         }));
         const { error: insertError } = await supabase.from("content_queue").insert(rows);
         if (insertError) throw insertError;
@@ -146,8 +148,9 @@ const AdminAutopilot = () => {
         excerpt: data.excerpt,
         meta_description: data.meta_description,
         featured_image: featuredImage,
+        topic_id: item.topic_id || null,
         status: "draft",
-      }).select("id").single();
+      } as any).select("id").single();
 
       if (postError) throw postError;
 
