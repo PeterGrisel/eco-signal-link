@@ -107,8 +107,9 @@ const AdminAnalytics = () => {
     const timeEvents = events.filter(e => e.event_name === "time_on_page");
     const avgTime = timeEvents.length > 0
       ? Math.round(timeEvents.reduce((sum, e) => {
-          const meta = e.metadata as Record<string, unknown> | null;
-          return sum + (typeof meta?.seconds === "number" ? meta.seconds : 0);
+          const meta = e.metadata;
+          const seconds = meta && typeof meta === "object" && !Array.isArray(meta) && "seconds" in meta && typeof (meta as any).seconds === "number" ? (meta as any).seconds : 0;
+          return sum + seconds;
         }, 0) / timeEvents.length)
       : 0;
 
