@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Check, TrendingUp, Megaphone, Target, Handshake, ArrowRight } from "lucide-react";
@@ -7,6 +6,7 @@ import Footer from "@/components/Footer";
 import PageLoader from "@/components/PageLoader";
 import CtaSection from "@/components/CtaSection";
 import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
+import { usePageMeta } from "@/hooks/usePageMeta";
 
 const fadeUp = {
   initial: { opacity: 0, y: 20 },

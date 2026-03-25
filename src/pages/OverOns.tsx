@@ -6,6 +6,7 @@ import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 import { ArrowRight, Zap, Users, Brain, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import teamAbout from "@/assets/team-about.jpg";
+import { usePageMeta } from "@/hooks/usePageMeta";
 
 const fadeUp = {
   initial: { opacity: 0, y: 30 },
