@@ -86,6 +86,11 @@ const FunnelSection = () => {
           </p>
         </motion.div>
 
+        {/* Prospecting Mockup */}
+        <div className="mt-12 mb-20">
+          <ProspectingMockup />
+        </div>
+
         {/* Funnel with floating integration tools */}
         <div className="mt-16 relative">
           {/* Floating tool badges - left */}
