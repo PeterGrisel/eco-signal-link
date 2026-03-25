@@ -89,13 +89,28 @@ const AdminAnalytics = () => {
 
   // ── Derived stats ──
   const stats = useMemo(() => {
+  const stats = useMemo(() => {
     const totalEvents = events.length;
     const uniqueSessions = new Set(events.map(e => e.session_id).filter(Boolean)).size;
     const ctaClicks = events.filter(e => e.event_name === "cta_click").length;
     const formSubmits = events.filter(e => e.event_name === "form_submit").length;
     const pageViews = events.filter(e => e.event_name === "page_view").length;
     const navClicks = events.filter(e => e.event_name === "nav_click").length;
-    return { totalEvents, uniqueSessions, ctaClicks, formSubmits, pageViews, navClicks };
+
+    // Engagement metrics
+    const scrollEvents = events.filter(e => e.event_name === "scroll_depth");
+    const deep90 = scrollEvents.filter(e => e.event_label === "90%" || e.event_label === "100%").length;
+    const scrollRate = pageViews > 0 ? Math.round((deep90 / pageViews) * 100) : 0;
+
+    const timeEvents = events.filter(e => e.event_name === "time_on_page");
+    const avgTime = timeEvents.length > 0
+      ? Math.round(timeEvents.reduce((sum, e) => {
+          const meta = e.metadata as Record<string, unknown> | null;
+          return sum + (typeof meta?.seconds === "number" ? meta.seconds : 0);
+        }, 0) / timeEvents.length)
+      : 0;
+
+    return { totalEvents, uniqueSessions, ctaClicks, formSubmits, pageViews, navClicks, scrollRate, avgTime };
   }, [events]);
 
   // ── Events per day chart ──
