@@ -189,7 +189,8 @@ const Contact = () => {
                     Plan een vrijblijvend gesprek en ontdek hoe ons systeem er voor uw organisatie uitziet.
                   </p>
                   <Button variant="hero" size="lg" className="w-full" asChild>
-                    <a href="https://app.usemotion.com/meet/Rebel-Force/meeting" target="_blank" rel="noopener noreferrer">
+                    <a href="https://app.usemotion.com/meet/Rebel-Force/meeting" target="_blank" rel="noopener noreferrer"
+                      onClick={() => trackCTA("Contact — Plan een Demo", "https://app.usemotion.com/meet/Rebel-Force/meeting")}>
                       Plan een gratis Demo →
                     </a>
                   </Button>
