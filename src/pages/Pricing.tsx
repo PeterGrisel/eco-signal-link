@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { trackCTA } from "@/lib/tracking";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
@@ -280,12 +281,13 @@ const Pricing = () => {
 
                   <div className="space-y-2">
                     <Button variant="hero" size="lg" className="w-full" asChild>
-                      <a href="https://app.usemotion.com/meet/Rebel-Force/meeting" target="_blank" rel="noopener noreferrer">
+                      <a href="https://app.usemotion.com/meet/Rebel-Force/meeting" target="_blank" rel="noopener noreferrer"
+                        onClick={() => trackCTA("Pricing — Plan een Demo", "https://app.usemotion.com/meet/Rebel-Force/meeting")}>
                         Plan een Demo →
                       </a>
                     </Button>
                     <Button variant="heroOutline" size="sm" className="w-full" asChild>
-                      <Link to="/contact">
+                      <Link to="/contact" onClick={() => trackCTA("Pricing — Stel een vraag", "/contact")}>
                         Stel een vraag
                       </Link>
                     </Button>

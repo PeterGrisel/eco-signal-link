@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { trackCTA } from "@/lib/tracking";
 import teamBanner from "@/assets/team-banner.jpg";
 
 const Hero = () => {
@@ -59,7 +60,8 @@ const Hero = () => {
             className="flex flex-wrap gap-4"
           >
             <Button variant="hero" size="lg" asChild>
-              <a href="https://app.usemotion.com/meet/Rebel-Force/meeting" target="_blank" rel="noopener noreferrer">
+              <a href="https://app.usemotion.com/meet/Rebel-Force/meeting" target="_blank" rel="noopener noreferrer"
+                onClick={() => trackCTA("Hero — Plan een Demo", "https://app.usemotion.com/meet/Rebel-Force/meeting")}>
                 Plan een Demo →
               </a>
             </Button>

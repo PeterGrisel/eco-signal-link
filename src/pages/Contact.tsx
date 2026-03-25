@@ -7,6 +7,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Send, Loader2, Calendar, Mail, Phone, Building2 } from "lucide-react";
 import { z } from "zod";
+import { trackCTA, trackFormSubmit } from "@/lib/tracking";
 
 const contactSchema = z.object({
   name: z.string().trim().min(1, "Naam is verplicht").max(100),
@@ -50,6 +51,7 @@ const Contact = () => {
       toast({ title: "Fout bij verzenden", description: error.message, variant: "destructive" });
     } else {
       setSubmitted(true);
+      trackFormSubmit("contact", { company: result.data.company });
       toast({ title: "Bericht verzonden!", description: "We nemen zo snel mogelijk contact op." });
     }
     setSubmitting(false);
@@ -187,7 +189,8 @@ const Contact = () => {
                     Plan een vrijblijvend gesprek en ontdek hoe ons systeem er voor uw organisatie uitziet.
                   </p>
                   <Button variant="hero" size="lg" className="w-full" asChild>
-                    <a href="https://app.usemotion.com/meet/Rebel-Force/meeting" target="_blank" rel="noopener noreferrer">
+                    <a href="https://app.usemotion.com/meet/Rebel-Force/meeting" target="_blank" rel="noopener noreferrer"
+                      onClick={() => trackCTA("Contact — Plan een Demo", "https://app.usemotion.com/meet/Rebel-Force/meeting")}>
                       Plan een gratis Demo →
                     </a>
                   </Button>
