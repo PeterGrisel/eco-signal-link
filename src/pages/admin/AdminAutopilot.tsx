@@ -48,6 +48,7 @@ const AdminAutopilot = () => {
   const [loading, setLoading] = useState(true);
   const [pipelineRunning, setPipelineRunning] = useState(false);
   const [processingId, setProcessingId] = useState<string | null>(null);
+  const [autoPublish, setAutoPublish] = useState(false);
   const { toast } = useToast();
 
   const fetchQueue = useCallback(async () => {
