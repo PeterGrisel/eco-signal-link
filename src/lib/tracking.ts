@@ -160,3 +160,84 @@ export const trackEvent = (
     event_label: label,
   });
 };
+
+// ── Scroll depth tracking ──
+let _scrollTracked = new Set<number>();
+let _scrollListenerActive = false;
+
+const handleScroll = () => {
+  const scrollTop = window.scrollY || document.documentElement.scrollTop;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  if (docHeight <= 0) return;
+  const pct = Math.round((scrollTop / docHeight) * 100);
+
+  for (const threshold of [25, 50, 75, 90, 100]) {
+    if (pct >= threshold && !_scrollTracked.has(threshold)) {
+      _scrollTracked.add(threshold);
+      sendInternalEvent("scroll_depth", "engagement", `${threshold}%`, {
+        depth_percent: threshold,
+      });
+      sendGA4Event("scroll_depth", {
+        event_category: "engagement",
+        event_label: `${threshold}%`,
+        depth_percent: threshold,
+      });
+    }
+  }
+};
+
+/** Start tracking scroll depth on current page. Call once per page. */
+export const trackScrollDepth = () => {
+  if (_scrollListenerActive) {
+    window.removeEventListener("scroll", handleScroll);
+  }
+  _scrollTracked = new Set<number>();
+  _scrollListenerActive = true;
+  window.addEventListener("scroll", handleScroll, { passive: true });
+};
+
+/** Stop scroll tracking (call on page leave). */
+export const stopScrollDepth = () => {
+  window.removeEventListener("scroll", handleScroll);
+  _scrollListenerActive = false;
+};
+
+// ── Time on page tracking ──
+let _pageEnteredAt: number | null = null;
+let _currentPath: string | null = null;
+
+/** Start time-on-page timer for a path. */
+export const startTimeOnPage = (path: string) => {
+  // Flush previous page time
+  flushTimeOnPage();
+  _pageEnteredAt = Date.now();
+  _currentPath = path;
+};
+
+/** Send time-on-page event for the current page. */
+export const flushTimeOnPage = () => {
+  if (_pageEnteredAt && _currentPath) {
+    const seconds = Math.round((Date.now() - _pageEnteredAt) / 1000);
+    if (seconds >= 3) {
+      sendInternalEvent("time_on_page", "engagement", _currentPath, {
+        seconds,
+        path: _currentPath,
+      });
+      sendGA4Event("time_on_page", {
+        event_category: "engagement",
+        event_label: _currentPath,
+        seconds,
+      });
+    }
+  }
+  _pageEnteredAt = null;
+  _currentPath = null;
+};
+
+// Flush on tab close / navigate away
+if (typeof window !== "undefined") {
+  window.addEventListener("beforeunload", flushTimeOnPage);
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "hidden") flushTimeOnPage();
+  });
+}

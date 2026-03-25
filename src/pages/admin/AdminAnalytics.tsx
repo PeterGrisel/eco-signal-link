@@ -17,6 +17,7 @@ import {
 import {
   Activity, MousePointerClick, Eye, Navigation, FileText,
   Loader2, RefreshCw, TrendingUp, Users, Clock, ShieldBan, Plus, X, Globe,
+  ArrowDown, Timer,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 
@@ -28,6 +29,7 @@ interface SiteEvent {
   page_path: string | null;
   referrer: string | null;
   session_id: string | null;
+  metadata: Record<string, unknown> | null;
   created_at: string;
 }
 
@@ -89,13 +91,28 @@ const AdminAnalytics = () => {
 
   // ── Derived stats ──
   const stats = useMemo(() => {
+  const stats = useMemo(() => {
     const totalEvents = events.length;
     const uniqueSessions = new Set(events.map(e => e.session_id).filter(Boolean)).size;
     const ctaClicks = events.filter(e => e.event_name === "cta_click").length;
     const formSubmits = events.filter(e => e.event_name === "form_submit").length;
     const pageViews = events.filter(e => e.event_name === "page_view").length;
     const navClicks = events.filter(e => e.event_name === "nav_click").length;
-    return { totalEvents, uniqueSessions, ctaClicks, formSubmits, pageViews, navClicks };
+
+    // Engagement metrics
+    const scrollEvents = events.filter(e => e.event_name === "scroll_depth");
+    const deep90 = scrollEvents.filter(e => e.event_label === "90%" || e.event_label === "100%").length;
+    const scrollRate = pageViews > 0 ? Math.round((deep90 / pageViews) * 100) : 0;
+
+    const timeEvents = events.filter(e => e.event_name === "time_on_page");
+    const avgTime = timeEvents.length > 0
+      ? Math.round(timeEvents.reduce((sum, e) => {
+          const meta = e.metadata as Record<string, unknown> | null;
+          return sum + (typeof meta?.seconds === "number" ? meta.seconds : 0);
+        }, 0) / timeEvents.length)
+      : 0;
+
+    return { totalEvents, uniqueSessions, ctaClicks, formSubmits, pageViews, navClicks, scrollRate, avgTime };
   }, [events]);
 
   // ── Events per day chart ──
@@ -198,14 +215,16 @@ const AdminAnalytics = () => {
       </div>
 
       {/* KPI Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
+      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4 mb-8">
         {[
-          { label: "Totaal Events", value: stats.totalEvents, icon: Activity, color: "text-primary" },
-          { label: "Sessies", value: stats.uniqueSessions, icon: Users, color: "text-blue-400" },
-          { label: "Pageviews", value: stats.pageViews, icon: Eye, color: "text-green-400" },
-          { label: "CTA Clicks", value: stats.ctaClicks, icon: MousePointerClick, color: "text-yellow-400" },
-          { label: "Formulieren", value: stats.formSubmits, icon: FileText, color: "text-purple-400" },
-          { label: "Nav Clicks", value: stats.navClicks, icon: Navigation, color: "text-cyan-400" },
+          { label: "Totaal Events", value: stats.totalEvents.toLocaleString(), icon: Activity, color: "text-primary" },
+          { label: "Sessies", value: stats.uniqueSessions.toLocaleString(), icon: Users, color: "text-blue-400" },
+          { label: "Pageviews", value: stats.pageViews.toLocaleString(), icon: Eye, color: "text-green-400" },
+          { label: "CTA Clicks", value: stats.ctaClicks.toLocaleString(), icon: MousePointerClick, color: "text-yellow-400" },
+          { label: "Formulieren", value: stats.formSubmits.toLocaleString(), icon: FileText, color: "text-purple-400" },
+          { label: "Nav Clicks", value: stats.navClicks.toLocaleString(), icon: Navigation, color: "text-cyan-400" },
+          { label: "Deep Scroll %", value: `${stats.scrollRate}%`, icon: ArrowDown, color: "text-orange-400" },
+          { label: "Gem. Tijd", value: stats.avgTime > 60 ? `${Math.floor(stats.avgTime / 60)}m ${stats.avgTime % 60}s` : `${stats.avgTime}s`, icon: Timer, color: "text-pink-400" },
         ].map(kpi => (
           <Card key={kpi.label} className="bg-card border-border">
             <CardContent className="p-4">
@@ -213,7 +232,7 @@ const AdminAnalytics = () => {
                 <kpi.icon className={`w-4 h-4 ${kpi.color}`} />
                 <span className="text-[11px] text-muted-foreground">{kpi.label}</span>
               </div>
-              <p className="text-2xl font-bold text-foreground">{kpi.value.toLocaleString()}</p>
+              <p className="text-2xl font-bold text-foreground">{kpi.value}</p>
             </CardContent>
           </Card>
         ))}
