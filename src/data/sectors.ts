@@ -10,6 +10,7 @@ export interface Sector {
   metaDescription: string;
   challenges: string[];
   solutions: string[];
+  signals: string[];
 }
 
 export const sectors: Sector[] = [
@@ -33,6 +34,13 @@ export const sectors: Sector[] = [
       "Multichannel outreach naar CMO's, Marketing Directors en CEO's",
       "Seizoensgebonden campagnekalender afgestemd op contractmomenten",
     ],
+    signals: [
+      "Nieuwe marketingdirecteur aangesteld",
+      "Bedrijf opent nieuwe vestiging of markt",
+      "Sponsorcontract bij concurrent loopt af",
+      "Groei in marketingbudget (jaarverslag)",
+      "Evenement- of sportgerelateerde vacatures geplaatst",
+    ],
   },
   {
     slug: "groothandel",
@@ -53,6 +61,13 @@ export const sectors: Sector[] = [
       "Signaaldetectie bij retailers die hun assortiment uitbreiden",
       "Gerichte outreach naar inkoopmanagers en category managers",
       "Geautomatiseerde opvolging over meerdere touchpoints",
+    ],
+    signals: [
+      "Retailer opent nieuwe winkel of webshop",
+      "Assortimentswijziging of nieuwe productcategorie",
+      "Inkoper wisselt van functie of bedrijf",
+      "Concurrent verliest distributieovereenkomst",
+      "Groei in omzet of personeelsbestand",
     ],
   },
   {
@@ -75,6 +90,13 @@ export const sectors: Sector[] = [
       "Persoonlijke multichannel outreach naar fleet managers en CFO's",
       "Automatische timing op basis van markt- en bedrijfssignalen",
     ],
+    signals: [
+      "Bedrijf groeit in FTE (wagenpark schaalt mee)",
+      "Nieuwe vestiging geopend",
+      "Fleet manager gewisseld van positie",
+      "Leasecontract loopt af (KvK/branchedata)",
+      "Vacatures voor buitendienstmedewerkers geplaatst",
+    ],
   },
   {
     slug: "engineering",
@@ -95,6 +117,13 @@ export const sectors: Sector[] = [
       "Identificatie van lopende en aankomende projecten via openbare data",
       "Gerichte outreach naar projectmanagers, engineers en directie",
       "Technisch onderbouwde messaging die aansluit bij de doelgroep",
+    ],
+    signals: [
+      "Nieuwe bouwvergunning of aanbesteding gepubliceerd",
+      "Investering in productie-automatisering aangekondigd",
+      "Technisch directeur of projectmanager aangesteld",
+      "Uitbreiding productiecapaciteit (persberichten)",
+      "Certificering of kwaliteitskeurmerk behaald",
     ],
   },
   {
@@ -117,6 +146,13 @@ export const sectors: Sector[] = [
       "Outreach namens partners met persoonlijke, professionele tone of voice",
       "Signaaldetectie bij bedrijfsgebeurtenissen zoals fusies, groei en verhuizingen",
     ],
+    signals: [
+      "Bedrijf kondigt fusie, overname of herstructurering aan",
+      "Nieuwe directeur of CFO aangesteld",
+      "Verhuizing of nieuwe vestiging",
+      "Groei in personeelsbestand (HR-signaal)",
+      "Wijziging in KvK-registratie of rechtsvorm",
+    ],
   },
   {
     slug: "financiele-sector",
@@ -137,6 +173,13 @@ export const sectors: Sector[] = [
       "Compliant outreach binnen de richtlijnen van AFM en DNB",
       "Gerichte targeting op basis van bedrijfsgrootte, vermogen en groeisignalen",
       "Geautomatiseerde nurture flows voor lange sales cycles",
+    ],
+    signals: [
+      "Bedrijf bereikt vermogensdrempel voor adviesplicht",
+      "Nieuwe CFO of financieel directeur aangesteld",
+      "Pensioenregeling loopt af of wordt herzien",
+      "Overname of investeringsronde afgerond",
+      "Groei in omzet boven sectorgemiddelde",
     ],
   },
   {
@@ -159,6 +202,13 @@ export const sectors: Sector[] = [
       "Technisch onderbouwde outreach naar inkopers en operations managers",
       "Internationale expansie-support met meertalige campagnes",
     ],
+    signals: [
+      "Investering in nieuwe productielijn of machines",
+      "Uitbreiding naar nieuw exportland",
+      "Operations manager of inkoopmanager gewisseld",
+      "ISO-certificering of kwaliteitsaudit gepland",
+      "Vacatures voor productiemedewerkers (capaciteitsgroei)",
+    ],
   },
   {
     slug: "opleiding-training",
@@ -179,6 +229,13 @@ export const sectors: Sector[] = [
       "Signaaldetectie bij bedrijven die investeren in talent development",
       "Gerichte outreach naar HR Directors, L&D Managers en People Leads",
       "Seizoensgebonden campagnes afgestemd op budgetcycli",
+    ],
+    signals: [
+      "Bedrijf plaatst L&D of HR-development vacature",
+      "Nieuwe HR Director of People Lead aangesteld",
+      "Groei in personeelsbestand (onboarding-behoefte)",
+      "Branche-certificering vereist bijscholing",
+      "Jaarlijks opleidingsbudget vrijgegeven (Q1/Q4 signaal)",
     ],
   },
 ];

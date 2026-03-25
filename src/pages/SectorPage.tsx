@@ -2,7 +2,7 @@ import { useParams, Navigate } from "react-router-dom";
 import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { CheckCircle, AlertTriangle } from "lucide-react";
+import { CheckCircle, AlertTriangle, Radio } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PageLoader from "@/components/PageLoader";
@@ -139,6 +139,38 @@ const SectorPage = () => {
                   ))}
                 </ul>
               </motion.div>
+            </div>
+          </div>
+        </section>
+
+        {/* Signals */}
+        <section className="py-24 border-t border-border">
+          <div className="container mx-auto px-6">
+            <motion.div {...fadeUp} className="mb-10 max-w-2xl">
+              <p className="text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4">
+                Signalen die wij tracken
+              </p>
+              <h2 className="font-display font-bold text-2xl md:text-3xl mb-4">
+                Data-gedreven <span className="text-gradient">timing</span>
+              </h2>
+              <p className="text-muted-foreground leading-relaxed">
+                Ons systeem detecteert deze signalen automatisch zodat u precies op het juiste moment in beeld komt.
+              </p>
+            </motion.div>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {sector.signals.map((signal, i) => (
+                <motion.div
+                  key={signal}
+                  initial={{ opacity: 0, y: 12 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: i * 0.06 }}
+                  className="flex items-start gap-3 card-gradient border border-glow rounded-lg p-5"
+                >
+                  <Radio className="w-4 h-4 text-primary mt-1 shrink-0" />
+                  <span className="text-sm leading-relaxed">{signal}</span>
+                </motion.div>
+              ))}
             </div>
           </div>
         </section>
