@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Bot, Zap, Users, CalendarCheck, ArrowDown } from "lucide-react";
+import ProspectingMockup from "./ProspectingMockup";
 
 const funnelStages = [
   {
