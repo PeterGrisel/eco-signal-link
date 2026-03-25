@@ -241,8 +241,8 @@ const AdminAutopilot = () => {
                   <QueueCard
                     key={item.id}
                     item={item}
-                    onApprove={() => handleStatusChange(item.id, "approved")}
-                    onDecline={() => handleStatusChange(item.id, "declined")}
+                    onApprove={() => handleApprove(item)}
+                    onDecline={() => handleDecline(item.id)}
                   />
                 ))}
               </div>
@@ -263,7 +263,7 @@ const AdminAutopilot = () => {
                     item={item}
                     onGenerate={() => handleGenerateArticle(item)}
                     isGenerating={processingId === item.id}
-                    onDecline={() => handleStatusChange(item.id, "declined")}
+                    onDecline={() => handleDecline(item.id)}
                   />
                 ))}
               </div>
@@ -281,7 +281,7 @@ const AdminAutopilot = () => {
                   <QueueCard
                     key={item.id}
                     item={item}
-                    onRetry={item.status === "failed" ? () => handleStatusChange(item.id, "approved") : undefined}
+                    onRetry={item.status === "failed" ? () => handleApprove(item) : undefined}
                   />
                 ))}
               </div>
