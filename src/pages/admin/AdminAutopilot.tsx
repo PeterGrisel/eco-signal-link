@@ -79,6 +79,7 @@ const AdminAutopilot = () => {
           content_type: h.content_type,
           keyword: h.keyword,
           notes: h.notes,
+          topic_id: h.topic_id || null,
         }));
         const { error: insertError } = await supabase.from("content_queue").insert(rows);
         if (insertError) throw insertError;
