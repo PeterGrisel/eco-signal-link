@@ -2,41 +2,25 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Check, Plus, Users, Briefcase } from "lucide-react";
 
-const recruitmentAddOns = [
-  {
-    title: "Full Service Recruitment",
-    description: "Volledig recruitmentproces van outreach tot aanname. Geen maandelijkse kosten, alleen een succesfee.",
-    price: "15% bruto jaarsalaris",
-  },
-  {
-    title: "Auto-Kwalificatie & AI-Testing",
-    description: "AI-gestuurde vragenreeks via e-mail of chat. Alleen profielen boven de drempel komen door.",
-    price: "Prijs op aanvraag",
-  },
-  {
-    title: "Persoonlijke Kwalificatiegesprekken",
-    description: "Onze recruiters voeren het kwalificatiegesprek namens u. Vaste prijs per gekwalificeerd gesprek.",
-    price: "Vaste prijs per gesprek",
-  },
-];
+const recruitmentFullService = {
+  title: "Full Service Recruitment",
+  description: "Volledig recruitmentproces van outreach tot aanname. Geen maandelijkse kosten, alleen een succesfee.",
+  price: "15% bruto jaarsalaris",
+  subItems: [
+    "Auto-kwalificatie & AI-testing via e-mail of chat",
+    "Persoonlijke kwalificatiegesprekken namens u",
+  ],
+};
 
-const leadsAddOns = [
-  {
-    title: "Full Sales Management",
-    description: "Van strategie tot uitvoering: wij nemen uw volledige salesproces over. Pipeline-opbouw, opvolging en closing.",
-    price: "Prijs op aanvraag",
-  },
-  {
-    title: "Website & SEO-Optimalisatie",
-    description: "Technische SEO tot conversiegerichte landingspagina's zodat prospects u organisch vinden.",
-    price: "Prijs op aanvraag",
-  },
-  {
-    title: "AI Avatar Video",
-    description: "Gepersonaliseerde video-outreach via AI-avatar, schaalbaar als eerste contact of follow-up.",
-    price: "Prijs op aanvraag",
-  },
-];
+const leadsFullService = {
+  title: "Full Sales Management",
+  description: "Van strategie tot uitvoering: wij nemen uw volledige salesproces over. Pipeline-opbouw, opvolging en closing.",
+  price: "Prijs op aanvraag",
+  subItems: [
+    "Website & SEO-optimalisatie",
+    "AI Avatar video-outreach",
+  ],
+};
 
 const baseFeatures = [
   "Beide stromen actief (recruitment + leads)",
