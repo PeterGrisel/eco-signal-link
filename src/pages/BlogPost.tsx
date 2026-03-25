@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import { usePageMeta } from "@/hooks/usePageMeta";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { splitContentWithInfographics, renderInfographic } from "@/components/blog/infographicParser";
 import { format } from "date-fns";
 import { nl } from "date-fns/locale";
 import { ArrowLeft, Clock, Calendar } from "lucide-react";
