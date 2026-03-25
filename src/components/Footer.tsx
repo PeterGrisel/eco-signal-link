@@ -11,8 +11,10 @@ interface RecentPost {
 const pageLinks = [
   { href: "/full-sales-management", label: "Full Sales Management" },
   { href: "/full-service-recruitment", label: "Full Service Recruitment" },
+  { href: "/pricing", label: "Pricing" },
   { href: "/over-ons", label: "Over Ons" },
   { href: "/blog", label: "Blog" },
+  { href: "/contact", label: "Contact" },
 ];
 
 const Footer = () => {
