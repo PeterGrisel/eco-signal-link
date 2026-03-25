@@ -1,4 +1,5 @@
 import { supabase } from "@/integrations/supabase/client";
+import type { Json } from "@/integrations/supabase/types";
 
 // ── Session ID (persists per browser session) ──
 const getSessionId = (): string => {
@@ -43,7 +44,7 @@ const sendInternalEvent = (
       page_path: window.location.pathname,
       referrer: document.referrer || null,
       session_id: getSessionId(),
-      metadata: (metadata || {}) as Record<string, unknown>,
+      metadata: (metadata || {}) as Json,
     }])
     .then(({ error }) => {
       if (error) console.warn("[tracking] insert error:", error.message);
