@@ -7,6 +7,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import Index from "./pages/Index.tsx";
 import OverOns from "./pages/OverOns.tsx";
 import SectorPage from "./pages/SectorPage.tsx";
+import FullSalesManagement from "./pages/FullSalesManagement.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -27,6 +28,7 @@ const AnimatedRoutes = () => {
           <Route path="/" element={<Index />} />
           <Route path="/over-ons" element={<OverOns />} />
           <Route path="/sectoren/:slug" element={<SectorPage />} />
+          <Route path="/full-sales-management" element={<FullSalesManagement />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
