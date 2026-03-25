@@ -19,6 +19,18 @@ const AdminLayout = ({ children }: { children: ReactNode }) => {
   const { loading, isAdmin } = useAdminAuth();
   const location = useLocation();
   const navigate = useNavigate();
+  const [autopilotActive, setAutopilotActive] = useState(false);
+
+  useEffect(() => {
+    const checkAutopilot = async () => {
+      const { count } = await supabase
+        .from("content_queue")
+        .select("id", { count: "exact", head: true })
+        .eq("status", "approved");
+      setAutopilotActive((count || 0) > 0);
+    };
+    checkAutopilot();
+  }, []);
 
   if (loading || !isAdmin) {
     return (
@@ -59,6 +71,12 @@ const AdminLayout = ({ children }: { children: ReactNode }) => {
               >
                 <Icon className="w-4 h-4" />
                 {item.label}
+                {item.showPilotBadge && autopilotActive && (
+                  <span className="ml-auto flex items-center gap-1 text-[10px] text-green-400 font-semibold">
+                    <Circle className="w-2 h-2 fill-green-400 text-green-400 animate-pulse" />
+                    LIVE
+                  </span>
+                )}
               </Link>
             );
           })}
