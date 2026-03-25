@@ -1,9 +1,19 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
+
+async function loadSettings() {
+  const supabase = createClient(
+    Deno.env.get("SUPABASE_URL")!,
+    Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
+  );
+  const { data } = await supabase.from("seo_settings").select("config").limit(1).single();
+  return data?.config || {};
+}
 
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
@@ -12,33 +22,38 @@ serve(async (req) => {
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
 
-    const { niche, target_audience, count, content_types, existing_headlines } = await req.json();
+    const settings = await loadSettings();
+    const { count, content_types, existing_headlines } = await req.json();
 
-    const targetNiche = niche || "B2B sales, recruitment en AI-gedreven enablement systemen";
-    const targetAudience = target_audience || "Mid-to-large enterprises, business leaders, and decision-makers focused on leveraging data and AI";
+    const siteName = settings.name || "B2BGroeiMachine";
+    const niche = settings.summary || "B2B sales, recruitment en data-gedreven groei-systemen";
+    const audience = settings.target_audience_summary || "MKB en midmarket B2B-bedrijven in Nederland";
+    const blogTheme = settings.blog_theme || "Praktische content over B2B sales, leadgeneratie en recruitment-marketing";
+    const language = settings.primary_language || "Nederlands";
     const targetCount = count || 10;
     const types = content_types || ["article"];
 
     const systemPrompt = `Je bent een SEO content strategist gespecialiseerd in het genereren van blog headlines die ranken in Google. 
 
-Je genereert headlines voor de niche: "${targetNiche}"
-Doelgroep: ${targetAudience}
-
-Blog thema: Practical and in-depth content on AI Enablement, data-driven transformation, and flow management. Focus on how organizations apply focus, discipline, and system-level interventions to turn AI into measurable business value.
+Je genereert headlines voor: "${siteName}"
+Niche: ${niche}
+Doelgroep: ${audience}
+Blog thema: ${blogTheme}
 
 Regels voor headlines:
-- Schrijf in het Engels (de blog is Engelstalig)
+- Schrijf in het ${language}
 - Headlines moeten specifiek, concreet en search-intent geoptimaliseerd zijn
 - Vermijd vage of generieke titels
 - Gebruik geen marketing fluff
 - Focus op clarity en practicality
 - Headlines moeten de lezer direct vertellen wat ze leren
-- Mix van formats: how-to's, guides, case studies, frameworks, comparisons, data studies
+- Mix van formats: how-to's, guides, case studies, frameworks, comparisons, lijstjes
 - Elk headline moet een duidelijk target keyword hebben
 - Geen duplicate of te gelijkende headlines
+- Relevante onderwerpen: B2B sales, leadgeneratie, outbound, recruitment-marketing, CRM, pipeline management, data-driven growth, omnichannel outreach, intent-based selling
 
-${types.includes("tool") ? "Genereer ook 'tool' headlines: interactieve calculators, checkers, generators die SEO traffic trekken." : ""}
-${types.includes("video") ? "Genereer ook 'video' headlines: gebaseerd op YouTube video content." : ""}
+${types.includes("tool") ? "Genereer ook 'tool' headlines: interactieve calculators, checkers, generators die SEO traffic trekken (bijv. ROI calculators, benchmark tools)." : ""}
+${types.includes("video") ? "Genereer ook 'video' headlines: gebaseerd op relevante YouTube video content." : ""}
 
 ${existing_headlines?.length ? `\nVermijd duplicaten met deze bestaande headlines:\n${existing_headlines.join("\n")}` : ""}`;
 
