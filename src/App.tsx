@@ -20,6 +20,7 @@ import AdminIndexing from "./pages/admin/AdminIndexing.tsx";
 import AdminAutopilot from "./pages/admin/AdminAutopilot.tsx";
 import AdminSettings from "./pages/admin/AdminSettings.tsx";
 import AdminTaxonomy from "./pages/admin/AdminTaxonomy.tsx";
+import AdminKpi from "./pages/admin/AdminKpi.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
