@@ -15,7 +15,7 @@ const Hero = () => {
             transition={{ duration: 0.6 }}
             className="text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-6"
           >
-            Signal-Based Prospecting
+            Proces · Data · Resultaat
           </motion.p>
           
           <motion.h1
@@ -24,11 +24,11 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.1 }}
             className="font-display font-bold text-5xl md:text-7xl lg:text-8xl leading-[0.95] tracking-tight mb-8"
           >
-            Eén systeem.
+            Wij bouwen
             <br />
-            <span className="text-gradient">Voorspelbare</span>
+            <span className="text-gradient">het systeem.</span>
             <br />
-            groei.
+            U plukt de vruchten.
           </motion.h1>
           
           <motion.p
@@ -37,9 +37,8 @@ const Hero = () => {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="text-muted-foreground text-lg md:text-xl max-w-2xl mb-10 leading-relaxed"
           >
-            Wij automatiseren uw prospecting op basis van signalen. Voor nieuwe klanten, 
-            recruitment, partners of internationale uitbreiding. Geen bulk outreach, 
-            maar precisie op het juiste moment.
+            Een voorspelbaar groeiproces dat data oplevert. Met die data optimaliseert u continu 
+            en stuurt u gerichter. Voor klanten, recruitment, partners of internationale expansie.
           </motion.p>
           
           <motion.div
