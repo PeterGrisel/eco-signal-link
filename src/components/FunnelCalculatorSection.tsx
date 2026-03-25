@@ -1,10 +1,61 @@
 import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
-import { Calculator, ArrowDown, TrendingUp, Target, BarChart3 } from "lucide-react";
+import { Calculator, ArrowDown, TrendingUp, Target, BarChart3, Info } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 const fmt = (n: number) => n >= 1000 ? `€${n.toLocaleString("nl-NL", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : `€${n.toFixed(2)}`;
 const fmtN = (n: number) => Math.round(n).toLocaleString("nl-NL");
 const fmtPct = (n: number) => `${n.toFixed(2)}%`;
+
+const tooltips: Record<string, string> = {
+  // Sliders
+  "Maandomzet": "De totale bruto-omzet die u per maand wilt realiseren.",
+  "Totale kosten": "Percentage van uw omzet dat opgaat aan alle bedrijfskosten (personeel, overhead, etc.).",
+  "Marketingkosten": "Het deel van uw omzet dat u investeert in marketing en leadgeneratie.",
+  "Gem. dealwaarde": "De gemiddelde waarde van één gesloten deal of transactie.",
+  "Opt-in rate": "Percentage websitebezoekers dat converteert naar een lead (formulier invult, download, etc.).",
+  "Opt-in → SQL": "Percentage leads (MQL's) dat gekwalificeerd wordt als Sales Qualified Lead.",
+  "SQL → Call": "Percentage SQL's dat daadwerkelijk een discovery call inplant.",
+  "Close rate": "Percentage gesprekken/offertes dat resulteert in een gesloten deal.",
+  "Klant LTV (mnd)": "Gemiddelde duur dat een klant actief blijft (in maanden).",
+  // Metrics
+  "Totale Omzet": "Uw ingestelde maandelijkse bruto-omzet.",
+  "Totale Kosten": "Alle operationele kosten als percentage van de omzet.",
+  "Marketingkosten_row": "Het budget dat beschikbaar is voor marketing en acquisitie.",
+  "Totale Winst": "Omzet minus totale kosten. Dit is uw netto resultaat per maand.",
+  "Website Traffic": "Het aantal unieke bezoekers dat uw website nodig heeft om de funnel te vullen.",
+  "Opt-ins / MQL's": "Marketing Qualified Leads — bezoekers die interesse tonen en contactgegevens achterlaten.",
+  "Opt-in Rate": "Het conversiepercentage van bezoeker naar lead.",
+  "Sales Qualified Leads (SQL)": "Leads die voldoen aan uw ICP-criteria en klaar zijn voor sales.",
+  "Opt-in → SQL Conversie": "Hoe efficiënt uw kwalificatieproces leads filtert naar echte kansen.",
+  "Discovery Calls": "Het aantal verkennende gesprekken dat nodig is om uw target te halen.",
+  "Sales (inbound)": "Deals gesloten via inbound kanalen (website, content, referrals).",
+  "Sales (outbound)": "Deals gesloten via outbound kanalen (cold outreach, LinkedIn, e-mail).",
+  "Close Rate": "Het percentage gesprekken dat converteert naar een betaalde klant.",
+  "Marketing Conversie": "Het totale conversiepercentage van websitebezoeker naar klant.",
+  "Totaal Klanten": "Het aantal nieuwe klanten dat u per maand nodig heeft voor uw omzetdoel.",
+  "Klant LTV": "Customer Lifetime Value — hoe lang een gemiddelde klant actief blijft.",
+  "Gem. Transactiewaarde": "De gemiddelde omzet per deal of transactie.",
+  "Customer Acquisition Cost": "Hoeveel het kost om één nieuwe klant te werven (marketingkosten / klanten).",
+  "ATV/CAC Ratio": "Verhouding tussen dealwaarde en acquisitiekosten. Boven 3.0 is gezond, boven 5.0 is uitstekend.",
+};
+
+const InfoTip = ({ label }: { label: string }) => {
+  const tip = tooltips[label];
+  if (!tip) return null;
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <button type="button" className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-muted hover:bg-primary/20 transition-colors shrink-0">
+          <Info className="w-2.5 h-2.5 text-muted-foreground" />
+        </button>
+      </TooltipTrigger>
+      <TooltipContent side="top" className="max-w-[260px] text-xs leading-relaxed">
+        {tip}
+      </TooltipContent>
+    </Tooltip>
+  );
+};
 
 const FunnelCalculatorSection = () => {
   const [monthlyRevenue, setMonthlyRevenue] = useState(83333);
@@ -55,9 +106,12 @@ const FunnelCalculatorSection = () => {
     { label: "Klant LTV (mnd)", value: ltv, set: setLtv, min: 1, max: 36, step: 1, format: (v: number) => `${v} maanden` },
   ];
 
-  const Row = ({ label, value, highlight, sub }: { label: string; value: string; highlight?: boolean; sub?: boolean }) => (
-    <div className={`flex justify-between items-center py-2 px-4 ${highlight ? "bg-primary/10" : sub ? "pl-8" : ""} ${!sub && !highlight ? "border-b border-border/50" : ""}`}>
-      <span className={`text-sm ${highlight ? "font-display font-bold text-primary" : sub ? "text-muted-foreground" : "text-foreground"}`}>{label}</span>
+  const Row = ({ label, value, highlight, tooltipKey }: { label: string; value: string; highlight?: boolean; tooltipKey?: string }) => (
+    <div className={`flex justify-between items-center py-2 px-4 ${highlight ? "bg-primary/10" : ""} border-b border-border/30`}>
+      <span className={`text-sm flex items-center gap-1.5 ${highlight ? "font-display font-bold text-primary" : "text-foreground"}`}>
+        {label}
+        <InfoTip label={tooltipKey || label} />
+      </span>
       <span className={`text-sm font-mono ${highlight ? "font-bold text-primary" : "text-foreground"}`}>{value}</span>
     </div>
   );
@@ -82,7 +136,7 @@ const FunnelCalculatorSection = () => {
           </h2>
           <p className="text-muted-foreground leading-relaxed">
             Stel uw maandomzet en ratio's in. Wij berekenen de volledige funnel, kosten, 
-            CAC en meer — zodat u weet wat er nodig is.
+            CAC en meer — zodat u weet wat er nodig is. Klik op de <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-muted align-middle"><Info className="w-2.5 h-2.5 text-muted-foreground" /></span> icoontjes voor uitleg.
           </p>
         </motion.div>
 
@@ -103,7 +157,10 @@ const FunnelCalculatorSection = () => {
             {sliders.map((s) => (
               <div key={s.label}>
                 <div className="flex justify-between items-center mb-1.5">
-                  <label className="text-sm text-muted-foreground">{s.label}</label>
+                  <label className="text-sm text-muted-foreground flex items-center gap-1.5">
+                    {s.label}
+                    <InfoTip label={s.label} />
+                  </label>
                   <span className="font-display font-bold text-foreground text-sm">{s.format(s.value)}</span>
                 </div>
                 <input
@@ -131,7 +188,6 @@ const FunnelCalculatorSection = () => {
             transition={{ duration: 0.5 }}
             className="card-gradient border border-glow rounded-xl overflow-hidden"
           >
-            {/* Header */}
             <div className="flex justify-between items-center px-4 py-3 border-b border-border bg-secondary/30">
               <span className="font-display font-bold text-sm text-foreground flex items-center gap-2">
                 <BarChart3 className="w-4 h-4 text-primary" /> Metrics
@@ -139,18 +195,16 @@ const FunnelCalculatorSection = () => {
               <span className="font-display font-bold text-sm text-muted-foreground">Per maand</span>
             </div>
 
-            {/* Revenue section */}
             <div className="bg-primary/5 px-4 py-2 border-b border-border">
               <span className="font-display font-bold text-xs tracking-[0.15em] uppercase text-primary flex items-center gap-2">
                 <TrendingUp className="w-3.5 h-3.5" /> Revenue
               </span>
             </div>
             <Row label="Totale Omzet" value={fmt(metrics.totalRevenue)} />
-            <Row label={`Totale Kosten (${expenseRate}%)`} value={fmt(metrics.totalExpenses)} />
-            <Row label={`Marketingkosten (${marketingRate}%)`} value={fmt(metrics.marketingExpenses)} />
+            <Row label={`Totale Kosten (${expenseRate}%)`} value={fmt(metrics.totalExpenses)} tooltipKey="Totale Kosten" />
+            <Row label={`Marketingkosten (${marketingRate}%)`} value={fmt(metrics.marketingExpenses)} tooltipKey="Marketingkosten_row" />
             <Row label="Totale Winst" value={fmt(metrics.totalProfit)} highlight />
 
-            {/* Top & Middle of Funnel */}
             <div className="bg-primary/5 px-4 py-2 border-b border-border mt-1">
               <span className="font-display font-bold text-xs tracking-[0.15em] uppercase text-primary flex items-center gap-2">
                 <Target className="w-3.5 h-3.5" /> Top & Middle of Funnel
@@ -163,7 +217,6 @@ const FunnelCalculatorSection = () => {
             <Row label="Opt-in → SQL Conversie" value={fmtPct(optInToSqlRate)} />
             <Row label="Discovery Calls" value={fmtN(metrics.calls)} />
 
-            {/* Bottom of Funnel */}
             <div className="bg-primary/5 px-4 py-2 border-b border-border mt-1">
               <span className="font-display font-bold text-xs tracking-[0.15em] uppercase text-primary flex items-center gap-2">
                 <ArrowDown className="w-3.5 h-3.5" /> Bottom of Funnel
@@ -175,7 +228,6 @@ const FunnelCalculatorSection = () => {
             <Row label="Marketing Conversie" value={fmtPct(metrics.marketingConversionRate)} />
             <Row label="Totaal Klanten" value={fmtN(metrics.totalCustomers)} highlight />
 
-            {/* Unit economics */}
             <div className="bg-primary/5 px-4 py-2 border-b border-border mt-1">
               <span className="font-display font-bold text-xs tracking-[0.15em] uppercase text-primary">
                 Unit Economics
