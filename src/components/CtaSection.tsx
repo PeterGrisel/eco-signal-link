@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { trackCTA } from "@/lib/tracking";
 
 const CtaSection = () => {
   return (
@@ -26,7 +27,8 @@ const CtaSection = () => {
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <Button variant="hero" size="lg" asChild>
-              <a href="https://app.usemotion.com/meet/Rebel-Force/meeting" target="_blank" rel="noopener noreferrer">
+              <a href="https://app.usemotion.com/meet/Rebel-Force/meeting" target="_blank" rel="noopener noreferrer"
+                onClick={() => trackCTA("CTA Section — Plan een Demo", "https://app.usemotion.com/meet/Rebel-Force/meeting")}>
                 Plan een gratis Demo →
               </a>
             </Button>
