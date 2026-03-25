@@ -367,6 +367,9 @@ const AdminTaxonomy = () => {
               {strategyLoading ? "Agent analyseert..." : "AI Strategie Agent"}
             </Button>
             <Button onClick={() => openCreate(null)} size="sm">
+              <Plus className="w-4 h-4 mr-1" /> Handmatig
+            </Button>
+          </div>
         </div>
 
         {/* Competitor URLs input */}
