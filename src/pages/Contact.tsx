@@ -7,6 +7,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Send, Loader2, Calendar, Mail, Phone, Building2 } from "lucide-react";
 import { z } from "zod";
+import { trackCTA, trackFormSubmit } from "@/lib/tracking";
 
 const contactSchema = z.object({
   name: z.string().trim().min(1, "Naam is verplicht").max(100),
