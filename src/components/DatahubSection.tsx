@@ -56,6 +56,21 @@ const DatahubSection = () => {
           </p>
         </motion.div>
 
+        {/* Screenshot */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="mb-16 rounded-lg border border-glow overflow-hidden shadow-2xl shadow-primary/5"
+        >
+          <img
+            src={datahubScreenshot}
+            alt="Datahub platform interface"
+            className="w-full h-auto"
+            loading="lazy"
+          />
+        </motion.div>
         <div className="grid md:grid-cols-2 gap-6 mb-12">
           {features.map((feature, i) => (
             <motion.div
