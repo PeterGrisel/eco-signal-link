@@ -11,6 +11,7 @@ import DatahubSection from "@/components/DatahubSection";
 import PricingSection from "@/components/PricingSection";
 import ResultsSection from "@/components/ResultsSection";
 import CtaSection from "@/components/CtaSection";
+import FaqSection from "@/components/FaqSection";
 import Footer from "@/components/Footer";
 
 const Index = () => {
@@ -28,6 +29,7 @@ const Index = () => {
       <DatahubSection />
       <PricingSection />
       <ResultsSection />
+      <FaqSection />
       <CtaSection />
       <Footer />
     </div>
