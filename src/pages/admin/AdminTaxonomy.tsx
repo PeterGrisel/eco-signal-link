@@ -177,6 +177,10 @@ const AdminTaxonomy = () => {
   const [editingTopic, setEditingTopic] = useState<Topic | null>(null);
   const [form, setForm] = useState<TopicFormData>(defaultForm);
   const [deleteTarget, setDeleteTarget] = useState<Topic | null>(null);
+  const [strategyLoading, setStrategyLoading] = useState(false);
+  const [strategyResult, setStrategyResult] = useState<any>(null);
+  const [strategyDialogOpen, setStrategyDialogOpen] = useState(false);
+  const [competitorInput, setCompetitorInput] = useState("");
 
   const { data: topics = [], isLoading } = useQuery({
     queryKey: ["content_topics"],
