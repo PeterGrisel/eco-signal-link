@@ -22,7 +22,8 @@ serve(async (req) => {
     const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const log: string[] = [];
 
-    const { mode = "nightly" } = await req.json().catch(() => ({}));
+    const body = await req.json().catch(() => ({}));
+    const { mode = "nightly" } = body;
 
     // ═══════════════════════════════════════════════
     // MODE: full_pipeline — Strategy → Headlines → Schedule
@@ -139,8 +140,7 @@ serve(async (req) => {
     // Runs at 2:00 AM via cron
     // ═══════════════════════════════════════════════
     if (mode === "nightly") {
-      const { target_date } = await req.json().catch(() => ({}));
-      const today = target_date || new Date().toISOString().split("T")[0];
+      const today = body.target_date || new Date().toISOString().split("T")[0];
       log.push(`🌙 Nachtelijke generatie voor ${today}`);
 
       // Find today's scheduled + approved item
