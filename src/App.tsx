@@ -55,6 +55,7 @@ const AnimatedRoutes = () => {
           <Route path="/admin/autopilot" element={<AdminAutopilot />} />
           <Route path="/admin/settings" element={<AdminSettings />} />
           <Route path="/admin/taxonomy" element={<AdminTaxonomy />} />
+          <Route path="/admin/kpi" element={<AdminKpi />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
