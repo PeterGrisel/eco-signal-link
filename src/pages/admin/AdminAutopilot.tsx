@@ -21,6 +21,7 @@ interface QueueItem {
   notes: string | null;
   blog_post_id: string | null;
   error_message: string | null;
+  topic_id: string | null;
   created_at: string;
 }
 
