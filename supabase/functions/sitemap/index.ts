@@ -9,6 +9,8 @@ const STATIC_PAGES = [
   { loc: "/full-service-recruitment", changefreq: "monthly", priority: "0.8" },
   { loc: "/full-sales-management", changefreq: "monthly", priority: "0.7" },
   { loc: "/blog", changefreq: "daily", priority: "0.9" },
+  { loc: "/pricing", changefreq: "monthly", priority: "0.8" },
+  { loc: "/contact", changefreq: "monthly", priority: "0.7" },
   { loc: "/sectoren/profvoetbal", changefreq: "monthly", priority: "0.7" },
   { loc: "/sectoren/groothandel", changefreq: "monthly", priority: "0.7" },
   { loc: "/sectoren/leasemaatschappijen", changefreq: "monthly", priority: "0.7" },
