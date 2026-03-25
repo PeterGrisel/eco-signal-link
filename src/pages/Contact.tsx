@@ -199,8 +199,14 @@ const Contact = () => {
                   <div className="space-y-3">
                     <div className="flex items-center gap-3 text-sm">
                       <Mail className="w-4 h-4 text-primary" />
-                      <a href="mailto:info@b2bgroeimachine.nl" className="text-muted-foreground hover:text-foreground transition-colors">
-                        info@b2bgroeimachine.nl
+                      <a href="mailto:info@rebelforce.nl" className="text-muted-foreground hover:text-foreground transition-colors">
+                        info@rebelforce.nl
+                      </a>
+                    </div>
+                    <div className="flex items-center gap-3 text-sm">
+                      <Phone className="w-4 h-4 text-primary" />
+                      <a href="tel:+31852502925" className="text-muted-foreground hover:text-foreground transition-colors">
+                        +31 85 250 2925
                       </a>
                     </div>
                     <div className="flex items-center gap-3 text-sm">
