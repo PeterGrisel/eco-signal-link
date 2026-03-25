@@ -5,8 +5,8 @@ const Navbar = () => {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
       <div className="container mx-auto flex items-center justify-between h-16 px-6">
         <a href="/" className="font-display font-bold text-xl tracking-tight">
-          <span className="text-foreground">Rebel</span>
-          <span className="text-primary">Force</span>
+          <span className="text-foreground">B2B</span>
+          <span className="text-primary">GroeiMachine</span>
         </a>
 
         <div className="hidden md:flex items-center gap-8 text-sm font-medium text-muted-foreground">
