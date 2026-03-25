@@ -73,6 +73,17 @@ const AdminBlogEditor = () => {
     }
     setUploading(false);
   };
+  const autoSubmitIndexing = async (postSlug: string) => {
+    try {
+      const blogUrl = `https://b2bgroeimachine.nl/blog/${postSlug}`;
+      await supabase.functions.invoke("request-indexing", {
+        body: { url: blogUrl },
+      });
+      toast({ title: "🚀 Indexing aangevraagd", description: blogUrl });
+    } catch {
+      // Silent fail - indexing is best-effort
+    }
+  };
 
   const handleSave = async () => {
     if (!title || !slug) {
@@ -96,12 +107,20 @@ const AdminBlogEditor = () => {
     if (isEdit) {
       const { error } = await supabase.from("blog_posts").update(postData).eq("id", id);
       if (error) toast({ title: "Fout", description: error.message, variant: "destructive" });
-      else toast({ title: "Opgeslagen!" });
+      else {
+        toast({ title: "Opgeslagen!" });
+        if (status === "published") {
+          autoSubmitIndexing(slug);
+        }
+      }
     } else {
       const { error } = await supabase.from("blog_posts").insert(postData);
       if (error) toast({ title: "Fout", description: error.message, variant: "destructive" });
       else {
         toast({ title: "Artikel aangemaakt!" });
+        if (status === "published") {
+          autoSubmitIndexing(slug);
+        }
         navigate("/admin/blog");
       }
     }
