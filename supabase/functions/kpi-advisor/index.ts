@@ -150,7 +150,7 @@ BELANGRIJK: Suggesties moeten ACTIEGERICHT zijn en direct bijdragen aan conversi
                     items: {
                       type: "object",
                       properties: {
-                        type: { type: "string", enum: ["new_page", "optimize", "strategy"] },
+                        type: { type: "string", enum: ["new_page", "optimize", "strategy", "technical_fix"] },
                         priority: { type: "string", enum: ["high", "medium", "low"] },
                         title: { type: "string", description: "Korte titel van de suggestie" },
                         description: { type: "string", description: "Uitleg waarom en wat te doen" },
