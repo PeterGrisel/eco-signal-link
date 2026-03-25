@@ -10,7 +10,6 @@ export interface Sector {
   metaDescription: string;
   challenges: string[];
   solutions: string[];
-  results: { value: string; label: string }[];
 }
 
 export const sectors: Sector[] = [
@@ -34,11 +33,6 @@ export const sectors: Sector[] = [
       "Multichannel outreach naar CMO's, Marketing Directors en CEO's",
       "Seizoensgebonden campagnekalender afgestemd op contractmomenten",
     ],
-    results: [
-      { value: "35+", label: "Sponsorgesprekken per seizoen" },
-      { value: "6x", label: "Groter bereik dan traditioneel netwerken" },
-      { value: "4 weken", label: "Van opstart tot eerste gesprekken" },
-    ],
   },
   {
     slug: "groothandel",
@@ -59,11 +53,6 @@ export const sectors: Sector[] = [
       "Signaaldetectie bij retailers die hun assortiment uitbreiden",
       "Gerichte outreach naar inkoopmanagers en category managers",
       "Geautomatiseerde opvolging over meerdere touchpoints",
-    ],
-    results: [
-      { value: "40+", label: "Nieuwe prospects per maand" },
-      { value: "22%", label: "Gemiddelde reply rate" },
-      { value: "8", label: "Nieuwe afnemers per kwartaal" },
     ],
   },
   {
@@ -86,11 +75,6 @@ export const sectors: Sector[] = [
       "Persoonlijke multichannel outreach naar fleet managers en CFO's",
       "Automatische timing op basis van markt- en bedrijfssignalen",
     ],
-    results: [
-      { value: "25+", label: "Gekwalificeerde gesprekken per maand" },
-      { value: "3x", label: "Betere timing dan cold calling" },
-      { value: "18%", label: "Conversie naar offerte" },
-    ],
   },
   {
     slug: "engineering",
@@ -111,11 +95,6 @@ export const sectors: Sector[] = [
       "Identificatie van lopende en aankomende projecten via openbare data",
       "Gerichte outreach naar projectmanagers, engineers en directie",
       "Technisch onderbouwde messaging die aansluit bij de doelgroep",
-    ],
-    results: [
-      { value: "30+", label: "Technische beslissers bereikt per maand" },
-      { value: "15%", label: "Meeting acceptance rate" },
-      { value: "6", label: "Nieuwe projectleads per kwartaal" },
     ],
   },
   {
@@ -138,11 +117,6 @@ export const sectors: Sector[] = [
       "Outreach namens partners met persoonlijke, professionele tone of voice",
       "Signaaldetectie bij bedrijfsgebeurtenissen zoals fusies, groei en verhuizingen",
     ],
-    results: [
-      { value: "20+", label: "Directiegesprekken per maand" },
-      { value: "28%", label: "Reply rate op LinkedIn" },
-      { value: "5", label: "Nieuwe klanten per kwartaal" },
-    ],
   },
   {
     slug: "financiele-sector",
@@ -163,11 +137,6 @@ export const sectors: Sector[] = [
       "Compliant outreach binnen de richtlijnen van AFM en DNB",
       "Gerichte targeting op basis van bedrijfsgrootte, vermogen en groeisignalen",
       "Geautomatiseerde nurture flows voor lange sales cycles",
-    ],
-    results: [
-      { value: "15+", label: "Gekwalificeerde afspraken per maand" },
-      { value: "100%", label: "Compliant met regelgeving" },
-      { value: "12%", label: "Conversie naar klant" },
     ],
   },
   {
@@ -190,11 +159,6 @@ export const sectors: Sector[] = [
       "Technisch onderbouwde outreach naar inkopers en operations managers",
       "Internationale expansie-support met meertalige campagnes",
     ],
-    results: [
-      { value: "35+", label: "Nieuwe prospects per maand" },
-      { value: "3", label: "Nieuwe markten per jaar" },
-      { value: "20%", label: "Hogere orderwaarde bij nieuwe klanten" },
-    ],
   },
   {
     slug: "opleiding-training",
@@ -215,11 +179,6 @@ export const sectors: Sector[] = [
       "Signaaldetectie bij bedrijven die investeren in talent development",
       "Gerichte outreach naar HR Directors, L&D Managers en People Leads",
       "Seizoensgebonden campagnes afgestemd op budgetcycli",
-    ],
-    results: [
-      { value: "25+", label: "HR-gesprekken per maand" },
-      { value: "18%", label: "Reply rate" },
-      { value: "7", label: "Incompany deals per kwartaal" },
     ],
   },
 ];
