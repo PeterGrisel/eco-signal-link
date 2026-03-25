@@ -28,6 +28,7 @@ interface SiteEvent {
   page_path: string | null;
   referrer: string | null;
   session_id: string | null;
+  metadata: Record<string, unknown> | null;
   created_at: string;
 }
 
