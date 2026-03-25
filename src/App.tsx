@@ -11,6 +11,8 @@ import FullSalesManagement from "./pages/FullSalesManagement.tsx";
 import FullServiceRecruitment from "./pages/FullServiceRecruitment.tsx";
 import Blog from "./pages/Blog.tsx";
 import BlogPost from "./pages/BlogPost.tsx";
+import Pricing from "./pages/Pricing.tsx";
+import Contact from "./pages/Contact.tsx";
 import AdminLogin from "./pages/AdminLogin.tsx";
 import AdminBlog from "./pages/admin/AdminBlog.tsx";
 import AdminBlogEditor from "./pages/admin/AdminBlogEditor.tsx";
