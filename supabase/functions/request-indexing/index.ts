@@ -78,12 +78,16 @@ serve(async (req) => {
     const saJson = Deno.env.get("GOOGLE_SERVICE_ACCOUNT_JSON");
     if (!saJson) throw new Error("GOOGLE_SERVICE_ACCOUNT_JSON secret niet geconfigureerd");
 
-    // Try parsing as-is, then wrapped in braces (secret storage may strip them)
+    console.log("Secret first 20 chars:", saJson.substring(0, 20));
+    console.log("Secret length:", saJson.length);
+
     let serviceAccount;
-    try {
-      serviceAccount = JSON.parse(saJson);
-    } catch {
-      serviceAccount = JSON.parse(`{${saJson}}`);
+    const trimmed = saJson.trim();
+    if (trimmed.startsWith("{")) {
+      serviceAccount = JSON.parse(trimmed);
+    } else {
+      // Secret may be stored without braces
+      serviceAccount = JSON.parse(`{${trimmed}}`);
     }
     const accessToken = await getAccessToken(serviceAccount);
 
