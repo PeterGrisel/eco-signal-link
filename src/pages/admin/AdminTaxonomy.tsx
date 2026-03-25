@@ -521,6 +521,110 @@ const AdminTaxonomy = () => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* Strategy Agent Review Dialog */}
+      <Dialog open={strategyDialogOpen} onOpenChange={setStrategyDialogOpen}>
+        <DialogContent className="max-w-3xl max-h-[85vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Brain className="w-5 h-5 text-primary" /> AI Strategie Voorstel
+            </DialogTitle>
+          </DialogHeader>
+
+          {strategyResult && (
+            <div className="space-y-6">
+              {/* Summary */}
+              <div className="p-4 rounded-lg bg-primary/5 border border-primary/10">
+                <p className="text-sm text-foreground">{strategyResult.summary}</p>
+              </div>
+
+              {/* Clusters */}
+              <div className="space-y-4">
+                {strategyResult.clusters?.map((cluster: any, i: number) => (
+                  <div key={i} className="border border-border rounded-lg p-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center gap-2">
+                        <h3 className="font-semibold text-sm">{cluster.name}</h3>
+                        <Badge variant="outline" className="text-xs">P{cluster.priority}</Badge>
+                        {cluster.search_volume && (
+                          <Badge variant="secondary" className="text-xs">{cluster.search_volume} volume</Badge>
+                        )}
+                      </div>
+                      <span className="text-xs text-muted-foreground">{cluster.target_article_count} artikelen</span>
+                    </div>
+                    <p className="text-xs text-muted-foreground mb-2">{cluster.description}</p>
+                    
+                    {cluster.target_keywords?.length > 0 && (
+                      <div className="flex flex-wrap gap-1 mb-2">
+                        {cluster.target_keywords.map((kw: string, j: number) => (
+                          <span key={j} className="text-[10px] font-mono text-primary bg-primary/5 border border-primary/10 rounded px-1.5 py-0.5">{kw}</span>
+                        ))}
+                      </div>
+                    )}
+
+                    {cluster.pillar_article && (
+                      <div className="mb-2">
+                        <span className="text-[10px] uppercase tracking-wider text-muted-foreground">Pillar:</span>
+                        <p className="text-xs font-medium text-foreground">{cluster.pillar_article}</p>
+                      </div>
+                    )}
+
+                    {cluster.subtopics?.length > 0 && (
+                      <div className="mt-2">
+                        <span className="text-[10px] uppercase tracking-wider text-muted-foreground mb-1 block">Sub-topics ({cluster.subtopics.length}):</span>
+                        <div className="space-y-1">
+                          {cluster.subtopics.sort((a: any, b: any) => (a.publish_order || 0) - (b.publish_order || 0)).map((sub: any, k: number) => (
+                            <div key={k} className="flex items-center gap-2 text-xs">
+                              <span className="text-muted-foreground w-4 text-right">{sub.publish_order || k + 1}.</span>
+                              <span className="text-foreground">{sub.headline}</span>
+                              <span className="text-primary font-mono text-[10px]">{sub.keyword}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {cluster.content_gaps?.length > 0 && (
+                      <div className="mt-2 p-2 rounded bg-amber-500/5 border border-amber-500/10">
+                        <span className="text-[10px] uppercase tracking-wider text-amber-400 mb-1 block">Content gaps:</span>
+                        <ul className="text-xs text-muted-foreground space-y-0.5">
+                          {cluster.content_gaps.map((gap: string, g: number) => (
+                            <li key={g}>• {gap}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+
+              {/* Recommendations */}
+              {strategyResult.recommendations?.length > 0 && (
+                <div className="p-4 rounded-lg bg-card border border-border">
+                  <h3 className="text-sm font-semibold mb-2 flex items-center gap-2">
+                    <Sparkles className="w-4 h-4 text-primary" /> Aanbevelingen
+                  </h3>
+                  <ul className="space-y-1 text-xs text-muted-foreground">
+                    {strategyResult.recommendations.map((rec: string, i: number) => (
+                      <li key={i} className="flex items-start gap-2">
+                        <ArrowRight className="w-3 h-3 text-primary mt-0.5 flex-shrink-0" />
+                        {rec}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          )}
+
+          <DialogFooter className="gap-2">
+            <Button variant="outline" onClick={() => setStrategyDialogOpen(false)}>Sluiten</Button>
+            <Button variant="hero" onClick={applyStrategy}>
+              <Check className="w-4 h-4" /> Toepassen — {strategyResult?.clusters?.length || 0} clusters aanmaken
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </AdminLayout>
   );
 };
