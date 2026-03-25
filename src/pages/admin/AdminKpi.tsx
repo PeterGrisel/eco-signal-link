@@ -8,7 +8,7 @@ import {
   BarChart3, TrendingUp, MousePointerClick, Eye, Target,
   RefreshCw, Loader2, Plus, X, ArrowUp, ArrowDown, Minus,
   Sparkles, FileText, Wrench, Globe, Check, Send,
-  Lightbulb, Zap, AlertTriangle
+  Lightbulb, Zap, AlertTriangle, Shield, CheckCircle, XCircle, AlertCircle
 } from "lucide-react";
 
 interface GscOverview {
