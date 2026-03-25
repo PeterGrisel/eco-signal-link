@@ -9,11 +9,17 @@ const corsHeaders = {
 async function importPrivateKey(pem: string): Promise<CryptoKey> {
   // Handle both real newlines and literal \n sequences
   const normalized = pem.replace(/\\n/g, "\n");
+  console.log("Key starts with:", normalized.substring(0, 40));
+  console.log("Key length:", normalized.length);
   const pemContents = normalized
     .replace(/-----BEGIN PRIVATE KEY-----/g, "")
     .replace(/-----END PRIVATE KEY-----/g, "")
     .replace(/\s/g, "");
+  console.log("Base64 length:", pemContents.length);
+  console.log("Base64 first 20:", pemContents.substring(0, 20));
   const binaryDer = Uint8Array.from(atob(pemContents), (c) => c.charCodeAt(0));
+  console.log("DER bytes length:", binaryDer.length);
+  console.log("First 5 DER bytes:", Array.from(binaryDer.slice(0, 5)));
   return crypto.subtle.importKey(
     "pkcs8",
     binaryDer,
