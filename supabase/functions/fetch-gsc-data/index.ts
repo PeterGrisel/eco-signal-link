@@ -14,14 +14,26 @@ function getSupabase() {
 }
 
 async function getAccessToken(): Promise<string> {
-  const email = Deno.env.get("GOOGLE_SA_CLIENT_EMAIL");
-  const privateKeyRaw = Deno.env.get("GOOGLE_SA_PRIVATE_KEY");
-  
-  if (!email || !privateKeyRaw) {
-    throw new Error("Google Service Account credentials not configured");
-  }
+  // Try GOOGLE_SERVICE_ACCOUNT_JSON first (full JSON), fallback to individual secrets
+  let email: string;
+  let privateKey: string;
 
-  const privateKey = privateKeyRaw.replace(/\\n/g, "\n");
+  const saJson = Deno.env.get("GOOGLE_SERVICE_ACCOUNT_JSON");
+  if (saJson) {
+    try {
+      const sa = JSON.parse(saJson);
+      email = sa.client_email;
+      privateKey = sa.private_key;
+    } catch {
+      throw new Error("GOOGLE_SERVICE_ACCOUNT_JSON is invalid JSON");
+    }
+  } else {
+    email = Deno.env.get("GOOGLE_SA_CLIENT_EMAIL") || "";
+    const pkRaw = Deno.env.get("GOOGLE_SA_PRIVATE_KEY") || "";
+    if (!email || !pkRaw) throw new Error("Google Service Account credentials not configured");
+    // Handle various escape formats
+    privateKey = pkRaw.replace(/\\n/g, "\n");
+  }
 
   // Create JWT
   const header = { alg: "RS256", typ: "JWT" };
@@ -34,22 +46,33 @@ async function getAccessToken(): Promise<string> {
     exp: now + 3600,
   };
 
-  const encode = (obj: any) => btoa(JSON.stringify(obj)).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
-  const unsignedToken = `${encode(header)}.${encode(claim)}`;
+  const te = new TextEncoder();
+  const b64url = (data: Uint8Array) => {
+    let b = "";
+    for (const byte of data) b += String.fromCharCode(byte);
+    return btoa(b).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+  };
+  const encodeJson = (obj: any) => b64url(te.encode(JSON.stringify(obj)));
+  const unsignedToken = `${encodeJson(header)}.${encodeJson(claim)}`;
 
-  // Import private key and sign
-  const pemBody = privateKey.replace(/-----BEGIN PRIVATE KEY-----/, "").replace(/-----END PRIVATE KEY-----/, "").replace(/\s/g, "");
-  const binaryKey = Uint8Array.from(atob(pemBody), c => c.charCodeAt(0));
+  // Extract PEM body and decode
+  const pemLines = privateKey.split("\n").filter(l => l && !l.startsWith("-----"));
+  const pemBody = pemLines.join("");
+  const binaryStr = atob(pemBody);
+  const binaryKey = new Uint8Array(binaryStr.length);
+  for (let i = 0; i < binaryStr.length; i++) {
+    binaryKey[i] = binaryStr.charCodeAt(i);
+  }
 
   const cryptoKey = await crypto.subtle.importKey(
-    "pkcs8", binaryKey, { name: "RSASSA-PKCS1-v1_5", hash: "SHA-256" }, false, ["sign"]
+    "pkcs8", binaryKey.buffer, { name: "RSASSA-PKCS1-v1_5", hash: "SHA-256" }, false, ["sign"]
   );
 
   const signature = await crypto.subtle.sign(
-    "RSASSA-PKCS1-v1_5", cryptoKey, new TextEncoder().encode(unsignedToken)
+    "RSASSA-PKCS1-v1_5", cryptoKey, te.encode(unsignedToken)
   );
 
-  const signedToken = `${unsignedToken}.${btoa(String.fromCharCode(...new Uint8Array(signature))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "")}`;
+  const signedToken = `${unsignedToken}.${b64url(new Uint8Array(signature))}`;
 
   // Exchange for access token
   const tokenRes = await fetch("https://oauth2.googleapis.com/token", {
