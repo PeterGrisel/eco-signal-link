@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Settings, Brain, MessageSquare, Target, RefreshCw, Database, Zap } from "lucide-react";
+import SignalDashboardMockup from "./SignalDashboardMockup";
 
 const layers = [
   {
@@ -87,7 +88,12 @@ const SystemSection = () => {
           ))}
         </div>
 
-        {/* Data-driven principles */}
+        {/* Signal Dashboard Mockup */}
+        <div className="mb-24">
+          <SignalDashboardMockup />
+        </div>
+
+
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
