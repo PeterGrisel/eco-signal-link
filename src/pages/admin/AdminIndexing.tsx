@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import AdminLayout from "@/components/admin/AdminLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
-import { Zap, Trash2, RefreshCw } from "lucide-react";
+import { Zap, Trash2, RefreshCw, Globe, CheckCircle2, XCircle, Clock, MapPin } from "lucide-react";
 import { format } from "date-fns";
 
 const statusColors: Record<string, string> = {
@@ -15,25 +15,68 @@ const statusColors: Record<string, string> = {
   failed: "bg-red-500/10 text-red-400 border-red-500/20",
 };
 
+interface SitemapUrl {
+  url: string;
+  type: "static" | "blog";
+}
+
 const AdminIndexing = () => {
   const [requests, setRequests] = useState<any[]>([]);
   const [blogPosts, setBlogPosts] = useState<any[]>([]);
+  const [sitemapUrls, setSitemapUrls] = useState<SitemapUrl[]>([]);
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+  const [activeTab, setActiveTab] = useState<"sitemap" | "history">("sitemap");
   const { toast } = useToast();
 
-  const fetchData = async () => {
-    const [reqRes, postsRes] = await Promise.all([
+  const fetchData = useCallback(async () => {
+    const [reqRes, postsRes, sitemapRes] = await Promise.all([
       supabase.from("indexing_requests").select("*").order("created_at", { ascending: false }),
       supabase.from("blog_posts").select("slug, title").eq("status", "published"),
+      supabase.functions.invoke("sitemap", { body: {}, method: "GET" }),
     ]);
     if (reqRes.data) setRequests(reqRes.data);
     if (postsRes.data) setBlogPosts(postsRes.data);
+
+    // Parse sitemap JSON
+    try {
+      const sitemapUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/sitemap?format=json`;
+      const res = await fetch(sitemapUrl, {
+        headers: { Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}` },
+      });
+      const data = await res.json();
+      if (data.urls) setSitemapUrls(data.urls);
+    } catch {
+      // Fallback: no sitemap data
+    }
+
     setLoading(false);
+  }, []);
+
+  useEffect(() => { fetchData(); }, [fetchData]);
+
+  // Build a lookup: url -> latest status from indexing_requests
+  const indexStatusMap = new Map<string, { status: string; date: string }>();
+  for (const r of requests) {
+    if (!indexStatusMap.has(r.url)) {
+      indexStatusMap.set(r.url, { status: r.status, date: r.created_at });
+    }
+  }
+
+  const getUrlStatus = (url: string) => {
+    const match = indexStatusMap.get(url);
+    if (!match) return "not_submitted";
+    return match.status;
   };
 
-  useEffect(() => { fetchData(); }, []);
+  const stats = {
+    total: sitemapUrls.length,
+    indexed: sitemapUrls.filter(u => getUrlStatus(u.url) === "indexed").length,
+    pending: sitemapUrls.filter(u => ["pending", "requested"].includes(getUrlStatus(u.url))).length,
+    notSubmitted: sitemapUrls.filter(u => getUrlStatus(u.url) === "not_submitted").length,
+    failed: sitemapUrls.filter(u => getUrlStatus(u.url) === "failed").length,
+  };
 
   const handleRequestIndexing = async (targetUrl?: string) => {
     const finalUrl = targetUrl || url;
@@ -56,15 +99,19 @@ const AdminIndexing = () => {
     setSubmitting(false);
   };
 
-  const handleBatchIndex = async () => {
-    const urls = blogPosts.map((p) => `https://eco-signal-link.lovable.app/blog/${p.slug}`);
+  const handleBatchIndex = async (urls?: string[]) => {
+    const targetUrls = urls || sitemapUrls.filter(u => getUrlStatus(u.url) === "not_submitted").map(u => u.url);
+    if (targetUrls.length === 0) {
+      toast({ title: "Alle URLs zijn al ingediend" });
+      return;
+    }
     setSubmitting(true);
     try {
       const { data, error } = await supabase.functions.invoke("request-indexing", {
-        body: { urls },
+        body: { urls: targetUrls },
       });
       if (error) throw error;
-      toast({ title: `${urls.length} URLs ingediend!` });
+      toast({ title: `${targetUrls.length} URLs ingediend!` });
       fetchData();
     } catch (e: any) {
       toast({ title: "Fout", description: e.message, variant: "destructive" });
@@ -77,6 +124,16 @@ const AdminIndexing = () => {
     fetchData();
   };
 
+  const StatusIcon = ({ status }: { status: string }) => {
+    switch (status) {
+      case "indexed": return <CheckCircle2 className="w-4 h-4 text-green-400" />;
+      case "failed": return <XCircle className="w-4 h-4 text-red-400" />;
+      case "requested":
+      case "pending": return <Clock className="w-4 h-4 text-blue-400" />;
+      default: return <Globe className="w-4 h-4 text-muted-foreground" />;
+    }
+  };
+
   return (
     <AdminLayout>
       <div className="flex items-center justify-between mb-8">
@@ -84,21 +141,43 @@ const AdminIndexing = () => {
           <h1 className="font-display text-2xl font-bold text-foreground flex items-center gap-2">
             <Zap className="w-6 h-6 text-primary" /> Index Rusher
           </h1>
-          <p className="text-sm text-muted-foreground mt-1">Vraag Google indexing aan voor je pagina's</p>
+          <p className="text-sm text-muted-foreground mt-1">Sitemap & Google indexing beheer</p>
         </div>
-        {blogPosts.length > 0 && (
-          <Button variant="heroOutline" size="sm" onClick={handleBatchIndex} disabled={submitting}>
-            <RefreshCw className="w-4 h-4" /> Batch Index ({blogPosts.length} posts)
+        <div className="flex gap-2">
+          {stats.notSubmitted > 0 && (
+            <Button variant="heroOutline" size="sm" onClick={() => handleBatchIndex()} disabled={submitting}>
+              <Zap className="w-4 h-4" /> Index {stats.notSubmitted} nieuwe URLs
+            </Button>
+          )}
+          <Button variant="heroOutline" size="sm" onClick={() => handleBatchIndex(sitemapUrls.map(u => u.url))} disabled={submitting}>
+            <RefreshCw className="w-4 h-4" /> Re-index alles
           </Button>
-        )}
+        </div>
+      </div>
+
+      {/* Stats */}
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-8">
+        {[
+          { label: "Sitemap URLs", value: stats.total, icon: MapPin, color: "text-foreground" },
+          { label: "Geïndexeerd", value: stats.indexed, icon: CheckCircle2, color: "text-green-400" },
+          { label: "In afwachting", value: stats.pending, icon: Clock, color: "text-blue-400" },
+          { label: "Niet ingediend", value: stats.notSubmitted, icon: Globe, color: "text-muted-foreground" },
+          { label: "Mislukt", value: stats.failed, icon: XCircle, color: "text-red-400" },
+        ].map((stat) => (
+          <div key={stat.label} className="p-4 rounded-lg bg-card border border-border text-center">
+            <stat.icon className={`w-5 h-5 mx-auto mb-1 ${stat.color}`} />
+            <p className={`text-2xl font-bold ${stat.color}`}>{stat.value}</p>
+            <p className="text-xs text-muted-foreground">{stat.label}</p>
+          </div>
+        ))}
       </div>
 
       {/* URL input */}
-      <div className="flex gap-2 mb-8">
+      <div className="flex gap-2 mb-6">
         <Input
           value={url}
           onChange={(e) => setUrl(e.target.value)}
-          placeholder="https://eco-signal-link.lovable.app/blog/..."
+          placeholder="https://b2bgroeimachine.nl/blog/..."
           className="flex-1"
         />
         <Button variant="hero" onClick={() => handleRequestIndexing()} disabled={submitting}>
@@ -106,55 +185,102 @@ const AdminIndexing = () => {
         </Button>
       </div>
 
-      {/* Quick links from blog */}
-      {blogPosts.length > 0 && (
-        <div className="mb-8">
-          <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">Snel indexeren</p>
-          <div className="flex flex-wrap gap-2">
-            {blogPosts.map((p) => (
-              <Button
-                key={p.slug}
-                variant="outline"
-                size="sm"
-                onClick={() => handleRequestIndexing(`https://eco-signal-link.lovable.app/blog/${p.slug}`)}
-                disabled={submitting}
-                className="text-xs"
-              >
-                {p.title}
-              </Button>
-            ))}
+      {/* Tabs */}
+      <div className="flex gap-1 mb-6 bg-card border border-border rounded-lg p-1">
+        <button
+          onClick={() => setActiveTab("sitemap")}
+          className={`flex-1 px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+            activeTab === "sitemap" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"
+          }`}
+        >
+          <MapPin className="w-4 h-4 inline mr-1" /> Sitemap ({sitemapUrls.length})
+        </button>
+        <button
+          onClick={() => setActiveTab("history")}
+          className={`flex-1 px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+            activeTab === "history" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"
+          }`}
+        >
+          <Clock className="w-4 h-4 inline mr-1" /> Geschiedenis ({requests.length})
+        </button>
+      </div>
+
+      {/* Sitemap tab */}
+      {activeTab === "sitemap" && (
+        loading ? (
+          <div className="space-y-2">
+            {[1, 2, 3].map((i) => <div key={i} className="h-14 bg-card rounded-lg animate-pulse" />)}
           </div>
-        </div>
+        ) : sitemapUrls.length === 0 ? (
+          <p className="text-muted-foreground text-sm">Geen sitemap URLs gevonden.</p>
+        ) : (
+          <div className="space-y-2">
+            {sitemapUrls.map((item) => {
+              const urlStatus = getUrlStatus(item.url);
+              return (
+                <div key={item.url} className="flex items-center justify-between p-4 rounded-lg bg-card border border-border">
+                  <div className="flex items-center gap-3 min-w-0 flex-1">
+                    <StatusIcon status={urlStatus} />
+                    <div className="min-w-0">
+                      <p className="text-sm font-medium text-foreground truncate">{item.url}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {item.type === "blog" ? "Blog" : "Vaste pagina"}
+                        {urlStatus !== "not_submitted" && indexStatusMap.has(item.url) &&
+                          ` · Laatst: ${format(new Date(indexStatusMap.get(item.url)!.date), "dd/MM HH:mm")}`
+                        }
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2 ml-4">
+                    <Badge variant="outline" className={statusColors[urlStatus] || "bg-muted/50 text-muted-foreground"}>
+                      {urlStatus === "not_submitted" ? "niet ingediend" : urlStatus}
+                    </Badge>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => handleRequestIndexing(item.url)}
+                      disabled={submitting}
+                      className="text-xs"
+                    >
+                      <Zap className="w-3 h-3" /> Index
+                    </Button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )
       )}
 
-      {/* History */}
-      <h2 className="font-display text-lg font-semibold text-foreground mb-4">Geschiedenis</h2>
-      {loading ? (
-        <div className="space-y-2">
-          {[1, 2].map((i) => <div key={i} className="h-14 bg-card rounded-lg animate-pulse" />)}
-        </div>
-      ) : requests.length === 0 ? (
-        <p className="text-muted-foreground text-sm">Nog geen indexing requests.</p>
-      ) : (
-        <div className="space-y-2">
-          {requests.map((r) => (
-            <div key={r.id} className="flex items-center justify-between p-4 rounded-lg bg-card border border-border">
-              <div className="min-w-0 flex-1">
-                <p className="text-sm font-medium text-foreground truncate">{r.url}</p>
-                <p className="text-xs text-muted-foreground">
-                  {format(new Date(r.created_at), "dd/MM/yyyy HH:mm")}
-                  {r.response_message && ` · ${r.response_message}`}
-                </p>
+      {/* History tab */}
+      {activeTab === "history" && (
+        loading ? (
+          <div className="space-y-2">
+            {[1, 2].map((i) => <div key={i} className="h-14 bg-card rounded-lg animate-pulse" />)}
+          </div>
+        ) : requests.length === 0 ? (
+          <p className="text-muted-foreground text-sm">Nog geen indexing requests.</p>
+        ) : (
+          <div className="space-y-2">
+            {requests.map((r) => (
+              <div key={r.id} className="flex items-center justify-between p-4 rounded-lg bg-card border border-border">
+                <div className="min-w-0 flex-1">
+                  <p className="text-sm font-medium text-foreground truncate">{r.url}</p>
+                  <p className="text-xs text-muted-foreground">
+                    {format(new Date(r.created_at), "dd/MM/yyyy HH:mm")}
+                    {r.response_message && ` · ${r.response_message}`}
+                  </p>
+                </div>
+                <div className="flex items-center gap-2 ml-4">
+                  <Badge variant="outline" className={statusColors[r.status]}>{r.status}</Badge>
+                  <Button variant="ghost" size="icon" onClick={() => handleDelete(r.id)}>
+                    <Trash2 className="w-4 h-4 text-destructive" />
+                  </Button>
+                </div>
               </div>
-              <div className="flex items-center gap-2 ml-4">
-                <Badge variant="outline" className={statusColors[r.status]}>{r.status}</Badge>
-                <Button variant="ghost" size="icon" onClick={() => handleDelete(r.id)}>
-                  <Trash2 className="w-4 h-4 text-destructive" />
-                </Button>
-              </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )
       )}
     </AdminLayout>
   );
