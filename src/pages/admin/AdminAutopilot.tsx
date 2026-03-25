@@ -139,9 +139,30 @@ const AdminAutopilot = () => {
             <Zap className="w-6 h-6 text-primary" /> Content Autopilot
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
-            Full AI control: strategie → headlines → generatie → review → publicatie → indexering
+            Full AI control: strategie → headlines → generatie → draft in CMS → {autoPublish ? "auto-publish" : "handmatig publiceren"}
           </p>
         </div>
+        <div className="flex items-center gap-4">
+          {/* Auto-publish toggle */}
+          <button
+            onClick={() => {
+              setAutoPublish(!autoPublish);
+              toast({
+                title: !autoPublish ? "Auto-publish AAN" : "Auto-publish UIT",
+                description: !autoPublish
+                  ? "Artikelen worden automatisch gepubliceerd na generatie"
+                  : "Artikelen worden als draft in CMS gezet voor handmatige review",
+              });
+            }}
+            className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors border ${
+              autoPublish
+                ? "bg-green-500/10 text-green-400 border-green-500/20"
+                : "bg-card text-muted-foreground border-border hover:text-foreground"
+            }`}
+          >
+            {autoPublish ? <ToggleRight className="w-4 h-4" /> : <ToggleLeft className="w-4 h-4" />}
+            Auto-publish {autoPublish ? "aan" : "uit"}
+          </button>
         <Button
           variant="hero"
           onClick={handleFullPipeline}
