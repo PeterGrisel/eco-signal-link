@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Database, Brain, RefreshCw, Lock } from "lucide-react";
+import { Database, Brain, RefreshCw, Lock, MessageCircleQuestion } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const features = [
