@@ -95,9 +95,9 @@ const AdminBlog = () => {
               <div className="flex items-center gap-1 ml-4">
                 {post.slug && (
                   <Button variant="ghost" size="icon" asChild>
-                    <a href={`/blog/${post.slug}`} target="_blank" rel="noopener noreferrer">
+                    <Link to={`/blog/${post.slug}`}>
                       <Eye className="w-4 h-4" />
-                    </a>
+                    </Link>
                   </Button>
                 )}
                 {post.status === "draft" && (
