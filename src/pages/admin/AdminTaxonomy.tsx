@@ -370,9 +370,24 @@ const AdminTaxonomy = () => {
               <Plus className="w-4 h-4 mr-1" /> Handmatig
             </Button>
           </div>
-          <Button onClick={() => openCreate(null)}>
-            <Plus className="w-4 h-4 mr-1" /> Nieuw topic cluster
+          <Button onClick={() => openCreate(null)} size="sm">
+            <Plus className="w-4 h-4 mr-1" /> Handmatig
           </Button>
+        </div>
+        </div>
+
+        {/* Competitor URLs input */}
+        <div className="mb-6 p-4 rounded-lg bg-card border border-border">
+          <label className="text-xs font-medium text-muted-foreground mb-2 block">
+            Concurrent URLs <span className="font-normal">(één per regel, optioneel — agent scrapet deze voor gap analyse)</span>
+          </label>
+          <Textarea
+            value={competitorInput}
+            onChange={e => setCompetitorInput(e.target.value)}
+            placeholder={"https://www.concurrent1.nl\nhttps://www.concurrent2.nl"}
+            rows={2}
+            className="text-xs font-mono"
+          />
         </div>
 
         {/* Strategy stats */}
