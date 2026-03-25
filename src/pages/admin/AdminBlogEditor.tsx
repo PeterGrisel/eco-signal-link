@@ -96,12 +96,20 @@ const AdminBlogEditor = () => {
     if (isEdit) {
       const { error } = await supabase.from("blog_posts").update(postData).eq("id", id);
       if (error) toast({ title: "Fout", description: error.message, variant: "destructive" });
-      else toast({ title: "Opgeslagen!" });
+      else {
+        toast({ title: "Opgeslagen!" });
+        if (status === "published") {
+          autoSubmitIndexing(slug);
+        }
+      }
     } else {
       const { error } = await supabase.from("blog_posts").insert(postData);
       if (error) toast({ title: "Fout", description: error.message, variant: "destructive" });
       else {
         toast({ title: "Artikel aangemaakt!" });
+        if (status === "published") {
+          autoSubmitIndexing(slug);
+        }
         navigate("/admin/blog");
       }
     }
