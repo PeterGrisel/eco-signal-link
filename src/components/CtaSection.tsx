@@ -7,9 +7,10 @@ const CtaSection = () => {
       <div className="absolute inset-0 glow-bg pointer-events-none" />
       <div className="container mx-auto px-6 relative z-10">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
           className="text-center max-w-3xl mx-auto"
         >
           <h2 className="font-display font-bold text-4xl md:text-5xl lg:text-6xl tracking-tight leading-tight mb-6">
@@ -34,7 +35,7 @@ const CtaSection = () => {
             €0 opstartkosten · Operationeel in 4 weken · Vanaf €1.500/maand
           </p>
           <p className="text-muted-foreground text-xs mt-2 max-w-md mx-auto">
-            Wij raden minimaal 6 maanden aan — in een kleine markt is geduld de sleutel tot duurzame resultaten.
+            Wij raden minimaal 6 maanden aan; in een kleine markt is geduld de sleutel tot duurzame resultaten.
           </p>
         </motion.div>
       </div>

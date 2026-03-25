@@ -12,13 +12,13 @@ const layers = [
     icon: Brain,
     number: "02",
     title: "Intelligence",
-    description: "Ideale profielen in kaart brengen en signalen monitoren — functiewijzigingen, bedrijfsontwikkelingen, websitebezoek.",
+    description: "Ideale profielen in kaart brengen en signalen monitoren: functiewijzigingen, bedrijfsontwikkelingen, websitebezoek.",
   },
   {
     icon: MessageSquare,
     number: "03",
     title: "Betrokkenheid",
-    description: "Persoonlijke mix van e-mail en LinkedIn met 6-8 contactmomenten. Natuurlijk, rustig en op het juiste moment.",
+    description: "Persoonlijke mix van e-mail en LinkedIn met 6 tot 8 contactmomenten. Natuurlijk, rustig en op het juiste moment.",
   },
   {
     icon: Target,
@@ -33,9 +33,10 @@ const SystemSection = () => {
     <section id="hoe-het-werkt" className="py-32 relative">
       <div className="container mx-auto px-6">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
           className="mb-16"
         >
           <p className="text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4">
@@ -52,10 +53,10 @@ const SystemSection = () => {
           {layers.map((layer, i) => (
             <motion.div
               key={layer.number}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.5, delay: i * 0.08 }}
               className="card-gradient border border-glow rounded-lg p-8 group hover:border-primary/30 transition-colors"
             >
               <div className="flex items-start gap-4 mb-4">

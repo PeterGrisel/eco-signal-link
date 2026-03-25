@@ -22,7 +22,7 @@ const Footer = () => {
             </a>
           </div>
           <p className="text-muted-foreground text-xs">
-            © {new Date().getFullYear()} B2BGroeiMachine — powered by Rebel Force™
+            © {new Date().getFullYear()} B2BGroeiMachine · powered by Rebel Force™
           </p>
         </div>
       </div>

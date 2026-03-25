@@ -6,9 +6,10 @@ const ResultsSection = () => {
     <section id="resultaten" className="py-32 relative">
       <div className="container mx-auto px-6">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
           className="mb-16"
         >
           <p className="text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4">
@@ -23,26 +24,27 @@ const ResultsSection = () => {
 
         <div className="grid md:grid-cols-2 gap-12 items-start mb-20">
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
+            initial={{ opacity: 0, x: -12 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.5 }}
             className="space-y-8"
           >
             {[
               {
                 icon: Puzzle,
                 title: "100% toolagnostisch",
-                text: "Wij werken met uw bestaande CRM, mailtools en LinkedIn. Geen duur platform dat u moet afnemen — wij integreren wat werkt voor uw situatie.",
+                text: "Wij werken met uw bestaande CRM, mailtools en LinkedIn. Geen duur platform dat u moet afnemen; wij integreren wat werkt voor uw situatie.",
               },
               {
                 icon: Repeat,
-                title: "Opzetten of overnemen — uw keuze",
+                title: "Opzetten of overnemen, uw keuze",
                 text: "Wij bouwen het systeem en beheren het volledig, óf we zetten alles op, trainen uw team en dragen het over. Geen afhankelijkheid.",
               },
               {
                 icon: ShieldCheck,
                 title: "Uw domein blijft veilig",
-                text: "Subdomein-architectuur, toegewezen IP-adressen en opwarmprotocollen. Maximaal 10-15 mails per dag per adres. Uitsluitend geverifieerde e-mailadressen.",
+                text: "Subdomein-architectuur, toegewezen IP-adressen en opwarmprotocollen. Maximaal 10 tot 15 mails per dag per adres. Uitsluitend geverifieerde e-mailadressen.",
               },
             ].map((item, i) => (
               <div key={i} className="border-l-2 border-primary/30 pl-6">
@@ -56,9 +58,10 @@ const ResultsSection = () => {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
+            initial={{ opacity: 0, x: 12 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.5 }}
             className="card-gradient border border-glow rounded-lg p-10"
           >
             <p className="text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-8">
@@ -70,8 +73,8 @@ const ResultsSection = () => {
                 "Parallelle stromen (klant + recruitment)",
                 "Signaalmonitoring & intent-scoring",
                 "Persoonlijke omnichannel outreach",
-                "3-5 gekwalificeerde meetings per maand",
-                "2-wekelijkse rapportage & pipeline-inzicht",
+                "3 tot 5 gekwalificeerde meetings per maand",
+                "Tweewekelijkse rapportage & pipeline-inzicht",
                 "Integratie met uw bestaande tools",
                 "Domeinbescherming & compliance",
                 "Heractivering van warme contacten",
@@ -87,9 +90,10 @@ const ResultsSection = () => {
 
         {/* KPI & Commitment section */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
           className="mb-12 text-center max-w-2xl mx-auto"
         >
           <p className="text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4">
@@ -122,10 +126,10 @@ const ResultsSection = () => {
           ].map((item, i) => (
             <motion.div
               key={item.title}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.5, delay: i * 0.08 }}
               className="card-gradient border border-glow rounded-lg p-8 hover:border-primary/30 transition-colors"
             >
               <item.icon className="w-8 h-8 text-primary mb-5" />
