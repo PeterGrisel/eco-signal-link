@@ -16,7 +16,8 @@ import {
 import { toast } from "sonner";
 import {
   ChevronRight, ChevronDown, Plus, Pencil, Trash2, FolderTree,
-  Target, TrendingUp, Pause, Play, Check, X,
+  Target, TrendingUp, Pause, Play, Check, X, Brain, Loader2,
+  Sparkles, ArrowRight, ExternalLink,
 } from "lucide-react";
 
 interface Topic {
@@ -176,6 +177,10 @@ const AdminTaxonomy = () => {
   const [editingTopic, setEditingTopic] = useState<Topic | null>(null);
   const [form, setForm] = useState<TopicFormData>(defaultForm);
   const [deleteTarget, setDeleteTarget] = useState<Topic | null>(null);
+  const [strategyLoading, setStrategyLoading] = useState(false);
+  const [strategyResult, setStrategyResult] = useState<any>(null);
+  const [strategyDialogOpen, setStrategyDialogOpen] = useState(false);
+  const [competitorInput, setCompetitorInput] = useState("");
 
   const { data: topics = [], isLoading } = useQuery({
     queryKey: ["content_topics"],
@@ -294,6 +299,48 @@ const AdminTaxonomy = () => {
     saveMutation.mutate({ ...form, slug, id: editingTopic?.id });
   };
 
+  // Strategy Agent
+  const runStrategyAgent = async (mode: "generate" | "evaluate" = "generate") => {
+    setStrategyLoading(true);
+    try {
+      const competitors = competitorInput.split("\n").map(u => u.trim()).filter(Boolean);
+      const { data, error } = await supabase.functions.invoke("strategy-agent", {
+        body: { mode, competitors },
+      });
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+      setStrategyResult(data);
+      setStrategyDialogOpen(true);
+    } catch (e: any) {
+      toast.error(e.message || "Strategy agent mislukt");
+    }
+    setStrategyLoading(false);
+  };
+
+  const applyStrategy = async () => {
+    if (!strategyResult?.clusters?.length) return;
+    try {
+      for (const cluster of strategyResult.clusters) {
+        const { error } = await supabase.from("content_topics").insert({
+          name: cluster.name,
+          slug: cluster.slug,
+          description: cluster.description,
+          target_keywords: cluster.target_keywords,
+          target_article_count: cluster.target_article_count || cluster.subtopics?.length || 5,
+          priority: cluster.priority || 0,
+        } as any);
+        if (error) console.error("Insert topic error:", error);
+      }
+      queryClient.invalidateQueries({ queryKey: ["content_topics"] });
+      queryClient.invalidateQueries({ queryKey: ["topic_coverage"] });
+      setStrategyDialogOpen(false);
+      setStrategyResult(null);
+      toast.success(`${strategyResult.clusters.length} topic clusters aangemaakt!`);
+    } catch (e: any) {
+      toast.error(e.message);
+    }
+  };
+
   const parentName = form.parent_id ? topics.find((t) => t.id === form.parent_id)?.name : null;
 
   return (
@@ -308,9 +355,35 @@ const AdminTaxonomy = () => {
               Topic clusters, keyword mapping en gap analyse
             </p>
           </div>
-          <Button onClick={() => openCreate(null)}>
-            <Plus className="w-4 h-4 mr-1" /> Nieuw topic cluster
-          </Button>
+          <div className="flex gap-2">
+            {topics.length > 0 && (
+              <Button variant="heroOutline" size="sm" onClick={() => runStrategyAgent("evaluate")} disabled={strategyLoading}>
+                {strategyLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <TrendingUp className="w-4 h-4" />}
+                Evalueer
+              </Button>
+            )}
+            <Button variant="hero" size="sm" onClick={() => runStrategyAgent("generate")} disabled={strategyLoading}>
+              {strategyLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Brain className="w-4 h-4" />}
+              {strategyLoading ? "Agent analyseert..." : "AI Strategie Agent"}
+            </Button>
+            <Button onClick={() => openCreate(null)} size="sm">
+              <Plus className="w-4 h-4 mr-1" /> Handmatig
+            </Button>
+          </div>
+        </div>
+
+        {/* Competitor URLs input */}
+        <div className="mb-6 p-4 rounded-lg bg-card border border-border">
+          <label className="text-xs font-medium text-muted-foreground mb-2 block">
+            Concurrent URLs <span className="font-normal">(één per regel, optioneel — agent scrapet deze voor gap analyse)</span>
+          </label>
+          <Textarea
+            value={competitorInput}
+            onChange={e => setCompetitorInput(e.target.value)}
+            placeholder={"https://www.concurrent1.nl\nhttps://www.concurrent2.nl"}
+            rows={2}
+            className="text-xs font-mono"
+          />
         </div>
 
         {/* Strategy stats */}
@@ -444,6 +517,110 @@ const AdminTaxonomy = () => {
             <Button variant="outline" onClick={() => setDeleteTarget(null)}>Annuleren</Button>
             <Button variant="destructive" onClick={() => deleteTarget && deleteMutation.mutate(deleteTarget.id)} disabled={deleteMutation.isPending}>
               {deleteMutation.isPending ? "Verwijderen..." : "Verwijderen"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Strategy Agent Review Dialog */}
+      <Dialog open={strategyDialogOpen} onOpenChange={setStrategyDialogOpen}>
+        <DialogContent className="max-w-3xl max-h-[85vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Brain className="w-5 h-5 text-primary" /> AI Strategie Voorstel
+            </DialogTitle>
+          </DialogHeader>
+
+          {strategyResult && (
+            <div className="space-y-6">
+              {/* Summary */}
+              <div className="p-4 rounded-lg bg-primary/5 border border-primary/10">
+                <p className="text-sm text-foreground">{strategyResult.summary}</p>
+              </div>
+
+              {/* Clusters */}
+              <div className="space-y-4">
+                {strategyResult.clusters?.map((cluster: any, i: number) => (
+                  <div key={i} className="border border-border rounded-lg p-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center gap-2">
+                        <h3 className="font-semibold text-sm">{cluster.name}</h3>
+                        <Badge variant="outline" className="text-xs">P{cluster.priority}</Badge>
+                        {cluster.search_volume && (
+                          <Badge variant="secondary" className="text-xs">{cluster.search_volume} volume</Badge>
+                        )}
+                      </div>
+                      <span className="text-xs text-muted-foreground">{cluster.target_article_count} artikelen</span>
+                    </div>
+                    <p className="text-xs text-muted-foreground mb-2">{cluster.description}</p>
+                    
+                    {cluster.target_keywords?.length > 0 && (
+                      <div className="flex flex-wrap gap-1 mb-2">
+                        {cluster.target_keywords.map((kw: string, j: number) => (
+                          <span key={j} className="text-[10px] font-mono text-primary bg-primary/5 border border-primary/10 rounded px-1.5 py-0.5">{kw}</span>
+                        ))}
+                      </div>
+                    )}
+
+                    {cluster.pillar_article && (
+                      <div className="mb-2">
+                        <span className="text-[10px] uppercase tracking-wider text-muted-foreground">Pillar:</span>
+                        <p className="text-xs font-medium text-foreground">{cluster.pillar_article}</p>
+                      </div>
+                    )}
+
+                    {cluster.subtopics?.length > 0 && (
+                      <div className="mt-2">
+                        <span className="text-[10px] uppercase tracking-wider text-muted-foreground mb-1 block">Sub-topics ({cluster.subtopics.length}):</span>
+                        <div className="space-y-1">
+                          {cluster.subtopics.sort((a: any, b: any) => (a.publish_order || 0) - (b.publish_order || 0)).map((sub: any, k: number) => (
+                            <div key={k} className="flex items-center gap-2 text-xs">
+                              <span className="text-muted-foreground w-4 text-right">{sub.publish_order || k + 1}.</span>
+                              <span className="text-foreground">{sub.headline}</span>
+                              <span className="text-primary font-mono text-[10px]">{sub.keyword}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {cluster.content_gaps?.length > 0 && (
+                      <div className="mt-2 p-2 rounded bg-amber-500/5 border border-amber-500/10">
+                        <span className="text-[10px] uppercase tracking-wider text-amber-400 mb-1 block">Content gaps:</span>
+                        <ul className="text-xs text-muted-foreground space-y-0.5">
+                          {cluster.content_gaps.map((gap: string, g: number) => (
+                            <li key={g}>• {gap}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+
+              {/* Recommendations */}
+              {strategyResult.recommendations?.length > 0 && (
+                <div className="p-4 rounded-lg bg-card border border-border">
+                  <h3 className="text-sm font-semibold mb-2 flex items-center gap-2">
+                    <Sparkles className="w-4 h-4 text-primary" /> Aanbevelingen
+                  </h3>
+                  <ul className="space-y-1 text-xs text-muted-foreground">
+                    {strategyResult.recommendations.map((rec: string, i: number) => (
+                      <li key={i} className="flex items-start gap-2">
+                        <ArrowRight className="w-3 h-3 text-primary mt-0.5 flex-shrink-0" />
+                        {rec}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          )}
+
+          <DialogFooter className="gap-2">
+            <Button variant="outline" onClick={() => setStrategyDialogOpen(false)}>Sluiten</Button>
+            <Button variant="hero" onClick={applyStrategy}>
+              <Check className="w-4 h-4" /> Toepassen — {strategyResult?.clusters?.length || 0} clusters aanmaken
             </Button>
           </DialogFooter>
         </DialogContent>
