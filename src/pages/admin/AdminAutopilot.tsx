@@ -163,18 +163,19 @@ const AdminAutopilot = () => {
             {autoPublish ? <ToggleRight className="w-4 h-4" /> : <ToggleLeft className="w-4 h-4" />}
             Auto-publish {autoPublish ? "aan" : "uit"}
           </button>
-        <Button
-          variant="hero"
-          onClick={handleFullPipeline}
-          disabled={pipelineRunning}
-          className="gap-2"
-        >
-          {pipelineRunning ? (
-            <><Loader2 className="w-4 h-4 animate-spin" /> Pipeline draait...</>
-          ) : (
-            <><Rocket className="w-4 h-4" /> Full AI Pipeline</>
-          )}
-        </Button>
+          <Button
+            variant="hero"
+            onClick={handleFullPipeline}
+            disabled={pipelineRunning}
+            className="gap-2"
+          >
+            {pipelineRunning ? (
+              <><Loader2 className="w-4 h-4 animate-spin" /> Pipeline draait...</>
+            ) : (
+              <><Rocket className="w-4 h-4" /> Full AI Pipeline</>
+            )}
+          </Button>
+        </div>
       </div>
 
       {/* Pipeline Flow Visual */}
