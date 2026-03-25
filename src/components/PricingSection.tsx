@@ -284,6 +284,14 @@ const PricingSection = () => {
                       Meer info <ArrowRight className="w-3 h-3" />
                     </Link>
                   )}
+                  {title === "Full Service Recruitment" && (
+                    <Link
+                      to="/full-service-recruitment"
+                      className="text-xs text-primary hover:underline font-medium flex items-center gap-1"
+                    >
+                      Meer info <ArrowRight className="w-3 h-3" />
+                    </Link>
+                  )}
                 </div>
               </motion.div>
             ))}
