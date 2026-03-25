@@ -19,6 +19,7 @@ import AdminListings from "./pages/admin/AdminListings.tsx";
 import AdminIndexing from "./pages/admin/AdminIndexing.tsx";
 import AdminAutopilot from "./pages/admin/AdminAutopilot.tsx";
 import AdminSettings from "./pages/admin/AdminSettings.tsx";
+import AdminTaxonomy from "./pages/admin/AdminTaxonomy.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -52,6 +53,7 @@ const AnimatedRoutes = () => {
           <Route path="/admin/indexing" element={<AdminIndexing />} />
           <Route path="/admin/autopilot" element={<AdminAutopilot />} />
           <Route path="/admin/settings" element={<AdminSettings />} />
+          <Route path="/admin/taxonomy" element={<AdminTaxonomy />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
