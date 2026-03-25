@@ -7,7 +7,8 @@ import { useToast } from "@/hooks/use-toast";
 import {
   BarChart3, TrendingUp, MousePointerClick, Eye, Target,
   RefreshCw, Loader2, Plus, X, ArrowUp, ArrowDown, Minus,
-  Calendar
+  Sparkles, FileText, Wrench, Globe, Check, Send,
+  Lightbulb, Zap, AlertTriangle
 } from "lucide-react";
 
 interface GscOverview {
@@ -24,6 +25,34 @@ interface ConversionPage {
   is_active: boolean;
 }
 
+interface AiSuggestion {
+  type: "new_page" | "optimize" | "strategy";
+  priority: "high" | "medium" | "low";
+  title: string;
+  description: string;
+  headline?: string;
+  keyword?: string;
+  content_type?: string;
+  target_page?: string;
+}
+
+interface AdvisorResult {
+  summary: string;
+  suggestions: AiSuggestion[];
+}
+
+const priorityConfig = {
+  high: { color: "bg-red-500/10 text-red-400 border-red-500/20", icon: <AlertTriangle className="w-3 h-3" /> },
+  medium: { color: "bg-yellow-500/10 text-yellow-400 border-yellow-500/20", icon: <Lightbulb className="w-3 h-3" /> },
+  low: { color: "bg-blue-500/10 text-blue-400 border-blue-500/20", icon: <Lightbulb className="w-3 h-3" /> },
+};
+
+const typeConfig = {
+  new_page: { label: "Nieuwe pagina", icon: <FileText className="w-3.5 h-3.5" />, color: "text-green-400" },
+  optimize: { label: "Optimalisatie", icon: <Wrench className="w-3.5 h-3.5" />, color: "text-yellow-400" },
+  strategy: { label: "Strategie", icon: <Zap className="w-3.5 h-3.5" />, color: "text-purple-400" },
+};
+
 const AdminKpi = () => {
   const [overview, setOverview] = useState<GscOverview | null>(null);
   const [convPages, setConvPages] = useState<ConversionPage[]>([]);
@@ -33,6 +62,9 @@ const AdminKpi = () => {
   const [newUrl, setNewUrl] = useState("");
   const [newLabel, setNewLabel] = useState("");
   const [addingPage, setAddingPage] = useState(false);
+  const [advisor, setAdvisor] = useState<AdvisorResult | null>(null);
+  const [advisorLoading, setAdvisorLoading] = useState(false);
+  const [queuedSuggestions, setQueuedSuggestions] = useState<Set<number>>(new Set());
   const { toast } = useToast();
 
   const fetchConvPages = useCallback(async () => {
@@ -72,6 +104,41 @@ const AdminKpi = () => {
       toast({ title: "Sync mislukt", description: e.message, variant: "destructive" });
     }
     setSyncing(false);
+  };
+
+  const handleAdvisor = async () => {
+    setAdvisorLoading(true);
+    setQueuedSuggestions(new Set());
+    try {
+      const { data, error } = await supabase.functions.invoke("kpi-advisor", {
+        body: { mode: "analyze" },
+      });
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+      setAdvisor(data);
+    } catch (e: any) {
+      toast({ title: "AI Advisor mislukt", description: e.message, variant: "destructive" });
+    }
+    setAdvisorLoading(false);
+  };
+
+  const handleQueueSuggestion = async (suggestion: AiSuggestion, index: number) => {
+    try {
+      const { data, error } = await supabase.functions.invoke("kpi-advisor", {
+        body: {
+          mode: "queue_suggestion",
+          headline: suggestion.headline || suggestion.title,
+          keyword: suggestion.keyword,
+          content_type: suggestion.content_type || "article",
+        },
+      });
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+      setQueuedSuggestions(prev => new Set([...prev, index]));
+      toast({ title: "📝 Naar content queue gestuurd", description: suggestion.headline || suggestion.title });
+    } catch (e: any) {
+      toast({ title: "Fout", description: e.message, variant: "destructive" });
+    }
   };
 
   const addConvPage = async () => {
@@ -171,6 +238,112 @@ const AdminKpi = () => {
           </div>
         </div>
       ) : null}
+
+      {/* AI Advisor Panel */}
+      <div className="bg-card border border-border rounded-lg p-5 mb-8">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <Sparkles className="w-5 h-5 text-primary" />
+            <h2 className="font-display font-semibold text-foreground">AI Advisor</h2>
+            {advisor && (
+              <Badge variant="outline" className="text-[10px] bg-green-500/10 text-green-400 border-green-500/20">
+                LIVE
+              </Badge>
+            )}
+          </div>
+          <Button
+            variant="hero"
+            size="sm"
+            onClick={handleAdvisor}
+            disabled={advisorLoading}
+            className="gap-1.5"
+          >
+            {advisorLoading ? (
+              <><Loader2 className="w-4 h-4 animate-spin" /> Analyseren...</>
+            ) : (
+              <><Sparkles className="w-4 h-4" /> Analyseer & Adviseer</>
+            )}
+          </Button>
+        </div>
+
+        {!advisor && !advisorLoading && (
+          <p className="text-sm text-muted-foreground">
+            Laat AI je GSC-data analyseren en concrete acties voorstellen — inclusief nieuwe pagina's die direct naar de content queue gaan.
+          </p>
+        )}
+
+        {advisorLoading && (
+          <div className="flex items-center gap-3 py-6 justify-center">
+            <Loader2 className="w-5 h-5 animate-spin text-primary" />
+            <span className="text-sm text-muted-foreground">AI analyseert je data, keywords en content gaps...</span>
+          </div>
+        )}
+
+        {advisor && (
+          <div className="space-y-4">
+            {/* Summary */}
+            <div className="px-4 py-3 rounded-lg bg-primary/5 border border-primary/10">
+              <p className="text-sm text-foreground">{advisor.summary}</p>
+            </div>
+
+            {/* Suggestions */}
+            <div className="space-y-3">
+              {advisor.suggestions.map((s, i) => {
+                const pConfig = priorityConfig[s.priority];
+                const tConfig = typeConfig[s.type];
+                const isQueued = queuedSuggestions.has(i);
+
+                return (
+                  <div key={i} className="p-4 rounded-lg bg-background border border-border group">
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-1.5">
+                          <span className={tConfig.color}>{tConfig.icon}</span>
+                          <span className="font-medium text-sm text-foreground">{s.title}</span>
+                          <Badge variant="outline" className={`text-[10px] ${pConfig.color} gap-1`}>
+                            {pConfig.icon} {s.priority}
+                          </Badge>
+                          <Badge variant="outline" className="text-[10px] text-muted-foreground">
+                            {tConfig.label}
+                          </Badge>
+                        </div>
+                        <p className="text-xs text-muted-foreground leading-relaxed">{s.description}</p>
+                        {s.keyword && (
+                          <span className="inline-block mt-1.5 text-[10px] font-mono text-primary bg-primary/10 px-2 py-0.5 rounded">
+                            {s.keyword}
+                          </span>
+                        )}
+                        {s.target_page && (
+                          <span className="inline-block mt-1.5 text-[10px] font-mono text-muted-foreground bg-muted px-2 py-0.5 rounded">
+                            {s.target_page}
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Action: queue new_page suggestions */}
+                      {s.type === "new_page" && (
+                        <Button
+                          variant={isQueued ? "ghost" : "heroOutline"}
+                          size="sm"
+                          onClick={() => handleQueueSuggestion(s, i)}
+                          disabled={isQueued}
+                          className="gap-1.5 flex-shrink-0"
+                        >
+                          {isQueued ? (
+                            <><Check className="w-3.5 h-3.5 text-green-400" /> In queue</>
+                          ) : (
+                            <><Send className="w-3.5 h-3.5" /> Naar Queue</>
+                          )}
+                        </Button>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+      </div>
 
       <div className="grid grid-cols-2 gap-6 mb-8">
         {/* Top Keywords */}
