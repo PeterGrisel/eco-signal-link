@@ -1,5 +1,5 @@
 import { useParams, Navigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { CheckCircle, AlertTriangle, Radio } from "lucide-react";
@@ -8,6 +8,7 @@ import Footer from "@/components/Footer";
 import PageLoader from "@/components/PageLoader";
 import CtaSection from "@/components/CtaSection";
 import FunnelCalculatorSection from "@/components/FunnelCalculatorSection";
+import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 import { getSectorBySlug, sectors } from "@/data/sectors";
 
 const fadeUp = {

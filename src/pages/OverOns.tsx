@@ -68,6 +68,10 @@ const OverOns = () => {
   return (
     <PageLoader>
     <div className="min-h-screen">
+      <BreadcrumbJsonLd items={[
+        { name: "Home", url: "https://eco-signal-link.lovable.app/" },
+        { name: "Over Ons", url: "https://eco-signal-link.lovable.app/over-ons" },
+      ]} />
       <Navbar />
 
       {/* Hero */}
