@@ -1,53 +1,66 @@
 import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
-import { ArrowDown, Calculator, Euro, Users, MousePointerClick, Phone, FileText, Handshake } from "lucide-react";
+import { Calculator, ArrowDown, TrendingUp, Target, BarChart3 } from "lucide-react";
 
-const DEFAULT_VALUES = {
-  targetRevenue: 100000,
-  avgDealSize: 7000,
-  salesConversionRate: 30,
-  callToProposalRate: 60,
-  sqlToCallRate: 60,
-  optInToSqlRate: 20,
-  optInRate: 3,
-};
-
-const formatNumber = (n: number) =>
-  n >= 1000 ? n.toLocaleString("nl-NL") : String(Math.round(n * 100) / 100);
+const fmt = (n: number) => n >= 1000 ? `€${n.toLocaleString("nl-NL", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : `€${n.toFixed(2)}`;
+const fmtN = (n: number) => Math.round(n).toLocaleString("nl-NL");
+const fmtPct = (n: number) => `${n.toFixed(2)}%`;
 
 const FunnelCalculatorSection = () => {
-  const [values, setValues] = useState(DEFAULT_VALUES);
+  const [monthlyRevenue, setMonthlyRevenue] = useState(83333);
+  const [expenseRate, setExpenseRate] = useState(30);
+  const [marketingRate, setMarketingRate] = useState(5);
+  const [avgDealSize, setAvgDealSize] = useState(7000);
+  const [optInRate, setOptInRate] = useState(3);
+  const [optInToSqlRate, setOptInToSqlRate] = useState(19.76);
+  const [sqlToCallRate, setSqlToCallRate] = useState(60);
+  const [salesConversionRate, setSalesConversionRate] = useState(30);
+  const [ltv, setLtv] = useState(12);
 
-  const funnel = useMemo(() => {
-    const deals = Math.ceil(values.targetRevenue / values.avgDealSize);
-    const proposals = Math.ceil(deals / (values.salesConversionRate / 100));
-    const calls = Math.ceil(proposals / (values.callToProposalRate / 100));
-    const sqls = Math.ceil(calls / (values.sqlToCallRate / 100));
-    const optIns = Math.ceil(sqls / (values.optInToSqlRate / 100));
-    const traffic = Math.ceil(optIns / (values.optInRate / 100));
+  const metrics = useMemo(() => {
+    const totalRevenue = monthlyRevenue;
+    const totalExpenses = totalRevenue * (expenseRate / 100);
+    const marketingExpenses = totalRevenue * (marketingRate / 100);
+    const totalProfit = totalRevenue - totalExpenses;
 
-    return [
-      { label: "Website Traffic", value: traffic, icon: MousePointerClick, color: "bg-muted" },
-      { label: "Opt-ins / MQL's", value: optIns, icon: Users, color: "bg-primary/20" },
-      { label: "SQL's", value: sqls, icon: Users, color: "bg-primary/30" },
-      { label: "Discovery Calls", value: calls, icon: Phone, color: "bg-primary/40" },
-      { label: "Offertes", value: proposals, icon: FileText, color: "bg-primary/60" },
-      { label: "Deals", value: deals, icon: Handshake, color: "bg-primary" },
-    ];
-  }, [values]);
+    const totalCustomers = Math.ceil(totalRevenue / avgDealSize);
+    const inboundSales = Math.ceil(totalCustomers / 2);
+    const outboundSales = totalCustomers - inboundSales;
 
-  const update = (key: keyof typeof values, val: number) =>
-    setValues((v) => ({ ...v, [key]: val }));
+    const calls = Math.ceil(totalCustomers / (salesConversionRate / 100));
+    const sqls = Math.ceil(calls / (sqlToCallRate / 100));
+    const optIns = Math.ceil(sqls / (optInToSqlRate / 100));
+    const traffic = Math.ceil(optIns / (optInRate / 100));
 
-  const sliders: { key: keyof typeof values; label: string; min: number; max: number; step: number; suffix: string }[] = [
-    { key: "targetRevenue", label: "Gewenste omzet", min: 10000, max: 1000000, step: 5000, suffix: "€" },
-    { key: "avgDealSize", label: "Gemiddelde dealwaarde", min: 500, max: 100000, step: 500, suffix: "€" },
-    { key: "optInRate", label: "Opt-in rate (traffic → MQL)", min: 0.5, max: 15, step: 0.5, suffix: "%" },
-    { key: "optInToSqlRate", label: "MQL → SQL conversie", min: 5, max: 50, step: 1, suffix: "%" },
-    { key: "sqlToCallRate", label: "SQL → Discovery Call", min: 10, max: 80, step: 5, suffix: "%" },
-    { key: "callToProposalRate", label: "Call → Offerte", min: 10, max: 90, step: 5, suffix: "%" },
-    { key: "salesConversionRate", label: "Offerte → Deal", min: 5, max: 80, step: 5, suffix: "%" },
+    const marketingConversionRate = totalCustomers > 0 ? (totalCustomers / traffic) * 100 : 0;
+    const cac = totalCustomers > 0 ? marketingExpenses / totalCustomers : 0;
+    const cacRatio = cac > 0 ? avgDealSize / cac : 0;
+
+    return {
+      totalRevenue, totalExpenses, marketingExpenses, totalProfit,
+      traffic, optIns, sqls, calls, totalCustomers, inboundSales, outboundSales,
+      marketingConversionRate, cac, cacRatio, ltv,
+    };
+  }, [monthlyRevenue, expenseRate, marketingRate, avgDealSize, optInRate, optInToSqlRate, sqlToCallRate, salesConversionRate, ltv]);
+
+  const sliders = [
+    { label: "Maandomzet", value: monthlyRevenue, set: setMonthlyRevenue, min: 10000, max: 500000, step: 1000, format: (v: number) => fmt(v) },
+    { label: "Totale kosten", value: expenseRate, set: setExpenseRate, min: 10, max: 70, step: 1, format: (v: number) => `${v}%` },
+    { label: "Marketingkosten", value: marketingRate, set: setMarketingRate, min: 1, max: 20, step: 0.5, format: (v: number) => `${v}%` },
+    { label: "Gem. dealwaarde", value: avgDealSize, set: setAvgDealSize, min: 500, max: 50000, step: 500, format: (v: number) => fmt(v) },
+    { label: "Opt-in rate", value: optInRate, set: setOptInRate, min: 0.5, max: 15, step: 0.5, format: (v: number) => `${v}%` },
+    { label: "Opt-in → SQL", value: optInToSqlRate, set: setOptInToSqlRate, min: 5, max: 50, step: 0.5, format: (v: number) => `${v}%` },
+    { label: "SQL → Call", value: sqlToCallRate, set: setSqlToCallRate, min: 10, max: 80, step: 5, format: (v: number) => `${v}%` },
+    { label: "Close rate", value: salesConversionRate, set: setSalesConversionRate, min: 5, max: 60, step: 1, format: (v: number) => `${v}%` },
+    { label: "Klant LTV (mnd)", value: ltv, set: setLtv, min: 1, max: 36, step: 1, format: (v: number) => `${v} maanden` },
   ];
+
+  const Row = ({ label, value, highlight, sub }: { label: string; value: string; highlight?: boolean; sub?: boolean }) => (
+    <div className={`flex justify-between items-center py-2 px-4 ${highlight ? "bg-primary/10" : sub ? "pl-8" : ""} ${!sub && !highlight ? "border-b border-border/50" : ""}`}>
+      <span className={`text-sm ${highlight ? "font-display font-bold text-primary" : sub ? "text-muted-foreground" : "text-foreground"}`}>{label}</span>
+      <span className={`text-sm font-mono ${highlight ? "font-bold text-primary" : "text-foreground"}`}>{value}</span>
+    </div>
+  );
 
   return (
     <section className="py-24 border-t border-border">
@@ -63,13 +76,13 @@ const FunnelCalculatorSection = () => {
             Funnel Calculator
           </p>
           <h2 className="font-display font-bold text-2xl md:text-3xl lg:text-4xl tracking-tight leading-tight mb-4">
-            Reken terug van omzet
+            Van omzet naar funnel,
             <br />
-            <span className="text-gradient">naar funnel.</span>
+            <span className="text-gradient">per maand berekend.</span>
           </h2>
           <p className="text-muted-foreground leading-relaxed">
-            Vul uw gewenste omzet en conversieratio's in. Wij berekenen precies hoeveel 
-            traffic, leads en gesprekken u nodig heeft.
+            Stel uw maandomzet en ratio's in. Wij berekenen de volledige funnel, kosten, 
+            CAC en meer — zodat u weet wat er nodig is.
           </p>
         </motion.div>
 
@@ -80,7 +93,7 @@ const FunnelCalculatorSection = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="card-gradient border border-glow rounded-xl p-8 space-y-6"
+            className="card-gradient border border-glow rounded-xl p-8 space-y-5"
           >
             <div className="flex items-center gap-3 mb-2">
               <Calculator className="w-5 h-5 text-primary" />
@@ -88,22 +101,18 @@ const FunnelCalculatorSection = () => {
             </div>
 
             {sliders.map((s) => (
-              <div key={s.key}>
-                <div className="flex justify-between items-center mb-2">
+              <div key={s.label}>
+                <div className="flex justify-between items-center mb-1.5">
                   <label className="text-sm text-muted-foreground">{s.label}</label>
-                  <span className="font-display font-bold text-foreground text-sm">
-                    {s.suffix === "€"
-                      ? `€${formatNumber(values[s.key])}`
-                      : `${values[s.key]}%`}
-                  </span>
+                  <span className="font-display font-bold text-foreground text-sm">{s.format(s.value)}</span>
                 </div>
                 <input
                   type="range"
                   min={s.min}
                   max={s.max}
                   step={s.step}
-                  value={values[s.key]}
-                  onChange={(e) => update(s.key, Number(e.target.value))}
+                  value={s.value}
+                  onChange={(e) => s.set(Number(e.target.value))}
                   className="w-full h-1.5 rounded-full appearance-none bg-secondary cursor-pointer
                     [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4
                     [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-primary [&::-webkit-slider-thumb]:shadow-md
@@ -114,56 +123,74 @@ const FunnelCalculatorSection = () => {
             ))}
           </motion.div>
 
-          {/* Funnel visualization */}
+          {/* Results table */}
           <motion.div
             initial={{ opacity: 0, x: 12 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="space-y-3"
+            className="card-gradient border border-glow rounded-xl overflow-hidden"
           >
-            <div className="flex items-center gap-3 mb-6">
-              <Euro className="w-5 h-5 text-primary" />
-              <h3 className="font-display font-bold text-lg">Uw funnel</h3>
+            {/* Header */}
+            <div className="flex justify-between items-center px-4 py-3 border-b border-border bg-secondary/30">
+              <span className="font-display font-bold text-sm text-foreground flex items-center gap-2">
+                <BarChart3 className="w-4 h-4 text-primary" /> Metrics
+              </span>
+              <span className="font-display font-bold text-sm text-muted-foreground">Per maand</span>
             </div>
 
-            {funnel.map((step, i) => {
-              const maxVal = funnel[0].value;
-              const widthPct = Math.max(30, (step.value / maxVal) * 100);
-
-              return (
-                <div key={step.label}>
-                  <div
-                    style={{ width: `${widthPct}%` }}
-                    className={`${step.color} rounded-lg px-5 py-4 mx-auto flex items-center justify-between gap-3 transition-all duration-300`}
-                  >
-                    <div className="flex items-center gap-3">
-                      <step.icon className="w-4 h-4 text-foreground/70 shrink-0" />
-                      <span className="text-sm font-medium text-foreground">{step.label}</span>
-                    </div>
-                    <span className="font-display font-bold text-foreground text-lg">
-                      {formatNumber(step.value)}
-                    </span>
-                  </div>
-                  {i < funnel.length - 1 && (
-                    <div className="flex justify-center py-1">
-                      <ArrowDown className="w-4 h-4 text-muted-foreground/40" />
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-
-            <div className="mt-6 border-t border-border pt-6 flex items-center justify-between">
-              <span className="text-muted-foreground">Doelomzet</span>
-              <span className="font-display font-bold text-2xl text-primary">
-                €{formatNumber(values.targetRevenue)}
+            {/* Revenue section */}
+            <div className="bg-primary/5 px-4 py-2 border-b border-border">
+              <span className="font-display font-bold text-xs tracking-[0.15em] uppercase text-primary flex items-center gap-2">
+                <TrendingUp className="w-3.5 h-3.5" /> Revenue
               </span>
             </div>
-            <p className="text-xs text-muted-foreground leading-relaxed">
-              Op basis van een gemiddelde dealwaarde van €{formatNumber(values.avgDealSize)}.
-              Pas de ratio's aan om uw specifieke situatie te simuleren.
-            </p>
+            <Row label="Totale Omzet" value={fmt(metrics.totalRevenue)} />
+            <Row label={`Totale Kosten (${expenseRate}%)`} value={fmt(metrics.totalExpenses)} />
+            <Row label={`Marketingkosten (${marketingRate}%)`} value={fmt(metrics.marketingExpenses)} />
+            <Row label="Totale Winst" value={fmt(metrics.totalProfit)} highlight />
+
+            {/* Top & Middle of Funnel */}
+            <div className="bg-primary/5 px-4 py-2 border-b border-border mt-1">
+              <span className="font-display font-bold text-xs tracking-[0.15em] uppercase text-primary flex items-center gap-2">
+                <Target className="w-3.5 h-3.5" /> Top & Middle of Funnel
+              </span>
+            </div>
+            <Row label="Website Traffic" value={fmtN(metrics.traffic)} />
+            <Row label="Opt-ins / MQL's" value={fmtN(metrics.optIns)} />
+            <Row label="Opt-in Rate" value={fmtPct(optInRate)} />
+            <Row label="Sales Qualified Leads (SQL)" value={fmtN(metrics.sqls)} />
+            <Row label="Opt-in → SQL Conversie" value={fmtPct(optInToSqlRate)} />
+            <Row label="Discovery Calls" value={fmtN(metrics.calls)} />
+
+            {/* Bottom of Funnel */}
+            <div className="bg-primary/5 px-4 py-2 border-b border-border mt-1">
+              <span className="font-display font-bold text-xs tracking-[0.15em] uppercase text-primary flex items-center gap-2">
+                <ArrowDown className="w-3.5 h-3.5" /> Bottom of Funnel
+              </span>
+            </div>
+            <Row label="Sales (inbound)" value={fmtN(metrics.inboundSales)} />
+            <Row label="Sales (outbound)" value={fmtN(metrics.outboundSales)} />
+            <Row label="Close Rate" value={fmtPct(salesConversionRate)} />
+            <Row label="Marketing Conversie" value={fmtPct(metrics.marketingConversionRate)} />
+            <Row label="Totaal Klanten" value={fmtN(metrics.totalCustomers)} highlight />
+
+            {/* Unit economics */}
+            <div className="bg-primary/5 px-4 py-2 border-b border-border mt-1">
+              <span className="font-display font-bold text-xs tracking-[0.15em] uppercase text-primary">
+                Unit Economics
+              </span>
+            </div>
+            <Row label="Klant LTV" value={`${ltv} maanden`} />
+            <Row label="Gem. Transactiewaarde" value={fmt(avgDealSize)} />
+            <Row label="Customer Acquisition Cost" value={fmt(metrics.cac)} />
+            <Row label="ATV/CAC Ratio" value={metrics.cacRatio.toFixed(1)} highlight />
+
+            <div className="px-4 py-3 bg-secondary/20 border-t border-border">
+              <p className="text-xs text-muted-foreground">
+                Pas de sliders links aan om uw specifieke situatie te simuleren.
+              </p>
+            </div>
           </motion.div>
         </div>
       </div>
