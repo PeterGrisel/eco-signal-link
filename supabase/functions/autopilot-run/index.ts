@@ -139,7 +139,8 @@ serve(async (req) => {
     // Runs at 2:00 AM via cron
     // ═══════════════════════════════════════════════
     if (mode === "nightly") {
-      const today = new Date().toISOString().split("T")[0];
+      const { target_date } = await req.json().catch(() => ({}));
+      const today = target_date || new Date().toISOString().split("T")[0];
       log.push(`🌙 Nachtelijke generatie voor ${today}`);
 
       // Find today's scheduled + approved item
