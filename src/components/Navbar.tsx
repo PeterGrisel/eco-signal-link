@@ -25,9 +25,9 @@ const Navbar = () => {
         </a>
 
         {/* Desktop nav */}
-        <div className="hidden md:flex items-center gap-8 text-base font-medium text-foreground">
+        <div className="hidden lg:flex items-center gap-6 text-sm font-medium text-foreground">
           {navLinks.map((link) => (
-            <a key={link.href} href={link.href} className="hover:text-primary transition-colors">
+            <a key={link.href} href={link.href} className="hover:text-primary transition-colors whitespace-nowrap">
               {link.label}
             </a>
           ))}
@@ -40,10 +40,10 @@ const Navbar = () => {
             </a>
           </Button>
 
-          {/* Mobile toggle */}
+          {/* Mobile/tablet toggle */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="md:hidden p-2 text-foreground"
+            className="lg:hidden p-2 text-foreground"
             aria-label="Menu openen"
           >
             {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -59,7 +59,7 @@ const Navbar = () => {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.25 }}
-            className="md:hidden border-t border-border bg-background/95 backdrop-blur-md overflow-hidden"
+            className="lg:hidden border-t border-border bg-background/95 backdrop-blur-md overflow-hidden"
           >
             <div className="container mx-auto px-4 py-4 flex flex-col gap-1">
               {navLinks.map((link) => (
