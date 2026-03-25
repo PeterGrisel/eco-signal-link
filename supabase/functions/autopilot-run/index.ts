@@ -40,7 +40,7 @@ serve(async (req) => {
       .from("content_queue")
       .select("id, headline, keyword, content_type, topic_id")
       .eq("status", "approved")
-      .limit(2); // Max 2 per run to avoid rate limits
+      .limit(1); // 1 article per weekday run
 
     let articlesGenerated = 0;
 
@@ -91,7 +91,7 @@ serve(async (req) => {
             log.push(`Afbeelding generatie mislukt voor "${item.headline}", doorgaan zonder`);
           }
 
-          // Save as draft
+          // Save and publish directly
           const { data: post, error: postError } = await supabase.from("blog_posts").insert({
             title: articleData.title,
             slug: articleData.slug,
@@ -100,7 +100,8 @@ serve(async (req) => {
             meta_description: articleData.meta_description,
             featured_image: featuredImage,
             topic_id: item.topic_id || null,
-            status: "draft",
+            status: "published",
+            published_at: new Date().toISOString(),
           }).select("id").single();
 
           if (postError) throw postError;
@@ -110,7 +111,7 @@ serve(async (req) => {
             blog_post_id: post.id,
           }).eq("id", item.id);
 
-          log.push(`✓ "${articleData.title}" opgeslagen als draft`);
+          log.push(`✓ "${articleData.title}" gepubliceerd`);
           articlesGenerated++;
         } catch (e: any) {
           await supabase.from("content_queue").update({
