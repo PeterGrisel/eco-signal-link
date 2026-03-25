@@ -67,7 +67,7 @@ const StreamsSection = () => {
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {streams.map((stream, i) => (
             <motion.div
               key={stream.title}
