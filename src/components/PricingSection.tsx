@@ -221,25 +221,19 @@ const PricingSection = () => {
                 title: "Full Service Recruitment",
                 description: "Volledig recruitmentproces van outreach tot aanname. Geen maandelijkse kosten, alleen een succesfee.",
                 price: "15% bruto jaarsalaris",
-                items: [
-                  "Auto-kwalificatie & AI-testing via e-mail of chat",
-                  "Persoonlijke kwalificatiegesprekken namens u",
-                ],
+                highlights: ["Sourcing & Selectie", "AI-kwalificatie", "Begeleiding tot aanname", "Teamopbouw"],
+                link: "/full-service-recruitment",
               },
               {
                 icon: Briefcase,
                 label: "Add-on: Klantwerving",
                 title: "Full Sales Management",
-                description: "Van strategie tot uitvoering: wij nemen uw volledige commerciële proces over. Salesgesprekken, marketing, relatiebeheer en strategische groei.",
+                description: "Van strategie tot uitvoering: wij nemen uw volledige commerciële proces over.",
                 price: "Prijs op aanvraag",
-                items: [
-                  "Sales: gestructureerde acquisitie en professionele opvolging",
-                  "Marketing: campagnes, content en online zichtbaarheid",
-                  "Strategie: propositie aanscherpen en commercieel plan",
-                  "Relatiebeheer: klantbehoud en herhaalopdrachten vergroten",
-                ],
+                highlights: ["Sales", "Marketing", "Strategie", "Relatiebeheer"],
+                link: "/full-sales-management",
               },
-            ].map(({ icon: Icon, label, title, description, price, items }, i) => (
+            ].map(({ icon: Icon, label, title, description, price, highlights, link }, i) => (
               <motion.div
                 key={title}
                 initial={{ opacity: 0, y: 12 }}
@@ -263,35 +257,24 @@ const PricingSection = () => {
                   {description}
                 </p>
 
-                <ul className="space-y-2 mb-5">
-                  {items.map((item) => (
-                    <li key={item} className="flex items-start gap-3 text-sm text-muted-foreground">
-                      <Check className="w-4 h-4 text-primary mt-0.5 shrink-0" />
-                      <span>{item}</span>
-                    </li>
+                <div className="flex flex-wrap gap-2 mb-5">
+                  {highlights.map((h) => (
+                    <span key={h} className="text-xs text-muted-foreground bg-secondary/80 border border-border px-2.5 py-1 rounded-md">
+                      {h}
+                    </span>
                   ))}
-                </ul>
+                </div>
 
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-display font-semibold text-primary">
                     {price}
                   </span>
-                  {title === "Full Sales Management" && (
-                    <Link
-                      to="/full-sales-management"
-                      className="text-xs text-primary hover:underline font-medium flex items-center gap-1"
-                    >
-                      Meer info <ArrowRight className="w-3 h-3" />
-                    </Link>
-                  )}
-                  {title === "Full Service Recruitment" && (
-                    <Link
-                      to="/full-service-recruitment"
-                      className="text-xs text-primary hover:underline font-medium flex items-center gap-1"
-                    >
-                      Meer info <ArrowRight className="w-3 h-3" />
-                    </Link>
-                  )}
+                  <Link
+                    to={link}
+                    className="text-xs text-primary hover:underline font-medium flex items-center gap-1"
+                  >
+                    Meer info <ArrowRight className="w-3 h-3" />
+                  </Link>
                 </div>
               </motion.div>
             ))}
