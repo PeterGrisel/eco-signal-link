@@ -6,7 +6,7 @@ import datahubScreenshot from "@/assets/datahub-screenshot.png";
 const features = [
   {
     icon: MessageCircleQuestion,
-    title: "Stel 1.000 vragen aan uw data",
+    title: "Stel direct vragen aan uw data",
     description: "Welke doelgroep converteert het best? Welk kanaal levert de meeste gesprekken op? Uw commerciële data geeft het antwoord.",
   },
   {
