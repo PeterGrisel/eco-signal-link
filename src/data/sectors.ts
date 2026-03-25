@@ -10,6 +10,7 @@ export interface Sector {
   metaDescription: string;
   challenges: string[];
   solutions: string[];
+  signals: string[];
 }
 
 export const sectors: Sector[] = [
