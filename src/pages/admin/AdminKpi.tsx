@@ -81,6 +81,8 @@ const AdminKpi = () => {
   const [advisor, setAdvisor] = useState<AdvisorResult | null>(null);
   const [advisorLoading, setAdvisorLoading] = useState(false);
   const [queuedSuggestions, setQueuedSuggestions] = useState<Set<number>>(new Set());
+  const [audit, setAudit] = useState<AuditResult | null>(null);
+  const [auditLoading, setAuditLoading] = useState(false);
   const { toast } = useToast();
 
   const fetchConvPages = useCallback(async () => {
