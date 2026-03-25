@@ -79,23 +79,30 @@ const SectorPage = () => {
           </div>
         </section>
 
-        {/* Results */}
+        {/* Process Timeline */}
         <section className="py-20 border-t border-border">
           <div className="container mx-auto px-6">
-            <div className="grid sm:grid-cols-3 gap-8 max-w-3xl">
-              {sector.results.map((stat, i) => (
+            <motion.p {...fadeUp} className="text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-8">
+              Operationeel in 4 weken
+            </motion.p>
+            <div className="grid sm:grid-cols-4 gap-6">
+              {[
+                { week: "Week 1", title: "Strategie & Data", desc: "Doelgroepanalyse, ICP-definitie en databronnen koppelen." },
+                { week: "Week 2", title: "Systeem & Copy", desc: "Campagne-architectuur opzetten, messaging afstemmen op uw markt." },
+                { week: "Week 3", title: "Lancering", desc: "Eerste outreach live. Multichannel campagnes starten." },
+                { week: "Week 4", title: "Optimalisatie", desc: "Data evalueren, A/B-testen en bijsturen op basis van resultaten." },
+              ].map((step, i) => (
                 <motion.div
-                  key={stat.label}
+                  key={step.week}
                   initial={{ opacity: 0, y: 16 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: i * 0.1 }}
-                  className="text-center sm:text-left"
+                  className="card-gradient border border-glow rounded-lg p-6 relative"
                 >
-                  <div className="text-4xl md:text-5xl font-display font-bold text-primary mb-2">
-                    {stat.value}
-                  </div>
-                  <div className="text-muted-foreground text-sm">{stat.label}</div>
+                  <span className="text-primary font-display font-bold text-sm">{step.week}</span>
+                  <h3 className="font-display font-semibold text-lg mt-2 mb-2">{step.title}</h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed">{step.desc}</p>
                 </motion.div>
               ))}
             </div>
