@@ -52,6 +52,20 @@ serve(async (req) => {
     const ctaButtonText = settings.cta_button_text || "";
     const ctaNote = settings.cta_note || "";
     const wordCount = length === "kort" ? 800 : length === "lang" ? 2500 : 1500;
+    const siteUrl = settings.site_url || "https://b2bgroeimachine.nl";
+
+    // Build internal links context
+    const internalLinksContext = existingPosts.length > 0
+      ? `\nBESCHIKBARE INTERNE LINKS (gebruik er 2-4 waar relevant):
+${existingPosts.map(p => `- [${p.title}](${siteUrl}/blog/${p.slug})`).join("\n")}
+
+Vaste pagina's:
+- [Home](${siteUrl}/)
+- [Over ons](${siteUrl}/over-ons)
+- [Full Sales Management](${siteUrl}/full-sales-management)
+- [Full Service Recruitment](${siteUrl}/full-service-recruitment)
+- [Blog overzicht](${siteUrl}/blog)`
+      : "";
 
     const systemPrompt = `Je bent een expert SEO content schrijver voor ${siteName}. Je schrijft in het ${lang} voor een professionele B2B doelgroep.
 
