@@ -3,6 +3,7 @@ import Hero from "@/components/Hero";
 import LogoTicker from "@/components/LogoTicker";
 import StreamsSection from "@/components/StreamsSection";
 import SystemSection from "@/components/SystemSection";
+import FunnelSection from "@/components/FunnelSection";
 import ProcessSection from "@/components/ProcessSection";
 import ResultsSection from "@/components/ResultsSection";
 import CtaSection from "@/components/CtaSection";
@@ -16,6 +17,7 @@ const Index = () => {
       <LogoTicker />
       <StreamsSection />
       <SystemSection />
+      <FunnelSection />
       <ProcessSection />
       <ResultsSection />
       <CtaSection />
