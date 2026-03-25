@@ -21,19 +21,37 @@ async function getAccessToken(): Promise<string> {
   const saJson = Deno.env.get("GOOGLE_SERVICE_ACCOUNT_JSON");
   if (saJson) {
     try {
-      const sa = JSON.parse(saJson);
+      // Handle case where the JSON might be double-escaped or have extra quotes
+      let jsonStr = saJson.trim();
+      if (jsonStr.startsWith("'") && jsonStr.endsWith("'")) {
+        jsonStr = jsonStr.slice(1, -1);
+      }
+      const sa = JSON.parse(jsonStr);
       email = sa.client_email;
       privateKey = sa.private_key;
-    } catch {
-      throw new Error("GOOGLE_SERVICE_ACCOUNT_JSON is invalid JSON");
+      if (!email || !privateKey) {
+        throw new Error("Missing client_email or private_key in JSON");
+      }
+    } catch (e) {
+      console.error("JSON parse error:", e);
+      // Fallback to individual secrets
+      email = Deno.env.get("GOOGLE_SA_CLIENT_EMAIL") || "";
+      const pkRaw = Deno.env.get("GOOGLE_SA_PRIVATE_KEY") || "";
+      if (!email || !pkRaw) throw new Error("Google Service Account credentials not configured");
+      privateKey = pkRaw;
     }
   } else {
     email = Deno.env.get("GOOGLE_SA_CLIENT_EMAIL") || "";
     const pkRaw = Deno.env.get("GOOGLE_SA_PRIVATE_KEY") || "";
     if (!email || !pkRaw) throw new Error("Google Service Account credentials not configured");
-    // Handle various escape formats
-    privateKey = pkRaw.replace(/\\n/g, "\n");
+    privateKey = pkRaw;
   }
+
+  // Normalize the private key - handle all escape formats
+  privateKey = privateKey
+    .replace(/\\n/g, "\n")     // literal \n to real newlines
+    .replace(/\\\\n/g, "\n")   // double-escaped
+    .trim();
 
   // Create JWT
   const header = { alg: "RS256", typ: "JWT" };
@@ -56,13 +74,21 @@ async function getAccessToken(): Promise<string> {
   const unsignedToken = `${encodeJson(header)}.${encodeJson(claim)}`;
 
   // Extract PEM body and decode
-  const pemLines = privateKey.split("\n").filter(l => l && !l.startsWith("-----"));
-  const pemBody = pemLines.join("");
+  const pemLines = privateKey.split("\n").filter(l => l.trim() && !l.includes("-----"));
+  const pemBody = pemLines.join("").replace(/\s/g, "");
+  
+  console.log("PEM body length:", pemBody.length);
+  console.log("PEM starts with:", pemBody.substring(0, 20));
+  console.log("Private key starts with:", privateKey.substring(0, 40));
+  
   const binaryStr = atob(pemBody);
   const binaryKey = new Uint8Array(binaryStr.length);
   for (let i = 0; i < binaryStr.length; i++) {
     binaryKey[i] = binaryStr.charCodeAt(i);
   }
+
+  // Log first bytes to verify PKCS8 format (should start with 0x30 = SEQUENCE)
+  console.log("First 4 bytes:", Array.from(binaryKey.slice(0, 4)).map(b => `0x${b.toString(16)}`).join(", "));
 
   const cryptoKey = await crypto.subtle.importKey(
     "pkcs8", binaryKey.buffer, { name: "RSASSA-PKCS1-v1_5", hash: "SHA-256" }, false, ["sign"]
