@@ -1,7 +1,27 @@
+import { sectors } from "@/data/sectors";
+
 const Footer = () => {
   return (
     <footer className="border-t border-border py-12">
       <div className="container mx-auto px-6">
+        {/* Sector links grid */}
+        <div className="mb-10">
+          <p className="text-xs font-display font-semibold tracking-[0.15em] uppercase text-muted-foreground mb-4">
+            Sectoren
+          </p>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            {sectors.map((s) => (
+              <a
+                key={s.slug}
+                href={`/sectoren/${s.slug}`}
+                className="text-sm text-muted-foreground hover:text-primary transition-colors"
+              >
+                {s.title}
+              </a>
+            ))}
+          </div>
+        </div>
+
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           <div>
             <span className="font-display font-bold text-lg">
