@@ -1,8 +1,13 @@
 import { motion } from "framer-motion";
-import { Database, Brain, RefreshCw, Lock } from "lucide-react";
+import { Database, Brain, RefreshCw, Lock, MessageCircleQuestion } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const features = [
+  {
+    icon: MessageCircleQuestion,
+    title: "Stel 1.000 vragen aan uw data",
+    description: "Welke doelgroep converteert het best? Welk kanaal levert de meeste gesprekken op? Uw commerciële data geeft het antwoord.",
+  },
   {
     icon: Database,
     title: "Alle data op één plek",
