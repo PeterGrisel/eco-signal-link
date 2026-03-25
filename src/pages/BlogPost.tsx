@@ -88,7 +88,9 @@ const BlogPost = () => {
   }
 
   const publishDate = post.published_at || post.created_at;
-  const readTime = estimateReadTime(post.content);
+  // Strip leading H1 from markdown to avoid duplicate title
+  const cleanContent = post.content.replace(/^\s*#\s+.+\n*/m, "");
+  const readTime = estimateReadTime(cleanContent);
   const isDraft = post.status === "draft";
 
   return (
@@ -175,7 +177,7 @@ const BlogPost = () => {
             prose-tr:transition-colors hover:prose-tr:bg-secondary/30
             prose-figure:my-8
           ">
-            {splitContentWithInfographics(post.content).map((part, i) =>
+            {splitContentWithInfographics(cleanContent).map((part, i) =>
               part.type === "infographic" ? (
                 <div key={i} className="not-prose">{renderInfographic(part.block)}</div>
               ) : (
