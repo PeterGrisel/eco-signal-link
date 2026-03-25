@@ -31,7 +31,10 @@ const CtaSection = () => {
             </Button>
           </div>
           <p className="text-muted-foreground text-sm mt-6">
-            €0 opstartkosten · Operationeel in 4 weken · Geen langetermijncontract
+            €0 opstartkosten · Operationeel in 4 weken · Vanaf €1.500/maand
+          </p>
+          <p className="text-muted-foreground text-xs mt-2 max-w-md mx-auto">
+            Wij raden minimaal 6 maanden aan — in een kleine markt is geduld de sleutel tot duurzame resultaten.
           </p>
         </motion.div>
       </div>
