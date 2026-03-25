@@ -6,7 +6,8 @@ import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import {
   Sparkles, Check, X, Loader2, Play, RefreshCw, Zap,
-  FileText, Wrench, Video, Globe
+  FileText, Wrench, Video, Globe, Calendar, Rocket, Eye,
+  ArrowRight, Clock
 } from "lucide-react";
 
 type QueueStatus = "pending" | "approved" | "declined" | "generating" | "published" | "failed";
@@ -22,16 +23,17 @@ interface QueueItem {
   blog_post_id: string | null;
   error_message: string | null;
   topic_id: string | null;
+  scheduled_date: string | null;
   created_at: string;
 }
 
-const statusConfig: Record<QueueStatus, { color: string; label: string }> = {
-  pending: { color: "bg-yellow-500/10 text-yellow-400 border-yellow-500/20", label: "Pending" },
-  approved: { color: "bg-blue-500/10 text-blue-400 border-blue-500/20", label: "Approved" },
-  declined: { color: "bg-muted text-muted-foreground", label: "Declined" },
-  generating: { color: "bg-purple-500/10 text-purple-400 border-purple-500/20", label: "Generating" },
-  published: { color: "bg-green-500/10 text-green-400 border-green-500/20", label: "Published" },
-  failed: { color: "bg-red-500/10 text-red-400 border-red-500/20", label: "Failed" },
+const statusConfig: Record<QueueStatus, { color: string; label: string; icon: React.ReactNode }> = {
+  pending: { color: "bg-yellow-500/10 text-yellow-400 border-yellow-500/20", label: "Pending", icon: <Clock className="w-3 h-3" /> },
+  approved: { color: "bg-blue-500/10 text-blue-400 border-blue-500/20", label: "Ingepland", icon: <Calendar className="w-3 h-3" /> },
+  declined: { color: "bg-muted text-muted-foreground", label: "Afgewezen", icon: <X className="w-3 h-3" /> },
+  generating: { color: "bg-purple-500/10 text-purple-400 border-purple-500/20", label: "Review", icon: <Eye className="w-3 h-3" /> },
+  published: { color: "bg-green-500/10 text-green-400 border-green-500/20", label: "Gepubliceerd", icon: <Check className="w-3 h-3" /> },
+  failed: { color: "bg-red-500/10 text-red-400 border-red-500/20", label: "Mislukt", icon: <X className="w-3 h-3" /> },
 };
 
 const typeIcons: Record<ContentType, React.ReactNode> = {
@@ -44,7 +46,7 @@ const typeIcons: Record<ContentType, React.ReactNode> = {
 const AdminAutopilot = () => {
   const [queue, setQueue] = useState<QueueItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const [generating, setGenerating] = useState(false);
+  const [pipelineRunning, setPipelineRunning] = useState(false);
   const [processingId, setProcessingId] = useState<string | null>(null);
   const { toast } = useToast();
 
@@ -52,53 +54,53 @@ const AdminAutopilot = () => {
     const { data } = await supabase
       .from("content_queue")
       .select("*")
+      .order("scheduled_date", { ascending: true, nullsFirst: false })
       .order("created_at", { ascending: false });
-    if (data) setQueue(data as QueueItem[]);
+    if (data) setQueue(data as unknown as QueueItem[]);
     setLoading(false);
   }, []);
 
   useEffect(() => { fetchQueue(); }, [fetchQueue]);
 
-  // Generate new headlines
-  const handleGenerateHeadlines = async () => {
-    setGenerating(true);
+  // ═══════════════════════════════════════════
+  // Full AI Pipeline: Strategy → Headlines → Schedule
+  // ═══════════════════════════════════════════
+  const handleFullPipeline = async () => {
+    setPipelineRunning(true);
     try {
-      const existingHeadlines = queue.map(q => q.headline);
-      const { data, error } = await supabase.functions.invoke("generate-headlines", {
-        body: {
-          count: 10,
-          content_types: ["article", "tool"],
-          existing_headlines: existingHeadlines,
-        },
+      const { data, error } = await supabase.functions.invoke("autopilot-run", {
+        body: { mode: "full_pipeline" },
       });
       if (error) throw error;
       if (data?.error) throw new Error(data.error);
 
-      if (data?.headlines?.length) {
-        const rows = data.headlines.map((h: any) => ({
-          headline: h.headline,
-          content_type: h.content_type,
-          keyword: h.keyword,
-          notes: h.notes,
-          topic_id: h.topic_id || null,
-        }));
-        const { error: insertError } = await supabase.from("content_queue").insert(rows);
-        if (insertError) throw insertError;
-        toast({ title: `${data.headlines.length} headlines gegenereerd!` });
-        fetchQueue();
-      }
+      toast({
+        title: "🚀 Full AI Pipeline compleet!",
+        description: data?.strategy_summary?.slice(0, 100) || `${data?.log?.length || 0} stappen uitgevoerd`,
+      });
+      fetchQueue();
+    } catch (e: any) {
+      toast({ title: "Pipeline mislukt", description: e.message, variant: "destructive" });
+    }
+    setPipelineRunning(false);
+  };
+
+  // Approve & Publish (for items with generated draft)
+  const handleApprovePublish = async (item: QueueItem) => {
+    setProcessingId(item.id);
+    try {
+      const { data, error } = await supabase.functions.invoke("autopilot-run", {
+        body: { mode: "approve_publish", queue_id: item.id },
+      });
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+
+      toast({ title: "✓ Gepubliceerd & indexering aangevraagd!" });
+      fetchQueue();
     } catch (e: any) {
       toast({ title: "Fout", description: e.message, variant: "destructive" });
     }
-    setGenerating(false);
-  };
-
-  // Approve → auto-generate
-  const handleApprove = async (item: QueueItem) => {
-    await supabase.from("content_queue").update({ status: "approved" as any }).eq("id", item.id);
-    fetchQueue();
-    // Auto-trigger generation
-    handleGenerateArticle({ ...item, status: "approved" });
+    setProcessingId(null);
   };
 
   // Decline
@@ -107,93 +109,26 @@ const AdminAutopilot = () => {
     fetchQueue();
   };
 
-  // Generate article from approved headline
-  const handleGenerateArticle = async (item: QueueItem) => {
-    setProcessingId(item.id);
-    await supabase.from("content_queue").update({ status: "generating" as any }).eq("id", item.id);
+  // Retry failed
+  const handleRetry = async (item: QueueItem) => {
+    await supabase.from("content_queue").update({ status: "approved" as any }).eq("id", item.id);
     fetchQueue();
-
-    try {
-      // Step 1: Generate article content
-      const { data, error } = await supabase.functions.invoke("generate-article", {
-        body: {
-          headline: item.headline,
-          keyword: item.keyword || item.headline,
-          content_type: item.content_type,
-          length: "lang",
-        },
-      });
-      if (error) throw error;
-      if (data?.error) throw new Error(data.error);
-
-      // Step 2: Generate featured image (non-blocking)
-      let featuredImage: string | null = null;
-      try {
-        const { data: imgData } = await supabase.functions.invoke("generate-blog-image", {
-          body: {
-            title: data.title,
-            keyword: item.keyword || item.headline,
-          },
-        });
-        if (imgData?.image_url) featuredImage = imgData.image_url;
-      } catch (imgErr) {
-        console.warn("Image generation failed, continuing without image:", imgErr);
-      }
-
-      // Step 3: Save as draft blog post
-      const { data: post, error: postError } = await supabase.from("blog_posts").insert({
-        title: data.title,
-        slug: data.slug,
-        content: data.content,
-        excerpt: data.excerpt,
-        meta_description: data.meta_description,
-        featured_image: featuredImage,
-        topic_id: item.topic_id || null,
-        status: "draft",
-      } as any).select("id").single();
-
-      if (postError) throw postError;
-
-      await supabase.from("content_queue").update({
-        status: "published" as any,
-        blog_post_id: post.id,
-      }).eq("id", item.id);
-
-      toast({ title: `"${data.title}" gegenereerd als draft!` });
-    } catch (e: any) {
-      await supabase.from("content_queue").update({
-        status: "failed" as any,
-        error_message: e.message,
-      }).eq("id", item.id);
-      toast({ title: "Generatie mislukt", description: e.message, variant: "destructive" });
-    }
-    setProcessingId(null);
-    fetchQueue();
-  };
-
-  // Batch generate all approved
-  const handleBatchGenerate = async () => {
-    const approved = queue.filter(q => q.status === "approved");
-    if (approved.length === 0) {
-      toast({ title: "Geen approved headlines om te genereren" });
-      return;
-    }
-    for (const item of approved) {
-      await handleGenerateArticle(item);
-    }
   };
 
   // Stats
   const stats = {
-    total: queue.length,
-    pending: queue.filter(q => q.status === "pending").length,
-    approved: queue.filter(q => q.status === "approved").length,
+    scheduled: queue.filter(q => q.status === "approved").length,
+    review: queue.filter(q => q.status === "generating" && q.blog_post_id).length,
     published: queue.filter(q => q.status === "published").length,
+    failed: queue.filter(q => q.status === "failed").length,
   };
 
-  const pendingItems = queue.filter(q => q.status === "pending");
-  const approvedItems = queue.filter(q => q.status === "approved");
-  const otherItems = queue.filter(q => !["pending", "approved"].includes(q.status));
+  // Group items by status for the flow
+  const reviewItems = queue.filter(q => q.status === "generating" && q.blog_post_id);
+  const scheduledItems = queue.filter(q => q.status === "approved");
+  const publishedItems = queue.filter(q => q.status === "published");
+  const failedItems = queue.filter(q => q.status === "failed");
+  const declinedItems = queue.filter(q => q.status === "declined");
 
   return (
     <AdminLayout>
@@ -203,29 +138,50 @@ const AdminAutopilot = () => {
             <Zap className="w-6 h-6 text-primary" /> Content Autopilot
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
-            Genereer headlines, approve ze, en laat AI de artikelen schrijven
+            Full AI control: strategie → headlines → generatie → review → publicatie → indexering
           </p>
         </div>
-        <div className="flex gap-2">
-          {approvedItems.length > 0 && (
-            <Button variant="hero" size="sm" onClick={handleBatchGenerate} disabled={!!processingId}>
-              <Play className="w-4 h-4" /> Genereer {approvedItems.length} approved
-            </Button>
+        <Button
+          variant="hero"
+          onClick={handleFullPipeline}
+          disabled={pipelineRunning}
+          className="gap-2"
+        >
+          {pipelineRunning ? (
+            <><Loader2 className="w-4 h-4 animate-spin" /> Pipeline draait...</>
+          ) : (
+            <><Rocket className="w-4 h-4" /> Full AI Pipeline</>
           )}
-          <Button variant="heroOutline" size="sm" onClick={handleGenerateHeadlines} disabled={generating}>
-            {generating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
-            {generating ? "Genereren..." : "Nieuwe Headlines"}
-          </Button>
-        </div>
+        </Button>
+      </div>
+
+      {/* Pipeline Flow Visual */}
+      <div className="flex items-center gap-2 mb-8 text-xs text-muted-foreground overflow-x-auto pb-2">
+        {[
+          { label: "Strategie", icon: <Sparkles className="w-3.5 h-3.5" /> },
+          { label: "Headlines", icon: <FileText className="w-3.5 h-3.5" /> },
+          { label: "Schema", icon: <Calendar className="w-3.5 h-3.5" /> },
+          { label: "Nacht: Generatie", icon: <Clock className="w-3.5 h-3.5" /> },
+          { label: "Ochtend: Review", icon: <Eye className="w-3.5 h-3.5" /> },
+          { label: "Approve → Publish", icon: <Check className="w-3.5 h-3.5" /> },
+          { label: "Auto-Index", icon: <Globe className="w-3.5 h-3.5" /> },
+        ].map((step, i) => (
+          <div key={step.label} className="flex items-center gap-2">
+            {i > 0 && <ArrowRight className="w-3 h-3 text-muted-foreground/50 flex-shrink-0" />}
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-card border border-border whitespace-nowrap">
+              {step.icon} {step.label}
+            </div>
+          </div>
+        ))}
       </div>
 
       {/* Stats */}
       <div className="grid grid-cols-4 gap-4 mb-8">
         {[
-          { label: "Totaal", value: stats.total, color: "text-foreground" },
-          { label: "Pending", value: stats.pending, color: "text-yellow-400" },
-          { label: "Approved", value: stats.approved, color: "text-blue-400" },
-          { label: "Published", value: stats.published, color: "text-green-400" },
+          { label: "Ingepland", value: stats.scheduled, color: "text-blue-400" },
+          { label: "Wacht op review", value: stats.review, color: "text-purple-400" },
+          { label: "Gepubliceerd", value: stats.published, color: "text-green-400" },
+          { label: "Mislukt", value: stats.failed, color: "text-red-400" },
         ].map((s) => (
           <div key={s.label} className="p-4 rounded-lg bg-card border border-border">
             <p className={`text-2xl font-bold ${s.color}`}>{s.value}</p>
@@ -240,71 +196,89 @@ const AdminAutopilot = () => {
         </div>
       ) : queue.length === 0 ? (
         <div className="text-center py-16">
-          <Sparkles className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-          <p className="text-muted-foreground mb-4">Nog geen content in de queue.</p>
-          <Button variant="hero" onClick={handleGenerateHeadlines} disabled={generating}>
-            <Sparkles className="w-4 h-4" /> Genereer je eerste headlines
+          <Rocket className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
+          <p className="text-muted-foreground mb-2">Nog geen content in de pipeline.</p>
+          <p className="text-sm text-muted-foreground mb-6">
+            Klik op "Full AI Pipeline" om automatisch een strategie, headlines en publicatieschema te genereren.
+          </p>
+          <Button variant="hero" onClick={handleFullPipeline} disabled={pipelineRunning}>
+            <Rocket className="w-4 h-4" /> Start Full AI Pipeline
           </Button>
         </div>
       ) : (
-        <div className="space-y-6">
-          {/* Pending - Approve/Decline */}
-          {pendingItems.length > 0 && (
-            <div>
-              <h2 className="font-display font-semibold text-foreground mb-3 flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-yellow-400" />
-                Pending Review ({pendingItems.length})
-              </h2>
-              <div className="space-y-2">
-                {pendingItems.map(item => (
-                  <QueueCard
-                    key={item.id}
-                    item={item}
-                    onApprove={() => handleApprove(item)}
-                    onDecline={() => handleDecline(item.id)}
-                  />
-                ))}
-              </div>
-            </div>
+        <div className="space-y-8">
+          {/* Review Items — Ready for approval */}
+          {reviewItems.length > 0 && (
+            <Section
+              title="Wacht op Review"
+              count={reviewItems.length}
+              color="bg-purple-400"
+              description="Artikelen zijn 's nachts gegenereerd. Review en approve om te publiceren."
+            >
+              {reviewItems.map(item => (
+                <QueueCard
+                  key={item.id}
+                  item={item}
+                  onApprovePublish={() => handleApprovePublish(item)}
+                  onDecline={() => handleDecline(item.id)}
+                  isProcessing={processingId === item.id}
+                />
+              ))}
+            </Section>
           )}
 
-          {/* Approved - Ready to generate */}
-          {approvedItems.length > 0 && (
-            <div>
-              <h2 className="font-display font-semibold text-foreground mb-3 flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-blue-400" />
-                Approved ({approvedItems.length})
-              </h2>
-              <div className="space-y-2">
-                {approvedItems.map(item => (
-                  <QueueCard
-                    key={item.id}
-                    item={item}
-                    onGenerate={() => handleGenerateArticle(item)}
-                    isGenerating={processingId === item.id}
-                    onDecline={() => handleDecline(item.id)}
-                  />
-                ))}
-              </div>
-            </div>
+          {/* Scheduled — Publishing Calendar */}
+          {scheduledItems.length > 0 && (
+            <Section
+              title="Publicatieschema"
+              count={scheduledItems.length}
+              color="bg-blue-400"
+              description="Ingeplande artikelen. Worden 's nachts automatisch gegenereerd."
+            >
+              {scheduledItems.map(item => (
+                <QueueCard
+                  key={item.id}
+                  item={item}
+                  onDecline={() => handleDecline(item.id)}
+                />
+              ))}
+            </Section>
           )}
 
-          {/* Other statuses */}
-          {otherItems.length > 0 && (
-            <div>
-              <h2 className="font-display font-semibold text-foreground mb-3 flex items-center gap-2">
-                History ({otherItems.length})
-              </h2>
-              <div className="space-y-2">
-                {otherItems.map(item => (
-                  <QueueCard
-                    key={item.id}
-                    item={item}
-                    onRetry={item.status === "failed" ? () => handleApprove(item) : undefined}
-                  />
-                ))}
-              </div>
-            </div>
+          {/* Published */}
+          {publishedItems.length > 0 && (
+            <Section title="Gepubliceerd" count={publishedItems.length} color="bg-green-400">
+              {publishedItems.slice(0, 10).map(item => (
+                <QueueCard key={item.id} item={item} />
+              ))}
+              {publishedItems.length > 10 && (
+                <p className="text-xs text-muted-foreground pl-4">
+                  + {publishedItems.length - 10} meer
+                </p>
+              )}
+            </Section>
+          )}
+
+          {/* Failed */}
+          {failedItems.length > 0 && (
+            <Section title="Mislukt" count={failedItems.length} color="bg-red-400">
+              {failedItems.map(item => (
+                <QueueCard
+                  key={item.id}
+                  item={item}
+                  onRetry={() => handleRetry(item)}
+                />
+              ))}
+            </Section>
+          )}
+
+          {/* Declined */}
+          {declinedItems.length > 0 && (
+            <Section title="Afgewezen" count={declinedItems.length} color="bg-muted-foreground">
+              {declinedItems.slice(0, 5).map(item => (
+                <QueueCard key={item.id} item={item} />
+              ))}
+            </Section>
           )}
         </div>
       )}
@@ -312,17 +286,36 @@ const AdminAutopilot = () => {
   );
 };
 
-// Queue Card Component
+// Section wrapper
+const Section = ({ title, count, color, description, children }: {
+  title: string;
+  count: number;
+  color: string;
+  description?: string;
+  children: React.ReactNode;
+}) => (
+  <div>
+    <div className="mb-3">
+      <h2 className="font-display font-semibold text-foreground flex items-center gap-2">
+        <span className={`w-2 h-2 rounded-full ${color}`} />
+        {title} ({count})
+      </h2>
+      {description && <p className="text-xs text-muted-foreground mt-0.5 ml-4">{description}</p>}
+    </div>
+    <div className="space-y-2">{children}</div>
+  </div>
+);
+
+// Queue Card
 interface QueueCardProps {
   item: QueueItem;
-  onApprove?: () => void;
+  onApprovePublish?: () => void;
   onDecline?: () => void;
-  onGenerate?: () => void;
   onRetry?: () => void;
-  isGenerating?: boolean;
+  isProcessing?: boolean;
 }
 
-const QueueCard = ({ item, onApprove, onDecline, onGenerate, onRetry, isGenerating }: QueueCardProps) => {
+const QueueCard = ({ item, onApprovePublish, onDecline, onRetry, isProcessing }: QueueCardProps) => {
   const config = statusConfig[item.status];
 
   return (
@@ -334,15 +327,19 @@ const QueueCard = ({ item, onApprove, onDecline, onGenerate, onRetry, isGenerati
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2">
             <span className="font-medium text-foreground text-sm truncate">{item.headline}</span>
-            <Badge variant="outline" className={`text-xs ${config.color}`}>{config.label}</Badge>
-            <Badge variant="outline" className="text-xs">{item.content_type}</Badge>
+            <Badge variant="outline" className={`text-xs ${config.color} gap-1`}>
+              {config.icon} {config.label}
+            </Badge>
           </div>
-          <div className="flex items-center gap-2 mt-0.5">
+          <div className="flex items-center gap-3 mt-0.5">
+            {item.scheduled_date && (
+              <span className="text-xs text-blue-400 flex items-center gap-1">
+                <Calendar className="w-3 h-3" />
+                {new Date(item.scheduled_date).toLocaleDateString("nl-NL", { weekday: "short", day: "numeric", month: "short" })}
+              </span>
+            )}
             {item.keyword && (
               <span className="text-xs text-primary font-mono">{item.keyword}</span>
-            )}
-            {item.notes && (
-              <span className="text-xs text-muted-foreground truncate">{item.notes}</span>
             )}
             {item.error_message && (
               <span className="text-xs text-red-400 truncate">{item.error_message}</span>
@@ -351,15 +348,10 @@ const QueueCard = ({ item, onApprove, onDecline, onGenerate, onRetry, isGenerati
         </div>
       </div>
       <div className="flex items-center gap-2 ml-4 flex-shrink-0">
-        {onApprove && (
-          <Button variant="ghost" size="sm" onClick={onApprove} className="text-green-400 hover:text-green-300 hover:bg-green-500/10">
-            <Check className="w-4 h-4" /> Approve
-          </Button>
-        )}
-        {onGenerate && (
-          <Button variant="hero" size="sm" onClick={onGenerate} disabled={isGenerating}>
-            {isGenerating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Play className="w-4 h-4" />}
-            {isGenerating ? "Generating..." : "Generate"}
+        {onApprovePublish && (
+          <Button variant="hero" size="sm" onClick={onApprovePublish} disabled={isProcessing} className="gap-1.5">
+            {isProcessing ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
+            {isProcessing ? "Publishing..." : "Approve & Publish"}
           </Button>
         )}
         {onRetry && (
@@ -369,7 +361,7 @@ const QueueCard = ({ item, onApprove, onDecline, onGenerate, onRetry, isGenerati
         )}
         {onDecline && (
           <Button variant="ghost" size="sm" onClick={onDecline} className="text-red-400 hover:text-red-300 hover:bg-red-500/10">
-            <X className="w-4 h-4" /> Decline
+            <X className="w-4 h-4" />
           </Button>
         )}
       </div>
