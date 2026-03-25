@@ -21,11 +21,14 @@ serve(async (req) => {
     const systemPrompt = `Je bent een SEO-expert gespecialiseerd in link building via directory submissions. Je taak is om relevante, kwalitatieve online directories en platforms te vinden waar een bedrijf zich kan aanmelden om backlinks en zichtbaarheid te krijgen.
 
 Focus op:
+- ALLEEN directories waar je GRATIS een listing kunt aanmaken (geen betaalde directories)
 - Directories met hoge Domain Rating (DR 30+)
 - Zowel algemene als niche-specifieke directories
 - Business directories, software directories, review platforms
 - Lokale en internationale directories
 - Directories die daadwerkelijk bestaan en actief zijn in 2024-2026
+
+BELANGRIJK: Geef GEEN directories die een betaald abonnement vereisen om een basis-listing aan te maken. Gratis freemium-modellen (gratis basis, betaalde upgrade) zijn wel OK.
 
 Voor elke directory geef je:
 - name: De naam van de directory
