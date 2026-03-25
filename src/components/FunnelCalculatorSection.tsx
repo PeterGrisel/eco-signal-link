@@ -1,7 +1,8 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Calculator, ArrowDown, TrendingUp, Target, BarChart3, Info } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import type { FunnelDefaults } from "@/data/sectors";
 
 const fmt = (n: number) => n >= 1000 ? `€${n.toLocaleString("nl-NL", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : `€${n.toFixed(2)}`;
 const fmtN = (n: number) => Math.round(n).toLocaleString("nl-NL");
@@ -57,16 +58,31 @@ const InfoTip = ({ label }: { label: string }) => {
   );
 };
 
-const FunnelCalculatorSection = () => {
-  const [monthlyRevenue, setMonthlyRevenue] = useState(83333);
-  const [expenseRate, setExpenseRate] = useState(30);
-  const [marketingRate, setMarketingRate] = useState(5);
-  const [avgDealSize, setAvgDealSize] = useState(7000);
-  const [optInRate, setOptInRate] = useState(3);
-  const [optInToSqlRate, setOptInToSqlRate] = useState(19.76);
-  const [sqlToCallRate, setSqlToCallRate] = useState(60);
-  const [salesConversionRate, setSalesConversionRate] = useState(30);
-  const [ltv, setLtv] = useState(12);
+const FunnelCalculatorSection = ({ defaults }: { defaults?: FunnelDefaults }) => {
+  const d = defaults || { monthlyRevenue: 83333, expenseRate: 30, marketingRate: 5, avgDealSize: 7000, optInRate: 3, optInToSqlRate: 19.76, sqlToCallRate: 60, salesConversionRate: 30, ltv: 12 };
+
+  const [monthlyRevenue, setMonthlyRevenue] = useState(d.monthlyRevenue);
+  const [expenseRate, setExpenseRate] = useState(d.expenseRate);
+  const [marketingRate, setMarketingRate] = useState(d.marketingRate);
+  const [avgDealSize, setAvgDealSize] = useState(d.avgDealSize);
+  const [optInRate, setOptInRate] = useState(d.optInRate);
+  const [optInToSqlRate, setOptInToSqlRate] = useState(d.optInToSqlRate);
+  const [sqlToCallRate, setSqlToCallRate] = useState(d.sqlToCallRate);
+  const [salesConversionRate, setSalesConversionRate] = useState(d.salesConversionRate);
+  const [ltv, setLtv] = useState(d.ltv);
+
+  useEffect(() => {
+    if (!defaults) return;
+    setMonthlyRevenue(defaults.monthlyRevenue);
+    setExpenseRate(defaults.expenseRate);
+    setMarketingRate(defaults.marketingRate);
+    setAvgDealSize(defaults.avgDealSize);
+    setOptInRate(defaults.optInRate);
+    setOptInToSqlRate(defaults.optInToSqlRate);
+    setSqlToCallRate(defaults.sqlToCallRate);
+    setSalesConversionRate(defaults.salesConversionRate);
+    setLtv(defaults.ltv);
+  }, [defaults]);
 
   const metrics = useMemo(() => {
     const totalRevenue = monthlyRevenue;
