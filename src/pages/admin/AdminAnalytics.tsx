@@ -387,6 +387,76 @@ const AdminAnalytics = () => {
           </Table>
         </CardContent>
       </Card>
+
+      {/* IP Blocklist */}
+      <Card className="bg-card border-border mt-8">
+        <CardHeader className="pb-2">
+          <CardTitle className="text-sm font-medium flex items-center gap-2">
+            <ShieldBan className="w-4 h-4 text-destructive" /> Tracking Filters
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-xs text-muted-foreground mb-3">
+            Ingelogde admins worden automatisch uitgesloten. Hieronder kun je extra IP-adressen blokkeren.
+          </p>
+          {myIP && (
+            <div className="flex items-center gap-2 mb-4 px-3 py-2 rounded-md bg-muted/50 border border-border">
+              <Globe className="w-3.5 h-3.5 text-muted-foreground" />
+              <span className="text-xs text-muted-foreground">Jouw huidige IP:</span>
+              <code className="text-xs font-mono text-foreground">{myIP}</code>
+              {!blockedIPs.some(b => b.ip_address === myIP) && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="ml-auto h-7 text-[11px]"
+                  onClick={() => { setNewIP(myIP); setNewIPLabel("Mijn IP"); }}
+                >
+                  Blokkeer mijn IP
+                </Button>
+              )}
+              {blockedIPs.some(b => b.ip_address === myIP) && (
+                <Badge variant="outline" className="ml-auto text-[10px] text-green-400 border-green-500/20">Geblokkeerd ✓</Badge>
+              )}
+            </div>
+          )}
+
+          {/* Add IP form */}
+          <div className="flex gap-2 mb-4">
+            <Input
+              placeholder="IP-adres (bijv. 123.45.67.89)"
+              value={newIP}
+              onChange={e => setNewIP(e.target.value)}
+              className="flex-1 h-8 text-xs"
+            />
+            <Input
+              placeholder="Label (optioneel)"
+              value={newIPLabel}
+              onChange={e => setNewIPLabel(e.target.value)}
+              className="w-40 h-8 text-xs"
+            />
+            <Button variant="outline" size="sm" onClick={addBlockedIP} disabled={!newIP} className="h-8 gap-1">
+              <Plus className="w-3.5 h-3.5" /> Toevoegen
+            </Button>
+          </div>
+
+          {/* Blocked IPs list */}
+          {blockedIPs.length > 0 && (
+            <div className="space-y-1">
+              {blockedIPs.map(ip => (
+                <div key={ip.id} className="flex items-center justify-between px-3 py-1.5 rounded-md bg-muted/30 border border-border">
+                  <div className="flex items-center gap-2">
+                    <code className="text-xs font-mono text-foreground">{ip.ip_address}</code>
+                    {ip.label && <span className="text-[11px] text-muted-foreground">— {ip.label}</span>}
+                  </div>
+                  <Button variant="ghost" size="sm" onClick={() => removeBlockedIP(ip.id)} className="h-6 w-6 p-0">
+                    <X className="w-3 h-3 text-muted-foreground hover:text-destructive" />
+                  </Button>
+                </div>
+              ))}
+            </div>
+          )}
+        </CardContent>
+      </Card>
     </AdminLayout>
   );
 };
