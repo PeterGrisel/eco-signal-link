@@ -3,7 +3,7 @@ import { ArrowRight, RefreshCw, Send } from "lucide-react";
 
 const steps = [
   {
-    phase: "Week 1-2",
+    phase: "Week 1‑2",
     title: "Analyse & Architectuur",
     items: [
       "ICP-mapping voor elke stroom",
@@ -13,10 +13,10 @@ const steps = [
     ],
   },
   {
-    phase: "Week 3-4",
+    phase: "Week 3‑4",
     title: "Campagne Launch",
     items: [
-      "Signaal-databases activeren",
+      "Signaaldatabases activeren",
       "Eerste outreach-sequenties live",
       "A/B tests op messaging",
       "Monitoring & optimalisatie",
@@ -40,7 +40,7 @@ const deliveryModels = [
     title: "Done-for-you",
     subtitle: "Wij beheren het volledig",
     description:
-      "U focust op gesprekken, wij runnen het systeem. Dagelijkse monitoring, optimalisatie en kwalificatie — alsof u een volledig outbound-team heeft zonder de overhead.",
+      "U focust op gesprekken, wij runnen het systeem. Dagelijkse monitoring, optimalisatie en kwalificatie, alsof u een volledig outbound-team heeft zonder de overhead.",
     tags: ["Dagelijks beheer", "Continue optimalisatie", "Kwalificatie & opvolging"],
   },
   {
@@ -49,7 +49,7 @@ const deliveryModels = [
     subtitle: "Wij bouwen, u neemt over",
     description:
       "Wij zetten de volledige infrastructuur op, trainen uw team en dragen het systeem over. U behoudt eigenaarschap van alle tools, data en processen.",
-    tags: ["Volledige overdracht", "Team-training", "Documentatie & playbooks"],
+    tags: ["Volledige overdracht", "Teamtraining", "Documentatie & playbooks"],
   },
 ];
 
@@ -60,9 +60,10 @@ const ProcessSection = () => {
       <div className="container mx-auto px-6 relative z-10">
         {/* Timeline */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
           className="mb-16 text-center max-w-2xl mx-auto"
         >
           <p className="text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4">
@@ -79,10 +80,10 @@ const ProcessSection = () => {
           {steps.map((step, i) => (
             <motion.div
               key={step.phase}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.15 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.5, delay: i * 0.1 }}
               className="card-gradient border border-glow rounded-lg p-8 hover:border-primary/30 transition-colors relative"
             >
               <span className="text-primary font-display font-bold text-xs tracking-[0.2em] uppercase">
@@ -98,7 +99,6 @@ const ProcessSection = () => {
                 ))}
               </ul>
 
-              {/* Arrow connector */}
               {i < steps.length - 1 && (
                 <div className="hidden md:flex absolute -right-3 top-1/2 -translate-y-1/2 z-10">
                   <ArrowRight className="w-6 h-6 text-primary/40" />
@@ -110,9 +110,10 @@ const ProcessSection = () => {
 
         {/* Delivery Models */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
           className="mb-12 text-center max-w-2xl mx-auto"
         >
           <p className="text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4">
@@ -124,7 +125,7 @@ const ProcessSection = () => {
             <span className="text-gradient">u neemt het over.</span>
           </h2>
           <p className="text-muted-foreground mt-4 text-lg leading-relaxed">
-            Geen lock-in. Geen eigen platform dat u moet afnemen. Het systeem draait op uw tools — wij integreren wat werkt.
+            Geen lock-in. Geen eigen platform dat u moet afnemen. Het systeem draait op uw tools; wij integreren wat werkt.
           </p>
         </motion.div>
 
@@ -132,10 +133,10 @@ const ProcessSection = () => {
           {deliveryModels.map((model, i) => (
             <motion.div
               key={model.title}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.15 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.5, delay: i * 0.1 }}
               className="card-gradient border border-glow rounded-lg p-10 hover:border-primary/30 transition-colors group"
             >
               <model.icon className="w-8 h-8 text-primary mb-5 group-hover:scale-110 transition-transform" />

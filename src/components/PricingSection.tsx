@@ -15,7 +15,7 @@ const recruitmentAddOns = [
   },
   {
     title: "Full Service Recruitment",
-    description: "Volledig recruitmentproces van outreach tot aanname. Geen maandelijkse kosten — alleen een succesfee.",
+    description: "Volledig recruitmentproces van outreach tot aanname. Geen maandelijkse kosten, alleen een succesfee.",
     price: "15% bruto jaarsalaris",
   },
 ];
@@ -28,12 +28,12 @@ const leadsAddOns = [
   },
   {
     title: "AI Avatar Video",
-    description: "Gepersonaliseerde video-outreach via AI-avatar — schaalbaar als eerste contact of follow-up.",
+    description: "Gepersonaliseerde video-outreach via AI-avatar, schaalbaar als eerste contact of follow-up.",
     price: "Prijs op aanvraag",
   },
   {
     title: "Full Sales Management",
-    description: "Van strategie tot uitvoering — wij nemen uw volledige salesproces over. Pipeline-opbouw, opvolging en closing.",
+    description: "Van strategie tot uitvoering: wij nemen uw volledige salesproces over. Pipeline-opbouw, opvolging en closing.",
     price: "Prijs op aanvraag",
   },
 ];
@@ -41,10 +41,10 @@ const leadsAddOns = [
 const baseFeatures = [
   "Beide stromen actief (recruitment + leads)",
   "4-lagen systeemopzet & ICP-mapping",
-  "Signaal-gebaseerde targeting",
-  "Omnichannel outreach (6-8 touchpoints)",
+  "Signaalgebaseerde targeting",
+  "Omnichannel outreach (6 tot 8 touchpoints)",
   "Intent-scoring & kwalificatie",
-  "2-wekelijkse rapportage",
+  "Tweewekelijkse rapportage",
   "Dedicated campagnemanager",
   "€0 opstartkosten",
 ];
@@ -55,9 +55,10 @@ const PricingSection = () => {
       <div className="absolute inset-0 glow-bg pointer-events-none" />
       <div className="container mx-auto px-6 relative z-10">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
           className="mb-16 text-center max-w-2xl mx-auto"
         >
           <p className="text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4">
@@ -69,17 +70,17 @@ const PricingSection = () => {
             <span className="text-gradient">Twee stromen.</span>
           </h2>
           <p className="text-muted-foreground mt-4 text-lg leading-relaxed">
-            Eén maandelijkse fee, gedeelde engagement-uren en stroom-specifieke add-ons die u naar behoefte activeert.
+            Eén maandelijkse fee, gedeelde engagement-uren en stroomspecifieke add-ons die u naar behoefte activeert.
           </p>
         </motion.div>
 
         {/* Base package + engagement hours */}
         <div className="grid lg:grid-cols-2 gap-6 mb-12">
-          {/* Base */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.5 }}
             className="border border-primary/30 bg-primary/5 rounded-lg p-8 relative"
           >
             <div className="absolute -top-3 left-6">
@@ -114,12 +115,11 @@ const PricingSection = () => {
             </Button>
           </motion.div>
 
-          {/* Engagement hours */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.5, delay: 0.08 }}
             className="card-gradient border border-glow rounded-lg p-8 relative"
           >
             <div className="absolute -top-3 left-6">
@@ -134,7 +134,7 @@ const PricingSection = () => {
                 <span className="text-muted-foreground text-sm">/uur</span>
               </div>
               <p className="text-muted-foreground text-sm mt-2">
-                Kwalificatie, personalisatie, omnichannel follow-up — voor beide stromen
+                Kwalificatie, personalisatie, omnichannel follow-up voor beide stromen
               </p>
             </div>
 
@@ -175,21 +175,20 @@ const PricingSection = () => {
 
         {/* Add-ons split by stream */}
         <div className="grid lg:grid-cols-2 gap-6">
-          {/* Recruitment add-ons */}
           <div className="space-y-4">
             <div className="flex items-center gap-2 lg:ml-2">
               <Users className="w-4 h-4 text-primary" />
               <p className="text-xs font-display font-semibold text-muted-foreground tracking-[0.15em] uppercase">
-                Add-ons — Recruitment
+                Add-ons: Recruitment
               </p>
             </div>
             {recruitmentAddOns.map((addon, i) => (
               <motion.div
                 key={addon.title}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 12 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.1 + i * 0.1 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.4, delay: i * 0.06 }}
                 className="card-gradient border border-glow rounded-lg p-6 hover:border-primary/30 transition-colors group"
               >
                 <div className="flex items-center gap-2 mb-3">
@@ -206,21 +205,20 @@ const PricingSection = () => {
             ))}
           </div>
 
-          {/* Leads add-ons */}
           <div className="space-y-4">
             <div className="flex items-center gap-2 lg:ml-2">
               <Briefcase className="w-4 h-4 text-primary" />
               <p className="text-xs font-display font-semibold text-muted-foreground tracking-[0.15em] uppercase">
-                Add-ons — Klantwerving
+                Add-ons: Klantwerving
               </p>
             </div>
             {leadsAddOns.map((addon, i) => (
               <motion.div
                 key={addon.title}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 12 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.1 + i * 0.1 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.4, delay: i * 0.06 }}
                 className="card-gradient border border-glow rounded-lg p-6 hover:border-primary/30 transition-colors group"
               >
                 <div className="flex items-center gap-2 mb-3">
@@ -242,12 +240,12 @@ const PricingSection = () => {
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.5 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.5 }}
           className="mt-8 card-gradient border border-dashed border-primary/20 rounded-lg p-6 text-center"
         >
           <p className="text-muted-foreground text-sm">
-            Verwachte output: <span className="text-foreground font-semibold">3-5 hooggekwalificeerde meetings per maand</span> — voor klanten én kandidaten.{" "}
+            Verwachte output: <span className="text-foreground font-semibold">3 tot 5 hooggekwalificeerde meetings per maand</span> voor klanten én kandidaten.{" "}
             <a
               href="https://app.usemotion.com/meet/Rebel-Force/meeting"
               target="_blank"
