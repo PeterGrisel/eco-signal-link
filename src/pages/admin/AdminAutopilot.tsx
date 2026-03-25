@@ -7,7 +7,7 @@ import { useToast } from "@/hooks/use-toast";
 import {
   Sparkles, Check, X, Loader2, Play, RefreshCw, Zap,
   FileText, Wrench, Video, Globe, Calendar, Rocket, Eye,
-  ArrowRight, Clock
+  ArrowRight, Clock, ToggleLeft, ToggleRight
 } from "lucide-react";
 
 type QueueStatus = "pending" | "approved" | "declined" | "generating" | "published" | "failed";
