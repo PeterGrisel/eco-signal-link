@@ -254,7 +254,7 @@ serve(async (req) => {
     // MODE: approve_publish — Admin approves → publish + index
     // ═══════════════════════════════════════════════
     if (mode === "approve_publish") {
-      const { queue_id } = await req.json().catch(() => ({}));
+      const { queue_id } = body;
       if (!queue_id) throw new Error("queue_id is required");
 
       const { data: queueItem } = await supabase
