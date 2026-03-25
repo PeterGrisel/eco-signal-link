@@ -82,6 +82,32 @@ SEO:
 - Schrijf een meta description die key points samenvat (50 tot 140 tekens)
 - Genereer 5 tot 10 relevante meta keywords
 
+INFOGRAPHICS (VERPLICHT - gebruik minimaal 2 per artikel):
+Voeg visuele infographics toe als speciale code blocks in de markdown. De beschikbare types:
+
+1. Process Flow (stap-voor-stap processen, fases):
+\\\`\\\`\\\`infographic-process
+{"title":"Titel","phases":[{"title":"Fase 1","icon":"search","items":["Punt 1","Punt 2"]},{"title":"Fase 2","icon":"brain","items":["Punt 1","Punt 2"]}],"stats":[{"value":"50%","label":"Verbetering"}]}
+\\\`\\\`\\\`
+
+2. Comparison (vergelijking van opties):
+\\\`\\\`\\\`infographic-compare
+{"title":"A vs B","columns":[{"title":"Optie A","items":{"Snelheid":"Laag","Kosten":"Hoog"}},{"title":"Optie B","highlight":true,"items":{"Snelheid":"Hoog","Kosten":"Laag"}}]}
+\\\`\\\`\\\`
+
+3. Stats (key metrics):
+\\\`\\\`\\\`infographic-stats
+{"title":"Resultaten","stats":[{"value":"70%","label":"Hogere conversie","trend":"up"},{"value":"3x","label":"Meer leads","trend":"up"}]}
+\\\`\\\`\\\`
+
+4. Layers (architectuur, stapelmodellen):
+\\\`\\\`\\\`infographic-layers
+{"title":"Architectuur","layers":[{"title":"Laag 1","subtitle":"Basis","items":[{"label":"Kenmerk","value":"Waarde"}]}]}
+\\\`\\\`\\\`
+
+Beschikbare icons: search, lightbulb, rocket, check, settings, brain, target, shield, trending, zap, database, users, chart, globe, mail, message, filter.
+Plaats infographics op logische plekken waar visuele verduidelijking waarde toevoegt. JSON moet geldig zijn.
+
 ${competitorPrompt ? `CONCURRENTEN: ${competitorPrompt}` : ""}
 
 CTA: Sluit af met een subtiele call-to-action:
