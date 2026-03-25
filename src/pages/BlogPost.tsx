@@ -30,27 +30,12 @@ const BlogPost = () => {
 
   useEffect(() => {
     const fetchPost = async () => {
-      // First try: get published post (public)
-      let { data } = await supabase
+      // RLS handles access: public sees published, admins see all
+      const { data } = await supabase
         .from("blog_posts")
         .select("*, category:blog_categories(name, slug)")
         .eq("slug", slug!)
-        .eq("status", "published")
         .maybeSingle();
-
-      // If not found, try as admin (draft preview)
-      if (!data) {
-        const { data: { session } } = await supabase.auth.getSession();
-        if (session) {
-          const { data: draft } = await supabase
-            .from("blog_posts")
-            .select("*, category:blog_categories(name, slug)")
-            .eq("slug", slug!)
-            .maybeSingle();
-          data = draft;
-        }
-      }
-
       if (data) setPost(data as unknown as Post);
       setLoading(false);
     };
