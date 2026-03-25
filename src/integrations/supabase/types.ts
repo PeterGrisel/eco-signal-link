@@ -91,6 +91,53 @@ export type Database = {
           },
         ]
       }
+      content_queue: {
+        Row: {
+          blog_post_id: string | null
+          content_type: Database["public"]["Enums"]["content_type"]
+          created_at: string
+          error_message: string | null
+          headline: string
+          id: string
+          keyword: string | null
+          notes: string | null
+          status: Database["public"]["Enums"]["content_queue_status"]
+          updated_at: string
+        }
+        Insert: {
+          blog_post_id?: string | null
+          content_type?: Database["public"]["Enums"]["content_type"]
+          created_at?: string
+          error_message?: string | null
+          headline: string
+          id?: string
+          keyword?: string | null
+          notes?: string | null
+          status?: Database["public"]["Enums"]["content_queue_status"]
+          updated_at?: string
+        }
+        Update: {
+          blog_post_id?: string | null
+          content_type?: Database["public"]["Enums"]["content_type"]
+          created_at?: string
+          error_message?: string | null
+          headline?: string
+          id?: string
+          keyword?: string | null
+          notes?: string | null
+          status?: Database["public"]["Enums"]["content_queue_status"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "content_queue_blog_post_id_fkey"
+            columns: ["blog_post_id"]
+            isOneToOne: false
+            referencedRelation: "blog_posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       directory_listings: {
         Row: {
           category: string | null
@@ -197,6 +244,14 @@ export type Database = {
     Enums: {
       app_role: "admin" | "user"
       blog_post_status: "draft" | "published" | "archived"
+      content_queue_status:
+        | "pending"
+        | "approved"
+        | "declined"
+        | "generating"
+        | "published"
+        | "failed"
+      content_type: "article" | "tool" | "video" | "pseo"
       indexing_status: "pending" | "requested" | "indexed" | "failed"
       listing_status: "todo" | "submitted" | "live" | "rejected"
     }
@@ -328,6 +383,15 @@ export const Constants = {
     Enums: {
       app_role: ["admin", "user"],
       blog_post_status: ["draft", "published", "archived"],
+      content_queue_status: [
+        "pending",
+        "approved",
+        "declined",
+        "generating",
+        "published",
+        "failed",
+      ],
+      content_type: ["article", "tool", "video", "pseo"],
       indexing_status: ["pending", "requested", "indexed", "failed"],
       listing_status: ["todo", "submitted", "live", "rejected"],
     },
