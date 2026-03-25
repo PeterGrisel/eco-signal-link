@@ -55,9 +55,9 @@ const deliveryModels = [
 
 const ProcessSection = () => {
   return (
-    <section id="systeem" className="py-32 relative">
+    <section id="systeem" className="py-16 md:py-32 relative">
       <div className="absolute inset-0 glow-bg pointer-events-none" />
-      <div className="container mx-auto px-6 relative z-10">
+      <div className="container mx-auto px-4 md:px-6 relative z-10">
         {/* Timeline */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
@@ -69,14 +69,14 @@ const ProcessSection = () => {
           <p className="text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4">
             Van Setup tot Resultaat
           </p>
-          <h2 className="font-display font-bold text-4xl md:text-5xl lg:text-6xl tracking-tight leading-tight">
+          <h2 className="font-display font-bold text-3xl md:text-5xl lg:text-6xl tracking-tight leading-tight">
             In 4 weken
             <br />
             <span className="text-gradient">operationeel.</span>
           </h2>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-6 mb-24">
+        <div className="grid md:grid-cols-3 gap-4 md:gap-6 mb-16 md:mb-24">
           {steps.map((step, i) => (
             <motion.div
               key={step.phase}
@@ -84,7 +84,7 @@ const ProcessSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="card-gradient border border-glow rounded-lg p-8 hover:border-primary/30 transition-colors relative"
+              className="card-gradient border border-glow rounded-lg p-6 md:p-8 hover:border-primary/30 transition-colors relative"
             >
               <span className="text-primary font-display font-bold text-xs tracking-[0.2em] uppercase">
                 {step.phase}
@@ -129,7 +129,7 @@ const ProcessSection = () => {
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid md:grid-cols-2 gap-4 md:gap-6">
           {deliveryModels.map((model, i) => (
             <motion.div
               key={model.title}
@@ -137,7 +137,7 @@ const ProcessSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="card-gradient border border-glow rounded-lg p-10 hover:border-primary/30 transition-colors group"
+              className="card-gradient border border-glow rounded-lg p-6 md:p-10 hover:border-primary/30 transition-colors group"
             >
               <model.icon className="w-8 h-8 text-primary mb-5 group-hover:scale-110 transition-transform" />
               <div className="mb-4">

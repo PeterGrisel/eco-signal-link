@@ -3,8 +3,8 @@ import { Puzzle, ShieldCheck, Repeat, BarChart3, Clock, Users } from "lucide-rea
 
 const ResultsSection = () => {
   return (
-    <section id="resultaten" className="py-32 relative">
-      <div className="container mx-auto px-6">
+    <section id="resultaten" className="py-16 md:py-32 relative">
+      <div className="container mx-auto px-4 md:px-6">
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -15,14 +15,14 @@ const ResultsSection = () => {
           <p className="text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4">
             Waarom Rebel Force
           </p>
-          <h2 className="font-display font-bold text-4xl md:text-5xl lg:text-6xl tracking-tight leading-tight">
+          <h2 className="font-display font-bold text-3xl md:text-5xl lg:text-6xl tracking-tight leading-tight">
             Geen platform.
             <br />
             <span className="text-gradient">Geen lock-in.</span>
           </h2>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-12 items-start mb-20">
+        <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-start mb-16 md:mb-20">
           <motion.div
             initial={{ opacity: 0, x: -12 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -62,7 +62,7 @@ const ResultsSection = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.5 }}
-            className="card-gradient border border-glow rounded-lg p-10"
+            className="card-gradient border border-glow rounded-lg p-6 md:p-10"
           >
             <p className="text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-8">
               Wat u krijgt
@@ -106,7 +106,7 @@ const ResultsSection = () => {
           </h2>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-3 gap-4 md:gap-6">
           {[
             {
               icon: BarChart3,

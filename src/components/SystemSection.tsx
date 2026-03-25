@@ -49,8 +49,8 @@ const principles = [
 
 const SystemSection = () => {
   return (
-    <section id="hoe-het-werkt" className="py-32 relative">
-      <div className="container mx-auto px-6">
+    <section id="hoe-het-werkt" className="py-16 md:py-32 relative">
+      <div className="container mx-auto px-4 md:px-6">
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -61,14 +61,14 @@ const SystemSection = () => {
           <p className="text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4">
             Het 4-Laags Systeem
           </p>
-          <h2 className="font-display font-bold text-4xl md:text-5xl lg:text-6xl tracking-tight leading-tight">
+          <h2 className="font-display font-bold text-3xl md:text-5xl lg:text-6xl tracking-tight leading-tight">
             Gebouwd voor
             <br />
             <span className="text-gradient">voorspelbaarheid.</span>
           </h2>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-6 mb-24">
+        <div className="grid md:grid-cols-2 gap-4 md:gap-6 mb-16 md:mb-24">
           {layers.map((layer, i) => (
             <motion.div
               key={layer.number}
@@ -76,7 +76,7 @@ const SystemSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.5, delay: i * 0.08 }}
-              className="card-gradient border border-glow rounded-lg p-8 group hover:border-primary/30 transition-colors"
+              className="card-gradient border border-glow rounded-lg p-6 md:p-8 group hover:border-primary/30 transition-colors"
             >
               <div className="flex items-start gap-4 mb-4">
                 <span className="text-primary font-display font-bold text-sm">{layer.number}</span>
@@ -89,7 +89,7 @@ const SystemSection = () => {
         </div>
 
         {/* Signal Dashboard Mockup */}
-        <div className="mb-24">
+        <div className="mb-16 md:mb-24">
           <SignalDashboardMockup />
         </div>
 
@@ -111,7 +111,7 @@ const SystemSection = () => {
           </h2>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-3 gap-4 md:gap-6">
           {principles.map((item, i) => (
             <motion.div
               key={item.title}

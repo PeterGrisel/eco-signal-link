@@ -43,9 +43,9 @@ const features = [
 
 const DatahubSection = () => {
   return (
-    <section id="datahub" className="py-32 relative">
+    <section id="datahub" className="py-16 md:py-32 relative">
       <div className="absolute inset-0 glow-bg pointer-events-none" />
-      <div className="container mx-auto px-6 relative z-10">
+      <div className="container mx-auto px-4 md:px-6 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -56,7 +56,7 @@ const DatahubSection = () => {
           <p className="text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4">
             Ons SaaS Metadataplatform
           </p>
-          <h2 className="font-display font-bold text-4xl md:text-5xl lg:text-6xl tracking-tight leading-tight">
+          <h2 className="font-display font-bold text-3xl md:text-5xl lg:text-6xl tracking-tight leading-tight">
             Datahub.
             <br />
             <span className="text-gradient">Uw commerciële geheugen.</span>
@@ -81,7 +81,7 @@ const DatahubSection = () => {
             loading="lazy"
           />
         </motion.div>
-        <div className="grid md:grid-cols-2 gap-6 mb-12">
+        <div className="grid md:grid-cols-2 gap-4 md:gap-6 mb-12">
           {features.map((feature, i) => (
             <motion.div
               key={feature.title}
