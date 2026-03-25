@@ -108,12 +108,17 @@ const PricingSection = () => {
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.5 }}
         >
-          <StepBadge step={2} label="Kies uw engagement-uren" />
+          <StepBadge step={2} label="Optioneel: engagement-uren" />
           <div className="card-gradient border border-glow rounded-lg p-8">
             <div className="mb-6">
-              <div className="flex items-baseline gap-1 mb-2">
-                <span className="font-display font-bold text-4xl">€67–€76</span>
-                <span className="text-muted-foreground text-sm">/uur</span>
+              <div className="flex items-center gap-3 mb-2">
+                <div className="flex items-baseline gap-1">
+                  <span className="font-display font-bold text-4xl">€67–€76</span>
+                  <span className="text-muted-foreground text-sm">/uur</span>
+                </div>
+                <span className="text-[10px] font-display font-semibold text-primary bg-primary/10 px-2 py-0.5 rounded-full uppercase tracking-wider">
+                  Optioneel
+                </span>
               </div>
               <p className="text-muted-foreground text-sm">
                 Kwalificatie, personalisatie, omnichannel follow-up voor beide stromen
