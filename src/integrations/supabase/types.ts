@@ -211,6 +211,33 @@ export type Database = {
           },
         ]
       }
+      conversion_pages: {
+        Row: {
+          created_at: string
+          id: string
+          is_active: boolean | null
+          label: string
+          updated_at: string
+          url: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_active?: boolean | null
+          label: string
+          updated_at?: string
+          url: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_active?: boolean | null
+          label?: string
+          updated_at?: string
+          url?: string
+        }
+        Relationships: []
+      }
       directory_listings: {
         Row: {
           category: string | null
@@ -253,6 +280,45 @@ export type Database = {
         }
         Relationships: []
       }
+      gsc_snapshots: {
+        Row: {
+          clicks: number | null
+          created_at: string
+          ctr: number | null
+          date: string
+          device: string | null
+          id: string
+          impressions: number | null
+          page: string | null
+          position: number | null
+          query: string
+        }
+        Insert: {
+          clicks?: number | null
+          created_at?: string
+          ctr?: number | null
+          date: string
+          device?: string | null
+          id?: string
+          impressions?: number | null
+          page?: string | null
+          position?: number | null
+          query: string
+        }
+        Update: {
+          clicks?: number | null
+          created_at?: string
+          ctr?: number | null
+          date?: string
+          device?: string | null
+          id?: string
+          impressions?: number | null
+          page?: string | null
+          position?: number | null
+          query?: string
+        }
+        Relationships: []
+      }
       indexing_requests: {
         Row: {
           created_at: string
@@ -280,6 +346,51 @@ export type Database = {
           response_message?: string | null
           status?: Database["public"]["Enums"]["indexing_status"]
           url?: string
+        }
+        Relationships: []
+      }
+      monthly_evaluations: {
+        Row: {
+          articles_published: number | null
+          avg_ctr: number | null
+          avg_position: number | null
+          conversion_clicks: number | null
+          created_at: string
+          id: string
+          month: string
+          recommendations: Json | null
+          top_keywords: Json | null
+          topic_performance: Json | null
+          total_clicks: number | null
+          total_impressions: number | null
+        }
+        Insert: {
+          articles_published?: number | null
+          avg_ctr?: number | null
+          avg_position?: number | null
+          conversion_clicks?: number | null
+          created_at?: string
+          id?: string
+          month: string
+          recommendations?: Json | null
+          top_keywords?: Json | null
+          topic_performance?: Json | null
+          total_clicks?: number | null
+          total_impressions?: number | null
+        }
+        Update: {
+          articles_published?: number | null
+          avg_ctr?: number | null
+          avg_position?: number | null
+          conversion_clicks?: number | null
+          created_at?: string
+          id?: string
+          month?: string
+          recommendations?: Json | null
+          top_keywords?: Json | null
+          topic_performance?: Json | null
+          total_clicks?: number | null
+          total_impressions?: number | null
         }
         Relationships: []
       }
