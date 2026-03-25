@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import AdminLayout from "@/components/admin/AdminLayout";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Pencil, Trash2, Sparkles } from "lucide-react";
+import { Plus, Pencil, Trash2, Sparkles, Eye, Send } from "lucide-react";
 import { format } from "date-fns";
 import { useToast } from "@/hooks/use-toast";
 
@@ -29,6 +29,19 @@ const AdminBlog = () => {
     await supabase.from("blog_posts").delete().eq("id", id);
     toast({ title: "Verwijderd" });
     fetchPosts();
+  };
+
+  const handlePublish = async (id: string) => {
+    const { error } = await supabase.from("blog_posts").update({
+      status: "published",
+      published_at: new Date().toISOString(),
+    }).eq("id", id);
+    if (error) {
+      toast({ title: "Fout", description: error.message, variant: "destructive" });
+    } else {
+      toast({ title: "Gepubliceerd! 🚀" });
+      fetchPosts();
+    }
   };
 
   const statusColor = (s: string) => {
@@ -80,6 +93,18 @@ const AdminBlog = () => {
                 </p>
               </div>
               <div className="flex items-center gap-1 ml-4">
+                {post.slug && (
+                  <Button variant="ghost" size="icon" asChild>
+                    <a href={`/blog/${post.slug}`} target="_blank" rel="noopener noreferrer">
+                      <Eye className="w-4 h-4" />
+                    </a>
+                  </Button>
+                )}
+                {post.status === "draft" && (
+                  <Button variant="ghost" size="icon" onClick={() => handlePublish(post.id)} title="Publiceren">
+                    <Send className="w-4 h-4 text-green-400" />
+                  </Button>
+                )}
                 <Button variant="ghost" size="icon" asChild>
                   <Link to={`/admin/blog/edit/${post.id}`}><Pencil className="w-4 h-4" /></Link>
                 </Button>
