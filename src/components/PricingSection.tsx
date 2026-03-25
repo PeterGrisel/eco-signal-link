@@ -138,37 +138,35 @@ const PricingSection = () => {
               </p>
             </div>
 
-            <div className="space-y-3 mb-6">
+            <div className="grid grid-cols-3 gap-3">
               {[
-                { period: "3 maanden", price: "€84/uur", discount: "" },
-                { period: "6 maanden", price: "€76/uur", discount: "–10%" },
-                { period: "12 maanden", price: "€67/uur", discount: "–20%" },
-              ].map((tier) => (
-                <div key={tier.period} className="flex items-center justify-between p-3 rounded-md bg-secondary/50 border border-border">
-                  <span className="text-sm font-medium text-foreground">{tier.period}</span>
-                  <div className="flex items-center gap-2">
-                    <span className="font-display font-bold text-foreground">{tier.price}</span>
-                    {tier.discount && (
-                      <span className="text-xs px-2 py-0.5 rounded-full bg-primary/10 text-primary font-semibold">
-                        {tier.discount}
-                      </span>
-                    )}
+                { hours: "10 uur", total3: "€2.340", total6: "€2.260", total12: "€2.170", label: "Startpakket" },
+                { hours: "20 uur", total3: "€3.180", total6: "€3.020", total12: "€2.840", label: "Meest gekozen", highlight: true },
+                { hours: "40 uur", total3: "€4.860", total6: "€4.540", total12: "€4.180", label: "Maximale output" },
+              ].map((pkg) => (
+                <div
+                  key={pkg.hours}
+                  className={`rounded-md p-4 border text-center ${
+                    pkg.highlight
+                      ? "border-primary/40 bg-primary/5"
+                      : "border-border bg-secondary/50"
+                  }`}
+                >
+                  {pkg.highlight && (
+                    <span className="text-[10px] font-display font-bold text-primary tracking-[0.1em] uppercase">
+                      Populair
+                    </span>
+                  )}
+                  <p className="font-display font-bold text-2xl mt-1">{pkg.hours}</p>
+                  <p className="text-muted-foreground text-xs mt-1">/maand</p>
+                  <div className="mt-3 space-y-1 text-xs text-muted-foreground">
+                    <p>3 mnd: <span className="text-foreground font-semibold">{pkg.total3}</span></p>
+                    <p>6 mnd: <span className="text-foreground font-semibold">{pkg.total6}</span></p>
+                    <p>12 mnd: <span className="text-foreground font-semibold">{pkg.total12}</span></p>
                   </div>
+                  <p className="text-[10px] text-muted-foreground mt-2 italic">{pkg.label}</p>
                 </div>
               ))}
-            </div>
-
-            <div className="p-4 rounded-md bg-secondary/30 border border-border">
-              <p className="text-xs font-display font-semibold text-primary tracking-[0.1em] uppercase mb-2">
-                Voorbeeld — 20 uur bij 6 maanden
-              </p>
-              <div className="flex items-baseline gap-1">
-                <span className="font-display font-bold text-xl">€3.020</span>
-                <span className="text-muted-foreground text-xs">/maand totaal</span>
-              </div>
-              <p className="text-muted-foreground text-xs mt-1">
-                €1.500 basis + €1.520 engagement (20 × €76)
-              </p>
             </div>
           </motion.div>
         </div>
