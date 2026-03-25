@@ -1,30 +1,44 @@
 import { motion } from "framer-motion";
 import { Users, Briefcase, Handshake, Globe } from "lucide-react";
 
+import { Trophy, Package, Car, Wrench, Building2, Stethoscope } from "lucide-react";
+
 const streams = [
   {
-    icon: Briefcase,
-    title: "Nieuwe Klanten",
-    description: "MKB-ondernemers en beslissers die zoeken naar financiering, advies of diensten. Bereik op basis van groeisignalen, niet koude lijsten.",
-    signals: ["Nieuwe vacatures", "Bedrijfsregistraties", "Websitebezoek", "LinkedIn-interactie"],
+    icon: Trophy,
+    title: "Profvoetbal",
+    description: "Sponsorwerving, partnerschappen en seizoensgebonden campagnes voor clubs en organisaties. Bereik beslissers bij merken die investeren in sport.",
+    signals: ["Sponsorbudget signalen", "Merkactivaties", "Evenementplanning", "Mediaexposure"],
   },
   {
-    icon: Users,
-    title: "Recruitment",
-    description: "Adviseurs, specialisten en talent dat bij u past. Van actieve kandidaten tot professionals die over 1 tot 2 jaar de perfecte fit zijn.",
-    signals: ["Functiewijzigingen", "Opleiding afgerond", "Gedeelde connecties", "Profielactiviteit"],
+    icon: Package,
+    title: "Groothandel",
+    description: "Nieuwe afnemers en retailers identificeren op basis van inkooppatronen, assortimentsuitbreiding en marktbewegingen.",
+    signals: ["Nieuwe vestigingen", "Assortimentswijzigingen", "Inkoopvolume", "Seizoenspieken"],
   },
   {
-    icon: Handshake,
-    title: "Partners",
-    description: "Strategische samenwerkingen identificeren op basis van complementaire diensten, gedeelde doelgroepen en marktbewegingen.",
-    signals: ["Marktexpansie", "Nieuwe diensten", "Branche-events", "Publicaties"],
+    icon: Car,
+    title: "Leasemaatschappijen",
+    description: "Bedrijven met groeiend wagenpark, contractverlengingen en fleet managers die actief vergelijken. Timing is alles.",
+    signals: ["Wagenparkgroei", "Contractverloop", "Nieuwe vestigingen", "FTE-groei"],
   },
   {
-    icon: Globe,
-    title: "Internationaal",
-    description: "Hetzelfde systeem, nieuwe markten. Dezelfde signaalstructuur werkt in elk land; alleen de targeting wordt aangepast.",
-    signals: ["Marktentry signalen", "Regulatory changes", "Partnernetwerken", "Lokale events"],
+    icon: Wrench,
+    title: "Engineering",
+    description: "Technische beslissers en projectmanagers bij industriële bedrijven. Van bouwprojecten tot productie-innovatie.",
+    signals: ["Projectaankondigingen", "Investeringsrondes", "Capaciteitsuitbreiding", "Vacatures"],
+  },
+  {
+    icon: Building2,
+    title: "Zakelijke Dienstverlening",
+    description: "Accountants, juristen en consultants die groeien. Bereik partners en directies op het juiste moment met de juiste boodschap.",
+    signals: ["Partnerwijzigingen", "Kantooruitbreiding", "Nieuwe diensten", "Thought leadership"],
+  },
+  {
+    icon: Stethoscope,
+    title: "Gezondheidszorg",
+    description: "Zorginstellingen, klinieken en healthtech-bedrijven die investeren in groei, digitalisering of specialisatie.",
+    signals: ["Subsidietoekenning", "Uitbreiding locaties", "Digitaliseringsprojecten", "Leiderschapswissels"],
   },
 ];
 
