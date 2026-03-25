@@ -53,6 +53,8 @@ Geef een mix van:
 4. Recruitment/HR directories
 5. Nederlandse en internationale directories
 
+BELANGRIJK: Alleen directories met een GRATIS aanmeldoptie. Geen betaalde directories.
+
 Sorteer op geschatte DR score van hoog naar laag.`;
 
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
