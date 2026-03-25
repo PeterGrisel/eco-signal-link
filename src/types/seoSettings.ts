@@ -87,38 +87,44 @@ export interface SeoConfig {
 }
 
 export const defaultSeoConfig: SeoConfig = {
-  name: "Rebel Force",
-  type: "SaaS",
-  summary: "Rebel Force specializes in building data-driven enablement systems to optimize business operations. Their services include diagnosing constraints, designing enablement blueprints, executing solutions with dedicated teams, and validating results through measurable ROI.",
-  blog_theme: "Practical and in-depth content on AI Enablement, data-driven transformation, and flow management. Rebel Force shows how organizations apply focus, discipline, and system-level interventions to turn AI into measurable business value.",
+  // General
+  name: "B2BGroeiMachine",
+  type: "Agency",
+  summary: "B2BGroeiMachine bouwt voorspelbare groei-systemen voor B2B-bedrijven. Wij combineren twee stromen (nieuwe klanten en recruitment) in één data-gedreven systeem met signaalgebaseerde targeting, omnichannel outreach en intent-scoring. Het resultaat: een continu geoptimaliseerde pipeline die meetbaar groeit. Platform-agnostisch, integreert met bestaande CRM's en tools zoals HubSpot, Salesforce, Clay en Zapier.",
+  blog_theme: "Praktische, diepgaande content over B2B sales, leadgeneratie, recruitment-marketing en data-gedreven groeistrategieën. Focus op hoe MKB en midmarket bedrijven een voorspelbaar groeiproces opzetten met signaalgebaseerde targeting, omnichannel outreach en slimme automatisering. Geen fluff, wel concrete frameworks en resultaten.",
   founders: "",
-  key_features: "1. Data-driven enablement systems\n2. AI integration and automation\n3. Process design and organizational flow\n4. Dedicated enablement teams\n5. Measurable ROI and performance tracking\n6. Structured 4-phase enablement process (Diagnose, Design, Execute, Validate)\n7. Collaboration with internal teams\n8. Custom solutions for business transformation",
-  pricing_plans: "",
+  key_features: "1. Twee groeistromen: nieuwe klanten + recruitment in één systeem\n2. 4-lagen systeemopzet met ICP-mapping\n3. Signaalgebaseerde targeting (intent data, triggers)\n4. Omnichannel outreach (6 tot 8 touchpoints)\n5. Intent-scoring en kwalificatie\n6. Tweewekelijkse rapportage met dedicated campagnemanager\n7. Platform-agnostisch: integreert met HubSpot, Salesforce, Clay, Zapier\n8. Datahub: AI-gedreven sales tooling\n9. Add-ons: Full Sales Management en Full Service Recruitment",
+  pricing_plans: "| Plan | Prijs | Beschrijving | Kenmerken |\n|------|-------|-------------|----------|\n| Basispakket | Vast maandbedrag | Beide stromen actief, 4-lagen systeem, omnichannel outreach | Tot 5 gebruikers, €0 opstartkosten, tweewekelijkse rapportage |\n| + Full Sales Management | Add-on | Sales, Marketing, Strategie en Relatiebeheer | Vier pijlers, volledig uitbesteed salesteam |\n| + Full Service Recruitment | Add-on | Sourcing, Selectie, Begeleiding en Teamopbouw | Commerciële en digitale rollen |",
 
-  target_country: "U.S. Virgin Islands",
-  primary_language: "English",
-  target_audience_summary: "The target audience consists of mid-to-large enterprises, business leaders, and decision-makers focused on leveraging data and AI to transform their organizations. They value structured, measurable processes and are interested in optimizing operations for better performance and ROI.",
-  pain_points: "Difficulty in achieving seamless integration of AI and data-driven systems, lack of expertise in identifying operational constraints, inefficiency in processes, need for measurable ROI, technical complexity in automation and analytics, and challenges in aligning existing teams with new systems.",
-  product_usage: "Integrating AI-driven solutions into operations to optimize workflows, using data analytics to make informed decisions, employing structured frameworks for measurable outcomes, and collaborating with specialized teams to address core constraints and drive growth.",
+  // Target Audience
+  target_country: "Nederland",
+  primary_language: "Nederlands",
+  target_audience_summary: "MKB en midmarket B2B-bedrijven (10 tot 500 medewerkers) in Nederland en België die willen groeien maar geen gestructureerd sales- of recruitmentproces hebben. Eigenaren, directeuren, sales managers en HR-managers die worstelen met onvoorspelbare instroom van klanten of kandidaten. Ze zoeken een partner die het systeem bouwt, niet alleen leads levert.",
+  pain_points: "Onvoorspelbare pipeline en omzet, afhankelijkheid van netwerk en referrals, geen gestructureerd outreach-proces, moeite met het aantrekken van sales- en commercieel talent, te veel tijd kwijt aan handmatig prospecten, geen inzicht in welke kanalen werken, vendor lock-in bij huidige tools, gebrek aan data-gedreven besluitvorming.",
+  product_usage: "B2BGroeiMachine wordt ingezet als externe groeipartner die het volledige acquisitie- en recruitmentsysteem opzet en beheert. Klanten krijgen een dedicated campagnemanager, tweewekelijkse rapportages en een dashboard met real-time inzicht in hun pipeline. Het systeem draait continu en optimaliseert op basis van data.",
 
-  competitor_prompt: 'Do not mention, reference, or compare "Rebel Force" with any direct competitors or alternative platforms/products/services in the same industry.',
+  // Competitors
+  competitor_prompt: 'Vermeld, refereer of vergelijk B2BGroeiMachine niet met directe concurrenten of alternatieve platforms/diensten in dezelfde branche. Content moet exclusief voor de B2BGroeiMachine blog worden geschreven zonder alternatieven te erkennen, tenzij specifiek vereist in de headline.',
   competitor_urls: "",
   youtube_channels_exclude: "",
 
-  main_image_branding: "Photorealistic, modern, and professional aesthetic. Clean, uncluttered compositions. Warm, approachable color palette.",
-  inline_image_branding: "## Visual Style\n- Clean, modern design\n- Limited color palette (2-4 colors max)\n- Consistent typography (max 3 font sizes)\n- Icons and simple illustrations over complex graphics\n- High contrast for readability",
+  // Images
+  main_image_branding: "Professionele, moderne B2B-sfeer. Donkere achtergronden met warme accenten (oranje/amber). Clean composities met focus op data-visualisaties, dashboards, teamwork en groei. Geen stockfoto-gevoel.",
+  inline_image_branding: "## Visuele Stijl\n- Donker kleurenschema met oranje/amber accenten\n- Clean, modern design\n- Beperkt kleurenpalet (donkerblauw, oranje, wit)\n- Iconen en eenvoudige illustraties boven complexe graphics\n- Hoog contrast voor leesbaarheid\n- Data-visualisaties en dashboards waar relevant",
 
+  // CTA
   cta_display: true,
   cta_add_to_new: true,
   cta_type: "inline",
-  cta_title: "Transform Your Business with Data-Driven Systems",
-  cta_description: "Unlock your business potential with Rebel Force's AI-powered enablement systems. Diagnose constraints, design solutions, and achieve measurable ROI with our expert team.",
-  cta_button_url: "https://rebelforce.nl/",
-  cta_button_text: "Get Started Today",
-  cta_text_color: "#1a1a2e",
-  cta_primary_color: "#1a1a2e",
-  cta_note: "",
+  cta_title: "Klaar voor voorspelbare groei?",
+  cta_description: "Ontdek hoe B2BGroeiMachine een data-gedreven groei-systeem bouwt voor uw bedrijf. Twee stromen, één systeem: nieuwe klanten én het juiste talent.",
+  cta_button_url: "https://b2bgroeimachine.nl/#pricing",
+  cta_button_text: "Bekijk de mogelijkheden",
+  cta_text_color: "#f5f5f5",
+  cta_primary_color: "#f97316",
+  cta_note: "P.S. Wij zijn géén leadgenerator. Wij bouwen systemen.",
 
+  // Prompts
   prompt_style_tone: "",
   prompt_outline: "",
   prompt_introduction: "",
@@ -134,24 +140,28 @@ export const defaultSeoConfig: SeoConfig = {
   use_custom_image_prompt: false,
   use_custom_links_prompt: false,
 
+  // Backlinks
   build_backlinks: true,
   backlink_notifications: true,
   dr_growth_notifications: true,
-  priority_anchor_keywords: "data-driven enablement systems\noptimize business operations\nai integration for business\nbusiness transformation services\nscalable enablement systems",
+  priority_anchor_keywords: "b2b leadgeneratie\nvoorspelbare groei\nsales automatisering\nrecruitment marketing\nomnichannel outreach\nsignaalgebaseerde targeting\nB2B groei systeem\ndata-gedreven sales\nintent-based selling\noutbound sales uitbesteden",
   strict_keyword_mode: false,
   source_article_relevance: "medium",
 
+  // News
   suggest_news: false,
 
+  // Videos
   suggest_videos: true,
-  video_country: "United States",
+  video_country: "Netherlands",
   video_publication_date: "Past month",
-  video_search_queries: "AI enablement strategy for enterprises\nwhy AI projects fail in large organizations\nAI transformation framework enterprise\nAI implementation vs AI enablement\nenterprise AI strategy explained",
+  video_search_queries: "B2B leadgeneratie strategie\noutbound sales automatisering\nrecruitment marketing B2B\nHubSpot sales pipeline opzetten\ndata-driven sales proces",
 
+  // Advanced
   max_articles_per_period: 1,
   article_period: "day",
   blog_url_prefix: "/blog/",
-  enforce_www: true,
+  enforce_www: false,
   blog_trailing_slash: false,
   blog_html_suffix: false,
   enable_external_linking: true,
