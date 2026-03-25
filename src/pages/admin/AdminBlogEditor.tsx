@@ -73,6 +73,17 @@ const AdminBlogEditor = () => {
     }
     setUploading(false);
   };
+  const autoSubmitIndexing = async (postSlug: string) => {
+    try {
+      const blogUrl = `https://b2bgroeimachine.nl/blog/${postSlug}`;
+      await supabase.functions.invoke("request-indexing", {
+        body: { url: blogUrl },
+      });
+      toast({ title: "🚀 Indexing aangevraagd", description: blogUrl });
+    } catch {
+      // Silent fail - indexing is best-effort
+    }
+  };
 
   const handleSave = async () => {
     if (!title || !slug) {
