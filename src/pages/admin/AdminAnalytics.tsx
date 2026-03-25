@@ -16,8 +16,9 @@ import {
 } from "recharts";
 import {
   Activity, MousePointerClick, Eye, Navigation, FileText,
-  Loader2, RefreshCw, TrendingUp, Users, Clock,
+  Loader2, RefreshCw, TrendingUp, Users, Clock, ShieldBan, Plus, X, Globe,
 } from "lucide-react";
+import { Input } from "@/components/ui/input";
 
 interface SiteEvent {
   id: string;
@@ -42,6 +43,31 @@ const AdminAnalytics = () => {
   const [events, setEvents] = useState<SiteEvent[]>([]);
   const [loading, setLoading] = useState(true);
   const [days, setDays] = useState(7);
+  const [blockedIPs, setBlockedIPs] = useState<{ id: string; ip_address: string; label: string | null }[]>([]);
+  const [newIP, setNewIP] = useState("");
+  const [newIPLabel, setNewIPLabel] = useState("");
+  const [myIP, setMyIP] = useState("");
+
+  const fetchBlockedIPs = async () => {
+    const { data } = await supabase.from("blocked_tracking_ips").select("*").order("created_at");
+    if (data) setBlockedIPs(data);
+  };
+
+  const addBlockedIP = async () => {
+    if (!newIP) return;
+    const { error } = await supabase.from("blocked_tracking_ips").insert({ ip_address: newIP.trim(), label: newIPLabel.trim() || null });
+    if (!error) { setNewIP(""); setNewIPLabel(""); fetchBlockedIPs(); }
+  };
+
+  const removeBlockedIP = async (id: string) => {
+    await supabase.from("blocked_tracking_ips").delete().eq("id", id);
+    fetchBlockedIPs();
+  };
+
+  useEffect(() => {
+    fetch("https://api.ipify.org?format=json").then(r => r.json()).then(d => setMyIP(d.ip)).catch(() => {});
+    fetchBlockedIPs();
+  }, []);
 
   const fetchEvents = async () => {
     setLoading(true);
