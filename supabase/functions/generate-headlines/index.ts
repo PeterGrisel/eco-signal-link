@@ -6,13 +6,58 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
-async function loadSettings() {
-  const supabase = createClient(
+function getSupabase() {
+  return createClient(
     Deno.env.get("SUPABASE_URL")!,
     Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
   );
-  const { data } = await supabase.from("seo_settings").select("config").limit(1).single();
+}
+
+async function loadSettings() {
+  const { data } = await getSupabase().from("seo_settings").select("config").limit(1).single();
   return data?.config || {};
+}
+
+async function loadTopicsWithCoverage() {
+  const supabase = getSupabase();
+
+  const { data: topics } = await supabase
+    .from("content_topics")
+    .select("id, name, slug, description, parent_id, target_keywords, target_article_count, priority, status")
+    .eq("status", "active")
+    .order("priority", { ascending: false });
+
+  if (!topics?.length) return [];
+
+  // Count published articles per topic
+  const { data: posts } = await supabase
+    .from("blog_posts")
+    .select("topic_id")
+    .not("topic_id", "is", null);
+
+  const postCounts: Record<string, number> = {};
+  posts?.forEach(p => {
+    postCounts[p.topic_id] = (postCounts[p.topic_id] || 0) + 1;
+  });
+
+  // Count queued items per topic
+  const { data: queued } = await supabase
+    .from("content_queue")
+    .select("topic_id, status")
+    .not("topic_id", "is", null)
+    .in("status", ["pending", "approved", "generating"]);
+
+  const queuedCounts: Record<string, number> = {};
+  queued?.forEach(q => {
+    if (q.topic_id) queuedCounts[q.topic_id] = (queuedCounts[q.topic_id] || 0) + 1;
+  });
+
+  return topics.map(t => ({
+    ...t,
+    published_count: postCounts[t.id] || 0,
+    queued_count: queuedCounts[t.id] || 0,
+    gap: Math.max(0, (t.target_article_count || 3) - (postCounts[t.id] || 0) - (queuedCounts[t.id] || 0)),
+  }));
 }
 
 serve(async (req) => {
@@ -33,6 +78,39 @@ serve(async (req) => {
     const targetCount = count || 10;
     const types = content_types || ["article"];
 
+    // Load topics and gap analysis
+    const topicsWithCoverage = await loadTopicsWithCoverage();
+    const hasTopics = topicsWithCoverage.length > 0;
+
+    // Build topic context for the AI
+    let topicContext = "";
+    if (hasTopics) {
+      const topicsWithGaps = topicsWithCoverage
+        .filter(t => t.gap > 0)
+        .sort((a, b) => b.gap - a.gap || b.priority - a.priority);
+
+      const topicsAtTarget = topicsWithCoverage.filter(t => t.gap <= 0);
+
+      if (topicsWithGaps.length > 0) {
+        topicContext = `\n\nCONTENT STRATEGIE - TOPIC CLUSTERS:
+De content strategie is gebaseerd op topic clusters. Genereer headlines die gaps invullen.
+
+TOPICS MET GAPS (prioriteit - genereer hier headlines voor):
+${topicsWithGaps.map(t => {
+  const keywords = t.target_keywords?.length ? `Target keywords: ${t.target_keywords.join(", ")}` : "";
+  return `- "${t.name}" (${t.gap} artikelen nodig, ${t.published_count} gepubliceerd)${t.description ? ` — ${t.description}` : ""}${keywords ? `\n  ${keywords}` : ""}`;
+}).join("\n")}
+
+${topicsAtTarget.length > 0 ? `\nTOPICS OP TARGET (geen nieuwe headlines nodig):\n${topicsAtTarget.map(t => `- "${t.name}" (${t.published_count}/${t.target_article_count})`).join("\n")}` : ""}
+
+BELANGRIJK:
+- Verdeel headlines proportioneel over topics met gaps
+- Gebruik de target keywords als basis voor de headlines
+- Elk headline MOET een topic_id bevatten zodat het aan het juiste topic wordt gekoppeld
+- Topics met hogere priority en grotere gaps krijgen meer headlines`;
+      }
+    }
+
     const systemPrompt = `Je bent een SEO content strategist gespecialiseerd in het genereren van blog headlines die ranken in Google. 
 
 Je genereert headlines voor: "${siteName}"
@@ -50,20 +128,41 @@ Regels voor headlines:
 - Mix van formats: how-to's, guides, case studies, frameworks, comparisons, lijstjes
 - Elk headline moet een duidelijk target keyword hebben
 - Geen duplicate of te gelijkende headlines
-- Relevante onderwerpen: B2B sales, leadgeneratie, outbound, recruitment-marketing, CRM, pipeline management, data-driven growth, omnichannel outreach, intent-based selling
+- BELANGRIJK: Schrijf headlines in normale zinsopbouw, NIET in Title Case
 
-${types.includes("tool") ? "Genereer ook 'tool' headlines: interactieve calculators, checkers, generators die SEO traffic trekken (bijv. ROI calculators, benchmark tools)." : ""}
+${types.includes("tool") ? "Genereer ook 'tool' headlines: interactieve calculators, checkers, generators die SEO traffic trekken." : ""}
 ${types.includes("video") ? "Genereer ook 'video' headlines: gebaseerd op relevante YouTube video content." : ""}
-
+${topicContext}
 ${existing_headlines?.length ? `\nVermijd duplicaten met deze bestaande headlines:\n${existing_headlines.join("\n")}` : ""}`;
+
+    // Build tool parameters based on whether topics exist
+    const headlineProperties: Record<string, any> = {
+      headline: { type: "string", description: "The full headline" },
+      content_type: { type: "string", enum: ["article", "tool", "video", "pseo"] },
+      keyword: { type: "string", description: "Primary target keyword" },
+      notes: { type: "string", description: "Brief angle/approach description" },
+    };
+
+    if (hasTopics) {
+      headlineProperties.topic_id = {
+        type: "string",
+        description: "The UUID of the topic this headline belongs to. Must be one of the provided topic IDs.",
+      };
+    }
 
     const userPrompt = `Genereer ${targetCount} nieuwe, unieke blog headline suggesties. Mix van content types: ${types.join(", ")}.
 
+${hasTopics ? `Gebruik de topic clusters en gap analyse om te bepalen welke headlines nodig zijn. Verdeel headlines over topics met gaps.
+
+Beschikbare topic IDs:
+${topicsWithCoverage.filter(t => t.gap > 0).map(t => `- ${t.id}: "${t.name}"`).join("\n")}` : ""}
+
 Voor elke headline geef:
 - headline: De volledige headline
-- content_type: "article", "tool", "video", of "pseo"  
+- content_type: "article", "tool", "video", of "pseo"
 - keyword: Het primaire target keyword
-- notes: Korte beschrijving van de aanpak/invalshoek (1-2 zinnen)`;
+- notes: Korte beschrijving van de aanpak/invalshoek
+${hasTopics ? "- topic_id: UUID van het bijbehorende topic" : ""}`;
 
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
@@ -90,12 +189,7 @@ Voor elke headline geef:
                     type: "array",
                     items: {
                       type: "object",
-                      properties: {
-                        headline: { type: "string", description: "The full headline" },
-                        content_type: { type: "string", enum: ["article", "tool", "video", "pseo"], description: "Content type" },
-                        keyword: { type: "string", description: "Primary target keyword" },
-                        notes: { type: "string", description: "Brief angle/approach description" },
-                      },
+                      properties: headlineProperties,
                       required: ["headline", "content_type", "keyword", "notes"],
                       additionalProperties: false,
                     },
