@@ -12,6 +12,9 @@ const partners = [
 ];
 
 const LogoTicker = () => {
+  // Repeat enough times to fill ultra-wide screens
+  const repeated = [...partners, ...partners, ...partners, ...partners];
+
   return (
     <section className="border-t border-border/30 bg-background py-10">
       <div className="container mx-auto px-4 mb-6">
@@ -25,7 +28,7 @@ const LogoTicker = () => {
         <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-background to-transparent z-10" />
 
         <div className="flex animate-marquee" style={{ width: "max-content" }}>
-          {[...partners, ...partners].map((name, i) => (
+          {repeated.map((name, i) => (
             <span
               key={i}
               className="mx-8 md:mx-14 shrink-0 text-lg md:text-xl font-display font-bold text-muted-foreground/40 hover:text-primary transition-colors duration-300 select-none whitespace-nowrap"
