@@ -148,8 +148,9 @@ const AdminAutopilot = () => {
         excerpt: data.excerpt,
         meta_description: data.meta_description,
         featured_image: featuredImage,
+        topic_id: item.topic_id || null,
         status: "draft",
-      }).select("id").single();
+      } as any).select("id").single();
 
       if (postError) throw postError;
 
