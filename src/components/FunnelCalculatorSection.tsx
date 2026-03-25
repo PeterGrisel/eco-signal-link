@@ -261,6 +261,26 @@ const FunnelCalculatorSection = ({ defaults }: { defaults?: FunnelDefaults }) =>
             </div>
           </motion.div>
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="mt-12 text-center"
+        >
+          <p className="text-muted-foreground mb-5">
+            Benieuwd wat deze cijfers voor uw organisatie betekenen?
+          </p>
+          <a
+            href="https://app.usemotion.com/meet/Rebel-Force/meeting"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-8 py-4 rounded-lg bg-primary text-primary-foreground font-display font-bold text-base hover:opacity-90 transition-opacity shadow-lg shadow-primary/20"
+          >
+            Plan een Demo →
+          </a>
+        </motion.div>
       </div>
     </section>
   );
