@@ -21,19 +21,37 @@ async function getAccessToken(): Promise<string> {
   const saJson = Deno.env.get("GOOGLE_SERVICE_ACCOUNT_JSON");
   if (saJson) {
     try {
-      const sa = JSON.parse(saJson);
+      // Handle case where the JSON might be double-escaped or have extra quotes
+      let jsonStr = saJson.trim();
+      if (jsonStr.startsWith("'") && jsonStr.endsWith("'")) {
+        jsonStr = jsonStr.slice(1, -1);
+      }
+      const sa = JSON.parse(jsonStr);
       email = sa.client_email;
       privateKey = sa.private_key;
-    } catch {
-      throw new Error("GOOGLE_SERVICE_ACCOUNT_JSON is invalid JSON");
+      if (!email || !privateKey) {
+        throw new Error("Missing client_email or private_key in JSON");
+      }
+    } catch (e) {
+      console.error("JSON parse error:", e);
+      // Fallback to individual secrets
+      email = Deno.env.get("GOOGLE_SA_CLIENT_EMAIL") || "";
+      const pkRaw = Deno.env.get("GOOGLE_SA_PRIVATE_KEY") || "";
+      if (!email || !pkRaw) throw new Error("Google Service Account credentials not configured");
+      privateKey = pkRaw;
     }
   } else {
     email = Deno.env.get("GOOGLE_SA_CLIENT_EMAIL") || "";
     const pkRaw = Deno.env.get("GOOGLE_SA_PRIVATE_KEY") || "";
     if (!email || !pkRaw) throw new Error("Google Service Account credentials not configured");
-    // Handle various escape formats
-    privateKey = pkRaw.replace(/\\n/g, "\n");
+    privateKey = pkRaw;
   }
+
+  // Normalize the private key - handle all escape formats
+  privateKey = privateKey
+    .replace(/\\n/g, "\n")     // literal \n to real newlines
+    .replace(/\\\\n/g, "\n")   // double-escaped
+    .trim();
 
   // Create JWT
   const header = { alg: "RS256", typ: "JWT" };
