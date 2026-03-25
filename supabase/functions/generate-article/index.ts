@@ -12,38 +12,67 @@ serve(async (req) => {
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
 
-    const { keyword, audience, length } = await req.json();
-    if (!keyword) throw new Error("keyword is required");
+    const { keyword, audience, length, headline, content_type } = await req.json();
+    const topic = headline || keyword;
+    if (!topic) throw new Error("keyword or headline is required");
 
     const wordCount = length === "kort" ? 800 : length === "lang" ? 2500 : 1500;
 
-    const systemPrompt = `Je bent een expert SEO content schrijver voor B2B bedrijven in Nederland. 
-Je schrijft artikelen in het Nederlands, geoptimaliseerd voor zoekmachines.
-Je gebruikt altijd duidelijke headings (##, ###), bullet points, en interne links waar relevant.
-Je schrijft in een professionele maar toegankelijke stijl.
-Schrijf altijd in Markdown formaat.`;
+    const systemPrompt = `You are an expert SEO content writer. You write in English for a professional B2B audience.
 
-    const userPrompt = `Schrijf een SEO-geoptimaliseerd blogartikel over "${keyword}" voor de doelgroep: ${audience}.
+Target audience: ${audience || "Mid-to-large enterprises, business leaders, and decision-makers focused on leveraging data and AI to transform their organizations."}
 
-Vereisten:
-- Ongeveer ${wordCount} woorden
-- Gebruik het keyword "${keyword}" natuurlijk in de tekst, in headings en in de eerste alinea
-- Schrijf een pakkende titel (max 60 tekens)
-- Schrijf een meta description (max 160 tekens)
-- Schrijf een korte excerpt (max 200 tekens)
-- Genereer een slug gebaseerd op de titel
-- Gebruik H2 en H3 headings voor structuur
-- Voeg waar relevant interne links toe naar /blog/ pagina's
-- Eindig met een call-to-action
+Blog theme: Practical and in-depth content on AI Enablement, data-driven transformation, and flow management. Rebel Force shows how organizations apply focus, discipline, and system-level interventions to turn AI into measurable business value.
 
-Geef je antwoord als JSON met deze structuur:
-{
-  "title": "...",
-  "meta_description": "...",
-  "excerpt": "...",
-  "slug": "...",
-  "content": "... (markdown content) ..."
-}`;
+WRITING STYLE (Apply this style, voice and tone):
+- Use simple, clear, conversational language — as if explaining to a friend
+- Start with a bold statement, surprising fact, or the conclusion (inverted pyramid)
+- Use "you" to directly address the reader
+- Keep paragraphs short (2-3 sentences max)
+- Use bullet points, bold text, and tables for scannability
+- Include specific, actionable advice — not generic tips
+- Avoid marketing fluff, promotional language, or overly complex vocabulary
+- Use plain, everyday words and clear, concise phrasing
+- Break down complicated concepts into bite-sized explanations
+- Retain professional and technical terms critical to the subject area
+- Avoid repetitive language patterns (don't start multiple points with "Remember..." or "Keep in mind...")
+
+ARTICLE STRUCTURE:
+1. Hook (1 sentence): Bold statement, surprising fact, or key benefit
+2. Value Summary (2-3 sentences): Key findings, solutions, or insights
+3. Quick Overview: Bullet points or comparison table of key information
+4. Main sections (max 5 root sections, each with 0-3 subsections)
+5. Conclusion: Summary of essential points
+
+FORMATTING RULES:
+- Use ## for H2, ### for H3, #### for H4 headers
+- Headers must be cold, simple, straightforward — no marketing fluff
+- Use Markdown tables where information is better suited for tabular presentation (min 3 data rows)
+- Format quotes with > syntax
+- Use bold, italic for emphasis
+- Include comparison tables for versus/comparison articles
+- No fabricated or hallucinated details
+- If real examples are not available, clearly mark hypothetical cases
+
+SEO RULES:
+- Front-load the primary keyword in the title
+- Use the keyword naturally in the first paragraph, headings, and throughout
+- Write a meta description that summarizes key points (50-140 chars)
+- Generate 5-10 relevant meta keywords
+
+CTA: Include a subtle call-to-action mentioning Rebel Force's AI-powered enablement systems at the end.
+
+Do not mention, reference, or compare with any direct competitors.`;
+
+    const userPrompt = `Write a comprehensive, SEO-optimized blog article about: "${topic}"
+
+Requirements:
+- Approximately ${wordCount} words
+- Content type: ${content_type || "article"}
+- Follow all style, structure, and formatting rules from the system prompt
+- Generate all metadata (title, meta_description, excerpt, slug, keywords)
+
+The article should provide genuine value and actionable insights. Be direct and concrete.`;
 
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
@@ -52,7 +81,7 @@ Geef je antwoord als JSON met deze structuur:
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "google/gemini-3-flash-preview",
+        model: "google/gemini-2.5-flash",
         messages: [
           { role: "system", content: systemPrompt },
           { role: "user", content: userPrompt },
@@ -67,10 +96,11 @@ Geef je antwoord als JSON met deze structuur:
                 type: "object",
                 properties: {
                   title: { type: "string", description: "Article title, max 60 characters" },
-                  meta_description: { type: "string", description: "Meta description, max 160 characters" },
+                  meta_description: { type: "string", description: "Meta description, 50-140 characters" },
                   excerpt: { type: "string", description: "Short excerpt, max 200 characters" },
                   slug: { type: "string", description: "URL slug based on title" },
                   content: { type: "string", description: "Full article content in Markdown format" },
+                  keywords: { type: "string", description: "Comma-separated meta keywords, 5-10" },
                 },
                 required: ["title", "meta_description", "excerpt", "slug", "content"],
                 additionalProperties: false,
