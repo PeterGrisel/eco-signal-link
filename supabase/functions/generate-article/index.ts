@@ -67,6 +67,7 @@ ARTIKELSTRUCTUUR:
 
 FORMATTING:
 - Gebruik ## voor H2, ### voor H3, #### voor H4 headers
+- BELANGRIJK: Schrijf headers in normale zinsopbouw, NIET in Title Case. Alleen het eerste woord en eigennamen krijgen een hoofdletter. Dus "Hoe je conversie verbetert" in plaats van "Hoe Je Conversie Verbetert"
 - Headers moeten koud, simpel, recht-door-zee zijn, geen marketing fluff
 - Gebruik Markdown tabellen waar informatie beter past (min 3 data rows)
 - Gebruik > syntax voor quotes
