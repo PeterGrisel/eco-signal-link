@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
+import PageLoader from "@/components/PageLoader";
 
 import StreamsSection from "@/components/StreamsSection";
 import SystemSection from "@/components/SystemSection";
@@ -13,6 +14,7 @@ import Footer from "@/components/Footer";
 
 const Index = () => {
   return (
+    <PageLoader>
     <div className="min-h-screen">
       <Navbar />
       <Hero />
@@ -27,6 +29,7 @@ const Index = () => {
       <CtaSection />
       <Footer />
     </div>
+    </PageLoader>
   );
 };
 
