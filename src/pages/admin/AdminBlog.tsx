@@ -93,6 +93,18 @@ const AdminBlog = () => {
                 </p>
               </div>
               <div className="flex items-center gap-1 ml-4">
+                {post.slug && (
+                  <Button variant="ghost" size="icon" asChild>
+                    <a href={`/blog/${post.slug}`} target="_blank" rel="noopener noreferrer">
+                      <Eye className="w-4 h-4" />
+                    </a>
+                  </Button>
+                )}
+                {post.status === "draft" && (
+                  <Button variant="ghost" size="icon" onClick={() => handlePublish(post.id)} title="Publiceren">
+                    <Send className="w-4 h-4 text-green-400" />
+                  </Button>
+                )}
                 <Button variant="ghost" size="icon" asChild>
                   <Link to={`/admin/blog/edit/${post.id}`}><Pencil className="w-4 h-4" /></Link>
                 </Button>
