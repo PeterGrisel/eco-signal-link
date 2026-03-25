@@ -45,6 +45,11 @@ const SectorPage = () => {
   return (
     <PageLoader>
       <div className="min-h-screen">
+        <BreadcrumbJsonLd items={[
+          { name: "Home", url: "https://eco-signal-link.lovable.app/" },
+          { name: "Sectoren", url: "https://eco-signal-link.lovable.app/" },
+          { name: sector.title, url: `https://eco-signal-link.lovable.app/sectoren/${sector.slug}` },
+        ]} />
         <Navbar />
 
         {/* Hero */}
