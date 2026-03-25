@@ -22,7 +22,8 @@ serve(async (req) => {
     const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const log: string[] = [];
 
-    const { mode = "nightly" } = await req.json().catch(() => ({}));
+    const body = await req.json().catch(() => ({}));
+    const { mode = "nightly" } = body;
 
     // ═══════════════════════════════════════════════
     // MODE: full_pipeline — Strategy → Headlines → Schedule
@@ -139,7 +140,7 @@ serve(async (req) => {
     // Runs at 2:00 AM via cron
     // ═══════════════════════════════════════════════
     if (mode === "nightly") {
-      const today = new Date().toISOString().split("T")[0];
+      const today = body.target_date || new Date().toISOString().split("T")[0];
       log.push(`🌙 Nachtelijke generatie voor ${today}`);
 
       // Find today's scheduled + approved item
@@ -253,7 +254,7 @@ serve(async (req) => {
     // MODE: approve_publish — Admin approves → publish + index
     // ═══════════════════════════════════════════════
     if (mode === "approve_publish") {
-      const { queue_id } = await req.json().catch(() => ({}));
+      const { queue_id } = body;
       if (!queue_id) throw new Error("queue_id is required");
 
       const { data: queueItem } = await supabase
