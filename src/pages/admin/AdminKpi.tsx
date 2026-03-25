@@ -26,7 +26,7 @@ interface ConversionPage {
 }
 
 interface AiSuggestion {
-  type: "new_page" | "optimize" | "strategy";
+  type: "new_page" | "optimize" | "strategy" | "technical_fix";
   priority: "high" | "medium" | "low";
   title: string;
   description: string;
@@ -34,6 +34,21 @@ interface AiSuggestion {
   keyword?: string;
   content_type?: string;
   target_page?: string;
+}
+
+interface AuditCheck {
+  category: string;
+  status: "pass" | "warning" | "fail";
+  title: string;
+  detail: string;
+  impact: string;
+}
+
+interface AuditResult {
+  score: number;
+  audit_time_ms: number;
+  summary: { total: number; passed: number; warnings: number; fails: number };
+  checks: AuditCheck[];
 }
 
 interface AdvisorResult {
