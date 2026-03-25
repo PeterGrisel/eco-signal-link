@@ -111,6 +111,7 @@ export type Database = {
           id: string
           keyword: string | null
           notes: string | null
+          scheduled_date: string | null
           status: Database["public"]["Enums"]["content_queue_status"]
           topic_id: string | null
           updated_at: string
@@ -124,6 +125,7 @@ export type Database = {
           id?: string
           keyword?: string | null
           notes?: string | null
+          scheduled_date?: string | null
           status?: Database["public"]["Enums"]["content_queue_status"]
           topic_id?: string | null
           updated_at?: string
@@ -137,6 +139,7 @@ export type Database = {
           id?: string
           keyword?: string | null
           notes?: string | null
+          scheduled_date?: string | null
           status?: Database["public"]["Enums"]["content_queue_status"]
           topic_id?: string | null
           updated_at?: string
