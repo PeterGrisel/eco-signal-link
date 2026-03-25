@@ -31,6 +31,19 @@ const AdminBlog = () => {
     fetchPosts();
   };
 
+  const handlePublish = async (id: string) => {
+    const { error } = await supabase.from("blog_posts").update({
+      status: "published",
+      published_at: new Date().toISOString(),
+    }).eq("id", id);
+    if (error) {
+      toast({ title: "Fout", description: error.message, variant: "destructive" });
+    } else {
+      toast({ title: "Gepubliceerd! 🚀" });
+      fetchPosts();
+    }
+  };
+
   const statusColor = (s: string) => {
     if (s === "published") return "bg-green-500/10 text-green-400 border-green-500/20";
     if (s === "draft") return "bg-yellow-500/10 text-yellow-400 border-yellow-500/20";
