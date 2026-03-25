@@ -176,7 +176,7 @@ const SectorPage = () => {
           </div>
         </section>
 
-        <FunnelCalculatorSection />
+        <FunnelCalculatorSection defaults={sector.funnelDefaults} />
 
         {/* Other sectors */}
         <section className="py-24 border-t border-border">
