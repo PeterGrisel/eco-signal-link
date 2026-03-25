@@ -1,5 +1,17 @@
 import { Trophy, Package, Car, Wrench, Building2, Landmark, Factory, GraduationCap, type LucideIcon } from "lucide-react";
 
+export interface FunnelDefaults {
+  monthlyRevenue: number;
+  expenseRate: number;
+  marketingRate: number;
+  avgDealSize: number;
+  optInRate: number;
+  optInToSqlRate: number;
+  sqlToCallRate: number;
+  salesConversionRate: number;
+  ltv: number;
+}
+
 export interface Sector {
   slug: string;
   icon: LucideIcon;
@@ -11,6 +23,7 @@ export interface Sector {
   challenges: string[];
   solutions: string[];
   signals: string[];
+  funnelDefaults: FunnelDefaults;
 }
 
 export const sectors: Sector[] = [
