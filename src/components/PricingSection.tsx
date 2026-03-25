@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Check, Plus, Users, Briefcase, Database, ArrowDown } from "lucide-react";
+import { Check, Plus, Users, Briefcase, Database, ArrowDown, ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const baseFeatures = [
   "Beide stromen actief (recruitment + leads)",
@@ -266,9 +267,19 @@ const PricingSection = () => {
                   ))}
                 </ul>
 
-                <span className="text-xs font-display font-semibold text-primary">
-                  {price}
-                </span>
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-display font-semibold text-primary">
+                    {price}
+                  </span>
+                  {title === "Full Sales Management" && (
+                    <Link
+                      to="/full-sales-management"
+                      className="text-xs text-primary hover:underline font-medium flex items-center gap-1"
+                    >
+                      Meer info <ArrowRight className="w-3 h-3" />
+                    </Link>
+                  )}
+                </div>
               </motion.div>
             ))}
           </div>
