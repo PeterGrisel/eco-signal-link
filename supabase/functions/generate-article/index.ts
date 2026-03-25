@@ -111,6 +111,32 @@ SEO:
 - Schrijf een meta description die key points samenvat (50 tot 140 tekens)
 - Genereer 5 tot 10 relevante meta keywords
 
+EXTERNE LINKS (VERPLICHT - minimaal 3 per artikel):
+- Link naar gezaghebbende, relevante bronnen: officiële documentatie, research papers, branche-organisaties, bekende tools/platforms
+- Gebruik beschrijvende anchor text, niet "klik hier" of "lees meer"
+- Link naar bronnen die de claims in je artikel ondersteunen
+- Gebruik ALLEEN echte, bestaande URLs van bekende websites. Verzin geen URLs.
+- Goede bronnen: HubSpot, Gartner, McKinsey, Forrester, LinkedIn, Wikipedia, officiële tool-websites
+- Voorbeeld: "Volgens onderzoek van [HubSpot](https://www.hubspot.com/marketing-statistics) converteert..."
+
+INTERNE LINKS (VERPLICHT - minimaal 2 per artikel):
+- Link naar relevante eigen blogposts en pagina's waar dat natuurlijk past
+- Gebruik contextrijke anchor text die beschrijft waar de link naartoe gaat
+- Plaats interne links in de eerste helft van het artikel waar mogelijk
+- Link NIET naar het artikel zelf
+${internalLinksContext}
+
+QUOTES MET BRONVERMELDING (VERPLICHT - minimaal 2 per artikel):
+- Gebruik > blockquote syntax voor citaten
+- Citeer echte, bekende experts, auteurs of organisaties met naam en functie/titel
+- Formaat:
+> "Het citaat hier."
+>
+> – Naam, Functie bij Organisatie
+- Gebruik citaten die het punt van de sectie versterken
+- Mix tussen bekende industrie-experts en relevante onderzoeken/rapporten
+- Citaten moeten inhoudelijk kloppen en geloofwaardig zijn
+
 INFOGRAPHICS (VERPLICHT - gebruik minimaal 2 per artikel):
 Voeg visuele infographics toe als speciale code blocks in de markdown. De beschikbare types:
 
