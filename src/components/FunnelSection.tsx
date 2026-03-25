@@ -78,8 +78,8 @@ const getMockup = (type: string | null) => {
 
 const FunnelSection = () => {
   return (
-    <section className="py-32 relative overflow-hidden">
-      <div className="container mx-auto px-6">
+    <section className="py-16 md:py-32 relative overflow-hidden">
+      <div className="container mx-auto px-4 md:px-6">
         {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
@@ -91,7 +91,7 @@ const FunnelSection = () => {
           <p className="text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4">
             Het volledige proces
           </p>
-          <h2 className="font-display font-bold text-4xl md:text-5xl lg:text-6xl tracking-tight leading-tight mb-6">
+          <h2 className="font-display font-bold text-3xl md:text-5xl lg:text-6xl tracking-tight leading-tight mb-6">
             Van ICP tot gesprek,
             <br />
             <span className="text-gradient">stap voor stap.</span>

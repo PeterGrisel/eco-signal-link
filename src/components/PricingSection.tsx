@@ -32,9 +32,9 @@ const StepDivider = () => (
 
 const PricingSection = () => {
   return (
-    <section id="pricing" className="py-32 relative">
+    <section id="pricing" className="py-16 md:py-32 relative">
       <div className="absolute inset-0 glow-bg pointer-events-none" />
-      <div className="container mx-auto px-6 relative z-10">
+      <div className="container mx-auto px-4 md:px-6 relative z-10">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
@@ -46,7 +46,7 @@ const PricingSection = () => {
           <p className="text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4">
             Dienstmodellen
           </p>
-          <h2 className="font-display font-bold text-4xl md:text-5xl lg:text-6xl tracking-tight leading-tight">
+          <h2 className="font-display font-bold text-3xl md:text-5xl lg:text-6xl tracking-tight leading-tight">
             Bouw uw pakket
             <br />
             <span className="text-gradient">in 4 stappen.</span>
@@ -64,11 +64,11 @@ const PricingSection = () => {
           transition={{ duration: 0.5 }}
         >
           <StepBadge step={1} label="Vaste service fee" />
-          <div className="border border-primary/30 bg-primary/5 rounded-lg p-8 relative">
+          <div className="border border-primary/30 bg-primary/5 rounded-lg p-5 md:p-8 relative">
             <div className="grid md:grid-cols-[1fr_auto] gap-8 items-start">
               <div>
                 <div className="flex items-baseline gap-1 mb-2">
-                  <span className="font-display font-bold text-5xl">€1.500</span>
+                  <span className="font-display font-bold text-4xl md:text-5xl">€1.500</span>
                   <span className="text-muted-foreground text-sm">/maand</span>
                 </div>
                 <p className="text-muted-foreground text-sm mb-6">
@@ -109,7 +109,7 @@ const PricingSection = () => {
           transition={{ duration: 0.5 }}
         >
           <StepBadge step={2} label="Optioneel: engagement-uren" />
-          <div className="card-gradient border border-glow rounded-lg p-8">
+          <div className="card-gradient border border-glow rounded-lg p-5 md:p-8">
             <div className="mb-6">
               <div className="flex items-center gap-3 mb-2">
                 <div className="flex items-baseline gap-1">
@@ -167,7 +167,7 @@ const PricingSection = () => {
           transition={{ duration: 0.5 }}
         >
           <StepBadge step={3} label="Voeg Datahub toe" />
-          <div className="card-gradient border border-glow rounded-lg p-8 group hover:border-primary/30 transition-colors">
+          <div className="card-gradient border border-glow rounded-lg p-5 md:p-8 group hover:border-primary/30 transition-colors">
             <div className="grid md:grid-cols-[1fr_auto] gap-8 items-start">
               <div>
                 <div className="flex items-center gap-3 mb-4">
@@ -213,7 +213,7 @@ const PricingSection = () => {
           transition={{ duration: 0.5 }}
         >
           <StepBadge step={4} label="Activeer add-ons" />
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid md:grid-cols-2 gap-4 md:gap-6">
             {[
               {
                 icon: Users,
@@ -246,7 +246,7 @@ const PricingSection = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.4, delay: i * 0.06 }}
-                className="card-gradient border border-glow rounded-lg p-8 hover:border-primary/30 transition-colors group"
+                className="card-gradient border border-glow rounded-lg p-5 md:p-8 hover:border-primary/30 transition-colors group"
               >
                 <div className="flex items-center gap-2 mb-5">
                   <Icon className="w-4 h-4 text-primary" />

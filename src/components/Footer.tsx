@@ -2,8 +2,8 @@ import { sectors } from "@/data/sectors";
 
 const Footer = () => {
   return (
-    <footer className="border-t border-border py-12">
-      <div className="container mx-auto px-6">
+    <footer className="border-t border-border py-8 md:py-12">
+      <div className="container mx-auto px-4 md:px-6">
         {/* Sector links grid */}
         <div className="mb-10">
           <p className="text-xs font-display font-semibold tracking-[0.15em] uppercase text-muted-foreground mb-4">
