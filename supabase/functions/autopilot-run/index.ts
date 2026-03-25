@@ -98,19 +98,32 @@ serve(async (req) => {
       const headlineData = await headlineRes.json();
       if (headlineData.error) throw new Error(headlineData.error);
 
-      // Step 4: Insert headlines with scheduled dates (weekdays only)
+      // Step 4: Insert headlines with scheduled dates (weekdays only, skip dates already taken)
       if (headlineData.headlines?.length) {
+        // Fetch existing scheduled dates to avoid duplicates
+        const { data: existingDates } = await supabase
+          .from("content_queue")
+          .select("scheduled_date")
+          .in("status", ["approved", "generating", "published"])
+          .not("scheduled_date", "is", null);
+
+        const takenDates = new Set((existingDates || []).map(d => d.scheduled_date));
+
         const today = new Date();
         let scheduledDate = new Date(today);
-        // Start scheduling from tomorrow
         scheduledDate.setDate(scheduledDate.getDate() + 1);
 
         const rows = headlineData.headlines.map((h: any) => {
-          // Skip weekends
-          while (scheduledDate.getDay() === 0 || scheduledDate.getDay() === 6) {
+          // Skip weekends and already-taken dates
+          while (
+            scheduledDate.getDay() === 0 ||
+            scheduledDate.getDay() === 6 ||
+            takenDates.has(scheduledDate.toISOString().split("T")[0])
+          ) {
             scheduledDate.setDate(scheduledDate.getDate() + 1);
           }
           const dateStr = scheduledDate.toISOString().split("T")[0];
+          takenDates.add(dateStr); // mark as taken for next iteration
           scheduledDate.setDate(scheduledDate.getDate() + 1);
 
           return {
