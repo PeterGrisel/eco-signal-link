@@ -1,47 +1,71 @@
 import { sectors } from "@/data/sectors";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="border-t border-border py-8 md:py-12">
+    <footer className="border-t border-border bg-card/30">
       <div className="container mx-auto px-4 md:px-6">
-        {/* Sector links grid */}
-        <div className="mb-10">
-          <p className="text-xs font-display font-semibold tracking-[0.15em] uppercase text-muted-foreground mb-4">
+        {/* Sector links */}
+        <div className="py-10 border-b border-border">
+          <p className="text-[11px] font-display font-semibold tracking-[0.2em] uppercase text-muted-foreground mb-5">
             Sectoren
           </p>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-12 gap-y-2.5">
             {sectors.map((s) => (
-              <a
+              <Link
                 key={s.slug}
-                href={`/sectoren/${s.slug}`}
+                to={`/sectoren/${s.slug}`}
                 className="text-sm text-muted-foreground hover:text-primary transition-colors"
               >
                 {s.title}
-              </a>
+              </Link>
             ))}
           </div>
         </div>
 
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-          <div>
-            <span className="font-display font-bold text-lg">
+        {/* Bottom bar */}
+        <div className="py-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          {/* Brand */}
+          <div className="flex-shrink-0">
+            <Link to="/" className="font-display font-bold text-lg inline-block">
               <span className="text-foreground">B2B</span>
               <span className="text-primary">GroeiMachine</span>
-            </span>
-            <p className="text-muted-foreground text-sm mt-1">Signal-Based Prospecting Systems</p>
+            </Link>
+            <p className="text-muted-foreground/60 text-xs mt-0.5">Signal-Based Prospecting Systems</p>
           </div>
-          <div className="flex items-center gap-8 text-sm text-muted-foreground">
-            <a href="https://rebelforce.nl" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">
+
+          {/* Ecosystem links */}
+          <nav className="flex items-center gap-6 text-sm">
+            <a
+              href="https://rebelforce.nl"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-muted-foreground hover:text-foreground transition-colors"
+            >
               rebelforce.nl
             </a>
-            <a href="https://ai-fctry.com" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">
+            <span className="w-px h-3.5 bg-border" />
+            <a
+              href="https://ai-fctry.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-muted-foreground hover:text-foreground transition-colors"
+            >
               AI-FCTRY
             </a>
-            <a href="https://rebelforce-hubs.com" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">
+            <span className="w-px h-3.5 bg-border" />
+            <a
+              href="https://rebelforce-hubs.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-muted-foreground hover:text-foreground transition-colors"
+            >
               RebelHub
             </a>
-          </div>
-          <p className="text-muted-foreground text-xs">
+          </nav>
+
+          {/* Copyright */}
+          <p className="text-muted-foreground/50 text-xs flex-shrink-0">
             © {new Date().getFullYear()} B2BGroeiMachine · powered by Rebel Force™
           </p>
         </div>
