@@ -355,6 +355,21 @@ const AdminTaxonomy = () => {
               Topic clusters, keyword mapping en gap analyse
             </p>
           </div>
+          <div className="flex gap-2">
+            {topics.length > 0 && (
+              <Button variant="heroOutline" size="sm" onClick={() => runStrategyAgent("evaluate")} disabled={strategyLoading}>
+                {strategyLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <TrendingUp className="w-4 h-4" />}
+                Evalueer
+              </Button>
+            )}
+            <Button variant="hero" size="sm" onClick={() => runStrategyAgent("generate")} disabled={strategyLoading}>
+              {strategyLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Brain className="w-4 h-4" />}
+              {strategyLoading ? "Agent analyseert..." : "AI Strategie Agent"}
+            </Button>
+            <Button onClick={() => openCreate(null)} size="sm">
+              <Plus className="w-4 h-4 mr-1" /> Handmatig
+            </Button>
+          </div>
           <Button onClick={() => openCreate(null)}>
             <Plus className="w-4 h-4 mr-1" /> Nieuw topic cluster
           </Button>
