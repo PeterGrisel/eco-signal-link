@@ -4,6 +4,11 @@ import { Button } from "@/components/ui/button";
 
 const features = [
   {
+    icon: MessageCircleQuestion,
+    title: "Stel 1.000 vragen aan uw data",
+    description: "Welke doelgroep converteert het best? Welk kanaal levert de meeste gesprekken op? Uw commerciële data geeft het antwoord.",
+  },
+  {
     icon: Database,
     title: "Alle data op één plek",
     description: "Contacthistorie, campagneresultaten, signalen en kwalificatiedata gebundeld in uw eigen omgeving.",
