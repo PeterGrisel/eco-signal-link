@@ -62,10 +62,11 @@ const priorityConfig = {
   low: { color: "bg-blue-500/10 text-blue-400 border-blue-500/20", icon: <Lightbulb className="w-3 h-3" /> },
 };
 
-const typeConfig = {
+const typeConfig: Record<string, { label: string; icon: React.ReactNode; color: string }> = {
   new_page: { label: "Nieuwe pagina", icon: <FileText className="w-3.5 h-3.5" />, color: "text-green-400" },
   optimize: { label: "Optimalisatie", icon: <Wrench className="w-3.5 h-3.5" />, color: "text-yellow-400" },
   strategy: { label: "Strategie", icon: <Zap className="w-3.5 h-3.5" />, color: "text-purple-400" },
+  technical_fix: { label: "Technische fix", icon: <Shield className="w-3.5 h-3.5" />, color: "text-red-400" },
 };
 
 const AdminKpi = () => {
