@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Puzzle, ShieldCheck, Repeat } from "lucide-react";
+import { Puzzle, ShieldCheck, Repeat, BarChart3, Clock, Users } from "lucide-react";
 
 const ResultsSection = () => {
   return (
@@ -12,7 +12,7 @@ const ResultsSection = () => {
           className="mb-16"
         >
           <p className="text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4">
-            Waarom B2BGroeiMachine
+            Waarom Rebel Force
           </p>
           <h2 className="font-display font-bold text-4xl md:text-5xl lg:text-6xl tracking-tight leading-tight">
             Geen platform.
@@ -21,7 +21,7 @@ const ResultsSection = () => {
           </h2>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-12 items-start">
+        <div className="grid md:grid-cols-2 gap-12 items-start mb-20">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -42,7 +42,7 @@ const ResultsSection = () => {
               {
                 icon: ShieldCheck,
                 title: "Uw domein blijft veilig",
-                text: "Subdomein-architectuur en opwarmprotocollen beschermen uw reputatie. Geen verbrande namen, geen blacklists.",
+                text: "Subdomein-architectuur, toegewezen IP-adressen en opwarmprotocollen. Maximaal 10-15 mails per dag per adres. Uitsluitend geverifieerde e-mailadressen.",
               },
             ].map((item, i) => (
               <div key={i} className="border-l-2 border-primary/30 pl-6">
@@ -67,14 +67,14 @@ const ResultsSection = () => {
             <div className="space-y-6">
               {[
                 "Volledige funnel-infrastructuur",
-                "Parallelle stromen (klant + recruit + meer)",
+                "Parallelle stromen (klant + recruitment)",
                 "Signaalmonitoring & intent-scoring",
                 "Persoonlijke omnichannel outreach",
-                "Gekwalificeerde gesprekken in uw agenda",
-                "Dashboards & real-time inzicht",
+                "3-5 gekwalificeerde meetings per maand",
+                "2-wekelijkse rapportage & pipeline-inzicht",
                 "Integratie met uw bestaande tools",
                 "Domeinbescherming & compliance",
-                "Overdracht óf volledig beheer",
+                "Heractivering van warme contacten",
               ].map((item) => (
                 <div key={item} className="flex items-center gap-3">
                   <div className="w-2 h-2 rounded-full bg-primary shrink-0" />
@@ -83,6 +83,56 @@ const ResultsSection = () => {
               ))}
             </div>
           </motion.div>
+        </div>
+
+        {/* KPI & Commitment section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mb-12 text-center max-w-2xl mx-auto"
+        >
+          <p className="text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4">
+            Kwaliteit boven volume
+          </p>
+          <h2 className="font-display font-bold text-3xl md:text-4xl lg:text-5xl tracking-tight leading-tight">
+            Meetbaar.
+            <br />
+            <span className="text-gradient">Gecontroleerd.</span>
+          </h2>
+        </motion.div>
+
+        <div className="grid md:grid-cols-3 gap-6">
+          {[
+            {
+              icon: BarChart3,
+              title: "KPI-Gedreven",
+              description: "Primaire KPI: gekwalificeerde gesprekken. Secundair: antwoordpercentages, engagement-scores, conversie per doelgroep en kanaal.",
+            },
+            {
+              icon: ShieldCheck,
+              title: "Merkbescherming",
+              description: "Wij gebruiken nooit uw hoofddomein voor outbound. Geen hoog-volume spam, geen herhaalde benaderingen, geen aangekochte lijsten. Alles traceerbaar.",
+            },
+            {
+              icon: Clock,
+              title: "Lange Termijn Waarde",
+              description: "Contacten die nu 'nog niet' zeggen worden automatisch warm gehouden. Zo groeit uw pipeline gestaag zonder namen te verbranden in uw markt.",
+            },
+          ].map((item, i) => (
+            <motion.div
+              key={item.title}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1 }}
+              className="card-gradient border border-glow rounded-lg p-8 hover:border-primary/30 transition-colors"
+            >
+              <item.icon className="w-8 h-8 text-primary mb-5" />
+              <h3 className="font-display font-bold text-xl mb-3">{item.title}</h3>
+              <p className="text-muted-foreground leading-relaxed">{item.description}</p>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>
