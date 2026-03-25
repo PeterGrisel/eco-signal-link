@@ -2,11 +2,12 @@ import { ReactNode } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAdminAuth } from "@/hooks/useAdminAuth";
-import { FileText, Globe, Zap, LogOut } from "lucide-react";
+import { FileText, Globe, Zap, LogOut, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const navItems = [
   { href: "/admin/blog", label: "Blog CMS", icon: FileText },
+  { href: "/admin/autopilot", label: "Autopilot", icon: Sparkles },
   { href: "/admin/listings", label: "Listings", icon: Globe },
   { href: "/admin/indexing", label: "Index Rusher", icon: Zap },
 ];
