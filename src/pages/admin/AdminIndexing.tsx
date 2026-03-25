@@ -90,7 +90,21 @@ const AdminIndexing = () => {
       if (error) throw error;
       if (data?.error) throw new Error(data.error);
 
-      toast({ title: "Indexing aangevraagd!", description: finalUrl });
+      const results = data?.results || [];
+      const failed = results.filter((r: any) => r.status === "failed");
+      const succeeded = results.filter((r: any) => r.status === "indexed");
+
+      if (failed.length > 0) {
+        toast({
+          title: `${failed.length} URL(s) mislukt`,
+          description: failed.map((f: any) => `${f.url}: ${f.message}`).join("\n"),
+          variant: "destructive",
+        });
+      }
+      if (succeeded.length > 0) {
+        toast({ title: `${succeeded.length} URL(s) geïndexeerd!`, description: finalUrl });
+      }
+
       setUrl("");
       fetchData();
     } catch (e: any) {
@@ -268,8 +282,12 @@ const AdminIndexing = () => {
                   <p className="text-sm font-medium text-foreground truncate">{r.url}</p>
                   <p className="text-xs text-muted-foreground">
                     {format(new Date(r.created_at), "dd/MM/yyyy HH:mm")}
-                    {r.response_message && ` · ${r.response_message}`}
                   </p>
+                  {r.response_message && (
+                    <p className={`text-xs mt-1 ${r.status === "failed" ? "text-red-400" : "text-green-400"}`}>
+                      {r.response_message}
+                    </p>
+                  )}
                 </div>
                 <div className="flex items-center gap-2 ml-4">
                   <Badge variant="outline" className={statusColors[r.status]}>{r.status}</Badge>
