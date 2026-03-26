@@ -45,7 +45,7 @@ const DeliveryModelSection = () => {
             <h3 className="font-display font-bold text-2xl mb-2">Build &amp; Transfer</h3>
             <p className="text-primary font-display text-sm font-semibold mb-4">Uw tools, onze expertise</p>
             <p className="text-muted-foreground leading-relaxed mb-6">
-              Wij bouwen het volledige systeem op uw bestaande toolstack — CRM, e-mail, LinkedIn.
+              Wij bouwen het volledige systeem op uw bestaande toolstack, CRM, e-mail, LinkedIn.
               Na oplevering krijgt u een volledige training en draagt uw team het zelf.
             </p>
             <ul className="space-y-3 mb-8 flex-1">
@@ -93,7 +93,7 @@ const DeliveryModelSection = () => {
             <p className="text-primary font-display text-sm font-semibold mb-4">Onze tools, volledig beheer</p>
             <p className="text-muted-foreground leading-relaxed mb-6">
               Wij selecteren de beste tools, richten alles in en managen het systeem doorlopend.
-              U ontvangt gekwalificeerde afspraken — zonder technisch gedoe.
+              U ontvangt gekwalificeerde afspraken,  zonder technisch gedoe.
             </p>
             <ul className="space-y-3 mb-8 flex-1">
               {[
