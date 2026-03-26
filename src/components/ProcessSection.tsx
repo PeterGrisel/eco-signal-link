@@ -125,7 +125,7 @@ const ProcessSection = () => {
             <span className="text-gradient">u neemt het over.</span>
           </h2>
           <p className="text-muted-foreground mt-4 text-lg leading-relaxed">
-            Geen lock-in. Geen eigen platform dat u moet afnemen. Het systeem draait op uw tools; wij integreren wat werkt.
+            Geen lock-in. Geen eigen platform dat u moet afnemen. Het systeem draait agnotisch; wij integreren wat werkt, vandaag en kijkend naar morgen
           </p>
         </motion.div>
 
