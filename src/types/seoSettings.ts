@@ -118,7 +118,7 @@ export const defaultSeoConfig: SeoConfig = {
   cta_type: "inline",
   cta_title: "Klaar voor voorspelbare groei?",
   cta_description: "Ontdek hoe B2BGroeiMachine een data-gedreven groei-systeem bouwt voor uw bedrijf. Twee stromen, één systeem: nieuwe klanten én het juiste talent.",
-  cta_button_url: "https://b2bgroeimachine.nl/#pricing",
+  cta_button_url: "https://b2bgroeimachine.io/#pricing",
   cta_button_text: "Bekijk de mogelijkheden",
   cta_text_color: "#f5f5f5",
   cta_primary_color: "#f97316",

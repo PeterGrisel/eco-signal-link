@@ -26,7 +26,7 @@ const Blog = () => {
   usePageMeta({
     title: "Blog | B2BGroeiMachine",
     description: "Lees onze laatste artikelen over B2B sales, prospecting, outreach en groeistrategieën.",
-    canonical: "https://eco-signal-link.lovable.app/blog",
+    canonical: "https://b2bgroeimachine.io/blog",
   });
 
   useEffect(() => {
@@ -149,7 +149,7 @@ const Blog = () => {
             "@context": "https://schema.org",
             "@type": "Blog",
             name: "B2BGroeiMachine Blog",
-            url: "https://eco-signal-link.lovable.app/blog",
+            url: "https://b2bgroeimachine.io/blog",
             description: "Inzichten over B2B sales, prospecting en groeistrategieën.",
           }),
         }}

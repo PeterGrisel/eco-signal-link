@@ -52,7 +52,7 @@ const BlogPost = () => {
   usePageMeta({
     title: post ? `${post.title} | B2BGroeiMachine` : "Blog | B2BGroeiMachine",
     description: post?.meta_description || post?.excerpt || undefined,
-    canonical: post ? `https://b2bgroeimachine.nl/blog/${post.slug}` : undefined,
+    canonical: post ? `https://b2bgroeimachine.io/blog/${post.slug}` : undefined,
   });
 
   if (loading) {
@@ -237,7 +237,7 @@ const BlogPost = () => {
             description: post.meta_description || post.excerpt || "",
             image: post.featured_image || undefined,
             datePublished: publishDate,
-            url: `https://b2bgroeimachine.nl/blog/${post.slug}`,
+            url: `https://b2bgroeimachine.io/blog/${post.slug}`,
             publisher: {
               "@type": "Organization",
               name: "B2BGroeiMachine",

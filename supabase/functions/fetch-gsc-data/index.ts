@@ -152,7 +152,7 @@ serve(async (req) => {
 
     // Load site URL from settings
     const { data: settings } = await supabase.from("seo_settings").select("config").limit(1).single();
-    const siteUrl = settings?.config?.site_url || "https://b2bgroeimachine.nl";
+    const siteUrl = settings?.config?.site_url || "https://b2bgroeimachine.io";
 
     const accessToken = await getAccessToken();
 
