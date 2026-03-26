@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { trackCTA } from "@/lib/tracking";
 import teamBanner from "@/assets/team-banner.jpg";
 
-const rotatingWords = ["klanten.", "recruitment.", "partners.", "groei."];
+const rotatingWords = ["klanten.", "omzet.", "controle.", "groei."];
 
 const Hero = () => {
   const [wordIndex, setWordIndex] = useState(0);
