@@ -283,6 +283,10 @@ const OverOns = () => {
               Ontdek hoe het Rebel Force-ecosysteem uw bedrijf kan versnellen.
               Plan een vrijblijvend gesprek.
             </p>
+            <div className="flex items-center gap-3 mb-2">
+              <img src={peterGrisel} alt="Peter Grisel" className="w-10 h-10 rounded-full object-cover border-2 border-primary/30" />
+              <span className="text-muted-foreground text-sm">Spreek direct met Peter</span>
+            </div>
             <Button variant="hero" size="lg" asChild>
               <a
                 href="https://app.usemotion.com/meet/Rebel-Force/meeting"

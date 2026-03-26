@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { trackCTA } from "@/lib/tracking";
+import peterGrisel from "@/assets/peter-grisel.png";
 
 const CtaSection = () => {
   return (
@@ -25,7 +26,11 @@ const CtaSection = () => {
             Plan een vrijblijvende demo en ontdek hoe ons systeem 
             er voor uw organisatie uitziet. Van eerste contact tot gekwalificeerd gesprek.
           </p>
-          <div className="flex flex-wrap justify-center gap-4">
+          <div className="flex flex-col items-center gap-5">
+            <div className="flex items-center gap-3">
+              <img src={peterGrisel} alt="Peter Grisel" className="w-10 h-10 rounded-full object-cover border-2 border-primary/30" />
+              <span className="text-muted-foreground text-sm">Spreek direct met Peter</span>
+            </div>
             <Button variant="hero" size="lg" asChild>
               <a href="https://app.usemotion.com/meet/Rebel-Force/meeting" target="_blank" rel="noopener noreferrer"
                 onClick={() => trackCTA("CTA Section — Plan een Demo", "https://app.usemotion.com/meet/Rebel-Force/meeting")}>
