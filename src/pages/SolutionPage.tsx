@@ -1,4 +1,4 @@
-import { useParams, Navigate } from "react-router-dom";
+import { useParams, Navigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Check, ArrowRight } from "lucide-react";
@@ -9,6 +9,20 @@ import CtaSection from "@/components/CtaSection";
 import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 import { usePageMeta } from "@/hooks/usePageMeta";
 import { solutions } from "@/data/solutions";
+import { sectors } from "@/data/sectors";
+
+// Map solution slugs to relevant sector slugs
+const solutionSectorMap: Record<string, string[]> = {
+  "voorspelbare-pipeline": ["zakelijke-dienstverlening", "groothandel", "leasemaatschappijen", "financiele-sector"],
+  "outbound-automatisering": ["groothandel", "engineering", "maakindustrie", "opleiding-training"],
+  "commercieel-talent": ["zakelijke-dienstverlening", "financiele-sector", "profvoetbal"],
+  "data-gedreven-sales": ["leasemaatschappijen", "maakindustrie", "groothandel", "engineering"],
+  "schaalbaar-groeisysteem": ["zakelijke-dienstverlening", "opleiding-training", "financiele-sector", "maakindustrie"],
+  "internationaal-uitbreiden": ["maakindustrie", "engineering", "groothandel"],
+  "versnipperde-tools": ["zakelijke-dienstverlening", "groothandel", "opleiding-training", "leasemaatschappijen"],
+  "weg-uit-excel": ["groothandel", "maakindustrie", "zakelijke-dienstverlening", "opleiding-training"],
+  "gerichte-prospecting": ["profvoetbal", "leasemaatschappijen", "engineering", "financiele-sector"],
+};
 
 const fadeUp = {
   initial: { opacity: 0, y: 20 },
