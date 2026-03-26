@@ -424,9 +424,9 @@ const OnsTeam = () => {
           <div className="container mx-auto px-6">
             <motion.div {...fadeUp} className="text-center mb-16">
               <h2 className="font-display font-bold text-3xl md:text-5xl">
-                De experts achter
+                De <span className="italic">(AI)</span> experts achter
                 <br />
-                <span className="text-primary">uw groei</span>
+                <span className="text-primary">uw groei</span> 😉
               </h2>
             </motion.div>
 
@@ -477,16 +477,6 @@ const OnsTeam = () => {
                 Plan een vrijblijvend gesprek en ontdek hoe ons team uw groei
                 kan versnellen.
               </p>
-              <div className="flex items-center justify-center gap-3 mb-5">
-                <img
-                  src={peterGrisel}
-                  alt="Peter Grisel"
-                  className="w-10 h-10 rounded-full object-cover border-2 border-primary/30"
-                />
-                <span className="text-muted-foreground text-sm">
-                  Spreek direct met Peter
-                </span>
-              </div>
               <Button variant="hero" size="lg" asChild>
                 <a
                   href="https://app.usemotion.com/meet/Rebel-Force/meeting"
