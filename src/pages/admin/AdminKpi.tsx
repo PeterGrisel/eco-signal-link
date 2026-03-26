@@ -11,6 +11,20 @@ import {
   Lightbulb, Zap, AlertTriangle, Shield, CheckCircle, XCircle, AlertCircle
 } from "lucide-react";
 
+interface Ga4Data {
+  period: { days: number };
+  totals: {
+    sessions: number;
+    users: number;
+    pageviews: number;
+    bounce_rate: number;
+    avg_session_duration: number;
+    engaged_sessions: number;
+  };
+  top_pages: Array<{ path: string; pageviews: number; sessions: number; bounce_rate: number; avg_duration: number }>;
+  traffic_sources: Array<{ channel: string; sessions: number; users: number; engaged_sessions: number }>;
+}
+
 interface GscOverview {
   period: { start: string; end: string; days: number };
   totals: { impressions: number; clicks: number; ctr: number; conversion_clicks: number };
