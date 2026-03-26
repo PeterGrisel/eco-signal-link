@@ -52,6 +52,103 @@ const StepDivider = () => (
   </div>
 );
 
+const EngagementStep = () => {
+  const [period, setPeriod] = useState<CommitmentPeriod>("6");
+  const discount = period === "12" ? 10 : 0;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.5 }}
+    >
+      <StepBadge step={2} label="Optioneel: engagement-uren" />
+      <div className="card-gradient border border-glow rounded-lg p-5 md:p-8">
+        {/* Header + Toggle */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+          <div>
+            <div className="flex items-center gap-3 mb-1">
+              <span className="font-display font-bold text-xl">Persoonlijke opvolging</span>
+              <span className="text-[10px] font-display font-semibold text-primary bg-primary/10 px-2 py-0.5 rounded-full uppercase tracking-wider">
+                Optioneel
+              </span>
+            </div>
+            <p className="text-muted-foreground text-sm">Kwalificatie & opvolging voor beide stromen</p>
+          </div>
+
+          {/* Commitment toggle */}
+          <div className="flex items-center gap-1 bg-secondary/80 border border-border rounded-full p-1">
+            <button
+              onClick={() => setPeriod("6")}
+              className={`px-4 py-1.5 rounded-full text-xs font-display font-semibold transition-all ${
+                period === "6"
+                  ? "bg-background text-foreground shadow-sm"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              6 maanden
+            </button>
+            <button
+              onClick={() => setPeriod("12")}
+              className={`px-4 py-1.5 rounded-full text-xs font-display font-semibold transition-all flex items-center gap-1.5 ${
+                period === "12"
+                  ? "bg-background text-foreground shadow-sm"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              12 maanden
+              <span className="text-[10px] font-bold text-primary">-10%</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Cards */}
+        <div className="grid sm:grid-cols-3 gap-4">
+          {packages.map((pkg) => {
+            const rate = pkg.rates[period];
+            const total = pkg.hours * rate;
+
+            return (
+              <div
+                key={pkg.hours}
+                className={`rounded-lg p-6 border text-center transition-all ${
+                  pkg.highlight
+                    ? "border-primary/40 bg-primary/5 ring-1 ring-primary/20"
+                    : "border-border bg-secondary/50"
+                }`}
+              >
+                {/* Plan label */}
+                <span className={`text-[10px] font-display font-bold tracking-[0.12em] uppercase ${
+                  pkg.highlight ? "text-primary" : "text-muted-foreground"
+                }`}>
+                  {pkg.label}
+                </span>
+
+                {/* Hours */}
+                <p className="font-display font-bold text-4xl mt-2">{pkg.hours}h</p>
+                <p className="text-muted-foreground text-xs mt-0.5">/ maand</p>
+
+                {/* Pricing */}
+                <div className="mt-5 pt-4 border-t border-border/50">
+                  <div className="flex items-baseline justify-center gap-1.5">
+                    <span className="font-display font-bold text-2xl text-foreground">€{total}</span>
+                    <span className="text-muted-foreground text-xs">/ mo</span>
+                  </div>
+                  <div className="flex items-center justify-center gap-1.5 mt-1">
+                    <span className="text-primary font-display font-semibold text-sm">€{rate}</span>
+                    <span className="text-muted-foreground text-xs">/ uur</span>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
 const PricingSection = () => {
   return (
     <section id="pricing" className="py-16 md:py-32 relative">
