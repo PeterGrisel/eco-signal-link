@@ -10,11 +10,11 @@ import {
   Calculator, Minus, Plus as PlusIcon
 } from "lucide-react";
 
-const engagementOptions = [
-  { hours: 0, label: "Geen", price6: 0, price12: 0 },
-  { hours: 10, label: "10 uur", price6: 760, price12: 700 },
-  { hours: 20, label: "20 uur", price6: 1440, price12: 1300 },
-  { hours: 40, label: "40 uur", price6: 2720, price12: 2400 },
+const engagementPackages = [
+  { hours: 0, label: "Geen", rate: { "6": 0, "12": 0 } },
+  { hours: 10, label: "10 uur", planName: "Startpakket", rate: { "6": 100, "12": 90 } },
+  { hours: 20, label: "20 uur", planName: "Meest gekozen", rate: { "6": 90, "12": 81 }, highlight: true },
+  { hours: 40, label: "40 uur", planName: "Maximale output", rate: { "6": 80, "12": 72 } },
 ];
 
 const Pricing = () => {
@@ -22,11 +22,13 @@ const Pricing = () => {
   const [datahub, setDatahub] = useState(false);
   const [recruitment, setRecruitment] = useState(false);
   const [salesMgmt, setSalesMgmt] = useState(false);
-  const [period, setPeriod] = useState<6 | 12>(6);
+  const [period, setPeriod] = useState<"6" | "12">("6");
 
   const baseFee = 1500;
   const datahubFee = datahub ? 499 : 0;
-  const engFee = period === 6 ? engagementOptions[engagement].price6 : engagementOptions[engagement].price12;
+  const selectedPkg = engagementPackages[engagement];
+  const engRate = selectedPkg.rate[period];
+  const engFee = selectedPkg.hours * engRate;
   const monthlyTotal = baseFee + engFee + datahubFee;
 
   return (
@@ -93,39 +95,57 @@ const Pricing = () => {
                   </div>
 
                   {/* Period toggle */}
-                  <div className="flex bg-secondary/80 rounded-lg p-1 mb-4 w-fit">
-                    {([6, 12] as const).map(p => (
-                      <button
-                        key={p}
-                        onClick={() => setPeriod(p)}
-                        className={`px-4 py-1.5 rounded-md text-xs font-medium transition-colors ${
-                          period === p ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"
-                        }`}
-                      >
-                        {p} maanden
-                      </button>
-                    ))}
+                  <div className="flex items-center gap-1 bg-secondary/80 border border-border rounded-full p-1 mb-5 w-fit">
+                    <button
+                      onClick={() => setPeriod("6")}
+                      className={`px-4 py-1.5 rounded-full text-xs font-display font-semibold transition-all ${
+                        period === "6" ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
+                      }`}
+                    >
+                      6 maanden
+                    </button>
+                    <button
+                      onClick={() => setPeriod("12")}
+                      className={`px-4 py-1.5 rounded-full text-xs font-display font-semibold transition-all flex items-center gap-1.5 ${
+                        period === "12" ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
+                      }`}
+                    >
+                      12 maanden
+                      <span className="text-[10px] font-bold text-primary">-10%</span>
+                    </button>
                   </div>
 
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                    {engagementOptions.map((opt, i) => (
-                      <button
-                        key={i}
-                        onClick={() => setEngagement(i)}
-                        className={`rounded-lg p-4 border text-center transition-all ${
-                          engagement === i
-                            ? "border-primary bg-primary/10 ring-1 ring-primary/30"
-                            : "border-border hover:border-primary/30"
-                        }`}
-                      >
-                        <p className="font-display font-bold text-lg">{opt.label}</p>
-                        {opt.hours > 0 && (
-                          <p className="text-xs text-muted-foreground mt-1">
-                            +€{period === 6 ? opt.price6 : opt.price12}/mnd
-                          </p>
-                        )}
-                      </button>
-                    ))}
+                    {engagementPackages.map((pkg, i) => {
+                      const rate = pkg.rate[period];
+                      const total = pkg.hours * rate;
+                      return (
+                        <button
+                          key={i}
+                          onClick={() => setEngagement(i)}
+                          className={`rounded-lg p-4 border text-center transition-all ${
+                            engagement === i
+                              ? "border-primary bg-primary/10 ring-1 ring-primary/30"
+                              : pkg.highlight
+                                ? "border-primary/20 hover:border-primary/30"
+                                : "border-border hover:border-primary/30"
+                          }`}
+                        >
+                          {pkg.planName && (
+                            <span className={`text-[9px] font-display font-bold tracking-[0.1em] uppercase ${
+                              pkg.highlight ? "text-primary" : "text-muted-foreground"
+                            }`}>{pkg.planName}</span>
+                          )}
+                          <p className="font-display font-bold text-lg">{pkg.label}</p>
+                          {pkg.hours > 0 && (
+                            <div className="mt-1.5">
+                              <p className="text-xs text-muted-foreground">€{total}/mnd</p>
+                              <p className="text-[10px] text-primary font-semibold mt-0.5">€{rate}/uur</p>
+                            </div>
+                          )}
+                        </button>
+                      );
+                    })}
                   </div>
                 </motion.div>
 
@@ -237,7 +257,7 @@ const Pricing = () => {
 
                     {engagement > 0 && (
                       <div className="flex justify-between text-sm">
-                        <span className="text-muted-foreground">{engagementOptions[engagement].label} engagement</span>
+                        <span className="text-muted-foreground">{engagementPackages[engagement].label} engagement</span>
                         <span className="text-foreground font-medium">€{engFee.toLocaleString()}</span>
                       </div>
                     )}
