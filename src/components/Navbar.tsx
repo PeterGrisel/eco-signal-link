@@ -9,7 +9,7 @@ const navLinks = [
   { href: "/#doelgroepen", label: "Doelgroepen" },
   { href: "/#hoe-het-werkt", label: "Hoe het Werkt" },
   { href: "/#systeem", label: "Het Systeem" },
-  { href: "/#datahub", label: "Datahub" },
+  { href: "/datahub", label: "Datahub" },
   { href: "/pricing", label: "Pricing" },
   { href: "/#resultaten", label: "Resultaten" },
 ];
