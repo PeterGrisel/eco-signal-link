@@ -7,43 +7,43 @@ const layers = [
     icon: Settings,
     number: "01",
     title: "Infrastructuur",
-    description: "Subdomein-architectuur, mailbox-verdeling, LinkedIn-automatisering en CRM-integratie. Alles veilig voor uw domeinreputatie.",
+    description: "Wij zetten alles klaar: e-mail, LinkedIn en CRM. Uw hoofddomein blijft veilig.",
   },
   {
     icon: Brain,
     number: "02",
     title: "Intelligence",
-    description: "Ideale profielen in kaart brengen en signalen monitoren: functiewijzigingen, bedrijfsontwikkelingen, websitebezoek.",
+    description: "Wij brengen uw ideale klant in kaart. Daarna volgen we signalen: nieuwe functies, groei en websitebezoek.",
   },
   {
     icon: MessageSquare,
     number: "03",
     title: "Betrokkenheid",
-    description: "Persoonlijke mix van e-mail en LinkedIn met 6 tot 8 contactmomenten. Natuurlijk, rustig en op het juiste moment.",
+    description: "Via e-mail en LinkedIn nemen we 6 tot 8 keer contact op. Persoonlijk, rustig en op het juiste moment.",
   },
   {
     icon: Target,
     number: "04",
     title: "Kwalificatie",
-    description: "Intent-scoring en handmatige kwalificatie. Alleen gesprekken die ertoe doen landen in uw agenda.",
+    description: "Wij beoordelen elke reactie. Alleen serieuze gesprekken komen in uw agenda.",
   },
 ];
 
 const principles = [
   {
     icon: RefreshCw,
-    title: "Voorspelbaar proces, bruikbare data",
-    description: "Wij bouwen een herhaalbaar proces dat continu data oplevert. Met die data kunt u optimaliseren en steeds gerichter sturen.",
+    title: "Proces levert data",
+    description: "Ons systeem draait elke dag. De data die het oplevert, gebruiken we om steeds beter te worden.",
   },
   {
     icon: Database,
-    title: "Context in uw eigen omgeving",
-    description: "Alle inzichten en contacthistorie slaan we op in uw eigen tools. Zo bouwt u een kennisbasis op die u volledig in eigendom heeft.",
+    title: "Alles in uw eigen tools",
+    description: "Alle contacten en resultaten staan in uw eigen CRM. Die data is en blijft van u.",
   },
   {
     icon: Zap,
-    title: "Evaluatie in cycli van 4 weken",
-    description: "Alle inputs, zowel eigen als van derden, worden elke 4 weken beoordeeld. Wat werkt schalen we op, wat niet werkt passen we aan.",
+    title: "Elke 4 weken bijsturen",
+    description: "Wat werkt, schalen we op. Wat niet werkt, passen we aan. Zo wordt het resultaat elke maand beter.",
   },
 ];
 
@@ -59,12 +59,12 @@ const SystemSection = () => {
           className="mb-16"
         >
           <p className="text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4">
-            Het 4-Laags Systeem
+            Zo werkt het
           </p>
           <h2 className="font-display font-bold text-3xl md:text-5xl lg:text-6xl tracking-tight leading-tight">
             Gebouwd voor
             <br />
-            <span className="text-gradient">voorspelbaarheid.</span>
+            <span className="text-gradient">resultaat.</span>
           </h2>
         </motion.div>
 
@@ -102,12 +102,12 @@ const SystemSection = () => {
           className="mb-12 text-center max-w-2xl mx-auto"
         >
           <p className="text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4">
-            Data als fundament
+            Data als basis
           </p>
           <h2 className="font-display font-bold text-3xl md:text-4xl lg:text-5xl tracking-tight leading-tight">
-            Proces levert data.
+            Het proces levert data.
             <br />
-            <span className="text-gradient">Data levert sturing.</span>
+            <span className="text-gradient">Data geeft richting.</span>
           </h2>
         </motion.div>
 
