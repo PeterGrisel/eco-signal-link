@@ -31,6 +31,7 @@ const PullQuote = ({ children, inverted = false }: { children: React.ReactNode; 
 const Brandstory = () => {
   return (
     <div className="min-h-screen">
+      <Navbar />
       {/* ── COVER ── */}
       <section className="min-h-screen flex flex-col justify-between bg-background px-6 md:px-16 lg:px-[72px] py-14">
         <div className="flex justify-between items-start">
@@ -401,6 +402,7 @@ const Brandstory = () => {
           </div>
         </motion.div>
       </section>
+      <Footer />
     </div>
   );
 };
