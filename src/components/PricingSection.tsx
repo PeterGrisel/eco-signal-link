@@ -127,9 +127,9 @@ const PricingSection = () => {
 
             <div className="grid sm:grid-cols-3 gap-4">
               {[
-                { hours: "10 uur", total6: "€2.260", total12: "€2.170", label: "Startpakket" },
-                { hours: "20 uur", total6: "€3.020", total12: "€2.840", label: "Meest gekozen", highlight: true },
-                { hours: "40 uur", total6: "€4.540", total12: "€4.180", label: "Maximale output" },
+                { hours: "10 uur", rate6: "€76", rate12: "€70", total6: "€2.260", total12: "€2.200", label: "Startpakket" },
+                { hours: "20 uur", rate6: "€72", rate12: "€65", total6: "€2.940", total12: "€2.800", label: "Meest gekozen", highlight: true },
+                { hours: "40 uur", rate6: "€68", rate12: "€60", total6: "€4.220", total12: "€3.900", label: "Maximale output" },
               ].map((pkg) => (
                 <div
                   key={pkg.hours}
@@ -147,8 +147,8 @@ const PricingSection = () => {
                   <p className="font-display font-bold text-3xl mt-1">{pkg.hours}</p>
                   <p className="text-muted-foreground text-xs mt-1">/maand</p>
                   <div className="mt-3 space-y-1 text-xs text-muted-foreground">
-                    <p>6 mnd: <span className="text-foreground font-semibold">{pkg.total6}</span></p>
-                    <p>12 mnd: <span className="text-foreground font-semibold">{pkg.total12}</span></p>
+                    <p>6 mnd: <span className="text-foreground font-semibold">{pkg.rate6}/u</span> <span className="text-muted-foreground">({pkg.total6})</span></p>
+                    <p>12 mnd: <span className="text-foreground font-semibold">{pkg.rate12}/u</span> <span className="text-muted-foreground">({pkg.total12})</span></p>
                   </div>
                   <p className="text-[10px] text-muted-foreground mt-2 italic">{pkg.label}</p>
                 </div>
