@@ -35,7 +35,7 @@ const Hero = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.1 }}
-            className="font-display font-bold text-[3rem] md:text-[5.5rem] lg:text-[7rem] leading-[0.9] tracking-tighter mb-6 md:mb-8"
+            className="font-display font-bold text-[3rem] md:text-[5.5rem] lg:text-[7rem] leading-[1.05] tracking-tighter mb-6 md:mb-8"
           >
             Meer
             <br />
