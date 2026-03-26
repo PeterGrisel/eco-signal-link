@@ -447,7 +447,7 @@ const OnsTeam = () => {
                       loading="lazy"
                       width={512}
                       height={640}
-                      className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
+                      className="w-full h-full object-cover hover:scale-105 transition-all duration-500"
                     />
                   ) : (
                     <div className="w-full h-full bg-card border border-border flex flex-col justify-center px-5 rounded-2xl">
