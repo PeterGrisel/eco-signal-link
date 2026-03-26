@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import { Database, Brain, RefreshCw, Lock, MessageCircleQuestion, ShieldCheck, Cpu, Workflow } from "lucide-react";
+import { Database, Brain, RefreshCw, Lock, MessageCircleQuestion, ShieldCheck, Cpu, Workflow, ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import datahubScreenshot from "@/assets/datahub-screenshot.png";
 
@@ -103,13 +104,26 @@ const DatahubSection = () => {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.5 }}
-          className="text-center"
+          className="text-center space-y-6"
         >
           <Button variant="heroOutline" size="lg" asChild>
             <a href="https://app.usemotion.com/meet/Rebel-Force/meeting" target="_blank" rel="noopener noreferrer">
               Meer weten over Datahub →
             </a>
           </Button>
+          <div className="flex flex-wrap gap-3 justify-center">
+            <Link to="/solutions/weg-uit-excel" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors font-medium">
+              Weg uit Excel <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+            <span className="text-border">·</span>
+            <Link to="/solutions/data-gedreven-sales" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors font-medium">
+              Data-gedreven sales <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+            <span className="text-border">·</span>
+            <Link to="/solutions/versnipperde-tools" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors font-medium">
+              Versnipperde tools <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
         </motion.div>
       </div>
     </section>

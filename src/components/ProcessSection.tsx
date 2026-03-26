@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { ArrowRight, RefreshCw, Send } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const steps = [
   {
@@ -158,6 +159,27 @@ const ProcessSection = () => {
             </motion.div>
           ))}
         </div>
+
+        {/* Internal links to solutions */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="mt-12 flex flex-wrap gap-3 justify-center"
+        >
+          <Link to="/solutions/voorspelbare-pipeline" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors font-medium">
+            Voorspelbare pipeline <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
+          <span className="text-border">·</span>
+          <Link to="/solutions/internationaal-uitbreiden" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors font-medium">
+            Internationaal uitbreiden <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
+          <span className="text-border">·</span>
+          <Link to="/solutions/commercieel-talent" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors font-medium">
+            Commercieel talent vinden <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
+        </motion.div>
       </div>
     </section>
   );
