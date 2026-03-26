@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import PageLoader from "@/components/PageLoader";
 import Footer from "@/components/Footer";
-import LogoTicker from "@/components/LogoTicker";
+
 import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 import { usePageMeta } from "@/hooks/usePageMeta";
 import { Button } from "@/components/ui/button";
@@ -191,8 +191,6 @@ const OnsTeam = () => {
           </div>
         </section>
 
-        {/* logo ticker */}
-        <LogoTicker />
 
         {/* ════════ 2. WHAT MAKES A REBEL — orbit visual ════════ */}
         <section className="py-28 border-t border-border overflow-hidden">
