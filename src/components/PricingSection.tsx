@@ -127,9 +127,9 @@ const PricingSection = () => {
 
             <div className="grid sm:grid-cols-3 gap-4">
               {[
-                { hours: "10 uur", rate: "€100", discountRate: "€90", saving: "10%", label: "Startpakket", commitLabel: "bij 12 maanden" },
-                { hours: "20 uur", rate: "€90", discountRate: "€82", saving: "18%", label: "Meest gekozen", highlight: true, commitLabel: "bij 12 maanden" },
-                { hours: "40 uur", rate: "€82", discountRate: "€75", saving: "25%", label: "Maximale output", commitLabel: "bij 12 maanden" },
+                { hours: "10 uur", rate: "€100", discountRate: "€90", saving: "10%", label: "Startpakket" },
+                { hours: "20 uur", rate: "€90", discountRate: "€81", saving: "10%", label: "Meest gekozen", highlight: true },
+                { hours: "40 uur", rate: "€80", discountRate: "€72", saving: "10%", label: "Maximale output" },
               ].map((pkg) => (
                 <div
                   key={pkg.hours}
