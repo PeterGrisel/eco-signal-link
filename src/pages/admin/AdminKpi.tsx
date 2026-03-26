@@ -121,8 +121,24 @@ const AdminKpi = () => {
     setLoading(false);
   }, [days, toast]);
 
+  const fetchGa4 = useCallback(async () => {
+    setGa4Loading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("fetch-ga4-data", {
+        body: { days },
+      });
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+      setGa4(data);
+    } catch (e: any) {
+      toast({ title: "GA4 data ophalen mislukt", description: e.message, variant: "destructive" });
+    }
+    setGa4Loading(false);
+  }, [days, toast]);
+
   useEffect(() => { fetchConvPages(); }, [fetchConvPages]);
   useEffect(() => { fetchOverview(); }, [fetchOverview]);
+  useEffect(() => { fetchGa4(); }, [fetchGa4]);
 
   const handleSync = async () => {
     setSyncing(true);
