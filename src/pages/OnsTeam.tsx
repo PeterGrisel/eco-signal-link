@@ -407,7 +407,7 @@ const OnsTeam = () => {
                   <p>
                     Dat betekent dat we niet gebonden zijn aan één locatie. We
                     werken met de beste specialisten — ongeacht waar ze zitten.
-                    Van Nederland tot België, van data-experts tot AI-engineers.
+                    Van Nederland tot Amerika, van data-experts tot AI-engineers.
                   </p>
                   <p>
                     Het resultaat: een team dat de wendbaarheid heeft van
