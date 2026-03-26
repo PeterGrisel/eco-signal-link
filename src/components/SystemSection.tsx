@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import { Settings, Brain, MessageSquare, Target, RefreshCw, Database, Zap } from "lucide-react";
+import { Settings, Brain, MessageSquare, Target, RefreshCw, Database, Zap, ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import SignalDashboardMockup from "./SignalDashboardMockup";
 
 const layers = [
@@ -111,7 +112,7 @@ const SystemSection = () => {
           </h2>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-4 md:gap-6">
+        <div className="grid md:grid-cols-3 gap-4 md:gap-6 mb-12">
           {principles.map((item, i) => (
             <motion.div
               key={item.title}
@@ -127,6 +128,27 @@ const SystemSection = () => {
             </motion.div>
           ))}
         </div>
+
+        {/* Internal links to solutions */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="flex flex-wrap gap-3 justify-center"
+        >
+          <Link to="/solutions/data-gedreven-sales" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors font-medium">
+            Data-gedreven sales <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
+          <span className="text-border">·</span>
+          <Link to="/solutions/schaalbaar-groeisysteem" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors font-medium">
+            Schaalbaar groeisysteem <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
+          <span className="text-border">·</span>
+          <Link to="/solutions/versnipperde-tools" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors font-medium">
+            Versnipperde tools oplossen <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
+        </motion.div>
       </div>
     </section>
   );

@@ -11,6 +11,7 @@ import { format } from "date-fns";
 import { nl } from "date-fns/locale";
 import { ArrowLeft, Clock, Calendar } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import RelatedSolutions from "@/components/blog/RelatedSolutions";
 
 interface Post {
   id: string;
@@ -205,6 +206,9 @@ const BlogPost = () => {
               )
             )}
           </div>
+
+          {/* Related Solutions */}
+          <RelatedSolutions content={cleanContent} title={post.title} />
 
           {/* Bottom CTA */}
           <div className="mt-16 p-8 rounded-2xl bg-gradient-to-br from-primary/10 via-secondary to-secondary border border-primary/20">
