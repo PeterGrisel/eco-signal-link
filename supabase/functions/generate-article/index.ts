@@ -111,19 +111,27 @@ SEO:
 - Schrijf een meta description die key points samenvat (50 tot 140 tekens)
 - Genereer 5 tot 10 relevante meta keywords
 
-EXTERNE LINKS (VERPLICHT - minimaal 3 per artikel):
-- Link naar gezaghebbende, relevante bronnen: officiële documentatie, research papers, branche-organisaties, bekende tools/platforms
-- Gebruik beschrijvende anchor text, niet "klik hier" of "lees meer"
-- Link naar bronnen die de claims in je artikel ondersteunen
+EXTERNE LINKS (ABSOLUUT VERPLICHT - minimaal 5 per artikel):
+- ELKE sectie moet minstens 1 hyperlink bevatten in markdown formaat: [anchor text](https://url)
+- Link naar gezaghebbende bronnen: officiële documentatie, research, branche-organisaties, tools
+- Gebruik ALTIJD volledige markdown link syntax: [beschrijvende tekst](https://www.voorbeeld.com/pagina)
+- Gebruik NOOIT kale URLs zonder markdown link syntax
+- Gebruik beschrijvende anchor text, NOOIT "klik hier" of "lees meer"
 - Gebruik ALLEEN echte, bestaande URLs van bekende websites. Verzin geen URLs.
-- Goede bronnen: HubSpot, Gartner, McKinsey, Forrester, LinkedIn, Wikipedia, officiële tool-websites
-- Voorbeeld: "Volgens onderzoek van [HubSpot](https://www.hubspot.com/marketing-statistics) converteert..."
+- Voorbeelden van goede bronnen en formaat:
+  - "Uit [onderzoek van HubSpot](https://www.hubspot.com/marketing-statistics) blijkt dat..."
+  - "Tools zoals [Apollo.io](https://www.apollo.io/) bieden..."
+  - "Volgens [Gartner's B2B rapport](https://www.gartner.com/en/sales) is..."
+  - "De [LinkedIn Sales Navigator](https://business.linkedin.com/sales-solutions) helpt bij..."
+- CONTROLEER: als je artikel minder dan 5 externe [text](url) links bevat, voeg er meer toe
 
-INTERNE LINKS (VERPLICHT - minimaal 2 per artikel):
+INTERNE LINKS (ABSOLUUT VERPLICHT - minimaal 2 per artikel):
+- Gebruik markdown link syntax: [anchor text](${siteUrl}/pad)
 - Link naar relevante eigen blogposts en pagina's waar dat natuurlijk past
 - Gebruik contextrijke anchor text die beschrijft waar de link naartoe gaat
 - Plaats interne links in de eerste helft van het artikel waar mogelijk
 - Link NIET naar het artikel zelf
+- CONTROLEER: als je artikel minder dan 2 interne links bevat, voeg er meer toe
 ${internalLinksContext}
 
 QUOTES MET BRONVERMELDING (VERPLICHT - minimaal 2 per artikel):
