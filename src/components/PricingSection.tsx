@@ -112,8 +112,8 @@ const PricingSection = () => {
           <div className="card-gradient border border-glow rounded-lg p-5 md:p-8">
             <div className="mb-6">
               <div className="flex items-center gap-3 mb-2">
-                <div className="flex items-baseline gap-1">
-                  <span className="font-display font-bold text-4xl">€60–€76</span>
+              <div className="flex items-baseline gap-1">
+                  <span className="font-display font-bold text-4xl">€75–€100</span>
                   <span className="text-muted-foreground text-sm">/uur</span>
                 </div>
                 <span className="text-[10px] font-display font-semibold text-primary bg-primary/10 px-2 py-0.5 rounded-full uppercase tracking-wider">
@@ -127,9 +127,9 @@ const PricingSection = () => {
 
             <div className="grid sm:grid-cols-3 gap-4">
               {[
-                { hours: "10 uur", rate6: "€76", rate12: "€70", total6: "€2.260", total12: "€2.200", label: "Startpakket" },
-                { hours: "20 uur", rate6: "€72", rate12: "€65", total6: "€2.940", total12: "€2.800", label: "Meest gekozen", highlight: true },
-                { hours: "40 uur", rate6: "€68", rate12: "€60", total6: "€4.220", total12: "€3.900", label: "Maximale output" },
+                { hours: "10 uur", rate6: "€100", rate12: "€90", total6: "€2.500", total12: "€2.400", label: "Startpakket" },
+                { hours: "20 uur", rate6: "€90", rate12: "€82", total6: "€3.300", total12: "€3.140", label: "Meest gekozen", highlight: true },
+                { hours: "40 uur", rate6: "€82", rate12: "€75", total6: "€4.780", total12: "€4.500", label: "Maximale output" },
               ].map((pkg) => (
                 <div
                   key={pkg.hours}
