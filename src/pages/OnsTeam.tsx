@@ -84,7 +84,8 @@ const gridItems: GridItem[] = [
   { type: "photo", src: allPhotos[8] },
   { type: "stat", value: "50+", label: "klanten\nbediend" },
   { type: "photo", src: allPhotos[9] },
-  { type: "photo", src: allPhotos[3] },
+  { type: "photo", src: allPhotos[8] },
+  { type: "stat", value: "3", label: "landen\nactief" },
 ];
 
 const OnsTeam = () => {
