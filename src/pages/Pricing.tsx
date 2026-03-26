@@ -148,7 +148,7 @@ const Pricing = () => {
                         <h3 className="font-display font-bold text-lg">Datahub</h3>
                       </div>
                       <div className="flex items-center gap-3">
-                        <span className="font-display font-bold text-lg">+€500<span className="text-sm text-muted-foreground font-normal">/mnd</span></span>
+                        <span className="font-display font-bold text-lg">+€499<span className="text-sm text-muted-foreground font-normal">/mnd</span></span>
                         <div className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-colors ${
                           datahub ? "bg-primary border-primary" : "border-muted-foreground/40"
                         }`}>
@@ -245,7 +245,7 @@ const Pricing = () => {
                     {datahub && (
                       <div className="flex justify-between text-sm">
                         <span className="text-muted-foreground">Datahub</span>
-                        <span className="text-foreground font-medium">€500</span>
+                        <span className="text-foreground font-medium">€499</span>
                       </div>
                     )}
 
