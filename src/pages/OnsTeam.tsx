@@ -27,7 +27,7 @@ const fadeUp = {
 
 /* ─── HERO floating photos ─── */
 const heroPhotos = [
-  { src: peterGrisel, label: "Founder", top: "10%", left: "6%", rotate: -5, size: "lg" },
+  { src: teamMember8, label: "Copywriter", top: "10%", left: "6%", rotate: -5, size: "lg" },
   { src: teamMember2, label: "Data Analist", top: "6%", left: "24%", rotate: 3, size: "md" },
   { src: teamMember4, label: "AI Engineer", top: "4%", right: "22%", rotate: -2, size: "lg" },
   { src: teamMember1, label: "Outbound Lead", top: "8%", right: "4%", rotate: 4, size: "md" },
@@ -62,7 +62,7 @@ const mapRoles = [
 
 /* ─── Grid items: photos + stat blocks ─── */
 const allPhotos = [
-  peterGrisel, teamMember1, teamMember2, teamMember3, teamMember4,
+  teamMember1, teamMember2, teamMember3, teamMember4,
   teamMember5, teamMember6, teamMember7, teamMember8, teamMember9, teamMember10,
 ];
 
@@ -79,12 +79,11 @@ const gridItems: GridItem[] = [
   { type: "photo", src: allPhotos[4] },
   { type: "photo", src: allPhotos[5] },
   { type: "photo", src: allPhotos[6] },
-  { type: "photo", src: allPhotos[7] },
   { type: "stat", value: "4", label: "merken in\nhet ecosysteem" },
+  { type: "photo", src: allPhotos[7] },
   { type: "photo", src: allPhotos[8] },
-  { type: "photo", src: allPhotos[9] },
   { type: "stat", value: "50+", label: "klanten\nbediend" },
-  { type: "photo", src: allPhotos[10] },
+  { type: "photo", src: allPhotos[9] },
   { type: "photo", src: allPhotos[0] },
 ];
 
