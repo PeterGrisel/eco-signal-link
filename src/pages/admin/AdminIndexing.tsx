@@ -133,21 +133,52 @@ const AdminIndexing = () => {
     setSubmitting(false);
   };
 
-  const handleSyncSitemap = async () => {
+  const handleSyncAndIndex = async () => {
+    // Step 1: Find missing URLs not yet in indexing_requests
     const missing = sitemapUrls
       .filter(u => getUrlStatus(u.url) === "not_submitted")
       .map(u => u.url);
-    if (missing.length === 0) {
-      toast({ title: "Alles is al gesynchroniseerd" });
-      return;
-    }
+
     setSubmitting(true);
     try {
-      const { error } = await supabase.from("indexing_requests").insert(
-        missing.map(url => ({ url, status: "pending" as const }))
-      );
+      // Step 1: Sync missing URLs as pending
+      if (missing.length > 0) {
+        const { error: syncError } = await supabase.from("indexing_requests").insert(
+          missing.map(url => ({ url, status: "pending" as const }))
+        );
+        if (syncError) throw syncError;
+        toast({ title: `${missing.length} nieuwe URLs gesynchroniseerd` });
+      }
+
+      // Step 2: Collect all pending URLs (including just-synced ones)
+      const { data: pendingRows } = await supabase
+        .from("indexing_requests")
+        .select("url")
+        .eq("status", "pending");
+
+      const pendingUrls = pendingRows?.map(r => r.url) || [];
+
+      if (pendingUrls.length === 0) {
+        toast({ title: "Geen pending URLs om in te dienen" });
+        setSubmitting(false);
+        return;
+      }
+
+      // Step 3: Submit all pending URLs to Google
+      const { data, error } = await supabase.functions.invoke("request-indexing", {
+        body: { urls: pendingUrls },
+      });
       if (error) throw error;
-      toast({ title: `${missing.length} URLs als pending toegevoegd` });
+
+      const results = data?.results || [];
+      const succeeded = results.filter((r: any) => r.status === "indexed").length;
+      const failed = results.filter((r: any) => r.status === "failed").length;
+
+      toast({
+        title: `${succeeded} geïndexeerd, ${failed} mislukt`,
+        description: `${missing.length} nieuw gesynchroniseerd`,
+      });
+
       fetchData();
     } catch (e: any) {
       toast({ title: "Fout", description: e.message, variant: "destructive" });
@@ -180,15 +211,10 @@ const AdminIndexing = () => {
           <p className="text-sm text-muted-foreground mt-1">Sitemap & Google indexing beheer</p>
         </div>
         <div className="flex gap-2">
-          {stats.notSubmitted > 0 && (
-            <>
-              <Button variant="heroOutline" size="sm" onClick={handleSyncSitemap} disabled={submitting}>
-                <Download className="w-4 h-4" /> Sync {stats.notSubmitted} URLs
-              </Button>
-              <Button variant="heroOutline" size="sm" onClick={() => handleBatchIndex()} disabled={submitting}>
-                <Zap className="w-4 h-4" /> Index {stats.notSubmitted} nieuwe URLs
-              </Button>
-            </>
+          {(stats.notSubmitted > 0 || stats.pending > 0) && (
+            <Button variant="heroOutline" size="sm" onClick={handleSyncAndIndex} disabled={submitting}>
+              <Zap className="w-4 h-4" /> Sync & Index ({stats.notSubmitted + stats.pending})
+            </Button>
           )}
           <Button variant="heroOutline" size="sm" onClick={() => handleBatchIndex(sitemapUrls.map(u => u.url))} disabled={submitting}>
             <RefreshCw className="w-4 h-4" /> Re-index alles
