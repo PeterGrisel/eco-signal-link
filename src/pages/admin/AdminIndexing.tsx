@@ -191,7 +191,7 @@ const AdminIndexing = () => {
         <Input
           value={url}
           onChange={(e) => setUrl(e.target.value)}
-          placeholder="https://b2bgroeimachine.nl/blog/..."
+          placeholder="https://b2bgroeimachine.io/blog/..."
           className="flex-1"
         />
         <Button variant="hero" onClick={() => handleRequestIndexing()} disabled={submitting}>

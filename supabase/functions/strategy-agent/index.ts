@@ -39,7 +39,7 @@ serve(async (req) => {
     // 1. Load SEO settings
     const { data: settingsRow } = await supabase.from("seo_settings").select("config").limit(1).single();
     const settings = settingsRow?.config || {};
-    const siteUrl = settings.site_url || "https://b2bgroeimachine.nl";
+    const siteUrl = settings.site_url || "https://b2bgroeimachine.io";
     const siteName = settings.name || "B2BGroeiMachine";
     const audience = settings.target_audience_summary || "MKB en midmarket B2B-bedrijven in Nederland";
     const blogTheme = settings.blog_theme || "";

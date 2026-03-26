@@ -18,7 +18,7 @@ const Index = () => {
   return (
     <PageLoader>
     <div className="min-h-screen">
-      <BreadcrumbJsonLd items={[{ name: "Home", url: "https://eco-signal-link.lovable.app/" }]} />
+      <BreadcrumbJsonLd items={[{ name: "Home", url: "https://b2bgroeimachine.io/" }]} />
       <Navbar />
       <Hero />
       
