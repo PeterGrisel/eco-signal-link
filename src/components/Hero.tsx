@@ -39,20 +39,18 @@ const Hero = () => {
           >
             Meer
             <br />
-            <span className="text-gradient">
-              <AnimatePresence mode="wait">
-                <motion.span
-                  key={wordIndex}
-                  initial={{ y: 40, opacity: 0, filter: "blur(6px)" }}
-                  animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
-                  exit={{ y: -40, opacity: 0, filter: "blur(6px)" }}
-                  transition={{ duration: 0.35 }}
-                  className="inline-block"
-                >
-                  {rotatingWords[wordIndex]}
-                </motion.span>
-              </AnimatePresence>
-            </span>
+            <AnimatePresence mode="wait">
+              <motion.span
+                key={wordIndex}
+                initial={{ y: 40, opacity: 0, filter: "blur(6px)" }}
+                animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
+                exit={{ y: -40, opacity: 0, filter: "blur(6px)" }}
+                transition={{ duration: 0.35 }}
+                className="inline-block text-gradient"
+              >
+                {rotatingWords[wordIndex]}
+              </motion.span>
+            </AnimatePresence>
           </motion.h1>
 
           <motion.p
