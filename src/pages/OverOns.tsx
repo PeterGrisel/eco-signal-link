@@ -6,6 +6,7 @@ import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 import { ArrowRight, Zap, Users, Brain, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import teamAbout from "@/assets/team-about.jpg";
+import peterGrisel from "@/assets/peter-grisel.png";
 import { usePageMeta } from "@/hooks/usePageMeta";
 
 const fadeUp = {
@@ -196,7 +197,33 @@ const OverOns = () => {
         </div>
       </section>
 
-      {/* Ecosystem */}
+      {/* Founder */}
+      <section className="py-24 border-t border-border">
+        <div className="container mx-auto px-6">
+          <motion.div {...fadeUp} className="max-w-2xl mx-auto">
+            <div className="bg-card border border-border rounded-2xl p-10 md:p-14 text-center">
+              <div className="w-36 h-36 mx-auto mb-6 rounded-xl overflow-hidden border-2 border-primary/30">
+                <img
+                  src={peterGrisel}
+                  alt="Peter Grisel — Founder"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <h3 className="font-display font-bold text-2xl md:text-3xl mb-2">
+                Peter Grisel
+              </h3>
+              <p className="text-primary font-display font-semibold text-sm tracking-[0.15em] uppercase mb-6">
+                Founder · RebelHub, Rebel Force &amp; AI Fctry
+              </p>
+              <p className="text-muted-foreground leading-relaxed text-lg">
+                Peter is eigenaar van de hubs en founder van Rebel Force en AI Fctry. Met meer dan 15 jaar operationeel leiderschap bouwt hij aan een ecosysteem waar ondernemers samen slimmer worden.
+              </p>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+
       <section className="py-24 border-t border-border">
         <div className="container mx-auto px-6">
           <motion.div {...fadeUp} className="text-center mb-16">
