@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import PageLoader from "@/components/PageLoader";
@@ -7,12 +6,17 @@ import LogoTicker from "@/components/LogoTicker";
 import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 import { usePageMeta } from "@/hooks/usePageMeta";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, MapPin, Users, Globe, Trophy } from "lucide-react";
 import peterGrisel from "@/assets/peter-grisel.png";
 import teamMember1 from "@/assets/team-member-1.jpg";
 import teamMember2 from "@/assets/team-member-2.jpg";
 import teamMember3 from "@/assets/team-member-3.jpg";
 import teamMember4 from "@/assets/team-member-4.jpg";
+import teamMember5 from "@/assets/team-member-5.jpg";
+import teamMember6 from "@/assets/team-member-6.jpg";
+import teamMember7 from "@/assets/team-member-7.jpg";
+import teamMember8 from "@/assets/team-member-8.jpg";
+import teamMember9 from "@/assets/team-member-9.jpg";
+import teamMember10 from "@/assets/team-member-10.jpg";
 
 const fadeUp = {
   initial: { opacity: 0, y: 30 },
@@ -21,157 +25,126 @@ const fadeUp = {
   transition: { duration: 0.6 },
 };
 
+/* ─── HERO floating photos ─── */
 const heroPhotos = [
-  { src: peterGrisel, label: "Founder", top: "8%", left: "8%", rotate: -4 },
-  { src: teamMember1, label: "Outbound Lead", top: "5%", right: "12%", rotate: 3 },
-  { src: teamMember2, label: "Data Analist", top: "45%", left: "5%", rotate: 2 },
-  { src: teamMember3, label: "Strateeg", top: "40%", right: "6%", rotate: -3 },
-  { src: teamMember4, label: "AI Engineer", top: "55%", left: "22%", rotate: 5 },
+  { src: peterGrisel, label: "Founder", top: "10%", left: "6%", rotate: -5, size: "lg" },
+  { src: teamMember2, label: "Data Analist", top: "6%", left: "24%", rotate: 3, size: "md" },
+  { src: teamMember4, label: "AI Engineer", top: "4%", right: "22%", rotate: -2, size: "lg" },
+  { src: teamMember1, label: "Outbound Lead", top: "8%", right: "4%", rotate: 4, size: "md" },
+  { src: teamMember3, label: "Strateeg", top: "52%", left: "3%", rotate: 2, size: "md" },
+  { src: teamMember5, label: "Growth Hacker", top: "48%", left: "20%", rotate: -3, size: "sm" },
+  { src: teamMember6, label: "Account Manager", top: "46%", right: "18%", rotate: 3, size: "sm" },
+  { src: teamMember7, label: "Sales Dev", top: "50%", right: "2%", rotate: -4, size: "md" },
 ];
 
-const stats = [
-  { value: "15+", label: "jaar ervaring", icon: Trophy },
-  { value: "4", label: "merken in het ecosysteem", icon: Globe },
-  { value: "50+", label: "klanten bediend", icon: Users },
-  { value: "3", label: "landen actief", icon: MapPin },
-];
-
-const teamMembers = [
-  {
-    name: "Peter Grisel",
-    role: "Founder & CEO",
-    experience: "15+ jaar ervaring",
-    image: peterGrisel,
-    bio: "Peter is eigenaar van de hubs en founder van Rebel Force en AI Fctry. Met meer dan 15 jaar operationeel leiderschap bouwt hij aan een ecosysteem waar ondernemers samen slimmer worden. Van strategie tot uitvoering — Peter verbindt technologie met groei.",
-  },
-  {
-    name: "Lisa van den Berg",
-    role: "Head of Outbound",
-    experience: "8 jaar ervaring",
-    image: teamMember1,
-    bio: "Lisa leidt het outbound-team en ontwikkelt multi-channel campagnes die consistent leads opleveren. Met een achtergrond in B2B sales en marketing automation weet ze precies hoe je de juiste beslissers bereikt op het juiste moment.",
-  },
-  {
-    name: "Joris de Vries",
-    role: "Data & Analytics Lead",
-    experience: "6 jaar ervaring",
-    image: teamMember2,
-    bio: "Joris vertaalt ruwe data naar actiegerichte inzichten. Hij bouwt dashboards, analyseert campagneprestaties en zorgt ervoor dat elke euro marketingbudget meetbaar rendeert. Data-gedreven besluitvorming is zijn tweede natuur.",
-  },
-  {
-    name: "Sophie Bakker",
-    role: "Growth Strategist",
-    experience: "7 jaar ervaring",
-    image: teamMember3,
-    bio: "Sophie ontwikkelt groeistrategieën op maat voor B2B-bedrijven. Van ICP-analyse tot funnel-optimalisatie — ze combineert strategisch denken met hands-on executie om structurele groei te realiseren.",
-  },
-  {
-    name: "Mark Jansen",
-    role: "AI & Automation Engineer",
-    experience: "5 jaar ervaring",
-    image: teamMember4,
-    bio: "Mark bouwt de AI-systemen en automatiseringen die onze klanten een voorsprong geven. Van intelligente lead scoring tot geautomatiseerde workflows — hij maakt complexe technologie werkbaar voor het MKB.",
-  },
-];
-
-const TeamMemberCard = ({ member, index }: { member: typeof teamMembers[0]; index: number }) => {
-  const [expanded, setExpanded] = useState(false);
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="group"
-    >
-      <div className="bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/40 transition-all duration-500">
-        {/* Photo */}
-        <div className="relative aspect-[4/5] overflow-hidden">
-          <img
-            src={member.image}
-            alt={member.name}
-            loading="lazy"
-            width={512}
-            height={640}
-            className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent" />
-          <div className="absolute bottom-4 left-4 right-4">
-            <h3 className="font-display font-bold text-xl mb-1">{member.name}</h3>
-            <p className="text-primary font-display text-sm font-semibold">{member.role}</p>
-          </div>
-        </div>
-
-        {/* Info */}
-        <div className="p-5">
-          <p className="text-muted-foreground text-xs font-medium tracking-wide uppercase mb-3">
-            {member.experience}
-          </p>
-          <p className={`text-muted-foreground text-sm leading-relaxed transition-all duration-300 ${expanded ? "" : "line-clamp-3"}`}>
-            {member.bio}
-          </p>
-          <button
-            onClick={() => setExpanded(!expanded)}
-            className="flex items-center gap-1 text-primary text-sm font-medium mt-3 hover:underline"
-          >
-            {expanded ? "Minder" : "Lees meer"}
-            <ChevronDown className={`w-4 h-4 transition-transform ${expanded ? "rotate-180" : ""}`} />
-          </button>
-        </div>
-      </div>
-    </motion.div>
-  );
+const sizeClasses: Record<string, string> = {
+  sm: "w-20 h-24 xl:w-24 xl:h-28",
+  md: "w-28 h-32 xl:w-32 xl:h-36",
+  lg: "w-32 h-36 xl:w-40 xl:h-44",
 };
+
+/* ─── Orbit labels for "Rebel" section ─── */
+const orbitRoles = [
+  { label: "Data Specialist", color: "text-primary", angle: -30 },
+  { label: "AI Engineer", color: "text-blue-400", angle: 30 },
+  { label: "Outbound Lead", color: "text-purple-400", angle: 150 },
+  { label: "Strateeg", color: "text-emerald-400", angle: 210 },
+  { label: "Growth Hacker", color: "text-amber-400", angle: 330 },
+];
+
+/* ─── Map orbit labels ─── */
+const mapRoles = [
+  { label: "Web Designer", color: "text-rose-400", x: "30%", y: "8%" },
+  { label: "Data Analist", color: "text-primary", x: "8%", y: "42%" },
+  { label: "Strateeg", color: "text-purple-400", x: "52%", y: "78%" },
+  { label: "Account Manager", color: "text-blue-400", x: "72%", y: "22%" },
+];
+
+/* ─── Grid items: photos + stat blocks ─── */
+const allPhotos = [
+  peterGrisel, teamMember1, teamMember2, teamMember3, teamMember4,
+  teamMember5, teamMember6, teamMember7, teamMember8, teamMember9, teamMember10,
+];
+
+type GridItem =
+  | { type: "photo"; src: string }
+  | { type: "stat"; value: string; label: string };
+
+const gridItems: GridItem[] = [
+  { type: "photo", src: allPhotos[0] },
+  { type: "stat", value: "15+", label: "jaar\nervaring" },
+  { type: "photo", src: allPhotos[1] },
+  { type: "photo", src: allPhotos[2] },
+  { type: "photo", src: allPhotos[3] },
+  { type: "photo", src: allPhotos[4] },
+  { type: "photo", src: allPhotos[5] },
+  { type: "photo", src: allPhotos[6] },
+  { type: "photo", src: allPhotos[7] },
+  { type: "stat", value: "4", label: "merken in\nhet ecosysteem" },
+  { type: "photo", src: allPhotos[8] },
+  { type: "photo", src: allPhotos[9] },
+  { type: "stat", value: "50+", label: "klanten\nbediend" },
+  { type: "photo", src: allPhotos[10] },
+  { type: "photo", src: allPhotos[0] },
+];
 
 const OnsTeam = () => {
   usePageMeta({
     title: "Ons Team — B2BGroeiMachine",
-    description: "Maak kennis met de experts achter B2BGroeiMachine. Van strategie tot AI — ons team bouwt systemen die structureel B2B groei opleveren.",
+    description:
+      "Maak kennis met de experts achter B2BGroeiMachine. Van strategie tot AI — ons team bouwt systemen die structureel B2B groei opleveren.",
     canonical: "https://b2bgroeimachine.io/ons-team",
   });
 
   return (
     <PageLoader>
       <div className="min-h-screen">
-        <BreadcrumbJsonLd items={[
-          { name: "Home", url: "https://b2bgroeimachine.io/" },
-          { name: "Ons Team", url: "https://b2bgroeimachine.io/ons-team" },
-        ]} />
+        <BreadcrumbJsonLd
+          items={[
+            { name: "Home", url: "https://b2bgroeimachine.io/" },
+            { name: "Ons Team", url: "https://b2bgroeimachine.io/ons-team" },
+          ]}
+        />
         <Navbar />
 
-        {/* Hero — floating photos around heading */}
+        {/* ════════ 1. HERO — floating photos ════════ */}
         <section className="relative min-h-[90vh] flex items-center justify-center pt-20 pb-16 overflow-hidden">
-          {/* Glow */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-[radial-gradient(ellipse,hsl(var(--primary)/0.12),transparent_70%)] pointer-events-none" />
+          {/* subtle glow */}
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[500px] bg-[radial-gradient(ellipse,hsl(var(--primary)/0.10),transparent_70%)] pointer-events-none" />
 
-          {/* Floating team photos */}
+          {/* floating photos — desktop only */}
           <div className="absolute inset-0 hidden lg:block">
             {heroPhotos.map((photo, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, scale: 0.8, y: 20 }}
+                initial={{ opacity: 0, scale: 0.7, y: 30 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.3 + i * 0.15 }}
+                transition={{ duration: 0.7, delay: 0.2 + i * 0.1 }}
                 className="absolute"
                 style={{
                   top: photo.top,
-                  left: photo.left,
+                  left: (photo as any).left,
                   right: (photo as any).right,
                 }}
               >
-                <div
-                  className="relative"
-                  style={{ transform: `rotate(${photo.rotate}deg)` }}
-                >
-                  <div className="w-28 h-32 xl:w-36 xl:h-40 rounded-xl overflow-hidden border-2 border-border/50 shadow-lg">
+                <div style={{ transform: `rotate(${photo.rotate}deg)` }}>
+                  <div
+                    className={`${sizeClasses[photo.size]} rounded-xl overflow-hidden border border-border/40 bg-card shadow-lg`}
+                  >
                     <img
                       src={photo.src}
                       alt={photo.label}
-                      className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
+                      className="w-full h-full object-cover grayscale"
                     />
                   </div>
-                  <span className="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground text-xs font-display font-semibold px-3 py-1 rounded-full whitespace-nowrap">
+                  {/* label badge */}
+                  <span className="absolute -bottom-3 left-1/2 -translate-x-1/2 border border-border bg-card/90 backdrop-blur-sm text-foreground text-[11px] font-display font-semibold px-3 py-1 rounded-md whitespace-nowrap flex items-center gap-1.5">
+                    <span
+                      className="w-1.5 h-1.5 rounded-full"
+                      style={{
+                        backgroundColor: `hsl(${(i * 47 + 24) % 360} 70% 60%)`,
+                      }}
+                    />
                     {photo.label}
                   </span>
                 </div>
@@ -179,7 +152,7 @@ const OnsTeam = () => {
             ))}
           </div>
 
-          {/* Center content */}
+          {/* center text */}
           <div className="relative z-10 text-center px-6 max-w-3xl mx-auto">
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
@@ -197,8 +170,8 @@ const OnsTeam = () => {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="text-muted-foreground text-lg md:text-xl max-w-xl mx-auto mb-8"
             >
-              Een compact team van specialisten in data, AI en outbound.
-              Samen bouwen we systemen die structureel groeien.
+              Een compact team van specialisten in data, AI en outbound. Samen
+              bouwen we systemen die structureel groeien.
             </motion.p>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -206,7 +179,11 @@ const OnsTeam = () => {
               transition={{ duration: 0.6, delay: 0.4 }}
             >
               <Button variant="hero" size="lg" asChild>
-                <a href="https://app.usemotion.com/meet/Rebel-Force/meeting" target="_blank" rel="noopener noreferrer">
+                <a
+                  href="https://app.usemotion.com/meet/Rebel-Force/meeting"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   Plan een kennismaking →
                 </a>
               </Button>
@@ -214,90 +191,309 @@ const OnsTeam = () => {
           </div>
         </section>
 
-        {/* Logo ticker */}
+        {/* logo ticker */}
         <LogoTicker />
 
-        {/* Quality section */}
-        <section className="py-24 border-t border-border">
+        {/* ════════ 2. WHAT MAKES A REBEL — orbit visual ════════ */}
+        <section className="py-28 border-t border-border overflow-hidden">
           <div className="container mx-auto px-6">
             <div className="grid md:grid-cols-2 gap-16 items-center">
+              {/* text */}
               <motion.div {...fadeUp}>
-                <p className="text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4">
-                  Waarom ons team
-                </p>
-                <h2 className="font-display font-bold text-3xl md:text-4xl leading-tight mb-6">
-                  Geen generieke bureaumedewerkers, maar <span className="text-primary">specialisten</span>
+                <h2 className="font-display font-bold text-3xl md:text-5xl leading-tight mb-8">
+                  Wat een <span className="text-primary">Rebel</span> maakt
                 </h2>
-                <div className="space-y-5 text-muted-foreground leading-relaxed">
+                <div className="space-y-5 text-muted-foreground leading-relaxed text-[15px]">
                   <p>
-                    Elk teamlid is geselecteerd op diepgaande kennis in hun vakgebied.
-                    Van AI-engineering tot outbound strategie — we werken alleen met
-                    mensen die bewezen resultaat leveren.
+                    We werken niet met stagiaires of freelancers die toevallig
+                    beschikbaar zijn. Elk teamlid is geselecteerd op diepgaande
+                    kennis, bewezen resultaat en een onvermoeibare drive om
+                    klanten écht vooruit te helpen.
                   </p>
                   <p>
-                    We combineren de wendbaarheid van een startup met de expertise
-                    van een gevestigd bureau. Dat betekent: snelle iteraties,
-                    persoonlijk contact en meetbare impact.
+                    Onze aanpak is niet passief. We zoeken actief de beste
+                    specialisten in data, AI, sales en marketing. Vervolgens
+                    zetten we ze door een streng selectieproces. Alleen de beste
+                    komen door de deur.
+                  </p>
+                  <p>
+                    Dat betekent dat u toegang krijgt tot top-talent dat normaal
+                    voorbehouden is aan grote corporates — maar dan met de
+                    wendbaarheid en betrokkenheid van een klein team.
                   </p>
                 </div>
               </motion.div>
 
+              {/* orbit visual */}
               <motion.div
                 {...fadeUp}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                className="grid grid-cols-2 gap-4"
+                transition={{ duration: 0.8, delay: 0.2 }}
+                className="relative flex items-center justify-center"
               >
-                {stats.map((stat, i) => (
-                  <div
-                    key={stat.label}
-                    className="bg-card border border-border rounded-2xl p-6 text-center hover:border-primary/30 transition-colors"
-                  >
-                    <stat.icon className="w-5 h-5 text-primary mx-auto mb-3" />
-                    <p className="font-display font-bold text-3xl text-foreground mb-1">{stat.value}</p>
-                    <p className="text-muted-foreground text-sm">{stat.label}</p>
+                <div className="relative w-[340px] h-[340px] md:w-[400px] md:h-[400px]">
+                  {/* outer ring */}
+                  <div className="absolute inset-0 rounded-full border border-border/30" />
+                  {/* inner ring */}
+                  <div className="absolute inset-10 rounded-full border border-border/20" />
+
+                  {/* center stat */}
+                  <div className="absolute inset-0 flex flex-col items-center justify-center">
+                    <span className="font-display font-bold text-5xl md:text-6xl text-foreground">
+                      15+
+                    </span>
+                    <span className="text-muted-foreground text-sm mt-1">
+                      experts
+                    </span>
                   </div>
-                ))}
+
+                  {/* orbiting avatars */}
+                  {[teamMember1, teamMember3, teamMember5, teamMember7, teamMember9].map(
+                    (src, i) => {
+                      const angle = (i * 72 - 90) * (Math.PI / 180);
+                      const radius = 48;
+                      const x = 50 + radius * Math.cos(angle);
+                      const y = 50 + radius * Math.sin(angle);
+                      return (
+                        <motion.div
+                          key={i}
+                          initial={{ opacity: 0, scale: 0 }}
+                          whileInView={{ opacity: 1, scale: 1 }}
+                          viewport={{ once: true }}
+                          transition={{ duration: 0.5, delay: 0.4 + i * 0.1 }}
+                          className="absolute w-12 h-12 rounded-full overflow-hidden border-2 border-border/50 shadow-lg"
+                          style={{
+                            top: `${y}%`,
+                            left: `${x}%`,
+                            transform: "translate(-50%, -50%)",
+                          }}
+                        >
+                          <img
+                            src={src}
+                            alt="Team member"
+                            className="w-full h-full object-cover grayscale"
+                            loading="lazy"
+                          />
+                        </motion.div>
+                      );
+                    }
+                  )}
+
+                  {/* role labels */}
+                  {orbitRoles.map((role, i) => {
+                    const angle = role.angle * (Math.PI / 180);
+                    const radius = 55;
+                    const x = 50 + radius * Math.cos(angle);
+                    const y = 50 + radius * Math.sin(angle);
+                    return (
+                      <motion.span
+                        key={role.label}
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.4, delay: 0.6 + i * 0.08 }}
+                        className={`absolute text-[11px] font-display font-semibold border border-border/40 bg-card/80 backdrop-blur-sm px-2.5 py-1 rounded-md whitespace-nowrap ${role.color}`}
+                        style={{
+                          top: `${y}%`,
+                          left: `${x}%`,
+                          transform: "translate(-50%, -50%)",
+                        }}
+                      >
+                        {role.label}
+                      </motion.span>
+                    );
+                  })}
+                </div>
               </motion.div>
             </div>
           </div>
         </section>
 
-        {/* Team grid */}
-        <section className="py-24 border-t border-border">
+        {/* ════════ 3. MAP / GLOBE — atom-style ════════ */}
+        <section className="py-28 border-t border-border overflow-hidden">
+          <div className="container mx-auto px-6">
+            <div className="grid md:grid-cols-2 gap-16 items-center">
+              {/* atom visual */}
+              <motion.div
+                {...fadeUp}
+                className="relative flex items-center justify-center order-2 md:order-1"
+              >
+                <div className="relative w-[320px] h-[320px] md:w-[380px] md:h-[380px]">
+                  {/* elliptical orbits */}
+                  <svg
+                    viewBox="0 0 400 400"
+                    className="absolute inset-0 w-full h-full"
+                    fill="none"
+                  >
+                    <ellipse
+                      cx="200"
+                      cy="200"
+                      rx="180"
+                      ry="100"
+                      stroke="hsl(var(--border))"
+                      strokeWidth="0.8"
+                      opacity="0.4"
+                      transform="rotate(-30 200 200)"
+                    />
+                    <ellipse
+                      cx="200"
+                      cy="200"
+                      rx="170"
+                      ry="90"
+                      stroke="hsl(var(--border))"
+                      strokeWidth="0.8"
+                      opacity="0.3"
+                      transform="rotate(30 200 200)"
+                    />
+                    <ellipse
+                      cx="200"
+                      cy="200"
+                      rx="160"
+                      ry="80"
+                      stroke="hsl(var(--border))"
+                      strokeWidth="0.8"
+                      opacity="0.2"
+                      transform="rotate(90 200 200)"
+                    />
+                  </svg>
+
+                  {/* center logo mark */}
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <span className="font-display font-black text-3xl text-foreground tracking-tighter">
+                      RF
+                    </span>
+                  </div>
+
+                  {/* floating role labels */}
+                  {mapRoles.map((role, i) => (
+                    <motion.span
+                      key={role.label}
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.5, delay: 0.3 + i * 0.12 }}
+                      className={`absolute text-[11px] font-display font-semibold border border-border/40 bg-card/80 backdrop-blur-sm px-2.5 py-1 rounded-md whitespace-nowrap ${role.color} flex items-center gap-1.5`}
+                      style={{ top: role.y, left: role.x }}
+                    >
+                      <span
+                        className="w-1.5 h-1.5 rounded-full flex-shrink-0"
+                        style={{
+                          backgroundColor: "currentColor",
+                        }}
+                      />
+                      {role.label}
+                    </motion.span>
+                  ))}
+                </div>
+              </motion.div>
+
+              {/* text */}
+              <motion.div
+                {...fadeUp}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="order-1 md:order-2"
+              >
+                <h2 className="font-display font-bold text-3xl md:text-5xl leading-tight mb-8">
+                  Talent vanuit{" "}
+                  <span className="text-primary">elke hoek</span>
+                  <br />
+                  van de markt
+                </h2>
+                <div className="space-y-5 text-muted-foreground leading-relaxed text-[15px]">
+                  <p>
+                    Rebel Force is geboren als remote-first organisatie. Terwijl
+                    andere bureaus worstelden met thuiswerken, hadden wij onze
+                    processen al lang geoptimaliseerd.
+                  </p>
+                  <p>
+                    Dat betekent dat we niet gebonden zijn aan één locatie. We
+                    werken met de beste specialisten — ongeacht waar ze zitten.
+                    Van Nederland tot België, van data-experts tot AI-engineers.
+                  </p>
+                  <p>
+                    Het resultaat: een team dat de wendbaarheid heeft van
+                    freelancers, maar de structuur en betrouwbaarheid van een
+                    vast bureau.
+                  </p>
+                </div>
+              </motion.div>
+            </div>
+          </div>
+        </section>
+
+        {/* ════════ 4. SMOELENBOEK — photo grid + stats ════════ */}
+        <section className="py-28 border-t border-border">
           <div className="container mx-auto px-6">
             <motion.div {...fadeUp} className="text-center mb-16">
-              <p className="text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4">
-                Maak kennis
-              </p>
-              <h2 className="font-display font-bold text-3xl md:text-4xl">
-                De experts achter <span className="text-primary">uw groei</span>
+              <h2 className="font-display font-bold text-3xl md:text-5xl">
+                De experts achter
+                <br />
+                <span className="text-primary">uw groei</span>
               </h2>
             </motion.div>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-              {teamMembers.map((member, i) => (
-                <TeamMemberCard key={member.name} member={member} index={i} />
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4 max-w-6xl mx-auto">
+              {gridItems.map((item, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: i * 0.04 }}
+                  className="aspect-[4/5] rounded-2xl overflow-hidden"
+                >
+                  {item.type === "photo" ? (
+                    <img
+                      src={item.src}
+                      alt="Team member"
+                      loading="lazy"
+                      width={512}
+                      height={640}
+                      className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-card border border-border flex flex-col justify-center px-5 rounded-2xl">
+                      <span className="font-display font-bold text-3xl md:text-4xl text-foreground">
+                        {item.value}
+                      </span>
+                      <span className="text-primary text-sm font-medium mt-2 whitespace-pre-line leading-snug">
+                        {item.label}
+                      </span>
+                    </div>
+                  )}
+                </motion.div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* CTA */}
+        {/* ════════ CTA ════════ */}
         <section className="py-24 border-t border-border">
           <div className="container mx-auto px-6 text-center">
             <motion.div {...fadeUp}>
               <h2 className="font-display font-bold text-3xl md:text-4xl mb-6">
-                Wil je met ons <span className="text-primary">samenwerken</span>?
+                Wil je met ons{" "}
+                <span className="text-primary">samenwerken</span>?
               </h2>
               <p className="text-muted-foreground text-lg max-w-xl mx-auto mb-8">
-                Plan een vrijblijvend gesprek en ontdek hoe ons team uw groei kan versnellen.
+                Plan een vrijblijvend gesprek en ontdek hoe ons team uw groei
+                kan versnellen.
               </p>
               <div className="flex items-center justify-center gap-3 mb-5">
-                <img src={peterGrisel} alt="Peter Grisel" className="w-10 h-10 rounded-full object-cover border-2 border-primary/30" />
-                <span className="text-muted-foreground text-sm">Spreek direct met Peter</span>
+                <img
+                  src={peterGrisel}
+                  alt="Peter Grisel"
+                  className="w-10 h-10 rounded-full object-cover border-2 border-primary/30"
+                />
+                <span className="text-muted-foreground text-sm">
+                  Spreek direct met Peter
+                </span>
               </div>
               <Button variant="hero" size="lg" asChild>
-                <a href="https://app.usemotion.com/meet/Rebel-Force/meeting" target="_blank" rel="noopener noreferrer">
+                <a
+                  href="https://app.usemotion.com/meet/Rebel-Force/meeting"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   Plan een Gesprek →
                 </a>
               </Button>
