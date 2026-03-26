@@ -73,7 +73,7 @@ const ResultsSection = () => {
                 "Parallelle stromen (klant + recruitment)",
                 "Signaalmonitoring & intent-scoring",
                 "Persoonlijke omnichannel outreach",
-                "3 tot 5 gekwalificeerde meetings per maand",
+                
                 "Tweewekelijkse rapportage & pipeline-inzicht",
                 "Integratie met uw bestaande tools",
                 "Domeinbescherming & compliance",
