@@ -31,6 +31,7 @@ import AdminCalendar from "./pages/admin/AdminCalendar.tsx";
 import AdminLeads from "./pages/admin/AdminLeads.tsx";
 import AdminAnalytics from "./pages/admin/AdminAnalytics.tsx";
 import AdminScripts from "./pages/admin/AdminScripts.tsx";
+import AdminOverview from "./pages/admin/AdminOverview.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import TrackingScriptInjector from "./components/TrackingScriptInjector";
 
@@ -68,6 +69,7 @@ const AnimatedRoutes = () => {
           <Route path="/brandstory" element={<Brandstory />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin/overview" element={<AdminOverview />} />
           <Route path="/admin/blog" element={<AdminBlog />} />
           <Route path="/admin/blog/new" element={<AdminBlogEditor />} />
           <Route path="/admin/blog/edit/:id" element={<AdminBlogEditor />} />
