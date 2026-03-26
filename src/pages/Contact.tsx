@@ -45,6 +45,7 @@ const Contact = () => {
       company: result.data.company || null,
       phone: result.data.phone || null,
       message: result.data.message,
+      session_id: sessionStorage.getItem("b2b_session_id") || null,
     });
 
     if (error) {
