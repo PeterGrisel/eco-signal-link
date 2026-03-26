@@ -10,11 +10,11 @@ import {
   Calculator, Minus, Plus as PlusIcon
 } from "lucide-react";
 
-const engagementOptions = [
-  { hours: 0, label: "Geen", price6: 0, price12: 0 },
-  { hours: 10, label: "10 uur", price6: 760, price12: 700 },
-  { hours: 20, label: "20 uur", price6: 1440, price12: 1300 },
-  { hours: 40, label: "40 uur", price6: 2720, price12: 2400 },
+const engagementPackages = [
+  { hours: 0, label: "Geen", rate: { "6": 0, "12": 0 } },
+  { hours: 10, label: "10 uur", planName: "Startpakket", rate: { "6": 100, "12": 90 } },
+  { hours: 20, label: "20 uur", planName: "Meest gekozen", rate: { "6": 90, "12": 81 }, highlight: true },
+  { hours: 40, label: "40 uur", planName: "Maximale output", rate: { "6": 80, "12": 72 } },
 ];
 
 const Pricing = () => {
@@ -22,11 +22,13 @@ const Pricing = () => {
   const [datahub, setDatahub] = useState(false);
   const [recruitment, setRecruitment] = useState(false);
   const [salesMgmt, setSalesMgmt] = useState(false);
-  const [period, setPeriod] = useState<6 | 12>(6);
+  const [period, setPeriod] = useState<"6" | "12">("6");
 
   const baseFee = 1500;
   const datahubFee = datahub ? 499 : 0;
-  const engFee = period === 6 ? engagementOptions[engagement].price6 : engagementOptions[engagement].price12;
+  const selectedPkg = engagementPackages[engagement];
+  const engRate = selectedPkg.rate[period];
+  const engFee = selectedPkg.hours * engRate;
   const monthlyTotal = baseFee + engFee + datahubFee;
 
   return (
