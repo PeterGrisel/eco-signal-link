@@ -10,6 +10,7 @@ import ProcessSection from "@/components/ProcessSection";
 import DatahubSection from "@/components/DatahubSection";
 import PricingSection from "@/components/PricingSection";
 import ResultsSection from "@/components/ResultsSection";
+import DeliveryModelSection from "@/components/DeliveryModelSection";
 import CtaSection from "@/components/CtaSection";
 import FaqSection from "@/components/FaqSection";
 import Footer from "@/components/Footer";
@@ -28,6 +29,7 @@ const Index = () => {
       <ProcessSection />
       <DatahubSection />
       <PricingSection />
+      <DeliveryModelSection />
       <ResultsSection />
       <FaqSection />
       <CtaSection />

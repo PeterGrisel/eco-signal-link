@@ -1,0 +1,140 @@
+import { motion } from "framer-motion";
+import { Settings, Rocket, CheckCircle, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { trackCTA } from "@/lib/tracking";
+
+const DeliveryModelSection = () => {
+  return (
+    <section className="py-16 md:py-32 border-t border-border">
+      <div className="container mx-auto px-4 md:px-6">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
+          className="text-center max-w-3xl mx-auto mb-16"
+        >
+          <p className="text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4">
+            Uw keuze
+          </p>
+          <h2 className="font-display font-bold text-3xl md:text-5xl lg:text-6xl tracking-tight leading-tight mb-6">
+            Wij beheren, of
+            <br />
+            <span className="text-gradient">u neemt het over.</span>
+          </h2>
+          <p className="text-muted-foreground text-lg leading-relaxed max-w-2xl mx-auto">
+            Geen lock-in. Geen eigen platform dat u moet afnemen. Het systeem draait op
+            uw tools; wij integreren wat werkt.
+          </p>
+        </motion.div>
+
+        {/* Two cards */}
+        <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+          {/* Build & Transfer */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.5 }}
+            className="card-gradient border border-glow rounded-xl p-8 md:p-10 flex flex-col"
+          >
+            <div className="w-12 h-12 rounded-xl bg-secondary flex items-center justify-center mb-6">
+              <Settings className="w-6 h-6 text-muted-foreground" />
+            </div>
+            <h3 className="font-display font-bold text-2xl mb-2">Build &amp; Transfer</h3>
+            <p className="text-primary font-display text-sm font-semibold mb-4">Uw tools, onze expertise</p>
+            <p className="text-muted-foreground leading-relaxed mb-6">
+              Wij bouwen het volledige systeem op uw bestaande toolstack — CRM, e-mail, LinkedIn.
+              Na oplevering krijgt u een volledige training en draagt uw team het zelf.
+            </p>
+            <ul className="space-y-3 mb-8 flex-1">
+              {[
+                "Opzet op uw eigen tools",
+                "Volledige documentatie & training",
+                "Eenmalig project, geen doorlopende kosten",
+                "Ideaal als u intern talent heeft",
+              ].map((item) => (
+                <li key={item} className="flex items-start gap-2.5 text-sm text-muted-foreground">
+                  <CheckCircle className="w-4 h-4 text-muted-foreground/60 mt-0.5 shrink-0" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <Button variant="outline" size="lg" asChild className="w-full">
+              <a
+                href="https://app.usemotion.com/meet/Rebel-Force/meeting"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => trackCTA("Delivery — Build & Transfer", "https://app.usemotion.com/meet/Rebel-Force/meeting")}
+              >
+                Meer weten →
+              </a>
+            </Button>
+          </motion.div>
+
+          {/* Done-for-you */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="relative card-gradient border border-primary/30 rounded-xl p-8 md:p-10 flex flex-col"
+          >
+            {/* Popular badge */}
+            <div className="absolute -top-3 right-6 bg-primary text-primary-foreground text-xs font-display font-semibold px-3 py-1 rounded-full tracking-wide uppercase">
+              Meest gekozen
+            </div>
+
+            <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-6">
+              <Rocket className="w-6 h-6 text-primary" />
+            </div>
+            <h3 className="font-display font-bold text-2xl mb-2">Done-for-you</h3>
+            <p className="text-primary font-display text-sm font-semibold mb-4">Onze tools, volledig beheer</p>
+            <p className="text-muted-foreground leading-relaxed mb-6">
+              Wij selecteren de beste tools, richten alles in en managen het systeem doorlopend.
+              U ontvangt gekwalificeerde afspraken — zonder technisch gedoe.
+            </p>
+            <ul className="space-y-3 mb-8 flex-1">
+              {[
+                "Wij kiezen & integreren de beste tools",
+                "Doorlopend beheer en optimalisatie",
+                "Geen technische kennis nodig",
+                "Schaalbaar zonder intern team",
+              ].map((item) => (
+                <li key={item} className="flex items-start gap-2.5 text-sm text-muted-foreground">
+                  <CheckCircle className="w-4 h-4 text-primary mt-0.5 shrink-0" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <Button variant="hero" size="lg" asChild className="w-full">
+              <a
+                href="https://app.usemotion.com/meet/Rebel-Force/meeting"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => trackCTA("Delivery — Done-for-you", "https://app.usemotion.com/meet/Rebel-Force/meeting")}
+              >
+                Plan een Demo <ArrowRight className="w-4 h-4 ml-1" />
+              </a>
+            </Button>
+          </motion.div>
+        </div>
+
+        {/* Bottom note */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="text-center text-muted-foreground text-sm mt-10 max-w-xl mx-auto"
+        >
+          Technisch pittig? Dat klopt. Welke tool het beste werkt en integreert, verschilt per markt.
+          Daarom kiezen de meeste klanten voor <span className="text-foreground font-medium">Done-for-you</span>.
+        </motion.p>
+      </div>
+    </section>
+  );
+};
+
+export default DeliveryModelSection;
