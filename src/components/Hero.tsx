@@ -103,9 +103,6 @@ const Hero = () => {
 };
 
 export default Hero;
-    const interval = setInterval(() => {
-      setWordIndex((prev) => (prev + 1) % rotatingWords.length);
-    }, 2500);
     return () => clearInterval(interval);
   }, []);
 
