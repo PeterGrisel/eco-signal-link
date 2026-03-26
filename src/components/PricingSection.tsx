@@ -127,9 +127,9 @@ const PricingSection = () => {
 
             <div className="grid sm:grid-cols-3 gap-4">
               {[
-                { hours: "10 uur", rate6: "€100", rate12: "€90", total6: "€2.500", total12: "€2.400", label: "Startpakket" },
-                { hours: "20 uur", rate6: "€90", rate12: "€82", total6: "€3.300", total12: "€3.140", label: "Meest gekozen", highlight: true },
-                { hours: "40 uur", rate6: "€82", rate12: "€75", total6: "€4.780", total12: "€4.500", label: "Maximale output" },
+                { hours: "10 uur", rate: "€100", discountRate: "€90", saving: "10%", label: "Startpakket", commitLabel: "bij 12 maanden" },
+                { hours: "20 uur", rate: "€90", discountRate: "€82", saving: "18%", label: "Meest gekozen", highlight: true, commitLabel: "bij 12 maanden" },
+                { hours: "40 uur", rate: "€82", discountRate: "€75", saving: "25%", label: "Maximale output", commitLabel: "bij 12 maanden" },
               ].map((pkg) => (
                 <div
                   key={pkg.hours}
@@ -146,11 +146,20 @@ const PricingSection = () => {
                   )}
                   <p className="font-display font-bold text-3xl mt-1">{pkg.hours}</p>
                   <p className="text-muted-foreground text-xs mt-1">/maand</p>
-                  <div className="mt-3 space-y-1 text-xs text-muted-foreground">
-                    <p>6 mnd: <span className="text-foreground font-semibold">{pkg.rate6}/u</span> <span className="text-muted-foreground">({pkg.total6})</span></p>
-                    <p>12 mnd: <span className="text-foreground font-semibold">{pkg.rate12}/u</span> <span className="text-muted-foreground">({pkg.total12})</span></p>
+
+                  <div className="mt-4 space-y-2">
+                    <div className="text-sm text-muted-foreground">
+                      6 maanden: <span className="text-foreground font-semibold">{pkg.rate}</span><span className="text-muted-foreground">/uur</span>
+                    </div>
+                    <div className="text-sm">
+                      12 maanden: <span className="text-foreground font-bold">{pkg.discountRate}</span><span className="text-muted-foreground">/uur</span>
+                      <span className="ml-1.5 text-[10px] font-bold text-green-400 bg-green-400/10 px-1.5 py-0.5 rounded-full">
+                        -{pkg.saving}
+                      </span>
+                    </div>
                   </div>
-                  <p className="text-[10px] text-muted-foreground mt-2 italic">{pkg.label}</p>
+
+                  <p className="text-[10px] text-muted-foreground mt-3 italic">{pkg.label}</p>
                 </div>
               ))}
             </div>
