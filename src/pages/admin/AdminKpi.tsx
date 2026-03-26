@@ -97,6 +97,8 @@ const AdminKpi = () => {
   const [queuedSuggestions, setQueuedSuggestions] = useState<Set<number>>(new Set());
   const [audit, setAudit] = useState<AuditResult | null>(null);
   const [auditLoading, setAuditLoading] = useState(false);
+  const [ga4, setGa4] = useState<Ga4Data | null>(null);
+  const [ga4Loading, setGa4Loading] = useState(false);
   const { toast } = useToast();
 
   const fetchConvPages = useCallback(async () => {
