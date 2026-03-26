@@ -113,7 +113,7 @@ const PricingSection = () => {
             <div className="mb-6">
               <div className="flex items-center gap-3 mb-2">
                 <div className="flex items-baseline gap-1">
-                  <span className="font-display font-bold text-4xl">€67–€76</span>
+                  <span className="font-display font-bold text-4xl">€60–€76</span>
                   <span className="text-muted-foreground text-sm">/uur</span>
                 </div>
                 <span className="text-[10px] font-display font-semibold text-primary bg-primary/10 px-2 py-0.5 rounded-full uppercase tracking-wider">
