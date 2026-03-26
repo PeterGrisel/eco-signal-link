@@ -16,6 +16,7 @@ const pageLinks = [
   { href: "/brandstory", label: "Brandstory" },
   { href: "/pricing", label: "Pricing" },
   { href: "/over-ons", label: "Over Ons" },
+  { href: "/ons-team", label: "Ons Team" },
   { href: "/blog", label: "Blog" },
   { href: "/contact", label: "Contact" },
 ];

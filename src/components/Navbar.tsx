@@ -23,7 +23,8 @@ const solutionLinks = solutions.map((s) => ({
 
 const kennisLinks = [
   { href: "/blog", label: "Blog", description: "Artikelen & inzichten" },
-  { href: "/over-ons", label: "Over Ons", description: "Het team achter B2BGroeiMachine" },
+  { href: "/over-ons", label: "Over Ons", description: "Het bedrijf achter B2BGroeiMachine" },
+  { href: "/ons-team", label: "Ons Team", description: "Maak kennis met de experts" },
   { href: "/brandstory", label: "Brandstory", description: "Ons verhaal & visie" },
 ];
 
