@@ -73,24 +73,6 @@ const Hero = () => {
           </motion.div>
         </div>
 
-        {/* Stats */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          className="absolute bottom-12 right-6 hidden lg:flex flex-col gap-8 text-right"
-        >
-          {[
-            { value: "2", label: "Parallelle stromen" },
-            { value: "4", label: "Systeemlagen" },
-            { value: "6‑8", label: "Touchpoints per contact" },
-          ].map((stat) => (
-            <div key={stat.label}>
-              <div className="text-4xl font-display font-bold text-primary">{stat.value}</div>
-              <div className="text-sm text-muted-foreground">{stat.label}</div>
-            </div>
-          ))}
-        </motion.div>
       </div>
     </section>
   );
