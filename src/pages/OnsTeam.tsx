@@ -441,14 +441,22 @@ const OnsTeam = () => {
                   className="aspect-[4/5] rounded-2xl overflow-hidden"
                 >
                   {item.type === "photo" ? (
-                    <img
-                      src={item.src}
-                      alt="Team member"
-                      loading="lazy"
-                      width={512}
-                      height={640}
-                      className="w-full h-full object-cover hover:scale-105 transition-all duration-500"
-                    />
+                    <div className="relative w-full h-full group/photo">
+                      <img
+                        src={item.src}
+                        alt="Team member"
+                        loading="lazy"
+                        width={512}
+                        height={640}
+                        className="w-full h-full object-cover grayscale group-hover/photo:grayscale-0 transition-all duration-500"
+                      />
+                      {/* Hover overlay with RF × AI branding */}
+                      <div className="absolute inset-0 bg-primary/0 group-hover/photo:bg-primary/20 transition-all duration-500 flex items-center justify-center opacity-0 group-hover/photo:opacity-100">
+                        <span className="font-display font-black text-2xl text-white/90 tracking-tight drop-shadow-lg">
+                          RF<span className="text-xs font-medium align-super ml-0.5 opacity-80">×AI</span>
+                        </span>
+                      </div>
+                    </div>
                   ) : (
                     <div className="w-full h-full bg-card border border-border flex flex-col justify-center px-5 rounded-2xl">
                       <span className="font-display font-bold text-3xl md:text-4xl text-foreground">
