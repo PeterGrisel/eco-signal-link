@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
-import { Zap, Trash2, RefreshCw, Globe, CheckCircle2, XCircle, Clock, MapPin } from "lucide-react";
+import { Zap, Trash2, RefreshCw, Globe, CheckCircle2, XCircle, Clock, MapPin, Download } from "lucide-react";
 import { format } from "date-fns";
 
 const statusColors: Record<string, string> = {
@@ -133,6 +133,28 @@ const AdminIndexing = () => {
     setSubmitting(false);
   };
 
+  const handleSyncSitemap = async () => {
+    const missing = sitemapUrls
+      .filter(u => getUrlStatus(u.url) === "not_submitted")
+      .map(u => u.url);
+    if (missing.length === 0) {
+      toast({ title: "Alles is al gesynchroniseerd" });
+      return;
+    }
+    setSubmitting(true);
+    try {
+      const { error } = await supabase.from("indexing_requests").insert(
+        missing.map(url => ({ url, status: "pending" as const }))
+      );
+      if (error) throw error;
+      toast({ title: `${missing.length} URLs als pending toegevoegd` });
+      fetchData();
+    } catch (e: any) {
+      toast({ title: "Fout", description: e.message, variant: "destructive" });
+    }
+    setSubmitting(false);
+  };
+
   const handleDelete = async (id: string) => {
     await supabase.from("indexing_requests").delete().eq("id", id);
     fetchData();
@@ -159,9 +181,14 @@ const AdminIndexing = () => {
         </div>
         <div className="flex gap-2">
           {stats.notSubmitted > 0 && (
-            <Button variant="heroOutline" size="sm" onClick={() => handleBatchIndex()} disabled={submitting}>
-              <Zap className="w-4 h-4" /> Index {stats.notSubmitted} nieuwe URLs
-            </Button>
+            <>
+              <Button variant="heroOutline" size="sm" onClick={handleSyncSitemap} disabled={submitting}>
+                <Download className="w-4 h-4" /> Sync {stats.notSubmitted} URLs
+              </Button>
+              <Button variant="heroOutline" size="sm" onClick={() => handleBatchIndex()} disabled={submitting}>
+                <Zap className="w-4 h-4" /> Index {stats.notSubmitted} nieuwe URLs
+              </Button>
+            </>
           )}
           <Button variant="heroOutline" size="sm" onClick={() => handleBatchIndex(sitemapUrls.map(u => u.url))} disabled={submitting}>
             <RefreshCw className="w-4 h-4" /> Re-index alles
