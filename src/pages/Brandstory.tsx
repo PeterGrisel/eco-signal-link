@@ -58,8 +58,6 @@ const Brandstory = () => {
 
         <div className="flex justify-between items-end pt-8 border-t border-foreground/10">
           <p className="text-xs text-foreground/30 leading-relaxed">
-            Vertrouwelijk · Intern document
-            <br />
             b2bgroeimachine.io
           </p>
           <p className="text-xs text-foreground/30 leading-relaxed text-right">
