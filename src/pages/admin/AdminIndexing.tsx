@@ -211,15 +211,10 @@ const AdminIndexing = () => {
           <p className="text-sm text-muted-foreground mt-1">Sitemap & Google indexing beheer</p>
         </div>
         <div className="flex gap-2">
-          {stats.notSubmitted > 0 && (
-            <>
-              <Button variant="heroOutline" size="sm" onClick={handleSyncSitemap} disabled={submitting}>
-                <Download className="w-4 h-4" /> Sync {stats.notSubmitted} URLs
-              </Button>
-              <Button variant="heroOutline" size="sm" onClick={() => handleBatchIndex()} disabled={submitting}>
-                <Zap className="w-4 h-4" /> Index {stats.notSubmitted} nieuwe URLs
-              </Button>
-            </>
+          {(stats.notSubmitted > 0 || stats.pending > 0) && (
+            <Button variant="heroOutline" size="sm" onClick={handleSyncAndIndex} disabled={submitting}>
+              <Zap className="w-4 h-4" /> Sync & Index ({stats.notSubmitted + stats.pending})
+            </Button>
           )}
           <Button variant="heroOutline" size="sm" onClick={() => handleBatchIndex(sitemapUrls.map(u => u.url))} disabled={submitting}>
             <RefreshCw className="w-4 h-4" /> Re-index alles
