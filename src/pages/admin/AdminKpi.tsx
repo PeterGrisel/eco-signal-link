@@ -8,8 +8,23 @@ import {
   BarChart3, TrendingUp, MousePointerClick, Eye, Target,
   RefreshCw, Loader2, Plus, X, ArrowUp, ArrowDown, Minus,
   Sparkles, FileText, Wrench, Globe, Check, Send,
-  Lightbulb, Zap, AlertTriangle, Shield, CheckCircle, XCircle, AlertCircle
+  Lightbulb, Zap, AlertTriangle, Shield, CheckCircle, XCircle, AlertCircle,
+  Users, Clock, Activity
 } from "lucide-react";
+
+interface Ga4Data {
+  period: { days: number };
+  totals: {
+    sessions: number;
+    users: number;
+    pageviews: number;
+    bounce_rate: number;
+    avg_session_duration: number;
+    engaged_sessions: number;
+  };
+  top_pages: Array<{ path: string; pageviews: number; sessions: number; bounce_rate: number; avg_duration: number }>;
+  traffic_sources: Array<{ channel: string; sessions: number; users: number; engaged_sessions: number }>;
+}
 
 interface GscOverview {
   period: { start: string; end: string; days: number };
@@ -83,6 +98,8 @@ const AdminKpi = () => {
   const [queuedSuggestions, setQueuedSuggestions] = useState<Set<number>>(new Set());
   const [audit, setAudit] = useState<AuditResult | null>(null);
   const [auditLoading, setAuditLoading] = useState(false);
+  const [ga4, setGa4] = useState<Ga4Data | null>(null);
+  const [ga4Loading, setGa4Loading] = useState(false);
   const { toast } = useToast();
 
   const fetchConvPages = useCallback(async () => {
@@ -105,8 +122,24 @@ const AdminKpi = () => {
     setLoading(false);
   }, [days, toast]);
 
+  const fetchGa4 = useCallback(async () => {
+    setGa4Loading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("fetch-ga4-data", {
+        body: { days },
+      });
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+      setGa4(data);
+    } catch (e: any) {
+      toast({ title: "GA4 data ophalen mislukt", description: e.message, variant: "destructive" });
+    }
+    setGa4Loading(false);
+  }, [days, toast]);
+
   useEffect(() => { fetchConvPages(); }, [fetchConvPages]);
   useEffect(() => { fetchOverview(); }, [fetchOverview]);
+  useEffect(() => { fetchGa4(); }, [fetchGa4]);
 
   const handleSync = async () => {
     setSyncing(true);
@@ -464,6 +497,108 @@ const AdminKpi = () => {
             </div>
             <p className="text-[10px] text-muted-foreground text-right">Audit voltooid in {audit.audit_time_ms}ms</p>
           </div>
+        )}
+      </div>
+
+      {/* GA4 Analytics Section */}
+      <div className="bg-card border border-border rounded-lg p-5 mb-8">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <Activity className="w-5 h-5 text-primary" />
+            <h2 className="font-display font-semibold text-foreground">Google Analytics</h2>
+            {ga4 && (
+              <Badge variant="outline" className="text-[10px] bg-green-500/10 text-green-400 border-green-500/20">
+                LIVE
+              </Badge>
+            )}
+          </div>
+        </div>
+
+        {ga4Loading && !ga4 ? (
+          <div className="grid grid-cols-4 gap-4">
+            {[1, 2, 3, 4].map(i => <div key={i} className="h-24 bg-muted rounded-lg animate-pulse" />)}
+          </div>
+        ) : ga4 ? (
+          <div className="space-y-5">
+            {/* GA4 KPI Cards */}
+            <div className="grid grid-cols-4 gap-4">
+              <div className="p-4 rounded-lg bg-background border border-border">
+                <div className="flex items-center gap-2 mb-1">
+                  <Globe className="w-4 h-4 text-blue-400" />
+                  <span className="text-xs text-muted-foreground">Sessies</span>
+                </div>
+                <p className="text-2xl font-bold text-foreground">{formatNum(ga4.totals.sessions)}</p>
+              </div>
+              <div className="p-4 rounded-lg bg-background border border-border">
+                <div className="flex items-center gap-2 mb-1">
+                  <Users className="w-4 h-4 text-green-400" />
+                  <span className="text-xs text-muted-foreground">Gebruikers</span>
+                </div>
+                <p className="text-2xl font-bold text-foreground">{formatNum(ga4.totals.users)}</p>
+              </div>
+              <div className="p-4 rounded-lg bg-background border border-border">
+                <div className="flex items-center gap-2 mb-1">
+                  <Eye className="w-4 h-4 text-yellow-400" />
+                  <span className="text-xs text-muted-foreground">Pageviews</span>
+                </div>
+                <p className="text-2xl font-bold text-foreground">{formatNum(ga4.totals.pageviews)}</p>
+              </div>
+              <div className="p-4 rounded-lg bg-background border border-border">
+                <div className="flex items-center gap-2 mb-1">
+                  <Clock className="w-4 h-4 text-primary" />
+                  <span className="text-xs text-muted-foreground">Gem. sessieduur</span>
+                </div>
+                <p className="text-2xl font-bold text-foreground">{Math.round(ga4.totals.avg_session_duration)}s</p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              {/* Traffic Sources */}
+              <div className="bg-background border border-border rounded-lg p-4">
+                <h3 className="font-display font-semibold text-foreground mb-3 text-sm">Verkeersbronnen</h3>
+                {ga4.traffic_sources.length ? (
+                  <div className="space-y-1.5 max-h-[250px] overflow-y-auto">
+                    {ga4.traffic_sources.map((s, i) => (
+                      <div key={i} className="flex items-center justify-between py-1.5 px-2 rounded hover:bg-muted/50 text-xs">
+                        <span className="font-medium text-foreground">{s.channel}</span>
+                        <div className="flex items-center gap-3">
+                          <span className="text-muted-foreground">{formatNum(s.sessions)} sessies</span>
+                          <span className="text-green-400">{formatNum(s.users)} gebruikers</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-xs text-muted-foreground">Geen data</p>
+                )}
+              </div>
+
+              {/* GA4 Top Pages */}
+              <div className="bg-background border border-border rounded-lg p-4">
+                <h3 className="font-display font-semibold text-foreground mb-3 text-sm">Top pagina's (GA4)</h3>
+                {ga4.top_pages.length ? (
+                  <div className="space-y-1.5 max-h-[250px] overflow-y-auto">
+                    {ga4.top_pages.slice(0, 10).map((p, i) => (
+                      <div key={i} className="flex items-center justify-between py-1.5 px-2 rounded hover:bg-muted/50 text-xs">
+                        <div className="flex items-center gap-2 min-w-0 flex-1">
+                          <span className="text-muted-foreground w-4 text-right">{i + 1}</span>
+                          <span className="font-mono text-foreground truncate">{p.path}</span>
+                        </div>
+                        <div className="flex items-center gap-3 flex-shrink-0">
+                          <span className="text-green-400">{p.pageviews} views</span>
+                          <span className="text-muted-foreground">{formatPct(p.bounce_rate)} bounce</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-xs text-muted-foreground">Geen data</p>
+                )}
+              </div>
+            </div>
+          </div>
+        ) : (
+          <p className="text-sm text-muted-foreground">GA4 data wordt geladen...</p>
         )}
       </div>
 
