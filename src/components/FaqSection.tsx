@@ -10,27 +10,27 @@ import {
 const faqs = [
   {
     q: "Wat doet B2BGroeiMachine precies?",
-    a: "Wij bouwen schaalbare sales automation systemen: van signal-based prospecting tot multichannel outreach en geboekte afspraken. Geen losse leads, maar een compleet systeem dat continu draait.",
+    a: "Wij bouwen een systeem dat nieuwe klanten vindt en gesprekken plant. Van het eerste bericht tot een afspraak in uw agenda. Het draait elke dag, zonder dat u er naar hoeft om te kijken.",
   },
   {
     q: "Voor welke bedrijven is dit geschikt?",
-    a: "Voor ambitieuze B2B-bedrijven in Nederland en België die structureel willen groeien. Van zakelijke dienstverlening en maakindustrie tot financiële sector en profvoetbal.",
+    a: "Voor B2B-bedrijven in Nederland en België die willen groeien. Van dienstverleners en productiebedrijven tot de financiële sector en profvoetbal.",
   },
   {
     q: "Hoe snel zijn we operationeel?",
-    a: "Binnen 4 weken. Week 1: strategie & data. Week 2: systeem & copy. Week 3: lancering. Week 4: optimalisatie op basis van resultaten.",
+    a: "Binnen 4 weken. Week 1: strategie en data. Week 2: systeem en teksten. Week 3: de eerste campagnes gaan live. Week 4: bijsturen op basis van resultaten.",
   },
   {
-    q: "Wat is signal-based prospecting?",
-    a: "In plaats van koud benaderen, detecteren wij koopsignalen — zoals vacatures, bedrijfsgroei, technologiewijzigingen of nieuw leiderschap — en benaderen we prospects precies op het juiste moment.",
+    q: "Wat zijn signalen?",
+    a: "Signalen zijn veranderingen bij bedrijven. Denk aan: iemand krijgt een nieuwe functie, een bedrijf groeit, of bezoekt uw website. Wij herkennen dat en nemen op het juiste moment contact op.",
   },
   {
     q: "Zijn jullie een leadgenerator?",
-    a: "Nee! Wij zijn géén leadgenerator. Wij bouwen systemen die dat voor u doen. Subtiel verschil. 😉",
+    a: "Nee! Wij bouwen systemen die dat voor u doen. Subtiel verschil. 😉",
   },
   {
     q: "Welke kanalen gebruiken jullie?",
-    a: "LinkedIn, e-mail en telefonische opvolging — volledig geautomatiseerd en afgestemd op uw doelgroep. Multichannel zorgt voor maximale zichtbaarheid.",
+    a: "LinkedIn, e-mail en telefonische opvolging. Alles afgestemd op uw doelgroep. Via meerdere kanalen bereikt u meer mensen.",
   },
 ];
 

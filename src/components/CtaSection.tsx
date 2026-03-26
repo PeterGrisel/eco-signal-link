@@ -16,15 +16,15 @@ const CtaSection = () => {
           className="text-center max-w-3xl mx-auto"
         >
           <h2 className="font-display font-bold text-3xl md:text-5xl lg:text-6xl tracking-tight leading-tight mb-6">
-            Klaar om uw
+            Klaar om meer
             <br />
-            prospecting te
+            klanten te
             <br />
-            <span className="text-gradient">automatiseren?</span>
+            <span className="text-gradient">krijgen?</span>
           </h2>
           <p className="text-muted-foreground text-lg mb-10 max-w-xl mx-auto leading-relaxed">
-            Plan een vrijblijvende demo en ontdek hoe ons systeem 
-            er voor uw organisatie uitziet. Van eerste contact tot gekwalificeerd gesprek.
+            Plan een vrijblijvend gesprek. We laten u zien hoe het systeem
+            werkt voor uw situatie.
           </p>
           <div className="flex flex-col items-center gap-5">
             <div className="flex items-center gap-3">

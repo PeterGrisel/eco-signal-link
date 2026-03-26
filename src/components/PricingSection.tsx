@@ -4,14 +4,14 @@ import { Check, Plus, Users, Briefcase, Database, ArrowDown, ArrowRight } from "
 import { Link } from "react-router-dom";
 
 const baseFeatures = [
-  "Beide stromen actief (recruitment + leads)",
-  "4-lagen systeemopzet & ICP-mapping",
-  "Signaalgebaseerde targeting",
-  "Omnichannel outreach (6 tot 8 touchpoints)",
-  "Intent-scoring & kwalificatie",
-  "Tweewekelijkse rapportage",
-  "Dedicated campagnemanager",
-  "Tot 5 gebruikers inbegrepen",
+  "Klantwerving en recruitment tegelijk",
+  "Uw ideale klant in kaart gebracht",
+  "Signalen herkennen en erop inspelen",
+  "Contact via e-mail en LinkedIn (6 tot 8 keer)",
+  "Elke reactie wordt beoordeeld",
+  "Elke twee weken een helder overzicht",
+  "Uw eigen contactpersoon",
+  "Tot 5 gebruikers",
   "€0 opstartkosten",
 ];
 
@@ -44,15 +44,15 @@ const PricingSection = () => {
           className="mb-16 text-center max-w-2xl mx-auto"
         >
           <p className="text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4">
-            Dienstmodellen
+            Zo werkt de prijs
           </p>
           <h2 className="font-display font-bold text-3xl md:text-5xl lg:text-6xl tracking-tight leading-tight">
-            Bouw uw pakket
+            Stel uw pakket samen
             <br />
             <span className="text-gradient">in 4 stappen.</span>
           </h2>
           <p className="text-muted-foreground mt-4 text-lg leading-relaxed">
-            Start met een vaste service fee, kies uw engagement-uren, voeg Datahub toe en activeer add-ons naar behoefte.
+            Begin met een vaste fee. Kies daarna hoeveel uren u wilt. Voeg eventueel Datahub en extra diensten toe.
           </p>
         </motion.div>
 
@@ -120,9 +120,9 @@ const PricingSection = () => {
                   Optioneel
                 </span>
               </div>
-              <p className="text-muted-foreground text-sm">
-                Kwalificatie, personalisatie, omnichannel follow-up voor beide stromen
-              </p>
+               <p className="text-muted-foreground text-sm">
+                Persoonlijke opvolging en kwalificatie voor beide stromen
+               </p>
             </div>
 
             <div className="grid sm:grid-cols-3 gap-4">
@@ -178,14 +178,14 @@ const PricingSection = () => {
                   </span>
                 </div>
                 <p className="text-muted-foreground text-sm leading-relaxed mb-5">
-                  Uw commercieel geheugen. Centraliseer al uw commerciële data en AI-context in één platform. 
-                  Stel duizenden vragen aan uw data zonder vendor lock-in.
+                   Uw commercieel geheugen. Al uw data op één plek.
+                   Stel vragen aan uw data, zonder verplichtingen.
                 </p>
                 <ul className="space-y-2">
                   {[
-                    "Commerciële data & AI-context gecentraliseerd",
-                    "Geen vendor lock-in, uw data blijft van u",
-                    "Integratie met uw bestaande CRM en tools",
+                    "Alle data en AI-context op één plek",
+                    "Geen verplichtingen: uw data blijft van u",
+                    "Werkt met uw bestaande CRM en tools",
                   ].map((item) => (
                     <li key={item} className="flex items-start gap-3 text-sm text-muted-foreground">
                       <Check className="w-4 h-4 text-primary mt-0.5 shrink-0" />
@@ -219,7 +219,7 @@ const PricingSection = () => {
                 icon: Users,
                 label: "Add-on: Recruitment",
                 title: "Full Service Recruitment",
-                description: "Volledig recruitmentproces van outreach tot aanname. Geen maandelijkse kosten, alleen een succesfee.",
+                description: "Wij nemen het hele recruitmentproces over. Geen maandelijkse kosten, alleen een fee bij succes.",
                 price: "15% bruto jaarsalaris",
                 highlights: ["Sourcing & Selectie", "AI-kwalificatie", "Begeleiding tot aanname", "Teamopbouw"],
                 link: "/full-service-recruitment",
@@ -228,7 +228,7 @@ const PricingSection = () => {
                 icon: Briefcase,
                 label: "Add-on: Klantwerving",
                 title: "Full Sales Management",
-                description: "Van strategie tot uitvoering: wij nemen uw volledige commerciële proces over.",
+                description: "Wij nemen uw volledige commerciële proces over. Van strategie tot uitvoering.",
                 price: "Prijs op aanvraag",
                 highlights: ["Sales", "Marketing", "Strategie", "Relatiebeheer"],
                 link: "/full-sales-management",
@@ -290,7 +290,7 @@ const PricingSection = () => {
           className="mt-12 card-gradient border border-dashed border-primary/20 rounded-lg p-6 text-center"
         >
           <p className="text-muted-foreground text-sm">
-            Verwachte output: <span className="text-foreground font-semibold">3 tot 5 hooggekwalificeerde meetings per maand</span> voor klanten én kandidaten.{" "}
+            Wilt u weten wat dit voor uw situatie betekent?{" "}
             <a
               href="https://app.usemotion.com/meet/Rebel-Force/meeting"
               target="_blank"
