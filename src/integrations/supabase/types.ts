@@ -511,6 +511,39 @@ export type Database = {
         }
         Relationships: []
       }
+      site_pages: {
+        Row: {
+          changefreq: string
+          created_at: string
+          id: string
+          is_active: boolean
+          label: string
+          path: string
+          priority: number
+          updated_at: string
+        }
+        Insert: {
+          changefreq?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          label: string
+          path: string
+          priority?: number
+          updated_at?: string
+        }
+        Update: {
+          changefreq?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          label?: string
+          path?: string
+          priority?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       tracking_scripts: {
         Row: {
           created_at: string
