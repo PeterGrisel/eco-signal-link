@@ -304,8 +304,9 @@ const Datahub = () => {
             <h2 className="font-display font-bold text-2xl md:text-3xl mb-3">
               Datahub toevoegen aan uw pakket
             </h2>
-            <div className="flex items-baseline justify-center gap-1 mb-4">
-              <span className="font-display font-bold text-4xl md:text-5xl">€500</span>
+            <div className="flex items-baseline justify-center gap-1 mb-1">
+              <span className="text-muted-foreground text-sm">vanaf</span>
+              <span className="font-display font-bold text-4xl md:text-5xl">€499</span>
               <span className="text-muted-foreground text-sm">/maand</span>
             </div>
             <p className="text-muted-foreground mb-6 max-w-md mx-auto">

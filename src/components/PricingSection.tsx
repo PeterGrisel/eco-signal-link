@@ -174,7 +174,7 @@ const PricingSection = () => {
                   <Database className="w-5 h-5 text-primary" />
                   <h3 className="font-display font-bold text-xl">Datahub</h3>
                   <span className="text-xs font-display font-semibold text-primary bg-primary/10 px-2 py-0.5 rounded-full">
-                    + €500/mnd
+                    vanaf €499/mnd
                   </span>
                 </div>
                 <p className="text-muted-foreground text-sm leading-relaxed mb-5">
@@ -195,7 +195,8 @@ const PricingSection = () => {
                 </ul>
               </div>
               <div className="hidden md:flex items-start pt-2">
-                <span className="font-display font-bold text-4xl text-foreground">€500</span>
+                <span className="text-muted-foreground text-sm mr-1 mt-2">vanaf</span>
+                <span className="font-display font-bold text-4xl text-foreground">€499</span>
                 <span className="text-muted-foreground text-sm ml-1 mt-2">/maand</span>
               </div>
             </div>
