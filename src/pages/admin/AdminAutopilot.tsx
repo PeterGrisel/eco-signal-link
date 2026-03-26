@@ -160,11 +160,21 @@ const AdminAutopilot = () => {
         <div className="flex items-center gap-4">
           {/* Auto-publish toggle */}
           <button
-            onClick={() => {
-              setAutoPublish(!autoPublish);
+            onClick={async () => {
+              const newVal = !autoPublish;
+              setAutoPublish(newVal);
+              localStorage.setItem("autopilot_auto_publish", String(newVal));
+              
+              // Persist to seo_settings
+              const { data: existing } = await supabase.from("seo_settings").select("id, config").limit(1).single();
+              if (existing) {
+                const cfg = (typeof existing.config === "object" && !Array.isArray(existing.config) ? existing.config : {}) as Record<string, unknown>;
+                await supabase.from("seo_settings").update({ config: { ...cfg, auto_publish: newVal } }).eq("id", existing.id);
+              }
+              
               toast({
-                title: !autoPublish ? "Auto-publish AAN" : "Auto-publish UIT",
-                description: !autoPublish
+                title: newVal ? "Auto-publish AAN" : "Auto-publish UIT",
+                description: newVal
                   ? "Artikelen worden automatisch gepubliceerd na generatie"
                   : "Artikelen worden als draft in CMS gezet voor handmatige review",
               });
