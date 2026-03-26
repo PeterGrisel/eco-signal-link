@@ -231,9 +231,9 @@ const OnsTeam = () => {
               >
                 <div className="relative w-[340px] h-[340px] md:w-[400px] md:h-[400px]">
                   {/* outer ring */}
-                  <div className="absolute inset-0 rounded-full border border-border/30" />
+                  <div className="absolute inset-0 rounded-full border-2 border-muted-foreground/40" />
                   {/* inner ring */}
-                  <div className="absolute inset-10 rounded-full border border-border/20" />
+                  <div className="absolute inset-10 rounded-full border border-muted-foreground/25" />
 
                   {/* center stat */}
                   <div className="absolute inset-0 flex flex-col items-center justify-center">
@@ -328,9 +328,9 @@ const OnsTeam = () => {
                       cy="200"
                       rx="180"
                       ry="100"
-                      stroke="hsl(var(--border))"
-                      strokeWidth="0.8"
-                      opacity="0.4"
+                      stroke="hsl(var(--muted-foreground))"
+                      strokeWidth="1.5"
+                      opacity="0.35"
                       transform="rotate(-30 200 200)"
                     />
                     <ellipse
@@ -338,9 +338,9 @@ const OnsTeam = () => {
                       cy="200"
                       rx="170"
                       ry="90"
-                      stroke="hsl(var(--border))"
-                      strokeWidth="0.8"
-                      opacity="0.3"
+                      stroke="hsl(var(--muted-foreground))"
+                      strokeWidth="1.2"
+                      opacity="0.25"
                       transform="rotate(30 200 200)"
                     />
                     <ellipse
@@ -348,8 +348,8 @@ const OnsTeam = () => {
                       cy="200"
                       rx="160"
                       ry="80"
-                      stroke="hsl(var(--border))"
-                      strokeWidth="0.8"
+                      stroke="hsl(var(--muted-foreground))"
+                      strokeWidth="1"
                       opacity="0.2"
                       transform="rotate(90 200 200)"
                     />
@@ -357,8 +357,8 @@ const OnsTeam = () => {
 
                   {/* center logo mark */}
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="font-display font-black text-3xl text-foreground tracking-tighter">
-                      RF
+                    <span className="font-display font-black text-4xl text-primary tracking-tighter">
+                      RF<span className="text-foreground text-lg font-medium align-super ml-0.5">×AI</span>
                     </span>
                   </div>
 
