@@ -9,6 +9,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import Index from "./pages/Index.tsx";
 import OverOns from "./pages/OverOns.tsx";
 import SectorPage from "./pages/SectorPage.tsx";
+import SolutionPage from "./pages/SolutionPage.tsx";
 import FullSalesManagement from "./pages/FullSalesManagement.tsx";
 import FullServiceRecruitment from "./pages/FullServiceRecruitment.tsx";
 import Blog from "./pages/Blog.tsx";
@@ -60,6 +61,7 @@ const AnimatedRoutes = () => {
           <Route path="/" element={<Index />} />
           <Route path="/over-ons" element={<OverOns />} />
           <Route path="/sectoren/:slug" element={<SectorPage />} />
+          <Route path="/solutions/:slug" element={<SolutionPage />} />
           <Route path="/full-service-recruitment" element={<FullServiceRecruitment />} />
           <Route path="/full-sales-management" element={<FullSalesManagement />} />
           <Route path="/blog" element={<Blog />} />

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { sectors } from "@/data/sectors";
+import { solutions } from "@/data/solutions";
 import { supabase } from "@/integrations/supabase/client";
 
 interface RecentPost {
@@ -39,7 +40,7 @@ const Footer = () => {
     <footer className="border-t border-border bg-card/30">
       <div className="container mx-auto px-4 md:px-6">
         {/* 3-column grid */}
-        <div className="py-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+        <div className="py-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Sectoren */}
           <div>
             <p className="text-[11px] font-display font-semibold tracking-[0.2em] uppercase text-muted-foreground mb-4">
@@ -53,6 +54,24 @@ const Footer = () => {
                   className="text-sm text-muted-foreground hover:text-primary transition-colors"
                 >
                   {s.title}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* Solutions */}
+          <div>
+            <p className="text-[11px] font-display font-semibold tracking-[0.2em] uppercase text-muted-foreground mb-4">
+              Solutions
+            </p>
+            <div className="grid grid-cols-1 gap-2">
+              {solutions.map((s) => (
+                <Link
+                  key={s.slug}
+                  to={`/solutions/${s.slug}`}
+                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                >
+                  {s.navLabel}
                 </Link>
               ))}
             </div>
