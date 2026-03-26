@@ -17,6 +17,7 @@ const navLinks = [
 const kennisLinks = [
   { href: "/blog", label: "Blog", description: "Artikelen & inzichten" },
   { href: "/over-ons", label: "Over Ons", description: "Het team achter B2BGroeiMachine" },
+  { href: "/brandstory", label: "Brandstory", description: "Ons verhaal & visie" },
 ];
 
 const Navbar = () => {
