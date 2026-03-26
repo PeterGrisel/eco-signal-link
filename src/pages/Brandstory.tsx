@@ -38,7 +38,7 @@ const Brandstory = () => {
     <div className="min-h-screen">
       <Navbar />
       {/* ── COVER ── */}
-      <section className="min-h-screen flex flex-col justify-between bg-background px-6 md:px-16 lg:px-[72px] py-14">
+      <section className="min-h-screen flex flex-col justify-between bg-background px-6 md:px-16 lg:px-[72px] pt-24 pb-14">
         <div className="flex justify-end items-start">
           <span className="text-xs font-display tracking-[0.12em] uppercase text-foreground/40">
             Brandstory
