@@ -184,7 +184,6 @@ const PricingSection = () => {
                 <ul className="space-y-2">
                   {[
                     "Commerciële data & AI-context gecentraliseerd",
-                    "Query-based inzichten (1.000+ vragen/maand)",
                     "Geen vendor lock-in, uw data blijft van u",
                     "Integratie met uw bestaande CRM en tools",
                   ].map((item) => (
