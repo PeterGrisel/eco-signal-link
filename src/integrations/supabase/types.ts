@@ -132,6 +132,7 @@ export type Database = {
           name: string
           phone: string | null
           selected_package: Json | null
+          session_id: string | null
         }
         Insert: {
           company?: string | null
@@ -142,6 +143,7 @@ export type Database = {
           name: string
           phone?: string | null
           selected_package?: Json | null
+          session_id?: string | null
         }
         Update: {
           company?: string | null
@@ -152,6 +154,7 @@ export type Database = {
           name?: string
           phone?: string | null
           selected_package?: Json | null
+          session_id?: string | null
         }
         Relationships: []
       }
