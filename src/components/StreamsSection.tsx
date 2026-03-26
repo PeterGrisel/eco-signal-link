@@ -1,5 +1,8 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
 import { sectors } from "@/data/sectors";
+import { solutions } from "@/data/solutions";
 
 
 const StreamsSection = () => {
