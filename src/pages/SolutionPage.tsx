@@ -1,4 +1,4 @@
-import { useParams, Navigate } from "react-router-dom";
+import { useParams, Navigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Check, ArrowRight } from "lucide-react";
@@ -9,6 +9,20 @@ import CtaSection from "@/components/CtaSection";
 import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 import { usePageMeta } from "@/hooks/usePageMeta";
 import { solutions } from "@/data/solutions";
+import { sectors } from "@/data/sectors";
+
+// Map solution slugs to relevant sector slugs
+const solutionSectorMap: Record<string, string[]> = {
+  "voorspelbare-pipeline": ["zakelijke-dienstverlening", "groothandel", "leasemaatschappijen", "financiele-sector"],
+  "outbound-automatisering": ["groothandel", "engineering", "maakindustrie", "opleiding-training"],
+  "commercieel-talent": ["zakelijke-dienstverlening", "financiele-sector", "profvoetbal"],
+  "data-gedreven-sales": ["leasemaatschappijen", "maakindustrie", "groothandel", "engineering"],
+  "schaalbaar-groeisysteem": ["zakelijke-dienstverlening", "opleiding-training", "financiele-sector", "maakindustrie"],
+  "internationaal-uitbreiden": ["maakindustrie", "engineering", "groothandel"],
+  "versnipperde-tools": ["zakelijke-dienstverlening", "groothandel", "opleiding-training", "leasemaatschappijen"],
+  "weg-uit-excel": ["groothandel", "maakindustrie", "zakelijke-dienstverlening", "opleiding-training"],
+  "gerichte-prospecting": ["profvoetbal", "leasemaatschappijen", "engineering", "financiele-sector"],
+};
 
 const fadeUp = {
   initial: { opacity: 0, y: 20 },
@@ -184,6 +198,54 @@ const SolutionPage = () => {
             </motion.div>
           </div>
         </section>
+
+        {/* Related Sectors */}
+        {(() => {
+          const relatedSlugs = solutionSectorMap[solution.slug] || [];
+          const relatedSectors = relatedSlugs
+            .map((s) => sectors.find((sec) => sec.slug === s))
+            .filter(Boolean);
+          if (relatedSectors.length === 0) return null;
+          return (
+            <section className="py-24 border-t border-border">
+              <div className="container mx-auto px-6">
+                <motion.div {...fadeUp} className="max-w-2xl mb-12">
+                  <p className="text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4">
+                    Sectoren
+                  </p>
+                  <h2 className="font-display font-bold text-3xl md:text-4xl tracking-tight">
+                    Werkt in <span className="text-gradient">uw branche.</span>
+                  </h2>
+                </motion.div>
+                <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                  {relatedSectors.map((sector, i) => (
+                    <motion.div
+                      key={sector!.slug}
+                      initial={{ opacity: 0, y: 12 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.4, delay: i * 0.08 }}
+                    >
+                      <Link
+                        to={`/sectoren/${sector!.slug}`}
+                        className="card-gradient border border-glow rounded-lg p-6 hover:border-primary/30 transition-colors group block h-full"
+                      >
+                        <sector.icon className="w-7 h-7 text-primary mb-4" />
+                        <h3 className="font-display font-bold text-lg mb-2 group-hover:text-primary transition-colors">
+                          {sector!.title}
+                        </h3>
+                        <p className="text-muted-foreground text-sm leading-relaxed mb-3">{sector!.description}</p>
+                        <span className="inline-flex items-center gap-1 text-sm font-medium text-primary group-hover:gap-2 transition-all">
+                          Bekijk sector <ArrowRight className="w-3.5 h-3.5" />
+                        </span>
+                      </Link>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </section>
+          );
+        })()}
 
         <CtaSection />
         <Footer />
