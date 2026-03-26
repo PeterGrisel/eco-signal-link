@@ -1,35 +1,90 @@
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { trackCTA } from "@/lib/tracking";
 import teamBanner from "@/assets/team-banner.jpg";
 
+const rotatingWords = ["klanten.", "recruitment.", "partners.", "expansie."];
+
+const stats = [
+  { value: "147", suffix: "+", label: "Campagnes gelanceerd" },
+  { value: "3.2", suffix: "M", label: "Berichten verzonden" },
+  { value: "89", suffix: "%", label: "Respons binnen 48u" },
+];
+
+const AnimatedCounter = ({ value, suffix }: { value: string; suffix: string }) => {
+  const [count, setCount] = useState(0);
+  const numericPart = parseFloat(value);
+  const isDecimal = value.includes(".");
+
+  useEffect(() => {
+    const duration = 2000;
+    const steps = 60;
+    const increment = numericPart / steps;
+    let current = 0;
+    const timer = setInterval(() => {
+      current += increment;
+      if (current >= numericPart) {
+        setCount(numericPart);
+        clearInterval(timer);
+      } else {
+        setCount(current);
+      }
+    }, duration / steps);
+    return () => clearInterval(timer);
+  }, [numericPart]);
+
+  return (
+    <span className="font-display font-bold text-2xl md:text-3xl text-primary tabular-nums">
+      {isDecimal ? count.toFixed(1) : Math.floor(count)}
+      {suffix}
+    </span>
+  );
+};
+
 const Hero = () => {
+  const [wordIndex, setWordIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setWordIndex((prev) => (prev + 1) % rotatingWords.length);
+    }, 2500);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <section className="relative min-h-[85vh] lg:min-h-screen flex items-center pt-14 md:pt-16 overflow-hidden">
       {/* Background banner image */}
       <div className="absolute inset-0">
-        <img 
-          src={teamBanner} 
-          alt="Team Rebel Force" 
+        <img
+          src={teamBanner}
+          alt="Team Rebel Force"
           className="w-full h-full object-cover object-center"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/70 to-background/50" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/80 to-background/50" />
       </div>
-      
+
       {/* Glow effect */}
       <div className="absolute inset-0 glow-bg pointer-events-none" />
-      
+
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className="max-w-4xl">
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6 }}
-            className="text-primary font-display font-semibold text-xs md:text-sm tracking-[0.2em] uppercase mb-4 md:mb-6"
+          {/* Social proof pill */}
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-primary/30 bg-primary/10 mb-6"
           >
-            Proces · Data · Resultaat
-          </motion.p>
-          
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
+            </span>
+            <span className="text-xs font-medium text-primary">
+              12 bedrijven gestart deze maand
+            </span>
+          </motion.div>
+
           <motion.h1
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -38,41 +93,77 @@ const Hero = () => {
           >
             Wij bouwen
             <br />
-            <span className="text-gradient">het systeem.</span>
+            <span className="text-gradient">het systeem</span>
             <br />
-            U plukt de vruchten.
+            voor uw{" "}
+            <span className="relative inline-block min-w-[5ch]">
+              <AnimatePresence mode="wait">
+                <motion.span
+                  key={wordIndex}
+                  initial={{ y: 30, opacity: 0, filter: "blur(4px)" }}
+                  animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
+                  exit={{ y: -30, opacity: 0, filter: "blur(4px)" }}
+                  transition={{ duration: 0.4 }}
+                  className="text-gradient inline-block"
+                >
+                  {rotatingWords[wordIndex]}
+                </motion.span>
+              </AnimatePresence>
+            </span>
           </motion.h1>
-          
+
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.3 }}
             className="text-muted-foreground text-base md:text-xl max-w-2xl mb-8 md:mb-10 leading-relaxed"
           >
-            Een voorspelbaar groeiproces dat data oplevert. Met die data optimaliseert u continu 
-            en stuurt u gerichter. Voor klanten, recruitment, partners of internationale expansie.
+            Een voorspelbaar groeiproces dat data oplevert. Met die data optimaliseert u continu
+            en stuurt u gerichter.
           </motion.p>
-          
+
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="flex flex-wrap gap-4"
+            className="flex flex-wrap gap-4 mb-12 md:mb-16"
           >
-            <Button variant="hero" size="lg" asChild>
-              <a href="https://app.usemotion.com/meet/Rebel-Force/meeting" target="_blank" rel="noopener noreferrer"
-                onClick={() => trackCTA("Hero — Plan een Demo", "https://app.usemotion.com/meet/Rebel-Force/meeting")}>
-                Plan een Demo →
+            <Button variant="hero" size="lg" className="relative group" asChild>
+              <a
+                href="https://app.usemotion.com/meet/Rebel-Force/meeting"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() =>
+                  trackCTA(
+                    "Hero — Plan een Gesprek",
+                    "https://app.usemotion.com/meet/Rebel-Force/meeting"
+                  )
+                }
+              >
+                <span className="absolute inset-0 rounded-md bg-primary/20 animate-pulse group-hover:animate-none" />
+                Plan een Gesprek →
               </a>
             </Button>
             <Button variant="heroOutline" size="lg" asChild>
-              <a href="#hoe-het-werkt">
-                Hoe het werkt
-              </a>
+              <a href="#hoe-het-werkt">Hoe het werkt</a>
             </Button>
           </motion.div>
-        </div>
 
+          {/* Animated stats bar */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.7 }}
+            className="flex flex-wrap gap-8 md:gap-12 border-t border-border/30 pt-6"
+          >
+            {stats.map((stat) => (
+              <div key={stat.label} className="flex flex-col">
+                <AnimatedCounter value={stat.value} suffix={stat.suffix} />
+                <span className="text-xs text-muted-foreground mt-1">{stat.label}</span>
+              </div>
+            ))}
+          </motion.div>
+        </div>
       </div>
     </section>
   );
