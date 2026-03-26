@@ -34,7 +34,7 @@ const AdminIndexing = () => {
     const [reqRes, postsRes, sitemapRes] = await Promise.all([
       supabase.from("indexing_requests").select("*").order("created_at", { ascending: false }),
       supabase.from("blog_posts").select("slug, title").eq("status", "published"),
-      supabase.functions.invoke("sitemap", { body: {}, method: "GET" }),
+      supabase.functions.invoke("sitemap", { method: "GET" }),
     ]);
     if (reqRes.data) setRequests(reqRes.data);
     if (postsRes.data) setBlogPosts(postsRes.data);
