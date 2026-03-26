@@ -52,7 +52,7 @@ serve(async (req) => {
     const ctaButtonText = settings.cta_button_text || "";
     const ctaNote = settings.cta_note || "";
     const wordCount = length === "kort" ? 800 : length === "lang" ? 2500 : 1500;
-    const siteUrl = settings.site_url || "https://b2bgroeimachine.nl";
+    const siteUrl = settings.site_url || "https://b2bgroeimachine.io";
 
     // Build internal links context
     const internalLinksContext = existingPosts.length > 0

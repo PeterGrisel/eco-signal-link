@@ -69,15 +69,15 @@ const OverOns = () => {
   usePageMeta({
     title: "Over Ons — B2BGroeiMachine",
     description: "Maak kennis met het team achter B2BGroeiMachine. Rebel Force, AI-FCTRY en RebelHub bundelen krachten voor schaalbare B2B groei.",
-    canonical: "https://eco-signal-link.lovable.app/over-ons",
+    canonical: "https://b2bgroeimachine.io/over-ons",
   });
 
   return (
     <PageLoader>
     <div className="min-h-screen">
       <BreadcrumbJsonLd items={[
-        { name: "Home", url: "https://eco-signal-link.lovable.app/" },
-        { name: "Over Ons", url: "https://eco-signal-link.lovable.app/over-ons" },
+        { name: "Home", url: "https://b2bgroeimachine.io/" },
+        { name: "Over Ons", url: "https://b2bgroeimachine.io/over-ons" },
       ]} />
       <Navbar />
 

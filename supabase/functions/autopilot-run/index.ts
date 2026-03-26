@@ -306,7 +306,7 @@ serve(async (req) => {
 
         if (post?.slug) {
           const { data: settings } = await supabase.from("seo_settings").select("config").limit(1).single();
-          const siteUrl = (settings?.config as any)?.site_url || "https://b2bgroeimachine.nl";
+          const siteUrl = (settings?.config as any)?.site_url || "https://b2bgroeimachine.io";
           const fullUrl = `${siteUrl}/blog/${post.slug}`;
 
           // Insert indexing request

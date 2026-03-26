@@ -40,7 +40,7 @@ serve(async (req) => {
     let baseUrl = site_url;
     if (!baseUrl) {
       const { data: settings } = await supabase.from("seo_settings").select("config").limit(1).single();
-      baseUrl = (settings?.config as any)?.site_url || "https://b2bgroeimachine.nl";
+      baseUrl = (settings?.config as any)?.site_url || "https://b2bgroeimachine.io";
     }
     baseUrl = baseUrl.replace(/\/$/, "");
 
