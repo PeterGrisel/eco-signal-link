@@ -3,24 +3,6 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const SITE_URL = "https://b2bgroeimachine.io";
 
-const STATIC_PAGES = [
-  { loc: "/", changefreq: "weekly", priority: "1.0" },
-  { loc: "/over-ons", changefreq: "monthly", priority: "0.8" },
-  { loc: "/full-service-recruitment", changefreq: "monthly", priority: "0.8" },
-  { loc: "/full-sales-management", changefreq: "monthly", priority: "0.7" },
-  { loc: "/blog", changefreq: "daily", priority: "0.9" },
-  { loc: "/pricing", changefreq: "monthly", priority: "0.8" },
-  { loc: "/contact", changefreq: "monthly", priority: "0.7" },
-  { loc: "/sectoren/profvoetbal", changefreq: "monthly", priority: "0.7" },
-  { loc: "/sectoren/groothandel", changefreq: "monthly", priority: "0.7" },
-  { loc: "/sectoren/leasemaatschappijen", changefreq: "monthly", priority: "0.7" },
-  { loc: "/sectoren/engineering", changefreq: "monthly", priority: "0.7" },
-  { loc: "/sectoren/zakelijke-dienstverlening", changefreq: "monthly", priority: "0.7" },
-  { loc: "/sectoren/financiele-sector", changefreq: "monthly", priority: "0.7" },
-  { loc: "/sectoren/maakindustrie", changefreq: "monthly", priority: "0.7" },
-  { loc: "/sectoren/opleiding-training", changefreq: "monthly", priority: "0.7" },
-];
-
 serve(async (req) => {
   const corsHeaders = {
     "Access-Control-Allow-Origin": "*",
@@ -36,6 +18,13 @@ serve(async (req) => {
     const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const supabase = createClient(supabaseUrl, supabaseKey);
 
+    // Fetch active site pages from database
+    const { data: sitePages } = await supabase
+      .from("site_pages")
+      .select("path, changefreq, priority")
+      .eq("is_active", true)
+      .order("priority", { ascending: false });
+
     // Fetch published blog posts
     const { data: posts } = await supabase
       .from("blog_posts")
@@ -48,14 +37,16 @@ serve(async (req) => {
     let xml = `<?xml version="1.0" encoding="UTF-8"?>\n`;
     xml += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
 
-    // Static pages
-    for (const page of STATIC_PAGES) {
-      xml += `  <url>\n`;
-      xml += `    <loc>${SITE_URL}${page.loc}</loc>\n`;
-      xml += `    <lastmod>${today}</lastmod>\n`;
-      xml += `    <changefreq>${page.changefreq}</changefreq>\n`;
-      xml += `    <priority>${page.priority}</priority>\n`;
-      xml += `  </url>\n`;
+    // Static pages from database
+    if (sitePages) {
+      for (const page of sitePages) {
+        xml += `  <url>\n`;
+        xml += `    <loc>${SITE_URL}${page.path}</loc>\n`;
+        xml += `    <lastmod>${today}</lastmod>\n`;
+        xml += `    <changefreq>${page.changefreq}</changefreq>\n`;
+        xml += `    <priority>${page.priority}</priority>\n`;
+        xml += `  </url>\n`;
+      }
     }
 
     // Blog posts
@@ -73,11 +64,11 @@ serve(async (req) => {
 
     xml += `</urlset>`;
 
-    // Check if request wants JSON (for admin dashboard)
+    // JSON format for admin dashboard
     const url = new URL(req.url);
     if (url.searchParams.get("format") === "json") {
       const allUrls = [
-        ...STATIC_PAGES.map(p => ({ url: `${SITE_URL}${p.loc}`, type: "static" as const })),
+        ...(sitePages || []).map(p => ({ url: `${SITE_URL}${p.path}`, type: "static" as const })),
         ...(posts || []).map(p => ({ url: `${SITE_URL}/blog/${p.slug}`, type: "blog" as const })),
       ];
       return new Response(JSON.stringify({ urls: allUrls, total: allUrls.length }), {
