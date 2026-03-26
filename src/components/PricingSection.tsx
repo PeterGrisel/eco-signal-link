@@ -1,7 +1,29 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Check, Plus, Users, Briefcase, Database, ArrowDown, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+
+type CommitmentPeriod = "6" | "12";
+
+const packages = [
+  {
+    label: "Startpakket",
+    hours: 10,
+    rates: { "6": 100, "12": 90 },
+  },
+  {
+    label: "Meest gekozen",
+    hours: 20,
+    highlight: true,
+    rates: { "6": 90, "12": 81 },
+  },
+  {
+    label: "Maximale output",
+    hours: 40,
+    rates: { "6": 80, "12": 72 },
+  },
+];
 
 const baseFeatures = [
   "Klantwerving en recruitment tegelijk",
@@ -102,69 +124,7 @@ const PricingSection = () => {
         <StepDivider />
 
         {/* STEP 2 — Engagement Hours */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-50px" }}
-          transition={{ duration: 0.5 }}
-        >
-          <StepBadge step={2} label="Optioneel: engagement-uren" />
-          <div className="card-gradient border border-glow rounded-lg p-5 md:p-8">
-            <div className="mb-6">
-              <div className="flex items-center gap-3 mb-2">
-              <div className="flex items-baseline gap-1">
-                  <span className="font-display font-bold text-4xl">€80–€100</span>
-                  <span className="text-muted-foreground text-sm">/uur</span>
-                </div>
-                <span className="text-[10px] font-display font-semibold text-primary bg-primary/10 px-2 py-0.5 rounded-full uppercase tracking-wider">
-                  Optioneel
-                </span>
-              </div>
-               <p className="text-muted-foreground text-sm">
-                Persoonlijke opvolging en kwalificatie voor beide stromen
-               </p>
-            </div>
-
-            <div className="grid sm:grid-cols-3 gap-4">
-              {[
-                { hours: "10 uur", rate: "€100", discountRate: "€90", saving: "10%", label: "Startpakket" },
-                { hours: "20 uur", rate: "€90", discountRate: "€81", saving: "10%", label: "Meest gekozen", highlight: true },
-                { hours: "40 uur", rate: "€80", discountRate: "€72", saving: "10%", label: "Maximale output" },
-              ].map((pkg) => (
-                <div
-                  key={pkg.hours}
-                  className={`rounded-lg p-5 border text-center ${
-                    pkg.highlight
-                      ? "border-primary/40 bg-primary/5"
-                      : "border-border bg-secondary/50"
-                  }`}
-                >
-                  {pkg.highlight && (
-                    <span className="text-[10px] font-display font-bold text-primary tracking-[0.1em] uppercase">
-                      Populair
-                    </span>
-                  )}
-                  <p className="font-display font-bold text-3xl mt-1">{pkg.hours}</p>
-                  <p className="text-muted-foreground text-xs mt-1">/maand</p>
-
-                  <div className="mt-4 space-y-2">
-                    <div className="text-sm text-muted-foreground">
-                      6 maanden: <span className="text-foreground font-semibold">{pkg.rate}</span><span className="text-muted-foreground">/uur</span>
-                    </div>
-                    <div className="text-sm">
-                      12 maanden: <span className="text-foreground font-bold">{pkg.discountRate}</span><span className="text-muted-foreground">/uur</span>
-                      <span className="ml-1.5 text-[10px] font-bold text-green-400 bg-green-400/10 px-1.5 py-0.5 rounded-full">
-                        -{pkg.saving}
-                      </span>
-                    </div>
-                  </div>
-
-                  <p className="text-[10px] text-muted-foreground mt-3 italic">{pkg.label}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </motion.div>
+        <EngagementStep />
 
         <StepDivider />
 
