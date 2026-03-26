@@ -33,18 +33,18 @@ const ResultsSection = () => {
             {[
               {
                 icon: Puzzle,
-                title: "100% toolagnostisch",
-                text: "Wij werken met uw bestaande CRM, mailtools en LinkedIn. Geen duur platform dat u moet afnemen; wij integreren wat werkt voor uw situatie.",
+                title: "Werkt met uw tools",
+                text: "Wij gebruiken uw CRM, e-mail en LinkedIn. Geen duur platform nodig. Wij passen in wat u al heeft.",
               },
               {
                 icon: Repeat,
-                title: "Opzetten of overnemen, uw keuze",
-                text: "Wij bouwen het systeem en beheren het volledig, óf we zetten alles op, trainen uw team en dragen het over. Geen afhankelijkheid.",
+                title: "Opzetten of overnemen",
+                text: "Wij bouwen het systeem en beheren het. Of we zetten het op, trainen uw team en dragen het over. U kiest.",
               },
               {
                 icon: ShieldCheck,
                 title: "Uw domein blijft veilig",
-                text: "Subdomein-architectuur, toegewezen IP-adressen en opwarmprotocollen. Maximaal 10 tot 15 mails per dag per adres. Uitsluitend geverifieerde e-mailadressen.",
+                text: "Aparte e-mailadressen, eigen IP-adressen en een rustig opwarmproces. Maximaal 10 tot 15 mails per dag per adres.",
               },
             ].map((item, i) => (
               <div key={i} className="border-l-2 border-primary/30 pl-6">
@@ -69,15 +69,14 @@ const ResultsSection = () => {
             </p>
             <div className="space-y-6">
               {[
-                "Volledige funnel-infrastructuur",
-                "Parallelle stromen (klant + recruitment)",
-                "Signaalmonitoring & intent-scoring",
-                "Persoonlijke omnichannel outreach",
-                
-                "Tweewekelijkse rapportage & pipeline-inzicht",
-                "Integratie met uw bestaande tools",
-                "Domeinbescherming & compliance",
-                "Heractivering van warme contacten",
+                "Complete aanpak van begin tot eind",
+                "Twee stromen tegelijk: klanten en recruitment",
+                "Signalen volgen en interesse meten",
+                "Persoonlijk contact via e-mail en LinkedIn",
+                "Elke twee weken een helder overzicht",
+                "Werkt met uw bestaande tools",
+                "Uw domein blijft beschermd",
+                "Warme contacten worden niet vergeten",
               ].map((item) => (
                 <div key={item} className="flex items-center gap-3">
                   <div className="w-2 h-2 rounded-full bg-primary shrink-0" />
@@ -110,18 +109,18 @@ const ResultsSection = () => {
           {[
             {
               icon: BarChart3,
-              title: "KPI-Gedreven",
-              description: "Primaire KPI: gekwalificeerde gesprekken. Secundair: antwoordpercentages, engagement-scores, conversie per doelgroep en kanaal.",
+              title: "Meetbaar resultaat",
+              description: "Ons belangrijkste doel: gesprekken met de juiste mensen. Daarnaast meten we reacties, betrokkenheid en welke aanpak het beste werkt.",
             },
             {
               icon: ShieldCheck,
-              title: "Merkbescherming",
-              description: "Wij gebruiken nooit uw hoofddomein voor outbound. Geen hoog-volume spam, geen herhaalde benaderingen, geen aangekochte lijsten. Alles traceerbaar.",
+              title: "Uw naam wordt beschermd",
+              description: "Wij gebruiken nooit uw hoofddomein. Geen spam, geen herhaalde berichten, geen gekochte lijsten. Alles is traceerbaar.",
             },
             {
               icon: Clock,
-              title: "Lange Termijn Waarde",
-              description: "Contacten die nu 'nog niet' zeggen worden automatisch warm gehouden. Zo groeit uw pipeline gestaag zonder namen te verbranden in uw markt.",
+              title: "Langetermijnwaarde",
+              description: "Mensen die nu 'nog niet' zeggen, houden we warm. Zo groeit uw lijst met kansen, zonder namen te verbranden.",
             },
           ].map((item, i) => (
             <motion.div

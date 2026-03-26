@@ -6,38 +6,38 @@ import datahubScreenshot from "@/assets/datahub-screenshot.png";
 const features = [
   {
     icon: MessageCircleQuestion,
-    title: "Stel direct vragen aan uw data",
-    description: "Welke doelgroep converteert het best? Welk kanaal levert de meeste gesprekken op? Uw commerciële data geeft het antwoord.",
+    title: "Stel vragen aan uw data",
+    description: "Welke doelgroep levert de meeste klanten? Welk kanaal werkt het best? Uw data geeft het antwoord.",
   },
   {
     icon: Database,
     title: "Alle data op één plek",
-    description: "Contacthistorie, campagneresultaten, signalen en kwalificatiedata gebundeld in uw eigen omgeving.",
+    description: "Contacten, campagnes, signalen en resultaten. Alles gebundeld in uw eigen omgeving.",
   },
   {
     icon: Brain,
-    title: "AI Context Centrum",
-    description: "Elk gesprek, signaal en resultaat bouwt context op. Hoe langer het draait, hoe slimmer uw AI-modellen sturen en personaliseren.",
+    title: "AI wordt steeds slimmer",
+    description: "Elk gesprek en resultaat voegt context toe. Hoe langer het draait, hoe beter de AI werkt.",
   },
   {
     icon: ShieldCheck,
-    title: "AI Governance ingebouwd",
-    description: "Volledige controle over welke data AI mag gebruiken. Transparante besluitvorming, audittrails en GDPR-conforme dataverwerking.",
+    title: "U bepaalt wat AI mag zien",
+    description: "Volledige controle over welke data AI gebruikt. Transparant, veilig en GDPR-proof.",
   },
   {
     icon: Cpu,
-    title: "Klaar voor full AI Automation",
-    description: "De eerste stappen naar veilige AI-automatisering. Van scoring tot opvolging: bouw gecontroleerd op richting autonome workflows.",
+    title: "Klaar voor AI-automatisering",
+    description: "Van scoring tot opvolging: bouw stap voor stap richting automatische workflows.",
   },
   {
     icon: RefreshCw,
-    title: "Doelgericht automatiseren",
-    description: "Gebruik opgebouwde context om vervolgacties, nurturing en scoring volledig te automatiseren.",
+    title: "Automatisch opvolgen",
+    description: "Gebruik uw data om vervolgacties en opvolging automatisch te laten lopen.",
   },
   {
     icon: Lock,
-    title: "Volledig in uw eigendom",
-    description: "Geen vendor lock-in. De data, inzichten en modellen blijven van u, ongeacht de samenwerking.",
+    title: "Alles blijft van u",
+    description: "Geen verplichtingen. De data, inzichten en modellen zijn van u. Altijd.",
   },
 ];
 
@@ -54,15 +54,15 @@ const DatahubSection = () => {
           className="mb-16 max-w-2xl"
         >
           <p className="text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4">
-            Ons SaaS Metadataplatform
+            Ons dataplatform
           </p>
           <h2 className="font-display font-bold text-3xl md:text-5xl lg:text-6xl tracking-tight leading-tight">
             Datahub.
             <br />
-            <span className="text-gradient">Uw commerciële geheugen.</span>
+            <span className="text-gradient">Uw commercieel geheugen.</span>
           </h2>
           <p className="text-muted-foreground mt-6 text-lg leading-relaxed max-w-xl">
-            Wij bouwen met processen en automation. De context die ontstaat stelt u in staat om nog verder met AI te werken.
+            Alle data uit uw campagnes op één plek. Zo kunt u met AI steeds slimmer werken.
           </p>
         </motion.div>
 

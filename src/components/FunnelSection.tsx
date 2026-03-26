@@ -12,55 +12,55 @@ const steps = [
     icon: Settings,
     title: "Infrastructuur opzetten",
     description:
-      "Subdomeinen, mailboxen, LinkedIn-profielen en CRM-koppelingen. Alles wordt technisch ingericht zodat uw domeinreputatie beschermd blijft.",
+      "Wij maken alles klaar: e-mailadressen, LinkedIn en CRM. Uw hoofddomein blijft beschermd.",
     mockup: null,
   },
   {
     number: "02",
     icon: Search,
-    title: "ICP-targeting & lead database",
+    title: "Uw ideale klant vinden",
     description:
-      "We brengen uw ideale klantprofiel in kaart en bouwen een database van duizenden matches. Continu aangevuld met verse data.",
+      "Wij bepalen wie uw beste klanten zijn. Daarna bouwen we een lijst met duizenden matches. Elke week komen er nieuwe bij.",
     mockup: "apollo",
   },
   {
     number: "03",
     icon: Zap,
-    title: "Signaaldetectie & scoring",
+    title: "Signalen herkennen",
     description:
-      "Functiewijzigingen, funding rounds, hiring signalen, websitebezoek — we monitoren alles en scoren elke prospect op koopintentie.",
+      "Iemand wisselt van baan, een bedrijf groeit, of bezoekt uw website. Wij zien het en scoren elke prospect op interesse.",
     mockup: "signals",
   },
   {
     number: "04",
     icon: Mail,
-    title: "Multi-channel outreach",
+    title: "E-mail outreach",
     description:
-      "Geautomatiseerde e-mail sequenties over meerdere subdomeinen. A/B testing op messaging, timing en onderwerpregels voor maximale respons.",
+      "We sturen persoonlijke e-mails via meerdere adressen. We testen welke tekst, timing en onderwerpregel het beste werkt.",
     mockup: "instantly",
   },
   {
     number: "05",
     icon: Linkedin,
-    title: "LinkedIn engagement",
+    title: "LinkedIn contact",
     description:
-      "Connectieverzoeken, profielbezoeken en berichten — allemaal geautomatiseerd binnen veilige limieten. Social selling op schaal.",
+      "Connectieverzoeken, profielbezoeken en berichten. Alles binnen veilige limieten. Zo bereikt u meer mensen zonder risico.",
     mockup: "linkedin",
   },
   {
     number: "06",
     icon: Target,
-    title: "Kwalificatie & overdracht",
+    title: "Kwalificatie",
     description:
-      "Warme leads worden handmatig gekwalificeerd. Alleen prospects met echte intent en ICP-match komen in uw agenda.",
+      "Wij beoordelen elke reactie. Alleen gesprekken met echte interesse en de juiste match komen in uw agenda.",
     mockup: null,
   },
   {
     number: "07",
     icon: LayoutDashboard,
-    title: "Pipeline & rapportage",
+    title: "Resultaten in uw CRM",
     description:
-      "Alles synct naar uw CRM. Volledige pipeline-visibility, van eerste touchpoint tot gesloten deal. Data-gedreven optimalisatie elke 4 weken.",
+      "Alles staat in uw eigen CRM. U ziet precies wat er speelt: van eerste contact tot getekende deal.",
     mockup: "hubspot",
   },
 ];
@@ -92,14 +92,13 @@ const FunnelSection = () => {
             Het volledige proces
           </p>
           <h2 className="font-display font-bold text-3xl md:text-5xl lg:text-6xl tracking-tight leading-tight mb-6">
-            Van ICP tot gesprek,
+            Van onbekend tot gesprek,
             <br />
             <span className="text-gradient">stap voor stap.</span>
           </h2>
           <p className="text-muted-foreground text-lg leading-relaxed">
-            Elke stap is geautomatiseerd, geoptimaliseerd en meetbaar. 
-            Hieronder ziet u precies hoe het systeem werkt — met voorbeelden 
-            uit de tools die wij dagelijks voor u inzetten.
+            Elke stap is meetbaar. Hieronder ziet u precies hoe het werkt,
+            met voorbeelden uit de tools die wij voor u gebruiken.
           </p>
         </motion.div>
 

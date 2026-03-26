@@ -17,13 +17,13 @@ const StreamsSection = () => {
             Eén systeem. Elke sector.
           </p>
           <h2 className="font-display font-bold text-3xl md:text-5xl lg:text-6xl tracking-tight leading-tight mb-6">
-            Bewezen in
+            Werkt in
             <br />
-            <span className="text-gradient">diverse branches.</span>
+            <span className="text-gradient">elke branche.</span>
           </h2>
           <p className="text-muted-foreground text-lg leading-relaxed">
-            Dezelfde motor, aangepast aan uw markt. Van profvoetbal tot engineering — 
-            wij bouwen de outreach die past bij uw sector en doelgroep.
+            Dezelfde aanpak, afgestemd op uw markt. Van profvoetbal tot engineering:
+            wij weten hoe we uw doelgroep bereiken.
           </p>
         </motion.div>
 

@@ -3,33 +3,33 @@ import { ArrowRight, RefreshCw, Send } from "lucide-react";
 
 const steps = [
   {
-    phase: "Week 1‑2",
-    title: "Analyse & Architectuur",
+    phase: "Week 1 tot 2",
+    title: "Analyse en opzet",
     items: [
-      "ICP-mapping voor elke stroom",
-      "Toolselectie op basis van uw stack",
-      "Subdomein-architectuur opzetten",
-      "CRM-integratie & dashboards",
+      "Uw ideale klant bepalen",
+      "De juiste tools kiezen",
+      "E-mail en LinkedIn klaarzetten",
+      "CRM koppelen en dashboards inrichten",
     ],
   },
   {
-    phase: "Week 3‑4",
-    title: "Campagne Launch",
+    phase: "Week 3 tot 4",
+    title: "Eerste campagnes live",
     items: [
-      "Signaaldatabases activeren",
-      "Eerste outreach-sequenties live",
-      "A/B tests op messaging",
-      "Monitoring & optimalisatie",
+      "Signalen activeren",
+      "Eerste berichten versturen",
+      "Testen welke aanpak het beste werkt",
+      "Resultaten bijhouden en bijsturen",
     ],
   },
   {
-    phase: "Maand 2+",
-    title: "Schaal & Optimaliseer",
+    phase: "Maand 2 en verder",
+    title: "Opschalen",
     items: [
-      "Pipeline-analyse & bijsturing",
-      "Nurturing van warme contacten",
-      "Nieuwe stromen activeren",
-      "Engagement-uren opschalen",
+      "Resultaten analyseren en verbeteren",
+      "Warme contacten opvolgen",
+      "Nieuwe doelgroepen toevoegen",
+      "Meer uren inzetten waar het werkt",
     ],
   },
 ];
@@ -38,18 +38,18 @@ const deliveryModels = [
   {
     icon: Send,
     title: "Done-for-you",
-    subtitle: "Wij beheren het volledig",
+    subtitle: "Wij doen het voor u",
     description:
-      "U focust op gesprekken, wij runnen het systeem. Dagelijkse monitoring, optimalisatie en kwalificatie, alsof u een volledig outbound-team heeft zonder de overhead.",
-    tags: ["Dagelijks beheer", "Continue optimalisatie", "Kwalificatie & opvolging"],
+      "U focust op gesprekken voeren. Wij runnen het systeem, elke dag. Alsof u een heel team heeft, zonder de kosten.",
+    tags: ["Dagelijks beheer", "Elke maand beter", "Wij kwalificeren voor u"],
   },
   {
     icon: RefreshCw,
     title: "Build & Transfer",
     subtitle: "Wij bouwen, u neemt over",
     description:
-      "Wij zetten de volledige infrastructuur op, trainen uw team en dragen het systeem over. U behoudt eigenaarschap van alle tools, data en processen.",
-    tags: ["Volledige overdracht", "Teamtraining", "Documentatie & playbooks"],
+      "Wij zetten alles op, trainen uw team en dragen het over. U houdt alle tools en data zelf in handen.",
+    tags: ["Volledige overdracht", "Training voor uw team", "Handleiding en draaiboek"],
   },
 ];
 
@@ -122,10 +122,10 @@ const ProcessSection = () => {
           <h2 className="font-display font-bold text-3xl md:text-4xl lg:text-5xl tracking-tight leading-tight">
             Wij beheren, of
             <br />
-            <span className="text-gradient">u neemt het over.</span>
+            <span className="text-gradient">u doet het zelf.</span>
           </h2>
           <p className="text-muted-foreground mt-4 text-lg leading-relaxed">
-            Geen lock-in. Geen eigen platform dat u moet afnemen. Het systeem draait agnotisch; wij integreren wat werkt, vandaag en kijkend naar morgen
+            Geen verplichtingen. Geen eigen platform. Het systeem draait op uw tools. Wij passen in wat werkt.
           </p>
         </motion.div>
 
