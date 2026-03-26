@@ -103,8 +103,6 @@ const Hero = () => {
 };
 
 export default Hero;
-
-  return (
     <section className="relative min-h-[85vh] lg:min-h-screen flex items-center pt-14 md:pt-16 overflow-hidden">
       {/* Background banner image */}
       <div className="absolute inset-0">
