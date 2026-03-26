@@ -181,7 +181,27 @@ const BlogPost = () => {
               part.type === "infographic" ? (
                 <div key={i} className="not-prose">{renderInfographic(part.block)}</div>
               ) : (
-                <ReactMarkdown key={i} remarkPlugins={[remarkGfm]}>{part.content}</ReactMarkdown>
+                <ReactMarkdown
+                  key={i}
+                  remarkPlugins={[remarkGfm]}
+                  components={{
+                    a: ({ href, children, ...props }) => {
+                      const isExternal = href?.startsWith("http");
+                      return (
+                        <a
+                          href={href}
+                          {...props}
+                          className="text-primary font-medium underline underline-offset-2 hover:text-primary/80 transition-colors"
+                          {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                        >
+                          {children}
+                        </a>
+                      );
+                    },
+                  }}
+                >
+                  {part.content}
+                </ReactMarkdown>
               )
             )}
           </div>
