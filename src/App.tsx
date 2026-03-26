@@ -30,6 +30,7 @@ import AdminLeads from "./pages/admin/AdminLeads.tsx";
 import AdminAnalytics from "./pages/admin/AdminAnalytics.tsx";
 import AdminScripts from "./pages/admin/AdminScripts.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import TrackingScriptInjector from "./components/TrackingScriptInjector";
 
 const queryClient = new QueryClient();
 
