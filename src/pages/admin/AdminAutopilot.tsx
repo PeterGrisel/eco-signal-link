@@ -61,6 +61,21 @@ const AdminAutopilot = () => {
     setLoading(false);
   }, []);
 
+  // Load auto-publish from seo_settings
+  useEffect(() => {
+    const stored = localStorage.getItem("autopilot_auto_publish");
+    if (stored === "true") setAutoPublish(true);
+    
+    supabase.from("seo_settings").select("config").limit(1).single().then(({ data }) => {
+      if (data?.config && typeof data.config === "object" && !Array.isArray(data.config)) {
+        const cfg = data.config as Record<string, unknown>;
+        const val = !!cfg.auto_publish;
+        setAutoPublish(val);
+        localStorage.setItem("autopilot_auto_publish", String(val));
+      }
+    });
+  }, []);
+
   useEffect(() => { fetchQueue(); }, [fetchQueue]);
 
   // ═══════════════════════════════════════════
