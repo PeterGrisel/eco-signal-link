@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { trackCTA, trackNavClick } from "@/lib/tracking";
+import { solutions } from "@/data/solutions";
 
 const navLinks = [
   { href: "/#doelgroepen", label: "Doelgroepen" },
@@ -14,6 +15,12 @@ const navLinks = [
   { href: "/#resultaten", label: "Resultaten" },
 ];
 
+const solutionLinks = solutions.map((s) => ({
+  href: `/solutions/${s.slug}`,
+  label: s.navLabel,
+  description: s.description,
+}));
+
 const kennisLinks = [
   { href: "/blog", label: "Blog", description: "Artikelen & inzichten" },
   { href: "/over-ons", label: "Over Ons", description: "Het team achter B2BGroeiMachine" },
@@ -23,13 +30,19 @@ const kennisLinks = [
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [kennisOpen, setKennisOpen] = useState(false);
+  const [solutionsOpen, setSolutionsOpen] = useState(false);
   const [mobileKennisOpen, setMobileKennisOpen] = useState(false);
+  const [mobileSolutionsOpen, setMobileSolutionsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const solutionsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
         setKennisOpen(false);
+      }
+      if (solutionsRef.current && !solutionsRef.current.contains(e.target as Node)) {
+        setSolutionsOpen(false);
       }
     };
     document.addEventListener("mousedown", handleClick);
