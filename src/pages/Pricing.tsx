@@ -12,9 +12,9 @@ import {
 
 const engagementOptions = [
   { hours: 0, label: "Geen", price6: 0, price12: 0 },
-  { hours: 10, label: "10 uur", price6: 760, price12: 670 },
-  { hours: 20, label: "20 uur", price6: 1520, price12: 1340 },
-  { hours: 40, label: "40 uur", price6: 3040, price12: 2680 },
+  { hours: 10, label: "10 uur", price6: 760, price12: 700 },
+  { hours: 20, label: "20 uur", price6: 1440, price12: 1300 },
+  { hours: 40, label: "40 uur", price6: 2720, price12: 2400 },
 ];
 
 const Pricing = () => {
