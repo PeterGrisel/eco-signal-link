@@ -113,7 +113,7 @@ const PricingSection = () => {
             <div className="mb-6">
               <div className="flex items-center gap-3 mb-2">
               <div className="flex items-baseline gap-1">
-                  <span className="font-display font-bold text-4xl">€75–€100</span>
+                  <span className="font-display font-bold text-4xl">€80–€100</span>
                   <span className="text-muted-foreground text-sm">/uur</span>
                 </div>
                 <span className="text-[10px] font-display font-semibold text-primary bg-primary/10 px-2 py-0.5 rounded-full uppercase tracking-wider">
@@ -127,9 +127,9 @@ const PricingSection = () => {
 
             <div className="grid sm:grid-cols-3 gap-4">
               {[
-                { hours: "10 uur", rate: "€100", discountRate: "€90", saving: "10%", label: "Startpakket", commitLabel: "bij 12 maanden" },
-                { hours: "20 uur", rate: "€90", discountRate: "€82", saving: "18%", label: "Meest gekozen", highlight: true, commitLabel: "bij 12 maanden" },
-                { hours: "40 uur", rate: "€82", discountRate: "€75", saving: "25%", label: "Maximale output", commitLabel: "bij 12 maanden" },
+                { hours: "10 uur", rate: "€100", discountRate: "€90", saving: "10%", label: "Startpakket" },
+                { hours: "20 uur", rate: "€90", discountRate: "€81", saving: "10%", label: "Meest gekozen", highlight: true },
+                { hours: "40 uur", rate: "€80", discountRate: "€72", saving: "10%", label: "Maximale output" },
               ].map((pkg) => (
                 <div
                   key={pkg.hours}
