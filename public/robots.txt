@@ -13,4 +13,4 @@ Allow: /
 User-agent: *
 Allow: /
 
-Sitemap: https://b2bgroeimachine.io/sitemap.xml
+Sitemap: https://snymrcialncxkcsibkjv.supabase.co/functions/v1/sitemap
