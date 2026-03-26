@@ -25,7 +25,7 @@ const Pricing = () => {
   const [period, setPeriod] = useState<6 | 12>(6);
 
   const baseFee = 1500;
-  const datahubFee = datahub ? 500 : 0;
+  const datahubFee = datahub ? 499 : 0;
   const engFee = period === 6 ? engagementOptions[engagement].price6 : engagementOptions[engagement].price12;
   const monthlyTotal = baseFee + engFee + datahubFee;
 
