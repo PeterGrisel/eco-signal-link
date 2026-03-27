@@ -1,0 +1,1 @@
+DELETE FROM public.tracking_scripts WHERE id = '56c53a73-c088-49fa-b938-2484bd26022f';
