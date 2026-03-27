@@ -36,6 +36,7 @@ import AdminScripts from "./pages/admin/AdminScripts.tsx";
 import AdminOverview from "./pages/admin/AdminOverview.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import TrackingScriptInjector from "./components/TrackingScriptInjector";
+import WhatsAppButton from "./components/WhatsAppButton";
 
 const queryClient = new QueryClient();
 
@@ -102,6 +103,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <TrackingScriptInjector />
+      <WhatsAppButton />
       <BrowserRouter>
         <AnimatedRoutes />
       </BrowserRouter>
