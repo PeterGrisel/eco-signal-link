@@ -90,7 +90,10 @@ const BlogPost = () => {
 
   const publishDate = post.published_at || post.created_at;
   // Strip leading H1 from markdown to avoid duplicate title
-  const cleanContent = post.content.replace(/^\s*#\s+.+\n*/m, "");
+  const cleanContent = post.content
+    .replace(/^\s*#\s+.+\n*/m, "")
+    .replace(/\\$/gm, "")
+    .replace(/\\\n/g, "\n");
   const readTime = estimateReadTime(cleanContent);
   const isDraft = post.status === "draft";
 
