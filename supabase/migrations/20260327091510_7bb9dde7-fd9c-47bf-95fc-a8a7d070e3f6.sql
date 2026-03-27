@@ -1,0 +1,1 @@
+DROP FUNCTION IF EXISTS public.auto_index_on_publish() CASCADE;
