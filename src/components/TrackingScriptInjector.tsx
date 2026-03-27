@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
-const BLOCKED_SCRIPT_NAMES = new Set<string>();
+const APOLLO_TRACKER_NAME = "Apollo Tracker";
+const BLOCKED_SCRIPT_NAMES = new Set<string>([APOLLO_TRACKER_NAME]);
 const APOLLO_FORM_ENRICHMENT_NAME = "Apollo Form Enrichment";
 const APOLLO_PREHIDE_ID = "apollo-form-prehide-css";
 const APOLLO_SAFETY_WINDOW_MS = 15_000;
@@ -38,6 +39,44 @@ const removeApolloPrehideArtifacts = () => {
 const removeInjectedTrackingArtifacts = () => {
   document.querySelectorAll("[data-tracking]").forEach((node) => node.remove());
   removeApolloPrehideArtifacts();
+};
+
+const containsUnsafeApolloCode = (content: string) => {
+  const normalized = content.toLowerCase();
+
+  return (
+    normalized.includes("apollo.io/micro/website-tracker") ||
+    normalized.includes("tracker.iife.js") ||
+    normalized.includes("apollo-form-prehide-css") ||
+    (normalized.includes("apollo") && normalized.includes("visibility:hidden")) ||
+    (normalized.includes("apollo") && normalized.includes("visibility: hidden")) ||
+    (normalized.includes("apollo") && normalized.includes("opacity:0")) ||
+    (normalized.includes("apollo") && normalized.includes("opacity: 0"))
+  );
+};
+
+const shouldBlockTrackingScript = (scriptName: string, scriptContent: string) => {
+  if (BLOCKED_SCRIPT_NAMES.has(scriptName)) return true;
+
+  if (scriptName !== APOLLO_FORM_ENRICHMENT_NAME && containsUnsafeApolloCode(scriptContent)) {
+    return true;
+  }
+
+  return false;
+};
+
+const shouldBlockScriptTag = (tag: HTMLScriptElement, scriptName: string) => {
+  const src = (tag.getAttribute("src") || "").toLowerCase();
+  const content = (tag.textContent || "").toLowerCase();
+
+  if (BLOCKED_SCRIPT_NAMES.has(scriptName)) return true;
+  if (scriptName === APOLLO_FORM_ENRICHMENT_NAME) return false;
+
+  return (
+    src.includes("apollo.io") ||
+    src.includes("tracker.iife.js") ||
+    containsUnsafeApolloCode(content)
+  );
 };
 
 const isFullscreenOverlay = (element: HTMLElement) => {
@@ -160,6 +199,7 @@ const TrackingScriptInjector = () => {
       const isAdminRoute = pathname.startsWith("/admin");
 
       if (isPreviewHost || isAdminRoute) {
+        removeApolloPrehideArtifacts();
         return;
       }
 
@@ -172,8 +212,12 @@ const TrackingScriptInjector = () => {
       if (!scripts?.length) return;
 
       scripts
-        .filter((script) => !BLOCKED_SCRIPT_NAMES.has(script.name))
         .forEach((script) => {
+          if (shouldBlockTrackingScript(script.name, script.script_content)) {
+            console.warn(`[Tracking] Blocked unsafe script: ${script.name}`);
+            return;
+          }
+
           if (script.name === APOLLO_FORM_ENRICHMENT_NAME) {
             const cleanup = injectApolloFormEnrichment(script.script_content, script.name);
             if (cleanup) cleanupCallbacks.push(cleanup);
@@ -185,6 +229,11 @@ const TrackingScriptInjector = () => {
 
           const scriptTags = wrapper.querySelectorAll("script");
           scriptTags.forEach((tag) => {
+            if (shouldBlockScriptTag(tag, script.name)) {
+              console.warn(`[Tracking] Skipped blocked script tag from: ${script.name}`);
+              return;
+            }
+
             const newScript = document.createElement("script");
 
             Array.from(tag.attributes).forEach((attr) => {
