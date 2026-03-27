@@ -103,6 +103,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <TrackingScriptInjector />
+      <WhatsAppButton />
       <BrowserRouter>
         <AnimatedRoutes />
       </BrowserRouter>
