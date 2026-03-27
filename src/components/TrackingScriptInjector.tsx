@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
+const BLOCKED_SCRIPT_NAMES = new Set(["Apollo Form Enrichment"]);
+
 const removeInjectedTrackingArtifacts = () => {
   document.querySelectorAll("[data-tracking]").forEach((node) => node.remove());
   document.getElementById("apollo-form-prehide-css")?.remove();
@@ -27,39 +29,41 @@ const TrackingScriptInjector = () => {
 
       if (!scripts?.length) return;
 
-      scripts.forEach((script) => {
-        const wrapper = document.createElement("div");
-        wrapper.innerHTML = script.script_content;
+      scripts
+        .filter((script) => !BLOCKED_SCRIPT_NAMES.has(script.name))
+        .forEach((script) => {
+          const wrapper = document.createElement("div");
+          wrapper.innerHTML = script.script_content;
 
-        const scriptTags = wrapper.querySelectorAll("script");
-        scriptTags.forEach((tag) => {
-          const newScript = document.createElement("script");
+          const scriptTags = wrapper.querySelectorAll("script");
+          scriptTags.forEach((tag) => {
+            const newScript = document.createElement("script");
 
-          Array.from(tag.attributes).forEach((attr) => {
-            newScript.setAttribute(attr.name, attr.value);
+            Array.from(tag.attributes).forEach((attr) => {
+              newScript.setAttribute(attr.name, attr.value);
+            });
+
+            newScript.textContent = tag.textContent;
+            newScript.setAttribute("data-tracking", script.name);
+
+            if (script.location === "head") {
+              document.head.appendChild(newScript);
+            } else {
+              document.body.appendChild(newScript);
+            }
           });
 
-          newScript.textContent = tag.textContent;
-          newScript.setAttribute("data-tracking", script.name);
+          const nonScriptNodes = Array.from(wrapper.childNodes).filter(
+            (node) => !(node instanceof HTMLScriptElement)
+          );
 
-          if (script.location === "head") {
-            document.head.appendChild(newScript);
-          } else {
-            document.body.appendChild(newScript);
-          }
+          nonScriptNodes.forEach((node) => {
+            if (node instanceof HTMLElement) {
+              node.setAttribute("data-tracking", script.name);
+              document.body.appendChild(node);
+            }
+          });
         });
-
-        const nonScriptNodes = Array.from(wrapper.childNodes).filter(
-          (node) => !(node instanceof HTMLScriptElement)
-        );
-
-        nonScriptNodes.forEach((node) => {
-          if (node instanceof HTMLElement) {
-            node.setAttribute("data-tracking", script.name);
-            document.body.appendChild(node);
-          }
-        });
-      });
     };
 
     injectScripts();
