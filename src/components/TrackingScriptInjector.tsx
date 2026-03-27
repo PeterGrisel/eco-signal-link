@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
-const BLOCKED_SCRIPT_NAMES = new Set(["Apollo Form Enrichment"]);
+const BLOCKED_SCRIPT_NAMES = new Set<string>();
 
 const removeInjectedTrackingArtifacts = () => {
   document.querySelectorAll("[data-tracking]").forEach((node) => node.remove());
