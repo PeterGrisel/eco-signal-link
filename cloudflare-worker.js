@@ -12,19 +12,40 @@ const BOT_AGENTS = [
   'mediapartners-google', 'adsbot-google'
 ];
 
+// AI crawler user-agents (tracked separately for AI visibility metrics)
+const AI_AGENTS = [
+  'chatgpt-user', 'gptbot', 'oai-searchbot',
+  'perplexitybot',
+  'claudebot', 'claude-web',
+  'google-extended',
+  'cohere-ai', 'cohere-training',
+  'anthropic-ai',
+  'youbot',
+  'ccbot',
+  'meta-externalagent'
+];
+
 // Cache for prerendered content (in-memory, TTL: 1 hour)
 const prerenderCache = new Map();
 const PRERENDER_CACHE_TTL = 3600;
 
-function isBot(userAgent) {
-  if (!userAgent) return false;
+function classifyAgent(userAgent) {
+  if (!userAgent) return 'human';
   const ua = userAgent.toLowerCase();
-  // Check for major crawler patterns with word boundaries
-  return BOT_AGENTS.some(bot =>
-    ua.includes(` ${bot} `) ||
-    ua.includes(`/${bot}/`) ||
-    ua.includes(`-${bot}-`)
+
+  // Check AI crawlers first (more specific)
+  const isAi = AI_AGENTS.some(bot => ua.includes(bot));
+  if (isAi) return 'ai';
+
+  // Check traditional bots
+  const isTraditionalBot = BOT_AGENTS.some(bot =>
+    ua.includes(bot) ||
+    ua.includes(`/${bot}`) ||
+    ua.includes(`${bot}/`)
   );
+  if (isTraditionalBot) return 'bot';
+
+  return 'human';
 }
 
 function shouldSkipAsset(url) {
