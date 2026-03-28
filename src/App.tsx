@@ -20,6 +20,9 @@ import Datahub from "./pages/Datahub.tsx";
 import Brandstory from "./pages/Brandstory.tsx";
 import PipelineEquation from "./pages/PipelineEquation.tsx";
 import Contact from "./pages/Contact.tsx";
+import Privacy from "./pages/Privacy.tsx";
+import Terms from "./pages/Terms.tsx";
+import Cookies from "./pages/Cookies.tsx";
 import AdminLogin from "./pages/AdminLogin.tsx";
 import AdminBlog from "./pages/admin/AdminBlog.tsx";
 import AdminBlogEditor from "./pages/admin/AdminBlogEditor.tsx";
@@ -75,6 +78,9 @@ const AnimatedRoutes = () => {
           <Route path="/brandstory" element={<Brandstory />} />
           <Route path="/pipeline-equation" element={<PipelineEquation />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/privacy" element={<Privacy />} />
+          <Route path="/terms" element={<Terms />} />
+          <Route path="/cookies" element={<Cookies />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin/overview" element={<AdminOverview />} />
           <Route path="/admin/blog" element={<AdminBlog />} />

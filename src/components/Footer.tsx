@@ -175,7 +175,7 @@ const Footer = () => {
             <p className="text-muted-foreground/60 text-xs mt-0.5">Signal-Based Prospecting Systems</p>
           </div>
 
-          <nav className="flex items-center gap-6 text-sm">
+          <nav className="flex items-center gap-4 text-sm flex-wrap">
             <a href="https://rebelforce.nl" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">
               rebelforce.nl
             </a>
@@ -187,6 +187,12 @@ const Footer = () => {
             <a href="https://rebelforce-hubs.com" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">
               RebelHub
             </a>
+            <span className="w-px h-3.5 bg-border" />
+            <Link to="/privacy" className="text-muted-foreground hover:text-foreground transition-colors">Privacy</Link>
+            <span className="w-px h-3.5 bg-border" />
+            <Link to="/terms" className="text-muted-foreground hover:text-foreground transition-colors">Voorwaarden</Link>
+            <span className="w-px h-3.5 bg-border" />
+            <Link to="/cookies" className="text-muted-foreground hover:text-foreground transition-colors">Cookies</Link>
           </nav>
 
           <p className="text-muted-foreground/50 text-xs flex-shrink-0">
