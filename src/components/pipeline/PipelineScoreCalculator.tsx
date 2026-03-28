@@ -99,7 +99,7 @@ const PipelineScoreCalculator = () => {
                 className={`rounded-xl border border-border bg-gradient-to-br ${phase.color} p-5 md:p-6`}
               >
                 <div className="flex items-center gap-2 mb-4">
-                  <span className="text-xl">{phase.icon}</span>
+                  {(() => { const Icon = iconMap[phase.icon]; return Icon ? <Icon className="w-5 h-5 text-primary" /> : null; })()}
                   <h3 className="font-display font-semibold text-foreground text-lg">{phase.label}</h3>
                   <span className="text-sm text-muted-foreground">— {phase.subtitle}</span>
                 </div>
@@ -182,8 +182,8 @@ const PipelineScoreCalculator = () => {
               {/* Phase breakdown */}
               <div className="grid gap-3 md:grid-cols-5 mb-10">
                 {phaseScores.map((p) => (
-                  <div key={p.key} className="bg-card border border-border rounded-lg p-4 text-center">
-                    <span className="text-lg">{p.icon}</span>
+                    <div key={p.key} className="bg-card border border-border rounded-lg p-4 text-center">
+                      {(() => { const Icon = iconMap[p.icon]; return Icon ? <Icon className="w-5 h-5 text-primary mx-auto" /> : null; })()}
                     <p className="font-display font-medium text-foreground text-sm mt-1">{p.label}</p>
                     <p className={`text-2xl font-bold font-display mt-1 ${getScoreLabel(p.pct).color}`}>{p.pct}%</p>
                   </div>
@@ -242,7 +242,7 @@ const PipelineScoreCalculator = () => {
                     return (
                       <div key={v.id} className="bg-card border border-border rounded-lg p-4 flex items-start gap-4">
                         <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-secondary flex items-center justify-center">
-                          <span className="text-lg">{v.icon}</span>
+                          {(() => { const Icon = iconMap[v.icon]; return Icon ? <Icon className="w-5 h-5 text-primary" /> : null; })()}
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 mb-1">
@@ -258,8 +258,8 @@ const PipelineScoreCalculator = () => {
                             />
                           </div>
                           {score <= 5 && (
-                            <p className="text-xs text-yellow-400 mt-2">
-                              ⚠️ Aandachtspunt: {v.details.join(", ")}
+                            <p className="text-xs text-primary mt-2 flex items-center gap-1">
+                              <AlertTriangle className="w-3 h-3" /> Aandachtspunt: {v.details.join(", ")}
                             </p>
                           )}
                         </div>
