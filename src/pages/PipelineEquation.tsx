@@ -66,6 +66,66 @@ const PipelineEquation = () => {
           </div>
         </section>
 
+        {/* What is a pipeline? — Dummy-level explainer */}
+        <section className="py-16 md:py-20 border-t border-border">
+          <div className="container mx-auto px-4 max-w-4xl">
+            <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+              <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground text-center mb-10">
+                Eerst even simpel uitgelegd
+              </h2>
+
+              <div className="grid md:grid-cols-2 gap-8 mb-10">
+                {/* Wat is een pipeline */}
+                <div className="bg-card border border-border rounded-xl p-6">
+                  <h3 className="font-display font-semibold text-foreground text-lg mb-3 flex items-center gap-2">
+                    <TrendingUp className="w-5 h-5 text-primary" />
+                    Wat is een pipeline?
+                  </h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed mb-3">
+                    Uw pipeline is de stroom van mensen die uw bedrijf ontdekken, interesse krijgen en uiteindelijk klant worden.
+                  </p>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    Denk aan een trechter. Bovenaan komen mensen binnen. Onderaan komen er klanten uit. Hoe beter de trechter werkt, hoe meer klanten u krijgt.
+                  </p>
+                </div>
+
+                {/* Wat zijn factoren */}
+                <div className="bg-card border border-border rounded-xl p-6">
+                  <h3 className="font-display font-semibold text-foreground text-lg mb-3 flex items-center gap-2">
+                    <Crosshair className="w-5 h-5 text-primary" />
+                    Wat zijn factoren?
+                  </h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed mb-3">
+                    Factoren zijn de dingen die bepalen of uw pipeline goed werkt. Er zijn er 10. Elke factor heeft invloed op het resultaat.
+                  </p>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    Is één factor zwak? Dan lekt de hele trechter. Net als een ketting: die is zo sterk als de zwakste schakel.
+                  </p>
+                </div>
+              </div>
+
+              {/* De formule visueel */}
+              <div className="bg-card border border-primary/20 rounded-xl p-6 md:p-8 text-center">
+                <p className="text-sm text-muted-foreground mb-4">De formule in het kort:</p>
+                <div className="flex flex-wrap items-center justify-center gap-2 md:gap-3 mb-4">
+                  <span className="font-display font-bold text-foreground text-lg md:text-xl">Resultaat</span>
+                  <span className="text-muted-foreground">=</span>
+                  <span className="bg-primary/10 text-primary font-display font-semibold text-sm md:text-base px-3 py-1.5 rounded-lg">Factor 1</span>
+                  <span className="text-muted-foreground">×</span>
+                  <span className="bg-primary/10 text-primary font-display font-semibold text-sm md:text-base px-3 py-1.5 rounded-lg">Factor 2</span>
+                  <span className="text-muted-foreground">×</span>
+                  <span className="text-muted-foreground text-sm">…</span>
+                  <span className="text-muted-foreground">×</span>
+                  <span className="bg-primary/10 text-primary font-display font-semibold text-sm md:text-base px-3 py-1.5 rounded-lg">Factor 10</span>
+                </div>
+                <p className="text-sm text-muted-foreground max-w-lg mx-auto">
+                  Scoort u op 9 factoren een 8, maar op één factor een 2? Dan trekt die ene factor het hele resultaat omlaag. Daarom pakken wij alle 10 aan.
+                </p>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
         {/* Why this matters */}
         <section className="py-16 md:py-20 border-t border-border">
           <div className="container mx-auto px-4 max-w-5xl">
