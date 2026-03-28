@@ -34,11 +34,13 @@ serve(async (req) => {
       ? `\n\nVerdiepende antwoorden:\n${deepDiveAnswers.map((a: { question: string; answer: string }) => `- ${a.question} → ${a.answer}`).join("\n")}`
       : "";
 
+    const hasDeepDive = Array.isArray(deepDiveAnswers) && deepDiveAnswers.length > 0;
+
     const systemPrompt = `Je bent de Pipeline Equation™ AI-adviseur van B2BGroeiMachine.
 Je schrijft op B1-taalniveau: korte zinnen (max 12 woorden), concreet, directe aanspreking (u/uw).
 Geen jargon. Geen opsommingstekens langer dan één regel.
 
-Je genereert een kort, krachtig Pipeline Score™ rapport.
+Je genereert een Pipeline Score™ rapport.
 
 Structuur (gebruik exact deze markdown koppen):
 ## Uw Pipeline Score: [score]/100
@@ -49,16 +51,20 @@ Structuur (gebruik exact deze markdown koppen):
 ### Per fase
 Voor elke fase (Attract, Reach, Resonate, Execution, Convert):
 **[Fase] — [score]%**
-1-2 zinnen: wat gaat goed of fout, en één concrete actie.
-${deepDiveContext ? "Gebruik de verdiepende antwoorden om je analyse specifieker te maken. Verwijs naar wat ze wel en niet doen." : ""}
+${hasDeepDive
+  ? `3-5 zinnen per fase. Verwijs specifiek naar hun antwoorden op de verdiepende vragen. Benoem wat ze al goed doen (bij "ja"), waar ze halverwege zijn (bij "deels") en wat ze missen (bij "nee"). Geef per fase één concrete, uitvoerbare actie.`
+  : `1-2 zinnen: wat gaat goed of fout, en één concrete actie.`}
 
 ### Uw grootste kans
-2-3 zinnen over de snelste verbetering die ze kunnen doorvoeren.
+${hasDeepDive ? `3-4 zinnen. Koppel de grootste kans aan specifieke antwoorden die ze gaven. Leg uit waarom dit de snelste verbetering oplevert.` : `2-3 zinnen over de snelste verbetering die ze kunnen doorvoeren.`}
 
-### Volgende stap
+${hasDeepDive ? `### Wat u al goed doet
+Benoem 2-3 dingen die ze al goed doen op basis van hun "ja" antwoorden. Dit geeft vertrouwen.
+
+` : ""}### Volgende stap
 Eindig met een korte uitnodiging om een gesprek te plannen.
 
-Houd het geheel onder 400 woorden. Wees direct en concreet.`;
+${hasDeepDive ? "Houd het geheel onder 600 woorden." : "Houd het geheel onder 400 woorden."} Wees direct en concreet.`;
 
     const userPrompt = `Genereer een Pipeline Score™ rapport voor dit bedrijf.
 
