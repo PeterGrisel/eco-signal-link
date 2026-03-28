@@ -5,18 +5,18 @@ import { sectors } from "@/data/sectors";
 import { solutions } from "@/data/solutions";
 
 const clients = [
-  { name: "Krak de Rijder", url: "https://www.krakderijder.nl/" },
-  { name: "Excelsior Rotterdam", url: "https://excelsiorrotterdam.nl/" },
-  { name: "Core Vision", url: "https://www.core-vision.nl/" },
-  { name: "GoBytes", url: "https://gobytes.nl/" },
-  { name: "Nexer", url: "https://nexer.nl/" },
-  { name: "Rebel Force", url: "https://www.rebelforce.nl/" },
-  { name: "Exes Engineering", url: "https://exesengineering.nl/" },
-  { name: "Datahub", url: "https://datahub.nl/" },
-  { name: "Drivewise Lease", url: "https://www.drivewiselease.nl/" },
-  { name: "Sascha del Sal", url: "https://saschadelsal.com/" },
-  { name: "HappyBase", url: "https://www.happybase.me/" },
-  { name: "RTC Group", url: "https://www.rtc-group.nl/" },
+  { name: "Krak de Rijder", url: "https://www.krakderijder.nl/", domain: "krakderijder.nl" },
+  { name: "Excelsior Rotterdam", url: "https://excelsiorrotterdam.nl/", domain: "excelsiorrotterdam.nl" },
+  { name: "Core Vision", url: "https://www.core-vision.nl/", domain: "core-vision.nl" },
+  { name: "GoBytes", url: "https://gobytes.nl/", domain: "gobytes.nl" },
+  { name: "Nexer", url: "https://nexer.nl/", domain: "nexer.nl" },
+  { name: "Rebel Force", url: "https://www.rebelforce.nl/", domain: "rebelforce.nl" },
+  { name: "Exes Engineering", url: "https://exesengineering.nl/", domain: "exesengineering.nl" },
+  { name: "Datahub", url: "https://datahub.nl/", domain: "datahub.nl" },
+  { name: "Drivewise Lease", url: "https://www.drivewiselease.nl/", domain: "drivewiselease.nl" },
+  { name: "Sascha del Sal", url: "https://saschadelsal.com/", domain: "saschadelsal.com" },
+  { name: "HappyBase", url: "https://www.happybase.me/", domain: "happybase.me" },
+  { name: "RTC Group", url: "https://www.rtc-group.nl/", domain: "rtc-group.nl" },
 ];
 
 const StreamsSection = () => {
@@ -84,9 +84,18 @@ const StreamsSection = () => {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.3, delay: i * 0.04 }}
-                className="px-4 py-2.5 rounded-md border border-glow bg-secondary/40 hover:border-primary/40 hover:bg-secondary/70 transition-all text-sm font-display font-semibold text-muted-foreground hover:text-primary"
+                className="flex items-center gap-2.5 px-4 py-2.5 rounded-md border border-glow bg-secondary/40 hover:border-primary/40 hover:bg-secondary/70 transition-all group"
+                title={client.name}
               >
-                {client.name}
+                <img
+                  src={`https://www.google.com/s2/favicons?domain=${client.domain}&sz=32`}
+                  alt={client.name}
+                  className="w-5 h-5 rounded-sm object-contain"
+                  loading="lazy"
+                />
+                <span className="text-sm font-display font-semibold text-muted-foreground group-hover:text-primary transition-colors">
+                  {client.name}
+                </span>
               </motion.a>
             ))}
           </div>
