@@ -17,6 +17,7 @@ const clients = [
   { name: "Sascha del Sal", url: "https://saschadelsal.com/", domain: "saschadelsal.com" },
   { name: "HappyBase", url: "https://www.happybase.me/", domain: "happybase.me" },
   { name: "RTC Group", url: "https://www.rtc-group.nl/", domain: "rtc-group.nl" },
+  { name: "Yaskawa", url: "https://www.yaskawa.nl/", domain: "yaskawa.nl" },
 ];
 
 const StreamsSection = () => {
