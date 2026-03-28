@@ -10,6 +10,29 @@ const SITE_URL = "https://b2bgroeimachine.io";
 const SITE_NAME = "B2BGroeiMachine";
 const DEFAULT_OG_IMAGE = `${SITE_URL}/og-image.png`;
 
+// In-memory cache with TTL
+const CACHE_TTL_MS = 60 * 60 * 1000; // 1 hour
+const cache = new Map<string, { html: string; timestamp: number }>();
+
+function getCached(key: string): string | null {
+  const entry = cache.get(key);
+  if (!entry) return null;
+  if (Date.now() - entry.timestamp > CACHE_TTL_MS) {
+    cache.delete(key);
+    return null;
+  }
+  return entry.html;
+}
+
+function setCache(key: string, html: string) {
+  // Limit cache size to 200 entries
+  if (cache.size >= 200) {
+    const oldest = cache.keys().next().value;
+    if (oldest) cache.delete(oldest);
+  }
+  cache.set(key, { html, timestamp: Date.now() });
+}
+
 // Static page meta data
 const STATIC_PAGES: Record<
   string,
@@ -145,6 +168,13 @@ function buildHtml(meta: {
 </html>`;
 }
 
+const cacheHeaders = {
+  ...corsHeaders,
+  "Content-Type": "text/html; charset=utf-8",
+  "Cache-Control": "public, max-age=3600, s-maxage=86400",
+  "X-Prerender": "1",
+};
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -153,23 +183,33 @@ Deno.serve(async (req) => {
   try {
     const url = new URL(req.url);
     const path = url.searchParams.get("path") || "/";
+    const noCache = url.searchParams.get("nocache") === "1";
     const pageUrl = `${SITE_URL}${path}`;
+
+    // Check cache first
+    if (!noCache) {
+      const cached = getCached(path);
+      if (cached) {
+        return new Response(cached, {
+          headers: { ...cacheHeaders, "X-Cache": "HIT" },
+        });
+      }
+    }
 
     // 1. Static pages
     if (STATIC_PAGES[path]) {
       const page = STATIC_PAGES[path];
-      return new Response(
-        buildHtml({
-          title: page.title,
-          description: page.description,
-          url: pageUrl,
-          h1: page.h1,
-          content: page.content,
-        }),
-        {
-          headers: { ...corsHeaders, "Content-Type": "text/html; charset=utf-8" },
-        }
-      );
+      const html = buildHtml({
+        title: page.title,
+        description: page.description,
+        url: pageUrl,
+        h1: page.h1,
+        content: page.content,
+      });
+      setCache(path, html);
+      return new Response(html, {
+        headers: { ...cacheHeaders, "X-Cache": "MISS" },
+      });
     }
 
     // 2. Blog post: /blog/:slug
@@ -220,54 +260,51 @@ Deno.serve(async (req) => {
           })}
           </script>`;
 
-        return new Response(
-          buildHtml({
+        const html = buildHtml({
             title: `${post.title} — ${SITE_NAME}`,
             description: post.meta_description || post.excerpt || "",
             url: pageUrl,
             h1: post.title,
             content: plainContent,
             extraHead,
-          }),
-          {
-            headers: { ...corsHeaders, "Content-Type": "text/html; charset=utf-8" },
-          }
-        );
+          });
+        setCache(path, html);
+        return new Response(html, {
+          headers: { ...cacheHeaders, "X-Cache": "MISS" },
+        });
       }
     }
 
     // 3. Sector page: /sectoren/:slug
     const sectorMatch = path.match(/^\/sectoren\/([^/]+)$/);
     if (sectorMatch) {
-      return new Response(
-        buildHtml({
+      const html = buildHtml({
           title: `${sectorMatch[1].replace(/-/g, " ")} — ${SITE_NAME}`,
           description: `B2B sales automation voor de ${sectorMatch[1].replace(/-/g, " ")} sector. Signal-based prospecting en multichannel outreach.`,
           url: pageUrl,
           h1: sectorMatch[1].replace(/-/g, " "),
           content: `Ontdek hoe B2BGroeiMachine bedrijven in de ${sectorMatch[1].replace(/-/g, " ")} sector helpt met schaalbare sales automation.`,
-        }),
-        {
-          headers: { ...corsHeaders, "Content-Type": "text/html; charset=utf-8" },
-        }
-      );
+        });
+      setCache(path, html);
+      return new Response(html, {
+        headers: { ...cacheHeaders, "X-Cache": "MISS" },
+      });
     }
 
     // 4. Solution page: /solutions/:slug
     const solutionMatch = path.match(/^\/solutions\/([^/]+)$/);
     if (solutionMatch) {
-      return new Response(
-        buildHtml({
+      const html = buildHtml({
           title: `${solutionMatch[1].replace(/-/g, " ")} — ${SITE_NAME}`,
           description: `${solutionMatch[1].replace(/-/g, " ")} — onze oplossing voor ambitieuze B2B-bedrijven.`,
           url: pageUrl,
           h1: solutionMatch[1].replace(/-/g, " "),
           content: `Lees meer over onze ${solutionMatch[1].replace(/-/g, " ")} oplossing voor B2B sales automation.`,
-        }),
-        {
-          headers: { ...corsHeaders, "Content-Type": "text/html; charset=utf-8" },
-        }
-      );
+        });
+      setCache(path, html);
+      return new Response(html, {
+        headers: { ...cacheHeaders, "X-Cache": "MISS" },
+      });
     }
 
     // 5. Blog index with posts list
@@ -292,19 +329,18 @@ Deno.serve(async (req) => {
         .join("\n");
 
       const page = STATIC_PAGES["/blog"];
-      return new Response(
-        buildHtml({
+      const html = buildHtml({
           title: page.title,
           description: page.description,
           url: pageUrl,
           h1: page.h1,
           content: page.content,
           bodyContent: postsList,
-        }),
-        {
-          headers: { ...corsHeaders, "Content-Type": "text/html; charset=utf-8" },
-        }
-      );
+        });
+      setCache(path, html);
+      return new Response(html, {
+        headers: { ...cacheHeaders, "X-Cache": "MISS" },
+      });
     }
 
     // Fallback: 404
