@@ -99,11 +99,20 @@ serve(async (req) => {
     const results = [];
 
     for (const targetUrl of targetUrls) {
-      const { data: record } = await supabase.from("indexing_requests").insert({
-        url: targetUrl,
-        status: "requested",
-        requested_at: new Date().toISOString(),
-      }).select().single();
+      // Upsert: if URL already exists, update status; otherwise insert
+      const { data: record, error: insertErr } = await supabase.from("indexing_requests")
+        .upsert({
+          url: targetUrl,
+          status: "requested",
+          requested_at: new Date().toISOString(),
+        }, { onConflict: "url" })
+        .select()
+        .single();
+
+      if (insertErr || !record) {
+        results.push({ url: targetUrl, status: "failed", message: insertErr?.message || "DB insert mislukt" });
+        continue;
+      }
 
       try {
         const response = await fetch("https://indexing.googleapis.com/v3/urlNotifications:publish", {
