@@ -5,6 +5,7 @@ import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 
 import StreamsSection from "@/components/StreamsSection";
 import SystemSection from "@/components/SystemSection";
+import PipelineEquationTeaser from "@/components/PipelineEquationTeaser";
 import FunnelSection from "@/components/FunnelSection";
 import ProcessSection from "@/components/ProcessSection";
 import DatahubSection from "@/components/DatahubSection";
@@ -25,6 +26,7 @@ const Index = () => {
       
       <StreamsSection />
       <SystemSection />
+      <PipelineEquationTeaser />
       <FunnelSection />
       <ProcessSection />
       <DatahubSection />
