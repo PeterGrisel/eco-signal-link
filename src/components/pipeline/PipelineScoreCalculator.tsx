@@ -6,22 +6,58 @@ import { pipelineVariables, pipelinePhases } from "@/data/pipelineVariables";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { trackCTA } from "@/lib/tracking";
-import { Magnet, Crosshair, MessageSquare, RefreshCw, TrendingUp, Database, Radio, Clock, Gem, PenLine, UserCheck, Share2, IterationCw, Flag, AlertTriangle } from "lucide-react";
+import ReactMarkdown from "react-markdown";
+import {
+  Magnet, Crosshair, MessageSquare, RefreshCw, TrendingUp,
+  Database, Radio, Clock, Gem, PenLine, UserCheck, Share2,
+  IterationCw, Flag, AlertTriangle, Loader2,
+} from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 const iconMap: Record<string, LucideIcon> = {
-  Magnet, Crosshair, MessageSquare, RefreshCw, TrendingUp, Database, Radio, Clock, Gem, PenLine, UserCheck, Share2, IterationCw, Flag,
+  Magnet, Crosshair, MessageSquare, RefreshCw, TrendingUp,
+  Database, Radio, Clock, Gem, PenLine, UserCheck, Share2,
+  IterationCw, Flag,
 };
+
+const industries = [
+  "SaaS / Software",
+  "IT-dienstverlening",
+  "Marketing / Reclame",
+  "Financiële diensten",
+  "Productie / Maakindustrie",
+  "Logistiek / Transport",
+  "Bouw / Techniek",
+  "Consultancy",
+  "Recruitment / HR",
+  "Anders",
+];
+
+const teamSizes = [
+  "1 tot 3 mensen",
+  "4 tot 10 mensen",
+  "11 tot 25 mensen",
+  "26 tot 50 mensen",
+  "Meer dan 50 mensen",
+];
 
 const PipelineScoreCalculator = () => {
   const [scores, setScores] = useState<Record<string, number>>(
     Object.fromEntries(pipelineVariables.map((v) => [v.id, 5]))
   );
   const [calculated, setCalculated] = useState(false);
+
+  // Lead capture + qualifying
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
+  const [industry, setIndustry] = useState("");
+  const [teamSize, setTeamSize] = useState("");
   const [submitting, setSubmitting] = useState(false);
-  const [reportUnlocked, setReportUnlocked] = useState(false);
+
+  // AI report
+  const [reportMarkdown, setReportMarkdown] = useState("");
+  const [reportLoading, setReportLoading] = useState(false);
+  const [reportDone, setReportDone] = useState(false);
 
   const totalScore = Object.values(scores).reduce((a, b) => a + b, 0);
   const maxScore = pipelineVariables.length * 10;
@@ -46,22 +82,115 @@ const PipelineScoreCalculator = () => {
 
   const scoreInfo = getScoreLabel(percentage);
 
+  const streamReport = async () => {
+    setReportLoading(true);
+    setReportMarkdown("");
+
+    const url = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/pipeline-report`;
+
+    try {
+      const resp = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+        },
+        body: JSON.stringify({
+          scores,
+          phaseScores,
+          percentage,
+          bottleneck: bottleneck.label,
+          industry,
+          teamSize,
+        }),
+      });
+
+      if (!resp.ok) {
+        const err = await resp.json().catch(() => ({ error: "Onbekende fout" }));
+        toast.error(err.error || "Rapport kon niet worden gegenereerd.");
+        setReportLoading(false);
+        return;
+      }
+
+      const reader = resp.body?.getReader();
+      if (!reader) throw new Error("No stream");
+
+      const decoder = new TextDecoder();
+      let buffer = "";
+      let full = "";
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+
+        let newlineIndex: number;
+        while ((newlineIndex = buffer.indexOf("\n")) !== -1) {
+          let line = buffer.slice(0, newlineIndex);
+          buffer = buffer.slice(newlineIndex + 1);
+
+          if (line.endsWith("\r")) line = line.slice(0, -1);
+          if (line.startsWith(":") || line.trim() === "") continue;
+          if (!line.startsWith("data: ")) continue;
+
+          const jsonStr = line.slice(6).trim();
+          if (jsonStr === "[DONE]") break;
+
+          try {
+            const parsed = JSON.parse(jsonStr);
+            const content = parsed.choices?.[0]?.delta?.content;
+            if (content) {
+              full += content;
+              setReportMarkdown(full);
+            }
+          } catch {
+            buffer = line + "\n" + buffer;
+            break;
+          }
+        }
+      }
+
+      setReportDone(true);
+    } catch (e) {
+      console.error("Stream error:", e);
+      toast.error("Er ging iets mis bij het genereren van uw rapport.");
+    } finally {
+      setReportLoading(false);
+    }
+  };
+
   const handleUnlockReport = async () => {
     if (!email.trim() || !name.trim()) {
       toast.error("Vul uw naam en e-mail in.");
       return;
     }
+    if (!industry) {
+      toast.error("Kies uw branche.");
+      return;
+    }
+    if (!teamSize) {
+      toast.error("Kies uw teamgrootte.");
+      return;
+    }
+
     setSubmitting(true);
     try {
       await supabase.from("contact_submissions").insert({
         name: name.trim(),
         email: email.trim(),
         message: `Pipeline Score™ rapport — Score: ${percentage}/100`,
-        selected_package: { pipeline_score: percentage, scores, phase_scores: phaseScores } as any,
+        selected_package: {
+          pipeline_score: percentage,
+          scores,
+          phase_scores: phaseScores,
+          industry,
+          team_size: teamSize,
+        } as any,
       });
       trackCTA("Pipeline Score — Rapport aangevraagd", "/pipeline-equation");
-      setReportUnlocked(true);
-      toast.success("Rapport is klaar!");
+
+      // Start AI report generation
+      await streamReport();
     } catch {
       toast.error("Dat lukte niet. Probeer het nog eens.");
     } finally {
@@ -174,7 +303,7 @@ const PipelineScoreCalculator = () => {
                 </div>
                 <p className={`text-xl font-display font-semibold ${scoreInfo.color}`}>{scoreInfo.label}</p>
                 <p className="text-muted-foreground mt-2 max-w-lg mx-auto">
-                  Uw pipeline scoort <span className="text-foreground font-semibold">{percentage} van de 100</span>. 
+                  Uw pipeline scoort <span className="text-foreground font-semibold">{percentage} van de 100</span>.
                   Het grootste probleem zit bij <span className="text-primary font-semibold">{bottleneck.label}</span>.
                 </p>
               </div>
@@ -182,102 +311,152 @@ const PipelineScoreCalculator = () => {
               {/* Phase breakdown */}
               <div className="grid gap-3 md:grid-cols-5 mb-10">
                 {phaseScores.map((p) => (
-                    <div key={p.key} className="bg-card border border-border rounded-lg p-4 text-center">
-                      {(() => { const Icon = iconMap[p.icon]; return Icon ? <Icon className="w-5 h-5 text-primary mx-auto" /> : null; })()}
+                  <div key={p.key} className="bg-card border border-border rounded-lg p-4 text-center">
+                    {(() => { const Icon = iconMap[p.icon]; return Icon ? <Icon className="w-5 h-5 text-primary mx-auto" /> : null; })()}
                     <p className="font-display font-medium text-foreground text-sm mt-1">{p.label}</p>
                     <p className={`text-2xl font-bold font-display mt-1 ${getScoreLabel(p.pct).color}`}>{p.pct}%</p>
                   </div>
                 ))}
               </div>
 
-              {/* Report gate */}
-              {!reportUnlocked ? (
+              {/* Report gate or AI report */}
+              {!reportDone && !reportLoading ? (
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  className="bg-card border border-primary/30 rounded-xl p-6 md:p-8 text-center"
+                  className="bg-card border border-primary/30 rounded-xl p-6 md:p-8"
                 >
-                  <h3 className="font-display text-xl font-bold text-foreground mb-2">
-                    Wilt u het volledige rapport?
-                  </h3>
-                  <p className="text-muted-foreground text-sm mb-6 max-w-md mx-auto">
-                    U krijgt een analyse per factor, concrete tips en een plan van aanpak.
-                  </p>
-                  <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-                    <Input
-                      placeholder="Uw naam"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      className="bg-secondary border-border"
-                    />
-                    <Input
-                      type="email"
-                      placeholder="Uw e-mailadres"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="bg-secondary border-border"
-                    />
+                  <div className="text-center mb-6">
+                    <h3 className="font-display text-xl font-bold text-foreground mb-2">
+                      Ontvang uw persoonlijke rapport
+                    </h3>
+                    <p className="text-muted-foreground text-sm max-w-md mx-auto">
+                      Onze AI analyseert uw scores en geeft concrete tips per factor. Vul onderstaande gegevens in.
+                    </p>
                   </div>
-                  <Button
-                    variant="hero"
-                    className="mt-4"
-                    onClick={handleUnlockReport}
-                    disabled={submitting}
-                  >
-                    {submitting ? "Bezig..." : "Bekijk het rapport →"}
-                  </Button>
+
+                  <div className="max-w-lg mx-auto space-y-4">
+                    {/* Name + Email */}
+                    <div className="grid sm:grid-cols-2 gap-3">
+                      <Input
+                        placeholder="Uw naam"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        className="bg-secondary border-border"
+                      />
+                      <Input
+                        type="email"
+                        placeholder="Uw e-mailadres"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className="bg-secondary border-border"
+                      />
+                    </div>
+
+                    {/* Industry */}
+                    <div>
+                      <label className="text-sm text-muted-foreground mb-1.5 block">In welke branche zit u?</label>
+                      <div className="flex flex-wrap gap-2">
+                        {industries.map((ind) => (
+                          <button
+                            key={ind}
+                            type="button"
+                            onClick={() => setIndustry(ind)}
+                            className={`text-xs px-3 py-1.5 rounded-full border transition-colors ${
+                              industry === ind
+                                ? "bg-primary text-primary-foreground border-primary"
+                                : "bg-secondary text-muted-foreground border-border hover:border-primary/40"
+                            }`}
+                          >
+                            {ind}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Team size */}
+                    <div>
+                      <label className="text-sm text-muted-foreground mb-1.5 block">Hoe groot is uw salesteam?</label>
+                      <div className="flex flex-wrap gap-2">
+                        {teamSizes.map((size) => (
+                          <button
+                            key={size}
+                            type="button"
+                            onClick={() => setTeamSize(size)}
+                            className={`text-xs px-3 py-1.5 rounded-full border transition-colors ${
+                              teamSize === size
+                                ? "bg-primary text-primary-foreground border-primary"
+                                : "bg-secondary text-muted-foreground border-border hover:border-primary/40"
+                            }`}
+                          >
+                            {size}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="text-center pt-2">
+                      <Button
+                        variant="hero"
+                        size="lg"
+                        onClick={handleUnlockReport}
+                        disabled={submitting}
+                      >
+                        {submitting ? "Bezig..." : "Genereer mijn rapport →"}
+                      </Button>
+                    </div>
+                  </div>
                 </motion.div>
               ) : (
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="space-y-4"
+                  className="bg-card border border-primary/30 rounded-xl p-6 md:p-8"
                 >
-                  <h3 className="font-display text-xl font-bold text-foreground text-center mb-6">
-                    Uw resultaat per factor
-                  </h3>
-                  {pipelineVariables.map((v) => {
-                    const score = scores[v.id];
-                    const info = getScoreLabel(score * 10);
-                    return (
-                      <div key={v.id} className="bg-card border border-border rounded-lg p-4 flex items-start gap-4">
-                        <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-secondary flex items-center justify-center">
-                          {(() => { const Icon = iconMap[v.icon]; return Icon ? <Icon className="w-5 h-5 text-primary" /> : null; })()}
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 mb-1">
-                            <span className="text-xs font-mono text-primary font-bold">{v.code}</span>
-                            <span className="font-display font-medium text-foreground text-sm">{v.name}</span>
-                            <span className={`ml-auto text-sm font-bold ${info.color}`}>{score}/10</span>
-                          </div>
-                          <p className="text-xs text-muted-foreground mb-2">{v.description}</p>
-                          <div className="w-full bg-secondary rounded-full h-2">
-                            <div
-                              className="h-2 rounded-full bg-primary transition-all"
-                              style={{ width: `${score * 10}%` }}
-                            />
-                          </div>
-                          {score <= 5 && (
-                            <p className="text-xs text-primary mt-2 flex items-center gap-1">
-                              <AlertTriangle className="w-3 h-3" /> Aandachtspunt: {v.details.join(", ")}
-                            </p>
-                          )}
-                        </div>
-                      </div>
-                    );
-                  })}
-                  <div className="text-center pt-6">
-                    <Button variant="hero" size="lg" asChild>
-                      <a
-                        href="https://app.usemotion.com/meet/Rebel-Force/meeting"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={() => trackCTA("Pipeline Score — Plan een gesprek", "/pipeline-equation")}
-                      >
-                        Bespreek uw score →
-                      </a>
-                    </Button>
-                  </div>
+                  {reportLoading && !reportMarkdown && (
+                    <div className="flex items-center justify-center gap-3 py-8">
+                      <Loader2 className="w-5 h-5 text-primary animate-spin" />
+                      <p className="text-muted-foreground">Uw rapport wordt gegenereerd...</p>
+                    </div>
+                  )}
+
+                  {reportMarkdown && (
+                    <div className="prose prose-invert prose-sm max-w-none
+                      prose-headings:font-display prose-headings:text-foreground
+                      prose-h2:text-2xl prose-h2:mb-4 prose-h2:mt-0
+                      prose-h3:text-lg prose-h3:text-primary prose-h3:mt-6 prose-h3:mb-2
+                      prose-p:text-muted-foreground prose-p:leading-relaxed
+                      prose-strong:text-foreground
+                      prose-li:text-muted-foreground"
+                    >
+                      <ReactMarkdown>{reportMarkdown}</ReactMarkdown>
+                    </div>
+                  )}
+
+                  {reportLoading && reportMarkdown && (
+                    <div className="flex items-center gap-2 mt-4 pt-4 border-t border-border">
+                      <Loader2 className="w-4 h-4 text-primary animate-spin" />
+                      <span className="text-xs text-muted-foreground">Wordt geschreven...</span>
+                    </div>
+                  )}
+
+                  {reportDone && (
+                    <div className="text-center mt-8 pt-6 border-t border-border">
+                      <p className="text-muted-foreground text-sm mb-4">
+                        Wilt u dit rapport bespreken met een specialist?
+                      </p>
+                      <Button variant="hero" size="lg" asChild>
+                        <a
+                          href="https://app.usemotion.com/meet/Rebel-Force/meeting"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={() => trackCTA("Pipeline Score — Plan een gesprek na rapport", "/pipeline-equation")}
+                        >
+                          Plan een gesprek →
+                        </a>
+                      </Button>
+                    </div>
+                  )}
                 </motion.div>
               )}
             </motion.div>
