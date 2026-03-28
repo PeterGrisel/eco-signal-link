@@ -12,7 +12,6 @@ const PipelineScoreCalculator = () => {
     Object.fromEntries(pipelineVariables.map((v) => [v.id, 5]))
   );
   const [calculated, setCalculated] = useState(false);
-  const [showReport, setShowReport] = useState(false);
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -33,17 +32,17 @@ const PipelineScoreCalculator = () => {
   const bottleneck = weakest[0];
 
   const getScoreLabel = (pct: number) => {
-    if (pct >= 80) return { label: "Excellent", color: "text-green-400" };
-    if (pct >= 60) return { label: "Goed", color: "text-blue-400" };
+    if (pct >= 80) return { label: "Sterk", color: "text-green-400" };
+    if (pct >= 60) return { label: "Redelijk", color: "text-blue-400" };
     if (pct >= 40) return { label: "Matig", color: "text-yellow-400" };
-    return { label: "Kritiek", color: "text-red-400" };
+    return { label: "Zwak", color: "text-red-400" };
   };
 
   const scoreInfo = getScoreLabel(percentage);
 
   const handleUnlockReport = async () => {
     if (!email.trim() || !name.trim()) {
-      toast.error("Vul uw naam en e-mail in");
+      toast.error("Vul uw naam en e-mail in.");
       return;
     }
     setSubmitting(true);
@@ -51,14 +50,14 @@ const PipelineScoreCalculator = () => {
       await supabase.from("contact_submissions").insert({
         name: name.trim(),
         email: email.trim(),
-        message: `Pipeline Score™ rapport aangevraagd — Score: ${percentage}/100`,
+        message: `Pipeline Score™ rapport — Score: ${percentage}/100`,
         selected_package: { pipeline_score: percentage, scores, phase_scores: phaseScores } as any,
       });
       trackCTA("Pipeline Score — Rapport aangevraagd", "/pipeline-equation");
       setReportUnlocked(true);
-      toast.success("Rapport ontgrendeld!");
+      toast.success("Rapport is klaar!");
     } catch {
-      toast.error("Er ging iets mis. Probeer opnieuw.");
+      toast.error("Dat lukte niet. Probeer het nog eens.");
     } finally {
       setSubmitting(false);
     }
@@ -74,10 +73,10 @@ const PipelineScoreCalculator = () => {
           className="text-center mb-12"
         >
           <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">
-            Bereken uw <span className="text-primary">Pipeline Score™</span>
+            Wat is uw <span className="text-primary">Pipeline Score™</span>?
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Score elke variabele van 1 tot 10. Ontdek waar uw pipeline lekt en welke variabele het meeste impact heeft.
+            Geef elke factor een cijfer van 1 tot 10. U ziet direct waar het misgaat.
           </p>
         </motion.div>
 
@@ -135,7 +134,7 @@ const PipelineScoreCalculator = () => {
         {!calculated && (
           <div className="text-center">
             <Button variant="hero" size="lg" onClick={() => setCalculated(true)}>
-              Bereken mijn Pipeline Score →
+              Toon mijn score →
             </Button>
           </div>
         )}
@@ -169,8 +168,8 @@ const PipelineScoreCalculator = () => {
                 </div>
                 <p className={`text-xl font-display font-semibold ${scoreInfo.color}`}>{scoreInfo.label}</p>
                 <p className="text-muted-foreground mt-2 max-w-lg mx-auto">
-                  Uw pipeline werkt op <span className="text-foreground font-semibold">{percentage}/100</span> — 
-                  grootste bottleneck zit in <span className="text-primary font-semibold">{bottleneck.label}</span>.
+                  Uw pipeline scoort <span className="text-foreground font-semibold">{percentage} van de 100</span>. 
+                  Het grootste probleem zit bij <span className="text-primary font-semibold">{bottleneck.label}</span>.
                 </p>
               </div>
 
@@ -196,7 +195,7 @@ const PipelineScoreCalculator = () => {
                     Wilt u het volledige rapport?
                   </h3>
                   <p className="text-muted-foreground text-sm mb-6 max-w-md mx-auto">
-                    Ontvang een gedetailleerde analyse per variabele, concrete verbeterpunten en een prioriteiten-roadmap.
+                    U krijgt een analyse per factor, concrete tips en een plan van aanpak.
                   </p>
                   <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
                     <Input
@@ -219,7 +218,7 @@ const PipelineScoreCalculator = () => {
                     onClick={handleUnlockReport}
                     disabled={submitting}
                   >
-                    {submitting ? "Bezig..." : "Ontgrendel volledig rapport →"}
+                    {submitting ? "Bezig..." : "Bekijk het rapport →"}
                   </Button>
                 </motion.div>
               ) : (
@@ -229,7 +228,7 @@ const PipelineScoreCalculator = () => {
                   className="space-y-4"
                 >
                   <h3 className="font-display text-xl font-bold text-foreground text-center mb-6">
-                    Uw gedetailleerde analyse
+                    Uw resultaat per factor
                   </h3>
                   {pipelineVariables.map((v) => {
                     const score = scores[v.id];
@@ -254,7 +253,7 @@ const PipelineScoreCalculator = () => {
                           </div>
                           {score <= 5 && (
                             <p className="text-xs text-yellow-400 mt-2">
-                              ⚠️ Prioriteit: {v.details.join(", ")}
+                              ⚠️ Aandachtspunt: {v.details.join(", ")}
                             </p>
                           )}
                         </div>
@@ -267,9 +266,9 @@ const PipelineScoreCalculator = () => {
                         href="https://app.usemotion.com/meet/Rebel-Force/meeting"
                         target="_blank"
                         rel="noopener noreferrer"
-                        onClick={() => trackCTA("Pipeline Score — Plan een demo", "/pipeline-equation")}
+                        onClick={() => trackCTA("Pipeline Score — Plan een gesprek", "/pipeline-equation")}
                       >
-                        Bespreek uw score met een expert →
+                        Bespreek uw score →
                       </a>
                     </Button>
                   </div>
