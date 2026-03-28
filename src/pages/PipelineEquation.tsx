@@ -160,59 +160,100 @@ const PipelineEquation = () => {
           </div>
         </section>
 
-        {/* The 10 Variables */}
-        <section className="py-16 md:py-20 border-t border-border bg-secondary/30">
-          <div className="container mx-auto px-4 max-w-5xl">
-            <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
-              <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-3">
-                Dit zijn de 10 factoren
+        {/* The 10 Variables — Journey */}
+        <section className="py-16 md:py-28 border-t border-border bg-secondary/30 relative overflow-hidden">
+          <div className="container mx-auto px-4 md:px-6">
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6 }}
+              className="mb-20 max-w-3xl"
+            >
+              <p className="text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4">
+                De 10 factoren
+              </p>
+              <h2 className="font-display font-bold text-3xl md:text-5xl lg:text-6xl tracking-tight leading-tight mb-6">
+                Van eerste contact tot klant,
+                <br />
+                <span className="text-gradient">factor voor factor.</span>
               </h2>
-              <p className="text-muted-foreground max-w-xl mx-auto">
-                Elke factor telt. Is er één zwak? Dan lekt uw hele pipeline.
+              <p className="text-muted-foreground text-lg leading-relaxed">
+                Elke factor telt. Is er één zwak? Dan lekt uw hele pipeline. Hieronder ziet u precies welke factoren ertoe doen.
               </p>
             </motion.div>
 
-            <div className="space-y-8">
+            <div className="space-y-16">
               {pipelinePhases.map((phase, pi) => {
                 const vars = pipelineVariables.filter((v) => v.phase === phase.key);
+                const PhaseIcon = phaseIconMap[phase.icon];
                 return (
-                  <motion.div
-                    key={phase.key}
-                    initial={{ opacity: 0, x: pi % 2 === 0 ? -20 : 20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: pi * 0.1 }}
-                  >
-                    <div className="flex items-center gap-3 mb-4">
-                      {(() => { const Icon = phaseIconMap[phase.icon]; return Icon ? <Icon className="w-6 h-6 text-primary" /> : null; })()}
-                      <div>
-                        <h3 className="font-display font-bold text-foreground text-lg">
-                          {pi + 1}. {phase.label}
-                        </h3>
-                        <p className="text-sm text-muted-foreground">{phase.subtitle}</p>
+                  <div key={phase.key}>
+                    {/* Phase header — timeline style */}
+                    <motion.div
+                      initial={{ opacity: 0, y: 12 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, margin: "-50px" }}
+                      transition={{ duration: 0.5, delay: 0.05 }}
+                      className="flex items-start gap-5 mb-6"
+                    >
+                      <div className="flex flex-col items-center shrink-0">
+                        <div className="w-12 h-12 rounded-full border-2 border-primary/40 bg-primary/10 flex items-center justify-center">
+                          <span className="text-primary font-display font-bold text-sm">{String(pi + 1).padStart(2, "0")}</span>
+                        </div>
+                        {pi < pipelinePhases.length - 1 && (
+                          <div className="w-px h-8 bg-gradient-to-b from-primary/30 to-transparent mt-2 hidden md:block" />
+                        )}
+                      </div>
+
+                      <div className="pt-2">
+                        <div className="flex items-center gap-3 mb-2">
+                          {PhaseIcon && <PhaseIcon className="w-5 h-5 text-primary" />}
+                          <h3 className="font-display font-bold text-2xl text-foreground">{phase.label}</h3>
+                        </div>
+                        <p className="text-muted-foreground leading-relaxed">{phase.subtitle}</p>
+                      </div>
+                    </motion.div>
+
+                    {/* Variable cards */}
+                    <div className="md:ml-[4.25rem]">
+                      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                        {vars.map((v, vi) => {
+                          const VarIcon = varIconMap[v.icon];
+                          return (
+                            <motion.div
+                              key={v.id}
+                              initial={{ opacity: 0, y: 12 }}
+                              whileInView={{ opacity: 1, y: 0 }}
+                              viewport={{ once: true, margin: "-30px" }}
+                              transition={{ duration: 0.4, delay: vi * 0.08 }}
+                              className="card-gradient border border-glow rounded-lg p-5 hover:border-primary/30 transition-colors"
+                            >
+                              <div className="flex items-center gap-2 mb-2">
+                                {VarIcon && <VarIcon className="w-4 h-4 text-primary" />}
+                                <span className="text-xs font-mono text-primary font-bold bg-primary/10 px-2 py-0.5 rounded">{v.code}</span>
+                                <h4 className="font-display font-semibold text-foreground text-sm">{v.name}</h4>
+                              </div>
+                              <p className="text-sm text-muted-foreground mb-3">{v.description}</p>
+                              <ul className="space-y-1.5">
+                                {v.details.map((d, i) => (
+                                  <li key={i} className="text-xs text-muted-foreground flex items-start gap-2">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-primary mt-1 shrink-0" />
+                                    {d}
+                                  </li>
+                                ))}
+                              </ul>
+                            </motion.div>
+                          );
+                        })}
                       </div>
                     </div>
-                    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                      {vars.map((v) => (
-                        <div key={v.id} className="bg-card border border-border rounded-lg p-5 hover:border-primary/40 transition-colors">
-                          <div className="flex items-center gap-2 mb-2">
-                            {(() => { const Icon = varIconMap[v.icon]; return Icon ? <Icon className="w-4 h-4 text-primary" /> : null; })()}
-                            <span className="text-xs font-mono text-primary font-bold bg-primary/10 px-2 py-0.5 rounded">{v.code}</span>
-                            <h4 className="font-display font-semibold text-foreground text-sm">{v.name}</h4>
-                          </div>
-                          <p className="text-sm text-muted-foreground mb-3">{v.description}</p>
-                          <ul className="space-y-1">
-                            {v.details.map((d, i) => (
-                              <li key={i} className="text-xs text-muted-foreground flex items-center gap-1.5">
-                                <span className="w-1 h-1 rounded-full bg-primary flex-shrink-0" />
-                                {d}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      ))}
-                    </div>
-                  </motion.div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
                 );
               })}
             </div>
