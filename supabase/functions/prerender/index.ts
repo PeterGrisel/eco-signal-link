@@ -260,54 +260,51 @@ Deno.serve(async (req) => {
           })}
           </script>`;
 
-        return new Response(
-          buildHtml({
+        const html = buildHtml({
             title: `${post.title} — ${SITE_NAME}`,
             description: post.meta_description || post.excerpt || "",
             url: pageUrl,
             h1: post.title,
             content: plainContent,
             extraHead,
-          }),
-          {
-            headers: { ...corsHeaders, "Content-Type": "text/html; charset=utf-8" },
-          }
-        );
+          });
+        setCache(path, html);
+        return new Response(html, {
+          headers: { ...cacheHeaders, "X-Cache": "MISS" },
+        });
       }
     }
 
     // 3. Sector page: /sectoren/:slug
     const sectorMatch = path.match(/^\/sectoren\/([^/]+)$/);
     if (sectorMatch) {
-      return new Response(
-        buildHtml({
+      const html = buildHtml({
           title: `${sectorMatch[1].replace(/-/g, " ")} — ${SITE_NAME}`,
           description: `B2B sales automation voor de ${sectorMatch[1].replace(/-/g, " ")} sector. Signal-based prospecting en multichannel outreach.`,
           url: pageUrl,
           h1: sectorMatch[1].replace(/-/g, " "),
           content: `Ontdek hoe B2BGroeiMachine bedrijven in de ${sectorMatch[1].replace(/-/g, " ")} sector helpt met schaalbare sales automation.`,
-        }),
-        {
-          headers: { ...corsHeaders, "Content-Type": "text/html; charset=utf-8" },
-        }
-      );
+        });
+      setCache(path, html);
+      return new Response(html, {
+        headers: { ...cacheHeaders, "X-Cache": "MISS" },
+      });
     }
 
     // 4. Solution page: /solutions/:slug
     const solutionMatch = path.match(/^\/solutions\/([^/]+)$/);
     if (solutionMatch) {
-      return new Response(
-        buildHtml({
+      const html = buildHtml({
           title: `${solutionMatch[1].replace(/-/g, " ")} — ${SITE_NAME}`,
           description: `${solutionMatch[1].replace(/-/g, " ")} — onze oplossing voor ambitieuze B2B-bedrijven.`,
           url: pageUrl,
           h1: solutionMatch[1].replace(/-/g, " "),
           content: `Lees meer over onze ${solutionMatch[1].replace(/-/g, " ")} oplossing voor B2B sales automation.`,
-        }),
-        {
-          headers: { ...corsHeaders, "Content-Type": "text/html; charset=utf-8" },
-        }
-      );
+        });
+      setCache(path, html);
+      return new Response(html, {
+        headers: { ...cacheHeaders, "X-Cache": "MISS" },
+      });
     }
 
     // 5. Blog index with posts list
@@ -332,19 +329,18 @@ Deno.serve(async (req) => {
         .join("\n");
 
       const page = STATIC_PAGES["/blog"];
-      return new Response(
-        buildHtml({
+      const html = buildHtml({
           title: page.title,
           description: page.description,
           url: pageUrl,
           h1: page.h1,
           content: page.content,
           bodyContent: postsList,
-        }),
-        {
-          headers: { ...corsHeaders, "Content-Type": "text/html; charset=utf-8" },
-        }
-      );
+        });
+      setCache(path, html);
+      return new Response(html, {
+        headers: { ...cacheHeaders, "X-Cache": "MISS" },
+      });
     }
 
     // Fallback: 404
