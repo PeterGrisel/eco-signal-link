@@ -12,7 +12,7 @@ serve(async (req) => {
   }
 
   try {
-    const { scores, phaseScores, percentage, bottleneck, industry, teamSize } =
+    const { scores, phaseScores, percentage, bottleneck, industry, teamSize, deepDiveAnswers } =
       await req.json();
 
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
@@ -28,6 +28,11 @@ serve(async (req) => {
     const phaseLines = (phaseScores as { label: string; pct: number }[])
       .map((p) => `${p.label}: ${p.pct}%`)
       .join(", ");
+
+    // Format deep dive answers if provided
+    const deepDiveContext = Array.isArray(deepDiveAnswers) && deepDiveAnswers.length > 0
+      ? `\n\nVerdiepende antwoorden:\n${deepDiveAnswers.map((a: { question: string; answer: string }) => `- ${a.question} → ${a.answer}`).join("\n")}`
+      : "";
 
     const systemPrompt = `Je bent de Pipeline Equation™ AI-adviseur van B2BGroeiMachine.
 Je schrijft op B1-taalniveau: korte zinnen (max 12 woorden), concreet, directe aanspreking (u/uw).
@@ -45,6 +50,7 @@ Structuur (gebruik exact deze markdown koppen):
 Voor elke fase (Attract, Reach, Resonate, Execution, Convert):
 **[Fase] — [score]%**
 1-2 zinnen: wat gaat goed of fout, en één concrete actie.
+${deepDiveContext ? "Gebruik de verdiepende antwoorden om je analyse specifieker te maken. Verwijs naar wat ze wel en niet doen." : ""}
 
 ### Uw grootste kans
 2-3 zinnen over de snelste verbetering die ze kunnen doorvoeren.
@@ -62,7 +68,7 @@ Totaalscore: ${percentage}/100
 Zwakste fase: ${bottleneck}
 
 Scores per factor: ${scoreLines}
-Scores per fase: ${phaseLines}`;
+Scores per fase: ${phaseLines}${deepDiveContext}`;
 
     const response = await fetch(
       "https://ai.gateway.lovable.dev/v1/chat/completions",
