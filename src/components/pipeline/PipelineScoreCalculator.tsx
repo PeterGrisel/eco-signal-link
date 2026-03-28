@@ -175,6 +175,29 @@ const PipelineScoreCalculator = () => {
         }
       }
 
+      // Save lead with complete report
+      const deepDiveFormatted = Object.entries(deepAnswers)
+        .filter(([, v]) => v !== null)
+        .map(([id, answer]) => {
+          const q = deepDiveQuestions.find((dq) => dq.id === id);
+          return { question: q?.question || id, answer };
+        });
+
+      await supabase.from("contact_submissions").insert({
+        name: name.trim(),
+        email: email.trim(),
+        message: `Pipeline Score™ rapport — Score: ${percentage}/100\n\n${full}`,
+        selected_package: {
+          pipeline_score: percentage,
+          scores,
+          phase_scores: phaseScores,
+          industry,
+          team_size: teamSize,
+          deep_dive_answers: deepDiveFormatted,
+          report_markdown: full,
+        } as any,
+      });
+
       setReportDone(true);
     } catch (e) {
       console.error("Stream error:", e);
