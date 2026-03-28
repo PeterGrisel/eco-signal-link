@@ -16,6 +16,7 @@ const clients = [
   { name: "Drivewise Lease", url: "https://www.drivewiselease.nl/" },
   { name: "Sascha del Sal", url: "https://saschadelsal.com/" },
   { name: "HappyBase", url: "https://www.happybase.me/" },
+  { name: "RTC Group", url: "https://www.rtc-group.nl/" },
 ];
 
 const StreamsSection = () => {
