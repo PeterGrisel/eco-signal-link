@@ -168,6 +168,13 @@ function buildHtml(meta: {
 </html>`;
 }
 
+const cacheHeaders = {
+  ...corsHeaders,
+  "Content-Type": "text/html; charset=utf-8",
+  "Cache-Control": "public, max-age=3600, s-maxage=86400",
+  "X-Prerender": "1",
+};
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -176,23 +183,33 @@ Deno.serve(async (req) => {
   try {
     const url = new URL(req.url);
     const path = url.searchParams.get("path") || "/";
+    const noCache = url.searchParams.get("nocache") === "1";
     const pageUrl = `${SITE_URL}${path}`;
+
+    // Check cache first
+    if (!noCache) {
+      const cached = getCached(path);
+      if (cached) {
+        return new Response(cached, {
+          headers: { ...cacheHeaders, "X-Cache": "HIT" },
+        });
+      }
+    }
 
     // 1. Static pages
     if (STATIC_PAGES[path]) {
       const page = STATIC_PAGES[path];
-      return new Response(
-        buildHtml({
-          title: page.title,
-          description: page.description,
-          url: pageUrl,
-          h1: page.h1,
-          content: page.content,
-        }),
-        {
-          headers: { ...corsHeaders, "Content-Type": "text/html; charset=utf-8" },
-        }
-      );
+      const html = buildHtml({
+        title: page.title,
+        description: page.description,
+        url: pageUrl,
+        h1: page.h1,
+        content: page.content,
+      });
+      setCache(path, html);
+      return new Response(html, {
+        headers: { ...cacheHeaders, "X-Cache": "MISS" },
+      });
     }
 
     // 2. Blog post: /blog/:slug
