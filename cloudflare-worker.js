@@ -135,33 +135,40 @@ export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
     const userAgent = request.headers.get('user-agent') || '';
+    const agentType = classifyAgent(userAgent);
 
-    // Log for analytics (can be viewed in Workers Analytics)
-    console.log(`[${isBot(userAgent) ? 'BOT' : 'HUMAN'}] ${userAgent.substring(0, 100)} → ${url.pathname}`);
+    // Separate logging for AI crawlers vs traditional bots vs humans
+    if (agentType === 'ai') {
+      console.log(`[AI-CRAWLER] ${userAgent.substring(0, 120)} → ${url.pathname}`);
+    } else if (agentType === 'bot') {
+      console.log(`[BOT] ${userAgent.substring(0, 100)} → ${url.pathname}`);
+    }
 
     // Skip static assets and admin routes
     if (shouldSkipAsset(url)) {
       return fetch(request);
     }
 
-    // Check Cloudflare's bot management header (high confidence bots)
-    const cfBotManagement = request.headers.get('cf-bot-management');
-    if (cfBotManagement) {
-      try {
-        const botInfo = JSON.parse(cfBotManagement);
-        if (botInfo.score >= 10) { // High confidence bot
-          const result = await getPrerenderedContent(request);
-          if (result) return result;
-        }
-      } catch (e) {
-        // Fall through to UA check
-      }
-    }
-
-    // Check user agent for known bots
-    if (isBot(userAgent)) {
+    // Serve prerendered content to AI crawlers and traditional bots
+    if (agentType === 'ai' || agentType === 'bot') {
       const result = await getPrerenderedContent(request);
       if (result) return result;
+    }
+
+    // Check Cloudflare's bot management header (high confidence bots)
+    if (agentType === 'human') {
+      const cfBotManagement = request.headers.get('cf-bot-management');
+      if (cfBotManagement) {
+        try {
+          const botInfo = JSON.parse(cfBotManagement);
+          if (botInfo.score >= 10) {
+            const result = await getPrerenderedContent(request);
+            if (result) return result;
+          }
+        } catch (e) {
+          // Fall through
+        }
+      }
     }
 
     // Normal users → pass through to origin
