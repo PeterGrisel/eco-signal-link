@@ -137,6 +137,7 @@ const PipelineEquation = () => {
                         <div key={v.id} className="bg-card border border-border rounded-lg p-5 hover:border-primary/40 transition-colors">
                           <div className="flex items-center gap-2 mb-2">
                             {(() => { const Icon = varIconMap[v.icon]; return Icon ? <Icon className="w-4 h-4 text-primary" /> : null; })()}
+                            <span className="text-xs font-mono text-primary font-bold bg-primary/10 px-2 py-0.5 rounded">{v.code}</span>
                             <h4 className="font-display font-semibold text-foreground text-sm">{v.name}</h4>
                           </div>
                           <p className="text-sm text-muted-foreground mb-3">{v.description}</p>

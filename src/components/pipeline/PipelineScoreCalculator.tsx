@@ -6,6 +6,12 @@ import { pipelineVariables, pipelinePhases } from "@/data/pipelineVariables";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { trackCTA } from "@/lib/tracking";
+import { Magnet, Crosshair, MessageSquare, RefreshCw, TrendingUp, Database, Radio, Clock, Gem, PenLine, UserCheck, Share2, IterationCw, Flag, AlertTriangle } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
+
+const iconMap: Record<string, LucideIcon> = {
+  Magnet, Crosshair, MessageSquare, RefreshCw, TrendingUp, Database, Radio, Clock, Gem, PenLine, UserCheck, Share2, IterationCw, Flag,
+};
 
 const PipelineScoreCalculator = () => {
   const [scores, setScores] = useState<Record<string, number>>(
