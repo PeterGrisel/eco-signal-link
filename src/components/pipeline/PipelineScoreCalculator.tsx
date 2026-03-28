@@ -355,84 +355,148 @@ const PipelineScoreCalculator = () => {
                   animate={{ opacity: 1 }}
                   className="bg-card border border-primary/30 rounded-xl p-6 md:p-8"
                 >
-                  <div className="text-center mb-6">
-                    <h3 className="font-display text-xl font-bold text-foreground mb-2">
-                      Ontvang uw persoonlijke rapport
-                    </h3>
-                    <p className="text-muted-foreground text-sm max-w-md mx-auto">
-                      Onze AI analyseert uw scores en geeft concrete tips per factor. Vul onderstaande gegevens in.
-                    </p>
-                  </div>
+                  {!showDeepDive ? (
+                    <>
+                      <div className="text-center mb-6">
+                        <h3 className="font-display text-xl font-bold text-foreground mb-2">
+                          Ontvang uw persoonlijke rapport
+                        </h3>
+                        <p className="text-muted-foreground text-sm max-w-md mx-auto">
+                          Onze AI analyseert uw scores en geeft concrete tips per factor. Vul onderstaande gegevens in.
+                        </p>
+                      </div>
 
-                  <div className="max-w-lg mx-auto space-y-4">
-                    {/* Name + Email */}
-                    <div className="grid sm:grid-cols-2 gap-3">
-                      <Input
-                        placeholder="Uw naam"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        className="bg-secondary border-border"
-                      />
-                      <Input
-                        type="email"
-                        placeholder="Uw e-mailadres"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        className="bg-secondary border-border"
-                      />
-                    </div>
+                      <div className="max-w-lg mx-auto space-y-4">
+                        <div className="grid sm:grid-cols-2 gap-3">
+                          <Input
+                            placeholder="Uw naam"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            className="bg-secondary border-border"
+                          />
+                          <Input
+                            type="email"
+                            placeholder="Uw e-mailadres"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            className="bg-secondary border-border"
+                          />
+                        </div>
 
-                    {/* Industry */}
-                    <div>
-                      <label className="text-sm text-muted-foreground mb-1.5 block">In welke branche zit u?</label>
-                      <div className="flex flex-wrap gap-2">
-                        {industries.map((ind) => (
-                          <button
-                            key={ind}
-                            type="button"
-                            onClick={() => setIndustry(ind)}
-                            className={`text-xs px-3 py-1.5 rounded-full border transition-colors ${
-                              industry === ind
-                                ? "bg-primary text-primary-foreground border-primary"
-                                : "bg-secondary text-muted-foreground border-border hover:border-primary/40"
-                            }`}
+                        <div>
+                          <label className="text-sm text-muted-foreground mb-1.5 block">In welke branche zit u?</label>
+                          <div className="flex flex-wrap gap-2">
+                            {industries.map((ind) => (
+                              <button
+                                key={ind}
+                                type="button"
+                                onClick={() => setIndustry(ind)}
+                                className={`text-xs px-3 py-1.5 rounded-full border transition-colors ${
+                                  industry === ind
+                                    ? "bg-primary text-primary-foreground border-primary"
+                                    : "bg-secondary text-muted-foreground border-border hover:border-primary/40"
+                                }`}
+                              >
+                                {ind}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+
+                        <div>
+                          <label className="text-sm text-muted-foreground mb-1.5 block">Hoe groot is uw salesteam?</label>
+                          <div className="flex flex-wrap gap-2">
+                            {teamSizes.map((size) => (
+                              <button
+                                key={size}
+                                type="button"
+                                onClick={() => setTeamSize(size)}
+                                className={`text-xs px-3 py-1.5 rounded-full border transition-colors ${
+                                  teamSize === size
+                                    ? "bg-primary text-primary-foreground border-primary"
+                                    : "bg-secondary text-muted-foreground border-border hover:border-primary/40"
+                                }`}
+                              >
+                                {size}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+
+                        <div className="text-center pt-2">
+                          <Button
+                            variant="hero"
+                            size="lg"
+                            onClick={handleNextStep}
                           >
-                            {ind}
-                          </button>
+                            Volgende stap →
+                          </Button>
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className="text-center mb-6">
+                        <h3 className="font-display text-xl font-bold text-foreground mb-2">
+                          Maak uw rapport nog specifieker
+                        </h3>
+                        <p className="text-muted-foreground text-sm max-w-md mx-auto">
+                          Beantwoord deze 10 vragen zodat de AI precies weet waar u staat. U kunt ook meteen het rapport genereren.
+                        </p>
+                      </div>
+
+                      <div className="max-w-2xl mx-auto space-y-3 mb-6">
+                        {deepDiveQuestions.map((q, qi) => (
+                          <div key={q.id} className="bg-secondary/50 border border-border rounded-lg p-4 flex items-center justify-between gap-4">
+                            <div className="flex items-start gap-3 min-w-0">
+                              <span className="text-xs font-mono text-primary font-bold mt-0.5 shrink-0">{String(qi + 1).padStart(2, "0")}</span>
+                              <p className="text-sm text-foreground">{q.question}</p>
+                            </div>
+                            <div className="flex gap-1.5 shrink-0">
+                              {(["ja", "deels", "nee"] as const).map((opt) => (
+                                <button
+                                  key={opt}
+                                  type="button"
+                                  onClick={() => setDeepAnswers((prev) => ({ ...prev, [q.id]: opt }))}
+                                  className={`text-xs px-3 py-1.5 rounded-full border transition-colors capitalize ${
+                                    deepAnswers[q.id] === opt
+                                      ? opt === "ja"
+                                        ? "bg-green-500/20 text-green-400 border-green-500/40"
+                                        : opt === "deels"
+                                        ? "bg-yellow-500/20 text-yellow-400 border-yellow-500/40"
+                                        : "bg-red-500/20 text-red-400 border-red-500/40"
+                                      : "bg-secondary text-muted-foreground border-border hover:border-primary/40"
+                                  }`}
+                                >
+                                  {opt}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
                         ))}
                       </div>
-                    </div>
 
-                    {/* Team size */}
-                    <div>
-                      <label className="text-sm text-muted-foreground mb-1.5 block">Hoe groot is uw salesteam?</label>
-                      <div className="flex flex-wrap gap-2">
-                        {teamSizes.map((size) => (
-                          <button
-                            key={size}
-                            type="button"
-                            onClick={() => setTeamSize(size)}
-                            className={`text-xs px-3 py-1.5 rounded-full border transition-colors ${
-                              teamSize === size
-                                ? "bg-primary text-primary-foreground border-primary"
-                                : "bg-secondary text-muted-foreground border-border hover:border-primary/40"
-                            }`}
-                          >
-                            {size}
-                          </button>
-                        ))}
+                      <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                        <Button
+                          variant="hero"
+                          size="lg"
+                          onClick={handleGenerateReport}
+                          disabled={submitting}
+                        >
+                          {submitting ? "Bezig..." : "Genereer mijn rapport →"}
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="lg"
+                          onClick={() => setShowDeepDive(false)}
+                          disabled={submitting}
+                        >
+                          ← Terug
+                        </Button>
                       </div>
-                    </div>
-
-                    <div className="text-center pt-2">
-                      <Button
-                        variant="hero"
-                        size="lg"
-                        onClick={handleUnlockReport}
-                        disabled={submitting}
-                      >
-                        {submitting ? "Bezig..." : "Genereer mijn rapport →"}
-                      </Button>
+                    </>
+                  )}
+                </motion.div>
                     </div>
                   </div>
                 </motion.div>
