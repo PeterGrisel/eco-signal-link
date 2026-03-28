@@ -84,16 +84,16 @@ const StreamsSection = () => {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.3, delay: i * 0.04 }}
-                className="flex items-center gap-2.5 px-4 py-2.5 rounded-md border border-glow bg-secondary/40 hover:border-primary/40 hover:bg-secondary/70 transition-all group"
+                className="flex items-center gap-3 px-5 py-3.5 rounded-lg border border-glow bg-secondary/40 hover:border-primary/40 hover:bg-secondary/70 transition-all group"
                 title={client.name}
               >
                 <img
-                  src={`https://www.google.com/s2/favicons?domain=${client.domain}&sz=32`}
+                  src={`https://www.google.com/s2/favicons?domain=${client.domain}&sz=64`}
                   alt={client.name}
-                  className="w-5 h-5 rounded-sm object-contain"
+                  className="w-7 h-7 rounded-sm object-contain"
                   loading="lazy"
                 />
-                <span className="text-sm font-display font-semibold text-muted-foreground group-hover:text-primary transition-colors">
+                <span className="text-base font-display font-semibold text-muted-foreground group-hover:text-primary transition-colors">
                   {client.name}
                 </span>
               </motion.a>
