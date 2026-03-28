@@ -1,4 +1,4 @@
-import { Trophy, Package, Car, Wrench, Building2, Landmark, Factory, GraduationCap, type LucideIcon } from "lucide-react";
+import { Trophy, Package, Car, Wrench, Building2, Landmark, Factory, GraduationCap, Monitor, type LucideIcon } from "lucide-react";
 
 export interface FunnelDefaults {
   monthlyRevenue: number;
@@ -242,6 +242,33 @@ export const sectors: Sector[] = [
       "Jaarlijks opleidingsbudget vrijgegeven (Q1/Q4 signaal)",
     ],
     funnelDefaults: { monthlyRevenue: 80000, expenseRate: 30, marketingRate: 7, avgDealSize: 5000, optInRate: 4, optInToSqlRate: 25, sqlToCallRate: 65, salesConversionRate: 35, ltv: 6 },
+  },
+  {
+    slug: "it-software",
+    icon: Monitor,
+    title: "IT & Software",
+    tagline: "Nieuwe klanten voor SaaS, diensten en consultancy.",
+    description: "Software-bedrijven, SaaS-aanbieders en IT-dienstverleners die sneller willen groeien. Bereik CTO's, IT-managers en beslissers op het juiste moment.",
+    metaTitle: "B2B Leadgeneratie voor IT & Software Bedrijven — B2B GroeiMachine",
+    metaDescription: "Groei uw IT- of softwarebedrijf met data-gedreven leadgeneratie. Bereik CTO's en IT-managers op het moment dat ze investeren in technologie.",
+    challenges: [
+      "Lange sales cycles met technische evaluaties en meerdere stakeholders",
+      "Hoge concurrentie van internationale spelers met grotere budgetten",
+      "Moeilijk om de juiste beslisser te bereiken binnen complexe organisaties",
+    ],
+    solutions: [
+      "Signaaldetectie bij bedrijven die investeren in nieuwe technologie of migratie",
+      "Gerichte outreach naar CTO's, IT-managers en Heads of Engineering",
+      "Technisch onderbouwde messaging die aansluit bij de pijnpunten van de doelgroep",
+    ],
+    signals: [
+      "Bedrijf plaatst vacatures voor developers of IT-functies (groei)",
+      "Nieuwe CTO, IT Director of Head of Engineering aangesteld",
+      "Technologie-migratie of platformwissel aangekondigd",
+      "Investerings- of funding-ronde afgerond",
+      "Bezoek aan tech-evenementen of beurzen (SaaS, cloud)",
+    ],
+    funnelDefaults: { monthlyRevenue: 150000, expenseRate: 30, marketingRate: 8, avgDealSize: 12000, optInRate: 3, optInToSqlRate: 20, sqlToCallRate: 55, salesConversionRate: 28, ltv: 24 },
   },
 ];
 
