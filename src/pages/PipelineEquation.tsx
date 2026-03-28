@@ -7,6 +7,16 @@ import PipelineScoreCalculator from "@/components/pipeline/PipelineScoreCalculat
 import { pipelineVariables, pipelinePhases } from "@/data/pipelineVariables";
 import { Button } from "@/components/ui/button";
 import { trackCTA } from "@/lib/tracking";
+import { Wrench, Building2, Zap, Magnet, Crosshair, MessageSquare, RefreshCw, TrendingUp, Database, Radio, Clock, Gem, PenLine, UserCheck, Share2, IterationCw, Flag } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
+
+const phaseIconMap: Record<string, LucideIcon> = {
+  Magnet, Crosshair, MessageSquare, RefreshCw, TrendingUp,
+};
+
+const varIconMap: Record<string, LucideIcon> = {
+  Magnet, Database, Radio, Clock, Gem, PenLine, UserCheck, Share2, IterationCw, Flag,
+};
 
 const PipelineEquation = () => {
   return (
@@ -65,21 +75,21 @@ const PipelineEquation = () => {
               </h2>
               <div className="grid md:grid-cols-3 gap-6 mb-12">
                 <div className="bg-card border border-border rounded-xl p-6 text-center">
-                  <span className="text-3xl mb-3 block">🔧</span>
+                  <Wrench className="w-7 h-7 text-muted-foreground mx-auto mb-3" />
                   <h3 className="font-display font-semibold text-foreground mb-2">Tools</h3>
                   <p className="text-sm text-muted-foreground">
                     Raken alleen uw data en kanalen. 2 van de 10 factoren.
                   </p>
                 </div>
                 <div className="bg-card border border-border rounded-xl p-6 text-center">
-                  <span className="text-3xl mb-3 block">🏢</span>
+                  <Building2 className="w-7 h-7 text-muted-foreground mx-auto mb-3" />
                   <h3 className="font-display font-semibold text-foreground mb-2">Agencies</h3>
                   <p className="text-sm text-muted-foreground">
                     Doen alleen uitvoering. 2 van de 10 factoren.
                   </p>
                 </div>
                 <div className="bg-card border border-primary/40 rounded-xl p-6 text-center ring-1 ring-primary/20">
-                  <span className="text-3xl mb-3 block">⚡</span>
+                  <Zap className="w-7 h-7 text-primary mx-auto mb-3" />
                   <h3 className="font-display font-semibold text-primary mb-2">B2BGroeiMachine</h3>
                   <p className="text-sm text-muted-foreground">
                     Pakt alle 10 factoren aan. Het hele systeem.
@@ -114,7 +124,7 @@ const PipelineEquation = () => {
                     transition={{ delay: pi * 0.1 }}
                   >
                     <div className="flex items-center gap-3 mb-4">
-                      <span className="text-2xl">{phase.icon}</span>
+                      {(() => { const Icon = phaseIconMap[phase.icon]; return Icon ? <Icon className="w-6 h-6 text-primary" /> : null; })()}
                       <div>
                         <h3 className="font-display font-bold text-foreground text-lg">
                           {pi + 1}. {phase.label}
@@ -126,7 +136,7 @@ const PipelineEquation = () => {
                       {vars.map((v) => (
                         <div key={v.id} className="bg-card border border-border rounded-lg p-5 hover:border-primary/40 transition-colors">
                           <div className="flex items-center gap-2 mb-2">
-                            <span className="text-xs font-mono text-primary font-bold bg-primary/10 px-2 py-0.5 rounded">{v.code}</span>
+                            {(() => { const Icon = varIconMap[v.icon]; return Icon ? <Icon className="w-4 h-4 text-primary" /> : null; })()}
                             <h4 className="font-display font-semibold text-foreground text-sm">{v.name}</h4>
                           </div>
                           <p className="text-sm text-muted-foreground mb-3">{v.description}</p>
