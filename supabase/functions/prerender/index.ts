@@ -10,6 +10,29 @@ const SITE_URL = "https://b2bgroeimachine.io";
 const SITE_NAME = "B2BGroeiMachine";
 const DEFAULT_OG_IMAGE = `${SITE_URL}/og-image.png`;
 
+// In-memory cache with TTL
+const CACHE_TTL_MS = 60 * 60 * 1000; // 1 hour
+const cache = new Map<string, { html: string; timestamp: number }>();
+
+function getCached(key: string): string | null {
+  const entry = cache.get(key);
+  if (!entry) return null;
+  if (Date.now() - entry.timestamp > CACHE_TTL_MS) {
+    cache.delete(key);
+    return null;
+  }
+  return entry.html;
+}
+
+function setCache(key: string, html: string) {
+  // Limit cache size to 200 entries
+  if (cache.size >= 200) {
+    const oldest = cache.keys().next().value;
+    if (oldest) cache.delete(oldest);
+  }
+  cache.set(key, { html, timestamp: Date.now() });
+}
+
 // Static page meta data
 const STATIC_PAGES: Record<
   string,
