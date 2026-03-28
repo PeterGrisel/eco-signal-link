@@ -24,6 +24,7 @@ const clients = [
   { name: "Sascha del Sal", url: "https://saschadelsal.com/" },
   { name: "HappyBase", url: "https://www.happybase.me/" },
   { name: "RTC Group", url: "https://www.rtc-group.nl/" },
+  { name: "Yaskawa", url: "https://www.yaskawa.nl/" },
 ];
 
 const LogoTicker = () => {
