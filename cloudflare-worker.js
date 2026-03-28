@@ -12,19 +12,40 @@ const BOT_AGENTS = [
   'mediapartners-google', 'adsbot-google'
 ];
 
+// AI crawler user-agents (tracked separately for AI visibility metrics)
+const AI_AGENTS = [
+  'chatgpt-user', 'gptbot', 'oai-searchbot',
+  'perplexitybot',
+  'claudebot', 'claude-web',
+  'google-extended',
+  'cohere-ai', 'cohere-training',
+  'anthropic-ai',
+  'youbot',
+  'ccbot',
+  'meta-externalagent'
+];
+
 // Cache for prerendered content (in-memory, TTL: 1 hour)
 const prerenderCache = new Map();
 const PRERENDER_CACHE_TTL = 3600;
 
-function isBot(userAgent) {
-  if (!userAgent) return false;
+function classifyAgent(userAgent) {
+  if (!userAgent) return 'human';
   const ua = userAgent.toLowerCase();
-  // Check for major crawler patterns with word boundaries
-  return BOT_AGENTS.some(bot =>
-    ua.includes(` ${bot} `) ||
-    ua.includes(`/${bot}/`) ||
-    ua.includes(`-${bot}-`)
+
+  // Check AI crawlers first (more specific)
+  const isAi = AI_AGENTS.some(bot => ua.includes(bot));
+  if (isAi) return 'ai';
+
+  // Check traditional bots
+  const isTraditionalBot = BOT_AGENTS.some(bot =>
+    ua.includes(bot) ||
+    ua.includes(`/${bot}`) ||
+    ua.includes(`${bot}/`)
   );
+  if (isTraditionalBot) return 'bot';
+
+  return 'human';
 }
 
 function shouldSkipAsset(url) {
@@ -114,33 +135,40 @@ export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
     const userAgent = request.headers.get('user-agent') || '';
+    const agentType = classifyAgent(userAgent);
 
-    // Log for analytics (can be viewed in Workers Analytics)
-    console.log(`[${isBot(userAgent) ? 'BOT' : 'HUMAN'}] ${userAgent.substring(0, 100)} → ${url.pathname}`);
+    // Separate logging for AI crawlers vs traditional bots vs humans
+    if (agentType === 'ai') {
+      console.log(`[AI-CRAWLER] ${userAgent.substring(0, 120)} → ${url.pathname}`);
+    } else if (agentType === 'bot') {
+      console.log(`[BOT] ${userAgent.substring(0, 100)} → ${url.pathname}`);
+    }
 
     // Skip static assets and admin routes
     if (shouldSkipAsset(url)) {
       return fetch(request);
     }
 
-    // Check Cloudflare's bot management header (high confidence bots)
-    const cfBotManagement = request.headers.get('cf-bot-management');
-    if (cfBotManagement) {
-      try {
-        const botInfo = JSON.parse(cfBotManagement);
-        if (botInfo.score >= 10) { // High confidence bot
-          const result = await getPrerenderedContent(request);
-          if (result) return result;
-        }
-      } catch (e) {
-        // Fall through to UA check
-      }
-    }
-
-    // Check user agent for known bots
-    if (isBot(userAgent)) {
+    // Serve prerendered content to AI crawlers and traditional bots
+    if (agentType === 'ai' || agentType === 'bot') {
       const result = await getPrerenderedContent(request);
       if (result) return result;
+    }
+
+    // Check Cloudflare's bot management header (high confidence bots)
+    if (agentType === 'human') {
+      const cfBotManagement = request.headers.get('cf-bot-management');
+      if (cfBotManagement) {
+        try {
+          const botInfo = JSON.parse(cfBotManagement);
+          if (botInfo.score >= 10) {
+            const result = await getPrerenderedContent(request);
+            if (result) return result;
+          }
+        } catch (e) {
+          // Fall through
+        }
+      }
     }
 
     // Normal users → pass through to origin
