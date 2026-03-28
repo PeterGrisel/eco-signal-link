@@ -8,7 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import teamBanner from "@/assets/team-banner.jpg";
 
-const rotatingWords = ["klanten.", "omzet.", "controle.", "groei."];
+const rotatingWords = ["salesproces.", "pipeline.", "groei.", "resultaat."];
 
 const Hero = () => {
   const [wordIndex, setWordIndex] = useState(0);
