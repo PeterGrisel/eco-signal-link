@@ -4,6 +4,16 @@ import { ArrowRight } from "lucide-react";
 import { sectors } from "@/data/sectors";
 import { solutions } from "@/data/solutions";
 
+const clients = [
+  { name: "Krak de Rijder", url: "https://www.krakderijder.nl/" },
+  { name: "Excelsior Rotterdam", url: "https://excelsiorrotterdam.nl/" },
+  { name: "Core Vision", url: "https://www.core-vision.nl/" },
+  { name: "GoBytes", url: "https://gobytes.nl/" },
+  { name: "Nexer", url: "https://nexer.nl/" },
+  { name: "Rebel Force", url: "https://www.rebelforce.nl/" },
+  { name: "Exes Engineering", url: "https://exesengineering.nl/" },
+  { name: "Datahub", url: "https://datahub.nl/" },
+];
 
 const StreamsSection = () => {
   return (
@@ -48,12 +58,42 @@ const StreamsSection = () => {
           ))}
         </div>
 
+        {/* Client squares */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="mt-12 mb-6"
+        >
+          <p className="text-xs font-display uppercase tracking-[0.25em] text-muted-foreground mb-5">
+            Werkt voor:
+          </p>
+          <div className="flex flex-wrap gap-3">
+            {clients.map((client, i) => (
+              <motion.a
+                key={client.name}
+                href={client.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.3, delay: i * 0.04 }}
+                className="px-4 py-2.5 rounded-md border border-glow bg-secondary/40 hover:border-primary/40 hover:bg-secondary/70 transition-all text-sm font-display font-semibold text-muted-foreground hover:text-primary"
+              >
+                {client.name}
+              </motion.a>
+            ))}
+          </div>
+        </motion.div>
+
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="mt-12 p-6 md:p-8 rounded-xl border border-border bg-secondary/30"
+          className="p-6 md:p-8 rounded-xl border border-border bg-secondary/30"
         >
           <p className="text-muted-foreground mb-4">
             Dezelfde uitdagingen, ongeacht uw branche? Bekijk onze oplossingen:
