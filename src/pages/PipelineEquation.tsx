@@ -254,11 +254,8 @@ const PipelineEquation = () => {
             </div>
           </div>
         </section>
-                );
-              })}
-            </div>
-          </div>
-        </section>
+
+
 
         {/* Deliverables */}
         <section className="py-16 md:py-20 border-t border-border">
