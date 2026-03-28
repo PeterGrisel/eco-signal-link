@@ -32,15 +32,14 @@ const PipelineEquation = () => {
                 De <span className="text-primary">Pipeline Equation™</span>
               </h1>
               <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-4">
-                Pipeline = f(10 variabelen). De meeste bedrijven optimaliseren 1 of 2.
-                Wij optimaliseren het hele systeem.
+                Uw pipeline hangt af van 10 factoren. De meeste bedrijven werken aan 1 of 2. Wij pakken alle 10 aan.
               </p>
               <p className="text-foreground font-display font-medium text-base md:text-lg max-w-xl mx-auto mb-8">
-                Pipeline (Y) = f(Attract × Reach × Resonate × Execute × Convert)
+                Pipeline = Attract × Reach × Resonate × Execute × Convert
               </p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
                 <Button variant="hero" size="lg" asChild>
-                  <a href="#calculator">Bereken uw Pipeline Score™ →</a>
+                  <a href="#calculator">Bereken uw score →</a>
                 </Button>
                 <Button variant="outline" size="lg" asChild>
                   <a
@@ -49,7 +48,7 @@ const PipelineEquation = () => {
                     rel="noopener noreferrer"
                     onClick={() => trackCTA("Pipeline Equation Hero — Demo", "/pipeline-equation")}
                   >
-                    Plan een Demo
+                    Plan een gesprek
                   </a>
                 </Button>
               </div>
@@ -62,28 +61,28 @@ const PipelineEquation = () => {
           <div className="container mx-auto px-4 max-w-5xl">
             <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
               <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground text-center mb-6">
-                Waarom de meeste pipelines falen
+                Waarom uw pipeline niet groeit
               </h2>
               <div className="grid md:grid-cols-3 gap-6 mb-12">
                 <div className="bg-card border border-border rounded-xl p-6 text-center">
                   <span className="text-3xl mb-3 block">🔧</span>
                   <h3 className="font-display font-semibold text-foreground mb-2">Tools</h3>
                   <p className="text-sm text-muted-foreground">
-                    Beïnvloeden alleen X2 en X8. Data en kanalen, meer niet.
+                    Raken alleen uw data en kanalen. 2 van de 10 factoren.
                   </p>
                 </div>
                 <div className="bg-card border border-border rounded-xl p-6 text-center">
                   <span className="text-3xl mb-3 block">🏢</span>
                   <h3 className="font-display font-semibold text-foreground mb-2">Agencies</h3>
                   <p className="text-sm text-muted-foreground">
-                    Beïnvloeden alleen X8 en X9. Kanaaluitvoering en touchpoints.
+                    Doen alleen uitvoering. 2 van de 10 factoren.
                   </p>
                 </div>
                 <div className="bg-card border border-primary/40 rounded-xl p-6 text-center ring-1 ring-primary/20">
                   <span className="text-3xl mb-3 block">⚡</span>
                   <h3 className="font-display font-semibold text-primary mb-2">B2BGroeiMachine</h3>
                   <p className="text-sm text-muted-foreground">
-                    Beheert X1 tot en met X10. Het hele systeem, geoptimaliseerd.
+                    Pakt alle 10 factoren aan. Het hele systeem.
                   </p>
                 </div>
               </div>
@@ -96,10 +95,10 @@ const PipelineEquation = () => {
           <div className="container mx-auto px-4 max-w-5xl">
             <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
               <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-3">
-                De 10 variabelen die uw pipeline bepalen
+                Dit zijn de 10 factoren
               </h2>
               <p className="text-muted-foreground max-w-xl mx-auto">
-                Elke variabele beïnvloedt het eindresultaat. Eén zwakke schakel en de hele keten breekt.
+                Elke factor telt. Is er één zwak? Dan lekt uw hele pipeline.
               </p>
             </motion.div>
 
@@ -154,14 +153,14 @@ const PipelineEquation = () => {
           <div className="container mx-auto px-4 max-w-4xl text-center">
             <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
               <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-8">
-                Wat u concreet krijgt
+                Dit krijgt u van ons
               </h2>
               <div className="grid sm:grid-cols-2 gap-4">
                 {[
-                  { num: "01", title: "Pipeline Variable Audit", desc: "Score per variabele, gebaseerd op data en analyse." },
-                  { num: "02", title: "System Architecture", desc: "Hoe alle variabelen in uw situatie samenwerken." },
-                  { num: "03", title: "Optimization Plan", desc: "Welke variabele eerst, voor maximale impact." },
-                  { num: "04", title: "Continuous Improvement", desc: "Maandelijkse iteratie op basis van resultaten." },
+                  { num: "01", title: "Pipeline Audit", desc: "Wij scoren elke factor op basis van uw data." },
+                  { num: "02", title: "Systeem Ontwerp", desc: "Hoe alle factoren bij u samenwerken." },
+                  { num: "03", title: "Actieplan", desc: "Welke factor u eerst moet verbeteren." },
+                  { num: "04", title: "Maandelijkse Verbetering", desc: "Elke maand meten, bijsturen, groeien." },
                 ].map((item) => (
                   <div key={item.num} className="bg-card border border-border rounded-xl p-6 text-left">
                     <span className="text-xs font-mono text-primary font-bold">{item.num}</span>
@@ -183,10 +182,10 @@ const PipelineEquation = () => {
         <section className="py-16 md:py-20 border-t border-border">
           <div className="container mx-auto px-4 text-center">
             <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-4">
-              Klaar om uw pipeline te optimaliseren?
+              Klaar om te groeien?
             </h2>
             <p className="text-muted-foreground mb-8 max-w-lg mx-auto">
-              Wij identificeren en optimaliseren de 10 variabelen die uw pipeline bepalen.
+              Wij vinden uw zwakste schakel en maken die sterk. Zo groeit uw pipeline stap voor stap.
             </p>
             <Button variant="hero" size="lg" asChild>
               <a
@@ -195,7 +194,7 @@ const PipelineEquation = () => {
                 rel="noopener noreferrer"
                 onClick={() => trackCTA("Pipeline Equation CTA — Demo", "/pipeline-equation")}
               >
-                Plan een Demo →
+                Plan een gesprek →
               </a>
             </Button>
           </div>
