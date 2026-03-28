@@ -41,6 +41,19 @@ const teamSizes = [
   "Meer dan 50 mensen",
 ];
 
+const deepDiveQuestions = [
+  { id: "q1", question: "Heeft u een duidelijk omschreven ideale klantprofiel?", phase: "attract" },
+  { id: "q2", question: "Wordt uw contactdata regelmatig opgeschoond en verrijkt?", phase: "attract" },
+  { id: "q3", question: "Gebruikt u koopsignalen om het juiste moment te kiezen?", phase: "reach" },
+  { id: "q4", question: "Weet u binnen 24 uur wanneer een prospect actief is?", phase: "reach" },
+  { id: "q5", question: "Begrijpt een prospect in 5 seconden wat u doet?", phase: "resonate" },
+  { id: "q6", question: "Stuurt u gepersonaliseerde berichten per prospect?", phase: "resonate" },
+  { id: "q7", question: "Combineert u minstens 2 kanalen (email, LinkedIn, telefoon)?", phase: "execute" },
+  { id: "q8", question: "Heeft u een vast opvolgschema met meerdere contactmomenten?", phase: "execute" },
+  { id: "q9", question: "Wordt elke reactie binnen 4 uur opgepakt?", phase: "convert" },
+  { id: "q10", question: "Heeft u een duidelijk kwalificatieproces voor leads?", phase: "convert" },
+];
+
 const PipelineScoreCalculator = () => {
   const [scores, setScores] = useState<Record<string, number>>(
     Object.fromEntries(pipelineVariables.map((v) => [v.id, 5]))
@@ -53,6 +66,12 @@ const PipelineScoreCalculator = () => {
   const [industry, setIndustry] = useState("");
   const [teamSize, setTeamSize] = useState("");
   const [submitting, setSubmitting] = useState(false);
+
+  // Deep dive step
+  const [showDeepDive, setShowDeepDive] = useState(false);
+  const [deepAnswers, setDeepAnswers] = useState<Record<string, "ja" | "nee" | "deels" | null>>(
+    Object.fromEntries(deepDiveQuestions.map((q) => [q.id, null]))
+  );
 
   // AI report
   const [reportMarkdown, setReportMarkdown] = useState("");
@@ -102,6 +121,12 @@ const PipelineScoreCalculator = () => {
           bottleneck: bottleneck.label,
           industry,
           teamSize,
+          deepDiveAnswers: Object.entries(deepAnswers)
+            .filter(([, v]) => v !== null)
+            .map(([id, answer]) => {
+              const q = deepDiveQuestions.find((dq) => dq.id === id);
+              return { question: q?.question || id, answer };
+            }),
         }),
       });
 
