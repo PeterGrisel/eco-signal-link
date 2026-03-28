@@ -69,7 +69,9 @@ const Hero = () => {
               transition={{ duration: 0.8, delay: 0.1 }}
               className="font-display font-bold text-[3rem] md:text-[5.5rem] lg:text-[6rem] leading-[1.05] tracking-tighter mb-6 md:mb-8"
             >
-              Meer
+              Wij automatiseren
+              <br />
+              en schalen uw
               <br />
               <AnimatePresence mode="wait">
                 <motion.span
