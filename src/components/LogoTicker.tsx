@@ -15,6 +15,11 @@ const clients = [
   { name: "Krak de Rijder", url: "https://www.krakderijder.nl/" },
   { name: "Excelsior Rotterdam", url: "https://excelsiorrotterdam.nl/" },
   { name: "Core Vision", url: "https://www.core-vision.nl/" },
+  { name: "GoBytes", url: "https://gobytes.nl/" },
+  { name: "Nexer", url: "https://nexer.nl/" },
+  { name: "Rebel Force", url: "https://www.rebelforce.nl/" },
+  { name: "Exes Engineering", url: "https://exesengineering.nl/" },
+  { name: "Datahub", url: "https://datahub.nl/" },
 ];
 
 const LogoTicker = () => {
