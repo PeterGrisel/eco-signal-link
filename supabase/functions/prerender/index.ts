@@ -632,6 +632,41 @@ Deno.serve(async (req) => {
     const solutionMatch = path.match(/^\/solutions\/([^/]+)$/);
     if (solutionMatch) {
       const slug = solutionMatch[1];
+      const solution = SOLUTIONS[slug];
+
+      if (solution) {
+        const solutionBody = `
+<p>${escapeHtml(solution.heroDescription)}</p>
+<section>
+  <h2>${escapeHtml(solution.problemTitle)}</h2>
+  <p>${escapeHtml(solution.problemDescription)}</p>
+  <ul>${solution.problems.map(p => `<li>${escapeHtml(p)}</li>`).join("")}</ul>
+</section>
+<section>
+  <h2>${escapeHtml(solution.solutionTitle)} ${escapeHtml(solution.solutionTitleGradient)}</h2>
+  <p>${escapeHtml(solution.solutionDescription)}</p>
+  <ul>${solution.features.map(f => `<li><strong>${escapeHtml(f.title)}</strong> — ${escapeHtml(f.description)}</li>`).join("")}</ul>
+</section>
+<section>
+  <h2>${escapeHtml(solution.resultTitle)}</h2>
+  <ul>${solution.results.map(r => `<li><strong>${escapeHtml(r.metric)}</strong> ${escapeHtml(r.label)}</li>`).join("")}</ul>
+</section>
+<p><a href="https://app.usemotion.com/meet/Rebel-Force/meeting">Bespreek uw situatie</a></p>`;
+
+        const html = buildHtml({
+          title: solution.metaTitle,
+          description: solution.metaDescription,
+          url: pageUrl,
+          h1: `${solution.heroTitle} ${solution.heroTitleGradient}`,
+          bodyContent: solutionBody,
+        });
+        setCache(path, html);
+        return new Response(html, {
+          headers: { ...cacheHeaders, "X-Cache": "MISS" },
+        });
+      }
+
+      // Fallback for unknown solution slugs
       const title = slug.replace(/-/g, " ");
       const html = buildHtml({
         title: `${title} — ${SITE_NAME}`,
