@@ -203,22 +203,9 @@ const PipelineScoreCalculator = () => {
   const handleGenerateReport = async () => {
     setSubmitting(true);
     try {
-      await supabase.from("contact_submissions").insert({
-        name: name.trim(),
-        email: email.trim(),
-        message: `Pipeline Score™ rapport — Score: ${percentage}/100`,
-        selected_package: {
-          pipeline_score: percentage,
-          scores,
-          phase_scores: phaseScores,
-          industry,
-          team_size: teamSize,
-          deep_dive_answers: deepAnswers,
-        } as any,
-      });
       trackCTA("Pipeline Score — Rapport aangevraagd", "/pipeline-equation");
 
-      // Start AI report generation
+      // Generate report first, then save everything together
       await streamReport();
     } catch {
       toast.error("Dat lukte niet. Probeer het nog eens.");
