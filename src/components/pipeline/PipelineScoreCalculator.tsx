@@ -184,7 +184,7 @@ const PipelineScoreCalculator = () => {
     }
   };
 
-  const handleUnlockReport = async () => {
+  const handleNextStep = () => {
     if (!email.trim() || !name.trim()) {
       toast.error("Vul uw naam en e-mail in.");
       return;
@@ -197,7 +197,10 @@ const PipelineScoreCalculator = () => {
       toast.error("Kies uw teamgrootte.");
       return;
     }
+    setShowDeepDive(true);
+  };
 
+  const handleGenerateReport = async () => {
     setSubmitting(true);
     try {
       await supabase.from("contact_submissions").insert({
@@ -210,6 +213,7 @@ const PipelineScoreCalculator = () => {
           phase_scores: phaseScores,
           industry,
           team_size: teamSize,
+          deep_dive_answers: deepAnswers,
         } as any,
       });
       trackCTA("Pipeline Score — Rapport aangevraagd", "/pipeline-equation");
