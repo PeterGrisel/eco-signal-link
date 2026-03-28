@@ -172,6 +172,15 @@ export default {
     }
 
     // Normal users → pass through to origin
-    return fetch(request);
+    const response = await fetch(request);
+
+    // Block indexing of Lovable subdomain (prevent duplicate content)
+    if (url.hostname.endsWith('.lovable.app')) {
+      const newResponse = new Response(response.body, response);
+      newResponse.headers.set('X-Robots-Tag', 'noindex, nofollow');
+      return newResponse;
+    }
+
+    return response;
   },
 };
