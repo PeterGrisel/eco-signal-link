@@ -20,6 +20,8 @@ const clients = [
   { name: "Rebel Force", url: "https://www.rebelforce.nl/" },
   { name: "Exes Engineering", url: "https://exesengineering.nl/" },
   { name: "Datahub", url: "https://datahub.nl/" },
+  { name: "Drivewise Lease", url: "https://www.drivewiselease.nl/" },
+  { name: "Sascha del Sal", url: "https://saschadelsal.com/" },
 ];
 
 const LogoTicker = () => {
