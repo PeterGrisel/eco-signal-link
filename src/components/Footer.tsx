@@ -9,14 +9,18 @@ interface RecentPost {
   title: string;
 }
 
-const pageLinks = [
+const diensten = [
   { href: "/full-sales-management", label: "Full Sales Management" },
   { href: "/full-service-recruitment", label: "Full Service Recruitment" },
   { href: "/datahub", label: "Datahub" },
-  { href: "/brandstory", label: "Brandstory" },
-  { href: "/pricing", label: "Pricing" },
+  { href: "/pipeline-equation", label: "Pipeline Equation™" },
+];
+
+const bedrijf = [
   { href: "/over-ons", label: "Over Ons" },
   { href: "/ons-team", label: "Ons Team" },
+  { href: "/brandstory", label: "Brandstory" },
+  { href: "/pricing", label: "Pricing" },
   { href: "/blog", label: "Blog" },
   { href: "/contact", label: "Contact" },
 ];
@@ -31,23 +35,27 @@ const Footer = () => {
         .select("slug, title")
         .eq("status", "published")
         .order("published_at", { ascending: false })
-        .limit(4);
+        .limit(3);
       if (data) setRecentPosts(data);
     };
     fetchRecent();
   }, []);
 
+  // Split solutions into two columns
+  const solsLeft = solutions.slice(0, 5);
+  const solsRight = solutions.slice(5);
+
   return (
     <footer className="border-t border-border bg-card/30">
       <div className="container mx-auto px-4 md:px-6">
-        {/* 3-column grid */}
-        <div className="py-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+        {/* Main grid */}
+        <div className="py-12 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-8 lg:gap-6">
           {/* Sectoren */}
           <div>
-            <p className="text-[11px] font-display font-semibold tracking-[0.2em] uppercase text-muted-foreground mb-4">
+            <p className="text-[11px] font-display font-semibold tracking-[0.2em] uppercase text-primary/70 mb-4">
               Sectoren
             </p>
-            <div className="grid grid-cols-1 gap-2">
+            <div className="flex flex-col gap-2.5">
               {sectors.map((s) => (
                 <Link
                   key={s.slug}
@@ -60,13 +68,13 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Solutions */}
+          {/* Solutions col 1 */}
           <div>
-            <p className="text-[11px] font-display font-semibold tracking-[0.2em] uppercase text-muted-foreground mb-4">
+            <p className="text-[11px] font-display font-semibold tracking-[0.2em] uppercase text-primary/70 mb-4">
               Solutions
             </p>
-            <div className="grid grid-cols-1 gap-2">
-              {solutions.map((s) => (
+            <div className="flex flex-col gap-2.5">
+              {solsLeft.map((s) => (
                 <Link
                   key={s.slug}
                   to={`/solutions/${s.slug}`}
@@ -78,13 +86,31 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Pagina's */}
+          {/* Solutions col 2 */}
           <div>
-            <p className="text-[11px] font-display font-semibold tracking-[0.2em] uppercase text-muted-foreground mb-4">
-              Pagina's
+            <p className="text-[11px] font-display font-semibold tracking-[0.2em] uppercase text-primary/70 mb-4 invisible">
+              Solutions
             </p>
-            <div className="grid grid-cols-1 gap-2">
-              {pageLinks.map((link) => (
+            <div className="flex flex-col gap-2.5">
+              {solsRight.map((s) => (
+                <Link
+                  key={s.slug}
+                  to={`/solutions/${s.slug}`}
+                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                >
+                  {s.navLabel}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* Diensten */}
+          <div>
+            <p className="text-[11px] font-display font-semibold tracking-[0.2em] uppercase text-primary/70 mb-4">
+              Diensten
+            </p>
+            <div className="flex flex-col gap-2.5">
+              {diensten.map((link) => (
                 <Link
                   key={link.href}
                   to={link.href}
@@ -96,18 +122,36 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Recente Blog Posts */}
+          {/* Bedrijf */}
           <div>
-            <p className="text-[11px] font-display font-semibold tracking-[0.2em] uppercase text-muted-foreground mb-4">
+            <p className="text-[11px] font-display font-semibold tracking-[0.2em] uppercase text-primary/70 mb-4">
+              Bedrijf
+            </p>
+            <div className="flex flex-col gap-2.5">
+              {bedrijf.map((link) => (
+                <Link
+                  key={link.href}
+                  to={link.href}
+                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* Recente Artikelen */}
+          <div>
+            <p className="text-[11px] font-display font-semibold tracking-[0.2em] uppercase text-primary/70 mb-4">
               Recente Artikelen
             </p>
-            <div className="grid grid-cols-1 gap-2">
+            <div className="flex flex-col gap-2.5">
               {recentPosts.length > 0 ? (
                 recentPosts.map((post) => (
                   <Link
                     key={post.slug}
                     to={`/blog/${post.slug}`}
-                    className="text-sm text-muted-foreground hover:text-primary transition-colors line-clamp-1"
+                    className="text-sm text-muted-foreground hover:text-primary transition-colors line-clamp-2 leading-snug"
                   >
                     {post.title}
                   </Link>
