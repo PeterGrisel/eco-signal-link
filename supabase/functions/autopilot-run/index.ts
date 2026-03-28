@@ -329,6 +329,23 @@ serve(async (req) => {
           } catch {
             log.push(`⚠ Indexering aanvraag mislukt, handmatig opnieuw proberen`);
           }
+
+          // Cache warming: prerender de nieuwe blogpost zodat bots en AI-crawlers direct content krijgen
+          try {
+            const prerenderRes = await fetch(
+              `${supabaseUrl}/functions/v1/prerender?path=${encodeURIComponent(`/blog/${post.slug}`)}&nocache=1`,
+              { headers: { Authorization: `Bearer ${serviceKey}` } }
+            );
+            if (prerenderRes.ok) {
+              await prerenderRes.text(); // consume body
+              log.push(`✓ Prerender cache opgewarmd voor /blog/${post.slug}`);
+            } else {
+              log.push(`⚠ Prerender warming mislukt (${prerenderRes.status})`);
+              await prerenderRes.text();
+            }
+          } catch {
+            log.push(`⚠ Prerender warming mislukt`);
+          }
         }
       } catch {
         log.push("⚠ Kon indexering niet starten");
