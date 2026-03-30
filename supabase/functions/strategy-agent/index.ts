@@ -72,19 +72,38 @@ serve(async (req) => {
       supabase.from("blog_posts").select("title, slug, topic_id, status").eq("status", "published").limit(50),
     ]);
 
-    // 5. Load GSC data if available (for continuous learning)
+    // 5. Load GSC data + calculate SEO Avalanche threshold
     let gscInsights = "";
-    if (mode === "evaluate") {
-      const { data: gscData } = await supabase
-        .from("gsc_snapshots")
-        .select("query, impressions, clicks, position")
-        .order("impressions", { ascending: false })
-        .limit(50);
+    let avalancheThreshold = 10; // default minimum
+    
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+    const thirtyDaysAgoStr = thirtyDaysAgo.toISOString().split("T")[0];
+
+    const { data: gscData } = await supabase
+      .from("gsc_snapshots")
+      .select("query, impressions, clicks, position, date")
+      .gte("date", thirtyDaysAgoStr)
+      .order("impressions", { ascending: false })
+      .limit(200);
+
+    if (gscData?.length) {
+      // Filter out branded queries
+      const brandTerms = [siteName.toLowerCase(), "b2bgroeimachine", "b2b groeimachine", "groeimachine"];
+      const nonBranded = gscData.filter(r => !brandTerms.some(b => r.query.toLowerCase().includes(b)));
       
-      if (gscData?.length) {
-        gscInsights = `\n\nGOOGLE SEARCH CONSOLE DATA (top keywords):
-${gscData.map(r => `- "${r.query}" — ${r.impressions} impressies, ${r.clicks} clicks, positie ${Number(r.position).toFixed(1)}`).join("\n")}`;
-      }
+      const totalClicks = nonBranded.reduce((sum, r) => sum + (r.clicks || 0), 0);
+      const uniqueDates = new Set(nonBranded.map(r => r.date));
+      const daysWithData = uniqueDates.size || 1;
+      avalancheThreshold = Math.max(10, Math.round(totalClicks / daysWithData));
+
+      gscInsights = `\n\nGOOGLE SEARCH CONSOLE DATA (laatste 30 dagen):
+SEO AVALANCHE THRESHOLD: ${avalancheThreshold} (= gemiddelde dagelijkse non-branded clicks)
+Dit betekent: target keywords met een geschat zoekvolume van maximaal ${avalancheThreshold} per dag (≈${avalancheThreshold * 30}/maand).
+Totale non-branded clicks: ${totalClicks} over ${daysWithData} dagen.
+
+Top keywords:
+${nonBranded.slice(0, 30).map(r => `- "${r.query}" — ${r.impressions} impressies, ${r.clicks} clicks, positie ${Number(r.position).toFixed(1)}`).join("\n")}`;
     }
 
     // Build the mega-prompt
@@ -110,6 +129,13 @@ ${existingPosts?.length ? `BESTAANDE ARTIKELEN:
 ${existingPosts.map(p => `- "${p.title}"`).join("\n")}` : ""}
 ${gscInsights}
 
+SEO AVALANCHE STRATEGIE:
+We gebruiken de SEO Avalanche methode: de gemiddelde dagelijkse non-branded traffic = het maximale zoekvolume dat we targeten.
+Huidige threshold: ${avalancheThreshold} zoekopdrachten per dag (≈${avalancheThreshold * 30}/maand).
+Naarmate het verkeer groeit, schalen we automatisch op naar hogere zoekvolumes.
+Begin met low-competition, long-tail keywords die binnen deze threshold vallen.
+Dit bouwt domeinautoriteit op waardoor we later hogere volumes aankunnen.
+
 REGELS:
 1. Ontwerp 5-8 pillar topic clusters die de hele customer journey dekken (awareness → consideration → decision)
 2. Elk cluster heeft een pillar article concept + 5-10 ondersteunende sub-topics
@@ -119,7 +145,8 @@ REGELS:
 6. Geef per cluster een publicatie-volgorde (welke artikelen eerst voor maximale impact)
 7. Identificeer content gaps t.o.v. concurrenten
 8. Alle topic namen en descriptions in het Nederlands
-9. Geef realistische zoekvolume-inschattingen (laag/middel/hoog)`;
+9. Geef realistische zoekvolume-inschattingen — TARGET MAXIMAAL ${avalancheThreshold * 30} zoekvolume/maand per keyword
+10. Prioriteer keywords met zoekvolume ≤${avalancheThreshold * 30}/maand en lage concurrentie`;
 
     const userPrompt = mode === "evaluate" 
       ? `Evalueer de bestaande content strategie op basis van de GSC data en geef verbeteringen:

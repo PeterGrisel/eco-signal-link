@@ -67,6 +67,7 @@ serve(async (req) => {
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
 
+    const supabase = getSupabase();
     const settings = await loadSettings();
     const { count, content_types, existing_headlines } = await req.json();
 
@@ -77,6 +78,39 @@ serve(async (req) => {
     const language = settings.primary_language || "Nederlands";
     const targetCount = count || 10;
     const types = content_types || ["article"];
+
+    // ═══════════════════════════════════════════════
+    // SEO AVALANCHE: Calculate traffic threshold
+    // ═══════════════════════════════════════════════
+    let avalancheThreshold = 10; // default minimum
+    let avalancheContext = "";
+
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+    const thirtyDaysAgoStr = thirtyDaysAgo.toISOString().split("T")[0];
+
+    const { data: gscData } = await supabase
+      .from("gsc_snapshots")
+      .select("query, clicks, date")
+      .gte("date", thirtyDaysAgoStr)
+      .limit(500);
+
+    if (gscData?.length) {
+      const brandTerms = [siteName.toLowerCase(), "b2bgroeimachine", "b2b groeimachine", "groeimachine"];
+      const nonBranded = gscData.filter(r => !brandTerms.some(b => r.query.toLowerCase().includes(b)));
+      
+      const totalClicks = nonBranded.reduce((sum, r) => sum + (r.clicks || 0), 0);
+      const uniqueDates = new Set(nonBranded.map(r => r.date));
+      const daysWithData = uniqueDates.size || 1;
+      avalancheThreshold = Math.max(10, Math.round(totalClicks / daysWithData));
+
+      avalancheContext = `\n\nSEO AVALANCHE STRATEGIE:
+Huidige gemiddelde dagelijkse non-branded traffic: ${avalancheThreshold} clicks/dag (${totalClicks} totaal over ${daysWithData} dagen).
+REGEL: Target ALLEEN keywords met een geschat zoekvolume van maximaal ${avalancheThreshold * 30} per maand.
+Dit is cruciaal — we bouwen domeinautoriteit op door eerst makkelijk te ranken op low-volume keywords.
+Naarmate het verkeer groeit, schalen we automatisch op naar hogere volumes.
+Kies long-tail, low-competition keywords die binnen deze threshold vallen.`;
+    }
 
     // Load topics and gap analysis
     const topicsWithCoverage = await loadTopicsWithCoverage();
@@ -129,9 +163,11 @@ Regels voor headlines:
 - Elk headline moet een duidelijk target keyword hebben
 - Geen duplicate of te gelijkende headlines
 - BELANGRIJK: Schrijf headlines in normale zinsopbouw, NIET in Title Case
+- KRITIEK: Target keywords met een geschat maandelijks zoekvolume van MAXIMAAL ${avalancheThreshold * 30}. Dit is de SEO Avalanche methode.
 
 ${types.includes("tool") ? "Genereer ook 'tool' headlines: interactieve calculators, checkers, generators die SEO traffic trekken." : ""}
 ${types.includes("video") ? "Genereer ook 'video' headlines: gebaseerd op relevante YouTube video content." : ""}
+${avalancheContext}
 ${topicContext}
 ${existing_headlines?.length ? `\nVermijd duplicaten met deze bestaande headlines:\n${existing_headlines.join("\n")}` : ""}`;
 
