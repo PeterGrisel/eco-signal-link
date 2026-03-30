@@ -1,162 +1,129 @@
 // Cloudflare Worker: Bot Detection & Prerender Proxy
-// Deploy via: Workers & Pages > [Worker Name] > Edit Code
+// Custom Domain: b2bgroeimachine.io
+//
+// Required environment variables (Worker Settings > Variables and Secrets):
+//   SUPABASE_ANON_KEY  -- Supabase project API key (anon/public)
+//   PRERENDER_SECRET   -- optional shared secret validated by your Supabase function
 
-const PRERENDER_URL = "https://snymrcialncxkcsibkjv.supabase.co/functions/v1/prerender";
+const PRERENDER_URL        = "https://snymrcialncxkcsibkjv.supabase.co/functions/v1/prerender";
+const SITEMAP_URL          = "https://snymrcialncxkcsibkjv.supabase.co/functions/v1/sitemap";
+const ORIGIN_URL           = "https://eco-signal-link.lovable.app";
+const PRERENDER_TIMEOUT_MS = 5000;
+const CACHE_TTL_EDGE       = 86400; // 24h CDN cache
+const CACHE_TTL_WORKER     = 3600;  // 1h  Worker cache
 
-// Comprehensive bot detection list (verified crawlers only)
 const BOT_AGENTS = [
-  'googlebot', 'bingbot', 'yandexbot', 'duckduckbot', 'baiduspider',
+  'googlebot', 'google-inspectiontool', 'googleweblight',
+  'bingbot', 'yandexbot', 'duckduckbot', 'baiduspider',
   'slurp', 'facebot', 'facebookexternalhit', 'twitterbot', 'linkedinbot',
   'whatsapp', 'telegrambot', 'applebot', 'semrushbot', 'ahrefsbot',
-  'mj12bot', 'dotbot', 'petalbot', 'bytespider',
-  'mediapartners-google', 'adsbot-google'
+  'mj12bot', 'dotbot', 'petalbot', 'bytespider', 'gptbot', 'chatgpt',
+  'claudebot', 'claudeai', 'anthropic', 'ia_archiver', 'pinterest',
+  'slackbot', 'discordbot', 'embedly', 'quora link preview', 'showyoubot',
+  'outbrain', 'rogerbot', 'seznambot', 'developers.google.com',
+  'mediapartners-google', 'adsbot-google', 'screaming frog',
+  'chrome-lighthouse',
 ];
 
-// AI crawler user-agents (tracked separately for AI visibility metrics)
-const AI_AGENTS = [
-  'chatgpt-user', 'gptbot', 'oai-searchbot',
-  'perplexitybot',
-  'claudebot', 'claude-web',
-  'google-extended',
-  'cohere-ai', 'cohere-training',
-  'anthropic-ai',
-  'youbot',
-  'ccbot',
-  'meta-externalagent'
-];
+const STATIC_EXTENSIONS = /\.(js|css|png|jpg|jpeg|gif|svg|ico|woff2?|ttf|eot|map|webp|avif|json)$/i;
 
-// Cache for prerendered content (in-memory, TTL: 1 hour)
-const prerenderCache = new Map();
-const PRERENDER_CACHE_TTL = 3600;
-
-function classifyAgent(userAgent) {
-  if (!userAgent) return 'human';
+function isBot(userAgent) {
+  if (!userAgent) return false;
   const ua = userAgent.toLowerCase();
+  return BOT_AGENTS.some(bot => ua.includes(bot));
+}
 
-  // Check AI crawlers first (more specific)
-  const isAi = AI_AGENTS.some(bot => ua.includes(bot));
-  if (isAi) return 'ai';
-
-  // Check traditional bots
-  const isTraditionalBot = BOT_AGENTS.some(bot =>
-    ua.includes(bot) ||
-    ua.includes(`/${bot}`) ||
-    ua.includes(`${bot}/`)
+function isStaticAsset(pathname) {
+  return (
+    STATIC_EXTENSIONS.test(pathname) ||
+    pathname.startsWith('/admin') ||
+    pathname.startsWith('/_') ||
+    pathname.startsWith('/assets/')
   );
-  if (isTraditionalBot) return 'bot';
-
-  return 'human';
 }
 
-function shouldSkipAsset(url) {
-  const extension = url.pathname.split('.').pop().toLowerCase();
-  const staticExtensions = [
-    'js', 'css', 'png', 'jpg', 'jpeg', 'gif', 'svg', 'ico',
-    'woff2', 'woff', 'ttf', 'eot', 'map', 'webp', 'avif',
-    'json', 'xml', 'txt', 'pdf', 'zip', 'tar', 'gz'
-  ];
-  return staticExtensions.includes(extension) ||
-    url.pathname.startsWith('/admin') ||
-    url.pathname.startsWith('/_') ||
-    url.pathname.startsWith('/assets/');
-}
-
-function getCacheKey(url) {
-  // Remove query parameters for consistent caching
-  return url.pathname.split('?')[0];
-}
-
-async function getPrerenderedContent(request) {
-  const url = new URL(request.url);
-  const cacheKey = getCacheKey(url);
-
-  // Check cache first
-  if (prerenderCache.has(cacheKey)) {
-    const { data, timestamp } = prerenderCache.get(cacheKey);
-    if (Date.now() - timestamp < PRERENDER_CACHE_TTL * 1000) {
-      return new Response(data, {
-        status: 200,
-        headers: {
-          'Content-Type': 'text/html; charset=utf-8',
-          'X-Prerendered': 'true',
-          'X-Cache': 'HIT'
-        }
-      });
+// Forward to Lovable origin, preserving path and query string.
+function toOrigin(request, url) {
+  return new Request(
+    `${ORIGIN_URL}${url.pathname}${url.search}`,
+    {
+      method: request.method,
+      headers: request.headers,
+      body: request.body,
+      redirect: 'follow',
     }
-  }
+  );
+}
 
-  // Fetch prerendered content
+// Minimal fallback for bots when prerender is unavailable.
+function botFallback(pathname) {
+  return new Response(
+    `<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <title>B2BGroeiMachine - Schaalbare Sales Automation &amp; Prospecting</title>
+  <meta name="description" content="Schaalbare B2B sales automation en prospecting systemen voor groeiende bedrijven.">
+  <link rel="canonical" href="https://b2bgroeimachine.io${pathname}">
+</head>
+<body>
+  <h1>B2BGroeiMachine</h1>
+  <p>Schaalbare Sales Automation &amp; Prospecting Systemen</p>
+</body>
+</html>`,
+    {
+      status: 503,
+      headers: {
+        'Content-Type': 'text/html; charset=utf-8',
+        'X-Prerendered': 'fallback',
+        'Cache-Control': 'no-store',
+      },
+    }
+  );
+}
+
+async function fetchPrerendered(pathname, userAgent, anonKey, secret) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), PRERENDER_TIMEOUT_MS);
+
   try {
-    const prerenderResponse = await fetch(
-      `${PRERENDER_URL}?path=${encodeURIComponent(url.pathname)}`,
+    const response = await fetch(
+      `${PRERENDER_URL}?path=${encodeURIComponent(pathname)}`,
       {
+        signal: controller.signal,
         headers: {
-          'User-Agent': request.headers.get('user-agent') || '',
+          'User-Agent': userAgent,
           'Accept': 'text/html',
+          'Authorization': `Bearer ${anonKey}`,
+          'X-Forwarded-Host': 'b2bgroeimachine.io',
+          'X-Original-Path': pathname,
+          ...(secret ? { 'X-Prerender-Secret': secret } : {}),
         },
       }
     );
-
-    if (prerenderResponse.ok) {
-      const html = await prerenderResponse.text();
-
-      // Cache the response
-      prerenderCache.set(cacheKey, { data: html, timestamp: Date.now() });
-
-      // Limit cache size (remove oldest entries if needed)
-      if (prerenderCache.size > 100) {
-        const firstKey = prerenderCache.keys().next().value;
-        prerenderCache.delete(firstKey);
-      }
-
-      return new Response(html, {
-        status: 200,
-        headers: {
-          'Content-Type': 'text/html; charset=utf-8',
-          'X-Prerendered': 'true',
-          'X-Cache': 'MISS',
-          'Cache-Control': 'public, max-age=3600, s-maxage=86400',
-          // Security headers
-          'X-Content-Type-Options': 'nosniff',
-          'X-Frame-Options': 'DENY',
-          'Referrer-Policy': 'no-referrer-when-downgrade',
-          'Permissions-Policy': 'geolocation=(), microphone=(), camera=()'
-        }
-      });
-    }
-  } catch (err) {
-    console.error('[Prerender] Fetch failed:', err.message);
+    return response;
+  } finally {
+    clearTimeout(timer);
   }
-
-  return null;
 }
 
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
     const userAgent = request.headers.get('user-agent') || '';
-    const agentType = classifyAgent(userAgent);
 
-    // Separate logging for AI crawlers vs traditional bots vs humans
-    if (agentType === 'ai') {
-      console.log(`[AI-CRAWLER] ${userAgent.substring(0, 120)} → ${url.pathname}`);
-    } else if (agentType === 'bot') {
-      console.log(`[BOT] ${userAgent.substring(0, 100)} → ${url.pathname}`);
-    }
-
-    // Proxy /sitemap.xml to dynamic Edge Function
+    // 0. Proxy /sitemap.xml to dynamic Edge Function
     if (url.pathname === '/sitemap.xml') {
       try {
-        const sitemapRes = await fetch(
-          'https://snymrcialncxkcsibkjv.supabase.co/functions/v1/sitemap',
-          { headers: { 'Accept': 'application/xml' } }
-        );
+        const sitemapRes = await fetch(SITEMAP_URL, {
+          headers: { 'Accept': 'application/xml' },
+        });
         return new Response(sitemapRes.body, {
           status: 200,
           headers: {
             'Content-Type': 'application/xml; charset=utf-8',
             'Cache-Control': 'public, max-age=3600',
-            'X-Robots-Tag': 'noindex',
           },
         });
       } catch (e) {
@@ -164,42 +131,77 @@ export default {
       }
     }
 
-    // Skip static assets and admin routes
-    if (shouldSkipAsset(url)) {
-      return fetch(request);
+    // 0b. Serve robots.txt directly (bypass origin)
+    if (url.pathname === '/robots.txt') {
+      return fetch(toOrigin(request, url));
     }
 
-    // Serve prerendered content to AI crawlers and traditional bots
-    if (agentType === 'ai' || agentType === 'bot') {
-      const result = await getPrerenderedContent(request);
-      if (result) return result;
+    // 1. Static assets -> straight to Lovable origin
+    if (isStaticAsset(url.pathname)) {
+      return fetch(toOrigin(request, url));
     }
 
-    // Check Cloudflare's bot management header (high confidence bots)
-    if (agentType === 'human') {
-      const cfBotManagement = request.headers.get('cf-bot-management');
-      if (cfBotManagement) {
-        try {
-          const botInfo = JSON.parse(cfBotManagement);
-          if (botInfo.score >= 10) {
-            const result = await getPrerenderedContent(request);
-            if (result) return result;
-          }
-        } catch (e) {
-          // Fall through
-        }
-      }
+    // 2. Normal users -> Lovable origin
+    if (!isBot(userAgent)) {
+      return fetch(toOrigin(request, url));
     }
 
-    // Normal users → pass through to origin
-    const response = await fetch(request);
+    // 3. Bot path: check Worker cache first
+    const cache = caches.default;
+    const cacheKey = new Request(
+      `https://prerender-cache.internal${url.pathname}`,
+      { method: 'GET' }
+    );
 
-    // Block indexing of Lovable subdomain (prevent duplicate content)
-    if (url.hostname.endsWith('.lovable.app')) {
-      const newResponse = new Response(response.body, response);
-      newResponse.headers.set('X-Robots-Tag', 'noindex, nofollow');
-      return newResponse;
+    const cached = await cache.match(cacheKey);
+    if (cached) {
+      return new Response(cached.body, {
+        status: cached.status,
+        headers: cached.headers,
+      });
     }
+
+    // 4. Cache miss: fetch from Supabase prerender function
+    if (!env.SUPABASE_ANON_KEY) {
+      console.error('[prerender] SUPABASE_ANON_KEY is not set');
+      return botFallback(url.pathname);
+    }
+
+    let prerenderResponse;
+    try {
+      prerenderResponse = await fetchPrerendered(
+        url.pathname,
+        userAgent,
+        env.SUPABASE_ANON_KEY,
+        env.PRERENDER_SECRET ?? null
+      );
+    } catch (err) {
+      console.error(`[prerender] fetch error for ${url.pathname}:`, err?.message ?? err);
+      return botFallback(url.pathname);
+    }
+
+    if (!prerenderResponse.ok) {
+      console.warn(`[prerender] non-OK ${prerenderResponse.status} for ${url.pathname}`);
+      return botFallback(url.pathname);
+    }
+
+    const html = await prerenderResponse.text();
+    if (!html || html.trim().length < 100) {
+      console.warn(`[prerender] empty body for ${url.pathname}`);
+      return botFallback(url.pathname);
+    }
+
+    const response = new Response(html, {
+      status: 200,
+      headers: {
+        'Content-Type': 'text/html; charset=utf-8',
+        'X-Prerendered': 'true',
+        'Cache-Control': `public, max-age=${CACHE_TTL_WORKER}, s-maxage=${CACHE_TTL_EDGE}`,
+      },
+    });
+
+    // 5. Store in Worker cache without blocking the response
+    ctx.waitUntil(cache.put(cacheKey, response.clone()));
 
     return response;
   },
