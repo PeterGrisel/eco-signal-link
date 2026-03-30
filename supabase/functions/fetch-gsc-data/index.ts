@@ -117,9 +117,9 @@ async function getAccessToken(): Promise<string> {
 }
 
 async function fetchSearchAnalytics(accessToken: string, siteUrl: string, startDate: string, endDate: string, dimensions: string[] = ["query", "page"]) {
-  const res = await fetch(
-    `https://www.googleapis.com/webmasters/v3/sites/${encodeURIComponent(siteUrl)}/searchAnalytics/query`,
-    {
+  const url = `https://www.googleapis.com/webmasters/v3/sites/${encodeURIComponent(siteUrl)}/searchAnalytics/query`;
+  console.log("GSC API URL:", url);
+  const res = await fetch(url, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -135,12 +135,14 @@ async function fetchSearchAnalytics(accessToken: string, siteUrl: string, startD
     }
   );
 
+  const body = await res.text();
+  console.log("GSC response status:", res.status, "body length:", body.length, "preview:", body.substring(0, 300));
+
   if (!res.ok) {
-    const err = await res.text();
-    throw new Error(`GSC API error [${res.status}]: ${err}`);
+    throw new Error(`GSC API error [${res.status}]: ${body}`);
   }
 
-  return await res.json();
+  return JSON.parse(body);
 }
 
 serve(async (req) => {
@@ -152,9 +154,22 @@ serve(async (req) => {
 
     // Load site URL from settings
     const { data: settings } = await supabase.from("seo_settings").select("config").limit(1).single();
-    const siteUrl = settings?.config?.site_url || "https://b2bgroeimachine.io";
+    const rawSiteUrl = settings?.config?.site_url || "https://b2bgroeimachine.io";
 
     const accessToken = await getAccessToken();
+
+    // Try multiple URL formats - GSC is picky about exact format
+    let siteUrl = rawSiteUrl;
+    const tryFormats: string[] = [];
+    if (rawSiteUrl.startsWith("https://")) {
+      const withSlash = rawSiteUrl.endsWith("/") ? rawSiteUrl : rawSiteUrl + "/";
+      const withoutSlash = rawSiteUrl.replace(/\/$/, "");
+      const domain = withoutSlash.replace("https://", "");
+      tryFormats.push(withSlash, withoutSlash, `sc-domain:${domain}`);
+    } else {
+      tryFormats.push(rawSiteUrl);
+    }
+    console.log("Will try site URL formats:", tryFormats);
 
     const endDate = new Date();
     endDate.setDate(endDate.getDate() - 3); // GSC data has ~3 day delay
@@ -164,13 +179,39 @@ serve(async (req) => {
     const fmt = (d: Date) => d.toISOString().split("T")[0];
 
     if (mode === "snapshot") {
-      // Fetch by query+page and store as snapshots
-      const data = await fetchSearchAnalytics(accessToken, siteUrl, fmt(startDate), fmt(endDate), ["query", "page", "date"]);
+      // Find working URL format
+      for (const tryUrl of tryFormats) {
+        try {
+          // Use minimal dimensions first to detect data
+          const test = await fetchSearchAnalytics(accessToken, tryUrl, fmt(startDate), fmt(endDate), ["query"]);
+          if (test.rows && test.rows.length > 0) {
+            siteUrl = tryUrl;
+            console.log("Found working format:", tryUrl, "rows:", test.rows.length);
+            break;
+          }
+          console.log("No data for:", tryUrl);
+        } catch (e) {
+          console.log("Format failed:", tryUrl, e instanceof Error ? e.message : e);
+        }
+      }
+
+      // Try query+page+date first, fallback to query+date if too sparse
+      let data = await fetchSearchAnalytics(accessToken, siteUrl, fmt(startDate), fmt(endDate), ["query", "page", "date"]);
+      let hasFull = data.rows && data.rows.length > 0;
+      
+      if (!hasFull) {
+        // Try with just query+date (less granular but works with sparse data)
+        const simpleData = await fetchSearchAnalytics(accessToken, siteUrl, fmt(startDate), fmt(endDate), ["query", "date"]);
+        if (simpleData.rows && simpleData.rows.length > 0) {
+          data = simpleData;
+          console.log("Using query+date fallback, rows:", simpleData.rows.length);
+        }
+      }
 
       const rows = (data.rows || []).map((r: any) => ({
-        date: r.keys[2],
+        date: hasFull ? r.keys[2] : r.keys[1],
         query: r.keys[0],
-        page: r.keys[1],
+        page: hasFull ? r.keys[1] : "",
         impressions: r.impressions || 0,
         clicks: r.clicks || 0,
         ctr: r.ctr || 0,
@@ -198,7 +239,13 @@ serve(async (req) => {
     }
 
     if (mode === "overview") {
-      // Return aggregated overview for dashboard
+      // Find working URL format first
+      for (const tryUrl of tryFormats) {
+        try {
+          const test = await fetchSearchAnalytics(accessToken, tryUrl, fmt(startDate), fmt(endDate), ["query"]);
+          if (test.rows && test.rows.length > 0) { siteUrl = tryUrl; break; }
+        } catch { /* try next */ }
+      }
       const queryData = await fetchSearchAnalytics(accessToken, siteUrl, fmt(startDate), fmt(endDate), ["query"]);
       const pageData = await fetchSearchAnalytics(accessToken, siteUrl, fmt(startDate), fmt(endDate), ["page"]);
 
