@@ -179,26 +179,39 @@ serve(async (req) => {
     const fmt = (d: Date) => d.toISOString().split("T")[0];
 
     if (mode === "snapshot") {
-      // Try each URL format until we get data
-      let data: any = { rows: [] };
+      // Find working URL format
       for (const tryUrl of tryFormats) {
         try {
-          console.log("Trying GSC site URL:", tryUrl);
-          data = await fetchSearchAnalytics(accessToken, tryUrl, fmt(startDate), fmt(endDate), ["query", "page", "date"]);
-          if (data.rows && data.rows.length > 0) {
+          // Use minimal dimensions first to detect data
+          const test = await fetchSearchAnalytics(accessToken, tryUrl, fmt(startDate), fmt(endDate), ["query"]);
+          if (test.rows && test.rows.length > 0) {
             siteUrl = tryUrl;
-            console.log("Got data with format:", tryUrl, "rows:", data.rows.length);
+            console.log("Found working format:", tryUrl, "rows:", test.rows.length);
             break;
           }
+          console.log("No data for:", tryUrl);
         } catch (e) {
           console.log("Format failed:", tryUrl, e instanceof Error ? e.message : e);
         }
       }
 
+      // Try query+page+date first, fallback to query+date if too sparse
+      let data = await fetchSearchAnalytics(accessToken, siteUrl, fmt(startDate), fmt(endDate), ["query", "page", "date"]);
+      let hasFull = data.rows && data.rows.length > 0;
+      
+      if (!hasFull) {
+        // Try with just query+date (less granular but works with sparse data)
+        const simpleData = await fetchSearchAnalytics(accessToken, siteUrl, fmt(startDate), fmt(endDate), ["query", "date"]);
+        if (simpleData.rows && simpleData.rows.length > 0) {
+          data = simpleData;
+          console.log("Using query+date fallback, rows:", simpleData.rows.length);
+        }
+      }
+
       const rows = (data.rows || []).map((r: any) => ({
-        date: r.keys[2],
+        date: hasFull ? r.keys[2] : r.keys[1],
         query: r.keys[0],
-        page: r.keys[1],
+        page: hasFull ? r.keys[1] : "",
         impressions: r.impressions || 0,
         clicks: r.clicks || 0,
         ctr: r.ctr || 0,
