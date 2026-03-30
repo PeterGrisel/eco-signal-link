@@ -275,9 +275,10 @@ serve(async (req) => {
         }
       });
 
-      // Totals
+      // Totals - use queryData if available, fallback to pageData
       let totalImpressions = 0, totalClicks = 0;
-      (queryData.rows || []).forEach((r: any) => {
+      const totalsSource = (queryData.rows && queryData.rows.length > 0) ? queryData.rows : (pageData.rows || []);
+      totalsSource.forEach((r: any) => {
         totalImpressions += r.impressions || 0;
         totalClicks += r.clicks || 0;
       });
