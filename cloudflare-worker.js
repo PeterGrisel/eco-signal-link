@@ -144,6 +144,26 @@ export default {
       console.log(`[BOT] ${userAgent.substring(0, 100)} → ${url.pathname}`);
     }
 
+    // Proxy /sitemap.xml to dynamic Edge Function
+    if (url.pathname === '/sitemap.xml') {
+      try {
+        const sitemapRes = await fetch(
+          'https://snymrcialncxkcsibkjv.supabase.co/functions/v1/sitemap',
+          { headers: { 'Accept': 'application/xml' } }
+        );
+        return new Response(sitemapRes.body, {
+          status: 200,
+          headers: {
+            'Content-Type': 'application/xml; charset=utf-8',
+            'Cache-Control': 'public, max-age=3600',
+            'X-Robots-Tag': 'noindex',
+          },
+        });
+      } catch (e) {
+        return new Response('Sitemap error', { status: 502 });
+      }
+    }
+
     // Skip static assets and admin routes
     if (shouldSkipAsset(url)) {
       return fetch(request);
