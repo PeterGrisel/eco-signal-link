@@ -152,9 +152,19 @@ serve(async (req) => {
 
     // Load site URL from settings
     const { data: settings } = await supabase.from("seo_settings").select("config").limit(1).single();
-    const siteUrl = settings?.config?.site_url || "https://b2bgroeimachine.io";
+    const rawSiteUrl = settings?.config?.site_url || "https://b2bgroeimachine.io";
 
     const accessToken = await getAccessToken();
+
+    // Try URL-prefix first, then domain property format
+    let siteUrl = rawSiteUrl;
+    const tryFormats = [rawSiteUrl];
+    // If it's an https URL, also try sc-domain: format
+    if (rawSiteUrl.startsWith("https://")) {
+      const domain = rawSiteUrl.replace("https://", "").replace(/\/$/, "");
+      tryFormats.push(`sc-domain:${domain}`);
+    }
+    console.log("Will try site URL formats:", tryFormats);
 
     const endDate = new Date();
     endDate.setDate(endDate.getDate() - 3); // GSC data has ~3 day delay
