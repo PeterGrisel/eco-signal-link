@@ -221,7 +221,13 @@ serve(async (req) => {
     }
 
     if (mode === "overview") {
-      // Return aggregated overview for dashboard
+      // Find working URL format first
+      for (const tryUrl of tryFormats) {
+        try {
+          const test = await fetchSearchAnalytics(accessToken, tryUrl, fmt(startDate), fmt(endDate), ["query"]);
+          if (test.rows && test.rows.length > 0) { siteUrl = tryUrl; break; }
+        } catch { /* try next */ }
+      }
       const queryData = await fetchSearchAnalytics(accessToken, siteUrl, fmt(startDate), fmt(endDate), ["query"]);
       const pageData = await fetchSearchAnalytics(accessToken, siteUrl, fmt(startDate), fmt(endDate), ["page"]);
 
