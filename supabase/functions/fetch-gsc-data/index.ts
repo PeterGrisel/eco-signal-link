@@ -174,8 +174,21 @@ serve(async (req) => {
     const fmt = (d: Date) => d.toISOString().split("T")[0];
 
     if (mode === "snapshot") {
-      // Fetch by query+page and store as snapshots
-      const data = await fetchSearchAnalytics(accessToken, siteUrl, fmt(startDate), fmt(endDate), ["query", "page", "date"]);
+      // Try each URL format until we get data
+      let data: any = { rows: [] };
+      for (const tryUrl of tryFormats) {
+        try {
+          console.log("Trying GSC site URL:", tryUrl);
+          data = await fetchSearchAnalytics(accessToken, tryUrl, fmt(startDate), fmt(endDate), ["query", "page", "date"]);
+          if (data.rows && data.rows.length > 0) {
+            siteUrl = tryUrl;
+            console.log("Got data with format:", tryUrl, "rows:", data.rows.length);
+            break;
+          }
+        } catch (e) {
+          console.log("Format failed:", tryUrl, e instanceof Error ? e.message : e);
+        }
+      }
 
       const rows = (data.rows || []).map((r: any) => ({
         date: r.keys[2],
