@@ -196,7 +196,7 @@ const Footer = () => {
           </nav>
 
           <p className="text-muted-foreground/50 text-xs flex-shrink-0">
-            © {new Date().getFullYear()} B2BGroeiMachine · powered by Rebel Force™ · KVK 94347778
+            © {new Date().getFullYear()} B2BGroeiMachine · powered by Rebel Force™ · KVK 94347778 · BTW NL866743856B01
           </p>
         </div>
       </div>
