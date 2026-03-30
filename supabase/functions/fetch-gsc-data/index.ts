@@ -158,13 +158,16 @@ serve(async (req) => {
 
     const accessToken = await getAccessToken();
 
-    // Try URL-prefix first, then domain property format
+    // Try multiple URL formats - GSC is picky about exact format
     let siteUrl = rawSiteUrl;
-    const tryFormats = [rawSiteUrl];
-    // If it's an https URL, also try sc-domain: format
+    const tryFormats: string[] = [];
     if (rawSiteUrl.startsWith("https://")) {
-      const domain = rawSiteUrl.replace("https://", "").replace(/\/$/, "");
-      tryFormats.push(`sc-domain:${domain}`);
+      const withSlash = rawSiteUrl.endsWith("/") ? rawSiteUrl : rawSiteUrl + "/";
+      const withoutSlash = rawSiteUrl.replace(/\/$/, "");
+      const domain = withoutSlash.replace("https://", "");
+      tryFormats.push(withSlash, withoutSlash, `sc-domain:${domain}`);
+    } else {
+      tryFormats.push(rawSiteUrl);
     }
     console.log("Will try site URL formats:", tryFormats);
 
