@@ -117,9 +117,9 @@ async function getAccessToken(): Promise<string> {
 }
 
 async function fetchSearchAnalytics(accessToken: string, siteUrl: string, startDate: string, endDate: string, dimensions: string[] = ["query", "page"]) {
-  const res = await fetch(
-    `https://www.googleapis.com/webmasters/v3/sites/${encodeURIComponent(siteUrl)}/searchAnalytics/query`,
-    {
+  const url = `https://www.googleapis.com/webmasters/v3/sites/${encodeURIComponent(siteUrl)}/searchAnalytics/query`;
+  console.log("GSC API URL:", url);
+  const res = await fetch(url, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -135,12 +135,14 @@ async function fetchSearchAnalytics(accessToken: string, siteUrl: string, startD
     }
   );
 
+  const body = await res.text();
+  console.log("GSC response status:", res.status, "body length:", body.length, "preview:", body.substring(0, 300));
+
   if (!res.ok) {
-    const err = await res.text();
-    throw new Error(`GSC API error [${res.status}]: ${err}`);
+    throw new Error(`GSC API error [${res.status}]: ${body}`);
   }
 
-  return await res.json();
+  return JSON.parse(body);
 }
 
 serve(async (req) => {
