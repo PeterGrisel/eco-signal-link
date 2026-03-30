@@ -195,28 +195,41 @@ serve(async (req) => {
         }
       }
 
-      // Try query+page+date first, fallback to query+date if too sparse
-      let data = await fetchSearchAnalytics(accessToken, siteUrl, fmt(startDate), fmt(endDate), ["query", "page", "date"]);
-      let hasFull = data.rows && data.rows.length > 0;
-      
-      if (!hasFull) {
-        // Try with just query+date (less granular but works with sparse data)
-        const simpleData = await fetchSearchAnalytics(accessToken, siteUrl, fmt(startDate), fmt(endDate), ["query", "date"]);
-        if (simpleData.rows && simpleData.rows.length > 0) {
-          data = simpleData;
-          console.log("Using query+date fallback, rows:", simpleData.rows.length);
+      // Try multiple dimension combinations, from most to least granular
+      const dimensionSets: { dims: string[]; getRow: (r: any) => any }[] = [
+        {
+          dims: ["query", "page", "date"],
+          getRow: (r: any) => ({ date: r.keys[2], query: r.keys[0], page: r.keys[1] }),
+        },
+        {
+          dims: ["query", "date"],
+          getRow: (r: any) => ({ date: r.keys[1], query: r.keys[0], page: "" }),
+        },
+        {
+          dims: ["query"],
+          getRow: (r: any) => ({ date: fmt(endDate), query: r.keys[0], page: "" }),
+        },
+        {
+          dims: ["page"],
+          getRow: (r: any) => ({ date: fmt(endDate), query: "(all)", page: r.keys[0] }),
+        },
+      ];
+
+      let rows: any[] = [];
+      for (const { dims, getRow } of dimensionSets) {
+        const data = await fetchSearchAnalytics(accessToken, siteUrl, fmt(startDate), fmt(endDate), dims);
+        if (data.rows && data.rows.length > 0) {
+          console.log(`Using dimensions [${dims.join(",")}], rows: ${data.rows.length}`);
+          rows = data.rows.map((r: any) => ({
+            ...getRow(r),
+            impressions: r.impressions || 0,
+            clicks: r.clicks || 0,
+            ctr: r.ctr || 0,
+            position: r.position || 0,
+          }));
+          break;
         }
       }
-
-      const rows = (data.rows || []).map((r: any) => ({
-        date: hasFull ? r.keys[2] : r.keys[1],
-        query: r.keys[0],
-        page: hasFull ? r.keys[1] : "",
-        impressions: r.impressions || 0,
-        clicks: r.clicks || 0,
-        ctr: r.ctr || 0,
-        position: r.position || 0,
-      }));
 
       if (rows.length > 0) {
         // Upsert in batches
