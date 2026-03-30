@@ -163,9 +163,11 @@ Regels voor headlines:
 - Elk headline moet een duidelijk target keyword hebben
 - Geen duplicate of te gelijkende headlines
 - BELANGRIJK: Schrijf headlines in normale zinsopbouw, NIET in Title Case
+- KRITIEK: Target keywords met een geschat maandelijks zoekvolume van MAXIMAAL ${avalancheThreshold * 30}. Dit is de SEO Avalanche methode.
 
 ${types.includes("tool") ? "Genereer ook 'tool' headlines: interactieve calculators, checkers, generators die SEO traffic trekken." : ""}
 ${types.includes("video") ? "Genereer ook 'video' headlines: gebaseerd op relevante YouTube video content." : ""}
+${avalancheContext}
 ${topicContext}
 ${existing_headlines?.length ? `\nVermijd duplicaten met deze bestaande headlines:\n${existing_headlines.join("\n")}` : ""}`;
 
