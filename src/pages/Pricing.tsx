@@ -7,7 +7,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import {
   Check, Database, Users, Briefcase, ArrowRight,
-  Calculator, Minus, Plus as PlusIcon
+  Calculator, Rocket, Settings, CheckCircle
 } from "lucide-react";
 
 const engagementPackages = [
@@ -313,6 +313,100 @@ const Pricing = () => {
                     </Button>
                   </div>
                 </div>
+              </motion.div>
+            </div>
+          </div>
+        </section>
+
+        {/* Delivery Model: Opex vs Capex */}
+        <section className="py-16 md:py-24 border-t border-border">
+          <div className="container mx-auto px-4 md:px-6">
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6 }}
+              className="text-center max-w-3xl mx-auto mb-12"
+            >
+              <p className="text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4">
+                Twee modellen
+              </p>
+              <h2 className="font-display font-bold text-3xl md:text-4xl tracking-tight leading-tight mb-4">
+                Opex of <span className="text-gradient">Capex.</span>
+              </h2>
+              <p className="text-muted-foreground text-lg leading-relaxed max-w-2xl mx-auto">
+                De configurator hierboven geldt voor Done-for-you (Opex).
+                Liever een eenmalig project? Build &amp; Transfer is maatwerk op aanvraag.
+              </p>
+            </motion.div>
+
+            <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+              {/* Done-for-you */}
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.5 }}
+                className="relative card-gradient border border-primary/30 rounded-xl p-8 flex flex-col"
+              >
+                <div className="absolute -top-3 right-6 bg-primary text-primary-foreground text-xs font-display font-semibold px-3 py-1 rounded-full tracking-wide uppercase">
+                  Meest gekozen
+                </div>
+                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-5">
+                  <Rocket className="w-6 h-6 text-primary" />
+                </div>
+                <h3 className="font-display font-bold text-xl mb-1">Done-for-you</h3>
+                <p className="text-primary font-display text-sm font-semibold mb-3">Opex · Je stapt in en groeit</p>
+                <p className="text-muted-foreground text-sm leading-relaxed mb-5">
+                  Wij kiezen de beste tools, richten alles in en beheren het dagelijks.
+                  Je krijgt afspraken in je agenda, zonder gedoe.
+                </p>
+                <ul className="space-y-2.5 mb-6 flex-1">
+                  {["Doorlopend beheer en verbetering", "Geen technische kennis nodig", "Groeit mee zonder extra personeel", "Gebruik de configurator hierboven"].map((item) => (
+                    <li key={item} className="flex items-start gap-2 text-sm text-muted-foreground">
+                      <CheckCircle className="w-4 h-4 text-primary mt-0.5 shrink-0" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+                <Button variant="hero" size="lg" className="w-full" asChild>
+                  <a href="https://app.usemotion.com/meet/Rebel-Force/meeting" target="_blank" rel="noopener noreferrer"
+                    onClick={() => trackCTA("Pricing Delivery — Done-for-you", "https://app.usemotion.com/meet/Rebel-Force/meeting")}>
+                    Plan een Demo <ArrowRight className="w-4 h-4 ml-1" />
+                  </a>
+                </Button>
+              </motion.div>
+
+              {/* Build & Transfer */}
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                className="card-gradient border border-glow rounded-xl p-8 flex flex-col"
+              >
+                <div className="w-12 h-12 rounded-xl bg-secondary flex items-center justify-center mb-5">
+                  <Settings className="w-6 h-6 text-muted-foreground" />
+                </div>
+                <h3 className="font-display font-bold text-xl mb-1">Build &amp; Transfer</h3>
+                <p className="text-primary font-display text-sm font-semibold mb-3">Capex · Eenmalig maatwerk</p>
+                <p className="text-muted-foreground text-sm leading-relaxed mb-5">
+                  Wij bouwen alles op jouw tools: CRM, e-mail en LinkedIn.
+                  Daarna trainen we je team en draag je het zelf.
+                </p>
+                <ul className="space-y-2.5 mb-6 flex-1">
+                  {["Gebouwd op je eigen tools", "Training en handleiding voor je team", "Eenmalige investering", "Prijs altijd op aanvraag"].map((item) => (
+                    <li key={item} className="flex items-start gap-2 text-sm text-muted-foreground">
+                      <CheckCircle className="w-4 h-4 text-muted-foreground/60 mt-0.5 shrink-0" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+                <Button variant="outline" size="lg" className="w-full" asChild>
+                  <Link to="/contact" onClick={() => trackCTA("Pricing Delivery — Build & Transfer", "/contact")}>
+                    Vraag een offerte aan →
+                  </Link>
+                </Button>
               </motion.div>
             </div>
           </div>
