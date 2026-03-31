@@ -356,13 +356,13 @@ const Pricing = () => {
                   <Rocket className="w-6 h-6 text-primary" />
                 </div>
                 <h3 className="font-display font-bold text-xl mb-1">Done-for-you</h3>
-                <p className="text-primary font-display text-sm font-semibold mb-3">Opex · Je stapt in en groeit</p>
+                <p className="text-primary font-display text-sm font-semibold mb-3">Opex · Snel starten, volledig begeleid</p>
                 <p className="text-muted-foreground text-sm leading-relaxed mb-5">
-                  Wij kiezen de beste tools, richten alles in en beheren het dagelijks.
-                  Je krijgt afspraken in je agenda, zonder gedoe.
+                  Ideaal als je snel wilt beginnen, geen eigen toolstack wilt opzetten
+                  en volledig begeleid wilt worden. Wij regelen alles.
                 </p>
                 <ul className="space-y-2.5 mb-6 flex-1">
-                  {["Doorlopend beheer en verbetering", "Geen technische kennis nodig", "Groeit mee zonder extra personeel", "Gebruik de configurator hierboven"].map((item) => (
+                  {["Geen eigen toolstack nodig", "Volledig begeleid van dag één", "Doorlopend beheer en verbetering", "Groeit mee zonder extra personeel"].map((item) => (
                     <li key={item} className="flex items-start gap-2 text-sm text-muted-foreground">
                       <CheckCircle className="w-4 h-4 text-primary mt-0.5 shrink-0" />
                       {item}
