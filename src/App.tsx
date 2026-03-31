@@ -113,6 +113,7 @@ const App = () => (
       <Sonner />
       <TrackingScriptInjector />
       <WhatsAppButton />
+      <CookieConsent />
       <BrowserRouter>
         <AnimatedRoutes />
       </BrowserRouter>
