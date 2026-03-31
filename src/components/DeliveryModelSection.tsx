@@ -131,7 +131,7 @@ const DeliveryModelSection = () => {
           className="text-center text-muted-foreground text-sm mt-10 max-w-xl mx-auto"
         >
           Welke tools het beste passen, verschilt per markt.
-          Daarom kiezen de meeste klanten voor <span className="text-foreground font-medium">Done-for-you</span>.
+          Daarom kiezen de meeste klanten voor <span className="text-foreground font-medium">Done-for-you</span>: je stapt in, je ziet wat we doen, en je groeit.
         </motion.p>
       </div>
     </section>
