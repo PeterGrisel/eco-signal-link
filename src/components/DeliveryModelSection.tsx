@@ -25,7 +25,7 @@ const DeliveryModelSection = () => {
             <span className="text-gradient">u doet het zelf.</span>
           </h2>
           <p className="text-muted-foreground text-lg leading-relaxed max-w-2xl mx-auto">
-            Geen verplichtingen. Geen eigen platform. Het systeem draait op uw tools. Wij passen in wat werkt.
+            Geen verplichtingen. Geen eigen platform. Het systeem draait op onze tools. Wij passen in wat werkt voor u.
           </p>
         </motion.div>
 
