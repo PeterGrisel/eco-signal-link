@@ -69,11 +69,22 @@ async function getAccessToken(): Promise<string> {
   const signature = await crypto.subtle.sign("RSASSA-PKCS1-v1_5", cryptoKey, te.encode(unsignedToken));
   const signedToken = `${unsignedToken}.${b64url(new Uint8Array(signature))}`;
 
-  const tokenRes = await fetch("https://oauth2.googleapis.com/token", {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: `grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer&assertion=${signedToken}`,
-  });
+  // Retry logic for transient TLS handshake errors in Deno edge runtime
+  let tokenRes: Response | null = null;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    try {
+      tokenRes = await fetch("https://oauth2.googleapis.com/token", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: `grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer&assertion=${signedToken}`,
+      });
+      break; // success
+    } catch (fetchErr) {
+      console.warn(`[fetch-ga4-data] Token fetch attempt ${attempt + 1} failed:`, fetchErr);
+      if (attempt === 2) throw fetchErr;
+      await new Promise(r => setTimeout(r, 500 * (attempt + 1)));
+    }
+  }
 
   if (!tokenRes.ok) {
     const err = await tokenRes.text();
