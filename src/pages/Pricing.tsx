@@ -389,10 +389,10 @@ const Pricing = () => {
                   <Settings className="w-6 h-6 text-muted-foreground" />
                 </div>
                 <h3 className="font-display font-bold text-xl mb-1">Build &amp; Transfer</h3>
-                <p className="text-primary font-display text-sm font-semibold mb-3">Capex · Eenmalig maatwerk</p>
+                <p className="text-primary font-display text-sm font-semibold mb-3">Capex · Jij wordt de beheerder</p>
                 <p className="text-muted-foreground text-sm leading-relaxed mb-5">
-                  Wij bouwen alles op jouw tools: CRM, e-mail en LinkedIn.
-                  Daarna trainen we je team en draag je het zelf.
+                  Voor wie zelf wilt beheren en alles in eigen hand wilt houden.
+                  Wij bouwen het op jouw tools, trainen je team en dragen over.
                 </p>
                 <ul className="space-y-2.5 mb-6 flex-1">
                   {["Gebouwd op je eigen tools", "Training en handleiding voor je team", "Eenmalige investering", "Prijs altijd op aanvraag"].map((item) => (
@@ -409,6 +409,16 @@ const Pricing = () => {
                 </Button>
               </motion.div>
             </div>
+
+            <motion.p
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="text-center text-muted-foreground text-sm mt-8 max-w-xl mx-auto"
+            >
+              Overdragen van Done-for-you naar eigen beheer is altijd mogelijk, in overleg.
+            </motion.p>
           </div>
         </section>
       </main>
