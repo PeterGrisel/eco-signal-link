@@ -91,10 +91,10 @@ const DeliveryModelSection = () => {
               <Rocket className="w-6 h-6 text-primary" />
             </div>
             <h3 className="font-display font-bold text-2xl mb-2">Done-for-you</h3>
-            <p className="text-primary font-display text-sm font-semibold mb-4">Wij doen het voor u</p>
+            <p className="text-primary font-display text-sm font-semibold mb-4">Opex · Je stapt in en groeit</p>
             <p className="text-muted-foreground leading-relaxed mb-6">
               Wij kiezen de beste tools, richten alles in en beheren het dagelijks.
-              U krijgt afspraken in uw agenda, zonder gedoe.
+              Je krijgt afspraken in je agenda, zonder gedoe.
             </p>
             <ul className="space-y-3 mb-8 flex-1">
               {[
