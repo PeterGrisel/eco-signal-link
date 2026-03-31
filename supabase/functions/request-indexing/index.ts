@@ -54,11 +54,21 @@ async function createSignedJwt(clientEmail: string, privateKey: string): Promise
 
 async function getAccessToken(clientEmail: string, privateKey: string): Promise<string> {
   const jwt = await createSignedJwt(clientEmail, privateKey);
-  const res = await fetch("https://oauth2.googleapis.com/token", {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: `grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer&assertion=${jwt}`,
-  });
+  let res: Response | null = null;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    try {
+      res = await fetch("https://oauth2.googleapis.com/token", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: `grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer&assertion=${jwt}`,
+      });
+      break;
+    } catch (fetchErr) {
+      console.warn(`[request-indexing] Token fetch attempt ${attempt + 1} failed:`, fetchErr);
+      if (attempt === 2) throw fetchErr;
+      await new Promise(r => setTimeout(r, 500 * (attempt + 1)));
+    }
+  }
   const data = await res.json();
   if (!res.ok) throw new Error(`Token exchange failed: ${data.error_description || data.error}`);
   return data.access_token;
