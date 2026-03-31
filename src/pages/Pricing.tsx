@@ -353,7 +353,7 @@ const Pricing = () => {
               </p>
             </motion.div>
 
-            <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+            <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
               {/* Done-for-you */}
               <motion.div
                 initial={{ opacity: 0, y: 16 }}
