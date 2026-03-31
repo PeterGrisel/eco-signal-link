@@ -19,13 +19,14 @@ const DeliveryModelSection = () => {
             Uw keuze
           </p>
           <h2 className="font-display font-bold text-3xl md:text-5xl lg:text-6xl tracking-tight leading-tight mb-6">
-            Wij beheren, of
+            Wij beheren de toolstack.
             <br />
-            <span className="text-gradient">u doet het zelf.</span>
+            <span className="text-gradient">Jij betaalt voor resultaat.</span>
           </h2>
           <p className="text-muted-foreground text-lg leading-relaxed max-w-2xl mx-auto">
-            Geen verplichtingen. Geen eigen platform. Het systeem draait op
-            uw tools. Wij passen in wat werkt.
+            Geen software om te implementeren. Geen IT-afdeling die toestemming
+            moet geven. Geen licenties, geen koppelingen, geen onboarding-traject.
+            Waar nodig krijg je van ons een login, verder hoef je niets te regelen.
           </p>
         </motion.div>
 
@@ -43,17 +44,17 @@ const DeliveryModelSection = () => {
               <Settings className="w-6 h-6 text-muted-foreground" />
             </div>
             <h3 className="font-display font-bold text-2xl mb-2">Build &amp; Transfer</h3>
-            <p className="text-primary font-display text-sm font-semibold mb-4">Wij bouwen, u neemt over</p>
+            <p className="text-primary font-display text-sm font-semibold mb-4">Capex · Eenmalig maatwerk</p>
             <p className="text-muted-foreground leading-relaxed mb-6">
-              Wij bouwen alles op uw tools: CRM, e-mail en LinkedIn.
-              Daarna trainen we uw team en draagt u het zelf.
+              Wij bouwen alles op jouw tools: CRM, e-mail en LinkedIn.
+              Daarna trainen we je team en draag je het zelf.
             </p>
             <ul className="space-y-3 mb-8 flex-1">
               {[
-                "Gebouwd op uw eigen tools",
-                "Handleiding en training voor uw team",
-                "Eenmalig project, geen doorlopende kosten",
-                "Ideaal als u eigen mensen heeft",
+                "Gebouwd op je eigen tools",
+                "Handleiding en training voor je team",
+                "Eenmalige investering, geen doorlopende kosten",
+                "Ideaal als je eigen mensen hebt",
               ].map((item) => (
                 <li key={item} className="flex items-start gap-2.5 text-sm text-muted-foreground">
                   <CheckCircle className="w-4 h-4 text-muted-foreground/60 mt-0.5 shrink-0" />
@@ -90,10 +91,10 @@ const DeliveryModelSection = () => {
               <Rocket className="w-6 h-6 text-primary" />
             </div>
             <h3 className="font-display font-bold text-2xl mb-2">Done-for-you</h3>
-            <p className="text-primary font-display text-sm font-semibold mb-4">Wij doen het voor u</p>
+            <p className="text-primary font-display text-sm font-semibold mb-4">Opex · Je stapt in en groeit</p>
             <p className="text-muted-foreground leading-relaxed mb-6">
               Wij kiezen de beste tools, richten alles in en beheren het dagelijks.
-              U krijgt afspraken in uw agenda, zonder gedoe.
+              Je krijgt afspraken in je agenda, zonder gedoe.
             </p>
             <ul className="space-y-3 mb-8 flex-1">
               {[
@@ -130,7 +131,7 @@ const DeliveryModelSection = () => {
           className="text-center text-muted-foreground text-sm mt-10 max-w-xl mx-auto"
         >
           Welke tools het beste passen, verschilt per markt.
-          Daarom kiezen de meeste klanten voor <span className="text-foreground font-medium">Done-for-you</span>.
+          Daarom kiezen de meeste klanten voor <span className="text-foreground font-medium">Done-for-you</span>: je stapt in, je ziet wat we doen, en je groeit.
         </motion.p>
       </div>
     </section>
