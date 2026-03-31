@@ -109,9 +109,9 @@ const AnimatedRoutes = () => {
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <Toaster />
-      <Sonner />
       <BrowserRouter>
+        <Toaster />
+        <Sonner />
         <TrackingScriptInjector />
         <WhatsAppButton />
         <CookieConsent />
