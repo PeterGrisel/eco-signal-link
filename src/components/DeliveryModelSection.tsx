@@ -19,13 +19,14 @@ const DeliveryModelSection = () => {
             Uw keuze
           </p>
           <h2 className="font-display font-bold text-3xl md:text-5xl lg:text-6xl tracking-tight leading-tight mb-6">
-            Wij beheren, of
+            Wij beheren de toolstack.
             <br />
-            <span className="text-gradient">u doet het zelf.</span>
+            <span className="text-gradient">Jij betaalt voor resultaat.</span>
           </h2>
           <p className="text-muted-foreground text-lg leading-relaxed max-w-2xl mx-auto">
-            Geen verplichtingen. Geen eigen platform. Het systeem draait op
-            uw tools. Wij passen in wat werkt.
+            Geen software om te implementeren. Geen IT-afdeling die toestemming
+            moet geven. Geen licenties, geen koppelingen, geen onboarding-traject.
+            Waar nodig krijg je van ons een login, verder hoef je niets te regelen.
           </p>
         </motion.div>
 
