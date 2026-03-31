@@ -130,8 +130,7 @@ const DeliveryModelSection = () => {
           transition={{ duration: 0.6, delay: 0.3 }}
           className="text-center text-muted-foreground text-sm mt-10 max-w-xl mx-auto"
         >
-          Welke tools het beste passen, verschilt per markt.
-          Daarom kiezen de meeste klanten voor <span className="text-foreground font-medium">Done-for-you</span>: je stapt in, je ziet wat we doen, en je groeit.
+          Overdragen van Done-for-you naar eigen beheer is altijd mogelijk, in overleg.
         </motion.p>
       </div>
     </section>
