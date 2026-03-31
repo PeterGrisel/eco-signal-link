@@ -7,7 +7,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import {
   Check, Database, Users, Briefcase, ArrowRight,
-  Calculator, Minus, Plus as PlusIcon
+  Calculator, Rocket, Settings, CheckCircle
 } from "lucide-react";
 
 const engagementPackages = [
