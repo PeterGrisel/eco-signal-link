@@ -25,6 +25,7 @@ const clients = [
   { name: "HappyBase", url: "https://www.happybase.me/" },
   { name: "RTC Group", url: "https://www.rtc-group.nl/" },
   { name: "Yaskawa", url: "https://www.yaskawa.nl/" },
+  { name: "ThriveOS", url: "https://thriveos.nl/" },
 ];
 
 const LogoTicker = () => {
