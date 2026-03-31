@@ -2,12 +2,13 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { trackCTA } from "@/lib/tracking";
 import { Button } from "@/components/ui/button";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import {
   Check, Database, Users, Briefcase, ArrowRight,
-  Calculator, Rocket, Settings, CheckCircle
+  Calculator, Rocket, Settings, CheckCircle, Info
 } from "lucide-react";
 
 const engagementPackages = [
@@ -91,6 +92,18 @@ const Pricing = () => {
                   <div className="flex items-center gap-3 mb-4">
                     <span className="w-7 h-7 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-xs">2</span>
                     <h3 className="font-display font-bold text-lg">Engagement-uren</h3>
+                    <TooltipProvider delayDuration={200}>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <button type="button" className="text-muted-foreground hover:text-primary transition-colors">
+                            <Info className="w-4 h-4" />
+                          </button>
+                        </TooltipTrigger>
+                        <TooltipContent side="top" className="max-w-xs text-sm">
+                          <p>Engagement-uren zijn consultancy-uren voor procesoptimalisaties, strategisch advies en waar nodig het overnemen van operationele taken.</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
                     <span className="text-[10px] font-display font-semibold text-primary bg-primary/10 px-2 py-0.5 rounded-full uppercase">Optioneel</span>
                   </div>
 
