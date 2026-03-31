@@ -111,10 +111,10 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <TrackingScriptInjector />
-      <WhatsAppButton />
-      <CookieConsent />
       <BrowserRouter>
+        <TrackingScriptInjector />
+        <WhatsAppButton />
+        <CookieConsent />
         <AnimatedRoutes />
       </BrowserRouter>
     </TooltipProvider>
