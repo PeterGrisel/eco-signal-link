@@ -44,17 +44,17 @@ const DeliveryModelSection = () => {
               <Settings className="w-6 h-6 text-muted-foreground" />
             </div>
             <h3 className="font-display font-bold text-2xl mb-2">Build &amp; Transfer</h3>
-            <p className="text-primary font-display text-sm font-semibold mb-4">Wij bouwen, u neemt over</p>
+            <p className="text-primary font-display text-sm font-semibold mb-4">Capex · Eenmalig maatwerk</p>
             <p className="text-muted-foreground leading-relaxed mb-6">
-              Wij bouwen alles op uw tools: CRM, e-mail en LinkedIn.
-              Daarna trainen we uw team en draagt u het zelf.
+              Wij bouwen alles op jouw tools: CRM, e-mail en LinkedIn.
+              Daarna trainen we je team en draag je het zelf.
             </p>
             <ul className="space-y-3 mb-8 flex-1">
               {[
-                "Gebouwd op uw eigen tools",
-                "Handleiding en training voor uw team",
-                "Eenmalig project, geen doorlopende kosten",
-                "Ideaal als u eigen mensen heeft",
+                "Gebouwd op je eigen tools",
+                "Handleiding en training voor je team",
+                "Eenmalige investering, geen doorlopende kosten",
+                "Ideaal als je eigen mensen hebt",
               ].map((item) => (
                 <li key={item} className="flex items-start gap-2.5 text-sm text-muted-foreground">
                   <CheckCircle className="w-4 h-4 text-muted-foreground/60 mt-0.5 shrink-0" />
