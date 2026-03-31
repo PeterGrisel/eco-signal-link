@@ -41,6 +41,7 @@ import AdminOverview from "./pages/admin/AdminOverview.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import TrackingScriptInjector from "./components/TrackingScriptInjector";
 import WhatsAppButton from "./components/WhatsAppButton";
+import CookieConsent from "./components/CookieConsent";
 
 const queryClient = new QueryClient();
 
@@ -112,6 +113,7 @@ const App = () => (
       <Sonner />
       <TrackingScriptInjector />
       <WhatsAppButton />
+      <CookieConsent />
       <BrowserRouter>
         <AnimatedRoutes />
       </BrowserRouter>
