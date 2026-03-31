@@ -44,17 +44,17 @@ const DeliveryModelSection = () => {
               <Settings className="w-6 h-6 text-muted-foreground" />
             </div>
             <h3 className="font-display font-bold text-2xl mb-2">Build &amp; Transfer</h3>
-            <p className="text-primary font-display text-sm font-semibold mb-4">Capex · Eenmalig maatwerk</p>
+            <p className="text-primary font-display text-sm font-semibold mb-4">Capex · Jij wordt de beheerder</p>
             <p className="text-muted-foreground leading-relaxed mb-6">
-              Wij bouwen alles op jouw tools: CRM, e-mail en LinkedIn.
-              Daarna trainen we je team en draag je het zelf.
+              Voor wie zelf wilt beheren en alles in eigen hand wilt houden.
+              Wij bouwen het op jouw tools, trainen je team en dragen over.
             </p>
             <ul className="space-y-3 mb-8 flex-1">
               {[
                 "Gebouwd op je eigen tools",
-                "Handleiding en training voor je team",
-                "Eenmalige investering, geen doorlopende kosten",
-                "Ideaal als je eigen mensen hebt",
+                "Training en handleiding voor je team",
+                "Eenmalige investering",
+                "Prijs altijd op aanvraag",
               ].map((item) => (
                 <li key={item} className="flex items-start gap-2.5 text-sm text-muted-foreground">
                   <CheckCircle className="w-4 h-4 text-muted-foreground/60 mt-0.5 shrink-0" />
@@ -91,16 +91,16 @@ const DeliveryModelSection = () => {
               <Rocket className="w-6 h-6 text-primary" />
             </div>
             <h3 className="font-display font-bold text-2xl mb-2">Done-for-you</h3>
-            <p className="text-primary font-display text-sm font-semibold mb-4">Opex · Je stapt in en groeit</p>
+            <p className="text-primary font-display text-sm font-semibold mb-4">Opex · Snel starten, volledig begeleid</p>
             <p className="text-muted-foreground leading-relaxed mb-6">
-              Wij kiezen de beste tools, richten alles in en beheren het dagelijks.
-              Je krijgt afspraken in je agenda, zonder gedoe.
+              Ideaal als je snel wilt beginnen, geen eigen toolstack wilt opzetten
+              en volledig begeleid wilt worden. Wij regelen alles.
             </p>
             <ul className="space-y-3 mb-8 flex-1">
               {[
-                "Wij kiezen en koppelen de beste tools",
-                "Dagelijks beheer en verbetering",
-                "Geen technische kennis nodig",
+                "Geen eigen toolstack nodig",
+                "Volledig begeleid van dag één",
+                "Doorlopend beheer en verbetering",
                 "Groeit mee zonder extra personeel",
               ].map((item) => (
                 <li key={item} className="flex items-start gap-2.5 text-sm text-muted-foreground">
@@ -130,8 +130,7 @@ const DeliveryModelSection = () => {
           transition={{ duration: 0.6, delay: 0.3 }}
           className="text-center text-muted-foreground text-sm mt-10 max-w-xl mx-auto"
         >
-          Welke tools het beste passen, verschilt per markt.
-          Daarom kiezen de meeste klanten voor <span className="text-foreground font-medium">Done-for-you</span>: je stapt in, je ziet wat we doen, en je groeit.
+          Overdragen van Done-for-you naar eigen beheer is altijd mogelijk, in overleg.
         </motion.p>
       </div>
     </section>
