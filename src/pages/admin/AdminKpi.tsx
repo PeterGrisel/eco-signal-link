@@ -602,7 +602,7 @@ const AdminKpi = () => {
         )}
       </div>
 
-      <div className="grid grid-cols-2 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
         {/* Top Keywords */}
         <div className="bg-card border border-border rounded-lg p-4">
           <h2 className="font-display font-semibold text-foreground mb-3 text-sm">Top keywords</h2>

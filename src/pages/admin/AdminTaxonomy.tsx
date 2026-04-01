@@ -387,7 +387,7 @@ const AdminTaxonomy = () => {
         </div>
 
         {/* Strategy stats */}
-        <div className="grid grid-cols-3 gap-4 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
           <div className="p-4 rounded-lg bg-card border border-border">
             <p className="text-2xl font-bold text-foreground">{totalTopics}</p>
             <p className="text-xs text-muted-foreground">Topic clusters</p>

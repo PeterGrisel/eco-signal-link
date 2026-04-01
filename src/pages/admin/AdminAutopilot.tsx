@@ -224,7 +224,7 @@ const AdminAutopilot = () => {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
         {[
           { label: "Ingepland", value: stats.scheduled, color: "text-blue-400" },
           { label: "Wacht op review", value: stats.review, color: "text-purple-400" },
