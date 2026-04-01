@@ -449,7 +449,7 @@ const AdminKpi = () => {
 
         {audit && (
           <div className="space-y-3">
-            <div className="grid grid-cols-4 gap-3">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               <div className="p-3 rounded-lg bg-background border border-border text-center">
                 <p className="text-lg font-bold text-foreground">{audit.summary.total}</p>
                 <p className="text-[10px] text-muted-foreground">Checks</p>
