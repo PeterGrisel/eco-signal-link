@@ -521,7 +521,7 @@ const AdminKpi = () => {
         ) : ga4 ? (
           <div className="space-y-5">
             {/* GA4 KPI Cards */}
-            <div className="grid grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div className="p-4 rounded-lg bg-background border border-border">
                 <div className="flex items-center gap-2 mb-1">
                   <Globe className="w-4 h-4 text-blue-400" />
