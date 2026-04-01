@@ -552,7 +552,7 @@ const AdminKpi = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Traffic Sources */}
               <div className="bg-background border border-border rounded-lg p-4">
                 <h3 className="font-display font-semibold text-foreground mb-3 text-sm">Verkeersbronnen</h3>
