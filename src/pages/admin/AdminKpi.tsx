@@ -267,11 +267,11 @@ const AdminKpi = () => {
 
       {/* KPI Cards */}
       {loading && !overview ? (
-        <div className="grid grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           {[1, 2, 3, 4].map(i => <div key={i} className="h-24 bg-card rounded-lg animate-pulse" />)}
         </div>
       ) : overview ? (
-        <div className="grid grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           <div className="p-4 rounded-lg bg-card border border-border">
             <div className="flex items-center gap-2 mb-1">
               <Eye className="w-4 h-4 text-blue-400" />
