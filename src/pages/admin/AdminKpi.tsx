@@ -235,7 +235,7 @@ const AdminKpi = () => {
 
   return (
     <AdminLayout>
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
           <h1 className="font-display text-2xl font-bold text-foreground flex items-center gap-2">
             <BarChart3 className="w-6 h-6 text-primary" /> KPI Dashboard
@@ -267,11 +267,11 @@ const AdminKpi = () => {
 
       {/* KPI Cards */}
       {loading && !overview ? (
-        <div className="grid grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           {[1, 2, 3, 4].map(i => <div key={i} className="h-24 bg-card rounded-lg animate-pulse" />)}
         </div>
       ) : overview ? (
-        <div className="grid grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           <div className="p-4 rounded-lg bg-card border border-border">
             <div className="flex items-center gap-2 mb-1">
               <Eye className="w-4 h-4 text-blue-400" />
@@ -449,7 +449,7 @@ const AdminKpi = () => {
 
         {audit && (
           <div className="space-y-3">
-            <div className="grid grid-cols-4 gap-3">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               <div className="p-3 rounded-lg bg-background border border-border text-center">
                 <p className="text-lg font-bold text-foreground">{audit.summary.total}</p>
                 <p className="text-[10px] text-muted-foreground">Checks</p>
@@ -515,13 +515,13 @@ const AdminKpi = () => {
         </div>
 
         {ga4Loading && !ga4 ? (
-          <div className="grid grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[1, 2, 3, 4].map(i => <div key={i} className="h-24 bg-muted rounded-lg animate-pulse" />)}
           </div>
         ) : ga4 ? (
           <div className="space-y-5">
             {/* GA4 KPI Cards */}
-            <div className="grid grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div className="p-4 rounded-lg bg-background border border-border">
                 <div className="flex items-center gap-2 mb-1">
                   <Globe className="w-4 h-4 text-blue-400" />
@@ -552,7 +552,7 @@ const AdminKpi = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Traffic Sources */}
               <div className="bg-background border border-border rounded-lg p-4">
                 <h3 className="font-display font-semibold text-foreground mb-3 text-sm">Verkeersbronnen</h3>
@@ -602,7 +602,7 @@ const AdminKpi = () => {
         )}
       </div>
 
-      <div className="grid grid-cols-2 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
         {/* Top Keywords */}
         <div className="bg-card border border-border rounded-lg p-4">
           <h2 className="font-display font-semibold text-foreground mb-3 text-sm">Top keywords</h2>

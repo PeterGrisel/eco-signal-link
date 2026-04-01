@@ -346,7 +346,7 @@ const AdminTaxonomy = () => {
   return (
     <AdminLayout>
       <div className="max-w-5xl">
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
           <div>
             <h1 className="text-2xl font-display font-bold flex items-center gap-2">
               <FolderTree className="w-6 h-6 text-primary" /> Content Strategie
@@ -387,7 +387,7 @@ const AdminTaxonomy = () => {
         </div>
 
         {/* Strategy stats */}
-        <div className="grid grid-cols-3 gap-4 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
           <div className="p-4 rounded-lg bg-card border border-border">
             <p className="text-2xl font-bold text-foreground">{totalTopics}</p>
             <p className="text-xs text-muted-foreground">Topic clusters</p>

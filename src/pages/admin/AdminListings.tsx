@@ -154,7 +154,7 @@ const AdminListings = () => {
 
   return (
     <AdminLayout>
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
           <h1 className="font-display text-2xl font-bold text-foreground">Directory Listings</h1>
           <p className="text-sm text-muted-foreground mt-1">Track je directory submissions</p>
@@ -170,7 +170,7 @@ const AdminListings = () => {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-3 gap-4 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
         <div className="p-4 rounded-lg bg-card border border-border">
           <p className="text-2xl font-bold text-foreground">{listings.length}</p>
           <p className="text-xs text-muted-foreground">Totaal</p>
