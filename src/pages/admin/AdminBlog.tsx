@@ -78,7 +78,7 @@ const AdminBlog = () => {
       ) : (
         <div className="space-y-2">
           {posts.map((post) => (
-            <div key={post.id} className="flex items-center justify-between p-4 rounded-lg bg-card border border-border hover:border-primary/30 transition-colors">
+            <div key={post.id} className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-lg bg-card border border-border hover:border-primary/30 transition-colors">
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-3 mb-1">
                   <h3 className="font-medium text-foreground truncate">{post.title}</h3>
