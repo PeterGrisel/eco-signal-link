@@ -156,6 +156,21 @@ serve(async (req) => {
       const today = body.target_date || new Date().toISOString().split("T")[0];
       log.push(`🌙 Nachtelijke generatie voor ${today}`);
 
+      // Guard: check if we already generated a post today
+      const { data: todayPosts } = await supabase
+        .from("blog_posts")
+        .select("id")
+        .gte("created_at", `${today}T00:00:00Z`)
+        .lt("created_at", `${today}T23:59:59Z`)
+        .limit(1);
+
+      if (todayPosts && todayPosts.length > 0) {
+        log.push("⚠ Er is vandaag al een artikel gegenereerd, overslaan.");
+        return new Response(JSON.stringify({ log, articles_generated: 0 }), {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+
       // Find today's scheduled + approved item
       const { data: todayItems } = await supabase
         .from("content_queue")

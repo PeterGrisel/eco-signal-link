@@ -203,6 +203,7 @@ LAATSTE CHECK VOOR JE INDIENT:
       },
       body: JSON.stringify({
         model: "google/gemini-2.5-flash",
+        max_tokens: 16000,
         messages: [
           { role: "system", content: systemPrompt },
           { role: "user", content: userPrompt },
