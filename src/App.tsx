@@ -99,6 +99,7 @@ const AnimatedRoutes = () => {
           <Route path="/admin/leads" element={<AdminLeads />} />
           <Route path="/admin/analytics" element={<AdminAnalytics />} />
           <Route path="/admin/scripts" element={<AdminScripts />} />
+          <Route path="/admin/competitors" element={<AdminCompetitors />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

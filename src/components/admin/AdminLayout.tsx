@@ -16,6 +16,7 @@ const navItems = [
   { href: "/admin/autopilot", label: "Autopilot", icon: Sparkles, showPilotBadge: true },
   { href: "/admin/calendar", label: "Content Kalender", icon: CalendarDays },
   { href: "/admin/taxonomy", label: "Content Strategie", icon: FolderTree },
+  { href: "/admin/competitors", label: "Concurrenten", icon: Search },
   { href: "/admin/listings", label: "Listings", icon: Globe },
   { href: "/admin/indexing", label: "Index Rusher", icon: Zap },
   { href: "/admin/scripts", label: "Tracking Scripts", icon: Code2 },
