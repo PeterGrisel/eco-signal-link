@@ -3,19 +3,19 @@ import { Zap, Shield, Target } from "lucide-react";
 
 const hooks = [
   {
-    icon: Zap,
-    title: "Live binnen 14 dagen",
-    description: "Geen maanden wachten. Uw eerste campagne draait binnen twee weken.",
+    icon: Target,
+    title: "Signaal-gestuurd prospecten",
+    description: "Wij benaderen alleen bedrijven die nu koopsignalen afgeven. Geen koude lijsten.",
   },
   {
-    icon: Target,
-    title: "Wij doen het voor u",
-    description: "Geen extra werk voor uw team. Wij regelen strategie, uitvoering en optimalisatie.",
+    icon: Zap,
+    title: "Volledig geautomatiseerd systeem",
+    description: "Outreach, opvolging en kwalificatie draaien op autopilot. U ontvangt alleen warme gesprekken.",
   },
   {
     icon: Shield,
-    title: "Alleen gekwalificeerde leads",
-    description: "Geen koude lijsten. Elke lead is vooraf gevalideerd op match en intentie.",
+    title: "Klanten, recruitment en partners",
+    description: "Eén systeem voor meerdere groeistromen. Van nieuwe klanten tot talent en partnerships.",
   },
 ];
 
