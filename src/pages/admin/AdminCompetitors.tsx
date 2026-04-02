@@ -5,16 +5,38 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Loader2, Plus, Trash2, ExternalLink, Globe, RefreshCw, Search } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Loader2, Plus, Trash2, ExternalLink, Globe, RefreshCw, Search, FileText, ChevronDown, ChevronUp } from "lucide-react";
 import { toast } from "sonner";
+
+interface StrategyCluster {
+  name: string;
+  slug: string;
+  description: string;
+  target_keywords: string[];
+  target_article_count: number;
+  priority: number;
+  pillar_article?: string;
+  subtopics?: { headline: string; keyword: string; publish_order: number }[];
+  content_gaps?: string[];
+  search_volume?: string;
+}
+
+interface AnalysisReport {
+  summary: string;
+  clusters: StrategyCluster[];
+  recommendations: string[];
+  analyzedAt: string;
+  competitorUrl?: string;
+}
 
 interface CompetitorData {
   url: string;
   title?: string;
   description?: string;
   lastScraped?: string;
-  pages?: string[];
-  blogCount?: number;
+  report?: AnalysisReport;
 }
 
 const AdminCompetitors = () => {
@@ -24,6 +46,8 @@ const AdminCompetitors = () => {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [scraping, setScraping] = useState<string | null>(null);
+  const [selectedReport, setSelectedReport] = useState<AnalysisReport | null>(null);
+  const [expandedClusters, setExpandedClusters] = useState<Set<number>>(new Set());
 
   useEffect(() => {
     loadCompetitors();
@@ -31,20 +55,29 @@ const AdminCompetitors = () => {
 
   const loadCompetitors = async () => {
     const { data } = await supabase.from("seo_settings").select("config").limit(1).single();
-    const urls = (data?.config as any)?.competitors || [];
+    const config = data?.config as any;
+    const urls = config?.competitors || [];
     setCompetitors(urls);
+    // Load saved reports
+    if (config?.competitor_reports) {
+      const saved: Record<string, CompetitorData> = {};
+      for (const [url, report] of Object.entries(config.competitor_reports as Record<string, any>)) {
+        saved[url] = { url, title: new URL(url).hostname, lastScraped: (report as any).analyzedAt, report: report as AnalysisReport };
+      }
+      setCompetitorData(saved);
+    }
     setLoading(false);
   };
 
-  const saveCompetitors = async (urls: string[]) => {
+  const saveCompetitors = async (urls: string[], reports?: Record<string, AnalysisReport>) => {
     setSaving(true);
     const { data: current } = await supabase.from("seo_settings").select("id, config").limit(1).single();
     if (current) {
-      const updatedConfig = { ...(current.config as any), competitors: urls };
+      const updatedConfig: any = { ...(current.config as any), competitors: urls };
+      if (reports) updatedConfig.competitor_reports = reports;
       await supabase.from("seo_settings").update({ config: updatedConfig }).eq("id", current.id);
     }
     setSaving(false);
-    toast.success("Concurrenten opgeslagen");
   };
 
   const addCompetitor = async () => {
@@ -59,6 +92,7 @@ const AdminCompetitors = () => {
     setCompetitors(updated);
     setNewUrl("");
     await saveCompetitors(updated);
+    toast.success("Concurrent toegevoegd");
   };
 
   const removeCompetitor = async (url: string) => {
@@ -67,33 +101,45 @@ const AdminCompetitors = () => {
     const newData = { ...competitorData };
     delete newData[url];
     setCompetitorData(newData);
-    await saveCompetitors(updated);
+    await saveCompetitors(updated, buildReportsMap(newData));
+  };
+
+  const buildReportsMap = (data: Record<string, CompetitorData>) => {
+    const reports: Record<string, AnalysisReport> = {};
+    for (const [url, d] of Object.entries(data)) {
+      if (d.report) reports[url] = d.report;
+    }
+    return reports;
   };
 
   const scrapeCompetitor = async (url: string) => {
     setScraping(url);
     try {
-      // Scrape homepage
-      const res = await fetch(url, { mode: "no-cors" }).catch(() => null);
-      
-      // Use edge function for proper scraping
       const { data, error } = await supabase.functions.invoke("strategy-agent", {
         body: { competitors: [url], mode: "evaluate" },
       });
-
       if (error) throw error;
 
-      setCompetitorData(prev => ({
-        ...prev,
+      const report: AnalysisReport = {
+        summary: data?.summary || "Geen samenvatting beschikbaar",
+        clusters: data?.clusters || [],
+        recommendations: data?.recommendations || [],
+        analyzedAt: new Date().toISOString(),
+        competitorUrl: url,
+      };
+
+      const newData = {
+        ...competitorData,
         [url]: {
           url,
           title: new URL(url).hostname,
-          description: data?.summary?.slice(0, 200) || "Geanalyseerd door Strategy Agent",
-          lastScraped: new Date().toISOString(),
-          blogCount: data?.clusters?.length || 0,
+          description: report.summary.slice(0, 200),
+          lastScraped: report.analyzedAt,
+          report,
         },
-      }));
-
+      };
+      setCompetitorData(newData);
+      await saveCompetitors(competitors, buildReportsMap(newData));
       toast.success(`${new URL(url).hostname} geanalyseerd`);
     } catch (e) {
       toast.error(`Fout bij analyseren: ${e instanceof Error ? e.message : "Onbekend"}`);
@@ -110,17 +156,39 @@ const AdminCompetitors = () => {
       });
       if (error) throw error;
 
+      const report: AnalysisReport = {
+        summary: data?.summary || "Geen samenvatting",
+        clusters: data?.clusters || [],
+        recommendations: data?.recommendations || [],
+        analyzedAt: new Date().toISOString(),
+      };
+
+      // Store under a combined key
+      const newData = { ...competitorData };
+      newData["__full__"] = {
+        url: "all",
+        title: "Volledige analyse",
+        lastScraped: report.analyzedAt,
+        report,
+      };
+      setCompetitorData(newData);
+      await saveCompetitors(competitors, buildReportsMap(newData));
+
       toast.success("Volledige concurrentanalyse afgerond");
-      
-      // Show results
-      if (data?.recommendations?.length) {
-        toast.info(`${data.recommendations.length} aanbevelingen gevonden`);
-      }
+      setSelectedReport(report);
     } catch (e) {
       toast.error(`Analyse mislukt: ${e instanceof Error ? e.message : "Onbekend"}`);
     } finally {
       setScraping(null);
     }
+  };
+
+  const toggleCluster = (index: number) => {
+    setExpandedClusters(prev => {
+      const next = new Set(prev);
+      next.has(index) ? next.delete(index) : next.add(index);
+      return next;
+    });
   };
 
   if (loading) {
@@ -144,14 +212,21 @@ const AdminCompetitors = () => {
             Beheer concurrenten en analyseer hun content strategie
           </p>
         </div>
-        <Button
-          variant="hero"
-          onClick={runFullAnalysis}
-          disabled={scraping !== null || competitors.length === 0}
-        >
-          {scraping === "all" ? <Loader2 className="w-4 h-4 animate-spin" /> : <RefreshCw className="w-4 h-4" />}
-          Volledige analyse
-        </Button>
+        <div className="flex gap-2">
+          {competitorData["__full__"]?.report && (
+            <Button variant="outline" onClick={() => setSelectedReport(competitorData["__full__"].report!)}>
+              <FileText className="w-4 h-4 mr-1" /> Laatste rapport
+            </Button>
+          )}
+          <Button
+            variant="hero"
+            onClick={runFullAnalysis}
+            disabled={scraping !== null || competitors.length === 0}
+          >
+            {scraping === "all" ? <Loader2 className="w-4 h-4 animate-spin" /> : <RefreshCw className="w-4 h-4" />}
+            Volledige analyse
+          </Button>
+        </div>
       </div>
 
       {/* Add competitor */}
@@ -204,9 +279,9 @@ const AdminCompetitors = () => {
                         <Badge variant="secondary" className="text-[10px]">
                           Geanalyseerd {new Date(data.lastScraped).toLocaleDateString("nl-NL")}
                         </Badge>
-                        {data.blogCount !== undefined && (
+                        {data.report && (
                           <Badge variant="outline" className="text-[10px]">
-                            {data.blogCount} clusters
+                            {data.report.clusters.length} clusters
                           </Badge>
                         )}
                       </div>
@@ -214,6 +289,16 @@ const AdminCompetitors = () => {
                   </div>
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
+                  {data?.report && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => { setExpandedClusters(new Set()); setSelectedReport(data.report!); }}
+                    >
+                      <FileText className="w-3.5 h-3.5" />
+                      <span className="ml-1 hidden sm:inline">Rapport</span>
+                    </Button>
+                  )}
                   <Button
                     variant="outline"
                     size="sm"
@@ -242,12 +327,151 @@ const AdminCompetitors = () => {
       <Card className="p-4 mt-6 bg-primary/5 border-primary/20">
         <h3 className="text-sm font-semibold text-foreground mb-2">💡 Hoe werkt het?</h3>
         <ul className="text-xs text-muted-foreground space-y-1">
-          <li>• Concurrenten worden automatisch meegenomen door de <strong>Strategy Agent</strong> bij het genereren van topic clusters</li>
-          <li>• De agent scrapt hun homepage en blogpagina om content gaps te identificeren</li>
+          <li>• Klik <strong>"Analyseer"</strong> bij een concurrent om hun content te scrapen en analyseren</li>
+          <li>• Na analyse verschijnt een <strong>"Rapport"</strong> knop om de resultaten te bekijken</li>
           <li>• Gebruik <strong>"Volledige analyse"</strong> voor een uitgebreide evaluatie t.o.v. alle concurrenten</li>
-          <li>• Resultaten worden gebruikt om je content strategie te optimaliseren</li>
+          <li>• Resultaten worden opgeslagen en gebruikt om je content strategie te optimaliseren</li>
         </ul>
       </Card>
+
+      {/* Report Dialog */}
+      <Dialog open={!!selectedReport} onOpenChange={() => setSelectedReport(null)}>
+        <DialogContent className="max-w-3xl max-h-[85vh] p-0">
+          <DialogHeader className="p-6 pb-0">
+            <DialogTitle className="flex items-center gap-2">
+              <FileText className="w-5 h-5 text-primary" />
+              Analyse Rapport
+              {selectedReport?.competitorUrl && (
+                <Badge variant="secondary" className="ml-2 text-xs font-normal">
+                  {(() => { try { return new URL(selectedReport.competitorUrl).hostname; } catch { return selectedReport.competitorUrl; } })()}
+                </Badge>
+              )}
+            </DialogTitle>
+            {selectedReport?.analyzedAt && (
+              <p className="text-xs text-muted-foreground">
+                Gegenereerd op {new Date(selectedReport.analyzedAt).toLocaleString("nl-NL")}
+              </p>
+            )}
+          </DialogHeader>
+          <ScrollArea className="max-h-[calc(85vh-100px)] px-6 pb-6">
+            {selectedReport && (
+              <div className="space-y-6 pt-4">
+                {/* Summary */}
+                <div>
+                  <h3 className="text-sm font-semibold text-foreground mb-2">Samenvatting</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{selectedReport.summary}</p>
+                </div>
+
+                {/* Recommendations */}
+                {selectedReport.recommendations.length > 0 && (
+                  <div>
+                    <h3 className="text-sm font-semibold text-foreground mb-2">
+                      Aanbevelingen ({selectedReport.recommendations.length})
+                    </h3>
+                    <ul className="space-y-2">
+                      {selectedReport.recommendations.map((rec, i) => (
+                        <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
+                          <span className="text-primary font-bold mt-0.5">→</span>
+                          <span>{rec}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {/* Clusters */}
+                {selectedReport.clusters.length > 0 && (
+                  <div>
+                    <h3 className="text-sm font-semibold text-foreground mb-3">
+                      Topic Clusters ({selectedReport.clusters.length})
+                    </h3>
+                    <div className="space-y-3">
+                      {selectedReport.clusters.map((cluster, i) => (
+                        <Card key={i} className="p-3">
+                          <button
+                            className="w-full text-left flex items-center justify-between"
+                            onClick={() => toggleCluster(i)}
+                          >
+                            <div className="flex items-center gap-2 min-w-0">
+                              <span className="font-medium text-sm text-foreground truncate">{cluster.name}</span>
+                              <Badge variant="outline" className="text-[10px] shrink-0">
+                                prio {cluster.priority}
+                              </Badge>
+                              {cluster.search_volume && (
+                                <Badge variant="secondary" className="text-[10px] shrink-0">
+                                  {cluster.search_volume} volume
+                                </Badge>
+                              )}
+                            </div>
+                            {expandedClusters.has(i) ? (
+                              <ChevronUp className="w-4 h-4 text-muted-foreground shrink-0" />
+                            ) : (
+                              <ChevronDown className="w-4 h-4 text-muted-foreground shrink-0" />
+                            )}
+                          </button>
+
+                          {expandedClusters.has(i) && (
+                            <div className="mt-3 space-y-3 border-t border-border pt-3">
+                              <p className="text-xs text-muted-foreground">{cluster.description}</p>
+
+                              {cluster.target_keywords?.length > 0 && (
+                                <div>
+                                  <p className="text-xs font-medium text-foreground mb-1">Keywords:</p>
+                                  <div className="flex flex-wrap gap-1">
+                                    {cluster.target_keywords.map((kw, j) => (
+                                      <Badge key={j} variant="secondary" className="text-[10px]">{kw}</Badge>
+                                    ))}
+                                  </div>
+                                </div>
+                              )}
+
+                              {cluster.pillar_article && (
+                                <div>
+                                  <p className="text-xs font-medium text-foreground mb-1">Pillar artikel:</p>
+                                  <p className="text-xs text-muted-foreground">{cluster.pillar_article}</p>
+                                </div>
+                              )}
+
+                              {cluster.subtopics && cluster.subtopics.length > 0 && (
+                                <div>
+                                  <p className="text-xs font-medium text-foreground mb-1">
+                                    Sub-topics ({cluster.subtopics.length}):
+                                  </p>
+                                  <ul className="space-y-1">
+                                    {cluster.subtopics.map((st, j) => (
+                                      <li key={j} className="text-xs text-muted-foreground flex items-start gap-1.5">
+                                        <span className="text-primary font-mono text-[10px] mt-0.5">{st.publish_order}.</span>
+                                        <span>{st.headline} <span className="text-muted-foreground/60">({st.keyword})</span></span>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                </div>
+                              )}
+
+                              {cluster.content_gaps && cluster.content_gaps.length > 0 && (
+                                <div>
+                                  <p className="text-xs font-medium text-foreground mb-1">Content gaps:</p>
+                                  <ul className="space-y-0.5">
+                                    {cluster.content_gaps.map((gap, j) => (
+                                      <li key={j} className="text-xs text-muted-foreground flex items-start gap-1.5">
+                                        <span className="text-destructive">⚠</span> {gap}
+                                      </li>
+                                    ))}
+                                  </ul>
+                                </div>
+                              )}
+                            </div>
+                          )}
+                        </Card>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+          </ScrollArea>
+        </DialogContent>
+      </Dialog>
     </AdminLayout>
   );
 };
