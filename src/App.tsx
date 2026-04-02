@@ -38,6 +38,7 @@ import AdminLeads from "./pages/admin/AdminLeads.tsx";
 import AdminAnalytics from "./pages/admin/AdminAnalytics.tsx";
 import AdminScripts from "./pages/admin/AdminScripts.tsx";
 import AdminOverview from "./pages/admin/AdminOverview.tsx";
+import AdminCompetitors from "./pages/admin/AdminCompetitors.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import TrackingScriptInjector from "./components/TrackingScriptInjector";
 import WhatsAppButton from "./components/WhatsAppButton";
