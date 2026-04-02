@@ -21,6 +21,9 @@ interface StrategyCluster {
   subtopics?: { headline: string; keyword: string; publish_order: number }[];
   content_gaps?: string[];
   search_volume?: string;
+  comparison_type?: "gap" | "sterkte" | "kans" | "bedreiging";
+  our_score?: number;
+  competitor_score?: number;
 }
 
 interface AnalysisReport {
