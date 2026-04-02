@@ -21,6 +21,9 @@ interface StrategyCluster {
   subtopics?: { headline: string; keyword: string; publish_order: number }[];
   content_gaps?: string[];
   search_volume?: string;
+  comparison_type?: "gap" | "sterkte" | "kans" | "bedreiging";
+  our_score?: number;
+  competitor_score?: number;
 }
 
 interface AnalysisReport {
@@ -340,12 +343,10 @@ const AdminCompetitors = () => {
           <DialogHeader className="p-6 pb-0">
             <DialogTitle className="flex items-center gap-2">
               <FileText className="w-5 h-5 text-primary" />
-              Analyse Rapport
-              {selectedReport?.competitorUrl && (
-                <Badge variant="secondary" className="ml-2 text-xs font-normal">
-                  {(() => { try { return new URL(selectedReport.competitorUrl).hostname; } catch { return selectedReport.competitorUrl; } })()}
-                </Badge>
-              )}
+              {selectedReport?.competitorUrl
+                ? `B2BGroeiMachine vs ${(() => { try { return new URL(selectedReport.competitorUrl).hostname; } catch { return selectedReport.competitorUrl; } })()}`
+                : "Vergelijkende Analyse"
+              }
             </DialogTitle>
             {selectedReport?.analyzedAt && (
               <p className="text-xs text-muted-foreground">
@@ -386,22 +387,32 @@ const AdminCompetitors = () => {
                       Topic Clusters ({selectedReport.clusters.length})
                     </h3>
                     <div className="space-y-3">
-                      {selectedReport.clusters.map((cluster, i) => (
+                      {selectedReport.clusters.map((cluster, i) => {
+                        const comparisonColors: Record<string, string> = {
+                          gap: "bg-destructive/10 text-destructive border-destructive/30",
+                          sterkte: "bg-green-500/10 text-green-700 dark:text-green-400 border-green-500/30",
+                          kans: "bg-blue-500/10 text-blue-700 dark:text-blue-400 border-blue-500/30",
+                          bedreiging: "bg-orange-500/10 text-orange-700 dark:text-orange-400 border-orange-500/30",
+                        };
+                        const comparisonLabels: Record<string, string> = {
+                          gap: "⚠ Gap", sterkte: "✓ Sterkte", kans: "💡 Kans", bedreiging: "🔥 Bedreiging",
+                        };
+                        return (
                         <Card key={i} className="p-3">
                           <button
                             className="w-full text-left flex items-center justify-between"
                             onClick={() => toggleCluster(i)}
                           >
-                            <div className="flex items-center gap-2 min-w-0">
+                            <div className="flex items-center gap-2 min-w-0 flex-wrap">
                               <span className="font-medium text-sm text-foreground truncate">{cluster.name}</span>
+                              {cluster.comparison_type && (
+                                <Badge className={`text-[10px] shrink-0 border ${comparisonColors[cluster.comparison_type]}`}>
+                                  {comparisonLabels[cluster.comparison_type]}
+                                </Badge>
+                              )}
                               <Badge variant="outline" className="text-[10px] shrink-0">
                                 prio {cluster.priority}
                               </Badge>
-                              {cluster.search_volume && (
-                                <Badge variant="secondary" className="text-[10px] shrink-0">
-                                  {cluster.search_volume} volume
-                                </Badge>
-                              )}
                             </div>
                             {expandedClusters.has(i) ? (
                               <ChevronUp className="w-4 h-4 text-muted-foreground shrink-0" />
@@ -413,6 +424,29 @@ const AdminCompetitors = () => {
                           {expandedClusters.has(i) && (
                             <div className="mt-3 space-y-3 border-t border-border pt-3">
                               <p className="text-xs text-muted-foreground">{cluster.description}</p>
+
+                              {/* Score comparison */}
+                              {(cluster.our_score != null || cluster.competitor_score != null) && (
+                                <div className="space-y-2">
+                                  <p className="text-xs font-medium text-foreground">Score vergelijking:</p>
+                                  <div className="space-y-1.5">
+                                    <div className="flex items-center gap-2">
+                                      <span className="text-[10px] font-medium text-foreground w-28 shrink-0">B2BGroeiMachine</span>
+                                      <div className="flex-1 bg-muted rounded-full h-2.5 overflow-hidden">
+                                        <div className="h-full bg-primary rounded-full transition-all" style={{ width: `${(cluster.our_score || 0) * 10}%` }} />
+                                      </div>
+                                      <span className="text-[10px] font-bold text-foreground w-6 text-right">{cluster.our_score || 0}</span>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                      <span className="text-[10px] font-medium text-muted-foreground w-28 shrink-0">Concurrent</span>
+                                      <div className="flex-1 bg-muted rounded-full h-2.5 overflow-hidden">
+                                        <div className="h-full bg-destructive/60 rounded-full transition-all" style={{ width: `${(cluster.competitor_score || 0) * 10}%` }} />
+                                      </div>
+                                      <span className="text-[10px] font-bold text-muted-foreground w-6 text-right">{cluster.competitor_score || 0}</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              )}
 
                               {cluster.target_keywords?.length > 0 && (
                                 <div>
@@ -463,7 +497,8 @@ const AdminCompetitors = () => {
                             </div>
                           )}
                         </Card>
-                      ))}
+                        );
+                      })}
                     </div>
                   </div>
                 )}
