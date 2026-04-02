@@ -343,12 +343,10 @@ const AdminCompetitors = () => {
           <DialogHeader className="p-6 pb-0">
             <DialogTitle className="flex items-center gap-2">
               <FileText className="w-5 h-5 text-primary" />
-              Analyse Rapport
-              {selectedReport?.competitorUrl && (
-                <Badge variant="secondary" className="ml-2 text-xs font-normal">
-                  {(() => { try { return new URL(selectedReport.competitorUrl).hostname; } catch { return selectedReport.competitorUrl; } })()}
-                </Badge>
-              )}
+              {selectedReport?.competitorUrl
+                ? `B2BGroeiMachine vs ${(() => { try { return new URL(selectedReport.competitorUrl).hostname; } catch { return selectedReport.competitorUrl; } })()}`
+                : "Vergelijkende Analyse"
+              }
             </DialogTitle>
             {selectedReport?.analyzedAt && (
               <p className="text-xs text-muted-foreground">
