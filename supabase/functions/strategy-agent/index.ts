@@ -149,11 +149,21 @@ REGELS:
 10. Prioriteer keywords met zoekvolume ≤${avalancheThreshold * 30}/maand en lage concurrentie`;
 
     const userPrompt = mode === "evaluate" 
-      ? `Evalueer de bestaande content strategie op basis van de GSC data en geef verbeteringen:
-- Welke topics presteren goed en moeten uitgebreid worden?
-- Welke topics presteren slecht en moeten aangepast worden?
-- Welke nieuwe topics/keywords ontbreken nog?
-- Geef concrete aanpassingen voor de strategie.`
+      ? `Maak een VERGELIJKENDE ANALYSE van ${siteName} versus de concurrent(en).
+Structuur het rapport als een duidelijke B2B GroeiMachine VS Concurrent vergelijking:
+
+1. **Sterke punten ${siteName}**: Wat doen wij beter dan de concurrent(en)?
+2. **Sterke punten concurrent(en)**: Wat doen zij beter dan wij?
+3. **Content gaps**: Welke onderwerpen/keywords dekken zij die wij missen?
+4. **Kansen**: Concrete topics waar wij op kunnen inspelen op basis van de vergelijking
+5. **Bedreigingen**: Waar lopen we achter en moet actie op worden ondernomen?
+
+Geef per topic cluster aan:
+- Of het een GAP is (concurrent heeft het wel, wij niet)
+- Of het een STERKTE is (wij doen het beter)
+- Of het een KANS is (beide missen het, maar het past bij onze doelgroep)
+
+Gebruik de GSC data om onze huidige positie te onderbouwen.`
       : `Ontwerp een complete topic cluster strategie. Geef voor elk cluster:
 - name: Cluster naam
 - description: Wat dit cluster dekt en waarom het belangrijk is
