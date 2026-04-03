@@ -4,18 +4,18 @@ import { Zap, Shield, Target } from "lucide-react";
 const hooks = [
   {
     icon: Target,
-    title: "Signaal-gestuurd prospecten",
-    description: "Wij benaderen alleen bedrijven die nu koopsignalen afgeven. Geen koude lijsten.",
+    title: "Altijd weten waar uw klant zit",
+    description: "U weet precies waar uw volgende klant vandaan komt. Elke week scherper, elke maand meer resultaat.",
   },
   {
     icon: Zap,
-    title: "Volledig geautomatiseerd systeem",
-    description: "Outreach, opvolging en kwalificatie draaien op autopilot. U ontvangt alleen warme gesprekken.",
+    title: "Meer tijd voor wat telt",
+    description: "Wij automatiseren de repetitieve taken zodat uw team zich volledig kan richten op klantcontact en groei.",
   },
   {
     icon: Shield,
-    title: "Klanten, recruitment en partners",
-    description: "Eén systeem voor meerdere groeistromen. Van nieuwe klanten tot talent en partnerships.",
+    title: "Eén systeem, meerdere groeistromen",
+    description: "Nieuwe klanten, talent én partners. Alles vanuit één geautomatiseerd systeem dat voor u draait.",
   },
 ];
 
