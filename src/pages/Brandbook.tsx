@@ -71,7 +71,100 @@ const PromptBlock = ({ label, content }: { label: string; content: string }) => 
   );
 };
 
-const Brandbook = () => {
+const cheatsheetNames: Record<string, string> = {
+  "signal-prospecting": "Signal Prospecting",
+  "linkedin-outreach": "LinkedIn Outreach",
+  "hubspot-pipeline": "HubSpot Pipeline",
+  "icp-ai": "ICP AI",
+  "multichannel-sequencing": "Multi-channel Sequencing",
+};
+
+const CheatsheetStats = () => {
+  const [stats, setStats] = useState<{ slug: string; votes: number; avgRating: number }[]>([]);
+  const [totals, setTotals] = useState({ votes: 0, avgRating: 0, guides: 0 });
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      const { data } = await supabase
+        .from("cheatsheet_feedback")
+        .select("cheatsheet_slug, helpful, rating");
+
+      if (!data) return;
+
+      const grouped: Record<string, { votes: number; ratings: number[]; }> = {};
+      data.forEach((row) => {
+        if (!grouped[row.cheatsheet_slug]) grouped[row.cheatsheet_slug] = { votes: 0, ratings: [] };
+        if (row.helpful) grouped[row.cheatsheet_slug].votes++;
+        if (row.rating) grouped[row.cheatsheet_slug].ratings.push(row.rating);
+      });
+
+      const statsList = Object.entries(grouped).map(([slug, d]) => ({
+        slug,
+        votes: d.votes,
+        avgRating: d.ratings.length ? d.ratings.reduce((a, b) => a + b, 0) / d.ratings.length : 0,
+      }));
+
+      const totalVotes = statsList.reduce((s, r) => s + r.votes, 0);
+      const allRatings = data.filter((r) => r.rating).map((r) => r.rating!);
+      const totalAvg = allRatings.length ? allRatings.reduce((a, b) => a + b, 0) / allRatings.length : 0;
+
+      setStats(statsList.sort((a, b) => b.votes - a.votes));
+      setTotals({ votes: totalVotes, avgRating: totalAvg, guides: Object.keys(cheatsheetNames).length });
+    };
+    fetchStats();
+  }, []);
+
+  return (
+    <motion.section {...fadeIn} className="px-6 md:px-16 lg:px-[72px] py-20 md:py-24 border-b border-border">
+      <SectionLabel>Live Stats</SectionLabel>
+      <h2 className="font-display font-bold text-[clamp(1.8rem,3.5vw,2.8rem)] leading-[1.18] tracking-tight max-w-[680px] mb-10">
+        Cheatsheet performance.
+      </h2>
+
+      {/* Totals */}
+      <div className="grid grid-cols-3 gap-6 max-w-[600px] mb-12">
+        <div className="p-6 rounded-lg border border-border bg-card text-center">
+          <div className="flex justify-center mb-2"><ThumbsUp className="w-5 h-5 text-primary" /></div>
+          <p className="font-display font-bold text-3xl">{totals.votes}</p>
+          <p className="text-xs text-muted-foreground mt-1">Upvotes</p>
+        </div>
+        <div className="p-6 rounded-lg border border-border bg-card text-center">
+          <div className="flex justify-center mb-2"><Star className="w-5 h-5 text-primary" /></div>
+          <p className="font-display font-bold text-3xl">{totals.avgRating > 0 ? totals.avgRating.toFixed(1) : "—"}</p>
+          <p className="text-xs text-muted-foreground mt-1">Gem. rating</p>
+        </div>
+        <div className="p-6 rounded-lg border border-border bg-card text-center">
+          <div className="flex justify-center mb-2"><Eye className="w-5 h-5 text-primary" /></div>
+          <p className="font-display font-bold text-3xl">{totals.guides}</p>
+          <p className="text-xs text-muted-foreground mt-1">Guides live</p>
+        </div>
+      </div>
+
+      {/* Per cheatsheet */}
+      {stats.length > 0 && (
+        <div className="max-w-[700px]">
+          <h3 className="font-display font-semibold text-sm mb-4 text-foreground/60 uppercase tracking-[0.1em]">Per guide</h3>
+          <div className="space-y-3">
+            {stats.map((s) => (
+              <div key={s.slug} className="flex items-center justify-between p-4 rounded-lg border border-border bg-card">
+                <span className="font-display font-medium text-sm">{cheatsheetNames[s.slug] || s.slug}</span>
+                <div className="flex items-center gap-5">
+                  <span className="flex items-center gap-1.5 text-sm text-muted-foreground">
+                    <ThumbsUp className="w-3.5 h-3.5" /> {s.votes}
+                  </span>
+                  <span className="flex items-center gap-1.5 text-sm text-muted-foreground">
+                    <Star className="w-3.5 h-3.5" /> {s.avgRating > 0 ? s.avgRating.toFixed(1) : "—"}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </motion.section>
+  );
+};
+
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
   return (
