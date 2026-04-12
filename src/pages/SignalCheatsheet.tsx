@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Copy, Check, ArrowLeft, Linkedin } from "lucide-react";
 import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
+import CheatsheetFeedback from "@/components/cheatsheet/CheatsheetFeedback";
 import Footer from "@/components/Footer";
 
 const SignalCheatsheet = () => {
@@ -157,6 +158,9 @@ const SignalCheatsheet = () => {
             <span className="text-[11px] text-[#BFBFBF]">Begin nooit met "Ik zag dat je bij bedrijf X werkt." Begin met hun situatie — niet met jouzelf. Timing is alles. Het signaal is jouw credentie.</span>
           </div>
         </Card>
+
+        {/* FEEDBACK */}
+        <CheatsheetFeedback slug="signal-prospecting" />
 
         {/* CTA - full width */}
         <Card title="Wil je ook acties aanmaken direct in Apollo?" full accent>
