@@ -17,10 +17,14 @@ Deno.serve(async () => {
 
   const { data: posts } = await supabase
     .from("blog_posts")
-    .select("title, slug, excerpt, meta_description, published_at, featured_image")
+    .select("title, slug, excerpt, meta_description, published_at, featured_image, updated_at")
     .eq("status", "published")
     .order("published_at", { ascending: false })
     .limit(50);
+
+  const lastModified = posts?.[0]?.updated_at
+    ? new Date(posts[0].updated_at).toUTCString()
+    : new Date().toUTCString();
 
   const siteUrl = "https://b2bgroeimachine.io";
   const items = (posts || [])
