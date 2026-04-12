@@ -85,6 +85,34 @@ const Cheatsheets = () => {
             ))}
           </div>
 
+          {/* Tool filter */}
+          <div className="flex items-center gap-2 mb-8">
+            <span className="text-xs text-muted-foreground font-medium mr-1">Tool:</span>
+            <button
+              onClick={() => setActiveTool(null)}
+              className={`text-xs font-semibold uppercase tracking-wider px-3 py-1.5 rounded border transition-all ${
+                activeTool === null
+                  ? "bg-primary/20 text-primary border-primary ring-1 ring-primary/30"
+                  : "bg-muted/30 text-muted-foreground border-border hover:border-primary/40"
+              }`}
+            >
+              Alle
+            </button>
+            {allTools.map((tool) => (
+              <button
+                key={tool}
+                onClick={() => setActiveTool(activeTool === tool ? null : tool)}
+                className={`text-xs font-semibold uppercase tracking-wider px-3 py-1.5 rounded border transition-all ${
+                  activeTool === tool
+                    ? "bg-primary/20 text-primary border-primary ring-1 ring-primary/30"
+                    : "bg-muted/30 text-muted-foreground border-border hover:border-primary/40"
+                }`}
+              >
+                {tool}
+              </button>
+            ))}
+          </div>
+
           <div className="grid gap-4">
             {filtered.map((sheet) => (
               <Link
