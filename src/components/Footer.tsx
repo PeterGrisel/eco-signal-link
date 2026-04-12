@@ -198,6 +198,7 @@ const Footer = () => {
             <a href="https://b2bgroeimachine.io/rss.xml" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors" title="RSS Feed">
               <Rss className="w-4 h-4" />
             </a>
+          </nav>
 
           <p className="text-muted-foreground/50 text-xs flex-shrink-0">
             © {new Date().getFullYear()} B2BGroeiMachine · powered by Rebel Force™ · KVK 94347778 · BTW NL866743856B01
