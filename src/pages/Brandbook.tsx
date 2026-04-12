@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Copy, Check } from "lucide-react";
+import { Copy, Check, ThumbsUp, Star, Eye } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
+import { supabase } from "@/integrations/supabase/client";
 
 const fadeIn = {
   initial: { opacity: 0, y: 16 },
@@ -407,6 +408,9 @@ const Brandbook = () => {
           />
         </div>
       </motion.section>
+
+      {/* ── LIVE STATS ── */}
+      <CheatsheetStats />
 
       <Footer />
     </div>
