@@ -137,6 +137,24 @@ export default {
       return fetch(toOrigin(request, url));
     }
 
+    // 0c. Proxy /rss.xml to dynamic Edge Function
+    if (url.pathname === '/rss.xml') {
+      try {
+        const rssRes = await fetch(RSS_URL, {
+          headers: { 'apikey': env.SUPABASE_ANON_KEY || '' },
+        });
+        return new Response(await rssRes.text(), {
+          status: rssRes.status,
+          headers: {
+            'Content-Type': 'application/rss+xml; charset=utf-8',
+            'Cache-Control': `public, max-age=${CACHE_TTL_WORKER}`,
+          },
+        });
+      } catch {
+        return new Response('RSS feed unavailable', { status: 502 });
+      }
+    }
+
     // 1. Static assets -> straight to Lovable origin
     if (isStaticAsset(url.pathname)) {
       return fetch(toOrigin(request, url));
