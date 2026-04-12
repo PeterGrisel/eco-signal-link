@@ -26,7 +26,7 @@ const SignalCheatsheet = () => {
             <div style={{ fontFamily: "Anton, sans-serif", fontSize: 32, color: "#E3874F", lineHeight: 1 }}>15</div>
             <div style={{ fontSize: 10, color: "#666", letterSpacing: ".08em", textTransform: "uppercase" }}>minuten setup</div>
           </div>
-          <span style={{ fontSize: 10, color: "#666", letterSpacing: ".06em" }}>b2bgroeimachine.io</span>
+          <span style={{ fontSize: 10, color: "#666", letterSpacing: ".06em" }}>{"\n"}</span>
         </div>
       </div>
 
