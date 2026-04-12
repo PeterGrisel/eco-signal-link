@@ -1,37 +1,51 @@
 
 
-## Verbeterplan: Cheatsheet Pagina
+## Plan: 4 nieuwe cheatsheets als gratis weggevers
 
-### Wat we aanpakken
+### Overzicht
 
-**1. Mobiele responsiveness**
-- Hero: responsive padding (`px-4 md:px-12`, `pt-28 md:pt-32`)
-- 4-stappen flow: verticaal stapelen op mobiel, horizontaal op desktop
-- Cards grid: al `grid-cols-1 md:grid-cols-2`, maar inner padding aanpassen
+Vier nieuwe cheatsheet-pagina's toevoegen, gericht op founders/CEO's die hun B2B sales willen opschalen. Elke pagina volgt exact dezelfde structuur als de bestaande Signal Prospecting cheatsheet (hero, 4-stappen flow, prompt-blokken met copy-functie, CTA, feedback).
 
-**2. Copy-knop op prompts**
-- Elke PromptBlock krijgt een "Kopieer" knop rechtsboven
-- Gebruikt `navigator.clipboard.writeText()` met een korte "Gekopieerd!" feedback via toast of inline state
+### De 4 cheatsheets
 
-**3. Google Fonts verplaatsen**
-- Font `<link>` verplaatsen naar `index.html` `<head>` (of verwijderen als de fonts al elders geladen worden)
-- Verwijder de `<link>` uit de JSX
+| # | Titel | Niveau | Tools | Slug | Setup-tijd |
+|---|-------|--------|-------|------|------------|
+| 1 | **LinkedIn Outreach Formules** | Beginner | LinkedIn, ChatGPT | `/cheatsheet/linkedin-outreach` | 10 min |
+| 2 | **HubSpot Pipeline Setup in 30 min** | Beginner | HubSpot | `/cheatsheet/hubspot-pipeline` | 30 min |
+| 3 | **ICP Scherpslijpen met AI** | Gevorderd | Claude, Apollo, LinkedIn | `/cheatsheet/icp-ai` | 20 min |
+| 4 | **Multi-channel Sequencing Playbook** | Expert | Instantly, Apollo, LinkedIn | `/cheatsheet/multichannel-sequencing` | 45 min |
 
-**4. Apollo affiliate link klikbaar maken**
-- `get.apollo.io/Your-b2b-link` als echte `<a href>` met `target="_blank"`
+### Inhoud per cheatsheet
 
-**5. Breadcrumb / teruglink**
-- Subtiele "← Alle cheatsheets" link boven de hero of in de hero zelf
+**1. LinkedIn Outreach Formules** (Beginner)
+- 4 stappen: Profiel optimaliseren → ICP targeten → Connectieverzoek sturen → Follow-up
+- 5 bewezen berichtsjablonen (connectieverzoek, follow-up, engagement-reactie, InMail, voice note script)
+- Copy-paste prompts voor ChatGPT om berichten te personaliseren
 
-**6. Styling opschonen (licht)**
-- Waar mogelijk inline styles vervangen door Tailwind classes
-- Behoud het donkere thema maar gebruik CSS variabelen waar het kan
+**2. HubSpot Pipeline Setup in 30 min** (Beginner)
+- 4 stappen: Dealfases instellen → Properties aanmaken → Automatiseringen → Dashboard
+- Concrete dealfase-namen en definities voor B2B
+- Template-properties en workflow-triggers
 
-### Bestanden die wijzigen
-- `src/pages/SignalCheatsheet.tsx` — hoofdpagina (responsiveness, copy-knop, breadcrumb, font-link weg, affiliate link)
-- `index.html` — font link toevoegen (indien nog niet aanwezig)
+**3. ICP Scherpslijpen met AI** (Gevorderd)
+- 4 stappen: Huidige klanten analyseren → Claude prompt voor ICP → Apollo filters → LinkedIn validatie
+- AI-prompts om patronen in je klantenbestand te vinden
+- Apollo filter-configuratie voor lookalikes
 
-### Wat we NIET doen
-- Volledig redesignen — het visuele ontwerp blijft intact
-- Inline styles volledig omzetten naar Tailwind — dat is een grotere refactor voor later
+**4. Multi-channel Sequencing Playbook** (Expert)
+- 4 stappen: Sequentie ontwerpen → E-mail setup (Instantly) → LinkedIn touchpoints → Calling scripts
+- Dag-voor-dag sequentie-schema (14 dagen)
+- Templates per kanaal met timing
+
+### Technische wijzigingen
+
+1. **4 nieuwe pagina-bestanden** — Elk volgt het SignalCheatsheet.tsx patroon (hero, stappen, prompt-cards, feedback, CTA)
+2. **`src/pages/Cheatsheets.tsx`** — Array uitbreiden met 4 nieuwe entries
+3. **`src/App.tsx`** — 4 nieuwe routes toevoegen
+4. **Tools-filter** wordt automatisch uitgebreid (ChatGPT, HubSpot, Instantly verschijnen als filterknoppen)
+
+### Aanpak
+- Alle content in het Nederlands, B1-taalniveau, korte zinnen
+- Elke pagina bevat het `CheatsheetFeedback` component
+- Affiliate-links waar relevant (Apollo, Instantly)
 
