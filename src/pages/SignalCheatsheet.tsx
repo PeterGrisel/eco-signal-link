@@ -42,20 +42,20 @@ const SignalCheatsheet = () => {
 
         {/* FLOW - full width */}
         <Card title="De aanpak in 4 stappen" full>
-          <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 md:gap-0">
+          <div className="flex flex-col md:flex-row items-center gap-3 md:gap-0">
             {[
               { icon: "🔌", name: "Connect", desc: "Claude + Apollo MCP" },
               { icon: "📡", name: "Signaal", desc: "Trigger definiëren" },
               { icon: "🤖", name: "Prompt", desc: "Claude filtert & schrijft" },
               { icon: "📨", name: "Actie", desc: "Sequence live in Apollo" },
             ].map((s, i) => (
-              <div key={i} className="flex items-center">
-                <div className="flex-1 text-center py-3 px-2 bg-[#141414] rounded border border-[#1e1e1e] min-w-[140px]">
-                  <div className="text-lg mb-1">{s.icon}</div>
-                  <div className="text-[11px] tracking-[.05em] uppercase" style={{ fontFamily: "Anton, sans-serif" }}>{s.name}</div>
-                  <div className="text-[9px] text-[#666] mt-0.5">{s.desc}</div>
+              <div key={i} className="flex items-center flex-1 w-full md:w-auto">
+                <div className="flex-1 text-center py-5 px-4 bg-[#141414] rounded-lg border border-[#1e1e1e]">
+                  <div className="text-2xl mb-2">{s.icon}</div>
+                  <div className="text-xs tracking-[.06em] uppercase font-bold" style={{ fontFamily: "Anton, sans-serif" }}>{s.name}</div>
+                  <div className="text-[10px] text-[#666] mt-1">{s.desc}</div>
                 </div>
-                {i < 3 && <span className="hidden md:block text-[#E3874F] px-1.5 text-base" style={{ fontFamily: "Anton, sans-serif" }}>→</span>}
+                {i < 3 && <span className="hidden md:flex items-center justify-center text-[#E3874F] px-4 text-lg" style={{ fontFamily: "Anton, sans-serif" }}>→</span>}
               </div>
             ))}
           </div>
