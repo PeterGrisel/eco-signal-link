@@ -18,6 +18,7 @@ import BlogPost from "./pages/BlogPost.tsx";
 import Pricing from "./pages/Pricing.tsx";
 import Datahub from "./pages/Datahub.tsx";
 import Brandstory from "./pages/Brandstory.tsx";
+import Brandbook from "./pages/Brandbook.tsx";
 import PipelineEquation from "./pages/PipelineEquation.tsx";
 import Contact from "./pages/Contact.tsx";
 import Privacy from "./pages/Privacy.tsx";
@@ -84,6 +85,7 @@ const AnimatedRoutes = () => {
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/datahub" element={<Datahub />} />
           <Route path="/brandstory" element={<Brandstory />} />
+          <Route path="/brandbook" element={<Brandbook />} />
           <Route path="/pipeline-equation" element={<PipelineEquation />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/privacy" element={<Privacy />} />
