@@ -45,6 +45,7 @@ import LinkedInOutreach from "./pages/LinkedInOutreach.tsx";
 import HubSpotPipeline from "./pages/HubSpotPipeline.tsx";
 import IcpAi from "./pages/IcpAi.tsx";
 import MultichannelSequencing from "./pages/MultichannelSequencing.tsx";
+import GammaCheatsheet from "./pages/GammaCheatsheet.tsx";
 import Cheatsheets from "./pages/Cheatsheets.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import TrackingScriptInjector from "./components/TrackingScriptInjector";
@@ -114,6 +115,7 @@ const AnimatedRoutes = () => {
           <Route path="/cheatsheet/hubspot-pipeline" element={<HubSpotPipeline />} />
           <Route path="/cheatsheet/icp-ai" element={<IcpAi />} />
           <Route path="/cheatsheet/multichannel-sequencing" element={<MultichannelSequencing />} />
+          <Route path="/cheatsheet/gamma-presentaties" element={<GammaCheatsheet />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
