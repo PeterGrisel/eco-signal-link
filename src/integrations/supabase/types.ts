@@ -122,6 +122,33 @@ export type Database = {
           },
         ]
       }
+      cheatsheet_feedback: {
+        Row: {
+          cheatsheet_slug: string
+          created_at: string
+          helpful: boolean | null
+          id: string
+          rating: number | null
+          session_id: string
+        }
+        Insert: {
+          cheatsheet_slug: string
+          created_at?: string
+          helpful?: boolean | null
+          id?: string
+          rating?: number | null
+          session_id: string
+        }
+        Update: {
+          cheatsheet_slug?: string
+          created_at?: string
+          helpful?: boolean | null
+          id?: string
+          rating?: number | null
+          session_id?: string
+        }
+        Relationships: []
+      }
       contact_submissions: {
         Row: {
           company: string | null
