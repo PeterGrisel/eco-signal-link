@@ -27,8 +27,11 @@ const cheatsheets = [
     href: "/cheatsheet/signal-prospecting",
     tag: "Prospecting",
     level: "Beginner" as Level,
+    tools: ["Claude", "Apollo"],
   },
 ];
+
+const allTools = [...new Set(cheatsheets.flatMap(s => s.tools))];
 
 const Cheatsheets = () => {
   const [activeLevel, setActiveLevel] = useState<Level | null>(null);
