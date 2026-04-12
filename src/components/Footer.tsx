@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Rss } from "lucide-react";
 import { Link } from "react-router-dom";
 import { sectors } from "@/data/sectors";
 import { solutions } from "@/data/solutions";
