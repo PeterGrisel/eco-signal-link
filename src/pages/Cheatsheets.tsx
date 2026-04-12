@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { FileText, ArrowRight } from "lucide-react";
+import { FileText, ArrowRight, ThumbsUp, Star } from "lucide-react";
 
 type Level = "Beginner" | "Gevorderd" | "Expert";
 
