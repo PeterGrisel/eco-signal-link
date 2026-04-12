@@ -15,7 +15,7 @@ const SignalCheatsheet = () => {
       <link href="https://fonts.googleapis.com/css2?family=Anton&family=Fira+Sans:wght@400;500;600;700&family=Fira+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
       {/* HERO HEADER */}
-      <div className="max-w-7xl mx-auto px-6 md:px-12 pt-12 pb-8 flex items-start justify-between gap-6" style={{ background: "#0B0B0B", borderBottom: "1px solid #222" }}>
+      <div className="flex items-start justify-between gap-6" style={{ background: "#0B0B0B", padding: "36px 48px 28px", borderBottom: "1px solid #222" }}>
         <div className="flex flex-col gap-2">
           <span style={{ fontFamily: "Fira Sans, sans-serif", fontSize: 9, fontWeight: 700, letterSpacing: ".14em", textTransform: "uppercase", color: "#0B0B0B", background: "#E3874F", padding: "3px 8px", borderRadius: 2, width: "fit-content" }}>B2B GROEIMACHINE</span>
           <h1 style={{ fontFamily: "Anton, sans-serif", fontSize: 38, textTransform: "uppercase", lineHeight: .92, letterSpacing: ".01em", color: "#FFFFFF" }}>
@@ -32,7 +32,7 @@ const SignalCheatsheet = () => {
       </div>
 
       {/* BODY */}
-      <div className="max-w-7xl mx-auto px-6 md:px-12 py-8 grid grid-cols-1 md:grid-cols-2 gap-5" style={{ background: "#0B0B0B", fontFamily: "'Fira Sans', sans-serif", fontSize: "13px", lineHeight: 1.6, color: "#FFFFFF" }}>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5" style={{ background: "#0B0B0B", padding: "32px 48px 40px", fontFamily: "'Fira Sans', sans-serif", fontSize: "13px", lineHeight: 1.6, color: "#FFFFFF" }}>
 
         {/* FLOW - full width */}
         <Card title="De aanpak in 4 stappen" full>
