@@ -15,7 +15,7 @@ const SignalCheatsheet = () => {
       {/* HEADER */}
       <div className="flex items-start justify-between gap-6" style={{ background: "#0B0B0B", padding: "36px 48px 28px", borderBottom: "1px solid #222" }}>
         <div className="flex flex-col gap-2">
-          <img src={b2bLogo} alt="B2B GroeiMachine" style={{ height: 48, width: "auto", marginBottom: 4 }} />
+          <img src={b2bLogo} alt="B2B GroeiMachine" style={{ height: 32, width: "auto", marginBottom: 8, objectFit: "contain" }} />
           <h1 style={{ fontFamily: "Anton, sans-serif", fontSize: 38, textTransform: "uppercase", lineHeight: .92, letterSpacing: ".01em" }}>
             CLAUDE × APOLLO<br /><span style={{ color: "#E3874F" }}>SIGNAL PROSPECTING</span>
           </h1>
