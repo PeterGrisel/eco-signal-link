@@ -39,6 +39,7 @@ import AdminAnalytics from "./pages/admin/AdminAnalytics.tsx";
 import AdminScripts from "./pages/admin/AdminScripts.tsx";
 import AdminOverview from "./pages/admin/AdminOverview.tsx";
 import AdminCompetitors from "./pages/admin/AdminCompetitors.tsx";
+import SignalCheatsheet from "./pages/SignalCheatsheet.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import TrackingScriptInjector from "./components/TrackingScriptInjector";
 import WhatsAppButton from "./components/WhatsAppButton";
@@ -100,6 +101,7 @@ const AnimatedRoutes = () => {
           <Route path="/admin/analytics" element={<AdminAnalytics />} />
           <Route path="/admin/scripts" element={<AdminScripts />} />
           <Route path="/admin/competitors" element={<AdminCompetitors />} />
+          <Route path="/cheatsheet/signal-prospecting" element={<SignalCheatsheet />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
