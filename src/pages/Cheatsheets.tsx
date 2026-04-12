@@ -62,6 +62,14 @@ const cheatsheets = [
     level: "Expert" as Level,
     tools: ["Instantly", "Apollo", "LinkedIn"],
   },
+  {
+    title: "Claude × Gamma — Presentaties in 10 min",
+    description: "Presentaties bouwen vanuit Claude met Gamma — zonder PowerPoint, zonder templates slopen.",
+    href: "/cheatsheet/gamma-presentaties",
+    tag: "Productiviteit",
+    level: "Beginner" as Level,
+    tools: ["Claude", "Gamma"],
+  },
 ];
 
 const allTools = [...new Set(cheatsheets.flatMap(s => s.tools))];
@@ -72,6 +80,7 @@ const slugFromHref: Record<string, string> = {
   "/cheatsheet/hubspot-pipeline": "hubspot-pipeline",
   "/cheatsheet/icp-ai": "icp-ai",
   "/cheatsheet/multichannel-sequencing": "multichannel-sequencing",
+  "/cheatsheet/gamma-presentaties": "gamma-presentaties",
 };
 
 type FeedbackStats = Record<string, { votes: number; avgRating: number }>;
