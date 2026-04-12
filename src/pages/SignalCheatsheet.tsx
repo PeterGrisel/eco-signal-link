@@ -1,5 +1,6 @@
 import { useEffect } from "react";
-import b2bLogo from "@/assets/b2b_logo_nieuw.png";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 const SignalCheatsheet = () => {
   useEffect(() => {
@@ -9,14 +10,15 @@ const SignalCheatsheet = () => {
   }, []);
 
   return (
-    <div className="min-h-screen" style={{ background: "#0B0B0B", color: "#FFFFFF", fontFamily: "'Fira Sans', sans-serif", fontSize: "13px", lineHeight: 1.6 }}>
+    <div className="min-h-screen bg-background text-foreground">
+      <Navbar />
       <link href="https://fonts.googleapis.com/css2?family=Anton&family=Fira+Sans:wght@400;500;600;700&family=Fira+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
-      {/* HEADER */}
+      {/* HERO HEADER */}
       <div className="flex items-start justify-between gap-6" style={{ background: "#0B0B0B", padding: "36px 48px 28px", borderBottom: "1px solid #222" }}>
         <div className="flex flex-col gap-2">
           <span style={{ fontFamily: "Fira Sans, sans-serif", fontSize: 9, fontWeight: 700, letterSpacing: ".14em", textTransform: "uppercase", color: "#0B0B0B", background: "#E3874F", padding: "3px 8px", borderRadius: 2, width: "fit-content" }}>B2B GROEIMACHINE</span>
-          <h1 style={{ fontFamily: "Anton, sans-serif", fontSize: 38, textTransform: "uppercase", lineHeight: .92, letterSpacing: ".01em" }}>
+          <h1 style={{ fontFamily: "Anton, sans-serif", fontSize: 38, textTransform: "uppercase", lineHeight: .92, letterSpacing: ".01em", color: "#FFFFFF" }}>
             CLAUDE × APOLLO<br /><span style={{ color: "#E3874F" }}>SIGNAL PROSPECTING</span>
           </h1>
           <p style={{ fontSize: 13, color: "#BFBFBF", marginTop: 4 }}>Van marktsignaal naar persoonlijke outreach — zonder developer, zonder koppeling.</p>
@@ -26,12 +28,11 @@ const SignalCheatsheet = () => {
             <div style={{ fontFamily: "Anton, sans-serif", fontSize: 32, color: "#E3874F", lineHeight: 1 }}>15</div>
             <div style={{ fontSize: 10, color: "#666", letterSpacing: ".08em", textTransform: "uppercase" }}>minuten setup</div>
           </div>
-          <span style={{ fontSize: 10, color: "#666", letterSpacing: ".06em" }}>{"\n"}</span>
         </div>
       </div>
 
       {/* BODY */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5" style={{ padding: "32px 48px 40px" }}>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5" style={{ background: "#0B0B0B", padding: "32px 48px 40px", fontFamily: "'Fira Sans', sans-serif", fontSize: "13px", lineHeight: 1.6, color: "#FFFFFF" }}>
 
         {/* FLOW - full width */}
         <Card title="De aanpak in 4 stappen" full>
@@ -156,16 +157,7 @@ const SignalCheatsheet = () => {
         </Card>
       </div>
 
-      {/* FOOTER */}
-      <div className="flex justify-between items-center" style={{ borderTop: "1px solid #222", padding: "16px 48px" }}>
-        <img src={b2bLogo} alt="B2B GroeiMachine" style={{ height: 24, width: "auto" }} />
-        <div className="flex gap-6">
-          <span style={{ fontSize: 10, color: "#666" }}>b2bgroeimachine.io</span>
-          <span style={{ fontSize: 10, color: "#666" }}>info@rebelforce.nl</span>
-          <span style={{ fontSize: 10, color: "#666" }}>+31 85 250 2925</span>
-        </div>
-      </div>
-    </div>
+      <Footer />
   );
 };
 
