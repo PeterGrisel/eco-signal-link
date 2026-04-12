@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Copy, Check, ArrowLeft } from "lucide-react";
+import { Copy, Check, ArrowLeft, Linkedin } from "lucide-react";
 import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -165,7 +165,10 @@ const SignalCheatsheet = () => {
           </p>
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
             <a href="/contact" className="inline-block bg-[#E3874F] text-[#0B0B0B] px-5 py-2 rounded font-bold text-xs no-underline hover:opacity-90 transition-opacity">Stuur een bericht →</a>
-            <span className="text-[10px] text-[#666]">linkedin.com/in/petergrisel</span>
+            <a href="https://linkedin.com/in/petergrisel" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 bg-[#0A66C2] text-white px-4 py-2 rounded font-semibold text-xs no-underline hover:bg-[#004182] transition-colors">
+              <Linkedin className="w-3.5 h-3.5" />
+              LinkedIn
+            </a>
           </div>
         </Card>
       </div>
