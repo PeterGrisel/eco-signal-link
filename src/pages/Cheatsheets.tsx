@@ -66,11 +66,48 @@ const cheatsheets = [
 
 const allTools = [...new Set(cheatsheets.flatMap(s => s.tools))];
 
+const slugFromHref: Record<string, string> = {
+  "/cheatsheet/signal-prospecting": "signal-prospecting",
+  "/cheatsheet/linkedin-outreach": "linkedin-outreach",
+  "/cheatsheet/hubspot-pipeline": "hubspot-pipeline",
+  "/cheatsheet/icp-ai": "icp-ai",
+  "/cheatsheet/multichannel-sequencing": "multichannel-sequencing",
+};
+
+type FeedbackStats = Record<string, { votes: number; avgRating: number }>;
+
 const Cheatsheets = () => {
   const [activeLevel, setActiveLevel] = useState<Level | null>(null);
   const [activeTool, setActiveTool] = useState<string | null>(null);
+  const [stats, setStats] = useState<FeedbackStats>({});
 
   useEffect(() => {
+    const fetchStats = async () => {
+      const { data } = await supabase
+        .from("cheatsheet_feedback")
+        .select("cheatsheet_slug, helpful, rating");
+      if (!data) return;
+      const grouped: FeedbackStats = {};
+      for (const row of data) {
+        if (!grouped[row.cheatsheet_slug]) grouped[row.cheatsheet_slug] = { votes: 0, avgRating: 0 };
+        const g = grouped[row.cheatsheet_slug];
+        if (row.helpful) g.votes++;
+        if (row.rating) {
+          const prev = g.avgRating;
+          const count = data.filter(r => r.cheatsheet_slug === row.cheatsheet_slug && r.rating).indexOf(row);
+          // simple running avg
+          g.avgRating = prev ? (prev * count + row.rating) / (count + 1) : row.rating;
+        }
+      }
+      // recalc avg properly
+      for (const slug of Object.keys(grouped)) {
+        const ratings = data.filter(r => r.cheatsheet_slug === slug && r.rating).map(r => r.rating!);
+        grouped[slug].avgRating = ratings.length ? ratings.reduce((a, b) => a + b, 0) / ratings.length : 0;
+      }
+      setStats(grouped);
+    };
+    fetchStats();
+  }, []);
     document.title = "Cheatsheets | B2BGroeiMachine";
     const meta = document.querySelector('meta[name="description"]');
     if (meta) meta.setAttribute("content", "Praktische cheatsheets en quick-start guides voor B2B sales, prospecting en automatisering.");
