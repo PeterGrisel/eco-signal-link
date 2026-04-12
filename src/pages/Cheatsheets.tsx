@@ -1,0 +1,65 @@
+import { useEffect } from "react";
+import { Link } from "react-router-dom";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import { FileText, ArrowRight } from "lucide-react";
+
+const cheatsheets = [
+  {
+    title: "Claude × Apollo — Signal Prospecting",
+    description: "Van marktsignaal naar persoonlijke outreach — zonder developer, zonder koppeling. In 15 minuten live.",
+    href: "/cheatsheet/signal-prospecting",
+    tag: "Prospecting",
+  },
+];
+
+const Cheatsheets = () => {
+  useEffect(() => {
+    document.title = "Cheatsheets | B2BGroeiMachine";
+    const meta = document.querySelector('meta[name="description"]');
+    if (meta) meta.setAttribute("content", "Praktische cheatsheets en quick-start guides voor B2B sales, prospecting en automatisering.");
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-background text-foreground">
+      <Navbar />
+
+      <section className="pt-32 pb-16 px-4 md:px-6">
+        <div className="container mx-auto max-w-4xl">
+          <h1 className="font-display text-4xl md:text-5xl font-bold mb-4">
+            Cheat<span className="text-primary">sheets</span>
+          </h1>
+          <p className="text-muted-foreground text-lg mb-12 max-w-2xl">
+            Praktische quick-start guides. Kopieer de prompts, volg de stappen en ga direct live.
+          </p>
+
+          <div className="grid gap-4">
+            {cheatsheets.map((sheet) => (
+              <Link
+                key={sheet.href}
+                to={sheet.href}
+                className="group flex items-start gap-4 p-6 rounded-lg border border-border bg-card hover:border-primary/50 transition-all"
+              >
+                <div className="flex-shrink-0 w-10 h-10 rounded-md bg-primary/10 flex items-center justify-center">
+                  <FileText className="w-5 h-5 text-primary" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-xs font-semibold uppercase tracking-wider text-primary">{sheet.tag}</span>
+                  </div>
+                  <h2 className="text-lg font-semibold text-foreground group-hover:text-primary transition-colors">{sheet.title}</h2>
+                  <p className="text-sm text-muted-foreground mt-1">{sheet.description}</p>
+                </div>
+                <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors flex-shrink-0 mt-1" />
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <Footer />
+    </div>
+  );
+};
+
+export default Cheatsheets;
