@@ -76,7 +76,7 @@ const SignalCheatsheet = () => {
                   <div className="font-semibold text-xs mb-0.5">{s.title}</div>
                   <div className="text-[11px] text-[#BFBFBF] leading-relaxed">{s.desc}</div>
                   {s.link && (
-                    <a href="https://get.apollo.io" target="_blank" rel="noopener noreferrer" className="text-[#E3874F] hover:underline text-[10px]" style={{ fontFamily: "Fira Mono, monospace" }}>
+                    <a href="https://get.apollo.io/Your-b2b-link" target="_blank" rel="noopener noreferrer" className="text-[#E3874F] hover:underline text-[10px]" style={{ fontFamily: "Fira Mono, monospace" }}>
                       {s.link} →
                     </a>
                   )}
