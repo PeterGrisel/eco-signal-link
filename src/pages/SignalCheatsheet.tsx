@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import b2bLogo from "@/assets/b2b_logo_nieuw.png";
 
 const SignalCheatsheet = () => {
   useEffect(() => {
@@ -14,11 +15,7 @@ const SignalCheatsheet = () => {
       {/* HEADER */}
       <div className="flex items-start justify-between gap-6" style={{ background: "#0B0B0B", padding: "36px 48px 28px", borderBottom: "1px solid #222" }}>
         <div className="flex flex-col gap-2">
-          <div className="flex items-center gap-3 mb-1">
-            <span style={{ fontFamily: "Anton, sans-serif", fontSize: 18, color: "#FFF", lineHeight: 1 }}>REBEL</span>
-            <span style={{ fontFamily: "Anton, sans-serif", fontSize: 18, color: "#E3874F", lineHeight: 1 }}>FORCE</span>
-          </div>
-          <span style={{ fontFamily: "Fira Sans, sans-serif", fontSize: 9, fontWeight: 700, letterSpacing: ".14em", textTransform: "uppercase", color: "#0B0B0B", background: "#E3874F", padding: "3px 8px", borderRadius: 2, width: "fit-content" }}>B2B GROEIMACHINE</span>
+          <img src={b2bLogo} alt="B2B GroeiMachine" style={{ height: 48, width: "auto", marginBottom: 4 }} />
           <h1 style={{ fontFamily: "Anton, sans-serif", fontSize: 38, textTransform: "uppercase", lineHeight: .92, letterSpacing: ".01em" }}>
             CLAUDE × APOLLO<br /><span style={{ color: "#E3874F" }}>SIGNAL PROSPECTING</span>
           </h1>
@@ -161,11 +158,7 @@ const SignalCheatsheet = () => {
 
       {/* FOOTER */}
       <div className="flex justify-between items-center" style={{ borderTop: "1px solid #222", padding: "16px 48px" }}>
-        <div className="flex gap-1 items-baseline">
-          <span style={{ fontFamily: "Anton, sans-serif", fontSize: 12, color: "#FFF" }}>REBEL</span>
-          <span style={{ fontFamily: "Anton, sans-serif", fontSize: 12, color: "#E3874F" }}>FORCE</span>
-          <span style={{ fontSize: 10, color: "#666" }}> — B2B Groeimachine</span>
-        </div>
+        <img src={b2bLogo} alt="B2B GroeiMachine" style={{ height: 24, width: "auto" }} />
         <div className="flex gap-6">
           <span style={{ fontSize: 10, color: "#666" }}>b2bgroeimachine.io</span>
           <span style={{ fontSize: 10, color: "#666" }}>info@rebelforce.nl</span>
