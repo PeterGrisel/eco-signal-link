@@ -15,7 +15,7 @@ const SignalCheatsheet = () => {
       <link href="https://fonts.googleapis.com/css2?family=Anton&family=Fira+Sans:wght@400;500;600;700&family=Fira+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
       {/* HERO HEADER */}
-      <div className="flex items-start justify-between gap-6 pt-24" style={{ background: "#0B0B0B", padding: "36px 48px 28px", borderBottom: "1px solid #222" }}>
+      <div className="flex items-start justify-between gap-6" style={{ background: "#0B0B0B", padding: "120px 48px 28px", borderBottom: "1px solid #222" }}>
         <div className="flex flex-col gap-2">
           <span style={{ fontFamily: "Fira Sans, sans-serif", fontSize: 9, fontWeight: 700, letterSpacing: ".14em", textTransform: "uppercase", color: "#0B0B0B", background: "#E3874F", padding: "3px 8px", borderRadius: 2, width: "fit-content" }}>B2B GROEIMACHINE</span>
           <h1 style={{ fontFamily: "Anton, sans-serif", fontSize: 38, textTransform: "uppercase", lineHeight: .92, letterSpacing: ".01em", color: "#FFFFFF" }}>
