@@ -1,4 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { Copy, Check, ArrowLeft } from "lucide-react";
+import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -12,31 +15,34 @@ const SignalCheatsheet = () => {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Navbar />
-      <link href="https://fonts.googleapis.com/css2?family=Anton&family=Fira+Sans:wght@400;500;600;700&family=Fira+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
       {/* HERO HEADER */}
-      <div className="flex items-start justify-between gap-6" style={{ background: "#0B0B0B", padding: "120px 48px 28px", borderBottom: "1px solid #222" }}>
+      <div className="flex flex-col md:flex-row items-start justify-between gap-4 md:gap-6 pt-28 md:pt-32 px-4 md:px-12 pb-7" style={{ background: "#0B0B0B", borderBottom: "1px solid #222" }}>
         <div className="flex flex-col gap-2">
-          <span style={{ fontFamily: "Fira Sans, sans-serif", fontSize: 9, fontWeight: 700, letterSpacing: ".14em", textTransform: "uppercase", color: "#0B0B0B", background: "#E3874F", padding: "3px 8px", borderRadius: 2, width: "fit-content" }}>B2B GROEIMACHINE</span>
-          <h1 style={{ fontFamily: "Anton, sans-serif", fontSize: 38, textTransform: "uppercase", lineHeight: .92, letterSpacing: ".01em", color: "#FFFFFF" }}>
-            CLAUDE × APOLLO<br /><span style={{ color: "#E3874F" }}>SIGNAL PROSPECTING</span>
+          <Link to="/cheatsheets" className="inline-flex items-center gap-1.5 text-[#666] hover:text-[#E3874F] transition-colors text-xs mb-2">
+            <ArrowLeft className="w-3 h-3" />
+            Alle cheatsheets
+          </Link>
+          <span className="text-[9px] font-bold tracking-[.14em] uppercase text-[#0B0B0B] bg-[#E3874F] px-2 py-0.5 rounded-sm w-fit" style={{ fontFamily: "Fira Sans, sans-serif" }}>B2B GROEIMACHINE</span>
+          <h1 className="text-3xl md:text-[38px] uppercase leading-[.92] tracking-[.01em] text-white" style={{ fontFamily: "Anton, sans-serif" }}>
+            CLAUDE × APOLLO<br /><span className="text-[#E3874F]">SIGNAL PROSPECTING</span>
           </h1>
-          <p style={{ fontSize: 13, color: "#BFBFBF", marginTop: 4 }}>Van marktsignaal naar persoonlijke outreach — zonder developer, zonder koppeling.</p>
+          <p className="text-[13px] text-[#BFBFBF] mt-1">Van marktsignaal naar persoonlijke outreach — zonder developer, zonder koppeling.</p>
         </div>
-        <div className="flex flex-col items-end gap-1.5" style={{ paddingTop: 4 }}>
-          <div style={{ background: "#181818", border: "1px solid #222", borderRadius: 4, padding: "10px 16px", textAlign: "center" }}>
-            <div style={{ fontFamily: "Anton, sans-serif", fontSize: 32, color: "#E3874F", lineHeight: 1 }}>15</div>
-            <div style={{ fontSize: 10, color: "#666", letterSpacing: ".08em", textTransform: "uppercase" }}>minuten setup</div>
+        <div className="flex flex-col items-end gap-1.5 pt-1">
+          <div className="bg-[#181818] border border-[#222] rounded px-4 py-2.5 text-center">
+            <div className="text-[32px] text-[#E3874F] leading-none" style={{ fontFamily: "Anton, sans-serif" }}>15</div>
+            <div className="text-[10px] text-[#666] tracking-[.08em] uppercase">minuten setup</div>
           </div>
         </div>
       </div>
 
       {/* BODY */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5" style={{ background: "#0B0B0B", padding: "32px 48px 40px", fontFamily: "'Fira Sans', sans-serif", fontSize: "13px", lineHeight: 1.6, color: "#FFFFFF" }}>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 px-4 md:px-12 py-8 md:py-10" style={{ background: "#0B0B0B", fontFamily: "'Fira Sans', sans-serif", fontSize: "13px", lineHeight: 1.6, color: "#FFFFFF" }}>
 
         {/* FLOW - full width */}
         <Card title="De aanpak in 4 stappen" full>
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 md:gap-0">
             {[
               { icon: "🔌", name: "Connect", desc: "Claude + Apollo MCP" },
               { icon: "📡", name: "Signaal", desc: "Trigger definiëren" },
@@ -44,12 +50,12 @@ const SignalCheatsheet = () => {
               { icon: "📨", name: "Actie", desc: "Sequence live in Apollo" },
             ].map((s, i) => (
               <div key={i} className="flex items-center">
-                <div className="flex-1 text-center" style={{ padding: "12px 8px", background: "#141414", borderRadius: 4, border: "1px solid #1e1e1e", minWidth: 140 }}>
-                  <div style={{ fontSize: 18, marginBottom: 4 }}>{s.icon}</div>
-                  <div style={{ fontFamily: "Anton, sans-serif", fontSize: 11, letterSpacing: ".05em", textTransform: "uppercase" }}>{s.name}</div>
-                  <div style={{ fontSize: 9, color: "#666", marginTop: 2 }}>{s.desc}</div>
+                <div className="flex-1 text-center py-3 px-2 bg-[#141414] rounded border border-[#1e1e1e] min-w-[140px]">
+                  <div className="text-lg mb-1">{s.icon}</div>
+                  <div className="text-[11px] tracking-[.05em] uppercase" style={{ fontFamily: "Anton, sans-serif" }}>{s.name}</div>
+                  <div className="text-[9px] text-[#666] mt-0.5">{s.desc}</div>
                 </div>
-                {i < 3 && <span style={{ fontFamily: "Anton, sans-serif", fontSize: 16, color: "#E3874F", padding: "0 6px" }}>→</span>}
+                {i < 3 && <span className="hidden md:block text-[#E3874F] px-1.5 text-base" style={{ fontFamily: "Anton, sans-serif" }}>→</span>}
               </div>
             ))}
           </div>
@@ -59,17 +65,21 @@ const SignalCheatsheet = () => {
         <Card title="Setup (1x, duurt 10 min)">
           <div className="flex flex-col gap-2.5">
             {[
-              { title: "Apollo account aanmaken", desc: "Nog geen account? Gebruik de link hieronder voor directe toegang.", link: "get.apollo.io/Your-b2b-link →" },
+              { title: "Apollo account aanmaken", desc: "Nog geen account? Gebruik de link hieronder voor directe toegang.", link: "get.apollo.io" },
               { title: "Apollo connector activeren in Claude", desc: "Ga naar Claude.ai → Settings → Connectors → zoek Apollo.io → klik Connect. Klaar." },
               { title: "Test de verbinding", desc: 'Typ in Claude: "Zoek 5 directeuren in de logistiek in Nederland." Werkt het? Dan ben je live.' },
               { title: "Sla je ICP op", desc: "Beschrijf je ideale klant als tekst. Gebruik dit als context in elke prompt." },
             ].map((s, i) => (
               <div key={i} className="flex items-start gap-3">
-                <div style={{ width: 22, height: 22, borderRadius: "50%", background: "#E3874F", color: "#0B0B0B", fontFamily: "Anton, sans-serif", fontSize: 11, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1 }}>{i + 1}</div>
+                <div className="w-[22px] h-[22px] rounded-full bg-[#E3874F] text-[#0B0B0B] flex items-center justify-center flex-shrink-0 mt-0.5 text-[11px] font-bold" style={{ fontFamily: "Anton, sans-serif" }}>{i + 1}</div>
                 <div className="flex-1">
-                  <div style={{ fontWeight: 600, fontSize: 12, marginBottom: 2 }}>{s.title}</div>
-                  <div style={{ fontSize: 11, color: "#BFBFBF", lineHeight: 1.5 }}>{s.desc}</div>
-                  {s.link && <div style={{ color: "#E3874F", fontFamily: "Fira Mono, monospace", fontSize: 10 }}>{s.link}</div>}
+                  <div className="font-semibold text-xs mb-0.5">{s.title}</div>
+                  <div className="text-[11px] text-[#BFBFBF] leading-relaxed">{s.desc}</div>
+                  {s.link && (
+                    <a href="https://get.apollo.io" target="_blank" rel="noopener noreferrer" className="text-[#E3874F] hover:underline text-[10px]" style={{ fontFamily: "Fira Mono, monospace" }}>
+                      {s.link} →
+                    </a>
+                  )}
                 </div>
               </div>
             ))}
@@ -86,13 +96,13 @@ const SignalCheatsheet = () => {
               { icon: "🌐", name: "Website tech-change", why: "Nieuwe tools = nieuwe leveranciers welkom. Laagdrempelig gesprek.", hot: false },
               { icon: "📰", name: "Nieuws / persuitgave", why: "Expansie, fusie, award = haakje voor relevante outreach.", hot: false },
             ].map((s, i) => (
-              <div key={i} className="flex items-start gap-2.5" style={{ padding: "10px 12px", background: "#141414", borderRadius: 4, border: "1px solid #1e1e1e" }}>
-                <div style={{ width: 28, height: 28, borderRadius: 4, background: "#1e1e1e", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 13, flexShrink: 0 }}>{s.icon}</div>
-                <div className="flex-1">
-                  <div style={{ fontWeight: 600, fontSize: 11, marginBottom: 2 }}>{s.name}</div>
-                  <div style={{ fontSize: 10, color: "#666", lineHeight: 1.4 }}>{s.why}</div>
+              <div key={i} className="flex items-start gap-2.5 p-2.5 md:p-3 bg-[#141414] rounded border border-[#1e1e1e]">
+                <div className="w-7 h-7 rounded bg-[#1e1e1e] flex items-center justify-center text-[13px] flex-shrink-0">{s.icon}</div>
+                <div className="flex-1 min-w-0">
+                  <div className="font-semibold text-[11px] mb-0.5">{s.name}</div>
+                  <div className="text-[10px] text-[#666] leading-snug">{s.why}</div>
                 </div>
-                <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: ".08em", textTransform: "uppercase", padding: "2px 7px", borderRadius: 2, flexShrink: 0, ...(s.hot ? { background: "rgba(227,135,79,.15)", color: "#E3874F" } : { background: "rgba(255,255,255,.06)", color: "#888" }) }}>{s.hot ? "Hot" : "Warm"}</span>
+                <span className={`text-[9px] font-bold tracking-[.08em] uppercase px-1.5 py-0.5 rounded flex-shrink-0 ${s.hot ? "bg-[#E3874F]/15 text-[#E3874F]" : "bg-white/[.06] text-[#888]"}`}>{s.hot ? "Hot" : "Warm"}</span>
               </div>
             ))}
           </div>
@@ -101,13 +111,13 @@ const SignalCheatsheet = () => {
         {/* PROMPTS - full width */}
         <Card title="Copy-paste prompts voor Claude" full>
           <div className="flex flex-col gap-2.5">
-            <PromptBlock label="Prompt 1 — Prospects zoeken op signaal">
+            <PromptBlock label="Prompt 1 — Prospects zoeken op signaal" text={`Zoek in Apollo directeuren of operations managers bij bedrijven in de [sector] in Nederland, die de afgelopen [30/60/90 dagen] van baan zijn gewisseld. Bedrijfsgrootte: [X–Y medewerkers]. Geef naam, functie, bedrijf en LinkedIn-URL terug.`}>
               Zoek in Apollo directeuren of operations managers bij bedrijven in de <strong>[sector]</strong> in Nederland, die de afgelopen <strong>[30/60/90 dagen]</strong> van baan zijn gewisseld. Bedrijfsgrootte: <strong>[X–Y medewerkers]</strong>. Geef naam, functie, bedrijf en LinkedIn-URL terug.
             </PromptBlock>
-            <PromptBlock label="Prompt 2 — Outreach schrijven op basis van signaal">
+            <PromptBlock label="Prompt 2 — Outreach schrijven op basis van signaal" text={`Schrijf een LinkedIn-bericht voor [naam], die recent is gestart als [functie] bij [bedrijf]. Mijn aanbod: [korte beschrijving]. Toon: direct, geen complimenten, begin met een hypothese over hun situatie. Max 60 woorden.`}>
               Schrijf een LinkedIn-bericht voor <strong>[naam]</strong>, die recent is gestart als <strong>[functie]</strong> bij <strong>[bedrijf]</strong>. Mijn aanbod: <strong>[korte beschrijving]</strong>. Toon: direct, geen complimenten, begin met een hypothese over hun situatie. Max 60 woorden.
             </PromptBlock>
-            <PromptBlock label="Prompt 3 — Batch outreach (meerdere prospects tegelijk)">
+            <PromptBlock label="Prompt 3 — Batch outreach (meerdere prospects tegelijk)" text={`Hier zijn [X] prospects uit Apollo met elk hun signaal. Schrijf voor iedereen een apart LinkedIn-bericht van max 60 woorden. Gebruik hun signaal als haakje. Geen generieke openingen. Geen "ik zag dat je bij bedrijf X werkt."`}>
               Hier zijn <strong>[X]</strong> prospects uit Apollo met elk hun signaal. Schrijf voor iedereen een apart LinkedIn-bericht van max 60 woorden. Gebruik hun signaal als haakje. Geen generieke openingen. Geen "ik zag dat je bij bedrijf X werkt."
             </PromptBlock>
           </div>
@@ -117,18 +127,18 @@ const SignalCheatsheet = () => {
         <Card title="Outreach template — bewezen structuur" full>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <div style={{ background: "#1a1a1a", padding: "5px 12px", fontSize: 10, fontWeight: 600, letterSpacing: ".08em", textTransform: "uppercase", color: "#666", borderBottom: "1px solid #222", borderRadius: "4px 4px 0 0" }}>Template</div>
-              <div style={{ background: "#141414", padding: "14px 16px", fontFamily: "Fira Mono, monospace", fontSize: 10.5, color: "#BFBFBF", lineHeight: 1.8, borderRadius: "0 0 4px 4px", whiteSpace: "pre-line" }}>
-                <span style={{ color: "#E3874F" }}>[Naam]</span>, <span style={{ color: "#444" }}>// gebruik voornaam</span>{"\n\n"}
-                Bedrijven in <span style={{ color: "#E3874F" }}>[sector]</span> die <span style={{ color: "#E3874F" }}>[signaal]</span>{"\n"}
-                lopen vaak tegen <span style={{ color: "#E3874F" }}>[specifiek probleem]</span> aan.{"\n\n"}
-                Wij lossen dat op met <span style={{ color: "#E3874F" }}>[aanpak in 1 zin]</span>.{"\n\n"}
+              <div className="bg-[#1a1a1a] px-3 py-1.5 text-[10px] font-semibold tracking-[.08em] uppercase text-[#666] border-b border-[#222] rounded-t">Template</div>
+              <div className="bg-[#141414] p-3.5 text-[10.5px] text-[#BFBFBF] leading-[1.8] rounded-b whitespace-pre-line" style={{ fontFamily: "Fira Mono, monospace" }}>
+                <span className="text-[#E3874F]">[Naam]</span>, <span className="text-[#444]">// gebruik voornaam</span>{"\n\n"}
+                Bedrijven in <span className="text-[#E3874F]">[sector]</span> die <span className="text-[#E3874F]">[signaal]</span>{"\n"}
+                lopen vaak tegen <span className="text-[#E3874F]">[specifiek probleem]</span> aan.{"\n\n"}
+                Wij lossen dat op met <span className="text-[#E3874F]">[aanpak in 1 zin]</span>.{"\n\n"}
                 Herkenbaar?
               </div>
             </div>
             <div>
-              <div style={{ background: "#1a1a1a", padding: "5px 12px", fontSize: 10, fontWeight: 600, letterSpacing: ".08em", textTransform: "uppercase", color: "#666", borderBottom: "1px solid #222", borderRadius: "4px 4px 0 0" }}>Ingevuld voorbeeld</div>
-              <div style={{ background: "#141414", padding: "14px 16px", fontFamily: "Fira Mono, monospace", fontSize: 10.5, color: "#BFBFBF", lineHeight: 1.8, borderRadius: "0 0 4px 4px", whiteSpace: "pre-line" }}>
+              <div className="bg-[#1a1a1a] px-3 py-1.5 text-[10px] font-semibold tracking-[.08em] uppercase text-[#666] border-b border-[#222] rounded-t">Ingevuld voorbeeld</div>
+              <div className="bg-[#141414] p-3.5 text-[10.5px] text-[#BFBFBF] leading-[1.8] rounded-b whitespace-pre-line" style={{ fontFamily: "Fira Mono, monospace" }}>
                 Thomas,{"\n\n"}
                 Bedrijven in de logistiek die net{"\n"}
                 een nieuwe operations manager aanstellen{"\n"}
@@ -139,20 +149,20 @@ const SignalCheatsheet = () => {
               </div>
             </div>
           </div>
-          <div style={{ marginTop: 16, padding: "14px 16px", background: "#141414", borderRadius: 4, borderLeft: "3px solid #E3874F" }}>
-            <strong style={{ color: "#E3874F" }}>Regel #1</strong>{" "}
-            <span style={{ fontSize: 11, color: "#BFBFBF" }}>Begin nooit met "Ik zag dat je bij bedrijf X werkt." Begin met hun situatie — niet met jouzelf. Timing is alles. Het signaal is jouw credentie.</span>
+          <div className="mt-4 p-3.5 bg-[#141414] rounded border-l-[3px] border-[#E3874F]">
+            <strong className="text-[#E3874F]">Regel #1</strong>{" "}
+            <span className="text-[11px] text-[#BFBFBF]">Begin nooit met "Ik zag dat je bij bedrijf X werkt." Begin met hun situatie — niet met jouzelf. Timing is alles. Het signaal is jouw credentie.</span>
           </div>
         </Card>
 
         {/* CTA - full width */}
         <Card title="Wil je ook acties aanmaken direct in Apollo?" full accent>
-          <p style={{ fontSize: 12, color: "#BFBFBF", marginBottom: 12 }}>
+          <p className="text-xs text-[#BFBFBF] mb-3">
             Van prospect naar outreach — volledig geautomatiseerd. Sequences live zetten, taken aanmaken, follow-ups plannen. Stuur mij een bericht voor meer info.
           </p>
-          <div className="flex items-center gap-4">
-            <a href="/contact" style={{ display: "inline-block", background: "#E3874F", color: "#0B0B0B", padding: "8px 20px", borderRadius: 4, fontWeight: 700, fontSize: 12, textDecoration: "none" }}>Stuur een bericht →</a>
-            <span style={{ fontSize: 10, color: "#666" }}>linkedin.com/in/petergrisel</span>
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+            <a href="/contact" className="inline-block bg-[#E3874F] text-[#0B0B0B] px-5 py-2 rounded font-bold text-xs no-underline hover:opacity-90 transition-opacity">Stuur een bericht →</a>
+            <span className="text-[10px] text-[#666]">linkedin.com/in/petergrisel</span>
           </div>
         </Card>
       </div>
@@ -164,28 +174,45 @@ const SignalCheatsheet = () => {
 
 const Card = ({ title, children, full, accent }: { title: string; children: React.ReactNode; full?: boolean; accent?: boolean }) => (
   <div
-    className={full ? "md:col-span-2" : ""}
-    style={{
-      background: "#181818",
-      border: accent ? "1px solid #E3874F" : "1px solid #222",
-      borderLeft: accent ? "3px solid #E3874F" : undefined,
-      borderRadius: 6,
-      padding: "20px 22px",
-    }}
+    className={`${full ? "md:col-span-2" : ""} bg-[#181818] rounded-md p-4 md:p-5 ${accent ? "border border-[#E3874F] border-l-[3px]" : "border border-[#222]"}`}
   >
-    <div style={{ fontFamily: "Anton, sans-serif", fontSize: 13, letterSpacing: ".1em", textTransform: "uppercase", color: "#E3874F", marginBottom: 14, display: "flex", alignItems: "center", gap: 8 }}>
-      <span style={{ display: "inline-block", width: 3, height: 14, background: "#E3874F", borderRadius: 1 }} />
+    <div className="flex items-center gap-2 mb-3.5 text-[13px] tracking-[.1em] uppercase text-[#E3874F]" style={{ fontFamily: "Anton, sans-serif" }}>
+      <span className="inline-block w-[3px] h-3.5 bg-[#E3874F] rounded-sm" />
       {title}
     </div>
     {children}
   </div>
 );
 
-const PromptBlock = ({ label, children }: { label: string; children: React.ReactNode }) => (
-  <div style={{ borderRadius: 4, overflow: "hidden" }}>
-    <div style={{ background: "#1a1a1a", padding: "5px 12px", fontSize: 10, fontWeight: 600, letterSpacing: ".08em", textTransform: "uppercase", color: "#666", borderBottom: "1px solid #222" }}>{label}</div>
-    <div style={{ background: "#141414", padding: "10px 12px", fontFamily: "Fira Mono, monospace", fontSize: 10.5, color: "#BFBFBF", lineHeight: 1.6 }}>{children}</div>
-  </div>
-);
+const PromptBlock = ({ label, children, text }: { label: string; children: React.ReactNode; text: string }) => {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(true);
+      toast.success("Prompt gekopieerd!");
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      toast.error("Kopiëren mislukt");
+    }
+  };
+
+  return (
+    <div className="rounded overflow-hidden">
+      <div className="flex items-center justify-between bg-[#1a1a1a] px-3 py-1.5 border-b border-[#222]">
+        <span className="text-[10px] font-semibold tracking-[.08em] uppercase text-[#666]">{label}</span>
+        <button
+          onClick={handleCopy}
+          className="flex items-center gap-1 text-[10px] text-[#666] hover:text-[#E3874F] transition-colors"
+        >
+          {copied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+          {copied ? "Gekopieerd" : "Kopieer"}
+        </button>
+      </div>
+      <div className="bg-[#141414] p-3 text-[10.5px] text-[#BFBFBF] leading-relaxed" style={{ fontFamily: "Fira Mono, monospace" }}>{children}</div>
+    </div>
+  );
+};
 
 export default SignalCheatsheet;
