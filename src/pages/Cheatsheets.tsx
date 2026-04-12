@@ -4,12 +4,21 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { FileText, ArrowRight } from "lucide-react";
 
+type Level = "Beginner" | "Gevorderd" | "Expert";
+
+const levelColors: Record<Level, string> = {
+  Beginner: "bg-emerald-500/15 text-emerald-400",
+  Gevorderd: "bg-amber-500/15 text-amber-400",
+  Expert: "bg-red-500/15 text-red-400",
+};
+
 const cheatsheets = [
   {
     title: "Claude × Apollo — Signal Prospecting",
     description: "Van marktsignaal naar persoonlijke outreach — zonder developer, zonder koppeling. In 15 minuten live.",
     href: "/cheatsheet/signal-prospecting",
     tag: "Prospecting",
+    level: "Beginner" as Level,
   },
 ];
 
@@ -46,6 +55,7 @@ const Cheatsheets = () => {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
                     <span className="text-xs font-semibold uppercase tracking-wider text-primary">{sheet.tag}</span>
+                    <span className={`text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded ${levelColors[sheet.level]}`}>{sheet.level}</span>
                   </div>
                   <h2 className="text-lg font-semibold text-foreground group-hover:text-primary transition-colors">{sheet.title}</h2>
                   <p className="text-sm text-muted-foreground mt-1">{sheet.description}</p>
