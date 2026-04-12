@@ -158,11 +158,7 @@ const SignalCheatsheet = () => {
 
       {/* FOOTER */}
       <div className="flex justify-between items-center" style={{ borderTop: "1px solid #222", padding: "16px 48px" }}>
-        <div className="flex gap-1 items-baseline">
-          <span style={{ fontFamily: "Anton, sans-serif", fontSize: 12, color: "#FFF" }}>REBEL</span>
-          <span style={{ fontFamily: "Anton, sans-serif", fontSize: 12, color: "#E3874F" }}>FORCE</span>
-          <span style={{ fontSize: 10, color: "#666" }}> — B2B Groeimachine</span>
-        </div>
+        <img src={b2bLogo} alt="B2B GroeiMachine" style={{ height: 24, width: "auto" }} />
         <div className="flex gap-6">
           <span style={{ fontSize: 10, color: "#666" }}>b2bgroeimachine.io</span>
           <span style={{ fontSize: 10, color: "#666" }}>info@rebelforce.nl</span>
