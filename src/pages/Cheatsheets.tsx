@@ -29,6 +29,38 @@ const cheatsheets = [
     level: "Beginner" as Level,
     tools: ["Claude", "Apollo"],
   },
+  {
+    title: "LinkedIn Outreach Formules",
+    description: "5 bewezen berichtsjablonen voor koude connectieverzoeken. Personaliseer met ChatGPT en verstuur vandaag nog.",
+    href: "/cheatsheet/linkedin-outreach",
+    tag: "Outreach",
+    level: "Beginner" as Level,
+    tools: ["LinkedIn", "ChatGPT"],
+  },
+  {
+    title: "HubSpot Pipeline Setup in 30 min",
+    description: "Van lege CRM naar werkende pipeline. Dealfases, properties, automatiseringen en dashboard voor B2B.",
+    href: "/cheatsheet/hubspot-pipeline",
+    tag: "CRM",
+    level: "Beginner" as Level,
+    tools: ["HubSpot"],
+  },
+  {
+    title: "ICP Scherpslijpen met AI",
+    description: "Verfijn je Ideal Customer Profile met Claude, Apollo en LinkedIn. Van vage omschrijving naar scherpe targeting.",
+    href: "/cheatsheet/icp-ai",
+    tag: "Strategie",
+    level: "Gevorderd" as Level,
+    tools: ["Claude", "Apollo", "LinkedIn"],
+  },
+  {
+    title: "Multi-channel Sequencing Playbook",
+    description: "E-mail, LinkedIn en calling in één flow. 14-dagen sequentie met templates per kanaal en exacte timing.",
+    href: "/cheatsheet/multichannel-sequencing",
+    tag: "Outbound",
+    level: "Expert" as Level,
+    tools: ["Instantly", "Apollo", "LinkedIn"],
+  },
 ];
 
 const allTools = [...new Set(cheatsheets.flatMap(s => s.tools))];

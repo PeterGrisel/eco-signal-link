@@ -40,6 +40,10 @@ import AdminScripts from "./pages/admin/AdminScripts.tsx";
 import AdminOverview from "./pages/admin/AdminOverview.tsx";
 import AdminCompetitors from "./pages/admin/AdminCompetitors.tsx";
 import SignalCheatsheet from "./pages/SignalCheatsheet.tsx";
+import LinkedInOutreach from "./pages/LinkedInOutreach.tsx";
+import HubSpotPipeline from "./pages/HubSpotPipeline.tsx";
+import IcpAi from "./pages/IcpAi.tsx";
+import MultichannelSequencing from "./pages/MultichannelSequencing.tsx";
 import Cheatsheets from "./pages/Cheatsheets.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import TrackingScriptInjector from "./components/TrackingScriptInjector";
@@ -104,6 +108,10 @@ const AnimatedRoutes = () => {
           <Route path="/admin/competitors" element={<AdminCompetitors />} />
           <Route path="/cheatsheets" element={<Cheatsheets />} />
           <Route path="/cheatsheet/signal-prospecting" element={<SignalCheatsheet />} />
+          <Route path="/cheatsheet/linkedin-outreach" element={<LinkedInOutreach />} />
+          <Route path="/cheatsheet/hubspot-pipeline" element={<HubSpotPipeline />} />
+          <Route path="/cheatsheet/icp-ai" element={<IcpAi />} />
+          <Route path="/cheatsheet/multichannel-sequencing" element={<MultichannelSequencing />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
