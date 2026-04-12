@@ -158,6 +158,7 @@ const SignalCheatsheet = () => {
       </div>
 
       <Footer />
+    </div>
   );
 };
 
