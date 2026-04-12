@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { FileText, ArrowRight } from "lucide-react";
+import { FileText, ArrowRight, ThumbsUp, Star } from "lucide-react";
 
 type Level = "Beginner" | "Gevorderd" | "Expert";
 
@@ -65,9 +66,48 @@ const cheatsheets = [
 
 const allTools = [...new Set(cheatsheets.flatMap(s => s.tools))];
 
+const slugFromHref: Record<string, string> = {
+  "/cheatsheet/signal-prospecting": "signal-prospecting",
+  "/cheatsheet/linkedin-outreach": "linkedin-outreach",
+  "/cheatsheet/hubspot-pipeline": "hubspot-pipeline",
+  "/cheatsheet/icp-ai": "icp-ai",
+  "/cheatsheet/multichannel-sequencing": "multichannel-sequencing",
+};
+
+type FeedbackStats = Record<string, { votes: number; avgRating: number }>;
+
 const Cheatsheets = () => {
   const [activeLevel, setActiveLevel] = useState<Level | null>(null);
   const [activeTool, setActiveTool] = useState<string | null>(null);
+  const [stats, setStats] = useState<FeedbackStats>({});
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      const { data } = await supabase
+        .from("cheatsheet_feedback")
+        .select("cheatsheet_slug, helpful, rating");
+      if (!data) return;
+      const grouped: FeedbackStats = {};
+      for (const row of data) {
+        if (!grouped[row.cheatsheet_slug]) grouped[row.cheatsheet_slug] = { votes: 0, avgRating: 0 };
+        const g = grouped[row.cheatsheet_slug];
+        if (row.helpful) g.votes++;
+        if (row.rating) {
+          const prev = g.avgRating;
+          const count = data.filter(r => r.cheatsheet_slug === row.cheatsheet_slug && r.rating).indexOf(row);
+          // simple running avg
+          g.avgRating = prev ? (prev * count + row.rating) / (count + 1) : row.rating;
+        }
+      }
+      // recalc avg properly
+      for (const slug of Object.keys(grouped)) {
+        const ratings = data.filter(r => r.cheatsheet_slug === slug && r.rating).map(r => r.rating!);
+        grouped[slug].avgRating = ratings.length ? ratings.reduce((a, b) => a + b, 0) / ratings.length : 0;
+      }
+      setStats(grouped);
+    };
+    fetchStats();
+  }, []);
 
   useEffect(() => {
     document.title = "Cheatsheets | B2BGroeiMachine";
@@ -162,6 +202,27 @@ const Cheatsheets = () => {
                   </div>
                   <h2 className="text-lg font-semibold text-foreground group-hover:text-primary transition-colors">{sheet.title}</h2>
                   <p className="text-sm text-muted-foreground mt-1">{sheet.description}</p>
+                  {(() => {
+                    const slug = slugFromHref[sheet.href];
+                    const s = slug ? stats[slug] : null;
+                    if (!s || (!s.votes && !s.avgRating)) return null;
+                    return (
+                      <div className="flex items-center gap-3 mt-2">
+                        {s.votes > 0 && (
+                          <span className="flex items-center gap-1 text-xs text-muted-foreground">
+                            <ThumbsUp className="w-3.5 h-3.5 text-emerald-400" />
+                            {s.votes}
+                          </span>
+                        )}
+                        {s.avgRating > 0 && (
+                          <span className="flex items-center gap-1 text-xs text-muted-foreground">
+                            <Star className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
+                            {s.avgRating.toFixed(1)}
+                          </span>
+                        )}
+                      </div>
+                    );
+                  })()}
                 </div>
                 <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors flex-shrink-0 mt-1" />
               </Link>
