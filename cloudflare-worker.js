@@ -7,6 +7,7 @@
 
 const PRERENDER_URL        = "https://snymrcialncxkcsibkjv.supabase.co/functions/v1/prerender";
 const SITEMAP_URL          = "https://snymrcialncxkcsibkjv.supabase.co/functions/v1/sitemap";
+const RSS_URL              = "https://snymrcialncxkcsibkjv.supabase.co/functions/v1/rss";
 const ORIGIN_URL           = "https://eco-signal-link.lovable.app";
 const PRERENDER_TIMEOUT_MS = 5000;
 const CACHE_TTL_EDGE       = 86400; // 24h CDN cache
@@ -134,6 +135,24 @@ export default {
     // 0b. Serve robots.txt directly (bypass origin)
     if (url.pathname === '/robots.txt') {
       return fetch(toOrigin(request, url));
+    }
+
+    // 0c. Proxy /rss.xml to dynamic Edge Function
+    if (url.pathname === '/rss.xml') {
+      try {
+        const rssRes = await fetch(RSS_URL, {
+          headers: { 'apikey': env.SUPABASE_ANON_KEY || '' },
+        });
+        return new Response(await rssRes.text(), {
+          status: rssRes.status,
+          headers: {
+            'Content-Type': 'application/rss+xml; charset=utf-8',
+            'Cache-Control': `public, max-age=${CACHE_TTL_WORKER}`,
+          },
+        });
+      } catch {
+        return new Response('RSS feed unavailable', { status: 502 });
+      }
     }
 
     // 1. Static assets -> straight to Lovable origin
