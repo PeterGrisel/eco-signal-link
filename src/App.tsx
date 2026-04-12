@@ -102,6 +102,7 @@ const AnimatedRoutes = () => {
           <Route path="/admin/analytics" element={<AdminAnalytics />} />
           <Route path="/admin/scripts" element={<AdminScripts />} />
           <Route path="/admin/competitors" element={<AdminCompetitors />} />
+          <Route path="/cheatsheets" element={<Cheatsheets />} />
           <Route path="/cheatsheet/signal-prospecting" element={<SignalCheatsheet />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
