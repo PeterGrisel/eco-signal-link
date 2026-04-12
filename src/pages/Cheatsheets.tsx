@@ -108,6 +108,8 @@ const Cheatsheets = () => {
     };
     fetchStats();
   }, []);
+
+  useEffect(() => {
     document.title = "Cheatsheets | B2BGroeiMachine";
     const meta = document.querySelector('meta[name="description"]');
     if (meta) meta.setAttribute("content", "Praktische cheatsheets en quick-start guides voor B2B sales, prospecting en automatisering.");
