@@ -223,6 +223,7 @@ const Cheatsheets = () => {
                       </div>
                     );
                   })()}
+                </div>
                 <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors flex-shrink-0 mt-1" />
               </Link>
             ))}
