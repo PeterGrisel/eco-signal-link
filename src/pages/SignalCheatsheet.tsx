@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Copy, Check, ArrowLeft, Linkedin } from "lucide-react";
 import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
+import CheatsheetFeedback from "@/components/cheatsheet/CheatsheetFeedback";
 import Footer from "@/components/Footer";
 
 const SignalCheatsheet = () => {
