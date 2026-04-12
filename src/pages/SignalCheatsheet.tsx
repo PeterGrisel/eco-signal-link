@@ -159,6 +159,9 @@ const SignalCheatsheet = () => {
           </div>
         </Card>
 
+        {/* FEEDBACK */}
+        <CheatsheetFeedback slug="signal-prospecting" />
+
         {/* CTA - full width */}
         <Card title="Wil je ook acties aanmaken direct in Apollo?" full accent>
           <p className="text-xs text-[#BFBFBF] mb-3">
