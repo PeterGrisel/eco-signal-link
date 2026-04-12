@@ -35,6 +35,7 @@ const allTools = [...new Set(cheatsheets.flatMap(s => s.tools))];
 
 const Cheatsheets = () => {
   const [activeLevel, setActiveLevel] = useState<Level | null>(null);
+  const [activeTool, setActiveTool] = useState<string | null>(null);
 
   useEffect(() => {
     document.title = "Cheatsheets | B2BGroeiMachine";
@@ -42,7 +43,9 @@ const Cheatsheets = () => {
     if (meta) meta.setAttribute("content", "Praktische cheatsheets en quick-start guides voor B2B sales, prospecting en automatisering.");
   }, []);
 
-  const filtered = activeLevel ? cheatsheets.filter(s => s.level === activeLevel) : cheatsheets;
+  const filtered = cheatsheets
+    .filter(s => !activeLevel || s.level === activeLevel)
+    .filter(s => !activeTool || s.tools.includes(activeTool));
 
   return (
     <div className="min-h-screen bg-background text-foreground">
