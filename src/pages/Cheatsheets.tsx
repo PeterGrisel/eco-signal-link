@@ -202,7 +202,27 @@ const Cheatsheets = () => {
                   </div>
                   <h2 className="text-lg font-semibold text-foreground group-hover:text-primary transition-colors">{sheet.title}</h2>
                   <p className="text-sm text-muted-foreground mt-1">{sheet.description}</p>
-                </div>
+                  {(() => {
+                    const slug = slugFromHref[sheet.href];
+                    const s = slug ? stats[slug] : null;
+                    if (!s || (!s.votes && !s.avgRating)) return null;
+                    return (
+                      <div className="flex items-center gap-3 mt-2">
+                        {s.votes > 0 && (
+                          <span className="flex items-center gap-1 text-xs text-muted-foreground">
+                            <ThumbsUp className="w-3.5 h-3.5 text-emerald-400" />
+                            {s.votes}
+                          </span>
+                        )}
+                        {s.avgRating > 0 && (
+                          <span className="flex items-center gap-1 text-xs text-muted-foreground">
+                            <Star className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
+                            {s.avgRating.toFixed(1)}
+                          </span>
+                        )}
+                      </div>
+                    );
+                  })()}
                 <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors flex-shrink-0 mt-1" />
               </Link>
             ))}
