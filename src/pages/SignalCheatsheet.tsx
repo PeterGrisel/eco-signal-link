@@ -23,7 +23,10 @@ const SignalCheatsheet = () => {
             <ArrowLeft className="w-3 h-3" />
             Alle cheatsheets
           </Link>
-          <span className="text-[9px] font-bold tracking-[.14em] uppercase text-[#0B0B0B] bg-[#E3874F] px-2 py-0.5 rounded-sm w-fit" style={{ fontFamily: "Fira Sans, sans-serif" }}>B2B GROEIMACHINE</span>
+          <div className="flex items-center gap-2">
+            <span className="text-[9px] font-bold tracking-[.14em] uppercase text-[#0B0B0B] bg-[#E3874F] px-2 py-0.5 rounded-sm w-fit" style={{ fontFamily: "Fira Sans, sans-serif" }}>B2B GROEIMACHINE</span>
+            <span className="text-[9px] font-bold tracking-[.1em] uppercase bg-emerald-500/15 text-emerald-400 px-2 py-0.5 rounded-sm" style={{ fontFamily: "Fira Sans, sans-serif" }}>Beginner</span>
+          </div>
           <h1 className="text-3xl md:text-[38px] uppercase leading-[.92] tracking-[.01em] text-white" style={{ fontFamily: "Anton, sans-serif" }}>
             CLAUDE × APOLLO<br /><span className="text-[#E3874F]">SIGNAL PROSPECTING</span>
           </h1>
