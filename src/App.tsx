@@ -40,6 +40,7 @@ import AdminAnalytics from "./pages/admin/AdminAnalytics.tsx";
 import AdminScripts from "./pages/admin/AdminScripts.tsx";
 import AdminOverview from "./pages/admin/AdminOverview.tsx";
 import AdminCompetitors from "./pages/admin/AdminCompetitors.tsx";
+import AdminSignaal from "./pages/admin/AdminSignaal.tsx";
 import SignalCheatsheet from "./pages/SignalCheatsheet.tsx";
 import LinkedInOutreach from "./pages/LinkedInOutreach.tsx";
 import HubSpotPipeline from "./pages/HubSpotPipeline.tsx";
@@ -113,6 +114,7 @@ const AnimatedRoutes = () => {
           <Route path="/admin/analytics" element={<AdminAnalytics />} />
           <Route path="/admin/scripts" element={<AdminScripts />} />
           <Route path="/admin/competitors" element={<AdminCompetitors />} />
+          <Route path="/admin/signaal" element={<AdminSignaal />} />
           <Route path="/cheatsheets" element={<Cheatsheets />} />
           <Route path="/cheatsheet/signal-prospecting" element={<SignalCheatsheet />} />
           <Route path="/cheatsheet/linkedin-outreach" element={<LinkedInOutreach />} />
