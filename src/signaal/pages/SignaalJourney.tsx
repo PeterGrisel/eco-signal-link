@@ -4,6 +4,8 @@ import { supabase } from "@/integrations/supabase/client";
 import SignaalLayout from "../components/SignaalLayout";
 import BlueprintPanel from "../components/BlueprintPanel";
 import AgentPanel from "../components/AgentPanel";
+import MobileBlueprintDrawer from "../components/MobileBlueprintDrawer";
+import MobileAgentSheet from "../components/MobileAgentSheet";
 import LayerProgress from "../components/LayerProgress";
 import JourneyLayer from "../components/JourneyLayer";
 import { LAYERS } from "../data/layers";
@@ -226,15 +228,20 @@ const SignaalJourney = () => {
 
   return (
     <SignaalLayout>
+      {/* Mobile blueprint drawer */}
+      <MobileBlueprintDrawer inputs={allInputs} currentLayer={currentLayer} score={score} />
+
       <div className="flex h-screen overflow-hidden">
-        {/* Left — Blueprint */}
-        <BlueprintPanel inputs={allInputs} currentLayer={currentLayer} score={score} />
+        {/* Left — Blueprint (desktop only) */}
+        <div className="hidden lg:block">
+          <BlueprintPanel inputs={allInputs} currentLayer={currentLayer} score={score} />
+        </div>
 
         {/* Center — Journey Engine */}
         <div className="flex-1 overflow-y-auto">
-          <div className="p-6">
+          <div className="p-4 sm:p-6">
             {/* Layer progress */}
-            <div className="mb-8 flex justify-center">
+            <div className="mb-6 sm:mb-8 flex justify-center overflow-x-auto">
               <LayerProgress currentLayer={currentLayer} completedLayers={completedLayers} />
             </div>
 
@@ -249,13 +256,22 @@ const SignaalJourney = () => {
           </div>
         </div>
 
-        {/* Right — Agent */}
-        <AgentPanel
-          messages={agentMessages}
-          isLoading={agentLoading}
-          onSendMessage={callAgent}
-        />
+        {/* Right — Agent (desktop only) */}
+        <div className="hidden lg:block">
+          <AgentPanel
+            messages={agentMessages}
+            isLoading={agentLoading}
+            onSendMessage={callAgent}
+          />
+        </div>
       </div>
+
+      {/* Mobile agent bottom sheet */}
+      <MobileAgentSheet
+        messages={agentMessages}
+        isLoading={agentLoading}
+        onSendMessage={callAgent}
+      />
     </SignaalLayout>
   );
 };

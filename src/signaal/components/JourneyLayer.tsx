@@ -170,7 +170,7 @@ const JourneyLayer = ({ layer, inputs, onInputChange, onComplete, onAskAgent }: 
             <div className="space-y-6">
               <p className="text-sm text-[#6B6B72] font-['DM_Sans']">{layer.hoe.instruction}</p>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {layer.hoe.tools.map((tool) => {
                   const selectedTools = inputs._selectedTools || [];
                   const isSelected = selectedTools.includes(tool.name);
