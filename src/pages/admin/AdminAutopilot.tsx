@@ -287,6 +287,9 @@ const AdminAutopilot = () => {
           )}
         </div>
       )}
+
+      {/* Content Cleanup Section */}
+      <ContentCleanupSection />
     </AdminLayout>
   );
 };
