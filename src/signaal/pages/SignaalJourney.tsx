@@ -263,7 +263,7 @@ const SignaalJourney = () => {
           <div className="p-4 sm:p-6">
             {/* Layer progress */}
             <div className="mb-6 sm:mb-8 flex justify-center overflow-x-auto">
-              <LayerProgress currentLayer={currentLayer} completedLayers={completedLayers} />
+              <LayerProgress currentLayer={currentLayer} completedLayers={completedLayers} onLayerClick={(layer) => setCurrentLayer(layer)} />
             </div>
 
             {/* Active layer */}
