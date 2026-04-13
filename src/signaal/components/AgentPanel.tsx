@@ -28,7 +28,7 @@ const AgentPanel = ({ messages, isLoading, onSendMessage }: AgentPanelProps) => 
   };
 
   return (
-    <div className="w-[300px] shrink-0 border-l border-[#1E1E22] h-full flex flex-col">
+    <div className="w-full lg:w-[300px] shrink-0 lg:border-l border-[#1E1E22] h-full flex flex-col">
       {/* Header */}
       <div className="p-4 border-b border-[#1E1E22] flex items-center gap-2">
         <h3 className="font-['DM_Serif_Display'] text-sm text-[#F0F0EE]">Systeem Agent</h3>
