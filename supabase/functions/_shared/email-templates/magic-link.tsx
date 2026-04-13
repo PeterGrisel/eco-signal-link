@@ -22,21 +22,21 @@ export const MagicLinkEmail = ({
   siteName,
   confirmationUrl,
 }: MagicLinkEmailProps) => (
-  <Html lang="en" dir="ltr">
+  <Html lang="nl" dir="ltr">
     <Head />
-    <Preview>Your login link for {siteName}</Preview>
+    <Preview>Jouw login link voor {siteName}</Preview>
     <Body style={main}>
       <Container style={container}>
-        <Heading style={h1}>Your login link</Heading>
+        <Text style={brand}>SIGNAAL</Text>
+        <Heading style={h1}>Jouw login link</Heading>
         <Text style={text}>
-          Click the button below to log in to {siteName}. This link will expire
-          shortly.
+          Klik op de knop hieronder om in te loggen bij {siteName}. Deze link verloopt na korte tijd.
         </Text>
         <Button style={button} href={confirmationUrl}>
-          Log In
+          Inloggen →
         </Button>
         <Text style={footer}>
-          If you didn't request this link, you can safely ignore this email.
+          Als je deze link niet hebt aangevraagd, kun je deze e-mail veilig negeren.
         </Text>
       </Container>
     </Body>
@@ -45,26 +45,35 @@ export const MagicLinkEmail = ({
 
 export default MagicLinkEmail
 
-const main = { backgroundColor: '#ffffff', fontFamily: 'Arial, sans-serif' }
-const container = { padding: '20px 25px' }
+const main = { backgroundColor: '#ffffff', fontFamily: "'DM Sans', Arial, sans-serif" }
+const container = { padding: '40px 25px' }
+const brand = {
+  fontSize: '11px',
+  fontFamily: "'DM Mono', Courier, monospace",
+  letterSpacing: '3px',
+  color: '#6B6B72',
+  margin: '0 0 24px',
+}
 const h1 = {
-  fontSize: '22px',
+  fontSize: '24px',
   fontWeight: 'bold' as const,
-  color: '#000000',
-  margin: '0 0 20px',
+  fontFamily: "'DM Serif Display', Georgia, serif",
+  color: '#0A0A0B',
+  margin: '0 0 16px',
 }
 const text = {
   fontSize: '14px',
   color: '#55575d',
-  lineHeight: '1.5',
-  margin: '0 0 25px',
+  lineHeight: '1.6',
+  margin: '0 0 28px',
 }
 const button = {
-  backgroundColor: '#000000',
-  color: '#ffffff',
+  backgroundColor: '#0A0A0B',
+  color: '#E8FF47',
   fontSize: '14px',
+  fontWeight: '600' as const,
   borderRadius: '8px',
-  padding: '12px 20px',
+  padding: '14px 28px',
   textDecoration: 'none',
 }
-const footer = { fontSize: '12px', color: '#999999', margin: '30px 0 0' }
+const footer = { fontSize: '12px', color: '#999999', margin: '32px 0 0' }
