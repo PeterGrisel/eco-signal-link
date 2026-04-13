@@ -48,6 +48,9 @@ import MultichannelSequencing from "./pages/MultichannelSequencing.tsx";
 import GammaCheatsheet from "./pages/GammaCheatsheet.tsx";
 import Cheatsheets from "./pages/Cheatsheets.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import SignaalLanding from "./signaal/pages/SignaalLanding.tsx";
+import SignaalStart from "./signaal/pages/SignaalStart.tsx";
+import SignaalJourney from "./signaal/pages/SignaalJourney.tsx";
 import TrackingScriptInjector from "./components/TrackingScriptInjector";
 import WhatsAppButton from "./components/WhatsAppButton";
 import CookieConsent from "./components/CookieConsent";
@@ -116,6 +119,9 @@ const AnimatedRoutes = () => {
           <Route path="/cheatsheet/icp-ai" element={<IcpAi />} />
           <Route path="/cheatsheet/multichannel-sequencing" element={<MultichannelSequencing />} />
           <Route path="/cheatsheet/gamma-presentaties" element={<GammaCheatsheet />} />
+          <Route path="/signaal" element={<SignaalLanding />} />
+          <Route path="/signaal/start" element={<SignaalStart />} />
+          <Route path="/signaal/journey" element={<SignaalJourney />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
