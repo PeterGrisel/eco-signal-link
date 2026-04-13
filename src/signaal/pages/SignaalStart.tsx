@@ -14,24 +14,36 @@ const SignaalStart = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // Check if already logged in
+    const checkProfile = async (userId: string) => {
+      const { data } = await supabase
+        .from('signal_profiles')
+        .select('name')
+        .eq('id', userId)
+        .maybeSingle();
+      if (data?.name) {
+        navigate('/signaal/journey');
+      } else {
+        setStep('onboarding');
+      }
+    };
+
+    // Listen for auth state changes (handles magic link redirect)
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        if (event === 'SIGNED_IN' && session) {
+          checkProfile(session.user.id);
+        }
+      }
+    );
+
+    // Also check existing session
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) {
-        // Check if profile exists
-        supabase
-          .from('signal_profiles')
-          .select('name')
-          .eq('id', session.user.id)
-          .maybeSingle()
-          .then(({ data }) => {
-            if (data?.name) {
-              navigate('/signaal/journey');
-            } else {
-              setStep('onboarding');
-            }
-          });
+        checkProfile(session.user.id);
       }
     });
+
+    return () => subscription.unsubscribe();
   }, [navigate]);
 
   const handleMagicLink = async (e: React.FormEvent) => {
