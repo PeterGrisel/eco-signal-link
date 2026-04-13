@@ -1,4 +1,6 @@
 import Navbar from "@/components/Navbar";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Hero from "@/components/Hero";
 import PageLoader from "@/components/PageLoader";
 import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
@@ -18,6 +20,14 @@ import FaqSection from "@/components/FaqSection";
 import Footer from "@/components/Footer";
 
 const Index = () => {
+  // Redirect auth errors (expired magic links) to /signaal/start
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash.includes('error=') && hash.includes('otp_expired')) {
+      window.location.href = '/signaal/start' + hash;
+    }
+  }, []);
+
   return (
     <PageLoader>
     <div className="min-h-screen">
