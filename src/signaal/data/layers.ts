@@ -411,6 +411,8 @@ De meeste teams automatiseren te vroeg of te laat. Te vroeg: je automatiseert ru
         { fieldKey: 'filter_linkedin', tip: 'Zonder filter kreeg Velox 200+ alerts per dag. Met "alleen C-level + target industrie" werden dat er 12. Elk waardevol.' },
       ],
     },
+    hoe: {
+      instruction: 'Kies je automatiseringstools',
       tools: [
         { name: 'Apollo Saved Searches', purpose: 'Automatisch bijhouden van zoekopdrachten', cost: 'Incl. in Apollo plan' },
         { name: 'Clay Waterfalls', purpose: 'Multi-bron sequentieel verrijken', cost: '$149+/mo' },
@@ -563,6 +565,8 @@ De gouden regel: hoe hoger de score, hoe persoonlijker de respons. Automatiseer 
         { fieldKey: 'crm_actie_prioriteit', tip: 'Velox maakte direct een deal aan bij prioriteitsleads, niet alleen een lead. Dit gaf het sales team urgentie en visibility in de pipeline.' },
       ],
     },
+    hoe: {
+      instruction: 'Kies je outreach en automatiseringstools',
       tools: [
         { name: 'Apollo Sequences', purpose: 'Geautomatiseerde email cadences', cost: '$49-99/mo' },
         { name: 'Instantly', purpose: 'Hoog-volume email', cost: '$30-77/mo' },
