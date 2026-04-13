@@ -26,6 +26,11 @@ export interface StatComparison {
   after: { label: string; value: string };
 }
 
+export interface VeloxTip {
+  fieldKey: string;
+  tip: string;
+}
+
 export interface LayerConfig {
   id: number;
   slug: string;
@@ -43,6 +48,7 @@ export interface LayerConfig {
   wat: {
     instruction: string;
     fields: LayerField[];
+    veloxTips?: VeloxTip[];
   };
   hoe?: {
     instruction: string;
