@@ -50,9 +50,13 @@ const SignaalStart = () => {
     e.preventDefault();
     if (!email.trim()) return;
     setLoading(true);
+    // Always redirect to the published domain, not the preview domain
+    const redirectBase = import.meta.env.PROD
+      ? window.location.origin
+      : 'https://eco-signal-link.lovable.app';
     const { error } = await supabase.auth.signInWithOtp({
       email: email.trim(),
-      options: { emailRedirectTo: `${window.location.origin}/signaal/start` },
+      options: { emailRedirectTo: `${redirectBase}/signaal/start` },
     });
     setLoading(false);
     if (error) {
