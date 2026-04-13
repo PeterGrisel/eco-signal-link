@@ -174,6 +174,8 @@ In deze laag bouw je je scorematrix. Je bepaalt welke combinatie van signalen ee
         { fieldKey: 'competitor_churned', tip: 'Competitor churn was Velox\'s geheim wapen: accounts die net van een concurrent af waren, hadden al een bewezen behoefte.' },
       ],
     },
+    blueprintTemplate: (inputs) => {
+      const signals = [
         'leidinggevende_gewisseld', 'funding_ontvangen', 'specifieke_vacature',
         'competitor_churned', 'tech_stack_wijziging', 'headcount_groei',
         'industrie_match', 'bedrijfsgrootte_match'
