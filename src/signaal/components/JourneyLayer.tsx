@@ -325,6 +325,22 @@ const JourneyLayer = ({ layer, inputs, onInputChange, onComplete, onAskAgent }: 
                         className="w-full bg-[#111113] border border-[#1E1E22] rounded-lg px-3 py-2.5 text-sm text-[#F0F0EE] focus:outline-none focus:border-[#E8FF47]/40 font-mono transition-colors"
                       />
                     )}
+
+                    {/* Velox Tip — shows when field is filled */}
+                    {completedFields.has(field.key) && layer.wat.veloxTips?.find(t => t.fieldKey === field.key) && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        transition={{ duration: 0.3 }}
+                        className="flex items-start gap-2 mt-2 p-2.5 rounded-lg bg-[#E8FF47]/[0.04] border border-[#E8FF47]/10"
+                      >
+                        <Building2 className="w-3.5 h-3.5 text-[#E8FF47] mt-0.5 shrink-0" />
+                        <p className="text-[11px] text-[#E8FF47]/80 leading-relaxed font-['DM_Sans']">
+                          <span className="font-semibold text-[#E8FF47]">Velox Tip:</span>{' '}
+                          {layer.wat.veloxTips!.find(t => t.fieldKey === field.key)!.tip}
+                        </p>
+                      </motion.div>
+                    )}
                   </motion.div>
                 ))}
               </div>
