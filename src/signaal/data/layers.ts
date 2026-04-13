@@ -66,6 +66,20 @@ export const LAYERS: LayerConfig[] = [
 Drie vragen sturen het hele systeem aan: wie, in welke staat, met welk profiel. Als één van de drie vaag is, klopt het systeem nooit.
 
 De definitie-laag is het fundament. Geen score, want zonder fundament heeft scoren geen zin. Alles wat je hierna bouwt, staat of valt met de scherpte van deze laag.`,
+      caseStudy: {
+        situation: 'Velox Solutions, een B2B SaaS scale-up met 45 man, targette "tech companies in Europa". Hun SDR-team stuurde 2.000 mails per week naar een brede lijst. De pipeline groeide, maar deals strandden steeds in de onderhandelingsfase — de prospects bleken niet de juiste fit.',
+        result: 'Na analyse van hun 20 best-converterende deals verfijnde Velox hun ICP naar: "B2B SaaS, 50-200 FTE, met een nieuwe VP Sales, in de Benelux." De lijst kromp van 12.000 naar 340 bedrijven — maar de reply rate steeg van 2% naar 11%.',
+        lesson: 'Minder bereik, meer impact. Velox boekte meer omzet met 340 prospects dan met 12.000.',
+      },
+      stats: {
+        before: { label: 'Reply rate (breed ICP)', value: '2%' },
+        after: { label: 'Reply rate (scherp ICP)', value: '11%' },
+      },
+      mistake: {
+        title: 'De "management" valkuil',
+        body: '"Management" als functietitel matcht 12.000 mensen. "VP Sales bij scale-ups met Series A" matcht 47 — en die zijn allemaal relevant. Velox maakte deze fout drie maanden lang voordat ze het doorhadden.',
+      },
+      principle: 'Hoe smaller je definitie, hoe sterker elk signaal dat erop volgt.',
     },
     wat: {
       instruction: 'Pas dit toe op jouw situatie',
@@ -112,6 +126,20 @@ UITSLUITEN: ${inputs.uitsluiten || '—'}`;
 De kunst is niet meer signalen verzamelen. De kunst is gewicht toekennen. Welk signaal is goud waard in jouw markt? Welk signaal is ruis? Dat verschilt per industrie, per ICP, per aanbieding.
 
 In deze laag bouw je je scorematrix. Je bepaalt welke combinatie van signalen een prospect van 'koud' naar 'heet' tilt.`,
+      caseStudy: {
+        situation: 'Velox gaf elk signaal hetzelfde gewicht: een LinkedIn-postje telde even zwaar als een Series A-ronde. Het resultaat? Een waslijst van "warme" leads die eigenlijk lauw waren. Het sales team verloor vertrouwen in het systeem.',
+        result: 'Na 3 maanden data-analyse ontdekte Velox dat twee signalen 80% van hun gesloten deals voorspelden: een nieuwe VP Sales + recente funding. Ze verhoogden die gewichten naar 30 en 25, en verlaagden de rest. Het percentage qualified leads steeg van 12% naar 34%.',
+        lesson: 'Niet alle signalen zijn gelijk. Velox stopte met democratisch wegen en begon met data-gedreven prioriteren.',
+      },
+      stats: {
+        before: { label: 'Qualified leads (gelijk gewicht)', value: '12%' },
+        after: { label: 'Qualified leads (gewogen)', value: '34%' },
+      },
+      mistake: {
+        title: 'De democratie-fout',
+        body: 'Alle signalen hetzelfde gewicht geven voelt eerlijk, maar is dodelijk. Als een LinkedIn-like even zwaar telt als een funding-ronde, verdrinkt het echte signaal in de ruis. Velox had 200+ "warme" leads per week — waarvan er 8 echt warm waren.',
+      },
+      principle: 'Eén sterk signaal verslaat tien zwakke.',
     },
     wat: {
       instruction: 'Stel de gewichten in voor jouw signalen',
@@ -152,6 +180,20 @@ In deze laag bouw je je scorematrix. Je bepaalt welke combinatie van signalen ee
 Het gevaar is te veel bronnen tegelijk openzetten. Dan verdrink je in data zonder dat je weet wat je ermee moet. Begin met de bronnen die jouw sterkste signalen leveren. Voeg pas toe als de eerste stroom loopt.
 
 De volgorde is cruciaal: eerst de vraag, dan de bron. Niet andersom. Te veel teams kiezen tools voordat ze weten welke vraag ze beantwoorden.`,
+      caseStudy: {
+        situation: 'Velox tekende abonnementen op 7 databronnen tegelijk: Apollo, LinkedIn Sales Nav, Crunchbase, Clay, BuiltWith, Bombora en Google Alerts. Het team besteedde 4 uur per dag aan het checken van dashboards. Na twee maanden was niemand meer gemotiveerd.',
+        result: 'Ze schaalden terug naar 3 bronnen: LinkedIn (job changes), Crunchbase (funding) en hun eigen CRM (closed-lost revisits). De monitoring-tijd daalde van 4 uur naar 45 minuten. De kwaliteit van hun signalen steeg omdat ze zich konden focussen.',
+        lesson: 'Velox leerde: begin met 2-3 bronnen die je sterkste signalen voeden. Voeg pas toe als de eerste stroom loopt.',
+      },
+      stats: {
+        before: { label: 'Dagelijkse monitor-tijd (7 bronnen)', value: '4 uur' },
+        after: { label: 'Dagelijkse monitor-tijd (3 bronnen)', value: '45 min' },
+      },
+      mistake: {
+        title: 'De tool-verzamelaar',
+        body: 'Meer tools ≠ meer inzicht. Velox betaalde €1.200/maand aan tools die ze niet effectief gebruikten. Het probleem was niet de data — het was het gebrek aan focus op welke data ertoe deed.',
+      },
+      principle: 'Eerst de vraag, dan de bron. Nooit andersom.',
     },
     wat: {
       instruction: 'Selecteer de bronnen die relevant zijn voor jouw signalen',
@@ -207,6 +249,20 @@ De volgorde is cruciaal: eerst de vraag, dan de bron. Niet andersom. Te veel tea
 Een kritische vraag is de brug tussen jouw signaal en de databron. Het is de precieze formulering van wat je wilt weten. Niet "wie is er aan het groeien?" maar "welke bedrijven in de maakindustrie hebben hun engineering team met >20% uitgebreid in de afgelopen 90 dagen?"
 
 Hoe scherper de vraag, hoe minder ruis. Hoe minder ruis, hoe minder tijd je verspilt aan false positives. Formuleer voor elke bron één onverbiddelijke vraag.`,
+      caseStudy: {
+        situation: 'Velox\'s oorspronkelijke zoekvraag in Apollo was: "Toon bedrijven die groeien." Het resultaat: 4.000+ hits per week, waarvan minder dan 2% relevant. Hun SDR team scrollde door eindeloze lijsten op zoek naar de naald in de hooiberg.',
+        result: 'Na het herformuleren naar: "Welke B2B SaaS bedrijven (50-200 FTE, Benelux) hebben in de laatste 90 dagen een VP Sales aangesteld?" kregen ze 12-18 resultaten per week — waarvan 60% daadwerkelijk reageerde op outreach.',
+        lesson: 'De vraag "wie groeit?" leverde ruis. De vraag "wie heeft net een beslisser aangesteld?" leverde deals.',
+      },
+      stats: {
+        before: { label: 'Relevante hits (vage vraag)', value: '2%' },
+        after: { label: 'Relevante hits (scherpe vraag)', value: '60%' },
+      },
+      mistake: {
+        title: 'De "toon me alles" reflex',
+        body: 'Velox dacht dat meer data beter was. Maar "toon me bedrijven die groeien" is geen vraag — het is een wens. Een kritische vraag bevat altijd: wie, welke verandering, welk tijdvenster, en welke drempel.',
+      },
+      principle: 'Een vage vraag krijgt een vaag antwoord. Een scherpe vraag krijgt een deal.',
     },
     wat: {
       instruction: 'Formuleer per geselecteerde bron één kritische vraag',
@@ -272,6 +328,20 @@ Hoe scherper de vraag, hoe minder ruis. Hoe minder ruis, hoe minder tijd je vers
 Detectie is de laag waar je systeem autonoom wordt. Je stelt de frequentie in, de alert-methode, de filterlogica. Het systeem monitort continu. Jij handelt alleen als het signaal sterk genoeg is.
 
 De meeste teams automatiseren te vroeg of te laat. Te vroeg: je automatiseert ruis. Te laat: je doet alles handmatig terwijl het systeem het werk kan doen. Deze laag is het kantelpunt.`,
+      caseStudy: {
+        situation: 'Velox\'s founder checkte elke ochtend handmatig LinkedIn, Crunchbase en Google Alerts. Op maandag was hij scherp. Op vrijdag vergat hij het. In één week miste hij 3 signalen — waarvan één leidde tot een deal bij een concurrent.',
+        result: 'Na het instellen van dagelijkse geautomatiseerde scans met alerts via Slack, ontdekte Velox gemiddeld 40% meer relevante signalen per week. Reactietijd daalde van 3-5 dagen naar minder dan 4 uur.',
+        lesson: 'Het systeem vergeet nooit. Velox\'s founder wel. Automatisering won het van discipline.',
+      },
+      stats: {
+        before: { label: 'Gemiste signalen (handmatig)', value: '40%' },
+        after: { label: 'Gemiste signalen (geautomatiseerd)', value: '3%' },
+      },
+      mistake: {
+        title: 'De "ik check het zelf wel" illusie',
+        body: 'Handmatig monitoren werkt als je 10 accounts volgt. Bij 100+ accounts mis je gegarandeerd signalen. Velox ontdekte achteraf dat ze in Q2 minstens 8 funding-rondes hadden gemist omdat niemand op vrijdag Crunchbase opende.',
+      },
+      principle: 'Wat je niet automatiseert, vergeet je. En wat je vergeet, wint je concurrent.',
     },
     wat: {
       instruction: 'Configureer je detectie-instellingen per bron',
@@ -341,6 +411,20 @@ De meeste teams automatiseren te vroeg of te laat. Te vroeg: je automatiseert ru
 Je drempelwaarde bepaalt wanneer het systeem handelt. Te laag: je reageert op ruis en verspilt je tijd. Te hoog: je mist kansen omdat het signaal niet sterk genoeg lijkt.
 
 De juiste drempel is niet statisch. Het is een getal dat je bijstelt op basis van resultaten. Maar je hebt een startpunt nodig. In deze laag stel je vier zones in: monitoring, nurture, actief en prioriteit.`,
+      caseStudy: {
+        situation: 'Velox stelde hun drempel in op 15 punten — elke account met meer dan één signaal kreeg een alert. Het resultaat: 47 alerts per dag. Het sales team begon alerts te negeren. Na twee weken opende niemand meer de Slack-channel.',
+        result: 'Ze verhoogden de drempel naar 40 punten en creëerden zones: monitoring (<20), nurture (20-39), actief (40-59) en prioriteit (≥60). Het aantal dagelijkse alerts daalde van 47 naar 8 — en elk alert leidde tot een actie.',
+        lesson: 'Velox leerde dat de drempel niet laag genoeg moet zijn om alles te vangen — maar hoog genoeg om alleen te handelen als het ertoe doet.',
+      },
+      stats: {
+        before: { label: 'Dagelijkse alerts (drempel 15)', value: '47' },
+        after: { label: 'Dagelijkse alerts (drempel 40)', value: '8' },
+      },
+      mistake: {
+        title: 'Alert fatigue',
+        body: 'Een drempel van 15 klinkt veilig — je mist niets. Maar als je team 47 alerts per dag krijgt, missen ze alles. Velox ontdekte dat hun SDR team na week 2 geen enkel alert meer las. De tool werkte perfect. Het team niet meer.',
+      },
+      principle: 'Een drempel die alles vangt, vangt niets. Kies voor precision boven recall.',
     },
     wat: {
       instruction: 'Stel je drempelwaarden en score-zones in',
@@ -376,6 +460,20 @@ SIGNAAL GELDIGHEID: ${inputs.window_dagen ?? 90} dagen`;
 De respons-laag verbindt detectie met actie. Per scorezone bepaal je wat er gebeurt: een automatische sequence, een persoonlijk bericht, een taak in je CRM. Het verschil tussen een goed systeem en een geweldig systeem zit in de snelheid en relevantie van de respons.
 
 De gouden regel: hoe hoger de score, hoe persoonlijker de respons. Automatiseer de onderkant, personaliseer de bovenkant.`,
+      caseStudy: {
+        situation: 'Velox stuurde elke prospect hetzelfde template-mailtje, ongeacht de score. "Hi {voornaam}, ik zag dat jullie groeien…" — 3.000 keer per maand. De reply rate: 1.8%. Het sales team klaagde dat de leads "niet warm genoeg" waren.',
+        result: 'Na het invoeren van gedifferentieerde respons per zone veranderde alles. Nurture-leads kregen een geautomatiseerde contentreeks. Actieve leads een persoonlijk bericht met referentie naar hun specifieke trigger. Prioriteitsleads kregen een videobericht van de founder. Reply rate per zone: nurture 4%, actief 18%, prioriteit 31%.',
+        lesson: 'Het verschil zat niet in de leads — het zat in de respons. Velox had altijd goede signalen. Ze behandelden ze alleen allemaal hetzelfde.',
+      },
+      stats: {
+        before: { label: 'Reply rate (één template)', value: '1.8%' },
+        after: { label: 'Reply rate (prioriteit-zone)', value: '31%' },
+      },
+      mistake: {
+        title: 'Het one-size-fits-all template',
+        body: 'Velox dacht dat personalisatie = {voornaam} invullen. Maar echte personalisatie is: "Ik zag dat jullie vorige maand Lisa als VP Sales hebben aangesteld — bij onze klant TechCorp leidde dat tot een herstructurering van het sales proces. Herkenbaar?"',
+      },
+      principle: 'Hoe hoger de score, hoe persoonlijker de respons. Automatiseer volume, personaliseer impact.',
     },
     wat: {
       instruction: 'Configureer je respons per scorezone',
