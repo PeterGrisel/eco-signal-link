@@ -1,7 +1,7 @@
 import { useState, useCallback, useMemo } from "react";
 import { LayerConfig } from "../data/layers";
 import { motion, AnimatePresence } from "framer-motion";
-import { Check, ChevronRight, Sparkles } from "lucide-react";
+import { Check, ChevronRight, Sparkles, Lightbulb, AlertTriangle, Quote, Building2, ArrowRight } from "lucide-react";
 
 type Section = 'waarom' | 'wat' | 'hoe';
 
