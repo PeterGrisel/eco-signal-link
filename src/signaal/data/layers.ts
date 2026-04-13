@@ -232,9 +232,13 @@ De volgorde is cruciaal: eerst de vraag, dan de bron. Niet andersom. Te veel tea
         { key: 'intent_platforms', label: 'Intent platforms', type: 'checkbox' },
         { key: 'intent_platforms_detail', label: 'Welke categorieën?', type: 'text', placeholder: 'Bijv. Sales Automation, CRM software' },
       ],
+      veloxTips: [
+        { fieldKey: 'linkedin', tip: 'LinkedIn was Velox\'s belangrijkste bron. Maar pas toen ze focusten op job changes (niet posts of likes) werd het signaal bruikbaar.' },
+        { fieldKey: 'funding_data', tip: 'Velox filterde op Series A+ — Seed-bedrijven hadden te weinig budget. Die ene filter scheelde 60% ruis.' },
+        { fieldKey: 'technografie', tip: 'Velox ontdekte dat bedrijven die van competitor X naar Y switchten, 4x vaker openstonden voor een gesprek. Technografie was hun sleeper hit.' },
+        { fieldKey: 'crm_historiek', tip: 'Velox herontdekte 23 closed-lost deals van >6 maanden geleden. 7 daarvan hadden inmiddels een nieuwe beslisser. 3 werden klant.' },
+      ],
     },
-    hoe: {
-      instruction: 'Kies je executie-tools voor databronnen',
       tools: [
         { name: 'Apollo.io', purpose: 'Technografie + contactdata', cost: '$49-99/mo', question: 'Welke technografische signalen zijn leidend?' },
         { name: 'LinkedIn Sales Nav', purpose: 'Gedragssignalen', cost: '$79/mo', question: 'Welke gedragsveranderingen monitor je?' },
@@ -322,9 +326,12 @@ Hoe scherper de vraag, hoe minder ruis. Hoe minder ruis, hoe minder tijd je vers
           { value: 'realtime', label: 'Realtime' }, { value: 'dagelijks', label: 'Dagelijks' }, { value: 'wekelijks', label: 'Wekelijks' },
         ] },
       ],
+      veloxTips: [
+        { fieldKey: 'vraag_linkedin', tip: 'Velox\'s winnende LinkedIn-vraag: "Welke VP Sales is in de laatste 90 dagen aangesteld bij een B2B SaaS met 50-200 FTE?" — 60% van de hits was relevant.' },
+        { fieldKey: 'vraag_funding', tip: 'Velox stelde eerst "wie heeft funding?" — te vaag. Na verfijning naar "Series A+ in Benelux, laatste 6 maanden" kregen ze 8 hits per week in plaats van 200.' },
+        { fieldKey: 'vraag_jobboards', tip: 'Velox ontdekte dat de vraag "Staat er een Head of Sales vacature open?" een betere voorspeller was dan funding-data. De vacature verscheen gemiddeld 3 weken vóór de hire.' },
+      ],
     },
-    blueprintTemplate: (inputs) => {
-      const sources = ['linkedin', 'jobboards', 'funding', 'technografie', 'nieuws', 'crm', 'intent'];
       const rows = sources
         .filter(s => inputs[`vraag_${s}`])
         .map(s => `  ${s.toUpperCase()}:\n    Vraag: ${inputs[`vraag_${s}`]}\n    Output: ${inputs[`output_${s}`] || '—'}\n    Vertraging: ${inputs[`vertraging_${s}`] || '—'}`)
@@ -394,9 +401,12 @@ De meeste teams automatiseren te vroeg of te laat. Te vroeg: je automatiseert ru
         ] },
         { key: 'filter_overig', label: 'Filterconditie — Overig', type: 'text', placeholder: '' },
       ],
+      veloxTips: [
+        { fieldKey: 'freq_linkedin', tip: 'Velox switchte van wekelijks naar dagelijks monitoren op LinkedIn. Ze ontdekten dat job changes binnen 48 uur de hoogste reply rate hadden — daarna daalde die met 40%.' },
+        { fieldKey: 'alert_linkedin', tip: 'Velox begon met email-alerts maar miste ze tussen andere mails. Na de switch naar Slack kreeg het team alerts in realtime — en reageerde 3x sneller.' },
+        { fieldKey: 'filter_linkedin', tip: 'Zonder filter kreeg Velox 200+ alerts per dag. Met "alleen C-level + target industrie" werden dat er 12. Elk waardevol.' },
+      ],
     },
-    hoe: {
-      instruction: 'Kies je automatiseringstools',
       tools: [
         { name: 'Apollo Saved Searches', purpose: 'Automatisch bijhouden van zoekopdrachten', cost: 'Incl. in Apollo plan' },
         { name: 'Clay Waterfalls', purpose: 'Multi-bron sequentieel verrijken', cost: '$149+/mo' },
@@ -453,9 +463,12 @@ De juiste drempel is niet statisch. Het is een getal dat je bijstelt op basis va
         { key: 'drempel_prioriteit', label: 'Score voor persoonlijke outreach', type: 'number', defaultValue: 60 },
         { key: 'window_dagen', label: 'Hoe lang is een signaal geldig? (dagen)', type: 'number', defaultValue: 90 },
       ],
+      veloxTips: [
+        { fieldKey: 'drempel_actie', tip: 'Velox begon met 20 — veel te laag. Na twee weken alert fatigue verhoogden ze naar 40. Tip: start op 40 en verlaag alleen als je te weinig alerts krijgt.' },
+        { fieldKey: 'drempel_prioriteit', tip: 'Velox\'s prioriteitszone (≥60) bevatte gemiddeld 3-5 accounts per week. Die kregen een persoonlijk videobericht van de founder — met 31% reply rate.' },
+        { fieldKey: 'window_dagen', tip: 'Velox ontdekte dat signalen ouder dan 90 dagen bijna nooit meer converteerden. Een nieuwe VP Sales die 4 maanden geleden startte, had zijn toolkeuze al gemaakt.' },
+      ],
     },
-    blueprintTemplate: (inputs) => {
-      return `DREMPELWAARDEN:
   MONITORING: <${inputs.drempel_nurture ?? 20}
   NURTURE: ${inputs.drempel_nurture ?? 20}–${(inputs.drempel_actie ?? 40) - 1}
   ACTIEF: ${inputs.drempel_actie ?? 40}–${(inputs.drempel_prioriteit ?? 60) - 1}
@@ -537,9 +550,13 @@ De gouden regel: hoe hoger de score, hoe persoonlijker de respons. Automatiseer 
           { value: 'taak', label: 'Taak aanmaken' }, { value: 'notitie', label: 'Notitie toevoegen' },
         ] },
       ],
+      veloxTips: [
+        { fieldKey: 'respons_type_nurture', tip: 'Velox automatiseerde nurture volledig met een 5-staps email sequence. Geen handwerk — en toch 4% reply rate. Perfect voor de onderkant van de funnel.' },
+        { fieldKey: 'respons_type_prioriteit', tip: 'Voor prioriteitsleads stuurde Velox\'s founder persoonlijke Loom-video\'s. Kost 3 minuten per prospect, maar leverde 31% reply rate op.' },
+        { fieldKey: 'respons_template_actief', tip: 'Velox\'s beste actief-bericht: "Ik zag dat jullie Lisa als VP Sales hebben aangesteld — bij onze klant TechCorp leidde dat tot X. Herkenbaar?" Specifiek > generiek.' },
+        { fieldKey: 'crm_actie_prioriteit', tip: 'Velox maakte direct een deal aan bij prioriteitsleads, niet alleen een lead. Dit gaf het sales team urgentie en visibility in de pipeline.' },
+      ],
     },
-    hoe: {
-      instruction: 'Kies je outreach en automatiseringstools',
       tools: [
         { name: 'Apollo Sequences', purpose: 'Geautomatiseerde email cadences', cost: '$49-99/mo' },
         { name: 'Instantly', purpose: 'Hoog-volume email', cost: '$30-77/mo' },
