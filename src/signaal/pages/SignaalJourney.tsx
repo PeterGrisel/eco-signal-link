@@ -252,7 +252,7 @@ const SignaalJourney = () => {
       {/* Mobile blueprint drawer */}
       <MobileBlueprintDrawer inputs={allInputs} currentLayer={currentLayer} score={score} />
 
-      <div className="flex h-screen overflow-hidden">
+      <div className="flex flex-1 min-h-0 overflow-hidden">
         {/* Left — Blueprint (desktop only) */}
         <div className="hidden lg:block">
           <BlueprintPanel inputs={allInputs} currentLayer={currentLayer} score={score} />
