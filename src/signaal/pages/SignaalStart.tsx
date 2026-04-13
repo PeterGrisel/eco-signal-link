@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import SignaalLayout from "../components/SignaalLayout";
 import { motion } from "framer-motion";
@@ -7,11 +8,28 @@ import { toast } from "sonner";
 
 const SignaalStart = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [step, setStep] = useState<'email' | 'onboarding'>('email');
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [company, setCompany] = useState("");
   const [loading, setLoading] = useState(false);
+
+  // Handle auth error from hash (expired/invalid magic link)
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash.includes('error=')) {
+      const params = new URLSearchParams(hash.replace('#', ''));
+      const errorDesc = params.get('error_description');
+      if (errorDesc?.toLowerCase().includes('expired')) {
+        toast.error("Je magic link is verlopen. Vraag een nieuwe aan.");
+      } else if (errorDesc) {
+        toast.error(errorDesc);
+      }
+      // Clean hash from URL
+      window.history.replaceState(null, '', window.location.pathname);
+    }
+  }, []);
 
   useEffect(() => {
     const checkProfile = async (userId: string) => {
