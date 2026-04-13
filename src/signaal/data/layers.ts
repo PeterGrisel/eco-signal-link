@@ -15,6 +15,17 @@ export interface ToolCard {
   question?: string;
 }
 
+export interface CaseStudy {
+  situation: string;
+  result: string;
+  lesson: string;
+}
+
+export interface StatComparison {
+  before: { label: string; value: string };
+  after: { label: string; value: string };
+}
+
 export interface LayerConfig {
   id: number;
   slug: string;
@@ -24,6 +35,10 @@ export interface LayerConfig {
   waarom: {
     headline: string;
     body: string;
+    caseStudy?: CaseStudy;
+    stats?: StatComparison;
+    mistake?: { title: string; body: string };
+    principle?: string;
   };
   wat: {
     instruction: string;
