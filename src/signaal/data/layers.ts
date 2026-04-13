@@ -37,6 +37,7 @@ export interface LayerConfig {
   title: string;
   themeColor: string;
   scoreContribution: number;
+  veloxMilestone: string;
   waarom: {
     headline: string;
     body: string;
