@@ -135,6 +135,8 @@ UITSLUITEN: ${inputs.uitsluiten || '—'}`;
     themeColor: '#A78BFA',
     scoreContribution: 15,
     veloxMilestone: 'Velox ontdekte dat VP Sales + funding 80% van hun deals voorspelde en paste hun gewichten aan.',
+    waarom: {
+      headline: 'Één signaal is ruis. Combinatie is intentie.',
       body: `Een enkele trigger — een vacature, een funding-ronde, een job change — zegt weinig. Het kan toeval zijn. Maar als drie signalen samenvallen bij hetzelfde account, heb je geen lead meer. Je hebt intentie.
 
 De kunst is niet meer signalen verzamelen. De kunst is gewicht toekennen. Welk signaal is goud waard in jouw markt? Welk signaal is ruis? Dat verschilt per industrie, per ICP, per aanbieding.
@@ -194,6 +196,8 @@ In deze laag bouw je je scorematrix. Je bepaalt welke combinatie van signalen ee
     themeColor: '#60A5FA',
     scoreContribution: 15,
     veloxMilestone: 'Velox schroefde terug van 7 naar 3 databronnen en halveerde hun monitor-tijd.',
+    waarom: {
+      headline: 'Elke bron is een tap. Eerst bouwen. Dan automatiseren.',
       body: `Je hebt nu een scorematrix. Maar scores hebben data nodig. Elke databron is een kraan die je openzet — en elke kraan levert een ander type signaal.
 
 Het gevaar is te veel bronnen tegelijk openzetten. Dan verdrink je in data zonder dat je weet wat je ermee moet. Begin met de bronnen die jouw sterkste signalen leveren. Voeg pas toe als de eerste stroom loopt.
@@ -268,6 +272,8 @@ De volgorde is cruciaal: eerst de vraag, dan de bron. Niet andersom. Te veel tea
     themeColor: '#2DD4BF',
     scoreContribution: 20,
     veloxMilestone: 'Velox herformuleerde hun vage zoekvragen naar scherpe filters — relevantie steeg van 2% naar 60%.',
+    waarom: {
+      headline: 'De kwaliteit van de vraag bepaalt de kwaliteit van het tool.',
       body: `Tools doen wat je ze vraagt. Niet meer, niet minder. De meeste teams configureren hun tools met vage parameters en krijgen vage resultaten terug.
 
 Een kritische vraag is de brug tussen jouw signaal en de databron. Het is de precieze formulering van wat je wilt weten. Niet "wie is er aan het groeien?" maar "welke bedrijven in de maakindustrie hebben hun engineering team met >20% uitgebreid in de afgelopen 90 dagen?"
@@ -351,6 +357,8 @@ Hoe scherper de vraag, hoe minder ruis. Hoe minder ruis, hoe minder tijd je vers
     themeColor: '#34D399',
     scoreContribution: 15,
     veloxMilestone: 'Velox automatiseerde hun monitoring via Slack-alerts en miste nog maar 3% van de signalen.',
+    waarom: {
+      headline: 'Het systeem kijkt. Jij niet.',
       body: `Handmatig prospecten is het equivalent van met een verrekijker de horizon afzoeken. Het werkt — totdat je even niet kijkt. En dan mis je het moment.
 
 Detectie is de laag waar je systeem autonoom wordt. Je stelt de frequentie in, de alert-methode, de filterlogica. Het systeem monitort continu. Jij handelt alleen als het signaal sterk genoeg is.
@@ -438,6 +446,8 @@ De meeste teams automatiseren te vroeg of te laat. Te vroeg: je automatiseert ru
     themeColor: '#FBBF24',
     scoreContribution: 10,
     veloxMilestone: 'Velox verhoogde hun drempel van 15 naar 40 en elimineerde alert fatigue — 8 kwalitatieve alerts per dag.',
+    waarom: {
+      headline: 'Timing is geen gevoel. Het is een getal.',
       body: `De meeste sales teams handelen op gevoel. "Dit voelt als een goede lead." Maar gevoel schaalt niet. Getallen wel.
 
 Je drempelwaarde bepaalt wanneer het systeem handelt. Te laag: je reageert op ruis en verspilt je tijd. Te hoog: je mist kansen omdat het signaal niet sterk genoeg lijkt.
@@ -491,6 +501,8 @@ SIGNAAL GELDIGHEID: ${inputs.window_dagen ?? 90} dagen`;
     themeColor: '#F87171',
     scoreContribution: 25,
     veloxMilestone: 'Velox differentieerde hun respons per zone — prioriteitsleads kregen een persoonlijk videobericht met 31% reply rate.',
+    waarom: {
+      headline: 'Het systeem handelt. Op het juiste moment.',
       body: `Je hebt nu een volledig detectiesysteem. Signalen komen binnen, scores worden berekend, drempels bepalen urgentie. Maar het systeem is pas compleet als het ook handelt.
 
 De respons-laag verbindt detectie met actie. Per scorezone bepaal je wat er gebeurt: een automatische sequence, een persoonlijk bericht, een taak in je CRM. Het verschil tussen een goed systeem en een geweldig systeem zit in de snelheid en relevantie van de respons.
