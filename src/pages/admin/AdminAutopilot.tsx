@@ -9,6 +9,7 @@ import {
   FileText, Wrench, Video, Globe, Calendar, Rocket,
   ArrowRight, Clock
 } from "lucide-react";
+import ContentCleanupSection from "@/components/admin/ContentCleanupSection";
 
 type QueueStatus = "pending" | "approved" | "declined" | "generating" | "published" | "failed";
 type ContentType = "article" | "tool" | "video" | "pseo";
@@ -286,6 +287,9 @@ const AdminAutopilot = () => {
           )}
         </div>
       )}
+
+      {/* Content Cleanup Section */}
+      <ContentCleanupSection />
     </AdminLayout>
   );
 };
