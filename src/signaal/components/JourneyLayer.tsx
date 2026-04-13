@@ -1,5 +1,5 @@
 import { useState, useCallback, useMemo } from "react";
-import { LayerConfig } from "../data/layers";
+import { LayerConfig, LAYERS } from "../data/layers";
 import { motion, AnimatePresence } from "framer-motion";
 import { Check, ChevronRight, Sparkles, Lightbulb, AlertTriangle, Quote, Building2, ArrowRight } from "lucide-react";
 
@@ -8,12 +8,13 @@ type Section = 'waarom' | 'wat' | 'hoe';
 interface JourneyLayerProps {
   layer: LayerConfig;
   inputs: Record<string, any>;
+  completedLayers: number[];
   onInputChange: (fieldKey: string, value: any) => void;
   onComplete: () => void;
   onAskAgent: (fieldKey: string, value: any) => void;
 }
 
-const JourneyLayer = ({ layer, inputs, onInputChange, onComplete, onAskAgent }: JourneyLayerProps) => {
+const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplete, onAskAgent }: JourneyLayerProps) => {
   const [section, setSection] = useState<Section>('waarom');
   const [completedFields, setCompletedFields] = useState<Set<string>>(new Set());
 
