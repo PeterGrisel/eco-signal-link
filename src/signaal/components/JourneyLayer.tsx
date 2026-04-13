@@ -1,6 +1,7 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { LayerConfig } from "../data/layers";
 import { motion, AnimatePresence } from "framer-motion";
+import { Check, ChevronRight, Sparkles } from "lucide-react";
 
 type Section = 'waarom' | 'wat' | 'hoe';
 
@@ -14,14 +15,24 @@ interface JourneyLayerProps {
 
 const JourneyLayer = ({ layer, inputs, onInputChange, onComplete, onAskAgent }: JourneyLayerProps) => {
   const [section, setSection] = useState<Section>('waarom');
+  const [completedFields, setCompletedFields] = useState<Set<string>>(new Set());
 
-  const requiredFilled = layer.wat.fields
-    .filter(f => f.required)
-    .every(f => {
+  const { requiredFilled, filledCount, totalFields } = useMemo(() => {
+    const required = layer.wat.fields.filter(f => f.required);
+    const allFields = layer.wat.fields;
+    const filled = allFields.filter(f => {
+      const val = inputs[f.key];
+      if (f.type === 'checkbox') return val === true;
+      if (Array.isArray(val)) return val.length > 0;
+      return val !== undefined && val !== '' && val !== null;
+    });
+    const reqFilled = required.every(f => {
       const val = inputs[f.key];
       if (Array.isArray(val)) return val.length > 0;
       return val !== undefined && val !== '' && val !== null;
     });
+    return { requiredFilled: reqFilled, filledCount: filled.length, totalFields: allFields.length };
+  }, [layer.wat.fields, inputs]);
 
   const handleFieldChange = useCallback((key: string, value: any) => {
     onInputChange(key, value);
@@ -30,26 +41,53 @@ const JourneyLayer = ({ layer, inputs, onInputChange, onComplete, onAskAgent }: 
   const handleFieldBlur = useCallback((key: string) => {
     const value = inputs[key];
     if (value && String(value).trim()) {
+      setCompletedFields(prev => new Set(prev).add(key));
       onAskAgent(key, value);
     }
   }, [inputs, onAskAgent]);
 
   return (
     <div className="max-w-[600px] mx-auto">
-      {/* Section label */}
+      {/* Layer header */}
+      <div className="flex items-center gap-3 mb-6">
+        <span
+          className="font-mono text-xs px-2.5 py-1 rounded-md border"
+          style={{ borderColor: layer.themeColor + '40', color: layer.themeColor }}
+        >
+          {String(layer.id).padStart(2, '0')}
+        </span>
+        <h1 className="font-['DM_Serif_Display'] text-xl text-[#F0F0EE]">{layer.title}</h1>
+        {layer.scoreContribution > 0 && (
+          <span className="ml-auto font-mono text-[10px] text-[#6B6B72]">+{layer.scoreContribution}pts</span>
+        )}
+      </div>
+
+      {/* Section tabs */}
+      <div className="flex gap-1 mb-6 p-1 bg-[#111113] rounded-lg border border-[#1E1E22]">
+        {(['waarom', 'wat', ...(layer.hoe ? ['hoe'] : [])] as Section[]).map((s) => (
+          <button
+            key={s}
+            onClick={() => setSection(s)}
+            className={`flex-1 py-2 px-3 rounded-md text-xs font-['DM_Sans'] font-medium transition-all ${
+              section === s
+                ? 'bg-[#1E1E22] text-[#E8FF47]'
+                : 'text-[#6B6B72] hover:text-[#F0F0EE]'
+            }`}
+          >
+            {s === 'waarom' ? 'Waarom' : s === 'wat' ? 'Configuratie' : 'Tools'}
+          </button>
+        ))}
+      </div>
+
+      {/* Section content */}
       <AnimatePresence mode="wait">
         <motion.div
           key={section}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          transition={{ duration: 0.3 }}
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -20 }}
+          transition={{ duration: 0.25, ease: "easeOut" }}
         >
-          {/* Section badge */}
-          <span className="inline-block font-mono text-xs tracking-widest text-[#E8FF47] mb-4 uppercase">
-            {section}
-          </span>
-
           {section === 'waarom' && (
             <div className="space-y-6">
               <h2 className="font-['DM_Serif_Display'] text-[28px] leading-tight text-[#F0F0EE]">
@@ -62,24 +100,71 @@ const JourneyLayer = ({ layer, inputs, onInputChange, onComplete, onAskAgent }: 
               </div>
               <button
                 onClick={() => setSection('wat')}
-                className="mt-6 px-6 py-3 bg-[#E8FF47] text-[#0A0A0B] rounded-lg text-sm font-medium hover:bg-[#E8FF47]/90 transition-all font-['DM_Sans']"
+                className="mt-6 group flex items-center gap-2 px-6 py-3 bg-[#E8FF47] text-[#0A0A0B] rounded-lg text-sm font-medium hover:shadow-[0_0_20px_rgba(232,255,71,0.2)] transition-all font-['DM_Sans']"
               >
-                Begrepen →
+                Begrepen
+                <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
               </button>
             </div>
           )}
 
           {section === 'wat' && (
             <div className="space-y-6">
-              <p className="text-sm text-[#6B6B72] font-['DM_Sans']">{layer.wat.instruction}</p>
+              <div className="flex items-center justify-between">
+                <p className="text-sm text-[#6B6B72] font-['DM_Sans']">{layer.wat.instruction}</p>
+                <span className="font-mono text-[10px] text-[#6B6B72]">
+                  {filledCount}/{totalFields}
+                </span>
+              </div>
+
+              {/* Progress bar */}
+              <div className="w-full h-1 bg-[#1E1E22] rounded-full overflow-hidden">
+                <motion.div
+                  className="h-full rounded-full"
+                  style={{ backgroundColor: layer.themeColor }}
+                  initial={{ width: 0 }}
+                  animate={{ width: `${totalFields > 0 ? (filledCount / totalFields) * 100 : 0}%` }}
+                  transition={{ duration: 0.4 }}
+                />
+              </div>
 
               <div className="space-y-4">
                 {layer.wat.fields.map((field) => (
-                  <div key={field.key} className="space-y-1.5">
-                    <label className="text-xs font-medium text-[#F0F0EE] font-['DM_Sans']">
+                  <motion.div
+                    key={field.key}
+                    className={`space-y-1.5 p-3 rounded-lg border transition-colors ${
+                      completedFields.has(field.key)
+                        ? 'border-[#E8FF47]/20 bg-[#E8FF47]/[0.02]'
+                        : 'border-transparent'
+                    }`}
+                    layout
+                  >
+                    <label className="flex items-center gap-2 text-xs font-medium text-[#F0F0EE] font-['DM_Sans']">
                       {field.label}
                       {field.required && <span className="text-[#E8FF47] ml-1">*</span>}
+                      {completedFields.has(field.key) && (
+                        <Check className="w-3 h-3 text-[#E8FF47] ml-auto" />
+                      )}
                     </label>
+
+                    {field.type === 'checkbox' && (
+                      <button
+                        type="button"
+                        onClick={() => handleFieldChange(field.key, !inputs[field.key])}
+                        className={`flex items-center gap-2 px-3 py-2 rounded-lg border text-xs font-['DM_Sans'] transition-all ${
+                          inputs[field.key]
+                            ? 'bg-[#E8FF47]/10 border-[#E8FF47]/40 text-[#E8FF47]'
+                            : 'bg-[#111113] border-[#1E1E22] text-[#6B6B72] hover:border-[#E8FF47]/20'
+                        }`}
+                      >
+                        <div className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${
+                          inputs[field.key] ? 'bg-[#E8FF47] border-[#E8FF47]' : 'border-[#6B6B72]'
+                        }`}>
+                          {inputs[field.key] && <Check className="w-3 h-3 text-[#0A0A0B]" />}
+                        </div>
+                        {inputs[field.key] ? 'Actief' : 'Niet actief'}
+                      </button>
+                    )}
 
                     {field.type === 'text' && (
                       <input
@@ -152,16 +237,17 @@ const JourneyLayer = ({ layer, inputs, onInputChange, onComplete, onAskAgent }: 
                         className="w-full bg-[#111113] border border-[#1E1E22] rounded-lg px-3 py-2.5 text-sm text-[#F0F0EE] focus:outline-none focus:border-[#E8FF47]/40 font-mono transition-colors"
                       />
                     )}
-                  </div>
+                  </motion.div>
                 ))}
               </div>
 
               <button
                 onClick={() => layer.hoe ? setSection('hoe') : onComplete()}
                 disabled={!requiredFilled}
-                className="mt-4 px-6 py-3 bg-[#E8FF47] text-[#0A0A0B] rounded-lg text-sm font-medium disabled:opacity-30 hover:bg-[#E8FF47]/90 transition-all font-['DM_Sans']"
+                className="mt-4 group flex items-center gap-2 px-6 py-3 bg-[#E8FF47] text-[#0A0A0B] rounded-lg text-sm font-medium disabled:opacity-30 hover:shadow-[0_0_20px_rgba(232,255,71,0.2)] transition-all font-['DM_Sans']"
               >
-                {layer.hoe ? 'Volgende →' : 'Laag afronden →'}
+                {layer.hoe ? 'Volgende' : 'Laag afronden'}
+                <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
               </button>
             </div>
           )}
@@ -199,9 +285,10 @@ const JourneyLayer = ({ layer, inputs, onInputChange, onComplete, onAskAgent }: 
 
               <button
                 onClick={onComplete}
-                className="mt-4 px-6 py-3 bg-[#E8FF47] text-[#0A0A0B] rounded-lg text-sm font-medium hover:bg-[#E8FF47]/90 transition-all font-['DM_Sans']"
+                className="mt-4 group flex items-center gap-2 px-6 py-3 bg-[#E8FF47] text-[#0A0A0B] rounded-lg text-sm font-medium hover:shadow-[0_0_20px_rgba(232,255,71,0.2)] transition-all font-['DM_Sans']"
               >
-                Laag afronden →
+                <Sparkles className="w-4 h-4" />
+                Laag afronden
               </button>
             </div>
           )}

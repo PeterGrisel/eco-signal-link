@@ -10,6 +10,8 @@ import LayerProgress from "../components/LayerProgress";
 import JourneyLayer from "../components/JourneyLayer";
 import { LAYERS } from "../data/layers";
 import { toast } from "sonner";
+import JourneyOnboarding from "../components/JourneyOnboarding";
+import { AnimatePresence } from "framer-motion";
 
 interface AgentMessage {
   role: 'user' | 'assistant';
@@ -28,6 +30,7 @@ const SignaalJourney = () => {
   ]);
   const [agentLoading, setAgentLoading] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [showOnboarding, setShowOnboarding] = useState(false);
 
   // Load journey on mount
   useEffect(() => {
@@ -74,6 +77,12 @@ const SignaalJourney = () => {
             .map(Number)
             .filter(layerId => layerId < journey.current_layer)
         );
+      }
+
+      // Show onboarding for first-time users (layer 1, no inputs yet)
+      if (journey.current_layer === 1 && (!inputs || inputs.length === 0)) {
+        const seen = localStorage.getItem('signaal_onboarding_seen');
+        if (!seen) setShowOnboarding(true);
       }
 
       // Load agent messages
@@ -228,6 +237,18 @@ const SignaalJourney = () => {
 
   return (
     <SignaalLayout>
+      {/* Onboarding overlay */}
+      <AnimatePresence>
+        {showOnboarding && (
+          <JourneyOnboarding
+            onComplete={() => {
+              setShowOnboarding(false);
+              localStorage.setItem('signaal_onboarding_seen', 'true');
+            }}
+          />
+        )}
+      </AnimatePresence>
+
       {/* Mobile blueprint drawer */}
       <MobileBlueprintDrawer inputs={allInputs} currentLayer={currentLayer} score={score} />
 
