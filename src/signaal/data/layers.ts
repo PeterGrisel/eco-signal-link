@@ -37,6 +37,7 @@ export interface LayerConfig {
   title: string;
   themeColor: string;
   scoreContribution: number;
+  veloxMilestone: string;
   waarom: {
     headline: string;
     body: string;
@@ -65,6 +66,7 @@ export const LAYERS: LayerConfig[] = [
     title: 'Definitie',
     themeColor: '#6B6B72',
     scoreContribution: 0,
+    veloxMilestone: 'Velox verfijnde hun ICP van "tech companies" naar een scherpe definitie met industrie, grootte en beslisser.',
     waarom: {
       headline: 'De meeste systemen definiëren wie. Stoppen dan.',
       body: `Timing wint van volume. Maar timing vereist definitie. Niet wie je ideale klant is in abstracto — maar wie historisch het snelst sloot, het langst bleef, het minst moeite kostte. Dat is je fundament.
@@ -132,6 +134,7 @@ UITSLUITEN: ${inputs.uitsluiten || '—'}`;
     title: 'Signaalgewichten',
     themeColor: '#A78BFA',
     scoreContribution: 15,
+    veloxMilestone: 'Velox ontdekte dat VP Sales + funding 80% van hun deals voorspelde en paste hun gewichten aan.',
     waarom: {
       headline: 'Één signaal is ruis. Combinatie is intentie.',
       body: `Een enkele trigger — een vacature, een funding-ronde, een job change — zegt weinig. Het kan toeval zijn. Maar als drie signalen samenvallen bij hetzelfde account, heb je geen lead meer. Je hebt intentie.
@@ -192,6 +195,7 @@ In deze laag bouw je je scorematrix. Je bepaalt welke combinatie van signalen ee
     title: 'Bronnen',
     themeColor: '#60A5FA',
     scoreContribution: 15,
+    veloxMilestone: 'Velox schroefde terug van 7 naar 3 databronnen en halveerde hun monitor-tijd.',
     waarom: {
       headline: 'Elke bron is een tap. Eerst bouwen. Dan automatiseren.',
       body: `Je hebt nu een scorematrix. Maar scores hebben data nodig. Elke databron is een kraan die je openzet — en elke kraan levert een ander type signaal.
@@ -267,6 +271,7 @@ De volgorde is cruciaal: eerst de vraag, dan de bron. Niet andersom. Te veel tea
     title: 'Kritische Vragen',
     themeColor: '#2DD4BF',
     scoreContribution: 20,
+    veloxMilestone: 'Velox herformuleerde hun vage zoekvragen naar scherpe filters — relevantie steeg van 2% naar 60%.',
     waarom: {
       headline: 'De kwaliteit van de vraag bepaalt de kwaliteit van het tool.',
       body: `Tools doen wat je ze vraagt. Niet meer, niet minder. De meeste teams configureren hun tools met vage parameters en krijgen vage resultaten terug.
@@ -351,6 +356,7 @@ Hoe scherper de vraag, hoe minder ruis. Hoe minder ruis, hoe minder tijd je vers
     title: 'Detectie',
     themeColor: '#34D399',
     scoreContribution: 15,
+    veloxMilestone: 'Velox automatiseerde hun monitoring via Slack-alerts en miste nog maar 3% van de signalen.',
     waarom: {
       headline: 'Het systeem kijkt. Jij niet.',
       body: `Handmatig prospecten is het equivalent van met een verrekijker de horizon afzoeken. Het werkt — totdat je even niet kijkt. En dan mis je het moment.
@@ -439,6 +445,7 @@ De meeste teams automatiseren te vroeg of te laat. Te vroeg: je automatiseert ru
     title: 'Drempelwaarde',
     themeColor: '#FBBF24',
     scoreContribution: 10,
+    veloxMilestone: 'Velox verhoogde hun drempel van 15 naar 40 en elimineerde alert fatigue — 8 kwalitatieve alerts per dag.',
     waarom: {
       headline: 'Timing is geen gevoel. Het is een getal.',
       body: `De meeste sales teams handelen op gevoel. "Dit voelt als een goede lead." Maar gevoel schaalt niet. Getallen wel.
@@ -493,6 +500,7 @@ SIGNAAL GELDIGHEID: ${inputs.window_dagen ?? 90} dagen`;
     title: 'Respons',
     themeColor: '#F87171',
     scoreContribution: 25,
+    veloxMilestone: 'Velox differentieerde hun respons per zone — prioriteitsleads kregen een persoonlijk videobericht met 31% reply rate.',
     waarom: {
       headline: 'Het systeem handelt. Op het juiste moment.',
       body: `Je hebt nu een volledig detectiesysteem. Signalen komen binnen, scores worden berekend, drempels bepalen urgentie. Maar het systeem is pas compleet als het ook handelt.

@@ -270,6 +270,7 @@ const SignaalJourney = () => {
             <JourneyLayer
               layer={activeLayer}
               inputs={allInputs[currentLayer] || {}}
+              completedLayers={completedLayers}
               onInputChange={handleInputChange}
               onComplete={handleLayerComplete}
               onAskAgent={handleAskAgent}
