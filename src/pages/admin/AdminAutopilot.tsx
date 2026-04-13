@@ -154,7 +154,7 @@ const AdminAutopilot = () => {
             <Zap className="w-6 h-6 text-primary" /> Content Autopilot
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
-            Full AI control: strategie → headlines → generatie → draft in CMS → {autoPublish ? "auto-publish" : "handmatig publiceren"}
+            Full AI control: strategie → headlines → generatie → auto-publish → auto-index
           </p>
         </div>
         <div className="flex items-center gap-4 flex-wrap">
@@ -210,8 +210,7 @@ const AdminAutopilot = () => {
           { label: "Headlines", icon: <FileText className="w-3.5 h-3.5" /> },
           { label: "Schema", icon: <Calendar className="w-3.5 h-3.5" /> },
           { label: "Nacht: Generatie", icon: <Clock className="w-3.5 h-3.5" /> },
-          { label: "Ochtend: Review", icon: <Eye className="w-3.5 h-3.5" /> },
-          { label: "Approve → Publish", icon: <Check className="w-3.5 h-3.5" /> },
+          { label: "Auto-Publish", icon: <Check className="w-3.5 h-3.5" /> },
           { label: "Auto-Index", icon: <Globe className="w-3.5 h-3.5" /> },
         ].map((step, i) => (
           <div key={step.label} className="flex items-center gap-2">
@@ -281,7 +280,7 @@ const AdminAutopilot = () => {
               title="Publicatieschema"
               count={scheduledItems.length}
               color="bg-blue-400"
-              description="Ingeplande artikelen. Worden 's nachts automatisch gegenereerd."
+              description="Ingeplande artikelen. Worden 's nachts automatisch gegenereerd en gepubliceerd."
             >
               {scheduledItems.map(item => (
                 <QueueCard
