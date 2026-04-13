@@ -56,7 +56,11 @@ const SignaalStart = () => {
     });
     setLoading(false);
     if (error) {
-      toast.error("Er ging iets mis. Probeer het opnieuw.");
+      if (error.message?.includes('security purposes') || error.status === 429) {
+        toast.error("Even geduld — probeer het over een minuut opnieuw.");
+      } else {
+        toast.error("Er ging iets mis. Probeer het opnieuw.");
+      }
     } else {
       toast.success("Check je inbox voor de magic link!");
     }
