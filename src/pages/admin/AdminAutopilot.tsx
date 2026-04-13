@@ -6,8 +6,8 @@ import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import {
   Sparkles, Check, X, Loader2, Play, RefreshCw, Zap,
-  FileText, Wrench, Video, Globe, Calendar, Rocket, Eye,
-  ArrowRight, Clock, ToggleLeft, ToggleRight
+  FileText, Wrench, Video, Globe, Calendar, Rocket,
+  ArrowRight, Clock
 } from "lucide-react";
 
 type QueueStatus = "pending" | "approved" | "declined" | "generating" | "published" | "failed";
@@ -48,7 +48,7 @@ const AdminAutopilot = () => {
   const [loading, setLoading] = useState(true);
   const [pipelineRunning, setPipelineRunning] = useState(false);
   const [processingId, setProcessingId] = useState<string | null>(null);
-  const [autoPublish, setAutoPublish] = useState(false);
+  
   const { toast } = useToast();
 
   const fetchQueue = useCallback(async () => {
