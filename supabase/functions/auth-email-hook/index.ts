@@ -36,10 +36,11 @@ const EMAIL_TEMPLATES: Record<string, React.ComponentType<any>> = {
 }
 
 // Configuration
-const SITE_NAME = "eco-signal-link"
+const SITE_NAME = "Signaal"
 const SENDER_DOMAIN = "notify.b2bgroeimachine.io"
 const ROOT_DOMAIN = "b2bgroeimachine.io"
-const FROM_DOMAIN = "b2bgroeimachine.io" // Domain shown in From address (may be root or sender subdomain)
+const FROM_DOMAIN = SENDER_DOMAIN
+const FROM_NAME = SITE_NAME
 
 // Sample data for preview mode ONLY (not used in actual email sending).
 // URLs are baked in at scaffold time from the project's real data.
@@ -256,7 +257,7 @@ async function handleWebhook(req: Request): Promise<Response> {
       run_id,
       message_id: messageId,
       to: payload.data.email,
-      from: `${SITE_NAME} <noreply@${FROM_DOMAIN}>`,
+       from: `${FROM_NAME} <noreply@${FROM_DOMAIN}>`,
       sender_domain: SENDER_DOMAIN,
       subject: EMAIL_SUBJECTS[emailType] || 'Notification',
       html,
