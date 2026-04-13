@@ -108,6 +108,13 @@ De definitie-laag is het fundament. Geen score, want zonder fundament heeft scor
         { key: 'staat_b', label: 'Groeidruk trigger', type: 'text', placeholder: 'Bijv. 30% headcount groei in 6 maanden' },
         { key: 'uitsluiten', label: 'Wat sluit je expliciet uit?', type: 'textarea', placeholder: 'Bijv. Overheid, bedrijven < 10 FTE' },
       ],
+      veloxTips: [
+        { fieldKey: 'industrie', tip: 'Velox begon met "tech" — veel te breed. Pas toen ze kozen voor "B2B SaaS met een sales-team van 5+" werden hun signalen bruikbaar.' },
+        { fieldKey: 'functietitel', tip: 'Velox maakte de fout om "management" te targeten. Toen ze switchten naar "VP Sales" daalde hun lijst van 12.000 naar 340 — maar de conversie vertienvoudigde.' },
+        { fieldKey: 'staat_a', tip: 'De gouden trigger van Velox: "nieuwe VP Sales aangesteld in de laatste 90 dagen." Dit ene signaal voorspelde 40% van hun deals.' },
+        { fieldKey: 'bedrijfsgrootte', tip: 'Velox ontdekte dat hun product het best paste bij 50-200 FTE. Kleiner had geen budget, groter had al interne oplossingen.' },
+        { fieldKey: 'uitsluiten', tip: 'Velox vergat maandenlang om overheid en onderwijs uit te sluiten. Die leads scoorden hoog maar converteerden nooit vanwege procurement-processen.' },
+      ],
     },
     blueprintTemplate: (inputs) => {
       const geo = Array.isArray(inputs.geografie) ? inputs.geografie.join(', ') : inputs.geografie || '';
@@ -160,9 +167,13 @@ In deze laag bouw je je scorematrix. Je bepaalt welke combinatie van signalen ee
         { key: 'bedrijfsgrootte_match', label: 'Bedrijfsgrootte match', type: 'number', defaultValue: 5 },
         { key: 'drempel_actie', label: 'Drempel voor actie', type: 'number', defaultValue: 40 },
       ],
+      veloxTips: [
+        { fieldKey: 'leidinggevende_gewisseld', tip: 'Dit was Velox\'s #1 signaal. Een nieuwe VP Sales betekende bijna altijd een review van tooling in de eerste 90 dagen.' },
+        { fieldKey: 'funding_ontvangen', tip: 'Velox ontdekte dat Series A bedrijven 3x vaker converteerden dan Seed — ze hadden budget én urgentie.' },
+        { fieldKey: 'drempel_actie', tip: 'Velox begon met drempel 20 en kreeg 47 alerts per dag. Bij 40 daalde dat naar 8 kwalitatieve alerts. Start hoger dan je denkt.' },
+        { fieldKey: 'competitor_churned', tip: 'Competitor churn was Velox\'s geheim wapen: accounts die net van een concurrent af waren, hadden al een bewezen behoefte.' },
+      ],
     },
-    blueprintTemplate: (inputs) => {
-      const signals = [
         'leidinggevende_gewisseld', 'funding_ontvangen', 'specifieke_vacature',
         'competitor_churned', 'tech_stack_wijziging', 'headcount_groei',
         'industrie_match', 'bedrijfsgrootte_match'
