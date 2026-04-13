@@ -61,6 +61,28 @@ const AdminSignaal = () => {
       setLoading(false);
     };
     load();
+
+    // Realtime subscriptions
+    const channel = supabase
+      .channel("signaal-admin")
+      .on("postgres_changes", { event: "INSERT", schema: "public", table: "journeys" }, (payload) => {
+        const newJ = payload.new as JourneyRow;
+        // Fetch profile for the new journey
+        supabase.from("signal_profiles").select("id, name, email, company").eq("id", newJ.user_id).maybeSingle().then(({ data }) => {
+          newJ.profile = data || undefined;
+          setJourneys((prev) => [newJ, ...prev]);
+        });
+      })
+      .on("postgres_changes", { event: "UPDATE", schema: "public", table: "journeys" }, (payload) => {
+        const updated = payload.new as JourneyRow;
+        setJourneys((prev) => prev.map((j) => (j.id === updated.id ? { ...j, ...updated, profile: j.profile } : j)));
+      })
+      .on("postgres_changes", { event: "INSERT", schema: "public", table: "agent_messages" }, (payload) => {
+        setMessages((prev) => [payload.new as AgentMsg, ...prev]);
+      })
+      .subscribe();
+
+    return () => { supabase.removeChannel(channel); };
   }, []);
 
   const completedCount = journeys.filter((j) => j.completed_at).length;
