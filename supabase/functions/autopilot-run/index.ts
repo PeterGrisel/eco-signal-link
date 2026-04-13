@@ -156,7 +156,7 @@ serve(async (req) => {
       const today = body.target_date || new Date().toISOString().split("T")[0];
       log.push(`🌙 Nachtelijke generatie voor ${today}`);
 
-      // Guard: check if we already generated a post today
+      // Guard: check if we already generated OR published a post today (prevents duplicates)
       const { data: todayPosts } = await supabase
         .from("blog_posts")
         .select("id")
@@ -171,15 +171,33 @@ serve(async (req) => {
         });
       }
 
-      // Find today's scheduled + approved item
+      // Also guard: check if any queue item for today is already generating/published
+      const { data: todayQueue } = await supabase
+        .from("content_queue")
+        .select("id, status")
+        .eq("scheduled_date", today)
+        .in("status", ["generating", "published"])
+        .limit(1);
+
+      if (todayQueue && todayQueue.length > 0) {
+        log.push("⚠ Er is vandaag al een item in verwerking/gepubliceerd, overslaan.");
+        return new Response(JSON.stringify({ log, articles_generated: 0 }), {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+
+      // Find today's scheduled + approved item (strict limit 1)
       const { data: todayItems } = await supabase
         .from("content_queue")
         .select("id, headline, keyword, content_type, topic_id")
         .eq("status", "approved")
         .eq("scheduled_date", today)
+        .order("created_at", { ascending: true })
         .limit(1);
 
-      if (!todayItems?.length) {
+      let item = todayItems?.[0] || null;
+
+      if (!item) {
         // Fallback: pick oldest approved item without date
         const { data: fallback } = await supabase
           .from("content_queue")
@@ -189,16 +207,16 @@ serve(async (req) => {
           .order("created_at", { ascending: true })
           .limit(1);
 
-        if (!fallback?.length) {
-          log.push("Geen artikelen gepland voor vandaag.");
-          return new Response(JSON.stringify({ log, articles_generated: 0 }), {
-            headers: { ...corsHeaders, "Content-Type": "application/json" },
-          });
-        }
-        todayItems?.push(...(fallback || []));
+        item = fallback?.[0] || null;
       }
 
-      const item = todayItems![0];
+      if (!item) {
+        log.push("Geen artikelen gepland voor vandaag.");
+        return new Response(JSON.stringify({ log, articles_generated: 0 }), {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+
       log.push(`Genereren: "${item.headline}"`);
       await supabase.from("content_queue").update({ status: "generating" as any }).eq("id", item.id);
 
@@ -244,7 +262,7 @@ serve(async (req) => {
           log.push("Afbeelding generatie mislukt, doorgaan zonder");
         }
 
-        // Save as draft — status "review" means ready for morning check
+        // Auto-publish: save as published immediately
         const { data: post, error: postError } = await supabase.from("blog_posts").insert({
           title: articleData.title,
           slug: articleData.slug,
@@ -253,18 +271,61 @@ serve(async (req) => {
           meta_description: articleData.meta_description,
           featured_image: featuredImage,
           topic_id: item.topic_id || null,
-          status: "draft",
-        }).select("id").single();
+          status: "published",
+          published_at: new Date().toISOString(),
+        }).select("id, slug").single();
 
         if (postError) throw postError;
 
-        // Set queue item to "review" status — admin sees it in the morning
+        // Update queue item to published
         await supabase.from("content_queue").update({
-          status: "generating" as any, // We'll use 'generating' as interim; admin approves
+          status: "published" as any,
           blog_post_id: post.id,
         }).eq("id", item.id);
 
-        log.push(`✓ "${articleData.title}" gegenereerd als draft, wacht op review`);
+        log.push(`✓ "${articleData.title}" automatisch gepubliceerd`);
+
+        // Auto-request indexing
+        try {
+          const { data: settings } = await supabase.from("seo_settings").select("config").limit(1).single();
+          const siteUrl = (settings?.config as any)?.site_url || "https://b2bgroeimachine.io";
+          const fullUrl = `${siteUrl}/blog/${post.slug}`;
+
+          await supabase.from("indexing_requests").insert({
+            url: fullUrl,
+            status: "pending",
+          });
+
+          try {
+            await fetch(`${supabaseUrl}/functions/v1/request-indexing`, {
+              method: "POST",
+              headers: {
+                Authorization: `Bearer ${serviceKey}`,
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ urls: [fullUrl] }),
+            });
+            log.push(`✓ Indexering aangevraagd voor ${fullUrl}`);
+          } catch {
+            log.push(`⚠ Indexering aanvraag mislukt`);
+          }
+
+          // Cache warming
+          try {
+            const prerenderRes = await fetch(
+              `${supabaseUrl}/functions/v1/prerender?path=${encodeURIComponent(`/blog/${post.slug}`)}&nocache=1`,
+              { headers: { Authorization: `Bearer ${serviceKey}` } }
+            );
+            if (prerenderRes.ok) {
+              await prerenderRes.text();
+              log.push(`✓ Prerender cache opgewarmd voor /blog/${post.slug}`);
+            } else {
+              await prerenderRes.text();
+            }
+          } catch {}
+        } catch {
+          log.push("⚠ Kon indexering niet starten");
+        }
       } catch (e: any) {
         await supabase.from("content_queue").update({
           status: "failed" as any,
