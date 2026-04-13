@@ -1,7 +1,7 @@
 import { useState, useCallback, useMemo } from "react";
 import { LayerConfig } from "../data/layers";
 import { motion, AnimatePresence } from "framer-motion";
-import { Check, ChevronRight, Sparkles } from "lucide-react";
+import { Check, ChevronRight, Sparkles, Lightbulb, AlertTriangle, Quote, Building2, ArrowRight } from "lucide-react";
 
 type Section = 'waarom' | 'wat' | 'hoe';
 
@@ -98,6 +98,94 @@ const JourneyLayer = ({ layer, inputs, onInputChange, onComplete, onAskAgent }: 
                   <p key={i}>{p}</p>
                 ))}
               </div>
+
+              {/* Case Study Card — Velox Solutions */}
+              {layer.waarom.caseStudy && (
+                <motion.div
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 }}
+                  className="rounded-xl border border-[#1E1E22] bg-[#111113] overflow-hidden"
+                >
+                  <div className="flex items-center gap-2.5 px-4 py-3 border-b border-[#1E1E22] bg-[#0E0E10]">
+                    <div className="w-7 h-7 rounded-lg bg-[#E8FF47]/10 flex items-center justify-center">
+                      <Building2 className="w-3.5 h-3.5 text-[#E8FF47]" />
+                    </div>
+                    <span className="font-['DM_Sans'] text-xs font-semibold text-[#F0F0EE]">Velox Solutions</span>
+                    <span className="ml-auto font-mono text-[9px] text-[#6B6B72] uppercase tracking-wider">Case Study</span>
+                  </div>
+                  <div className="p-4 space-y-3">
+                    <p className="text-sm text-[#9B9BA0] leading-relaxed font-['DM_Sans']">
+                      {layer.waarom.caseStudy.situation}
+                    </p>
+                    <div className="flex items-start gap-2 p-3 rounded-lg bg-[#E8FF47]/[0.04] border border-[#E8FF47]/10">
+                      <Lightbulb className="w-4 h-4 text-[#E8FF47] mt-0.5 shrink-0" />
+                      <p className="text-sm text-[#E8FF47]/90 font-['DM_Sans']">
+                        {layer.waarom.caseStudy.result}
+                      </p>
+                    </div>
+                    <p className="text-xs text-[#6B6B72] italic font-['DM_Sans']">
+                      → {layer.waarom.caseStudy.lesson}
+                    </p>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* Before / After Stats */}
+              {layer.waarom.stats && (
+                <motion.div
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.35 }}
+                  className="grid grid-cols-2 gap-3"
+                >
+                  <div className="rounded-xl border border-[#F87171]/20 bg-[#F87171]/[0.04] p-4 text-center">
+                    <span className="font-mono text-2xl font-bold text-[#F87171]">{layer.waarom.stats.before.value}</span>
+                    <p className="mt-1.5 text-[10px] text-[#6B6B72] font-['DM_Sans'] uppercase tracking-wider">{layer.waarom.stats.before.label}</p>
+                  </div>
+                  <div className="rounded-xl border border-[#34D399]/20 bg-[#34D399]/[0.04] p-4 text-center relative">
+                    <div className="absolute -left-4 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-[#1E1E22] flex items-center justify-center">
+                      <ArrowRight className="w-3 h-3 text-[#34D399]" />
+                    </div>
+                    <span className="font-mono text-2xl font-bold text-[#34D399]">{layer.waarom.stats.after.value}</span>
+                    <p className="mt-1.5 text-[10px] text-[#6B6B72] font-['DM_Sans'] uppercase tracking-wider">{layer.waarom.stats.after.label}</p>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* Veelgemaakte Fout */}
+              {layer.waarom.mistake && (
+                <motion.div
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.45 }}
+                  className="rounded-xl border border-[#F97316]/20 bg-[#F97316]/[0.03] p-4"
+                >
+                  <div className="flex items-center gap-2 mb-2">
+                    <AlertTriangle className="w-4 h-4 text-[#F97316]" />
+                    <span className="font-['DM_Sans'] text-xs font-semibold text-[#F97316]">{layer.waarom.mistake.title}</span>
+                  </div>
+                  <p className="text-sm text-[#9B9BA0] leading-relaxed font-['DM_Sans']">
+                    {layer.waarom.mistake.body}
+                  </p>
+                </motion.div>
+              )}
+
+              {/* Kernprincipe */}
+              {layer.waarom.principle && (
+                <motion.div
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.55 }}
+                  className="flex items-start gap-3 p-4 rounded-xl border border-[#E8FF47]/20 bg-[#E8FF47]/[0.03]"
+                >
+                  <Quote className="w-5 h-5 text-[#E8FF47] shrink-0 mt-0.5" />
+                  <p className="font-['DM_Serif_Display'] text-base text-[#E8FF47] leading-snug">
+                    "{layer.waarom.principle}"
+                  </p>
+                </motion.div>
+              )}
+
               <button
                 onClick={() => setSection('wat')}
                 className="mt-6 group flex items-center gap-2 px-6 py-3 bg-[#E8FF47] text-[#0A0A0B] rounded-lg text-sm font-medium hover:shadow-[0_0_20px_rgba(232,255,71,0.2)] transition-all font-['DM_Sans']"
