@@ -239,6 +239,8 @@ De volgorde is cruciaal: eerst de vraag, dan de bron. Niet andersom. Te veel tea
         { fieldKey: 'crm_historiek', tip: 'Velox herontdekte 23 closed-lost deals van >6 maanden geleden. 7 daarvan hadden inmiddels een nieuwe beslisser. 3 werden klant.' },
       ],
     },
+    hoe: {
+      instruction: 'Kies je executie-tools voor databronnen',
       tools: [
         { name: 'Apollo.io', purpose: 'Technografie + contactdata', cost: '$49-99/mo', question: 'Welke technografische signalen zijn leidend?' },
         { name: 'LinkedIn Sales Nav', purpose: 'Gedragssignalen', cost: '$79/mo', question: 'Welke gedragsveranderingen monitor je?' },
@@ -332,6 +334,8 @@ Hoe scherper de vraag, hoe minder ruis. Hoe minder ruis, hoe minder tijd je vers
         { fieldKey: 'vraag_jobboards', tip: 'Velox ontdekte dat de vraag "Staat er een Head of Sales vacature open?" een betere voorspeller was dan funding-data. De vacature verscheen gemiddeld 3 weken vóór de hire.' },
       ],
     },
+    blueprintTemplate: (inputs) => {
+      const sources = ['linkedin', 'jobboards', 'funding', 'technografie', 'nieuws', 'crm', 'intent'];
       const rows = sources
         .filter(s => inputs[`vraag_${s}`])
         .map(s => `  ${s.toUpperCase()}:\n    Vraag: ${inputs[`vraag_${s}`]}\n    Output: ${inputs[`output_${s}`] || '—'}\n    Vertraging: ${inputs[`vertraging_${s}`] || '—'}`)
@@ -469,6 +473,8 @@ De juiste drempel is niet statisch. Het is een getal dat je bijstelt op basis va
         { fieldKey: 'window_dagen', tip: 'Velox ontdekte dat signalen ouder dan 90 dagen bijna nooit meer converteerden. Een nieuwe VP Sales die 4 maanden geleden startte, had zijn toolkeuze al gemaakt.' },
       ],
     },
+    blueprintTemplate: (inputs) => {
+      return `DREMPELWAARDEN:
   MONITORING: <${inputs.drempel_nurture ?? 20}
   NURTURE: ${inputs.drempel_nurture ?? 20}–${(inputs.drempel_actie ?? 40) - 1}
   ACTIEF: ${inputs.drempel_actie ?? 40}–${(inputs.drempel_prioriteit ?? 60) - 1}
