@@ -26,6 +26,11 @@ export interface StatComparison {
   after: { label: string; value: string };
 }
 
+export interface VeloxTip {
+  fieldKey: string;
+  tip: string;
+}
+
 export interface LayerConfig {
   id: number;
   slug: string;
@@ -43,6 +48,7 @@ export interface LayerConfig {
   wat: {
     instruction: string;
     fields: LayerField[];
+    veloxTips?: VeloxTip[];
   };
   hoe?: {
     instruction: string;
@@ -102,6 +108,13 @@ De definitie-laag is het fundament. Geen score, want zonder fundament heeft scor
         { key: 'staat_b', label: 'Groeidruk trigger', type: 'text', placeholder: 'Bijv. 30% headcount groei in 6 maanden' },
         { key: 'uitsluiten', label: 'Wat sluit je expliciet uit?', type: 'textarea', placeholder: 'Bijv. Overheid, bedrijven < 10 FTE' },
       ],
+      veloxTips: [
+        { fieldKey: 'industrie', tip: 'Velox begon met "tech" — veel te breed. Pas toen ze kozen voor "B2B SaaS met een sales-team van 5+" werden hun signalen bruikbaar.' },
+        { fieldKey: 'functietitel', tip: 'Velox maakte de fout om "management" te targeten. Toen ze switchten naar "VP Sales" daalde hun lijst van 12.000 naar 340 — maar de conversie vertienvoudigde.' },
+        { fieldKey: 'staat_a', tip: 'De gouden trigger van Velox: "nieuwe VP Sales aangesteld in de laatste 90 dagen." Dit ene signaal voorspelde 40% van hun deals.' },
+        { fieldKey: 'bedrijfsgrootte', tip: 'Velox ontdekte dat hun product het best paste bij 50-200 FTE. Kleiner had geen budget, groter had al interne oplossingen.' },
+        { fieldKey: 'uitsluiten', tip: 'Velox vergat maandenlang om overheid en onderwijs uit te sluiten. Die leads scoorden hoog maar converteerden nooit vanwege procurement-processen.' },
+      ],
     },
     blueprintTemplate: (inputs) => {
       const geo = Array.isArray(inputs.geografie) ? inputs.geografie.join(', ') : inputs.geografie || '';
@@ -153,6 +166,12 @@ In deze laag bouw je je scorematrix. Je bepaalt welke combinatie van signalen ee
         { key: 'industrie_match', label: 'Industrie match', type: 'number', defaultValue: 5 },
         { key: 'bedrijfsgrootte_match', label: 'Bedrijfsgrootte match', type: 'number', defaultValue: 5 },
         { key: 'drempel_actie', label: 'Drempel voor actie', type: 'number', defaultValue: 40 },
+      ],
+      veloxTips: [
+        { fieldKey: 'leidinggevende_gewisseld', tip: 'Dit was Velox\'s #1 signaal. Een nieuwe VP Sales betekende bijna altijd een review van tooling in de eerste 90 dagen.' },
+        { fieldKey: 'funding_ontvangen', tip: 'Velox ontdekte dat Series A bedrijven 3x vaker converteerden dan Seed — ze hadden budget én urgentie.' },
+        { fieldKey: 'drempel_actie', tip: 'Velox begon met drempel 20 en kreeg 47 alerts per dag. Bij 40 daalde dat naar 8 kwalitatieve alerts. Start hoger dan je denkt.' },
+        { fieldKey: 'competitor_churned', tip: 'Competitor churn was Velox\'s geheim wapen: accounts die net van een concurrent af waren, hadden al een bewezen behoefte.' },
       ],
     },
     blueprintTemplate: (inputs) => {
@@ -212,6 +231,12 @@ De volgorde is cruciaal: eerst de vraag, dan de bron. Niet andersom. Te veel tea
         { key: 'crm_historiek_detail', label: 'Hoe ver terug kijk je?', type: 'text', placeholder: 'Bijv. 12 maanden' },
         { key: 'intent_platforms', label: 'Intent platforms', type: 'checkbox' },
         { key: 'intent_platforms_detail', label: 'Welke categorieën?', type: 'text', placeholder: 'Bijv. Sales Automation, CRM software' },
+      ],
+      veloxTips: [
+        { fieldKey: 'linkedin', tip: 'LinkedIn was Velox\'s belangrijkste bron. Maar pas toen ze focusten op job changes (niet posts of likes) werd het signaal bruikbaar.' },
+        { fieldKey: 'funding_data', tip: 'Velox filterde op Series A+ — Seed-bedrijven hadden te weinig budget. Die ene filter scheelde 60% ruis.' },
+        { fieldKey: 'technografie', tip: 'Velox ontdekte dat bedrijven die van competitor X naar Y switchten, 4x vaker openstonden voor een gesprek. Technografie was hun sleeper hit.' },
+        { fieldKey: 'crm_historiek', tip: 'Velox herontdekte 23 closed-lost deals van >6 maanden geleden. 7 daarvan hadden inmiddels een nieuwe beslisser. 3 werden klant.' },
       ],
     },
     hoe: {
@@ -303,6 +328,11 @@ Hoe scherper de vraag, hoe minder ruis. Hoe minder ruis, hoe minder tijd je vers
           { value: 'realtime', label: 'Realtime' }, { value: 'dagelijks', label: 'Dagelijks' }, { value: 'wekelijks', label: 'Wekelijks' },
         ] },
       ],
+      veloxTips: [
+        { fieldKey: 'vraag_linkedin', tip: 'Velox\'s winnende LinkedIn-vraag: "Welke VP Sales is in de laatste 90 dagen aangesteld bij een B2B SaaS met 50-200 FTE?" — 60% van de hits was relevant.' },
+        { fieldKey: 'vraag_funding', tip: 'Velox stelde eerst "wie heeft funding?" — te vaag. Na verfijning naar "Series A+ in Benelux, laatste 6 maanden" kregen ze 8 hits per week in plaats van 200.' },
+        { fieldKey: 'vraag_jobboards', tip: 'Velox ontdekte dat de vraag "Staat er een Head of Sales vacature open?" een betere voorspeller was dan funding-data. De vacature verscheen gemiddeld 3 weken vóór de hire.' },
+      ],
     },
     blueprintTemplate: (inputs) => {
       const sources = ['linkedin', 'jobboards', 'funding', 'technografie', 'nieuws', 'crm', 'intent'];
@@ -375,6 +405,11 @@ De meeste teams automatiseren te vroeg of te laat. Te vroeg: je automatiseert ru
         ] },
         { key: 'filter_overig', label: 'Filterconditie — Overig', type: 'text', placeholder: '' },
       ],
+      veloxTips: [
+        { fieldKey: 'freq_linkedin', tip: 'Velox switchte van wekelijks naar dagelijks monitoren op LinkedIn. Ze ontdekten dat job changes binnen 48 uur de hoogste reply rate hadden — daarna daalde die met 40%.' },
+        { fieldKey: 'alert_linkedin', tip: 'Velox begon met email-alerts maar miste ze tussen andere mails. Na de switch naar Slack kreeg het team alerts in realtime — en reageerde 3x sneller.' },
+        { fieldKey: 'filter_linkedin', tip: 'Zonder filter kreeg Velox 200+ alerts per dag. Met "alleen C-level + target industrie" werden dat er 12. Elk waardevol.' },
+      ],
     },
     hoe: {
       instruction: 'Kies je automatiseringstools',
@@ -433,6 +468,11 @@ De juiste drempel is niet statisch. Het is een getal dat je bijstelt op basis va
         { key: 'drempel_nurture', label: 'Score voor nurture', type: 'number', defaultValue: 20 },
         { key: 'drempel_prioriteit', label: 'Score voor persoonlijke outreach', type: 'number', defaultValue: 60 },
         { key: 'window_dagen', label: 'Hoe lang is een signaal geldig? (dagen)', type: 'number', defaultValue: 90 },
+      ],
+      veloxTips: [
+        { fieldKey: 'drempel_actie', tip: 'Velox begon met 20 — veel te laag. Na twee weken alert fatigue verhoogden ze naar 40. Tip: start op 40 en verlaag alleen als je te weinig alerts krijgt.' },
+        { fieldKey: 'drempel_prioriteit', tip: 'Velox\'s prioriteitszone (≥60) bevatte gemiddeld 3-5 accounts per week. Die kregen een persoonlijk videobericht van de founder — met 31% reply rate.' },
+        { fieldKey: 'window_dagen', tip: 'Velox ontdekte dat signalen ouder dan 90 dagen bijna nooit meer converteerden. Een nieuwe VP Sales die 4 maanden geleden startte, had zijn toolkeuze al gemaakt.' },
       ],
     },
     blueprintTemplate: (inputs) => {
@@ -517,6 +557,12 @@ De gouden regel: hoe hoger de score, hoe persoonlijker de respons. Automatiseer 
           { value: 'lead_aanmaken', label: 'Lead aanmaken' }, { value: 'deal_aanmaken', label: 'Deal aanmaken' },
           { value: 'taak', label: 'Taak aanmaken' }, { value: 'notitie', label: 'Notitie toevoegen' },
         ] },
+      ],
+      veloxTips: [
+        { fieldKey: 'respons_type_nurture', tip: 'Velox automatiseerde nurture volledig met een 5-staps email sequence. Geen handwerk — en toch 4% reply rate. Perfect voor de onderkant van de funnel.' },
+        { fieldKey: 'respons_type_prioriteit', tip: 'Voor prioriteitsleads stuurde Velox\'s founder persoonlijke Loom-video\'s. Kost 3 minuten per prospect, maar leverde 31% reply rate op.' },
+        { fieldKey: 'respons_template_actief', tip: 'Velox\'s beste actief-bericht: "Ik zag dat jullie Lisa als VP Sales hebben aangesteld — bij onze klant TechCorp leidde dat tot X. Herkenbaar?" Specifiek > generiek.' },
+        { fieldKey: 'crm_actie_prioriteit', tip: 'Velox maakte direct een deal aan bij prioriteitsleads, niet alleen een lead. Dit gaf het sales team urgentie en visibility in de pipeline.' },
       ],
     },
     hoe: {
