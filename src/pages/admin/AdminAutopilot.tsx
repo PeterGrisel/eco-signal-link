@@ -31,7 +31,7 @@ const statusConfig: Record<QueueStatus, { color: string; label: string; icon: Re
   pending: { color: "bg-yellow-500/10 text-yellow-400 border-yellow-500/20", label: "Pending", icon: <Clock className="w-3 h-3" /> },
   approved: { color: "bg-blue-500/10 text-blue-400 border-blue-500/20", label: "Ingepland", icon: <Calendar className="w-3 h-3" /> },
   declined: { color: "bg-muted text-muted-foreground", label: "Afgewezen", icon: <X className="w-3 h-3" /> },
-  generating: { color: "bg-purple-500/10 text-purple-400 border-purple-500/20", label: "Review", icon: <Eye className="w-3 h-3" /> },
+  generating: { color: "bg-purple-500/10 text-purple-400 border-purple-500/20", label: "Genereren", icon: <Clock className="w-3 h-3" /> },
   published: { color: "bg-green-500/10 text-green-400 border-green-500/20", label: "Gepubliceerd", icon: <Check className="w-3 h-3" /> },
   failed: { color: "bg-red-500/10 text-red-400 border-red-500/20", label: "Mislukt", icon: <X className="w-3 h-3" /> },
 };
@@ -61,20 +61,7 @@ const AdminAutopilot = () => {
     setLoading(false);
   }, []);
 
-  // Load auto-publish from seo_settings
-  useEffect(() => {
-    const stored = localStorage.getItem("autopilot_auto_publish");
-    if (stored === "true") setAutoPublish(true);
-    
-    supabase.from("seo_settings").select("config").limit(1).single().then(({ data }) => {
-      if (data?.config && typeof data.config === "object" && !Array.isArray(data.config)) {
-        const cfg = data.config as Record<string, unknown>;
-        const val = !!cfg.auto_publish;
-        setAutoPublish(val);
-        localStorage.setItem("autopilot_auto_publish", String(val));
-      }
-    });
-  }, []);
+  
 
   useEffect(() => { fetchQueue(); }, [fetchQueue]);
 
@@ -158,36 +145,19 @@ const AdminAutopilot = () => {
           </p>
         </div>
         <div className="flex items-center gap-4 flex-wrap">
-          {/* Auto-publish toggle */}
-          <button
-            onClick={async () => {
-              const newVal = !autoPublish;
-              setAutoPublish(newVal);
-              localStorage.setItem("autopilot_auto_publish", String(newVal));
-              
-              // Persist to seo_settings
-              const { data: existing } = await supabase.from("seo_settings").select("id, config").limit(1).single();
-              if (existing) {
-                const cfg = (typeof existing.config === "object" && !Array.isArray(existing.config) ? existing.config : {}) as Record<string, unknown>;
-                await supabase.from("seo_settings").update({ config: { ...cfg, auto_publish: newVal } }).eq("id", existing.id);
-              }
-              
-              toast({
-                title: newVal ? "Auto-publish AAN" : "Auto-publish UIT",
-                description: newVal
-                  ? "Artikelen worden automatisch gepubliceerd na generatie"
-                  : "Artikelen worden als draft in CMS gezet voor handmatige review",
-              });
-            }}
-            className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors border ${
-              autoPublish
-                ? "bg-green-500/10 text-green-400 border-green-500/20"
-                : "bg-card text-muted-foreground border-border hover:text-foreground"
-            }`}
+          <Button
+            variant="hero"
+            onClick={handleFullPipeline}
+            disabled={pipelineRunning}
+            className="gap-2"
           >
-            {autoPublish ? <ToggleRight className="w-4 h-4" /> : <ToggleLeft className="w-4 h-4" />}
-            Auto-publish {autoPublish ? "aan" : "uit"}
-          </button>
+            {pipelineRunning ? (
+              <><Loader2 className="w-4 h-4 animate-spin" /> Pipeline draait...</>
+            ) : (
+              <><Rocket className="w-4 h-4" /> Full AI Pipeline</>
+            )}
+          </Button>
+        </div>
           <Button
             variant="hero"
             onClick={handleFullPipeline}
