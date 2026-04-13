@@ -346,6 +346,49 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
                 ))}
               </div>
 
+              {/* Velox Timeline — shows completed milestones */}
+              {completedLayers.length > 0 && (
+                <motion.div
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 }}
+                  className="rounded-xl border border-[#1E1E22] bg-[#111113] overflow-hidden"
+                >
+                  <div className="flex items-center gap-2.5 px-4 py-2.5 border-b border-[#1E1E22] bg-[#0E0E10]">
+                    <Building2 className="w-3.5 h-3.5 text-[#E8FF47]" />
+                    <span className="font-['DM_Sans'] text-[10px] font-semibold text-[#9B9BA0] uppercase tracking-wider">Velox's reis tot nu toe</span>
+                  </div>
+                  <div className="p-3 space-y-0">
+                    {LAYERS.filter(l => completedLayers.includes(l.id)).map((l, i, arr) => (
+                      <div key={l.id} className="flex items-start gap-3">
+                        <div className="flex flex-col items-center">
+                          <div className="w-5 h-5 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: l.themeColor + '20', borderColor: l.themeColor + '60', borderWidth: 1 }}>
+                            <Check className="w-2.5 h-2.5" style={{ color: l.themeColor }} />
+                          </div>
+                          {i < arr.length - 1 && <div className="w-px h-5 bg-[#1E1E22]" />}
+                        </div>
+                        <div className="pb-3">
+                          <span className="font-mono text-[9px] uppercase tracking-wider" style={{ color: l.themeColor }}>{String(l.id).padStart(2, '0')} {l.title}</span>
+                          <p className="text-[11px] text-[#6B6B72] leading-relaxed font-['DM_Sans'] mt-0.5">{l.veloxMilestone}</p>
+                        </div>
+                      </div>
+                    ))}
+                    {/* Current layer indicator */}
+                    <div className="flex items-start gap-3">
+                      <div className="flex flex-col items-center">
+                        <div className="w-5 h-5 rounded-full flex items-center justify-center shrink-0 border border-[#E8FF47]/40 bg-[#E8FF47]/10">
+                          <div className="w-1.5 h-1.5 rounded-full bg-[#E8FF47] animate-pulse" />
+                        </div>
+                      </div>
+                      <div>
+                        <span className="font-mono text-[9px] uppercase tracking-wider text-[#E8FF47]">{String(layer.id).padStart(2, '0')} {layer.title}</span>
+                        <p className="text-[11px] text-[#E8FF47]/60 font-['DM_Sans'] mt-0.5">Jouw beurt...</p>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+
               <button
                 onClick={() => layer.hoe ? setSection('hoe') : onComplete()}
                 disabled={!requiredFilled}
