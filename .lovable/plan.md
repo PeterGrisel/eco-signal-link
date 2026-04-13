@@ -1,51 +1,96 @@
 
 
-## Plan: 4 nieuwe cheatsheets als gratis weggevers
+# Plan: Signaaldetectiesysteem — Fase 1 (Foundation)
 
-### Overzicht
+We bouwen dit als sub-app binnen het bestaande project, met eigen routes onder `/signaal/`. We gebruiken Lovable native Stripe Payments en Lovable AI (geen Anthropic key nodig). Dit plan dekt stap 1-5 van de build order.
 
-Vier nieuwe cheatsheet-pagina's toevoegen, gericht op founders/CEO's die hun B2B sales willen opschalen. Elke pagina volgt exact dezelfde structuur als de bestaande Signal Prospecting cheatsheet (hero, 4-stappen flow, prompt-blokken met copy-functie, CTA, feedback).
+---
 
-### De 4 cheatsheets
+## Wat wordt gebouwd in deze eerste fase
 
-| # | Titel | Niveau | Tools | Slug | Setup-tijd |
-|---|-------|--------|-------|------|------------|
-| 1 | **LinkedIn Outreach Formules** | Beginner | LinkedIn, ChatGPT | `/cheatsheet/linkedin-outreach` | 10 min |
-| 2 | **HubSpot Pipeline Setup in 30 min** | Beginner | HubSpot | `/cheatsheet/hubspot-pipeline` | 30 min |
-| 3 | **ICP Scherpslijpen met AI** | Gevorderd | Claude, Apollo, LinkedIn | `/cheatsheet/icp-ai` | 20 min |
-| 4 | **Multi-channel Sequencing Playbook** | Expert | Instantly, Apollo, LinkedIn | `/cheatsheet/multichannel-sequencing` | 45 min |
+1. **Database schema** — 5 nieuwe tabellen (profiles wordt hergebruikt als `signal_profiles`, journeys, journey_inputs, blueprints, agent_messages) met RLS policies
+2. **Design tokens** — Nieuwe CSS variabelen voor het Signaal design system (dark theme, accent #E8FF47, DM Serif/DM Sans/JetBrains Mono fonts), gescheiden van bestaand design
+3. **Auth flow** — `/signaal/start` met magic link login + naam/bedrijf onboarding
+4. **Landing page** — `/signaal` met hero, 7-layer animatie, social proof, signal pyramid
+5. **Journey shell** — `/signaal/journey` met 3-kolom layout (blueprint / engine / agent)
+6. **Laag 01 compleet** — Definitie-laag met WAAROM/WAT/HOE secties, live blueprint update, agent integratie
 
-### Inhoud per cheatsheet
+---
 
-**1. LinkedIn Outreach Formules** (Beginner)
-- 4 stappen: Profiel optimaliseren → ICP targeten → Connectieverzoek sturen → Follow-up
-- 5 bewezen berichtsjablonen (connectieverzoek, follow-up, engagement-reactie, InMail, voice note script)
-- Copy-paste prompts voor ChatGPT om berichten te personaliseren
+## Technische details
 
-**2. HubSpot Pipeline Setup in 30 min** (Beginner)
-- 4 stappen: Dealfases instellen → Properties aanmaken → Automatiseringen → Dashboard
-- Concrete dealfase-namen en definities voor B2B
-- Template-properties en workflow-triggers
+### Routes (binnen bestaande App.tsx)
+```
+/signaal          → Landing page
+/signaal/start    → Auth + onboarding
+/signaal/journey  → Journey screen (protected)
+/signaal/blueprint → Blueprint preview (later)
+/signaal/admin    → Admin panel (later)
+```
 
-**3. ICP Scherpslijpen met AI** (Gevorderd)
-- 4 stappen: Huidige klanten analyseren → Claude prompt voor ICP → Apollo filters → LinkedIn validatie
-- AI-prompts om patronen in je klantenbestand te vinden
-- Apollo filter-configuratie voor lookalikes
+### Database tabellen (migration)
+- `signal_profiles` — user profiles voor signaal app
+- `journeys` — journey sessies per user
+- `journey_inputs` — alle inputs per journey/laag
+- `blueprints` — gegenereerd blueprint document
+- `agent_messages` — agent conversatie historie
 
-**4. Multi-channel Sequencing Playbook** (Expert)
-- 4 stappen: Sequentie ontwerpen → E-mail setup (Instantly) → LinkedIn touchpoints → Calling scripts
-- Dag-voor-dag sequentie-schema (14 dagen)
-- Templates per kanaal met timing
+Alle tabellen krijgen RLS: users lezen/schrijven alleen eigen data.
 
-### Technische wijzigingen
+### Design system
+- Aparte CSS variabelen onder `.signaal-theme` class
+- Geen conflicten met bestaande b2bgroeimachine design
+- Google Fonts: DM Serif Display, DM Sans, JetBrains Mono
 
-1. **4 nieuwe pagina-bestanden** — Elk volgt het SignalCheatsheet.tsx patroon (hero, stappen, prompt-cards, feedback, CTA)
-2. **`src/pages/Cheatsheets.tsx`** — Array uitbreiden met 4 nieuwe entries
-3. **`src/App.tsx`** — 4 nieuwe routes toevoegen
-4. **Tools-filter** wordt automatisch uitgebreid (ChatGPT, HubSpot, Instantly verschijnen als filterknoppen)
+### AI Agent
+- Lovable AI (Gemini Flash) via edge function `signal-agent`
+- Systeem prompt in Nederlands zoals gespecificeerd
+- Context-aware: stuurt journey inputs + huidige laag mee
 
-### Aanpak
-- Alle content in het Nederlands, B1-taalniveau, korte zinnen
-- Elke pagina bevat het `CheatsheetFeedback` component
-- Affiliate-links waar relevant (Apollo, Instantly)
+### Componentstructuur
+```
+src/signaal/
+├── pages/
+│   ├── SignaalLanding.tsx
+│   ├── SignaalStart.tsx
+│   └── SignaalJourney.tsx
+├── components/
+│   ├── SignaalLayout.tsx
+│   ├── JourneyLayer.tsx (herbruikbaar per laag)
+│   ├── BlueprintPanel.tsx
+│   ├── AgentPanel.tsx
+│   ├── LayerProgress.tsx
+│   └── layers/
+│       └── Layer01Definitie.tsx
+├── hooks/
+│   ├── useJourney.ts
+│   └── useAgent.ts
+└── data/
+    └── layers.ts (content per laag)
+```
+
+---
+
+## Wat NIET in deze fase zit
+
+- Lagen 02-07 (volgende iteratie)
+- Blueprint screen + Stripe betaling
+- Admin panel
+- PDF generatie
+- Mobile optimalisatie
+- 90-daagse review prompt
+
+---
+
+## Volgorde van bouwen
+
+1. Database migration uitvoeren
+2. CSS design tokens + font imports toevoegen
+3. SignaalLayout wrapper component
+4. Landing page
+5. Auth flow (magic link + onboarding)
+6. Journey shell (3-kolom layout)
+7. Laag 01 — Definitie (WAAROM/WAT/HOE)
+8. Blueprint live assembly (linkerkolom)
+9. Agent edge function + panel (rechterkolom)
 
