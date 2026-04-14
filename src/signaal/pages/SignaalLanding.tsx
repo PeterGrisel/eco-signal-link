@@ -13,6 +13,20 @@ import Footer from "@/components/Footer";
 
 const TOOLS = ["Apollo", "HubSpot", "LinkedIn", "Clay", "Instantly", "40+ andere tools"];
 
+const CLIENTS = [
+  { name: "Excelsior Rotterdam", domain: "excelsiorrotterdam.nl" },
+  { name: "Core Vision", domain: "core-vision.nl" },
+  { name: "GoBytes", domain: "gobytes.nl" },
+  { name: "Nexer", domain: "nexer.nl" },
+  { name: "Exes Engineering", domain: "exesengineering.nl" },
+  { name: "Drivewise Lease", domain: "drivewiselease.nl" },
+  { name: "HappyBase", domain: "happybase.me" },
+  { name: "RTC Group", domain: "rtc-group.nl" },
+  { name: "Yaskawa", domain: "yaskawa.nl" },
+  { name: "ThriveOS", domain: "thriveos.nl" },
+  { name: "Krak de Rijder", domain: "krakderijder.nl" },
+];
+
 const PAIN_POINTS = [
   { icon: Clock, title: "Uren verspild aan koud bellen", desc: "U belt prospects die niet klaar zijn. Uw team raakt gedemotiveerd." },
   { icon: Target, title: "Geen idee wie klaar is om te kopen", desc: "U mist koopsignalen. Uw concurrent pikt ze op." },
