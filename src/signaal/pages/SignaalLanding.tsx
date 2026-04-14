@@ -257,6 +257,55 @@ const SignaalLanding = () => {
         </div>
       </section>
 
+      {/* ── Voor wie ── */}
+      <section className="py-16 md:py-24 border-b border-border">
+        <div className="container mx-auto px-4 md:px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-14"
+          >
+            <p className="text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4">
+              Voor wie
+            </p>
+            <h2 className="font-display font-bold text-3xl md:text-5xl tracking-tight mb-4">
+              Herkenbaar?{" "}
+              <span className="text-gradient">Dan is dit voor u.</span>
+            </h2>
+            <p className="text-muted-foreground max-w-xl mx-auto">
+              Signaal is gebouwd voor B2B-teams die klaar zijn om prospecting structureel aan te pakken.
+            </p>
+          </motion.div>
+
+          <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-4">
+            {[
+              { emoji: "🏢", title: "Sales Directors & VP Sales", desc: "U wilt een voorspelbare pipeline maar uw team jaagt nog steeds op koude leads zonder systeem." },
+              { emoji: "🚀", title: "Founders & CEO's (scale-ups)", desc: "U doet sales er zelf 'even' bij. U weet dat het beter moet, maar mist de structuur om te schalen." },
+              { emoji: "📊", title: "Revenue Operations", desc: "U heeft de tools, maar mist de strategie om signalen om te zetten in gekwalificeerde pipeline." },
+              { emoji: "🤝", title: "Business Development Managers", desc: "U belt 50 prospects per dag. Slechts 3 zijn relevant. U wilt weten welke 3 dat zijn vóórdat u belt." },
+              { emoji: "🏭", title: "B2B Dienstverleners & Maakindustrie", desc: "Lange salescycli, meerdere beslissers. U heeft een systeem nodig dat koopsignalen vroegtijdig detecteert." },
+              { emoji: "💻", title: "IT & SaaS bedrijven", desc: "Uw markt is competitief. Wie het eerst het signaal oppikt, wint de deal. Timing is alles." },
+            ].map((persona, i) => (
+              <motion.div
+                key={persona.title}
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.07 }}
+                className="flex items-start gap-4 p-5 rounded-xl bg-card border border-border"
+              >
+                <span className="text-2xl shrink-0 mt-0.5">{persona.emoji}</span>
+                <div>
+                  <h3 className="font-display font-semibold text-base text-foreground mb-1">{persona.title}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{persona.desc}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── Pain points ── */}
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-4 md:px-6">
