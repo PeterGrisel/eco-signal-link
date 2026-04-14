@@ -266,18 +266,18 @@ const SignaalJourney = () => {
             {/* Global Quiz Score Indicator */}
             {totalQuizQuestions > 0 && (
               <div className="mb-4 sm:mb-6 max-w-[600px] mx-auto">
-                <div className="flex items-center gap-3 p-3 rounded-xl border border-[#A78BFA]/20 bg-card">
-                  <div className="w-8 h-8 rounded-lg bg-[#A78BFA]/10 flex items-center justify-center shrink-0">
+                <div className="flex items-center gap-3 p-3 rounded-xl border border-[hsl(24, 75%, 63%)]/20 bg-card">
+                  <div className="w-8 h-8 rounded-lg bg-[hsl(24, 75%, 63%)]/10 flex items-center justify-center shrink-0">
                     <span className="text-sm">🧠</span>
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between mb-1.5">
                       <span className="font-body text-[11px] font-medium text-muted-foreground">Quiz Score</span>
-                      <span className="font-mono text-xs font-bold text-[#A78BFA]">{quizScore}/{totalQuizQuestions}</span>
+                      <span className="font-mono text-xs font-bold text-[hsl(24, 75%, 63%)]">{quizScore}/{totalQuizQuestions}</span>
                     </div>
                     <div className="h-1.5 bg-secondary rounded-full overflow-hidden">
                       <div
-                        className="h-full bg-gradient-to-r from-[#A78BFA] to-[hsl(24, 75%, 63%)] rounded-full transition-all duration-700 ease-out"
+                        className="h-full bg-gradient-to-r from-[hsl(24, 75%, 63%)] to-[hsl(24, 75%, 63%)] rounded-full transition-all duration-700 ease-out"
                         style={{ width: `${(quizScore / totalQuizQuestions) * 100}%` }}
                       />
                     </div>
