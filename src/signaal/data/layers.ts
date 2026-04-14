@@ -13,6 +13,7 @@ export interface ToolCard {
   purpose: string;
   cost?: string;
   question?: string;
+  url?: string;
 }
 
 export interface CaseStudy {
