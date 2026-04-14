@@ -97,11 +97,11 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
           transition={{ duration: 0.25, ease: "easeOut" }}
         >
           {section === 'waarom' && (
-            <div className="space-y-6">
+            <div className="space-y-7">
               <h2 className="font-display text-[28px] leading-tight text-foreground">
                 {layer.waarom.headline}
               </h2>
-              <div className="space-y-4 text-sm text-muted-foreground leading-relaxed font-body">
+              <div className="space-y-4 text-[15px] text-muted-foreground leading-[1.75] font-body">
                 {layer.waarom.body.split('\n\n').map((p, i) => (
                   <p key={i}>{p}</p>
                 ))}
@@ -115,48 +115,48 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
                   transition={{ delay: 0.2 }}
                   className="rounded-xl border border-border bg-card overflow-hidden"
                 >
-                  <div className="flex items-center gap-2.5 px-4 py-3 border-b border-border bg-card">
-                    <div className="w-7 h-7 rounded-lg bg-primary/10 flex items-center justify-center">
-                      <Building2 className="w-3.5 h-3.5 text-primary" />
-                    </div>
-                    <span className="font-body text-xs font-semibold text-foreground">Velox Solutions</span>
-                    <span className="ml-auto font-mono text-[9px] text-muted-foreground uppercase tracking-wider">Case Study</span>
-                  </div>
-                  <div className="p-4 space-y-3">
-                    <p className="text-sm text-muted-foreground leading-relaxed font-body">
-                      {layer.waarom.caseStudy.situation}
-                    </p>
-                    <div className="flex items-start gap-2 p-3 rounded-lg bg-primary/[0.04] border border-primary/10">
-                      <Lightbulb className="w-4 h-4 text-primary mt-0.5 shrink-0" />
-                      <p className="text-sm text-primary/90 font-body">
-                        {layer.waarom.caseStudy.result}
-                      </p>
-                    </div>
-                    <p className="text-xs text-muted-foreground italic font-body">
-                      → {layer.waarom.caseStudy.lesson}
-                    </p>
-                  </div>
-                </motion.div>
+                   <div className="flex items-center gap-2.5 px-5 py-3.5 border-b border-border bg-card">
+                     <div className="w-7 h-7 rounded-lg bg-primary/10 flex items-center justify-center">
+                       <Building2 className="w-3.5 h-3.5 text-primary" />
+                     </div>
+                     <span className="font-body text-sm font-semibold text-foreground">Velox Solutions</span>
+                     <span className="ml-auto font-mono text-[10px] text-muted-foreground uppercase tracking-wider">Case Study</span>
+                   </div>
+                   <div className="p-5 space-y-4">
+                     <p className="text-[14px] text-muted-foreground leading-[1.7] font-body">
+                       {layer.waarom.caseStudy.situation}
+                     </p>
+                     <div className="flex items-start gap-3 p-4 rounded-lg bg-primary/[0.04] border border-primary/10">
+                       <Lightbulb className="w-4 h-4 text-primary mt-1 shrink-0" />
+                       <p className="text-[14px] text-primary/90 leading-[1.65] font-body">
+                         {layer.waarom.caseStudy.result}
+                       </p>
+                     </div>
+                     <p className="text-[13px] text-muted-foreground italic leading-relaxed font-body">
+                       → {layer.waarom.caseStudy.lesson}
+                     </p>
+                   </div>
+                 </motion.div>
               )}
 
               {/* Before / After Stats */}
               {layer.waarom.stats && (
-                <motion.div
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.35 }}
-                  className="grid grid-cols-2 gap-3"
-                >
-                  <div className="rounded-xl border border-[#F87171]/20 bg-[#F87171]/[0.04] p-4 text-center">
-                    <span className="font-mono text-2xl font-bold text-[#F87171]">{layer.waarom.stats.before.value}</span>
-                    <p className="mt-1.5 text-[10px] text-muted-foreground font-body uppercase tracking-wider">{layer.waarom.stats.before.label}</p>
-                  </div>
-                  <div className="rounded-xl border border-[#34D399]/20 bg-[#34D399]/[0.04] p-4 text-center relative">
-                    <div className="absolute -left-4 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-secondary flex items-center justify-center">
+                 <motion.div
+                   initial={{ opacity: 0, y: 12 }}
+                   animate={{ opacity: 1, y: 0 }}
+                   transition={{ delay: 0.35 }}
+                   className="grid grid-cols-2 gap-3"
+                 >
+                   <div className="rounded-xl border border-[#F87171]/20 bg-[#F87171]/[0.04] p-5 text-center">
+                     <span className="font-mono text-3xl font-bold text-[#F87171]">{layer.waarom.stats.before.value}</span>
+                     <p className="mt-2 text-[11px] text-muted-foreground font-body uppercase tracking-wider leading-snug">{layer.waarom.stats.before.label}</p>
+                   </div>
+                   <div className="rounded-xl border border-[#34D399]/20 bg-[#34D399]/[0.04] p-5 text-center relative">
+                     <div className="absolute -left-4 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-secondary flex items-center justify-center">
                       <ArrowRight className="w-3 h-3 text-[#34D399]" />
                     </div>
-                    <span className="font-mono text-2xl font-bold text-[#34D399]">{layer.waarom.stats.after.value}</span>
-                    <p className="mt-1.5 text-[10px] text-muted-foreground font-body uppercase tracking-wider">{layer.waarom.stats.after.label}</p>
+                     <span className="font-mono text-3xl font-bold text-[#34D399]">{layer.waarom.stats.after.value}</span>
+                     <p className="mt-2 text-[11px] text-muted-foreground font-body uppercase tracking-wider leading-snug">{layer.waarom.stats.after.label}</p>
                   </div>
                 </motion.div>
               )}
@@ -167,16 +167,16 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
                   initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.45 }}
-                  className="rounded-xl border border-[#F97316]/20 bg-[#F97316]/[0.03] p-4"
-                >
-                  <div className="flex items-center gap-2 mb-2">
-                    <AlertTriangle className="w-4 h-4 text-[#F97316]" />
-                    <span className="font-body text-xs font-semibold text-[#F97316]">{layer.waarom.mistake.title}</span>
-                  </div>
-                  <p className="text-sm text-muted-foreground leading-relaxed font-body">
-                    {layer.waarom.mistake.body}
-                  </p>
-                </motion.div>
+                   className="rounded-xl border border-[#F97316]/20 bg-[#F97316]/[0.03] p-5"
+                 >
+                   <div className="flex items-center gap-2 mb-3">
+                     <AlertTriangle className="w-4 h-4 text-[#F97316]" />
+                     <span className="font-body text-[13px] font-semibold text-[#F97316]">{layer.waarom.mistake.title}</span>
+                   </div>
+                   <p className="text-[14px] text-muted-foreground leading-[1.7] font-body">
+                     {layer.waarom.mistake.body}
+                   </p>
+                 </motion.div>
               )}
 
               {/* Kernprincipe */}
@@ -185,13 +185,13 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
                   initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.55 }}
-                  className="flex items-start gap-3 p-4 rounded-xl border border-primary/20 bg-primary/[0.03]"
-                >
-                  <Quote className="w-5 h-5 text-primary shrink-0 mt-0.5" />
-                  <p className="font-display text-base text-primary leading-snug">
-                    "{layer.waarom.principle}"
-                  </p>
-                </motion.div>
+                   className="flex items-start gap-4 p-5 rounded-xl border border-primary/20 bg-primary/[0.03]"
+                 >
+                   <Quote className="w-5 h-5 text-primary shrink-0 mt-1" />
+                   <p className="font-display text-[17px] text-primary leading-[1.5]">
+                     "{layer.waarom.principle}"
+                   </p>
+                 </motion.div>
               )}
 
               {/* Quiz Section */}
