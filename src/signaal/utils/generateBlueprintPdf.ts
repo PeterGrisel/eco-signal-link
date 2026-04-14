@@ -86,7 +86,7 @@ export async function generateBlueprintPdf({ company, score, inputs }: Blueprint
   pdf.setTextColor(232, 148, 90);
   pdf.setFontSize(24);
   pdf.setFont('helvetica', 'bold');
-  pdf.text(String(score), pageW / 2, y + 3, { align: 'center' });
+  pdf.text(String(cappedScore), pageW / 2, y + 3, { align: 'center' });
   pdf.setFontSize(8);
   pdf.setFont('helvetica', 'normal');
   pdf.setTextColor(113, 113, 122);
@@ -150,7 +150,7 @@ export async function generateBlueprintPdf({ company, score, inputs }: Blueprint
     // Velox Milestone
     pdf.setFillColor(232, 148, 90, 8);
     pdf.setDrawColor(232, 148, 90, 40);
-    const milestoneLines = pdf.splitTextToSize(layer.veloxMilestone, contentW - 16);
+    const milestoneLines = pdf.splitTextToSize(sanitizeText(layer.veloxMilestone), contentW - 16);
     const milestoneH = milestoneLines.length * 5 + 10;
     pdf.roundedRect(margin, y, contentW, milestoneH, 2, 2, 'FD');
 
@@ -177,8 +177,8 @@ export async function generateBlueprintPdf({ company, score, inputs }: Blueprint
     y += 6;
 
     if (hasContent) {
-      const content = layer.blueprintTemplate(layerInputs);
-      const lines = pdf.splitTextToSize(content, contentW - 4);
+      const content = sanitizeText(layer.blueprintTemplate(layerInputs));
+      const lines = pdf.splitTextToSize(content, contentW - 12);
 
       // Card background
       const cardH = Math.max(lines.length * 4.5 + 10, 20);
