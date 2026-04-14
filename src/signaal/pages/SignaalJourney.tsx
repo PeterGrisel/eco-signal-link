@@ -267,6 +267,7 @@ const SignaalJourney = () => {
           totalQuizQuestions={totalQuizQuestions}
           completedLayers={completedLayers}
           allInputs={allInputs}
+          journeyId={journeyId || undefined}
         />
       </SignaalLayout>
     );
