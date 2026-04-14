@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useEffect } from "react";
 import { LayerConfig, LAYERS, QuizQuestion } from "../data/layers";
 import { motion, AnimatePresence } from "framer-motion";
 import { Check, ChevronRight, Sparkles, Lightbulb, AlertTriangle, Quote, Building2, ArrowRight, Brain, X, Trophy, ExternalLink } from "lucide-react";
