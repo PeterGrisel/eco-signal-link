@@ -17,6 +17,12 @@ interface JourneyLayerProps {
 const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplete, onAskAgent }: JourneyLayerProps) => {
   const [section, setSection] = useState<Section>('waarom');
   const [completedFields, setCompletedFields] = useState<Set<string>>(new Set());
+  const [quizIndex, setQuizIndex] = useState(0);
+  const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
+  const [quizAnswered, setQuizAnswered] = useState(false);
+  const [quizCorrect, setQuizCorrect] = useState(false);
+  const [quizComplete, setQuizComplete] = useState(false);
+  const [quizScore, setQuizScore] = useState(0);
 
   const { requiredFilled, filledCount, totalFields } = useMemo(() => {
     const required = layer.wat.fields.filter(f => f.required);
