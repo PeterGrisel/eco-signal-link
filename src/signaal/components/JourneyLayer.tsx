@@ -474,6 +474,8 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
                   <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
                 </button>
               )}
+                </>
+              )}
             </div>
           )}
 
