@@ -1,7 +1,7 @@
 import { useState, useCallback, useMemo } from "react";
 import { LayerConfig, LAYERS, QuizQuestion } from "../data/layers";
 import { motion, AnimatePresence } from "framer-motion";
-import { Check, ChevronRight, Sparkles, Lightbulb, AlertTriangle, Quote, Building2, ArrowRight, Brain, X, Trophy } from "lucide-react";
+import { Check, ChevronRight, Sparkles, Lightbulb, AlertTriangle, Quote, Building2, ArrowRight, Brain, X, Trophy, ExternalLink } from "lucide-react";
 
 type Section = 'waarom' | 'wat' | 'hoe';
 
@@ -638,24 +638,42 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
                   const selectedTools = inputs._selectedTools || [];
                   const isSelected = selectedTools.includes(tool.name);
                   return (
-                    <button
+                    <div
                       key={tool.name}
-                      onClick={() => {
-                        const current = inputs._selectedTools || [];
-                        const next = isSelected
-                          ? current.filter((t: string) => t !== tool.name)
-                          : [...current, tool.name];
-                        handleFieldChange('_selectedTools', next);
-                      }}
-                      className={`p-3 rounded-lg border text-left transition-all ${
+                      className={`p-3 rounded-lg border transition-all ${
                         isSelected
                           ? 'bg-primary/5 border-primary/40'
                           : 'bg-card border-border hover:border-primary/20'
                       }`}
                     >
-                      <span className="text-xs font-medium text-foreground font-body">{tool.name}</span>
-                      <p className="text-[10px] text-muted-foreground mt-1 font-body">{tool.purpose}</p>
-                    </button>
+                      <button
+                        onClick={() => {
+                          const current = inputs._selectedTools || [];
+                          const next = isSelected
+                            ? current.filter((t: string) => t !== tool.name)
+                            : [...current, tool.name];
+                          handleFieldChange('_selectedTools', next);
+                        }}
+                        className="w-full text-left"
+                      >
+                        <span className="text-xs font-medium text-foreground font-body">{tool.name}</span>
+                        <p className="text-[10px] text-muted-foreground mt-1 font-body">{tool.purpose}</p>
+                        {tool.cost && (
+                          <span className="inline-block mt-1.5 text-[9px] font-mono text-muted-foreground/70">{tool.cost}</span>
+                        )}
+                      </button>
+                      {tool.url && (
+                        <a
+                          href={tool.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          className="inline-flex items-center gap-1 mt-2 text-[10px] text-primary hover:text-primary/80 font-body transition-colors"
+                        >
+                          Meer over {tool.name} <ExternalLink className="w-2.5 h-2.5" />
+                        </a>
+                      )}
+                    </div>
                   );
                 })}
               </div>

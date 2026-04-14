@@ -13,6 +13,7 @@ export interface ToolCard {
   purpose: string;
   cost?: string;
   question?: string;
+  url?: string;
 }
 
 export interface CaseStudy {
@@ -319,13 +320,13 @@ De logica werkt altijd één kant op: eerst het signaal dat je zoekt (uit je sco
     hoe: {
       instruction: 'Kies je executie-tools voor databronnen',
       tools: [
-        { name: 'Apollo.io', purpose: 'Technografie + contactdata', cost: '$49-99/mo', question: 'Welke technografische signalen zijn leidend?' },
-        { name: 'LinkedIn Sales Nav', purpose: 'Gedragssignalen', cost: '$79/mo', question: 'Welke gedragsveranderingen monitor je?' },
-        { name: 'Crunchbase', purpose: 'Funding events', cost: '$29-49/mo', question: 'Welke funding rondes zijn relevant?' },
-        { name: 'Clay', purpose: 'Multi-bron enrichment', cost: '$149/mo', question: 'Hoeveel bronnen combineer je?' },
-        { name: 'BuiltWith', purpose: 'Technografische detectie', cost: '$295/mo', question: 'Welke tech stack changes zijn signalen?' },
-        { name: 'Google Alerts', purpose: 'Nieuws monitoring (gratis)', cost: 'Gratis', question: 'Welke zoektermen zijn het meest specifiek?' },
-        { name: 'Bombora', purpose: 'Intent data', cost: 'Op aanvraag', question: 'Welke intent categorieën matchen je aanbod?' },
+        { name: 'Apollo.io', purpose: 'Technografie + contactdata', cost: '$49-99/mo', question: 'Welke technografische signalen zijn leidend?', url: 'https://www.apollo.io' },
+        { name: 'LinkedIn Sales Nav', purpose: 'Gedragssignalen', cost: '$79/mo', question: 'Welke gedragsveranderingen monitor je?', url: 'https://business.linkedin.com/sales-solutions' },
+        { name: 'Crunchbase', purpose: 'Funding events', cost: '$29-49/mo', question: 'Welke funding rondes zijn relevant?', url: 'https://www.crunchbase.com' },
+        { name: 'Clay', purpose: 'Multi-bron enrichment', cost: '$149/mo', question: 'Hoeveel bronnen combineer je?', url: 'https://www.clay.com' },
+        { name: 'BuiltWith', purpose: 'Technografische detectie', cost: '$295/mo', question: 'Welke tech stack changes zijn signalen?', url: 'https://builtwith.com' },
+        { name: 'Google Alerts', purpose: 'Nieuws monitoring (gratis)', cost: 'Gratis', question: 'Welke zoektermen zijn het meest specifiek?', url: 'https://www.google.com/alerts' },
+        { name: 'Bombora', purpose: 'Intent data', cost: 'Op aanvraag', question: 'Welke intent categorieën matchen je aanbod?', url: 'https://bombora.com' },
       ],
     },
     blueprintTemplate: (inputs) => {
@@ -513,11 +514,11 @@ De volgorde in de journey is hier niet toevallig. Automatisering vóór scherpte
     hoe: {
       instruction: 'Kies je automatiseringstools',
       tools: [
-        { name: 'Apollo Saved Searches', purpose: 'Automatisch bijhouden van zoekopdrachten', cost: 'Incl. in Apollo plan' },
-        { name: 'Clay Waterfalls', purpose: 'Multi-bron sequentieel verrijken', cost: '$149+/mo' },
-        { name: 'Zapier/Make', purpose: 'Webhook naar CRM koppeling', cost: '$19-49/mo' },
-        { name: 'LinkedIn Alerts', purpose: 'Gratis job change tracking', cost: 'Gratis' },
-        { name: 'PhantomBuster', purpose: 'Geautomatiseerd scrapen', cost: '$56-128/mo' },
+        { name: 'Apollo Saved Searches', purpose: 'Automatisch bijhouden van zoekopdrachten', cost: 'Incl. in Apollo plan', url: 'https://www.apollo.io' },
+        { name: 'Clay Waterfalls', purpose: 'Multi-bron sequentieel verrijken', cost: '$149+/mo', url: 'https://www.clay.com' },
+        { name: 'Zapier/Make', purpose: 'Webhook naar CRM koppeling', cost: '$19-49/mo', url: 'https://zapier.com' },
+        { name: 'LinkedIn Alerts', purpose: 'Gratis job change tracking', cost: 'Gratis', url: 'https://www.linkedin.com' },
+        { name: 'PhantomBuster', purpose: 'Geautomatiseerd scrapen', cost: '$56-128/mo', url: 'https://phantombuster.com' },
       ],
     },
     blueprintTemplate: (inputs) => {
@@ -689,11 +690,11 @@ De reden voor die asymmetrie: onder de drempel is de marginale kost van een extr
     hoe: {
       instruction: 'Kies je outreach en automatiseringstools',
       tools: [
-        { name: 'Apollo Sequences', purpose: 'Geautomatiseerde email cadences', cost: '$49-99/mo' },
-        { name: 'Instantly', purpose: 'Hoog-volume email', cost: '$30-77/mo' },
-        { name: 'Smartlead', purpose: 'AI-gepersonaliseerde sequences', cost: '$39-94/mo' },
-        { name: 'HubSpot Workflows', purpose: 'CRM-native automation', cost: 'Incl. in HubSpot' },
-        { name: 'Lemlist', purpose: 'Video + personalisatie', cost: '$59-99/mo' },
+        { name: 'Apollo Sequences', purpose: 'Geautomatiseerde email cadences', cost: '$49-99/mo', url: 'https://www.apollo.io' },
+        { name: 'Instantly', purpose: 'Hoog-volume email', cost: '$30-77/mo', url: 'https://instantly.ai' },
+        { name: 'Smartlead', purpose: 'AI-gepersonaliseerde sequences', cost: '$39-94/mo', url: 'https://www.smartlead.ai' },
+        { name: 'HubSpot Workflows', purpose: 'CRM-native automation', cost: 'Incl. in HubSpot', url: 'https://www.hubspot.com/products/crm/workflow-automation' },
+        { name: 'Lemlist', purpose: 'Video + personalisatie', cost: '$59-99/mo', url: 'https://www.lemlist.com' },
       ],
     },
     blueprintTemplate: (inputs) => {
