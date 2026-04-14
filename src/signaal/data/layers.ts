@@ -290,7 +290,7 @@ De volgorde is cruciaal: eerst de vraag, dan de bron. Niet andersom. Te veel tea
     wat: {
       instruction: 'Selecteer de bronnen die relevant zijn voor jouw signalen',
       fields: [
-        { key: 'linkedin', label: 'LinkedIn', type: 'checkbox' },
+        { key: 'linkedin', label: 'LinkedIn', type: 'checkbox', required: true },
         { key: 'linkedin_detail', label: 'Welk type activiteit monitor je?', type: 'text', placeholder: 'Bijv. job changes, posts, connecties' },
         { key: 'jobboards', label: 'Jobboards', type: 'checkbox' },
         { key: 'jobboards_detail', label: 'Welke functietitels zijn signalen?', type: 'text', placeholder: 'Bijv. Head of Sales, CTO' },
@@ -379,7 +379,7 @@ Hoe scherper de vraag, hoe minder ruis. Hoe minder ruis, hoe minder tijd je vers
     wat: {
       instruction: 'Formuleer per geselecteerde bron één kritische vraag',
       fields: [
-        { key: 'vraag_linkedin', label: 'Kritische vraag — LinkedIn', type: 'text', placeholder: 'Bijv. Is de DMU gewisseld in de laatste 90 dagen?' },
+        { key: 'vraag_linkedin', label: 'Kritische vraag — LinkedIn', type: 'text', placeholder: 'Bijv. Is de DMU gewisseld in de laatste 90 dagen?', required: true },
         { key: 'output_linkedin', label: 'Gewenste output — LinkedIn', type: 'text', placeholder: 'Bijv. Lijst met naam, titel, bedrijf, datum' },
         { key: 'vertraging_linkedin', label: 'Acceptabele vertraging — LinkedIn', type: 'dropdown', options: [
           { value: 'realtime', label: 'Realtime' }, { value: 'dagelijks', label: 'Dagelijks' }, { value: 'wekelijks', label: 'Wekelijks' },
@@ -479,10 +479,10 @@ De meeste teams automatiseren te vroeg of te laat. Te vroeg: je automatiseert ru
       fields: [
         { key: 'freq_linkedin', label: 'Monitor frequentie — LinkedIn', type: 'dropdown', options: [
           { value: 'realtime', label: 'Realtime' }, { value: 'dagelijks', label: 'Dagelijks' }, { value: 'wekelijks', label: 'Wekelijks' },
-        ] },
+        ], required: true },
         { key: 'alert_linkedin', label: 'Alert methode — LinkedIn', type: 'dropdown', options: [
           { value: 'email', label: 'Email' }, { value: 'slack', label: 'Slack' }, { value: 'crm', label: 'CRM' }, { value: 'webhook', label: 'Webhook' },
-        ] },
+        ], required: true },
         { key: 'filter_linkedin', label: 'Filterconditie — LinkedIn', type: 'text', placeholder: 'Bijv. Alleen C-level in target industrie' },
         { key: 'freq_jobboards', label: 'Monitor frequentie — Jobboards', type: 'dropdown', options: [
           { value: 'realtime', label: 'Realtime' }, { value: 'dagelijks', label: 'Dagelijks' }, { value: 'wekelijks', label: 'Wekelijks' },
@@ -579,7 +579,7 @@ De juiste drempel is niet statisch. Het is een getal dat je bijstelt op basis va
     wat: {
       instruction: 'Stel je drempelwaarden en score-zones in',
       fields: [
-        { key: 'drempel_actie', label: 'Score voor automatische actie', type: 'number', defaultValue: 40 },
+        { key: 'drempel_actie', label: 'Score voor automatische actie', type: 'number', defaultValue: 40, required: true },
         { key: 'drempel_nurture', label: 'Score voor nurture', type: 'number', defaultValue: 20 },
         { key: 'drempel_prioriteit', label: 'Score voor persoonlijke outreach', type: 'number', defaultValue: 60 },
         { key: 'window_dagen', label: 'Hoe lang is een signaal geldig? (dagen)', type: 'number', defaultValue: 90 },
@@ -665,7 +665,7 @@ De gouden regel: hoe hoger de score, hoe persoonlijker de respons. Automatiseer 
           { value: 'sequence', label: 'Email sequence' }, { value: 'linkedin', label: 'LinkedIn' },
           { value: 'direct_email', label: 'Direct email' }, { value: 'call', label: 'Telefonisch' },
         ] },
-        { key: 'respons_template_actief', label: 'Kernboodschap — Actief (1 zin)', type: 'text', placeholder: 'Bijv. Directe outreach met referentie naar hun trigger' },
+        { key: 'respons_template_actief', label: 'Kernboodschap — Actief (1 zin)', type: 'text', placeholder: 'Bijv. Directe outreach met referentie naar hun trigger', required: true },
         { key: 'respons_timing_actief', label: 'Timing — Actief', type: 'dropdown', options: [
           { value: 'direct', label: 'Direct' }, { value: 'binnen_1uur', label: 'Binnen 1 uur' }, { value: 'zelfde_dag', label: 'Zelfde dag' },
         ] },
