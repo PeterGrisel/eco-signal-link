@@ -12,9 +12,10 @@ interface JourneyLayerProps {
   onInputChange: (fieldKey: string, value: any) => void;
   onComplete: () => void;
   onAskAgent: (fieldKey: string, value: any) => void;
+  onQuizScoreUpdate?: (correct: number, total: number) => void;
 }
 
-const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplete, onAskAgent }: JourneyLayerProps) => {
+const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplete, onAskAgent, onQuizScoreUpdate }: JourneyLayerProps) => {
   const [section, setSection] = useState<Section>('waarom');
   const [completedFields, setCompletedFields] = useState<Set<string>>(new Set());
   const [quizIndex, setQuizIndex] = useState(0);
@@ -306,6 +307,7 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
                               setQuizCorrect(false);
                             } else {
                               setQuizComplete(true);
+                              onQuizScoreUpdate?.(quizScore + (quizCorrect ? 0 : 0), layer.waarom.quiz!.length);
                             }
                           }}
                           className="w-full py-2.5 rounded-lg bg-[#1E1E22] text-[#F0F0EE] text-xs font-medium font-['DM_Sans'] hover:bg-[#2A2A2E] transition-colors"
@@ -337,6 +339,31 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
                         {quizScore === layer.waarom.quiz.length ? 'Perfect! Je beheerst de kernconcepten.' : 'Goed gedaan. De uitleg helpt je bij de configuratie.'}
                       </p>
                     </div>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* Global Quiz Score Indicator */}
+              {onQuizScoreUpdate && quizComplete && layer.waarom.quiz && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mt-4 p-3 rounded-lg border border-[#E8FF47]/20 bg-[#E8FF47]/[0.05]"
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Trophy className="w-4 h-4 text-[#E8FF47]" />
+                      <span className="text-xs text-[#E8FF47] font-['DM_Sans'] font-medium">Quiz Score</span>
+                    </div>
+                    <span className="font-mono text-sm font-bold text-[#E8FF47]">{quizScore}/{layer.waarom.quiz.length}</span>
+                  </div>
+                  <div className="mt-2 h-1.5 bg-[#1E1E22] rounded-full overflow-hidden">
+                    <motion.div 
+                      className="h-full bg-[#E8FF47]"
+                      initial={{ width: 0 }}
+                      animate={{ width: `${(quizScore / (layer.waarom.quiz?.length || 1)) * 100}%` }}
+                      transition={{ duration: 0.5, ease: "easeOut" }}
+                    />
                   </div>
                 </motion.div>
               )}
