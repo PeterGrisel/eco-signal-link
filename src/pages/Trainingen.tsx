@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { GraduationCap, ArrowRight, Signal, Users, BarChart3, Zap } from "lucide-react";
+import { GraduationCap, ArrowRight, Signal, Users, BarChart3, Zap, Clock } from "lucide-react";
 
 type Level = "Starter" | "Gevorderd" | "Expert";
 type PriceRange = "Gratis" | "< €100" | "€100+";
@@ -46,6 +46,7 @@ const trainingen = [
     duration: "30 min",
     icon: BarChart3,
     featured: false,
+    comingSoon: true,
   },
   {
     title: "ICP Scherpslijpen met AI",
@@ -58,6 +59,7 @@ const trainingen = [
     duration: "20 min",
     icon: Users,
     featured: false,
+    comingSoon: true,
   },
   {
     title: "Multi-channel Sequencing Playbook",
@@ -70,6 +72,7 @@ const trainingen = [
     duration: "25 min",
     icon: Zap,
     featured: false,
+    comingSoon: true,
   },
 ];
 
