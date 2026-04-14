@@ -47,8 +47,21 @@ const Confetti = () => {
   );
 };
 
-const JourneyCompletion = ({ score, quizScore, totalQuizQuestions, completedLayers }: JourneyCompletionProps) => {
+const JourneyCompletion = ({ score, quizScore, totalQuizQuestions, completedLayers, allInputs }: JourneyCompletionProps) => {
   const [showConfetti, setShowConfetti] = useState(true);
+  const [exporting, setExporting] = useState(false);
+
+  const handleDownloadPdf = async () => {
+    setExporting(true);
+    try {
+      await generateBlueprintPdf({ company: '', score, inputs: allInputs });
+      toast.success("PDF gedownload!");
+    } catch (err) {
+      console.error('PDF export failed:', err);
+      toast.error("PDF export mislukt.");
+    }
+    setExporting(false);
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => setShowConfetti(false), 5000);
