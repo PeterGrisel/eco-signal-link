@@ -130,7 +130,7 @@ const SignaalJourney = () => {
       setLoading(false);
     };
     loadJourney();
-  }, [navigate]);
+  }, [navigate, paramJourneyId]);
 
   const handleInputChange = useCallback((fieldKey: string, value: any) => {
     setAllInputs(prev => ({
