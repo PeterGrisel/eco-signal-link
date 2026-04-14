@@ -180,8 +180,10 @@ export async function generateBlueprintPdf({ company, score, inputs }: Blueprint
       const content = sanitizeText(layer.blueprintTemplate(layerInputs));
       const lines = pdf.splitTextToSize(content, contentW - 12);
 
-      // Card background
-      const cardH = Math.max(lines.length * 4.5 + 10, 20);
+      // Card background — use helvetica for better unicode support
+      const lineH = 4.2;
+      const cardPadding = 12;
+      const cardH = Math.max(lines.length * lineH + cardPadding, 20);
       checkSpace(cardH + 4);
 
       pdf.setFillColor(26, 26, 30);
@@ -189,8 +191,8 @@ export async function generateBlueprintPdf({ company, score, inputs }: Blueprint
       pdf.setLineWidth(0.2);
       pdf.roundedRect(margin, y, contentW, cardH, 2, 2, 'FD');
 
-      pdf.setFontSize(8);
-      pdf.setFont('courier', 'normal');
+      pdf.setFontSize(7.5);
+      pdf.setFont('helvetica', 'normal');
       pdf.setTextColor(161, 161, 170);
       pdf.text(lines, margin + 6, y + 7);
 
