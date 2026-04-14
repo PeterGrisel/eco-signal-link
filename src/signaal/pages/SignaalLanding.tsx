@@ -280,12 +280,12 @@ const SignaalLanding = () => {
 
           <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-4">
             {[
-              { emoji: "🏢", title: "Sales Directors & VP Sales", desc: "U wilt een voorspelbare pipeline maar uw team jaagt nog steeds op koude leads zonder systeem." },
-              { emoji: "🚀", title: "Founders & CEO's (scale-ups)", desc: "U doet sales er zelf 'even' bij. U weet dat het beter moet, maar mist de structuur om te schalen." },
-              { emoji: "📊", title: "Revenue Operations", desc: "U heeft de tools, maar mist de strategie om signalen om te zetten in gekwalificeerde pipeline." },
-              { emoji: "🤝", title: "Business Development Managers", desc: "U belt 50 prospects per dag. Slechts 3 zijn relevant. U wilt weten welke 3 dat zijn vóórdat u belt." },
-              { emoji: "🏭", title: "B2B Dienstverleners & Maakindustrie", desc: "Lange salescycli, meerdere beslissers. U heeft een systeem nodig dat koopsignalen vroegtijdig detecteert." },
-              { emoji: "💻", title: "IT & SaaS bedrijven", desc: "Uw markt is competitief. Wie het eerst het signaal oppikt, wint de deal. Timing is alles." },
+              { icon: Building2, title: "Sales Directors & VP Sales", desc: "U wilt een voorspelbare pipeline maar uw team jaagt nog steeds op koude leads zonder systeem." },
+              { icon: Rocket, title: "Founders & CEO's (scale-ups)", desc: "U doet sales er zelf 'even' bij. U weet dat het beter moet, maar mist de structuur om te schalen." },
+              { icon: TrendingUp, title: "Revenue Operations", desc: "U heeft de tools, maar mist de strategie om signalen om te zetten in gekwalificeerde pipeline." },
+              { icon: Handshake, title: "Business Development Managers", desc: "U belt 50 prospects per dag. Slechts 3 zijn relevant. U wilt weten welke 3 dat zijn vóórdat u belt." },
+              { icon: Factory, title: "B2B Dienstverleners & Maakindustrie", desc: "Lange salescycli, meerdere beslissers. U heeft een systeem nodig dat koopsignalen vroegtijdig detecteert." },
+              { icon: Monitor, title: "IT & SaaS bedrijven", desc: "Uw markt is competitief. Wie het eerst het signaal oppikt, wint de deal. Timing is alles." },
             ].map((persona, i) => (
               <motion.div
                 key={persona.title}
@@ -295,7 +295,9 @@ const SignaalLanding = () => {
                 transition={{ delay: i * 0.07 }}
                 className="flex items-start gap-4 p-5 rounded-xl bg-card border border-border"
               >
-                <span className="text-2xl shrink-0 mt-0.5">{persona.emoji}</span>
+                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
+                  <persona.icon className="w-5 h-5 text-primary" />
+                </div>
                 <div>
                   <h3 className="font-display font-semibold text-base text-foreground mb-1">{persona.title}</h3>
                   <p className="text-sm text-muted-foreground leading-relaxed">{persona.desc}</p>
