@@ -676,8 +676,6 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
                     </div>
                   );
                 })}
-                  );
-                })}
               </div>
 
               <button
