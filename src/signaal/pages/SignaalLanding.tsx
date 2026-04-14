@@ -236,6 +236,7 @@ const SignaalLanding = () => {
               { icon: CalendarCheck, title: "90-Daagse Review Checklist", desc: "Gestructureerd evaluatieplan zodat u uw systeem na 90 dagen finetunet op basis van echte data.", value: "Inclusief" },
               { icon: RefreshCw, title: "Onbeperkt hergebruik (Fork & Edit)", desc: "Bouw nieuwe signaalconfiguraties op basis van eerdere. Experimenteer zonder opnieuw te beginnen.", value: "Onbeperkt" },
               { icon: LayoutDashboard, title: "Mijn Signalen Dashboard", desc: "Beheer en vergelijk al uw configuraties op één plek. Schakel moeiteloos tussen signalen.", value: "Inclusief" },
+              { icon: BadgeCheck, title: "Signal Partner Programma", desc: "Word zichtbaar als Signal Certified partner. Ontvang een badge, referral-code en toegang tot het partner-netwerk, coworking hubs en AI-trainingen.", value: "Na afronding", link: "/partners" },
             ].map((item, i) => (
               <motion.div
                 key={item.title}
