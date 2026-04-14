@@ -58,6 +58,7 @@ import SignaalBlueprint from "./signaal/pages/SignaalBlueprint.tsx";
 import SignaalDashboard from "./signaal/pages/SignaalDashboard.tsx";
 import TrackingScriptInjector from "./components/TrackingScriptInjector";
 import WhatsAppButton from "./components/WhatsAppButton";
+import FloatingTrainingCta from "./components/FloatingTrainingCta";
 import CookieConsent from "./components/CookieConsent";
 
 const queryClient = new QueryClient();
@@ -149,6 +150,7 @@ const App = () => (
         <Sonner />
         <TrackingScriptInjector />
         <WhatsAppButton />
+        <FloatingTrainingCta />
         <CookieConsent />
         <AnimatedRoutes />
       </BrowserRouter>
