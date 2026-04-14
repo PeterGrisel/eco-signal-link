@@ -13,7 +13,7 @@ const BlueprintPanel = ({ inputs, currentLayer, score }: BlueprintPanelProps) =>
   );
 
   return (
-    <div className="w-full lg:w-[280px] shrink-0 lg:border-r border-border lg:h-full overflow-y-auto p-5 flex flex-col">
+    <div className="w-full lg:w-[300px] shrink-0 lg:border-r border-border lg:h-full overflow-y-auto p-5 flex flex-col">
       {/* Header */}
       <div className="flex items-center gap-2 mb-6">
         <h2 className="font-display text-lg text-foreground">Jouw Blueprint</h2>
@@ -24,7 +24,7 @@ const BlueprintPanel = ({ inputs, currentLayer, score }: BlueprintPanelProps) =>
       </div>
 
       {/* Blueprint sections */}
-      <div className="flex-1 space-y-4">
+      <div className="flex-1 space-y-3">
         <AnimatePresence>
           {LAYERS.map((layer) => {
             const layerInputs = inputs[layer.id] || {};
@@ -51,18 +51,18 @@ const BlueprintPanel = ({ inputs, currentLayer, score }: BlueprintPanelProps) =>
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4 }}
-                className="p-3 rounded-lg bg-card border border-border"
+                className="p-3.5 rounded-lg bg-card border border-border"
               >
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="text-xs font-mono text-primary">0{layer.id}</span>
-                  <span className="text-xs font-medium text-foreground">{layer.title}</span>
+                <div className="flex items-center gap-2 mb-2.5">
+                  <span className="text-xs font-mono px-1.5 py-0.5 rounded bg-primary/10 text-primary">0{layer.id}</span>
+                  <span className="text-[13px] font-medium text-foreground leading-tight">{layer.title}</span>
                 </div>
                 {hasContent ? (
-                  <pre className="text-[10px] font-mono text-muted-foreground whitespace-pre-wrap leading-relaxed">
+                  <div className="text-[11.5px] font-mono text-muted-foreground whitespace-pre-wrap leading-[1.7] tracking-wide">
                     {layer.blueprintTemplate(layerInputs)}
-                  </pre>
+                  </div>
                 ) : (
-                  <p className="text-[10px] text-muted-foreground italic">Nog niet ingevuld...</p>
+                  <p className="text-[11px] text-muted-foreground/60 italic font-body">Nog niet ingevuld...</p>
                 )}
               </motion.div>
             );
