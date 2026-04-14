@@ -14,6 +14,7 @@ interface JourneyCompletionProps {
   totalQuizQuestions: number;
   completedLayers: number[];
   allInputs: Record<number, Record<string, any>>;
+  journeyId?: string;
 }
 
 const Confetti = () => {
