@@ -15,6 +15,7 @@ const diensten = [
   { href: "/full-service-recruitment", label: "Full Service Recruitment" },
   { href: "/datahub", label: "Datahub" },
   { href: "/pipeline-equation", label: "Pipeline Equation™" },
+  { href: "/signaal", label: "Signaal Detectiesysteem" },
 ];
 
 const bedrijf = [
@@ -24,6 +25,12 @@ const bedrijf = [
   { href: "/pricing", label: "Pricing" },
   { href: "/blog", label: "Blog" },
   { href: "/contact", label: "Contact" },
+];
+
+const kennis = [
+  { href: "/cheatsheets", label: "Cheatsheets" },
+  { href: "/trainingen", label: "Trainingen" },
+  { href: "/partners", label: "Signal Partners" },
 ];
 
 const Footer = () => {
