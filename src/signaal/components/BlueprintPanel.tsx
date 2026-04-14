@@ -91,5 +91,6 @@ const BlueprintPanel = ({ inputs, currentLayer, score }: BlueprintPanelProps) =>
       </div>
     </div>
   );
+};
 
 export default BlueprintPanel;
