@@ -1,8 +1,12 @@
 import { MessageCircle } from "lucide-react";
+import { useLocation } from "react-router-dom";
 
 const WhatsAppButton = () => {
+  const location = useLocation();
   const phone = "31852502925";
   const url = `https://wa.me/${phone}`;
+
+  if (location.pathname.startsWith("/signaal")) return null;
 
   return (
     <a
