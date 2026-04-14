@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { GraduationCap, ArrowRight, Signal, Users, BarChart3, Zap } from "lucide-react";
+import { GraduationCap, ArrowRight, Signal, Users, BarChart3, Zap, Clock } from "lucide-react";
 
 type Level = "Starter" | "Gevorderd" | "Expert";
 type PriceRange = "Gratis" | "< €100" | "€100+";
@@ -46,6 +46,7 @@ const trainingen = [
     duration: "30 min",
     icon: BarChart3,
     featured: false,
+    comingSoon: true,
   },
   {
     title: "ICP Scherpslijpen met AI",
@@ -58,6 +59,7 @@ const trainingen = [
     duration: "20 min",
     icon: Users,
     featured: false,
+    comingSoon: true,
   },
   {
     title: "Multi-channel Sequencing Playbook",
@@ -70,6 +72,7 @@ const trainingen = [
     duration: "25 min",
     icon: Zap,
     featured: false,
+    comingSoon: true,
   },
 ];
 
@@ -162,43 +165,60 @@ const Trainingen = () => {
 
           {/* Training cards */}
           <div className="grid gap-4">
-            {filtered.map((training) => (
-              <Link
-                key={training.href}
-                to={training.href}
-                className={`group flex items-start gap-4 p-6 rounded-lg border transition-all ${
-                  training.featured
-                    ? "border-primary/40 bg-primary/5 hover:border-primary/70 hover:shadow-[0_0_30px_hsl(var(--primary)/0.1)]"
-                    : "border-border bg-card hover:border-primary/50"
-                }`}
-              >
-                <div className={`flex-shrink-0 w-10 h-10 rounded-md flex items-center justify-center ${
-                  training.featured ? "bg-primary/20" : "bg-primary/10"
-                }`}>
-                  <training.icon className="w-5 h-5 text-primary" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex flex-wrap items-center gap-2 mb-1">
-                    <span className="text-xs font-semibold uppercase tracking-wider text-primary">{training.tag}</span>
-                    <span className={`text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded ${levelColors[training.level]}`}>
-                      {training.level}
-                    </span>
-                    {training.featured && (
-                      <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded bg-primary/20 text-primary border border-primary/30">
-                        Populair
+            {filtered.map((training) => {
+              const CardWrapper = training.comingSoon ? 'div' : Link;
+              const cardProps = training.comingSoon
+                ? {}
+                : { to: training.href };
+
+              return (
+                <CardWrapper
+                  key={training.title}
+                  {...(cardProps as any)}
+                  className={`group flex items-start gap-4 p-6 rounded-lg border transition-all ${
+                    training.comingSoon
+                      ? "border-border/50 bg-card/50 opacity-70 cursor-default"
+                      : training.featured
+                        ? "border-primary/40 bg-primary/5 hover:border-primary/70 hover:shadow-[0_0_30px_hsl(var(--primary)/0.1)]"
+                        : "border-border bg-card hover:border-primary/50"
+                  }`}
+                >
+                  <div className={`flex-shrink-0 w-10 h-10 rounded-md flex items-center justify-center ${
+                    training.featured ? "bg-primary/20" : "bg-primary/10"
+                  }`}>
+                    <training.icon className="w-5 h-5 text-primary" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex flex-wrap items-center gap-2 mb-1">
+                      <span className="text-xs font-semibold uppercase tracking-wider text-primary">{training.tag}</span>
+                      <span className={`text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded ${levelColors[training.level]}`}>
+                        {training.level}
                       </span>
-                    )}
+                      {training.featured && (
+                        <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded bg-primary/20 text-primary border border-primary/30">
+                          Populair
+                        </span>
+                      )}
+                      {training.comingSoon && (
+                        <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded bg-muted/50 text-muted-foreground border border-border flex items-center gap-1">
+                          <Clock className="w-3 h-3" />
+                          Coming soon
+                        </span>
+                      )}
+                    </div>
+                    <h2 className={`text-lg font-semibold transition-colors ${training.comingSoon ? "text-foreground/60" : "text-foreground group-hover:text-primary"}`}>{training.title}</h2>
+                    <p className="text-sm text-muted-foreground mt-1">{training.description}</p>
+                    <div className="flex items-center gap-4 mt-3">
+                      <span className="text-sm font-display font-bold text-foreground">{training.priceLabel}</span>
+                      <span className="text-xs text-muted-foreground">⏱ {training.duration}</span>
+                    </div>
                   </div>
-                  <h2 className="text-lg font-semibold text-foreground group-hover:text-primary transition-colors">{training.title}</h2>
-                  <p className="text-sm text-muted-foreground mt-1">{training.description}</p>
-                  <div className="flex items-center gap-4 mt-3">
-                    <span className="text-sm font-display font-bold text-foreground">{training.priceLabel}</span>
-                    <span className="text-xs text-muted-foreground">⏱ {training.duration}</span>
-                  </div>
-                </div>
-                <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors flex-shrink-0 mt-1" />
-              </Link>
-            ))}
+                  {!training.comingSoon && (
+                    <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors flex-shrink-0 mt-1" />
+                  )}
+                </CardWrapper>
+              );
+            })}
 
             {filtered.length === 0 && (
               <div className="text-center py-12 text-muted-foreground">
