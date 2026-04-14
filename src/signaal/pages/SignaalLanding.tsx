@@ -256,7 +256,14 @@ const SignaalLanding = () => {
                       {item.value}
                     </span>
                   </div>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    {item.desc}
+                    {"link" in item && item.link && (
+                      <Link to={item.link} className="text-primary hover:underline ml-1 inline-flex items-center gap-1">
+                        Bekijk partners <ChevronRight className="w-3 h-3" />
+                      </Link>
+                    )}
+                  </p>
                 </div>
                 <Check className="w-5 h-5 text-primary shrink-0 mt-1" />
               </motion.div>
