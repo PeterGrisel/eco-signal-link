@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import SignaalLayout from "../components/SignaalLayout";
 import BlueprintPanel from "../components/BlueprintPanel";
@@ -24,6 +24,7 @@ const TIME_SAVINGS = [0, 2, 4, 6, 8, 10, 12, 14]; // hrs/week per completed laye
 
 const SignaalJourney = () => {
   const navigate = useNavigate();
+  const { journeyId: paramJourneyId } = useParams<{ journeyId?: string }>();
   const [journeyId, setJourneyId] = useState<string | null>(null);
   const [currentLayer, setCurrentLayer] = useState(1);
   const [completedLayers, setCompletedLayers] = useState<number[]>([]);
