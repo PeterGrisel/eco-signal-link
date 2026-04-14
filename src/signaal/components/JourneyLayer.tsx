@@ -24,6 +24,20 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
   const [quizCorrect, setQuizCorrect] = useState(false);
   const [quizComplete, setQuizComplete] = useState(false);
   const [quizScore, setQuizScore] = useState(0);
+  const [akteIntroSeen, setAkteIntroSeen] = useState(false);
+
+  // Reset to 'waarom' tab whenever the layer changes
+  useEffect(() => {
+    setSection('waarom');
+    setCompletedFields(new Set());
+    setQuizIndex(0);
+    setSelectedAnswer(null);
+    setQuizAnswered(false);
+    setQuizCorrect(false);
+    setQuizComplete(false);
+    setQuizScore(0);
+    setAkteIntroSeen(false);
+  }, [layer.id]);
 
   const { requiredFilled, filledCount, totalFields } = useMemo(() => {
     const required = layer.wat.fields.filter(f => f.required);
