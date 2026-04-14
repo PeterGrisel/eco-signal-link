@@ -151,7 +151,32 @@ const SignaalBlueprint = () => {
           })}
         </div>
 
-        {/* 90-day reminder */}
+        {/* Installation Setup Checklist */}
+        {(() => {
+          const toolGuides = getSelectedToolGuides(inputs);
+          if (toolGuides.length === 0) return null;
+          return (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+              className="mt-12"
+            >
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                  <Wrench className="w-5 h-5 text-primary" />
+                </div>
+                <div>
+                  <h2 className="font-display text-2xl text-foreground">Installatie Setup</h2>
+                  <p className="text-xs text-muted-foreground font-body">
+                    Stap-voor-stap checklist om je toolstack in te richten
+                  </p>
+                </div>
+              </div>
+              <SetupChecklist guides={toolGuides} />
+            </motion.div>
+          );
+        })()}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
