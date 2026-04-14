@@ -48,20 +48,37 @@ const SignaalJourney = () => {
         return;
       }
 
-      // Get latest journey
-      const { data: journeys } = await supabase
-        .from('journeys')
-        .select('*')
-        .eq('user_id', session.user.id)
-        .order('started_at', { ascending: false })
-        .limit(1);
+      let journey: any;
 
-      if (!journeys || journeys.length === 0) {
-        navigate('/signaal/start');
-        return;
+      if (paramJourneyId) {
+        // Load specific journey by ID
+        const { data } = await supabase
+          .from('journeys')
+          .select('*')
+          .eq('id', paramJourneyId)
+          .eq('user_id', session.user.id)
+          .maybeSingle();
+
+        if (!data) {
+          navigate('/signaal/dashboard');
+          return;
+        }
+        journey = data;
+      } else {
+        // Get latest journey
+        const { data: journeys } = await supabase
+          .from('journeys')
+          .select('*')
+          .eq('user_id', session.user.id)
+          .order('started_at', { ascending: false })
+          .limit(1);
+
+        if (!journeys || journeys.length === 0) {
+          navigate('/signaal/start');
+          return;
+        }
+        journey = journeys[0];
       }
-
-      const journey = journeys[0];
 
       // Gate: must be paid
       if (!(journey as any).paid) {
