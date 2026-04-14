@@ -147,7 +147,7 @@ const SignaalStart = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 bg-primary text-[hsl(0, 0%, 7%)] rounded-lg text-sm font-medium disabled:opacity-50 hover:shadow-[0_0_20px_rgba(232,148,90,0.2)] transition-all font-body"
+              className="w-full py-3 bg-primary text-primary-foreground rounded-lg text-sm font-medium disabled:opacity-50 hover:shadow-[0_0_20px_rgba(232,148,90,0.2)] transition-all font-body"
             >
               {loading ? 'Versturen...' : 'Stuur magic link →'}
             </button>
@@ -178,7 +178,7 @@ const SignaalStart = () => {
             <button
               type="submit"
               disabled={loading || !name.trim()}
-              className="w-full py-3 bg-primary text-[hsl(0, 0%, 7%)] rounded-lg text-sm font-medium disabled:opacity-50 hover:shadow-[0_0_20px_rgba(232,148,90,0.2)] transition-all font-body"
+              className="w-full py-3 bg-primary text-primary-foreground rounded-lg text-sm font-medium disabled:opacity-50 hover:shadow-[0_0_20px_rgba(232,148,90,0.2)] transition-all font-body"
             >
               {loading ? 'Opslaan...' : 'Start de journey →'}
             </button>

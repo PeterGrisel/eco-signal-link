@@ -76,7 +76,7 @@ const BlueprintPanel = ({ inputs, currentLayer, score }: BlueprintPanelProps) =>
           <span className="text-xs font-mono text-muted-foreground">Voortgang</span>
           <span className="text-xs font-mono text-primary">{completionPercent}%</span>
         </div>
-        <div className="w-full h-1.5 bg-[hsl(0, 0%, 13%)] rounded-full overflow-hidden">
+        <div className="w-full h-1.5 bg-secondary rounded-full overflow-hidden">
           <motion.div
             className="h-full bg-primary rounded-full"
             initial={{ width: 0 }}

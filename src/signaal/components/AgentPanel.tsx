@@ -89,7 +89,7 @@ const AgentPanel = ({ messages, isLoading, onSendMessage }: AgentPanelProps) => 
           <button
             type="submit"
             disabled={isLoading || !input.trim()}
-            className="px-3 py-2 bg-primary text-[hsl(0, 0%, 7%)] rounded-lg text-xs font-medium disabled:opacity-30 hover:bg-primary/90 transition-colors font-body"
+            className="px-3 py-2 bg-primary text-primary-foreground rounded-lg text-xs font-medium disabled:opacity-30 hover:bg-primary/90 transition-colors font-body"
           >
             →
           </button>

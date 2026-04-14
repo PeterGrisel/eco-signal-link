@@ -65,7 +65,7 @@ const JourneyOnboarding = ({ onComplete }: JourneyOnboardingProps) => {
             <div
               key={i}
               className={`h-1 rounded-full transition-all duration-300 ${
-                i === currentStep ? 'w-8 bg-primary' : i < currentStep ? 'w-4 bg-primary/40' : 'w-4 bg-[hsl(0, 0%, 13%)]'
+                i === currentStep ? 'w-8 bg-primary' : i < currentStep ? 'w-4 bg-primary/40' : 'w-4 bg-secondary'
               }`}
             />
           ))}
@@ -108,7 +108,7 @@ const JourneyOnboarding = ({ onComplete }: JourneyOnboardingProps) => {
         {/* Action button */}
         <button
           onClick={handleNext}
-          className="w-full group flex items-center justify-center gap-2 py-3.5 bg-primary text-[hsl(0, 0%, 7%)] rounded-lg text-sm font-medium hover:shadow-[0_0_20px_rgba(232,148,90,0.2)] transition-all font-body"
+          className="w-full group flex items-center justify-center gap-2 py-3.5 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:shadow-[0_0_20px_rgba(232,148,90,0.2)] transition-all font-body"
         >
           {currentStep < steps.length - 1 ? 'Volgende' : 'Start de journey'}
           <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />

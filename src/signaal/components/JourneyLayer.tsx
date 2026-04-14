@@ -78,7 +78,7 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
             onClick={() => setSection(s)}
             className={`flex-1 py-2 px-3 rounded-md text-xs font-body font-medium transition-all ${
               section === s
-                ? 'bg-[hsl(0, 0%, 13%)] text-primary'
+                ? 'bg-secondary text-primary'
                 : 'text-muted-foreground hover:text-foreground'
             }`}
           >
@@ -152,7 +152,7 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
                     <p className="mt-1.5 text-[10px] text-muted-foreground font-body uppercase tracking-wider">{layer.waarom.stats.before.label}</p>
                   </div>
                   <div className="rounded-xl border border-[#34D399]/20 bg-[#34D399]/[0.04] p-4 text-center relative">
-                    <div className="absolute -left-4 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-[hsl(0, 0%, 13%)] flex items-center justify-center">
+                    <div className="absolute -left-4 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-secondary flex items-center justify-center">
                       <ArrowRight className="w-3 h-3 text-[#34D399]" />
                     </div>
                     <span className="font-mono text-2xl font-bold text-[#34D399]">{layer.waarom.stats.after.value}</span>
@@ -270,7 +270,7 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
                           setQuizCorrect(correct);
                           if (correct) setQuizScore(prev => prev + 1);
                         }}
-                        className="w-full py-2.5 rounded-lg bg-[#A78BFA] text-[hsl(0, 0%, 7%)] text-xs font-semibold font-body hover:bg-[#A78BFA]/90 transition-colors"
+                        className="w-full py-2.5 rounded-lg bg-[#A78BFA] text-primary-foreground text-xs font-semibold font-body hover:bg-[#A78BFA]/90 transition-colors"
                       >
                         Controleer antwoord
                       </motion.button>
@@ -310,7 +310,7 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
                               onQuizScoreUpdate?.(quizScore + (quizCorrect ? 0 : 0), layer.waarom.quiz!.length);
                             }
                           }}
-                          className="w-full py-2.5 rounded-lg bg-[hsl(0, 0%, 13%)] text-foreground text-xs font-medium font-body hover:bg-[#2A2A2E] transition-colors"
+                          className="w-full py-2.5 rounded-lg bg-secondary text-foreground text-xs font-medium font-body hover:bg-[#2A2A2E] transition-colors"
                         >
                           {quizIndex + 1 < (layer.waarom.quiz?.length || 0) ? 'Volgende vraag →' : 'Afronden'}
                         </button>
@@ -357,7 +357,7 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
                     </div>
                     <span className="font-mono text-sm font-bold text-primary">{quizScore}/{layer.waarom.quiz.length}</span>
                   </div>
-                  <div className="mt-2 h-1.5 bg-[hsl(0, 0%, 13%)] rounded-full overflow-hidden">
+                  <div className="mt-2 h-1.5 bg-secondary rounded-full overflow-hidden">
                     <motion.div 
                       className="h-full bg-primary"
                       initial={{ width: 0 }}
@@ -372,7 +372,7 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
               {(!layer.waarom.quiz || layer.waarom.quiz.length === 0 || quizComplete) && (
                 <button
                   onClick={() => setSection('wat')}
-                  className="mt-6 group flex items-center gap-2 px-6 py-3 bg-primary text-[hsl(0, 0%, 7%)] rounded-lg text-sm font-medium hover:shadow-[0_0_20px_rgba(232,148,90,0.2)] transition-all font-body"
+                  className="mt-6 group flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:shadow-[0_0_20px_rgba(232,148,90,0.2)] transition-all font-body"
                 >
                   Begrepen — door naar configuratie
                   <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
@@ -391,7 +391,7 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
               </div>
 
               {/* Progress bar */}
-              <div className="w-full h-1 bg-[hsl(0, 0%, 13%)] rounded-full overflow-hidden">
+              <div className="w-full h-1 bg-secondary rounded-full overflow-hidden">
                 <motion.div
                   className="h-full rounded-full"
                   style={{ backgroundColor: layer.themeColor }}
@@ -433,7 +433,7 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
                         <div className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${
                           inputs[field.key] ? 'bg-primary border-primary' : 'border-[hsl(30, 10%, 55%)]'
                         }`}>
-                          {inputs[field.key] && <Check className="w-3 h-3 text-[hsl(0, 0%, 7%)]" />}
+                          {inputs[field.key] && <Check className="w-3 h-3 text-primary-foreground" />}
                         </div>
                         {inputs[field.key] ? 'Actief' : 'Niet actief'}
                       </button>
@@ -549,7 +549,7 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
                           <div className="w-5 h-5 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: l.themeColor + '20', borderColor: l.themeColor + '60', borderWidth: 1 }}>
                             <Check className="w-2.5 h-2.5" style={{ color: l.themeColor }} />
                           </div>
-                          {i < arr.length - 1 && <div className="w-px h-5 bg-[hsl(0, 0%, 13%)]" />}
+                          {i < arr.length - 1 && <div className="w-px h-5 bg-secondary" />}
                         </div>
                         <div className="pb-3">
                           <span className="font-mono text-[9px] uppercase tracking-wider" style={{ color: l.themeColor }}>{String(l.id).padStart(2, '0')} {l.title}</span>
@@ -576,7 +576,7 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
               <button
                 onClick={() => layer.hoe ? setSection('hoe') : onComplete()}
                 disabled={!requiredFilled}
-                className="mt-4 group flex items-center gap-2 px-6 py-3 bg-primary text-[hsl(0, 0%, 7%)] rounded-lg text-sm font-medium disabled:opacity-30 hover:shadow-[0_0_20px_rgba(232,148,90,0.2)] transition-all font-body"
+                className="mt-4 group flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg text-sm font-medium disabled:opacity-30 hover:shadow-[0_0_20px_rgba(232,148,90,0.2)] transition-all font-body"
               >
                 {layer.hoe ? 'Volgende' : 'Laag afronden'}
                 <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
@@ -617,7 +617,7 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
 
               <button
                 onClick={onComplete}
-                className="mt-4 group flex items-center gap-2 px-6 py-3 bg-primary text-[hsl(0, 0%, 7%)] rounded-lg text-sm font-medium hover:shadow-[0_0_20px_rgba(232,148,90,0.2)] transition-all font-body"
+                className="mt-4 group flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:shadow-[0_0_20px_rgba(232,148,90,0.2)] transition-all font-body"
               >
                 <Sparkles className="w-4 h-4" />
                 Laag afronden

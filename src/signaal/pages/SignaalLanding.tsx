@@ -28,7 +28,7 @@ const SignaalLanding = () => {
 
           <Link
             to="/signaal/start"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-primary text-[hsl(0, 0%, 7%)] rounded-lg text-base font-medium hover:shadow-[0_0_30px_rgba(232,148,90,0.3)] transition-all font-body"
+            className="inline-flex items-center gap-2 px-8 py-4 bg-primary text-primary-foreground rounded-lg text-base font-medium hover:shadow-[0_0_30px_rgba(232,148,90,0.3)] transition-all font-body"
           >
             Bouw jouw systeem gratis →
           </Link>
@@ -128,7 +128,7 @@ const SignaalLanding = () => {
         </p>
         <Link
           to="/signaal/start"
-          className="inline-flex items-center gap-2 px-8 py-4 bg-primary text-[hsl(0, 0%, 7%)] rounded-lg text-base font-medium hover:shadow-[0_0_30px_rgba(232,148,90,0.3)] transition-all font-body"
+          className="inline-flex items-center gap-2 px-8 py-4 bg-primary text-primary-foreground rounded-lg text-base font-medium hover:shadow-[0_0_30px_rgba(232,148,90,0.3)] transition-all font-body"
         >
           Bouw jouw systeem gratis →
         </Link>

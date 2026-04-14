@@ -229,7 +229,7 @@ const SignaalJourney = () => {
         <div className="text-center">
           <h2 className="font-display text-3xl text-foreground mb-4">Journey voltooid!</h2>
           <p className="text-sm text-muted-foreground font-body mb-6">Score: {score}/100</p>
-          <a href="/signaal/blueprint" className="px-6 py-3 bg-primary text-[hsl(0, 0%, 7%)] rounded-lg text-sm font-medium font-body">
+          <a href="/signaal/blueprint" className="px-6 py-3 bg-primary text-primary-foreground rounded-lg text-sm font-medium font-body">
             Bekijk je Blueprint →
           </a>
         </div>
@@ -275,7 +275,7 @@ const SignaalJourney = () => {
                       <span className="font-body text-[11px] font-medium text-muted-foreground">Quiz Score</span>
                       <span className="font-mono text-xs font-bold text-[#A78BFA]">{quizScore}/{totalQuizQuestions}</span>
                     </div>
-                    <div className="h-1.5 bg-[hsl(0, 0%, 13%)] rounded-full overflow-hidden">
+                    <div className="h-1.5 bg-secondary rounded-full overflow-hidden">
                       <div
                         className="h-full bg-gradient-to-r from-[#A78BFA] to-[hsl(24, 75%, 63%)] rounded-full transition-all duration-700 ease-out"
                         style={{ width: `${(quizScore / totalQuizQuestions) * 100}%` }}

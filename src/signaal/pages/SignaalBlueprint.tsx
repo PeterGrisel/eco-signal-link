@@ -174,7 +174,7 @@ const SignaalBlueprint = () => {
                 )}
 
                 <div className="flex items-center gap-3 mb-3">
-                  <span className="font-mono text-xs px-2 py-1 rounded bg-[hsl(0, 0%, 13%)] text-primary">
+                  <span className="font-mono text-xs px-2 py-1 rounded bg-secondary text-primary">
                     0{layer.id}
                   </span>
                   <h2 className="font-display text-lg text-foreground">{layer.title}</h2>
@@ -234,7 +234,7 @@ const SignaalBlueprint = () => {
             <div className="flex items-center gap-4">
               <button
                 onClick={() => setShowCheckout(true)}
-                className="px-8 py-4 bg-primary text-[hsl(0, 0%, 7%)] rounded-lg text-base font-medium hover:shadow-[0_0_30px_rgba(232,148,90,0.3)] transition-all font-body"
+                className="px-8 py-4 bg-primary text-primary-foreground rounded-lg text-base font-medium hover:shadow-[0_0_30px_rgba(232,148,90,0.3)] transition-all font-body"
               >
                 Exporteer Blueprint — €97
               </button>
@@ -256,7 +256,7 @@ const SignaalBlueprint = () => {
             </p>
 
             {/* 90-day reminder */}
-            <div className="mt-6 p-4 rounded-lg bg-[hsl(0, 0%, 13%)]">
+            <div className="mt-6 p-4 rounded-lg bg-secondary">
               <p className="text-xs text-muted-foreground font-body mb-3">
                 Zet een reminder voor over 90 dagen om je systeem te reviewen
               </p>
