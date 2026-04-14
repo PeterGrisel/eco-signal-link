@@ -15,7 +15,7 @@ interface JourneyLayerProps {
   onQuizScoreUpdate?: (correct: number, total: number) => void;
 }
 
-const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplete, onAskAgent }: JourneyLayerProps) => {
+const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplete, onAskAgent, onQuizScoreUpdate }: JourneyLayerProps) => {
   const [section, setSection] = useState<Section>('waarom');
   const [completedFields, setCompletedFields] = useState<Set<string>>(new Set());
   const [quizIndex, setQuizIndex] = useState(0);
