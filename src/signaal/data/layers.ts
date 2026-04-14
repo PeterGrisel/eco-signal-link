@@ -72,7 +72,7 @@ export const LAYERS: LayerConfig[] = [
     id: 1,
     slug: 'definitie',
     title: 'Definitie',
-    themeColor: 'hsl(30, 10%, 55%)',
+    themeColor: '#E8945A',
     scoreContribution: 0,
     veloxMilestone: 'Velox verfijnde hun ICP van "tech companies" naar een scherpe definitie met industrie, grootte en beslisser.',
     waarom: {
@@ -164,7 +164,7 @@ UITSLUITEN: ${inputs.uitsluiten || '—'}`;
     id: 2,
     slug: 'signaalgewichten',
     title: 'Signaalgewichten',
-    themeColor: '#A78BFA',
+    themeColor: '#D4845A',
     scoreContribution: 15,
     veloxMilestone: 'Velox ontdekte dat VP Sales + funding 80% van hun deals voorspelde en paste hun gewichten aan.',
     waarom: {
@@ -249,7 +249,7 @@ In deze laag bouw je je scorematrix. Je bepaalt welke combinatie van signalen ee
     id: 3,
     slug: 'bronnen',
     title: 'Bronnen',
-    themeColor: '#60A5FA',
+    themeColor: '#C4754A',
     scoreContribution: 15,
     veloxMilestone: 'Velox schroefde terug van 7 naar 3 databronnen en halveerde hun monitor-tijd.',
     waarom: {
@@ -338,7 +338,7 @@ De volgorde is cruciaal: eerst de vraag, dan de bron. Niet andersom. Te veel tea
     id: 4,
     slug: 'kritische-vragen',
     title: 'Kritische Vragen',
-    themeColor: '#2DD4BF',
+    themeColor: '#B4663A',
     scoreContribution: 20,
     veloxMilestone: 'Velox herformuleerde hun vage zoekvragen naar scherpe filters — relevantie steeg van 2% naar 60%.',
     waarom: {
@@ -436,7 +436,7 @@ Hoe scherper de vraag, hoe minder ruis. Hoe minder ruis, hoe minder tijd je vers
     id: 5,
     slug: 'detectie',
     title: 'Detectie',
-    themeColor: '#34D399',
+    themeColor: '#E8945A',
     scoreContribution: 15,
     veloxMilestone: 'Velox automatiseerde hun monitoring via Slack-alerts en miste nog maar 3% van de signalen.',
     waarom: {
@@ -538,7 +538,7 @@ De meeste teams automatiseren te vroeg of te laat. Te vroeg: je automatiseert ru
     id: 6,
     slug: 'drempelwaarde',
     title: 'Drempelwaarde',
-    themeColor: '#FBBF24',
+    themeColor: '#D4845A',
     scoreContribution: 10,
     veloxMilestone: 'Velox verhoogde hun drempel van 15 naar 40 en elimineerde alert fatigue — 8 kwalitatieve alerts per dag.',
     waarom: {
@@ -606,7 +606,7 @@ SIGNAAL GELDIGHEID: ${inputs.window_dagen ?? 90} dagen`;
     id: 7,
     slug: 'respons',
     title: 'Respons',
-    themeColor: '#F87171',
+    themeColor: '#C4754A',
     scoreContribution: 25,
     veloxMilestone: 'Velox differentieerde hun respons per zone — prioriteitsleads kregen een persoonlijk videobericht met 31% reply rate.',
     waarom: {
