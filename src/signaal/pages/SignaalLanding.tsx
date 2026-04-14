@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Check, ArrowRight, Zap, Target, BarChart3, Clock, Brain, Layers, Shield, ChevronRight, FileText, Bot, RefreshCw, Wrench, CalendarCheck, LayoutDashboard, UserRound, Briefcase, LineChart, Phone, Cog, Code2 } from "lucide-react";
+import { Check, ArrowRight, Zap, Target, BarChart3, Clock, Brain, Layers, Shield, ChevronRight, FileText, Bot, RefreshCw, Wrench, CalendarCheck, LayoutDashboard, UserRound, Briefcase, LineChart, Phone, Cog, Code2, BadgeCheck } from "lucide-react";
 import SignaalLayout from "../components/SignaalLayout";
 import {
   Accordion,
@@ -236,6 +236,7 @@ const SignaalLanding = () => {
               { icon: CalendarCheck, title: "90-Daagse Review Checklist", desc: "Gestructureerd evaluatieplan zodat u uw systeem na 90 dagen finetunet op basis van echte data.", value: "Inclusief" },
               { icon: RefreshCw, title: "Onbeperkt hergebruik (Fork & Edit)", desc: "Bouw nieuwe signaalconfiguraties op basis van eerdere. Experimenteer zonder opnieuw te beginnen.", value: "Onbeperkt" },
               { icon: LayoutDashboard, title: "Mijn Signalen Dashboard", desc: "Beheer en vergelijk al uw configuraties op één plek. Schakel moeiteloos tussen signalen.", value: "Inclusief" },
+              { icon: BadgeCheck, title: "Signal Partner Programma", desc: "Word zichtbaar als Signal Certified partner. Ontvang een badge, referral-code en toegang tot het partner-netwerk, coworking hubs en AI-trainingen.", value: "Na afronding", link: "/partners" },
             ].map((item, i) => (
               <motion.div
                 key={item.title}
@@ -255,7 +256,14 @@ const SignaalLanding = () => {
                       {item.value}
                     </span>
                   </div>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    {item.desc}
+                    {"link" in item && item.link && (
+                      <Link to={item.link} className="text-primary hover:underline ml-1 inline-flex items-center gap-1">
+                        Bekijk partners <ChevronRight className="w-3 h-3" />
+                      </Link>
+                    )}
+                  </p>
                 </div>
                 <Check className="w-5 h-5 text-primary shrink-0 mt-1" />
               </motion.div>
