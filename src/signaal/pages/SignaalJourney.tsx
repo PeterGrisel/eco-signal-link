@@ -139,7 +139,7 @@ const SignaalJourney = () => {
     }
   }, [currentLayer, journeyId]);
 
-  const callAgent = useCallback(async (userMessage: string) => {
+  const callAgent = useCallback(async (userMessage: string, fieldKey?: string) => {
     if (!journeyId) return;
     setAgentLoading(true);
 
@@ -153,6 +153,9 @@ const SignaalJourney = () => {
       content: userMessage,
     });
 
+    const layer = LAYERS.find(l => l.id === currentLayer);
+    const field = fieldKey ? layer?.wat.fields.find(f => f.key === fieldKey) : undefined;
+
     try {
       const resp = await supabase.functions.invoke('signal-agent', {
         body: {
@@ -161,6 +164,10 @@ const SignaalJourney = () => {
             current_layer: currentLayer,
             current_section: 'wat',
             all_inputs: allInputs,
+            layer_principle: layer?.waarom.principle,
+            layer_headline: layer?.waarom.headline,
+            layer_mistake: layer?.waarom.mistake,
+            field_label: field?.label,
           },
         },
       });
@@ -190,7 +197,7 @@ const SignaalJourney = () => {
     if (!layer) return;
     const field = layer.wat.fields.find(f => f.key === fieldKey);
     const label = field?.label || fieldKey;
-    callAgent(`Ik heb "${label}" ingevuld: ${JSON.stringify(value)}`);
+    callAgent(`Ik heb "${label}" ingevuld: ${JSON.stringify(value)}`, fieldKey);
   }, [currentLayer, callAgent]);
 
   const handleLayerComplete = useCallback(async () => {
