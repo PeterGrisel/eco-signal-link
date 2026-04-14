@@ -165,6 +165,34 @@ const SignaalLanding = () => {
         </div>
       </div>
 
+      {/* ── Client logos ── */}
+      <section className="py-10 border-b border-border">
+        <div className="container mx-auto px-4 mb-6">
+          <p className="text-xs font-display uppercase tracking-[0.25em] text-muted-foreground text-center">
+            Dit passen wij ook toe bij
+          </p>
+        </div>
+        <div className="overflow-hidden relative">
+          <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-background to-transparent z-10" />
+          <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-background to-transparent z-10" />
+          <div className="flex animate-marquee" style={{ width: "max-content" }}>
+            {[...CLIENTS, ...CLIENTS, ...CLIENTS, ...CLIENTS].map((client, i) => (
+              <div key={i} className="mx-6 md:mx-10 shrink-0 flex items-center gap-2.5 select-none whitespace-nowrap">
+                <img
+                  src={`https://www.google.com/s2/favicons?domain=${client.domain}&sz=64`}
+                  alt={client.name}
+                  className="w-6 h-6 rounded-sm"
+                  loading="lazy"
+                />
+                <span className="text-sm font-display font-semibold text-foreground/50">
+                  {client.name}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── Pain points ── */}
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-4 md:px-6">
