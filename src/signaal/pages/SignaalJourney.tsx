@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import SignaalLayout from "../components/SignaalLayout";
 import BlueprintPanel from "../components/BlueprintPanel";
@@ -24,6 +24,7 @@ const TIME_SAVINGS = [0, 2, 4, 6, 8, 10, 12, 14]; // hrs/week per completed laye
 
 const SignaalJourney = () => {
   const navigate = useNavigate();
+  const { journeyId: paramJourneyId } = useParams<{ journeyId?: string }>();
   const [journeyId, setJourneyId] = useState<string | null>(null);
   const [currentLayer, setCurrentLayer] = useState(1);
   const [completedLayers, setCompletedLayers] = useState<number[]>([]);
@@ -47,20 +48,37 @@ const SignaalJourney = () => {
         return;
       }
 
-      // Get latest journey
-      const { data: journeys } = await supabase
-        .from('journeys')
-        .select('*')
-        .eq('user_id', session.user.id)
-        .order('started_at', { ascending: false })
-        .limit(1);
+      let journey: any;
 
-      if (!journeys || journeys.length === 0) {
-        navigate('/signaal/start');
-        return;
+      if (paramJourneyId) {
+        // Load specific journey by ID
+        const { data } = await supabase
+          .from('journeys')
+          .select('*')
+          .eq('id', paramJourneyId)
+          .eq('user_id', session.user.id)
+          .maybeSingle();
+
+        if (!data) {
+          navigate('/signaal/dashboard');
+          return;
+        }
+        journey = data;
+      } else {
+        // Get latest journey
+        const { data: journeys } = await supabase
+          .from('journeys')
+          .select('*')
+          .eq('user_id', session.user.id)
+          .order('started_at', { ascending: false })
+          .limit(1);
+
+        if (!journeys || journeys.length === 0) {
+          navigate('/signaal/start');
+          return;
+        }
+        journey = journeys[0];
       }
-
-      const journey = journeys[0];
 
       // Gate: must be paid
       if (!(journey as any).paid) {
@@ -112,7 +130,7 @@ const SignaalJourney = () => {
       setLoading(false);
     };
     loadJourney();
-  }, [navigate]);
+  }, [navigate, paramJourneyId]);
 
   const handleInputChange = useCallback((fieldKey: string, value: any) => {
     setAllInputs(prev => ({

@@ -42,16 +42,18 @@ const SignaalStart = () => {
         .eq('id', uid)
         .maybeSingle();
       if (data?.name) {
-        // Profile exists — check if they have a paid journey
+        // Profile exists — check if they have paid journeys
         const { data: journeys } = await supabase
           .from('journeys')
           .select('id, paid')
           .eq('user_id', uid)
-          .order('started_at', { ascending: false })
-          .limit(1);
+          .eq('paid', true)
+          .order('started_at', { ascending: false });
 
-        if (journeys?.[0]?.paid) {
-          navigate('/signaal/journey');
+        if (journeys && journeys.length > 1) {
+          navigate('/signaal/dashboard');
+        } else if (journeys && journeys.length === 1) {
+          navigate(`/signaal/journey/${journeys[0].id}`);
         } else {
           // Has profile but hasn't paid → show checkout
           setStep('checkout');

@@ -112,8 +112,7 @@ const JourneyCompletion = ({ score, quizScore, totalQuizQuestions, completedLaye
       }
 
       toast.success("Nieuw Signaal gestart met je vorige configuratie!");
-      navigate('/signaal/journey');
-      window.location.reload();
+      navigate(`/signaal/journey/${newJourney.id}`);
     } catch (err) {
       console.error('Fork failed:', err);
       toast.error("Kon geen nieuw Signaal starten.");
