@@ -1,7 +1,7 @@
 import { useState, useCallback, useMemo } from "react";
-import { LayerConfig, LAYERS } from "../data/layers";
+import { LayerConfig, LAYERS, QuizQuestion } from "../data/layers";
 import { motion, AnimatePresence } from "framer-motion";
-import { Check, ChevronRight, Sparkles, Lightbulb, AlertTriangle, Quote, Building2, ArrowRight } from "lucide-react";
+import { Check, ChevronRight, Sparkles, Lightbulb, AlertTriangle, Quote, Building2, ArrowRight, Brain, X, Trophy } from "lucide-react";
 
 type Section = 'waarom' | 'wat' | 'hoe';
 
