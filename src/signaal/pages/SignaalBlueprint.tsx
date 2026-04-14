@@ -4,6 +4,9 @@ import { supabase } from "@/integrations/supabase/client";
 import SignaalLayout from "../components/SignaalLayout";
 import { LAYERS } from "../data/layers";
 import { motion } from "framer-motion";
+import { Download, Loader2 } from "lucide-react";
+import { generateBlueprintPdf } from "../utils/generateBlueprintPdf";
+import { toast } from "sonner";
 
 const SignaalBlueprint = () => {
   const navigate = useNavigate();
@@ -11,6 +14,7 @@ const SignaalBlueprint = () => {
   const [inputs, setInputs] = useState<Record<number, Record<string, any>>>({});
   const [score, setScore] = useState(0);
   const [company, setCompany] = useState("");
+  const [exporting, setExporting] = useState(false);
 
   useEffect(() => {
     const load = async () => {
@@ -54,6 +58,18 @@ const SignaalBlueprint = () => {
     load();
   }, [navigate]);
 
+  const handleExportPdf = async () => {
+    setExporting(true);
+    try {
+      await generateBlueprintPdf({ company, score, inputs });
+      toast.success("PDF gedownload!");
+    } catch (err) {
+      console.error('PDF export failed:', err);
+      toast.error("PDF export mislukt. Probeer het opnieuw.");
+    }
+    setExporting(false);
+  };
+
   if (loading) {
     return (
       <SignaalLayout className="flex items-center justify-center">
@@ -81,9 +97,23 @@ const SignaalBlueprint = () => {
             <span className="font-mono text-3xl text-primary">{score}</span>
             <span className="text-sm text-muted-foreground">/100</span>
           </div>
+
+          {/* Download button */}
+          <button
+            onClick={handleExportPdf}
+            disabled={exporting}
+            className="mt-6 inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:shadow-[0_0_20px_rgba(232,148,90,0.3)] transition-all font-body disabled:opacity-50"
+          >
+            {exporting ? (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            ) : (
+              <Download className="w-4 h-4" />
+            )}
+            {exporting ? 'Genereren...' : 'Download als PDF'}
+          </button>
         </motion.div>
 
-        {/* Blueprint sections — all visible (paid upfront) */}
+        {/* Blueprint sections */}
         <div className="space-y-6">
           {LAYERS.map((layer, index) => {
             const layerInputs = inputs[layer.id] || {};
