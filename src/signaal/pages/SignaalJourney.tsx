@@ -278,7 +278,7 @@ const SignaalJourney = () => {
         <div className="flex-1 overflow-y-auto">
           <div className="p-4 sm:p-6">
             {/* ── Waarde-meter ── */}
-            <div className="mb-4 sm:mb-6 max-w-[600px] mx-auto">
+            <div className="mb-4 sm:mb-6 max-w-[780px] mx-auto">
               <div className="flex items-center gap-3 p-3 rounded-xl border border-border bg-card">
                 <div className="flex items-center gap-2 flex-1 min-w-0">
                   <TrendingUp className="w-4 h-4 text-primary shrink-0" />
@@ -304,7 +304,7 @@ const SignaalJourney = () => {
 
             {/* Global Quiz Score Indicator */}
             {totalQuizQuestions > 0 && (
-              <div className="mb-4 sm:mb-6 max-w-[600px] mx-auto">
+              <div className="mb-4 sm:mb-6 max-w-[780px] mx-auto">
                 <div className="flex items-center gap-3 p-3 rounded-xl border border-primary/20 bg-card">
                   <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
                     <span className="text-sm">🧠</span>

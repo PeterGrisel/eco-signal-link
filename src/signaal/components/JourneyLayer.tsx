@@ -55,7 +55,7 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
   }, [inputs, onAskAgent]);
 
   return (
-    <div className="max-w-[600px] mx-auto">
+    <div className="max-w-[780px] mx-auto">
       {/* Layer header */}
       <div className="flex items-center gap-3 mb-6">
         <span
