@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { generateBlueprintPdf } from "../utils/generateBlueprintPdf";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import PartnerOptIn from "./PartnerOptIn";
 
 interface JourneyCompletionProps {
   score: number;
