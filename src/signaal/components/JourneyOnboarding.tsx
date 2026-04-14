@@ -12,21 +12,21 @@ const steps = [
     title: "Blueprint",
     subtitle: "Links",
     description: "Je blueprint groeit mee terwijl je lagen invult. Elke configuratie verschijnt direct in je persoonlijke systeemdocument.",
-    color: "#E8FF47",
+    color: "hsl(24, 75%, 63%)",
   },
   {
     icon: FileText,
     title: "Journey Engine",
     subtitle: "Midden",
     description: "Per laag doorloop je drie stappen: Waarom (de theorie), Configuratie (jouw keuzes) en Tools (de executie). 7 lagen, 1 systeem.",
-    color: "#60A5FA",
+    color: "hsl(24, 75%, 63%)",
   },
   {
     icon: Brain,
     title: "Systeem Agent",
     subtitle: "Rechts",
     description: "Je AI-sparringpartner. Stelt scherpe vragen als je input vaag is, signaleert inconsistenties tussen lagen, en bevestigt sterke keuzes.",
-    color: "#2DD4BF",
+    color: "hsl(24, 55%, 53%)",
   },
 ];
 
@@ -49,11 +49,11 @@ const JourneyOnboarding = ({ onComplete }: JourneyOnboardingProps) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 bg-[#0A0A0B]/95 backdrop-blur-sm flex items-center justify-center p-6"
+      className="fixed inset-0 z-50 bg-background/95 backdrop-blur-sm flex items-center justify-center p-6"
     >
       <button
         onClick={onComplete}
-        className="absolute top-6 right-6 text-[#6B6B72] hover:text-[#F0F0EE] transition-colors"
+        className="absolute top-6 right-6 text-muted-foreground hover:text-foreground transition-colors"
       >
         <X className="w-5 h-5" />
       </button>
@@ -65,7 +65,7 @@ const JourneyOnboarding = ({ onComplete }: JourneyOnboardingProps) => {
             <div
               key={i}
               className={`h-1 rounded-full transition-all duration-300 ${
-                i === currentStep ? 'w-8 bg-[#E8FF47]' : i < currentStep ? 'w-4 bg-[#E8FF47]/40' : 'w-4 bg-[#1E1E22]'
+                i === currentStep ? 'w-8 bg-primary' : i < currentStep ? 'w-4 bg-primary/40' : 'w-4 bg-secondary'
               }`}
             />
           ))}
@@ -94,12 +94,12 @@ const JourneyOnboarding = ({ onComplete }: JourneyOnboardingProps) => {
             </span>
 
             {/* Title */}
-            <h2 className="font-['DM_Serif_Display'] text-3xl text-[#F0F0EE] mb-4">
+            <h2 className="font-display text-3xl text-foreground mb-4">
               {step.title}
             </h2>
 
             {/* Description */}
-            <p className="text-sm text-[#6B6B72] leading-relaxed font-['DM_Sans'] mb-10 max-w-sm mx-auto">
+            <p className="text-sm text-muted-foreground leading-relaxed font-body mb-10 max-w-sm mx-auto">
               {step.description}
             </p>
           </motion.div>
@@ -108,7 +108,7 @@ const JourneyOnboarding = ({ onComplete }: JourneyOnboardingProps) => {
         {/* Action button */}
         <button
           onClick={handleNext}
-          className="w-full group flex items-center justify-center gap-2 py-3.5 bg-[#E8FF47] text-[#0A0A0B] rounded-lg text-sm font-medium hover:shadow-[0_0_20px_rgba(232,255,71,0.2)] transition-all font-['DM_Sans']"
+          className="w-full group flex items-center justify-center gap-2 py-3.5 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:shadow-[0_0_20px_rgba(232,148,90,0.2)] transition-all font-body"
         >
           {currentStep < steps.length - 1 ? 'Volgende' : 'Start de journey'}
           <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
@@ -118,7 +118,7 @@ const JourneyOnboarding = ({ onComplete }: JourneyOnboardingProps) => {
         {currentStep < steps.length - 1 && (
           <button
             onClick={onComplete}
-            className="w-full mt-3 py-2 text-xs text-[#6B6B72] hover:text-[#F0F0EE] transition-colors font-['DM_Sans']"
+            className="w-full mt-3 py-2 text-xs text-muted-foreground hover:text-foreground transition-colors font-body"
           >
             Overslaan
           </button>

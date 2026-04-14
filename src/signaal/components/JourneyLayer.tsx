@@ -64,22 +64,22 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
         >
           {String(layer.id).padStart(2, '0')}
         </span>
-        <h1 className="font-['DM_Serif_Display'] text-xl text-[#F0F0EE]">{layer.title}</h1>
+        <h1 className="font-display text-xl text-foreground">{layer.title}</h1>
         {layer.scoreContribution > 0 && (
-          <span className="ml-auto font-mono text-[10px] text-[#6B6B72]">+{layer.scoreContribution}pts</span>
+          <span className="ml-auto font-mono text-[10px] text-muted-foreground">+{layer.scoreContribution}pts</span>
         )}
       </div>
 
       {/* Section tabs */}
-      <div className="flex gap-1 mb-6 p-1 bg-[#111113] rounded-lg border border-[#1E1E22]">
+      <div className="flex gap-1 mb-6 p-1 bg-card rounded-lg border border-border">
         {(['waarom', 'wat', ...(layer.hoe ? ['hoe'] : [])] as Section[]).map((s) => (
           <button
             key={s}
             onClick={() => setSection(s)}
-            className={`flex-1 py-2 px-3 rounded-md text-xs font-['DM_Sans'] font-medium transition-all ${
+            className={`flex-1 py-2 px-3 rounded-md text-xs font-body font-medium transition-all ${
               section === s
-                ? 'bg-[#1E1E22] text-[#E8FF47]'
-                : 'text-[#6B6B72] hover:text-[#F0F0EE]'
+                ? 'bg-secondary text-primary'
+                : 'text-muted-foreground hover:text-foreground'
             }`}
           >
             {s === 'waarom' ? 'Waarom' : s === 'wat' ? 'Configuratie' : 'Tools'}
@@ -98,10 +98,10 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
         >
           {section === 'waarom' && (
             <div className="space-y-6">
-              <h2 className="font-['DM_Serif_Display'] text-[28px] leading-tight text-[#F0F0EE]">
+              <h2 className="font-display text-[28px] leading-tight text-foreground">
                 {layer.waarom.headline}
               </h2>
-              <div className="space-y-4 text-sm text-[#6B6B72] leading-relaxed font-['DM_Sans']">
+              <div className="space-y-4 text-sm text-muted-foreground leading-relaxed font-body">
                 {layer.waarom.body.split('\n\n').map((p, i) => (
                   <p key={i}>{p}</p>
                 ))}
@@ -113,26 +113,26 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
                   initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2 }}
-                  className="rounded-xl border border-[#1E1E22] bg-[#111113] overflow-hidden"
+                  className="rounded-xl border border-border bg-card overflow-hidden"
                 >
-                  <div className="flex items-center gap-2.5 px-4 py-3 border-b border-[#1E1E22] bg-[#0E0E10]">
-                    <div className="w-7 h-7 rounded-lg bg-[#E8FF47]/10 flex items-center justify-center">
-                      <Building2 className="w-3.5 h-3.5 text-[#E8FF47]" />
+                  <div className="flex items-center gap-2.5 px-4 py-3 border-b border-border bg-card">
+                    <div className="w-7 h-7 rounded-lg bg-primary/10 flex items-center justify-center">
+                      <Building2 className="w-3.5 h-3.5 text-primary" />
                     </div>
-                    <span className="font-['DM_Sans'] text-xs font-semibold text-[#F0F0EE]">Velox Solutions</span>
-                    <span className="ml-auto font-mono text-[9px] text-[#6B6B72] uppercase tracking-wider">Case Study</span>
+                    <span className="font-body text-xs font-semibold text-foreground">Velox Solutions</span>
+                    <span className="ml-auto font-mono text-[9px] text-muted-foreground uppercase tracking-wider">Case Study</span>
                   </div>
                   <div className="p-4 space-y-3">
-                    <p className="text-sm text-[#9B9BA0] leading-relaxed font-['DM_Sans']">
+                    <p className="text-sm text-muted-foreground leading-relaxed font-body">
                       {layer.waarom.caseStudy.situation}
                     </p>
-                    <div className="flex items-start gap-2 p-3 rounded-lg bg-[#E8FF47]/[0.04] border border-[#E8FF47]/10">
-                      <Lightbulb className="w-4 h-4 text-[#E8FF47] mt-0.5 shrink-0" />
-                      <p className="text-sm text-[#E8FF47]/90 font-['DM_Sans']">
+                    <div className="flex items-start gap-2 p-3 rounded-lg bg-primary/[0.04] border border-primary/10">
+                      <Lightbulb className="w-4 h-4 text-primary mt-0.5 shrink-0" />
+                      <p className="text-sm text-primary/90 font-body">
                         {layer.waarom.caseStudy.result}
                       </p>
                     </div>
-                    <p className="text-xs text-[#6B6B72] italic font-['DM_Sans']">
+                    <p className="text-xs text-muted-foreground italic font-body">
                       → {layer.waarom.caseStudy.lesson}
                     </p>
                   </div>
@@ -149,14 +149,14 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
                 >
                   <div className="rounded-xl border border-[#F87171]/20 bg-[#F87171]/[0.04] p-4 text-center">
                     <span className="font-mono text-2xl font-bold text-[#F87171]">{layer.waarom.stats.before.value}</span>
-                    <p className="mt-1.5 text-[10px] text-[#6B6B72] font-['DM_Sans'] uppercase tracking-wider">{layer.waarom.stats.before.label}</p>
+                    <p className="mt-1.5 text-[10px] text-muted-foreground font-body uppercase tracking-wider">{layer.waarom.stats.before.label}</p>
                   </div>
                   <div className="rounded-xl border border-[#34D399]/20 bg-[#34D399]/[0.04] p-4 text-center relative">
-                    <div className="absolute -left-4 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-[#1E1E22] flex items-center justify-center">
+                    <div className="absolute -left-4 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-secondary flex items-center justify-center">
                       <ArrowRight className="w-3 h-3 text-[#34D399]" />
                     </div>
                     <span className="font-mono text-2xl font-bold text-[#34D399]">{layer.waarom.stats.after.value}</span>
-                    <p className="mt-1.5 text-[10px] text-[#6B6B72] font-['DM_Sans'] uppercase tracking-wider">{layer.waarom.stats.after.label}</p>
+                    <p className="mt-1.5 text-[10px] text-muted-foreground font-body uppercase tracking-wider">{layer.waarom.stats.after.label}</p>
                   </div>
                 </motion.div>
               )}
@@ -171,9 +171,9 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
                 >
                   <div className="flex items-center gap-2 mb-2">
                     <AlertTriangle className="w-4 h-4 text-[#F97316]" />
-                    <span className="font-['DM_Sans'] text-xs font-semibold text-[#F97316]">{layer.waarom.mistake.title}</span>
+                    <span className="font-body text-xs font-semibold text-[#F97316]">{layer.waarom.mistake.title}</span>
                   </div>
-                  <p className="text-sm text-[#9B9BA0] leading-relaxed font-['DM_Sans']">
+                  <p className="text-sm text-muted-foreground leading-relaxed font-body">
                     {layer.waarom.mistake.body}
                   </p>
                 </motion.div>
@@ -185,10 +185,10 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
                   initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.55 }}
-                  className="flex items-start gap-3 p-4 rounded-xl border border-[#E8FF47]/20 bg-[#E8FF47]/[0.03]"
+                  className="flex items-start gap-3 p-4 rounded-xl border border-primary/20 bg-primary/[0.03]"
                 >
-                  <Quote className="w-5 h-5 text-[#E8FF47] shrink-0 mt-0.5" />
-                  <p className="font-['DM_Serif_Display'] text-base text-[#E8FF47] leading-snug">
+                  <Quote className="w-5 h-5 text-primary shrink-0 mt-0.5" />
+                  <p className="font-display text-base text-primary leading-snug">
                     "{layer.waarom.principle}"
                   </p>
                 </motion.div>
@@ -200,28 +200,28 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.6 }}
-                  className="rounded-xl border border-[#A78BFA]/20 bg-[#111113] overflow-hidden"
+                  className="rounded-xl border border-[hsl(24, 75%, 63%)]/20 bg-card overflow-hidden"
                 >
-                  <div className="flex items-center gap-2.5 px-4 py-3 border-b border-[#1E1E22] bg-[#0E0E10]">
-                    <div className="w-7 h-7 rounded-lg bg-[#A78BFA]/10 flex items-center justify-center">
-                      <Brain className="w-3.5 h-3.5 text-[#A78BFA]" />
+                  <div className="flex items-center gap-2.5 px-4 py-3 border-b border-border bg-card">
+                    <div className="w-7 h-7 rounded-lg bg-[hsl(24, 75%, 63%)]/10 flex items-center justify-center">
+                      <Brain className="w-3.5 h-3.5 text-[hsl(24, 75%, 63%)]" />
                     </div>
-                    <span className="font-['DM_Sans'] text-xs font-semibold text-[#F0F0EE]">Quick Check</span>
-                    <span className="ml-auto font-mono text-[9px] text-[#6B6B72]">
+                    <span className="font-body text-xs font-semibold text-foreground">Quick Check</span>
+                    <span className="ml-auto font-mono text-[9px] text-muted-foreground">
                       {quizIndex + 1}/{layer.waarom.quiz.length}
                     </span>
                   </div>
                   <div className="p-4 space-y-4">
-                    <p className="text-sm text-[#F0F0EE] font-['DM_Sans'] font-medium leading-relaxed">
+                    <p className="text-sm text-foreground font-body font-medium leading-relaxed">
                       {layer.waarom.quiz[quizIndex].question}
                     </p>
                     <div className="space-y-2">
                       {layer.waarom.quiz[quizIndex].options.map((opt, i) => {
                         const isSelected = selectedAnswer === i;
                         const isCorrectOption = i === layer.waarom.quiz![quizIndex].correctIndex;
-                        let borderColor = 'border-[#1E1E22]';
-                        let bgColor = 'bg-[#0E0E10]';
-                        let textColor = 'text-[#9B9BA0]';
+                        let borderColor = 'border-border';
+                        let bgColor = 'bg-card';
+                        let textColor = 'text-muted-foreground';
 
                         if (quizAnswered) {
                           if (isCorrectOption) {
@@ -234,9 +234,9 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
                             textColor = 'text-[#F87171]';
                           }
                         } else if (isSelected) {
-                          borderColor = 'border-[#A78BFA]/40';
-                          bgColor = 'bg-[#A78BFA]/[0.06]';
-                          textColor = 'text-[#A78BFA]';
+                          borderColor = 'border-[hsl(24, 75%, 63%)]/40';
+                          bgColor = 'bg-[hsl(24, 75%, 63%)]/[0.06]';
+                          textColor = 'text-[hsl(24, 75%, 63%)]';
                         }
 
                         return (
@@ -245,12 +245,12 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
                             onClick={() => { if (!quizAnswered) setSelectedAnswer(i); }}
                             disabled={quizAnswered}
                             className={`w-full text-left px-4 py-3 rounded-lg border transition-all ${borderColor} ${bgColor} ${
-                              !quizAnswered ? 'hover:border-[#A78BFA]/30 cursor-pointer' : ''
+                              !quizAnswered ? 'hover:border-[hsl(24, 75%, 63%)]/30 cursor-pointer' : ''
                             }`}
                           >
                             <div className="flex items-center gap-3">
-                              <span className="font-mono text-[10px] text-[#6B6B72] w-4 shrink-0">{String.fromCharCode(65 + i)}</span>
-                              <span className={`text-xs font-['DM_Sans'] ${textColor}`}>{opt}</span>
+                              <span className="font-mono text-[10px] text-muted-foreground w-4 shrink-0">{String.fromCharCode(65 + i)}</span>
+                              <span className={`text-xs font-body ${textColor}`}>{opt}</span>
                               {quizAnswered && isCorrectOption && <Check className="w-3.5 h-3.5 text-[#34D399] ml-auto shrink-0" />}
                               {quizAnswered && isSelected && !isCorrectOption && <X className="w-3.5 h-3.5 text-[#F87171] ml-auto shrink-0" />}
                             </div>
@@ -270,7 +270,7 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
                           setQuizCorrect(correct);
                           if (correct) setQuizScore(prev => prev + 1);
                         }}
-                        className="w-full py-2.5 rounded-lg bg-[#A78BFA] text-[#0A0A0B] text-xs font-semibold font-['DM_Sans'] hover:bg-[#A78BFA]/90 transition-colors"
+                        className="w-full py-2.5 rounded-lg bg-[hsl(24, 75%, 63%)] text-primary-foreground text-xs font-semibold font-body hover:bg-[hsl(24, 75%, 63%)]/90 transition-colors"
                       >
                         Controleer antwoord
                       </motion.button>
@@ -289,10 +289,10 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
                         }`}>
                           <Lightbulb className={`w-4 h-4 mt-0.5 shrink-0 ${quizCorrect ? 'text-[#34D399]' : 'text-[#F87171]'}`} />
                           <div>
-                            <span className={`text-xs font-semibold font-['DM_Sans'] ${quizCorrect ? 'text-[#34D399]' : 'text-[#F87171]'}`}>
+                            <span className={`text-xs font-semibold font-body ${quizCorrect ? 'text-[#34D399]' : 'text-[#F87171]'}`}>
                               {quizCorrect ? 'Correct!' : 'Niet helemaal'}
                             </span>
-                            <p className="text-[11px] text-[#9B9BA0] leading-relaxed font-['DM_Sans'] mt-1">
+                            <p className="text-[11px] text-muted-foreground leading-relaxed font-body mt-1">
                               {layer.waarom.quiz![quizIndex].explanation}
                             </p>
                           </div>
@@ -310,7 +310,7 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
                               onQuizScoreUpdate?.(quizScore + (quizCorrect ? 0 : 0), layer.waarom.quiz!.length);
                             }
                           }}
-                          className="w-full py-2.5 rounded-lg bg-[#1E1E22] text-[#F0F0EE] text-xs font-medium font-['DM_Sans'] hover:bg-[#2A2A2E] transition-colors"
+                          className="w-full py-2.5 rounded-lg bg-secondary text-foreground text-xs font-medium font-body hover:bg-[#2A2A2E] transition-colors"
                         >
                           {quizIndex + 1 < (layer.waarom.quiz?.length || 0) ? 'Volgende vraag →' : 'Afronden'}
                         </button>
@@ -332,10 +332,10 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
                       <Trophy className="w-4 h-4 text-[#34D399]" />
                     </div>
                     <div>
-                      <span className="font-['DM_Sans'] text-sm font-semibold text-[#34D399]">
+                      <span className="font-body text-sm font-semibold text-[#34D399]">
                         {quizScore}/{layer.waarom.quiz.length} correct
                       </span>
-                      <p className="text-[10px] text-[#6B6B72] font-['DM_Sans']">
+                      <p className="text-[10px] text-muted-foreground font-body">
                         {quizScore === layer.waarom.quiz.length ? 'Perfect! Je beheerst de kernconcepten.' : 'Goed gedaan. De uitleg helpt je bij de configuratie.'}
                       </p>
                     </div>
@@ -348,18 +348,18 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="mt-4 p-3 rounded-lg border border-[#E8FF47]/20 bg-[#E8FF47]/[0.05]"
+                  className="mt-4 p-3 rounded-lg border border-primary/20 bg-primary/[0.05]"
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <Trophy className="w-4 h-4 text-[#E8FF47]" />
-                      <span className="text-xs text-[#E8FF47] font-['DM_Sans'] font-medium">Quiz Score</span>
+                      <Trophy className="w-4 h-4 text-primary" />
+                      <span className="text-xs text-primary font-body font-medium">Quiz Score</span>
                     </div>
-                    <span className="font-mono text-sm font-bold text-[#E8FF47]">{quizScore}/{layer.waarom.quiz.length}</span>
+                    <span className="font-mono text-sm font-bold text-primary">{quizScore}/{layer.waarom.quiz.length}</span>
                   </div>
-                  <div className="mt-2 h-1.5 bg-[#1E1E22] rounded-full overflow-hidden">
+                  <div className="mt-2 h-1.5 bg-secondary rounded-full overflow-hidden">
                     <motion.div 
-                      className="h-full bg-[#E8FF47]"
+                      className="h-full bg-primary"
                       initial={{ width: 0 }}
                       animate={{ width: `${(quizScore / (layer.waarom.quiz?.length || 1)) * 100}%` }}
                       transition={{ duration: 0.5, ease: "easeOut" }}
@@ -372,7 +372,7 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
               {(!layer.waarom.quiz || layer.waarom.quiz.length === 0 || quizComplete) && (
                 <button
                   onClick={() => setSection('wat')}
-                  className="mt-6 group flex items-center gap-2 px-6 py-3 bg-[#E8FF47] text-[#0A0A0B] rounded-lg text-sm font-medium hover:shadow-[0_0_20px_rgba(232,255,71,0.2)] transition-all font-['DM_Sans']"
+                  className="mt-6 group flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:shadow-[0_0_20px_rgba(232,148,90,0.2)] transition-all font-body"
                 >
                   Begrepen — door naar configuratie
                   <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
@@ -384,14 +384,14 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
           {section === 'wat' && (
             <div className="space-y-6">
               <div className="flex items-center justify-between">
-                <p className="text-sm text-[#6B6B72] font-['DM_Sans']">{layer.wat.instruction}</p>
-                <span className="font-mono text-[10px] text-[#6B6B72]">
+                <p className="text-sm text-muted-foreground font-body">{layer.wat.instruction}</p>
+                <span className="font-mono text-[10px] text-muted-foreground">
                   {filledCount}/{totalFields}
                 </span>
               </div>
 
               {/* Progress bar */}
-              <div className="w-full h-1 bg-[#1E1E22] rounded-full overflow-hidden">
+              <div className="w-full h-1 bg-secondary rounded-full overflow-hidden">
                 <motion.div
                   className="h-full rounded-full"
                   style={{ backgroundColor: layer.themeColor }}
@@ -407,16 +407,16 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
                     key={field.key}
                     className={`space-y-1.5 p-3 rounded-lg border transition-colors ${
                       completedFields.has(field.key)
-                        ? 'border-[#E8FF47]/20 bg-[#E8FF47]/[0.02]'
+                        ? 'border-primary/20 bg-primary/[0.02]'
                         : 'border-transparent'
                     }`}
                     layout
                   >
-                    <label className="flex items-center gap-2 text-xs font-medium text-[#F0F0EE] font-['DM_Sans']">
+                    <label className="flex items-center gap-2 text-xs font-medium text-foreground font-body">
                       {field.label}
-                      {field.required && <span className="text-[#E8FF47] ml-1">*</span>}
+                      {field.required && <span className="text-primary ml-1">*</span>}
                       {completedFields.has(field.key) && (
-                        <Check className="w-3 h-3 text-[#E8FF47] ml-auto" />
+                        <Check className="w-3 h-3 text-primary ml-auto" />
                       )}
                     </label>
 
@@ -424,16 +424,16 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
                       <button
                         type="button"
                         onClick={() => handleFieldChange(field.key, !inputs[field.key])}
-                        className={`flex items-center gap-2 px-3 py-2 rounded-lg border text-xs font-['DM_Sans'] transition-all ${
+                        className={`flex items-center gap-2 px-3 py-2 rounded-lg border text-xs font-body transition-all ${
                           inputs[field.key]
-                            ? 'bg-[#E8FF47]/10 border-[#E8FF47]/40 text-[#E8FF47]'
-                            : 'bg-[#111113] border-[#1E1E22] text-[#6B6B72] hover:border-[#E8FF47]/20'
+                            ? 'bg-primary/10 border-primary/40 text-primary'
+                            : 'bg-card border-border text-muted-foreground hover:border-primary/20'
                         }`}
                       >
                         <div className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${
-                          inputs[field.key] ? 'bg-[#E8FF47] border-[#E8FF47]' : 'border-[#6B6B72]'
+                          inputs[field.key] ? 'bg-primary border-primary' : 'border-[hsl(30, 10%, 55%)]'
                         }`}>
-                          {inputs[field.key] && <Check className="w-3 h-3 text-[#0A0A0B]" />}
+                          {inputs[field.key] && <Check className="w-3 h-3 text-primary-foreground" />}
                         </div>
                         {inputs[field.key] ? 'Actief' : 'Niet actief'}
                       </button>
@@ -445,7 +445,7 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
                         onChange={(e) => handleFieldChange(field.key, e.target.value)}
                         onBlur={() => handleFieldBlur(field.key)}
                         placeholder={field.placeholder}
-                        className="w-full bg-[#111113] border border-[#1E1E22] rounded-lg px-3 py-2.5 text-sm text-[#F0F0EE] placeholder:text-[#6B6B72]/50 focus:outline-none focus:border-[#E8FF47]/40 font-['DM_Sans'] transition-colors"
+                        className="w-full bg-card border border-border rounded-lg px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/40 font-body transition-colors"
                       />
                     )}
 
@@ -456,7 +456,7 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
                         onBlur={() => handleFieldBlur(field.key)}
                         placeholder={field.placeholder}
                         rows={3}
-                        className="w-full bg-[#111113] border border-[#1E1E22] rounded-lg px-3 py-2.5 text-sm text-[#F0F0EE] placeholder:text-[#6B6B72]/50 focus:outline-none focus:border-[#E8FF47]/40 font-['DM_Sans'] transition-colors resize-none"
+                        className="w-full bg-card border border-border rounded-lg px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/40 font-body transition-colors resize-none"
                       />
                     )}
 
@@ -464,7 +464,7 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
                       <select
                         value={inputs[field.key] || ''}
                         onChange={(e) => { handleFieldChange(field.key, e.target.value); handleFieldBlur(field.key); }}
-                        className="w-full bg-[#111113] border border-[#1E1E22] rounded-lg px-3 py-2.5 text-sm text-[#F0F0EE] focus:outline-none focus:border-[#E8FF47]/40 font-['DM_Sans'] transition-colors"
+                        className="w-full bg-card border border-border rounded-lg px-3 py-2.5 text-sm text-foreground focus:outline-none focus:border-primary/40 font-body transition-colors"
                       >
                         <option value="">Selecteer...</option>
                         {field.options?.map(opt => (
@@ -488,10 +488,10 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
                                   : [...current, opt.value];
                                 handleFieldChange(field.key, next);
                               }}
-                              className={`px-3 py-1.5 rounded-lg text-xs font-['DM_Sans'] transition-all border ${
+                              className={`px-3 py-1.5 rounded-lg text-xs font-body transition-all border ${
                                 selected
-                                  ? 'bg-[#E8FF47]/10 border-[#E8FF47]/40 text-[#E8FF47]'
-                                  : 'bg-[#111113] border-[#1E1E22] text-[#6B6B72] hover:border-[#E8FF47]/20'
+                                  ? 'bg-primary/10 border-primary/40 text-primary'
+                                  : 'bg-card border-border text-muted-foreground hover:border-primary/20'
                               }`}
                             >
                               {opt.label}
@@ -507,7 +507,7 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
                         value={inputs[field.key] ?? field.defaultValue ?? ''}
                         onChange={(e) => handleFieldChange(field.key, Number(e.target.value))}
                         onBlur={() => handleFieldBlur(field.key)}
-                        className="w-full bg-[#111113] border border-[#1E1E22] rounded-lg px-3 py-2.5 text-sm text-[#F0F0EE] focus:outline-none focus:border-[#E8FF47]/40 font-mono transition-colors"
+                        className="w-full bg-card border border-border rounded-lg px-3 py-2.5 text-sm text-foreground focus:outline-none focus:border-primary/40 font-mono transition-colors"
                       />
                     )}
 
@@ -517,11 +517,11 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: 'auto' }}
                         transition={{ duration: 0.3 }}
-                        className="flex items-start gap-2 mt-2 p-2.5 rounded-lg bg-[#E8FF47]/[0.04] border border-[#E8FF47]/10"
+                        className="flex items-start gap-2 mt-2 p-2.5 rounded-lg bg-primary/[0.04] border border-primary/10"
                       >
-                        <Building2 className="w-3.5 h-3.5 text-[#E8FF47] mt-0.5 shrink-0" />
-                        <p className="text-[11px] text-[#E8FF47]/80 leading-relaxed font-['DM_Sans']">
-                          <span className="font-semibold text-[#E8FF47]">Velox Tip:</span>{' '}
+                        <Building2 className="w-3.5 h-3.5 text-primary mt-0.5 shrink-0" />
+                        <p className="text-[11px] text-primary/80 leading-relaxed font-body">
+                          <span className="font-semibold text-primary">Velox Tip:</span>{' '}
                           {layer.wat.veloxTips!.find(t => t.fieldKey === field.key)!.tip}
                         </p>
                       </motion.div>
@@ -536,11 +536,11 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
                   initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2 }}
-                  className="rounded-xl border border-[#1E1E22] bg-[#111113] overflow-hidden"
+                  className="rounded-xl border border-border bg-card overflow-hidden"
                 >
-                  <div className="flex items-center gap-2.5 px-4 py-2.5 border-b border-[#1E1E22] bg-[#0E0E10]">
-                    <Building2 className="w-3.5 h-3.5 text-[#E8FF47]" />
-                    <span className="font-['DM_Sans'] text-[10px] font-semibold text-[#9B9BA0] uppercase tracking-wider">Velox's reis tot nu toe</span>
+                  <div className="flex items-center gap-2.5 px-4 py-2.5 border-b border-border bg-card">
+                    <Building2 className="w-3.5 h-3.5 text-primary" />
+                    <span className="font-body text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">Velox's reis tot nu toe</span>
                   </div>
                   <div className="p-3 space-y-0">
                     {LAYERS.filter(l => completedLayers.includes(l.id)).map((l, i, arr) => (
@@ -549,24 +549,24 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
                           <div className="w-5 h-5 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: l.themeColor + '20', borderColor: l.themeColor + '60', borderWidth: 1 }}>
                             <Check className="w-2.5 h-2.5" style={{ color: l.themeColor }} />
                           </div>
-                          {i < arr.length - 1 && <div className="w-px h-5 bg-[#1E1E22]" />}
+                          {i < arr.length - 1 && <div className="w-px h-5 bg-secondary" />}
                         </div>
                         <div className="pb-3">
                           <span className="font-mono text-[9px] uppercase tracking-wider" style={{ color: l.themeColor }}>{String(l.id).padStart(2, '0')} {l.title}</span>
-                          <p className="text-[11px] text-[#6B6B72] leading-relaxed font-['DM_Sans'] mt-0.5">{l.veloxMilestone}</p>
+                          <p className="text-[11px] text-muted-foreground leading-relaxed font-body mt-0.5">{l.veloxMilestone}</p>
                         </div>
                       </div>
                     ))}
                     {/* Current layer indicator */}
                     <div className="flex items-start gap-3">
                       <div className="flex flex-col items-center">
-                        <div className="w-5 h-5 rounded-full flex items-center justify-center shrink-0 border border-[#E8FF47]/40 bg-[#E8FF47]/10">
-                          <div className="w-1.5 h-1.5 rounded-full bg-[#E8FF47] animate-pulse" />
+                        <div className="w-5 h-5 rounded-full flex items-center justify-center shrink-0 border border-primary/40 bg-primary/10">
+                          <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
                         </div>
                       </div>
                       <div>
-                        <span className="font-mono text-[9px] uppercase tracking-wider text-[#E8FF47]">{String(layer.id).padStart(2, '0')} {layer.title}</span>
-                        <p className="text-[11px] text-[#E8FF47]/60 font-['DM_Sans'] mt-0.5">Jouw beurt...</p>
+                        <span className="font-mono text-[9px] uppercase tracking-wider text-primary">{String(layer.id).padStart(2, '0')} {layer.title}</span>
+                        <p className="text-[11px] text-primary/60 font-body mt-0.5">Jouw beurt...</p>
                       </div>
                     </div>
                   </div>
@@ -576,7 +576,7 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
               <button
                 onClick={() => layer.hoe ? setSection('hoe') : onComplete()}
                 disabled={!requiredFilled}
-                className="mt-4 group flex items-center gap-2 px-6 py-3 bg-[#E8FF47] text-[#0A0A0B] rounded-lg text-sm font-medium disabled:opacity-30 hover:shadow-[0_0_20px_rgba(232,255,71,0.2)] transition-all font-['DM_Sans']"
+                className="mt-4 group flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg text-sm font-medium disabled:opacity-30 hover:shadow-[0_0_20px_rgba(232,148,90,0.2)] transition-all font-body"
               >
                 {layer.hoe ? 'Volgende' : 'Laag afronden'}
                 <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
@@ -586,7 +586,7 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
 
           {section === 'hoe' && layer.hoe && (
             <div className="space-y-6">
-              <p className="text-sm text-[#6B6B72] font-['DM_Sans']">{layer.hoe.instruction}</p>
+              <p className="text-sm text-muted-foreground font-body">{layer.hoe.instruction}</p>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {layer.hoe.tools.map((tool) => {
@@ -604,12 +604,12 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
                       }}
                       className={`p-3 rounded-lg border text-left transition-all ${
                         isSelected
-                          ? 'bg-[#E8FF47]/5 border-[#E8FF47]/40'
-                          : 'bg-[#111113] border-[#1E1E22] hover:border-[#E8FF47]/20'
+                          ? 'bg-primary/5 border-primary/40'
+                          : 'bg-card border-border hover:border-primary/20'
                       }`}
                     >
-                      <span className="text-xs font-medium text-[#F0F0EE] font-['DM_Sans']">{tool.name}</span>
-                      <p className="text-[10px] text-[#6B6B72] mt-1 font-['DM_Sans']">{tool.purpose}</p>
+                      <span className="text-xs font-medium text-foreground font-body">{tool.name}</span>
+                      <p className="text-[10px] text-muted-foreground mt-1 font-body">{tool.purpose}</p>
                     </button>
                   );
                 })}
@@ -617,7 +617,7 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
 
               <button
                 onClick={onComplete}
-                className="mt-4 group flex items-center gap-2 px-6 py-3 bg-[#E8FF47] text-[#0A0A0B] rounded-lg text-sm font-medium hover:shadow-[0_0_20px_rgba(232,255,71,0.2)] transition-all font-['DM_Sans']"
+                className="mt-4 group flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:shadow-[0_0_20px_rgba(232,148,90,0.2)] transition-all font-body"
               >
                 <Sparkles className="w-4 h-4" />
                 Laag afronden

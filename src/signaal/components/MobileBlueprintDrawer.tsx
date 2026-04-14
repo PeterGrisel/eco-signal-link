@@ -13,19 +13,19 @@ const MobileBlueprintDrawer = ({ inputs, currentLayer, score }: MobileBlueprintD
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="lg:hidden border-b border-[#1E1E22]">
+    <div className="lg:hidden border-b border-border">
       <button
         onClick={() => setOpen(!open)}
-        className="w-full flex items-center justify-between px-4 py-3 bg-[#0A0A0B]"
+        className="w-full flex items-center justify-between px-4 py-3 bg-background"
       >
         <div className="flex items-center gap-3">
-          <span className="font-['DM_Serif_Display'] text-sm text-[#F0F0EE]">Blueprint</span>
-          <span className="font-mono text-xs text-[#E8FF47]">{score}/100</span>
+          <span className="font-display text-sm text-foreground">Blueprint</span>
+          <span className="font-mono text-xs text-primary">{score}/100</span>
         </div>
         {open ? (
-          <ChevronUp className="w-4 h-4 text-[#6B6B72]" />
+          <ChevronUp className="w-4 h-4 text-muted-foreground" />
         ) : (
-          <ChevronDown className="w-4 h-4 text-[#6B6B72]" />
+          <ChevronDown className="w-4 h-4 text-muted-foreground" />
         )}
       </button>
       <AnimatePresence>

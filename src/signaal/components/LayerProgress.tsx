@@ -23,9 +23,9 @@ const LayerProgress = ({ currentLayer, completedLayers, onLayerClick }: LayerPro
             onClick={() => isClickable && onLayerClick?.(layerNum)}
             className={`
               flex items-center justify-center w-10 h-10 rounded-full text-sm font-mono font-medium transition-all duration-300
-              ${isCurrent ? 'bg-[#E8FF47] text-[#0A0A0B] shadow-[0_0_20px_rgba(232,255,71,0.3)]' : ''}
-              ${isCompleted ? 'bg-[#E8FF47]/20 text-[#E8FF47] border border-[#E8FF47]/40 hover:bg-[#E8FF47]/30 cursor-pointer' : ''}
-              ${isLocked ? 'bg-[#111113] text-[#6B6B72] border border-[#1E1E22] cursor-not-allowed opacity-60' : ''}
+              ${isCurrent ? 'bg-primary text-primary-foreground shadow-[0_0_20px_rgba(232,148,90,0.3)]' : ''}
+              ${isCompleted ? 'bg-primary/20 text-primary border border-primary/40 hover:bg-primary/30 cursor-pointer' : ''}
+              ${isLocked ? 'bg-card text-muted-foreground border border-border cursor-not-allowed opacity-60' : ''}
             `}
           >
             {isCompleted ? '●' : ''} {String(layerNum).padStart(2, '0')}

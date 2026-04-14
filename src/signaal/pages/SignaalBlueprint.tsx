@@ -108,7 +108,7 @@ const SignaalBlueprint = () => {
   if (loading) {
     return (
       <SignaalLayout className="flex items-center justify-center">
-        <div className="font-mono text-sm text-[#6B6B72]">Laden...</div>
+        <div className="font-mono text-sm text-muted-foreground">Laden...</div>
       </SignaalLayout>
     );
   }
@@ -119,7 +119,7 @@ const SignaalBlueprint = () => {
         <div className="max-w-2xl mx-auto py-12 px-6">
           <button
             onClick={() => setShowCheckout(false)}
-            className="text-sm text-[#6B6B72] hover:text-[#F0F0EE] mb-6 font-['DM_Sans']"
+            className="text-sm text-muted-foreground hover:text-foreground mb-6 font-body"
           >
             ← Terug naar preview
           </button>
@@ -140,15 +140,15 @@ const SignaalBlueprint = () => {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-12"
         >
-          <h1 className="font-['DM_Serif_Display'] text-4xl text-[#F0F0EE] mb-2">
+          <h1 className="font-display text-4xl text-foreground mb-2">
             Jouw Signaaldetectie Blueprint
           </h1>
-          <p className="text-sm text-[#6B6B72] font-['DM_Sans']">
+          <p className="text-sm text-muted-foreground font-body">
             {company && `${company} · `}Gegenereerd op {new Date().toLocaleDateString('nl-NL')}
           </p>
           <div className="mt-4">
-            <span className="font-mono text-3xl text-[#E8FF47]">{score}</span>
-            <span className="text-sm text-[#6B6B72]">/100</span>
+            <span className="font-mono text-3xl text-primary">{score}</span>
+            <span className="text-sm text-muted-foreground">/100</span>
           </div>
         </motion.div>
 
@@ -165,30 +165,30 @@ const SignaalBlueprint = () => {
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className={`relative p-6 rounded-xl bg-[#111113] border border-[#1E1E22] ${isBlurred ? 'select-none' : ''}`}
+                className={`relative p-6 rounded-xl bg-card border border-border ${isBlurred ? 'select-none' : ''}`}
               >
                 {isBlurred && (
-                  <div className="absolute inset-0 backdrop-blur-md bg-[#0A0A0B]/40 rounded-xl z-10 flex items-center justify-center">
-                    <span className="font-mono text-xs text-[#6B6B72]">🔒 Betaal om te ontgrendelen</span>
+                  <div className="absolute inset-0 backdrop-blur-md bg-background/40 rounded-xl z-10 flex items-center justify-center">
+                    <span className="font-mono text-xs text-muted-foreground">🔒 Betaal om te ontgrendelen</span>
                   </div>
                 )}
 
                 <div className="flex items-center gap-3 mb-3">
-                  <span className="font-mono text-xs px-2 py-1 rounded bg-[#1E1E22] text-[#E8FF47]">
+                  <span className="font-mono text-xs px-2 py-1 rounded bg-secondary text-primary">
                     0{layer.id}
                   </span>
-                  <h2 className="font-['DM_Serif_Display'] text-lg text-[#F0F0EE]">{layer.title}</h2>
+                  <h2 className="font-display text-lg text-foreground">{layer.title}</h2>
                   {layer.scoreContribution > 0 && (
-                    <span className="ml-auto font-mono text-xs text-[#6B6B72]">+{layer.scoreContribution}pts</span>
+                    <span className="ml-auto font-mono text-xs text-muted-foreground">+{layer.scoreContribution}pts</span>
                   )}
                 </div>
 
                 {hasContent ? (
-                  <pre className="text-xs font-mono text-[#6B6B72] whitespace-pre-wrap leading-relaxed">
+                  <pre className="text-xs font-mono text-muted-foreground whitespace-pre-wrap leading-relaxed">
                     {layer.blueprintTemplate(layerInputs)}
                   </pre>
                 ) : (
-                  <p className="text-xs text-[#6B6B72] italic font-['DM_Sans']">Nog niet ingevuld</p>
+                  <p className="text-xs text-muted-foreground italic font-body">Nog niet ingevuld</p>
                 )}
               </motion.div>
             );
@@ -197,7 +197,7 @@ const SignaalBlueprint = () => {
           {/* Watermark overlay when unpaid */}
           {!paid && (
             <div className="absolute inset-0 pointer-events-none flex items-center justify-center z-5">
-              <span className="text-[80px] font-['DM_Serif_Display'] text-[#E8FF47]/5 rotate-[-30deg] select-none">
+              <span className="text-[80px] font-display text-primary/5 rotate-[-30deg] select-none">
                 PREVIEW
               </span>
             </div>
@@ -210,15 +210,15 @@ const SignaalBlueprint = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8 }}
-            className="mt-12 p-8 rounded-xl border-2 border-[#E8FF47]/20 bg-gradient-to-br from-[#111113] to-[#0A0A0B]"
+            className="mt-12 p-8 rounded-xl border-2 border-primary/20 bg-gradient-to-br from-[hsl(0, 0%, 10%)] to-[hsl(0, 0%, 7%)]"
           >
-            <h3 className="font-['DM_Serif_Display'] text-2xl text-[#F0F0EE] mb-4">
+            <h3 className="font-display text-2xl text-foreground mb-4">
               Download jouw Blueprint
             </h3>
-            <p className="text-sm text-[#6B6B72] font-['DM_Sans'] mb-6">
+            <p className="text-sm text-muted-foreground font-body mb-6">
               PDF + Configuratiebestanden
             </p>
-            <ul className="space-y-2 mb-8 text-sm text-[#F0F0EE]/70 font-['DM_Sans']">
+            <ul className="space-y-2 mb-8 text-sm text-foreground/70 font-body">
               {[
                 'Volledige blueprint als PDF',
                 'Apollo saved search configuratie',
@@ -227,37 +227,37 @@ const SignaalBlueprint = () => {
                 '90-daagse review checklist',
               ].map((item) => (
                 <li key={item} className="flex items-center gap-2">
-                  <span className="text-[#E8FF47]">✓</span> {item}
+                  <span className="text-primary">✓</span> {item}
                 </li>
               ))}
             </ul>
             <div className="flex items-center gap-4">
               <button
                 onClick={() => setShowCheckout(true)}
-                className="px-8 py-4 bg-[#E8FF47] text-[#0A0A0B] rounded-lg text-base font-medium hover:shadow-[0_0_30px_rgba(232,255,71,0.3)] transition-all font-['DM_Sans']"
+                className="px-8 py-4 bg-primary text-primary-foreground rounded-lg text-base font-medium hover:shadow-[0_0_30px_rgba(232,148,90,0.3)] transition-all font-body"
               >
                 Exporteer Blueprint — €97
               </button>
-              <span className="text-xs text-[#6B6B72] font-mono">Eenmalig</span>
+              <span className="text-xs text-muted-foreground font-mono">Eenmalig</span>
             </div>
           </motion.div>
         ) : (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="mt-12 p-8 rounded-xl border border-[#E8FF47]/30 bg-[#111113] text-center"
+            className="mt-12 p-8 rounded-xl border border-primary/30 bg-card text-center"
           >
-            <span className="text-[#E8FF47] text-3xl mb-4 block">✓</span>
-            <h3 className="font-['DM_Serif_Display'] text-xl text-[#F0F0EE] mb-2">
+            <span className="text-primary text-3xl mb-4 block">✓</span>
+            <h3 className="font-display text-xl text-foreground mb-2">
               Blueprint ontgrendeld!
             </h3>
-            <p className="text-sm text-[#6B6B72] font-['DM_Sans'] mb-6">
+            <p className="text-sm text-muted-foreground font-body mb-6">
               Je hebt volledige toegang tot alle secties. PDF download komt binnenkort.
             </p>
 
             {/* 90-day reminder */}
-            <div className="mt-6 p-4 rounded-lg bg-[#1E1E22]">
-              <p className="text-xs text-[#6B6B72] font-['DM_Sans'] mb-3">
+            <div className="mt-6 p-4 rounded-lg bg-secondary">
+              <p className="text-xs text-muted-foreground font-body mb-3">
                 Zet een reminder voor over 90 dagen om je systeem te reviewen
               </p>
               <div className="flex justify-center gap-3">
@@ -265,7 +265,7 @@ const SignaalBlueprint = () => {
                   href={`https://calendar.google.com/calendar/render?action=TEMPLATE&text=Signaaldetectie+Review&dates=${getReviewDate()}/${getReviewDate()}&details=Review+je+prospecting+systeem+en+pas+drempelwaarden+aan.`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-4 py-2 rounded-lg bg-[#111113] border border-[#1E1E22] text-xs text-[#F0F0EE] hover:border-[#E8FF47]/30 transition-colors font-['DM_Sans']"
+                  className="px-4 py-2 rounded-lg bg-card border border-border text-xs text-foreground hover:border-primary/30 transition-colors font-body"
                 >
                   Google Calendar
                 </a>
