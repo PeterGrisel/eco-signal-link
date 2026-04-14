@@ -146,6 +146,20 @@ const Footer = () => {
                 </Link>
               ))}
             </div>
+            <p className="text-[11px] font-display font-semibold tracking-[0.2em] uppercase text-primary/70 mb-3 mt-6">
+              Kennis
+            </p>
+            <div className="flex flex-col gap-2.5">
+              {kennis.map((link) => (
+                <Link
+                  key={link.href}
+                  to={link.href}
+                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
           </div>
 
           {/* Recente Artikelen */}
