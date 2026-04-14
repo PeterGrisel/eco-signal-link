@@ -19,14 +19,14 @@ const steps = [
     title: "Journey Engine",
     subtitle: "Midden",
     description: "Per laag doorloop je drie stappen: Waarom (de theorie), Configuratie (jouw keuzes) en Tools (de executie). 7 lagen, 1 systeem.",
-    color: "#60A5FA",
+    color: "hsl(24, 75%, 63%)",
   },
   {
     icon: Brain,
     title: "Systeem Agent",
     subtitle: "Rechts",
     description: "Je AI-sparringpartner. Stelt scherpe vragen als je input vaag is, signaleert inconsistenties tussen lagen, en bevestigt sterke keuzes.",
-    color: "#2DD4BF",
+    color: "hsl(24, 55%, 53%)",
   },
 ];
 
