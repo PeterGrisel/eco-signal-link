@@ -1,7 +1,9 @@
 import { motion } from "framer-motion";
-import { Trophy, Check, FileText, ArrowRight, Sparkles } from "lucide-react";
+import { Trophy, Check, FileText, ArrowRight, Sparkles, Download, Loader2 } from "lucide-react";
 import { LAYERS } from "../data/layers";
 import { useEffect, useState } from "react";
+import { generateBlueprintPdf } from "../utils/generateBlueprintPdf";
+import { toast } from "sonner";
 
 interface JourneyCompletionProps {
   score: number;
