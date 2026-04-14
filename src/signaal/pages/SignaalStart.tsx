@@ -157,11 +157,6 @@ const SignaalStart = () => {
           .order('started_at', { ascending: false })
           .limit(1);
 
-        if (existing?.[0]?.paid) {
-          navigate('/signaal/journey');
-          return;
-        }
-
         if (existing?.[0]) {
           // Update existing journey to paid
           await supabase.from('journeys').update({ paid: true }).eq('id', existing[0].id);
