@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import SignaalLayout from "../components/SignaalLayout";
@@ -263,6 +263,32 @@ const SignaalJourney = () => {
         {/* Center — Journey Engine */}
         <div className="flex-1 overflow-y-auto">
           <div className="p-4 sm:p-6">
+            {/* Global Quiz Score Indicator */}
+            {totalQuizQuestions > 0 && (
+              <div className="mb-4 sm:mb-6 max-w-[600px] mx-auto">
+                <div className="flex items-center gap-3 p-3 rounded-xl border border-[#A78BFA]/20 bg-[#111113]">
+                  <div className="w-8 h-8 rounded-lg bg-[#A78BFA]/10 flex items-center justify-center shrink-0">
+                    <span className="text-sm">🧠</span>
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between mb-1.5">
+                      <span className="font-['DM_Sans'] text-[11px] font-medium text-[#9B9BA0]">Quiz Score</span>
+                      <span className="font-mono text-xs font-bold text-[#A78BFA]">{quizScore}/{totalQuizQuestions}</span>
+                    </div>
+                    <div className="h-1.5 bg-[#1E1E22] rounded-full overflow-hidden">
+                      <div
+                        className="h-full bg-gradient-to-r from-[#A78BFA] to-[#E8FF47] rounded-full transition-all duration-700 ease-out"
+                        style={{ width: `${(quizScore / totalQuizQuestions) * 100}%` }}
+                      />
+                    </div>
+                  </div>
+                  <span className="font-mono text-[10px] text-[#6B6B72] shrink-0">
+                    {Math.round((quizScore / totalQuizQuestions) * 100)}%
+                  </span>
+                </div>
+              </div>
+            )}
+
             {/* Layer progress */}
             <div className="mb-6 sm:mb-8 flex justify-center overflow-x-auto">
               <LayerProgress currentLayer={currentLayer} completedLayers={completedLayers} onLayerClick={(layer) => setCurrentLayer(layer)} />

@@ -307,6 +307,7 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
                               setQuizCorrect(false);
                             } else {
                               setQuizComplete(true);
+                              onQuizScoreUpdate?.(quizScore + (quizCorrect ? 0 : 0), layer.waarom.quiz!.length);
                             }
                           }}
                           className="w-full py-2.5 rounded-lg bg-[#1E1E22] text-[#F0F0EE] text-xs font-medium font-['DM_Sans'] hover:bg-[#2A2A2E] transition-colors"
