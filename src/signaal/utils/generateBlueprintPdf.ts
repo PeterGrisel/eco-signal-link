@@ -17,6 +17,18 @@ const COLORS = {
   white: '#FFFFFF',
 };
 
+// Sanitise unicode chars that Helvetica/Courier in jsPDF cannot render
+function sanitizeText(text: string): string {
+  return text
+    .replace(/→/g, '->')
+    .replace(/≥/g, '>=')
+    .replace(/≤/g, '<=')
+    .replace(/–/g, '-')
+    .replace(/—/g, ' - ')
+    .replace(/…/g, '...')
+    .replace(/•/g, '*');
+}
+
 export async function generateBlueprintPdf({ company, score, inputs }: BlueprintPdfOptions): Promise<void> {
   const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
   const pageW = 210;
@@ -24,6 +36,7 @@ export async function generateBlueprintPdf({ company, score, inputs }: Blueprint
   const margin = 20;
   const contentW = pageW - margin * 2;
   let y = 0;
+  const cappedScore = Math.min(score, 100);
 
   const addPage = () => {
     pdf.addPage();
