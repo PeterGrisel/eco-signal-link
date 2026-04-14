@@ -436,7 +436,7 @@ Hoe scherper de vraag, hoe minder ruis. Hoe minder ruis, hoe minder tijd je vers
     id: 5,
     slug: 'detectie',
     title: 'Detectie',
-    themeColor: '#E8945A',
+    themeColor: '#4CAF7D',
     scoreContribution: 15,
     veloxMilestone: 'Velox automatiseerde hun monitoring via Slack-alerts en miste nog maar 3% van de signalen.',
     waarom: {
