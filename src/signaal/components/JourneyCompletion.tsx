@@ -1,7 +1,9 @@
 import { motion } from "framer-motion";
-import { Trophy, Check, FileText, ArrowRight, Sparkles } from "lucide-react";
+import { Trophy, Check, FileText, ArrowRight, Sparkles, Download, Loader2 } from "lucide-react";
 import { LAYERS } from "../data/layers";
 import { useEffect, useState } from "react";
+import { generateBlueprintPdf } from "../utils/generateBlueprintPdf";
+import { toast } from "sonner";
 
 interface JourneyCompletionProps {
   score: number;
@@ -45,8 +47,21 @@ const Confetti = () => {
   );
 };
 
-const JourneyCompletion = ({ score, quizScore, totalQuizQuestions, completedLayers }: JourneyCompletionProps) => {
+const JourneyCompletion = ({ score, quizScore, totalQuizQuestions, completedLayers, allInputs }: JourneyCompletionProps) => {
   const [showConfetti, setShowConfetti] = useState(true);
+  const [exporting, setExporting] = useState(false);
+
+  const handleDownloadPdf = async () => {
+    setExporting(true);
+    try {
+      await generateBlueprintPdf({ company: '', score, inputs: allInputs });
+      toast.success("PDF gedownload!");
+    } catch (err) {
+      console.error('PDF export failed:', err);
+      toast.error("PDF export mislukt.");
+    }
+    setExporting(false);
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => setShowConfetti(false), 5000);
@@ -153,6 +168,15 @@ const JourneyCompletion = ({ score, quizScore, totalQuizQuestions, completedLaye
           Bekijk je Blueprint
           <ArrowRight className="w-4 h-4" />
         </a>
+
+        <button
+          onClick={handleDownloadPdf}
+          disabled={exporting}
+          className="flex items-center justify-center gap-2 w-full py-4 bg-card border border-primary/30 text-primary rounded-xl text-sm font-semibold hover:bg-primary/5 transition-all font-body disabled:opacity-50"
+        >
+          {exporting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
+          {exporting ? 'Genereren...' : 'Download Blueprint als PDF'}
+        </button>
 
         <a
           href="/contact"
