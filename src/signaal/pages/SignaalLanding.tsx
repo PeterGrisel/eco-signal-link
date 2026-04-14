@@ -40,7 +40,8 @@ const FAQS = [
   { q: "Hoe lang duurt het om mijn blueprint te bouwen?", a: "Gemiddeld 90 minuten. U kunt pauzeren en later verdergaan. Uw voortgang wordt opgeslagen." },
   { q: "Welke tools heb ik nodig?", a: "Geen. Het systeem is tool-agnostisch. U leert de principes en past ze toe op uw bestaande stack, of u kiest nieuwe tools." },
   { q: "Wat krijg ik aan het einde?", a: "Een compleet blueprint: uw ICP-definitie, signaalgewichten, detectieregels, drempelwaarden en responsstrategieën. Klaar om te implementeren." },
-  { q: "Is het echt gratis?", a: "De journey is 100% gratis. Wilt u uw blueprint exporteren als document? Dat kan voor €97." },
+  { q: "Wat kost het?", a: "€97 eenmalig. Geen abonnement, geen verborgen kosten. U krijgt direct toegang tot alle 7 lagen, de AI-assistent en uw persoonlijke blueprint." },
+  { q: "Kan ik een terugbetaling krijgen?", a: "Ja. Bent u niet tevreden? Dan krijgt u uw geld terug. Zonder vragen." },
 ];
 
 const SignaalLanding = () => {
@@ -72,20 +73,20 @@ const SignaalLanding = () => {
                 </h1>
                 <p className="text-muted-foreground text-base md:text-xl max-w-xl mb-8 leading-relaxed">
                   Bouw het systeem dat prospects vindt op het moment dat ze klaar zijn.
-                  Niet wanneer u tijd heeft. Gratis, in 90 minuten.
+                  Niet wanneer u tijd heeft. In 90 minuten, voor €97.
                 </p>
 
                 <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-6">
                   <Link
                     to="/signaal/start"
-                    className="inline-flex items-center gap-2 px-8 py-4 bg-primary text-primary-foreground rounded-lg text-base font-medium hover:shadow-[0_0_30px_hsl(var(--primary)/0.3)] transition-all font-body group"
+                    className="inline-flex items-center gap-2 px-8 py-4 bg-primary text-primary-foreground rounded-lg text-base font-medium hover:shadow-[0_0_30px_hsl(var(--primary)/0.3)] transition-all font-body group relative"
                   >
                     <span className="absolute inset-0 rounded-lg bg-primary/20 animate-pulse group-hover:animate-none" />
-                    Bouw uw systeem gratis
+                    Start voor €97
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </Link>
                   <span className="text-xs text-muted-foreground font-mono">
-                    7 lagen · 90 min · Geen account nodig
+                    7 lagen · 90 min · Eenmalig €97
                   </span>
                 </div>
 
@@ -243,7 +244,7 @@ const SignaalLanding = () => {
               to="/signaal/start"
               className="inline-flex items-center gap-2 px-8 py-4 bg-primary text-primary-foreground rounded-lg text-base font-medium hover:shadow-[0_0_30px_hsl(var(--primary)/0.3)] transition-all font-body"
             >
-              Start de journey gratis
+              Start voor €97
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
@@ -428,19 +429,19 @@ const SignaalLanding = () => {
               <span className="text-gradient">automatiseren?</span>
             </h2>
             <p className="text-muted-foreground text-lg mb-10 max-w-xl mx-auto leading-relaxed">
-              Start gratis. Bouw uw blueprint in 90 minuten.
-              Export voor €97 als u het wilt bewaren.
+              Eenmalig €97. Bouw uw blueprint in 90 minuten.
+              Geen abonnement. Geen verborgen kosten.
             </p>
             <Link
               to="/signaal/start"
               className="inline-flex items-center gap-2 px-8 py-4 bg-primary text-primary-foreground rounded-lg text-base font-medium hover:shadow-[0_0_30px_hsl(var(--primary)/0.3)] transition-all font-body group relative"
             >
               <span className="absolute inset-0 rounded-lg bg-primary/20 animate-pulse group-hover:animate-none" />
-              Bouw uw systeem gratis
+              Start voor €97
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
             <p className="text-muted-foreground text-sm mt-6">
-              €0 kosten · Geen account nodig · Direct starten
+              Eenmalig €97 · Geen abonnement · Direct toegang
             </p>
           </motion.div>
         </div>
