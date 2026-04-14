@@ -200,11 +200,11 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.6 }}
-                  className="rounded-xl border border-[hsl(24, 75%, 63%)]/20 bg-card overflow-hidden"
+                  className="rounded-xl border border-[hsl(24_75%_63%)]/20 bg-card overflow-hidden"
                 >
                   <div className="flex items-center gap-2.5 px-4 py-3 border-b border-border bg-card">
-                    <div className="w-7 h-7 rounded-lg bg-[hsl(24, 75%, 63%)]/10 flex items-center justify-center">
-                      <Brain className="w-3.5 h-3.5 text-[hsl(24, 75%, 63%)]" />
+                    <div className="w-7 h-7 rounded-lg bg-[hsl(24_75%_63%)]/10 flex items-center justify-center">
+                      <Brain className="w-3.5 h-3.5 text-[hsl(24_75%_63%)]" />
                     </div>
                     <span className="font-body text-xs font-semibold text-foreground">Quick Check</span>
                     <span className="ml-auto font-mono text-[9px] text-muted-foreground">
@@ -234,9 +234,9 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
                             textColor = 'text-[#F87171]';
                           }
                         } else if (isSelected) {
-                          borderColor = 'border-[hsl(24, 75%, 63%)]/40';
-                          bgColor = 'bg-[hsl(24, 75%, 63%)]/[0.06]';
-                          textColor = 'text-[hsl(24, 75%, 63%)]';
+                          borderColor = 'border-[hsl(24_75%_63%)]/40';
+                          bgColor = 'bg-[hsl(24_75%_63%)]/[0.06]';
+                          textColor = 'text-[hsl(24_75%_63%)]';
                         }
 
                         return (
@@ -245,7 +245,7 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
                             onClick={() => { if (!quizAnswered) setSelectedAnswer(i); }}
                             disabled={quizAnswered}
                             className={`w-full text-left px-4 py-3 rounded-lg border transition-all ${borderColor} ${bgColor} ${
-                              !quizAnswered ? 'hover:border-[hsl(24, 75%, 63%)]/30 cursor-pointer' : ''
+                              !quizAnswered ? 'hover:border-[hsl(24_75%_63%)]/30 cursor-pointer' : ''
                             }`}
                           >
                             <div className="flex items-center gap-3">
@@ -270,7 +270,7 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
                           setQuizCorrect(correct);
                           if (correct) setQuizScore(prev => prev + 1);
                         }}
-                        className="w-full py-2.5 rounded-lg bg-[hsl(24, 75%, 63%)] text-primary-foreground text-xs font-semibold font-body hover:bg-[hsl(24, 75%, 63%)]/90 transition-colors"
+                        className="w-full py-2.5 rounded-lg bg-[hsl(24_75%_63%)] text-primary-foreground text-xs font-semibold font-body hover:bg-[hsl(24_75%_63%)]/90 transition-colors"
                       >
                         Controleer antwoord
                       </motion.button>
@@ -431,7 +431,7 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
                         }`}
                       >
                         <div className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${
-                          inputs[field.key] ? 'bg-primary border-primary' : 'border-[hsl(30, 10%, 55%)]'
+                          inputs[field.key] ? 'bg-primary border-primary' : 'border-[hsl(30_10%_55%)]'
                         }`}>
                           {inputs[field.key] && <Check className="w-3 h-3 text-primary-foreground" />}
                         </div>
