@@ -141,7 +141,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <TrackingScriptInjector />
-        {!window.location.pathname.startsWith('/signaal') && <WhatsAppButton />}
+        <WhatsAppButton />
         <CookieConsent />
         <AnimatedRoutes />
       </BrowserRouter>
