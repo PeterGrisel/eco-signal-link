@@ -150,20 +150,6 @@ const SignaalLanding = () => {
         </div>
       </section>
 
-      {/* ── Social proof tools ── */}
-      <div className="py-6 border-y border-border">
-        <div className="container mx-auto px-4">
-          <p className="text-center text-xs text-muted-foreground font-body">
-            Werkt met{" "}
-            {TOOLS.map((tool, i) => (
-              <span key={tool}>
-                <span className="text-foreground/60 font-medium">{tool}</span>
-                {i < TOOLS.length - 1 && " · "}
-              </span>
-            ))}
-          </p>
-        </div>
-      </div>
 
       {/* ── Client logos ── */}
       <section className="py-10 border-b border-border">
