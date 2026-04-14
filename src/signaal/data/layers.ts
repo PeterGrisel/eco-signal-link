@@ -31,6 +31,13 @@ export interface VeloxTip {
   tip: string;
 }
 
+export interface QuizQuestion {
+  question: string;
+  options: string[];
+  correctIndex: number;
+  explanation: string;
+}
+
 export interface LayerConfig {
   id: number;
   slug: string;
@@ -45,6 +52,7 @@ export interface LayerConfig {
     stats?: StatComparison;
     mistake?: { title: string; body: string };
     principle?: string;
+    quiz?: QuizQuestion[];
   };
   wat: {
     instruction: string;
