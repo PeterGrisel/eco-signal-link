@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Check, ArrowRight, Zap, Target, BarChart3, Clock, Brain, Layers, Shield, ChevronRight, FileText, Bot, RefreshCw, Wrench, CalendarCheck, LayoutDashboard, Building2, Rocket, TrendingUp, Handshake, Factory, Monitor } from "lucide-react";
+import { Check, ArrowRight, Zap, Target, BarChart3, Clock, Brain, Layers, Shield, ChevronRight, FileText, Bot, RefreshCw, Wrench, CalendarCheck, LayoutDashboard, UserRound, Briefcase, LineChart, Phone, Cog, Code2 } from "lucide-react";
 import SignaalLayout from "../components/SignaalLayout";
 import {
   Accordion,
