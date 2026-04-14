@@ -112,22 +112,59 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
         >
           {section === 'waarom' && (
             <div className="space-y-7">
-              {/* Akte-marker — alleen bij eerste laag van een akte */}
-              {layer.act && (
+              {/* Akte intro — groot, prominent bij start van een nieuwe akte */}
+              {layer.act && !akteIntroSeen && (
                 <motion.div
-                  initial={{ opacity: 0, y: -8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="flex items-center gap-3 pb-2"
+                  initial={{ opacity: 0, scale: 0.96 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.5, ease: "easeOut" }}
+                  className="rounded-2xl border-2 p-8 sm:p-10 text-center space-y-5"
+                  style={{ 
+                    borderColor: layer.themeColor + '40',
+                    background: `linear-gradient(135deg, ${layer.themeColor}08 0%, ${layer.themeColor}15 100%)`
+                  }}
                 >
                   <span
-                    className="font-mono text-[10px] px-2 py-0.5 rounded uppercase tracking-wider"
-                    style={{ backgroundColor: layer.themeColor + '18', color: layer.themeColor }}
+                    className="inline-block font-mono text-xs px-3 py-1 rounded-full uppercase tracking-widest"
+                    style={{ backgroundColor: layer.themeColor + '25', color: layer.themeColor }}
                   >
-                    Akte {layer.act.number} · {layer.act.title}
+                    Akte {layer.act.number} van 4
                   </span>
-                  <span className="font-body text-[12px] italic text-muted-foreground">{layer.act.promise}</span>
+                  <h2
+                    className="font-display text-3xl sm:text-4xl font-bold"
+                    style={{ color: layer.themeColor }}
+                  >
+                    {layer.act.title}
+                  </h2>
+                  <p className="font-body text-base sm:text-lg text-muted-foreground max-w-md mx-auto leading-relaxed">
+                    {layer.act.promise}
+                  </p>
+                  <button
+                    onClick={() => setAkteIntroSeen(true)}
+                    className="mt-2 inline-flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-medium font-body transition-all hover:shadow-lg"
+                    style={{ backgroundColor: layer.themeColor, color: '#fff' }}
+                  >
+                    Begin akte {layer.act.number}
+                    <ChevronRight className="w-4 h-4" />
+                  </button>
                 </motion.div>
               )}
+
+              {/* Rest van waarom — verborgen achter akte-intro als die actief is */}
+              {(!layer.act || akteIntroSeen) && (
+                <>
+                  {/* Kleine akte-badge als reminder */}
+                  {layer.act && (
+                    <div className="flex items-center gap-3 pb-2">
+                      <span
+                        className="font-mono text-[10px] px-2 py-0.5 rounded uppercase tracking-wider"
+                        style={{ backgroundColor: layer.themeColor + '18', color: layer.themeColor }}
+                      >
+                        Akte {layer.act.number} · {layer.act.title}
+                      </span>
+                      <span className="font-body text-[12px] italic text-muted-foreground">{layer.act.promise}</span>
+                    </div>
+                  )}
 
               <h2 className="font-display text-[28px] leading-tight text-foreground">
                 {layer.waarom.headline}
