@@ -244,7 +244,7 @@ const SignaalLanding = () => {
               to="/signaal/start"
               className="inline-flex items-center gap-2 px-8 py-4 bg-primary text-primary-foreground rounded-lg text-base font-medium hover:shadow-[0_0_30px_hsl(var(--primary)/0.3)] transition-all font-body"
             >
-              Start de journey gratis
+              Start voor €97
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
@@ -429,19 +429,19 @@ const SignaalLanding = () => {
               <span className="text-gradient">automatiseren?</span>
             </h2>
             <p className="text-muted-foreground text-lg mb-10 max-w-xl mx-auto leading-relaxed">
-              Start gratis. Bouw uw blueprint in 90 minuten.
-              Export voor €97 als u het wilt bewaren.
+              Eenmalig €97. Bouw uw blueprint in 90 minuten.
+              Geen abonnement. Geen verborgen kosten.
             </p>
             <Link
               to="/signaal/start"
               className="inline-flex items-center gap-2 px-8 py-4 bg-primary text-primary-foreground rounded-lg text-base font-medium hover:shadow-[0_0_30px_hsl(var(--primary)/0.3)] transition-all font-body group relative"
             >
               <span className="absolute inset-0 rounded-lg bg-primary/20 animate-pulse group-hover:animate-none" />
-              Bouw uw systeem gratis
+              Start voor €97
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
             <p className="text-muted-foreground text-sm mt-6">
-              €0 kosten · Geen account nodig · Direct starten
+              Eenmalig €97 · Geen abonnement · Direct toegang
             </p>
           </motion.div>
         </div>
