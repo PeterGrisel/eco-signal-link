@@ -169,6 +169,15 @@ const JourneyCompletion = ({ score, quizScore, totalQuizQuestions, completedLaye
           <ArrowRight className="w-4 h-4" />
         </a>
 
+        <button
+          onClick={handleDownloadPdf}
+          disabled={exporting}
+          className="flex items-center justify-center gap-2 w-full py-4 bg-card border border-primary/30 text-primary rounded-xl text-sm font-semibold hover:bg-primary/5 transition-all font-body disabled:opacity-50"
+        >
+          {exporting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
+          {exporting ? 'Genereren...' : 'Download Blueprint als PDF'}
+        </button>
+
         <a
           href="/contact"
           className="flex items-center justify-center gap-2 w-full py-4 bg-card border border-border text-foreground rounded-xl text-sm font-medium hover:border-primary/30 transition-all font-body"
