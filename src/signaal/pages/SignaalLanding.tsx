@@ -53,8 +53,8 @@ const FAQS = [
   { q: "Heb ik technische kennis nodig?", a: "Nee. De journey leidt u stap voor stap door het proces. Elke laag bevat uitleg, voorbeelden en een quiz om te controleren of u het begrijpt." },
   { q: "Hoe lang duurt het om mijn blueprint te bouwen?", a: "Gemiddeld 90 minuten. U kunt pauzeren en later verdergaan. Uw voortgang wordt opgeslagen." },
   { q: "Welke tools heb ik nodig?", a: "Geen. Het systeem is tool-agnostisch. U leert de principes en past ze toe op uw bestaande stack, of u kiest nieuwe tools." },
-  { q: "Wat krijg ik aan het einde?", a: "Een compleet blueprint: uw ICP-definitie, signaalgewichten, detectieregels, drempelwaarden en responsstrategieën. Klaar om te implementeren." },
-  { q: "Wat kost het?", a: "€97 eenmalig. Geen abonnement, geen verborgen kosten. U krijgt direct toegang tot alle 7 lagen, de AI-assistent en uw persoonlijke blueprint." },
+  { q: "Wat krijg ik aan het einde?", a: "Een compleet blueprint met ICP-definitie, signaalgewichten, detectieregels, drempelwaarden en responsstrategieën. Plus: een AI-strategieagent, PDF-export, installatie-checklist per tool, een 90-daagse review checklist en onbeperkt hergebruik via Fork & Edit." },
+  { q: "Wat kost het?", a: "€97 eenmalig. Geen abonnement, geen verborgen kosten. U krijgt direct toegang tot alle 7 lagen, de AI-assistent, uw persoonlijke blueprint, installatie-checklists en onbeperkt nieuwe signalen." },
   { q: "Kan ik een terugbetaling krijgen?", a: "Ja. Bent u niet tevreden? Dan krijgt u uw geld terug. Zonder vragen." },
 ];
 
