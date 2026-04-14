@@ -48,6 +48,7 @@ import IcpAi from "./pages/IcpAi.tsx";
 import MultichannelSequencing from "./pages/MultichannelSequencing.tsx";
 import GammaCheatsheet from "./pages/GammaCheatsheet.tsx";
 import Cheatsheets from "./pages/Cheatsheets.tsx";
+import Trainingen from "./pages/Trainingen.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import SignaalLanding from "./signaal/pages/SignaalLanding.tsx";
 import SignaalStart from "./signaal/pages/SignaalStart.tsx";
