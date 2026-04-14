@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Search, ExternalLink, Linkedin, BadgeCheck, Users } from "lucide-react";
+import { Search, ExternalLink, Linkedin, BadgeCheck, Users, Sparkles, Globe } from "lucide-react";
 
 interface Partner {
   id: string;
