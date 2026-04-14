@@ -720,6 +720,71 @@ export type Database = {
         }
         Relationships: []
       }
+      partners: {
+        Row: {
+          avatar_url: string | null
+          company: string
+          created_at: string
+          expertise: string[] | null
+          id: string
+          is_approved: boolean
+          is_visible: boolean
+          journey_id: string | null
+          linkedin_url: string | null
+          name: string
+          referral_code: string | null
+          sector: string | null
+          tagline: string | null
+          updated_at: string
+          user_id: string
+          website: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          company: string
+          created_at?: string
+          expertise?: string[] | null
+          id?: string
+          is_approved?: boolean
+          is_visible?: boolean
+          journey_id?: string | null
+          linkedin_url?: string | null
+          name: string
+          referral_code?: string | null
+          sector?: string | null
+          tagline?: string | null
+          updated_at?: string
+          user_id: string
+          website?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          company?: string
+          created_at?: string
+          expertise?: string[] | null
+          id?: string
+          is_approved?: boolean
+          is_visible?: boolean
+          journey_id?: string | null
+          linkedin_url?: string | null
+          name?: string
+          referral_code?: string | null
+          sector?: string | null
+          tagline?: string | null
+          updated_at?: string
+          user_id?: string
+          website?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "partners_journey_id_fkey"
+            columns: ["journey_id"]
+            isOneToOne: false
+            referencedRelation: "journeys"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       seo_settings: {
         Row: {
           config: Json

@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { generateBlueprintPdf } from "../utils/generateBlueprintPdf";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import PartnerOptIn from "./PartnerOptIn";
 
 interface JourneyCompletionProps {
   score: number;
@@ -13,6 +14,7 @@ interface JourneyCompletionProps {
   totalQuizQuestions: number;
   completedLayers: number[];
   allInputs: Record<number, Record<string, any>>;
+  journeyId?: string;
 }
 
 const Confetti = () => {
@@ -49,11 +51,28 @@ const Confetti = () => {
   );
 };
 
-const JourneyCompletion = ({ score, quizScore, totalQuizQuestions, completedLayers, allInputs }: JourneyCompletionProps) => {
+const JourneyCompletion = ({ score, quizScore, totalQuizQuestions, completedLayers, allInputs, journeyId }: JourneyCompletionProps) => {
   const navigate = useNavigate();
   const [showConfetti, setShowConfetti] = useState(true);
   const [exporting, setExporting] = useState(false);
   const [forking, setForking] = useState(false);
+  const [userId, setUserId] = useState<string | null>(null);
+  const [userName, setUserName] = useState<string | undefined>();
+  const [userCompany, setUserCompany] = useState<string | undefined>();
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) {
+        setUserId(session.user.id);
+        supabase.from("signal_profiles").select("name, company").eq("id", session.user.id).single().then(({ data }) => {
+          if (data) {
+            setUserName(data.name || undefined);
+            setUserCompany(data.company || undefined);
+          }
+        });
+      }
+    });
+  }, []);
 
   const cappedScore = Math.min(score, 100);
 
@@ -251,6 +270,23 @@ const JourneyCompletion = ({ score, quizScore, totalQuizQuestions, completedLaye
           Wil je dat wij dit systeem voor je implementeren? →
         </a>
       </motion.div>
+
+      {/* Partner Opt-In */}
+      {userId && journeyId && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.8 }}
+          className="mt-8"
+        >
+          <PartnerOptIn
+            userId={userId}
+            journeyId={journeyId}
+            userName={userName}
+            userCompany={userCompany}
+          />
+        </motion.div>
+      )}
     </div>
   );
 };
