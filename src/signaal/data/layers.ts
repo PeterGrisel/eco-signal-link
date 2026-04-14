@@ -72,7 +72,7 @@ export const LAYERS: LayerConfig[] = [
     id: 1,
     slug: 'definitie',
     title: 'Definitie',
-    themeColor: '#6B6B72',
+    themeColor: 'hsl(30, 10%, 55%)',
     scoreContribution: 0,
     veloxMilestone: 'Velox verfijnde hun ICP van "tech companies" naar een scherpe definitie met industrie, grootte en beslisser.',
     waarom: {

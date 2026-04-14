@@ -129,8 +129,8 @@ const SignaalStart = () => {
         {step === 'email' ? (
           <form onSubmit={handleMagicLink} className="space-y-6">
             <div className="text-center mb-8">
-              <h1 className="font-['DM_Serif_Display'] text-3xl text-[#F0F0EE] mb-2">Start je journey</h1>
-              <p className="text-sm text-[#6B6B72] font-['DM_Sans']">Voer je email in om te beginnen</p>
+              <h1 className="font-display text-3xl text-foreground mb-2">Start je journey</h1>
+              <p className="text-sm text-muted-foreground font-body">Voer je email in om te beginnen</p>
             </div>
 
             <div>
@@ -140,14 +140,14 @@ const SignaalStart = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="jouw@email.com"
                 required
-                className="w-full bg-[#111113] border border-[#1E1E22] rounded-lg px-4 py-3 text-sm text-[#F0F0EE] placeholder:text-[#6B6B72]/50 focus:outline-none focus:border-[#E8FF47]/40 font-['DM_Sans']"
+                className="w-full bg-card border border-border rounded-lg px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/40 font-body"
               />
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 bg-[#E8FF47] text-[#0A0A0B] rounded-lg text-sm font-medium disabled:opacity-50 hover:shadow-[0_0_20px_rgba(232,255,71,0.2)] transition-all font-['DM_Sans']"
+              className="w-full py-3 bg-primary text-[hsl(0, 0%, 7%)] rounded-lg text-sm font-medium disabled:opacity-50 hover:shadow-[0_0_20px_rgba(232,148,90,0.2)] transition-all font-body"
             >
               {loading ? 'Versturen...' : 'Stuur magic link →'}
             </button>
@@ -155,8 +155,8 @@ const SignaalStart = () => {
         ) : (
           <form onSubmit={handleOnboarding} className="space-y-6">
             <div className="text-center mb-8">
-              <h1 className="font-['DM_Serif_Display'] text-3xl text-[#F0F0EE] mb-2">Welkom</h1>
-              <p className="text-sm text-[#6B6B72] font-['DM_Sans']">Vertel ons over jezelf</p>
+              <h1 className="font-display text-3xl text-foreground mb-2">Welkom</h1>
+              <p className="text-sm text-muted-foreground font-body">Vertel ons over jezelf</p>
             </div>
 
             <div className="space-y-4">
@@ -165,20 +165,20 @@ const SignaalStart = () => {
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Jouw naam"
                 required
-                className="w-full bg-[#111113] border border-[#1E1E22] rounded-lg px-4 py-3 text-sm text-[#F0F0EE] placeholder:text-[#6B6B72]/50 focus:outline-none focus:border-[#E8FF47]/40 font-['DM_Sans']"
+                className="w-full bg-card border border-border rounded-lg px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/40 font-body"
               />
               <input
                 value={company}
                 onChange={(e) => setCompany(e.target.value)}
                 placeholder="Bedrijfsnaam (optioneel)"
-                className="w-full bg-[#111113] border border-[#1E1E22] rounded-lg px-4 py-3 text-sm text-[#F0F0EE] placeholder:text-[#6B6B72]/50 focus:outline-none focus:border-[#E8FF47]/40 font-['DM_Sans']"
+                className="w-full bg-card border border-border rounded-lg px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/40 font-body"
               />
             </div>
 
             <button
               type="submit"
               disabled={loading || !name.trim()}
-              className="w-full py-3 bg-[#E8FF47] text-[#0A0A0B] rounded-lg text-sm font-medium disabled:opacity-50 hover:shadow-[0_0_20px_rgba(232,255,71,0.2)] transition-all font-['DM_Sans']"
+              className="w-full py-3 bg-primary text-[hsl(0, 0%, 7%)] rounded-lg text-sm font-medium disabled:opacity-50 hover:shadow-[0_0_20px_rgba(232,148,90,0.2)] transition-all font-body"
             >
               {loading ? 'Opslaan...' : 'Start de journey →'}
             </button>
