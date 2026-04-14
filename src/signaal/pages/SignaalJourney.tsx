@@ -203,8 +203,11 @@ const SignaalJourney = () => {
   const handleLayerComplete = useCallback(async () => {
     if (!journeyId) return;
 
+    // Guard: don't complete an already-completed layer
+    if (completedLayers.includes(currentLayer)) return;
+
     const layer = LAYERS.find(l => l.id === currentLayer);
-    const newScore = score + (layer?.scoreContribution || 0);
+    const newScore = Math.min(score + (layer?.scoreContribution || 0), 100);
     const nextLayer = currentLayer + 1;
 
     setCompletedLayers(prev => [...prev, currentLayer]);
@@ -223,7 +226,7 @@ const SignaalJourney = () => {
 
     callAgent(`Laag ${currentLayer} afgerond. Geef een samenvatting.`);
     toast.success(`Laag ${String(currentLayer).padStart(2, '0')} afgerond!`);
-  }, [journeyId, currentLayer, score, allInputs, callAgent]);
+  }, [journeyId, currentLayer, score, completedLayers, allInputs, callAgent]);
 
   const activeLayer = LAYERS.find(l => l.id === currentLayer);
   const estimatedTimeSaved = TIME_SAVINGS[Math.min(completedLayers.length, TIME_SAVINGS.length - 1)];
