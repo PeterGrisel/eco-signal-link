@@ -1,8 +1,10 @@
 import { motion } from "framer-motion";
-import { Trophy, Check, FileText, ArrowRight, Sparkles, Download, Loader2 } from "lucide-react";
+import { Trophy, Check, FileText, ArrowRight, Sparkles, Download, Loader2, RotateCcw } from "lucide-react";
 import { LAYERS } from "../data/layers";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { generateBlueprintPdf } from "../utils/generateBlueprintPdf";
+import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
 interface JourneyCompletionProps {
@@ -48,19 +50,75 @@ const Confetti = () => {
 };
 
 const JourneyCompletion = ({ score, quizScore, totalQuizQuestions, completedLayers, allInputs }: JourneyCompletionProps) => {
+  const navigate = useNavigate();
   const [showConfetti, setShowConfetti] = useState(true);
   const [exporting, setExporting] = useState(false);
+  const [forking, setForking] = useState(false);
+
+  const cappedScore = Math.min(score, 100);
 
   const handleDownloadPdf = async () => {
     setExporting(true);
     try {
-      await generateBlueprintPdf({ company: '', score, inputs: allInputs });
+      await generateBlueprintPdf({ company: '', score: cappedScore, inputs: allInputs });
       toast.success("PDF gedownload!");
     } catch (err) {
       console.error('PDF export failed:', err);
       toast.error("PDF export mislukt.");
     }
     setExporting(false);
+  };
+
+  const handleForkJourney = async () => {
+    setForking(true);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        toast.error("Je bent niet ingelogd.");
+        setForking(false);
+        return;
+      }
+
+      // Create new journey (paid = true, same user)
+      const { data: newJourney, error: journeyError } = await supabase
+        .from('journeys')
+        .insert({
+          user_id: session.user.id,
+          paid: true,
+          current_layer: 1,
+          score_total: 0,
+        })
+        .select('id')
+        .single();
+
+      if (journeyError || !newJourney) throw journeyError;
+
+      // Copy all inputs from previous journey to new one
+      const inputRows = Object.entries(allInputs).flatMap(([layerId, fields]) =>
+        Object.entries(fields).map(([fieldKey, value]) => ({
+          journey_id: newJourney.id,
+          layer_id: Number(layerId),
+          section_type: 'wat',
+          field_key: fieldKey,
+          value_json: value,
+        }))
+      );
+
+      if (inputRows.length > 0) {
+        const { error: inputError } = await supabase
+          .from('journey_inputs')
+          .insert(inputRows);
+        if (inputError) console.error('Failed to copy inputs:', inputError);
+      }
+
+      toast.success("Nieuw Signaal gestart met je vorige configuratie!");
+      navigate('/signaal/journey');
+      window.location.reload();
+    } catch (err) {
+      console.error('Fork failed:', err);
+      toast.error("Kon geen nieuw Signaal starten.");
+    }
+    setForking(false);
   };
 
   useEffect(() => {
@@ -104,7 +162,7 @@ const JourneyCompletion = ({ score, quizScore, totalQuizQuestions, completedLaye
         className="grid grid-cols-2 gap-4 mb-8"
       >
         <div className="p-5 rounded-xl bg-card border border-border text-center">
-          <span className="font-mono text-4xl font-bold text-primary">{score}</span>
+          <span className="font-mono text-4xl font-bold text-primary">{cappedScore}</span>
           <span className="text-sm text-muted-foreground">/100</span>
           <p className="text-xs text-muted-foreground font-body mt-1">Systeem Score</p>
         </div>
@@ -176,6 +234,15 @@ const JourneyCompletion = ({ score, quizScore, totalQuizQuestions, completedLaye
         >
           {exporting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
           {exporting ? 'Genereren...' : 'Download Blueprint als PDF'}
+        </button>
+
+        <button
+          onClick={handleForkJourney}
+          disabled={forking}
+          className="flex items-center justify-center gap-2 w-full py-4 bg-card border border-primary/30 text-primary rounded-xl text-sm font-semibold hover:bg-primary/5 transition-all font-body disabled:opacity-50"
+        >
+          {forking ? <Loader2 className="w-4 h-4 animate-spin" /> : <RotateCcw className="w-4 h-4" />}
+          {forking ? 'Aanmaken...' : 'Nieuw Signaal bouwen (Fork & Edit)'}
         </button>
 
         <a
