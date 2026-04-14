@@ -39,28 +39,36 @@ const AgentPanel = ({ messages, isLoading, onSendMessage }: AgentPanelProps) => 
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-3">
+      <div className="flex-1 overflow-y-auto p-4 space-y-1">
         <AnimatePresence>
-          {messages.map((msg, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.2 }}
-              className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
-            >
-              <div className={`max-w-[85%] px-3 py-2 rounded-lg text-xs leading-relaxed ${
-                msg.role === 'user'
-                  ? 'bg-primary/10 text-primary border border-primary/20'
-                  : 'bg-card text-foreground border border-border'
-              }`}>
-                {msg.role === 'assistant' && (
-                  <span className="text-[10px] font-mono text-muted-foreground block mb-1">SA</span>
+          {messages.map((msg, i) => {
+            const isNewSpeaker = i === 0 || messages[i - 1].role !== msg.role;
+            return (
+              <div key={i}>
+                {/* Separator between conversation turns */}
+                {i > 0 && isNewSpeaker && (
+                  <div className="my-3 border-t border-border/40" />
                 )}
-                {msg.content}
+                <motion.div
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'} ${!isNewSpeaker ? 'mt-1.5' : ''}`}
+                >
+                  <div className={`max-w-[90%] px-3.5 py-2.5 rounded-xl text-[13px] leading-[1.65] font-body ${
+                    msg.role === 'user'
+                      ? 'bg-primary/10 text-primary border border-primary/20'
+                      : 'bg-card text-foreground border border-border'
+                  }`}>
+                    {msg.role === 'assistant' && isNewSpeaker && (
+                      <span className="text-[10px] font-mono text-muted-foreground block mb-1.5">Systeem Agent</span>
+                    )}
+                    <span className="whitespace-pre-wrap">{msg.content}</span>
+                  </div>
+                </motion.div>
               </div>
-            </motion.div>
-          ))}
+            );
+          })}
         </AnimatePresence>
 
         {isLoading && (
