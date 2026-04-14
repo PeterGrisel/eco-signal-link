@@ -51,11 +51,28 @@ const Confetti = () => {
   );
 };
 
-const JourneyCompletion = ({ score, quizScore, totalQuizQuestions, completedLayers, allInputs }: JourneyCompletionProps) => {
+const JourneyCompletion = ({ score, quizScore, totalQuizQuestions, completedLayers, allInputs, journeyId }: JourneyCompletionProps) => {
   const navigate = useNavigate();
   const [showConfetti, setShowConfetti] = useState(true);
   const [exporting, setExporting] = useState(false);
   const [forking, setForking] = useState(false);
+  const [userId, setUserId] = useState<string | null>(null);
+  const [userName, setUserName] = useState<string | undefined>();
+  const [userCompany, setUserCompany] = useState<string | undefined>();
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) {
+        setUserId(session.user.id);
+        supabase.from("signal_profiles").select("name, company").eq("id", session.user.id).single().then(({ data }) => {
+          if (data) {
+            setUserName(data.name || undefined);
+            setUserCompany(data.company || undefined);
+          }
+        });
+      }
+    });
+  }, []);
 
   const cappedScore = Math.min(score, 100);
 
