@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Search, ExternalLink, Linkedin, BadgeCheck, Users } from "lucide-react";
+import { Search, ExternalLink, Linkedin, BadgeCheck, Users, Sparkles, Globe } from "lucide-react";
 
 interface Partner {
   id: string;
@@ -232,20 +232,145 @@ const Partners = () => {
             </div>
           )}
 
-          {/* CTA */}
-          <div className="mt-16 text-center p-8 rounded-xl border border-border bg-card">
-            <BadgeCheck className="w-8 h-8 text-primary mx-auto mb-3" />
-            <h2 className="font-display font-bold text-2xl mb-2">Word Signal Partner</h2>
-            <p className="text-muted-foreground text-sm max-w-lg mx-auto mb-6">
-              Voltooi het Signaal Detectiesysteem en ontvang uw Signal Certified badge.
-              Wordt zichtbaar voor andere B2B-professionals in uw sector.
+          {/* Wat krijg je als partner */}
+          <div className="mt-16">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                <Sparkles className="w-5 h-5 text-primary" />
+              </div>
+              <h2 className="font-display text-2xl md:text-3xl font-bold">
+                Wat krijg je als <span className="text-primary">Partner?</span>
+              </h2>
+            </div>
+            <p className="text-muted-foreground text-base mb-10 max-w-2xl">
+              Als Signal Partner krijg je niet alleen een badge — je wordt onderdeel van een groeiend ecosysteem 
+              van B2B-ondernemers die signal-based selling toepassen, kennis delen en naar elkaar doorverwijzen.
             </p>
-            <a
-              href="/signaal"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:shadow-[0_0_30px_hsl(var(--primary)/0.3)] transition-all"
-            >
-              Start het Signaal Detectiesysteem
-            </a>
+
+            <div className="grid md:grid-cols-3 gap-4 mb-10">
+              {/* Badge & Zichtbaarheid */}
+              <div className="p-6 rounded-xl bg-card border border-border">
+                <div className="w-11 h-11 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center mb-4">
+                  <BadgeCheck className="w-5 h-5 text-primary" />
+                </div>
+                <h3 className="font-display font-semibold text-base mb-2">Signal Certified Badge</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  Bewijs dat je signal-based selling beheerst. Zichtbaar in de directory voor prospects en collega-ondernemers in uw sector.
+                </p>
+              </div>
+
+              {/* Referral */}
+              <div className="p-6 rounded-xl bg-card border border-border">
+                <div className="w-11 h-11 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center mb-4">
+                  <Users className="w-5 h-5 text-primary" />
+                </div>
+                <h3 className="font-display font-semibold text-base mb-2">Referral & Commissie</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  Ontvang een unieke referral-code. Verdien commissie wanneer je het Signaal Detectiesysteem doorverwijst naar andere ondernemers.
+                </p>
+              </div>
+
+              {/* Community */}
+              <div className="p-6 rounded-xl bg-card border border-border">
+                <div className="w-11 h-11 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center mb-4">
+                  <Globe className="w-5 h-5 text-primary" />
+                </div>
+                <h3 className="font-display font-semibold text-base mb-2">Netwerk & Community</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  Sluit aan bij een netwerk van signal-based sellers. Deel kennis, verwijs leads door en groei samen met gelijkgestemde B2B-professionals.
+                </p>
+              </div>
+            </div>
+
+            {/* RebelHub sectie */}
+            <div className="p-8 rounded-xl border border-primary/20 bg-gradient-to-br from-primary/5 to-card">
+              <div className="flex flex-col md:flex-row md:items-start gap-8">
+                <div className="flex-1">
+                  <span className="inline-block text-[10px] font-semibold uppercase tracking-[0.2em] px-2.5 py-1 rounded bg-primary/15 text-primary border border-primary/25 mb-4">
+                    Fysiek netwerk
+                  </span>
+                  <h3 className="font-display text-xl md:text-2xl font-bold mb-3">
+                    RebelHub — Coworking voor <span className="text-primary">Ondernemers</span>
+                  </h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed mb-5">
+                    Als partner heb je toegang tot RebelHub: het coworking netwerk in het Rivierenland. 
+                    Gratis werkplekken voor starters, betaalbare flexplekken voor professionals, en elke 
+                    twee weken een hands-on AI-training. Momenteel 1 locatie open, 10 gepland.
+                  </p>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
+                    {[
+                      { label: "Gratis werkplek", desc: "Op beschikbaarheid (barter)" },
+                      { label: "Flex Lidmaatschap", desc: "€149/maand — vaste werkplek" },
+                      { label: "AI Trainingen", desc: "Elke 2 weken, gratis voor leden" },
+                      { label: "10 locaties gepland", desc: "Van Nijmegen tot Dordrecht" },
+                    ].map((item) => (
+                      <div key={item.label} className="flex items-start gap-2.5 text-sm">
+                        <span className="text-primary font-bold mt-0.5 shrink-0">✓</span>
+                        <div>
+                          <span className="text-foreground font-medium">{item.label}</span>
+                          <span className="text-muted-foreground"> — {item.desc}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <a
+                    href="https://rebelforce-hubs.lovable.app/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-sm text-primary hover:underline font-medium"
+                  >
+                    Bekijk RebelHub <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+                </div>
+
+                {/* Onderdeel van */}
+                <div className="md:w-72 shrink-0 flex flex-col gap-3">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-muted-foreground mb-1">Onderdeel van</p>
+                  <a
+                    href="https://rebelforce.nl"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-4 rounded-lg border border-border bg-card hover:border-primary/30 transition-colors group flex items-center justify-between"
+                  >
+                    <div>
+                      <span className="font-display text-sm font-bold text-foreground">RebelForce</span>
+                      <p className="text-[11px] text-muted-foreground mt-0.5">Digitale strategie & AI-implementatie</p>
+                    </div>
+                    <ExternalLink className="w-3.5 h-3.5 text-muted-foreground group-hover:text-primary transition-colors shrink-0" />
+                  </a>
+                  <a
+                    href="https://ai-readyscan.nl"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-4 rounded-lg border border-border bg-card hover:border-primary/30 transition-colors group flex items-center justify-between"
+                  >
+                    <div>
+                      <span className="font-display text-sm font-bold text-foreground">AI Fctry</span>
+                      <p className="text-[11px] text-muted-foreground mt-0.5">AI-implementatiepartner voor uw bedrijf</p>
+                    </div>
+                    <ExternalLink className="w-3.5 h-3.5 text-muted-foreground group-hover:text-primary transition-colors shrink-0" />
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            {/* CTA */}
+            <div className="mt-10 text-center p-8 rounded-xl border border-border bg-card">
+              <BadgeCheck className="w-8 h-8 text-primary mx-auto mb-3" />
+              <h3 className="font-display font-bold text-xl mb-2">Klaar om aan te sluiten?</h3>
+              <p className="text-muted-foreground text-sm max-w-lg mx-auto mb-6">
+                Voltooi het Signaal Detectiesysteem en ontvang uw Signal Certified badge.
+                Word zichtbaar voor andere B2B-professionals in uw sector.
+              </p>
+              <a
+                href="/signaal"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:shadow-[0_0_30px_hsl(var(--primary)/0.3)] transition-all"
+              >
+                Start het Signaal Detectiesysteem
+              </a>
+            </div>
           </div>
         </div>
       </section>
