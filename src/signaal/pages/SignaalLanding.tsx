@@ -60,8 +60,34 @@ const FAQS = [
 ];
 
 const SignaalLanding = () => {
+  useEffect(() => {
+    document.title = "Signaal Detectiesysteem — Signal-Based Selling voor B2B | B2BGroeiMachine";
+    const meta = document.querySelector('meta[name="description"]');
+    if (meta) meta.setAttribute("content", "Bouw in 90 minuten uw eigen signaal-detectiesysteem. Stop met koud bellen, start met detecteren. 7-laags interactieve journey voor €97.");
+  }, []);
+
   return (
     <div className="min-h-screen bg-background text-foreground">
+      {/* JSON-LD */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Product",
+            "name": "Signaal Detectiesysteem",
+            "description": "Bouw in 90 minuten uw eigen signaal-detectiesysteem voor B2B sales. 7-laags interactieve journey met AI Strategy Agent, Blueprint PDF export en setup checklists.",
+            "url": "https://b2bgroeimachine.io/signaal",
+            "brand": { "@type": "Brand", "name": "B2BGroeiMachine" },
+            "offers": {
+              "@type": "Offer",
+              "price": "97",
+              "priceCurrency": "EUR",
+              "availability": "https://schema.org/InStock",
+            },
+          }),
+        }}
+      />
       <Navbar />
 
       {/* ── Hero ── */}
