@@ -1,7 +1,7 @@
 import { useState, useCallback, useMemo } from "react";
-import { LayerConfig, LAYERS } from "../data/layers";
+import { LayerConfig, LAYERS, QuizQuestion } from "../data/layers";
 import { motion, AnimatePresence } from "framer-motion";
-import { Check, ChevronRight, Sparkles, Lightbulb, AlertTriangle, Quote, Building2, ArrowRight } from "lucide-react";
+import { Check, ChevronRight, Sparkles, Lightbulb, AlertTriangle, Quote, Building2, ArrowRight, Brain, X, Trophy } from "lucide-react";
 
 type Section = 'waarom' | 'wat' | 'hoe';
 
@@ -17,6 +17,12 @@ interface JourneyLayerProps {
 const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplete, onAskAgent }: JourneyLayerProps) => {
   const [section, setSection] = useState<Section>('waarom');
   const [completedFields, setCompletedFields] = useState<Set<string>>(new Set());
+  const [quizIndex, setQuizIndex] = useState(0);
+  const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
+  const [quizAnswered, setQuizAnswered] = useState(false);
+  const [quizCorrect, setQuizCorrect] = useState(false);
+  const [quizComplete, setQuizComplete] = useState(false);
+  const [quizScore, setQuizScore] = useState(0);
 
   const { requiredFilled, filledCount, totalFields } = useMemo(() => {
     const required = layer.wat.fields.filter(f => f.required);
@@ -187,13 +193,164 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
                 </motion.div>
               )}
 
-              <button
-                onClick={() => setSection('wat')}
-                className="mt-6 group flex items-center gap-2 px-6 py-3 bg-[#E8FF47] text-[#0A0A0B] rounded-lg text-sm font-medium hover:shadow-[0_0_20px_rgba(232,255,71,0.2)] transition-all font-['DM_Sans']"
-              >
-                Begrepen
-                <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-              </button>
+              {/* Quiz Section */}
+              {layer.waarom.quiz && layer.waarom.quiz.length > 0 && !quizComplete && (
+                <motion.div
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.6 }}
+                  className="rounded-xl border border-[#A78BFA]/20 bg-[#111113] overflow-hidden"
+                >
+                  <div className="flex items-center gap-2.5 px-4 py-3 border-b border-[#1E1E22] bg-[#0E0E10]">
+                    <div className="w-7 h-7 rounded-lg bg-[#A78BFA]/10 flex items-center justify-center">
+                      <Brain className="w-3.5 h-3.5 text-[#A78BFA]" />
+                    </div>
+                    <span className="font-['DM_Sans'] text-xs font-semibold text-[#F0F0EE]">Quick Check</span>
+                    <span className="ml-auto font-mono text-[9px] text-[#6B6B72]">
+                      {quizIndex + 1}/{layer.waarom.quiz.length}
+                    </span>
+                  </div>
+                  <div className="p-4 space-y-4">
+                    <p className="text-sm text-[#F0F0EE] font-['DM_Sans'] font-medium leading-relaxed">
+                      {layer.waarom.quiz[quizIndex].question}
+                    </p>
+                    <div className="space-y-2">
+                      {layer.waarom.quiz[quizIndex].options.map((opt, i) => {
+                        const isSelected = selectedAnswer === i;
+                        const isCorrectOption = i === layer.waarom.quiz![quizIndex].correctIndex;
+                        let borderColor = 'border-[#1E1E22]';
+                        let bgColor = 'bg-[#0E0E10]';
+                        let textColor = 'text-[#9B9BA0]';
+
+                        if (quizAnswered) {
+                          if (isCorrectOption) {
+                            borderColor = 'border-[#34D399]/40';
+                            bgColor = 'bg-[#34D399]/[0.06]';
+                            textColor = 'text-[#34D399]';
+                          } else if (isSelected && !isCorrectOption) {
+                            borderColor = 'border-[#F87171]/40';
+                            bgColor = 'bg-[#F87171]/[0.06]';
+                            textColor = 'text-[#F87171]';
+                          }
+                        } else if (isSelected) {
+                          borderColor = 'border-[#A78BFA]/40';
+                          bgColor = 'bg-[#A78BFA]/[0.06]';
+                          textColor = 'text-[#A78BFA]';
+                        }
+
+                        return (
+                          <button
+                            key={i}
+                            onClick={() => { if (!quizAnswered) setSelectedAnswer(i); }}
+                            disabled={quizAnswered}
+                            className={`w-full text-left px-4 py-3 rounded-lg border transition-all ${borderColor} ${bgColor} ${
+                              !quizAnswered ? 'hover:border-[#A78BFA]/30 cursor-pointer' : ''
+                            }`}
+                          >
+                            <div className="flex items-center gap-3">
+                              <span className="font-mono text-[10px] text-[#6B6B72] w-4 shrink-0">{String.fromCharCode(65 + i)}</span>
+                              <span className={`text-xs font-['DM_Sans'] ${textColor}`}>{opt}</span>
+                              {quizAnswered && isCorrectOption && <Check className="w-3.5 h-3.5 text-[#34D399] ml-auto shrink-0" />}
+                              {quizAnswered && isSelected && !isCorrectOption && <X className="w-3.5 h-3.5 text-[#F87171] ml-auto shrink-0" />}
+                            </div>
+                          </button>
+                        );
+                      })}
+                    </div>
+
+                    {/* Submit / feedback */}
+                    {!quizAnswered && selectedAnswer !== null && (
+                      <motion.button
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        onClick={() => {
+                          const correct = selectedAnswer === layer.waarom.quiz![quizIndex].correctIndex;
+                          setQuizAnswered(true);
+                          setQuizCorrect(correct);
+                          if (correct) setQuizScore(prev => prev + 1);
+                        }}
+                        className="w-full py-2.5 rounded-lg bg-[#A78BFA] text-[#0A0A0B] text-xs font-semibold font-['DM_Sans'] hover:bg-[#A78BFA]/90 transition-colors"
+                      >
+                        Controleer antwoord
+                      </motion.button>
+                    )}
+
+                    {quizAnswered && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="space-y-3"
+                      >
+                        <div className={`flex items-start gap-2 p-3 rounded-lg border ${
+                          quizCorrect
+                            ? 'bg-[#34D399]/[0.04] border-[#34D399]/20'
+                            : 'bg-[#F87171]/[0.04] border-[#F87171]/20'
+                        }`}>
+                          <Lightbulb className={`w-4 h-4 mt-0.5 shrink-0 ${quizCorrect ? 'text-[#34D399]' : 'text-[#F87171]'}`} />
+                          <div>
+                            <span className={`text-xs font-semibold font-['DM_Sans'] ${quizCorrect ? 'text-[#34D399]' : 'text-[#F87171]'}`}>
+                              {quizCorrect ? 'Correct!' : 'Niet helemaal'}
+                            </span>
+                            <p className="text-[11px] text-[#9B9BA0] leading-relaxed font-['DM_Sans'] mt-1">
+                              {layer.waarom.quiz![quizIndex].explanation}
+                            </p>
+                          </div>
+                        </div>
+                        <button
+                          onClick={() => {
+                            const nextIdx = quizIndex + 1;
+                            if (nextIdx < layer.waarom.quiz!.length) {
+                              setQuizIndex(nextIdx);
+                              setSelectedAnswer(null);
+                              setQuizAnswered(false);
+                              setQuizCorrect(false);
+                            } else {
+                              setQuizComplete(true);
+                            }
+                          }}
+                          className="w-full py-2.5 rounded-lg bg-[#1E1E22] text-[#F0F0EE] text-xs font-medium font-['DM_Sans'] hover:bg-[#2A2A2E] transition-colors"
+                        >
+                          {quizIndex + 1 < (layer.waarom.quiz?.length || 0) ? 'Volgende vraag →' : 'Afronden'}
+                        </button>
+                      </motion.div>
+                    )}
+                  </div>
+                </motion.div>
+              )}
+
+              {/* Quiz complete — success card + proceed */}
+              {quizComplete && layer.waarom.quiz && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="rounded-xl border border-[#34D399]/20 bg-[#34D399]/[0.04] p-4"
+                >
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="w-8 h-8 rounded-lg bg-[#34D399]/10 flex items-center justify-center">
+                      <Trophy className="w-4 h-4 text-[#34D399]" />
+                    </div>
+                    <div>
+                      <span className="font-['DM_Sans'] text-sm font-semibold text-[#34D399]">
+                        {quizScore}/{layer.waarom.quiz.length} correct
+                      </span>
+                      <p className="text-[10px] text-[#6B6B72] font-['DM_Sans']">
+                        {quizScore === layer.waarom.quiz.length ? 'Perfect! Je beheerst de kernconcepten.' : 'Goed gedaan. De uitleg helpt je bij de configuratie.'}
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* Proceed button — only show when quiz is done (or no quiz) */}
+              {(!layer.waarom.quiz || layer.waarom.quiz.length === 0 || quizComplete) && (
+                <button
+                  onClick={() => setSection('wat')}
+                  className="mt-6 group flex items-center gap-2 px-6 py-3 bg-[#E8FF47] text-[#0A0A0B] rounded-lg text-sm font-medium hover:shadow-[0_0_20px_rgba(232,255,71,0.2)] transition-all font-['DM_Sans']"
+                >
+                  Begrepen — door naar configuratie
+                  <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                </button>
+              )}
             </div>
           )}
 
