@@ -13,6 +13,20 @@ import Footer from "@/components/Footer";
 
 const TOOLS = ["Apollo", "HubSpot", "LinkedIn", "Clay", "Instantly", "40+ andere tools"];
 
+const CLIENTS = [
+  { name: "Excelsior Rotterdam", domain: "excelsiorrotterdam.nl" },
+  { name: "Core Vision", domain: "core-vision.nl" },
+  { name: "GoBytes", domain: "gobytes.nl" },
+  { name: "Nexer", domain: "nexer.nl" },
+  { name: "Exes Engineering", domain: "exesengineering.nl" },
+  { name: "Drivewise Lease", domain: "drivewiselease.nl" },
+  { name: "HappyBase", domain: "happybase.me" },
+  { name: "RTC Group", domain: "rtc-group.nl" },
+  { name: "Yaskawa", domain: "yaskawa.nl" },
+  { name: "ThriveOS", domain: "thriveos.nl" },
+  { name: "Krak de Rijder", domain: "krakderijder.nl" },
+];
+
 const PAIN_POINTS = [
   { icon: Clock, title: "Uren verspild aan koud bellen", desc: "U belt prospects die niet klaar zijn. Uw team raakt gedemotiveerd." },
   { icon: Target, title: "Geen idee wie klaar is om te kopen", desc: "U mist koopsignalen. Uw concurrent pikt ze op." },
@@ -150,6 +164,34 @@ const SignaalLanding = () => {
           </p>
         </div>
       </div>
+
+      {/* ── Client logos ── */}
+      <section className="py-10 border-b border-border">
+        <div className="container mx-auto px-4 mb-6">
+          <p className="text-xs font-display uppercase tracking-[0.25em] text-muted-foreground text-center">
+            Dit passen wij ook toe bij
+          </p>
+        </div>
+        <div className="overflow-hidden relative">
+          <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-background to-transparent z-10" />
+          <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-background to-transparent z-10" />
+          <div className="flex animate-marquee" style={{ width: "max-content" }}>
+            {[...CLIENTS, ...CLIENTS, ...CLIENTS, ...CLIENTS].map((client, i) => (
+              <div key={i} className="mx-6 md:mx-10 shrink-0 flex items-center gap-2.5 select-none whitespace-nowrap">
+                <img
+                  src={`https://www.google.com/s2/favicons?domain=${client.domain}&sz=64`}
+                  alt={client.name}
+                  className="w-6 h-6 rounded-sm"
+                  loading="lazy"
+                />
+                <span className="text-sm font-display font-semibold text-foreground/50">
+                  {client.name}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* ── Pain points ── */}
       <section className="py-16 md:py-24">
