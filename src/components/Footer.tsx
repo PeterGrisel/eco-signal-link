@@ -15,6 +15,7 @@ const diensten = [
   { href: "/full-service-recruitment", label: "Full Service Recruitment" },
   { href: "/datahub", label: "Datahub" },
   { href: "/pipeline-equation", label: "Pipeline Equation™" },
+  { href: "/signaal", label: "Signaal Detectiesysteem" },
 ];
 
 const bedrijf = [
@@ -24,6 +25,12 @@ const bedrijf = [
   { href: "/pricing", label: "Pricing" },
   { href: "/blog", label: "Blog" },
   { href: "/contact", label: "Contact" },
+];
+
+const kennis = [
+  { href: "/cheatsheets", label: "Cheatsheets" },
+  { href: "/trainingen", label: "Trainingen" },
+  { href: "/partners", label: "Signal Partners" },
 ];
 
 const Footer = () => {
@@ -130,6 +137,20 @@ const Footer = () => {
             </p>
             <div className="flex flex-col gap-2.5">
               {bedrijf.map((link) => (
+                <Link
+                  key={link.href}
+                  to={link.href}
+                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+            <p className="text-[11px] font-display font-semibold tracking-[0.2em] uppercase text-primary/70 mb-3 mt-6">
+              Kennis
+            </p>
+            <div className="flex flex-col gap-2.5">
+              {kennis.map((link) => (
                 <Link
                   key={link.href}
                   to={link.href}
