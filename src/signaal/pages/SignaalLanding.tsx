@@ -1,7 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
-import { Check, ArrowRight, Zap, Target, BarChart3, Clock, Brain, Layers, Shield, ChevronRight, FileText, Bot, RefreshCw, Wrench, CalendarCheck, LayoutDashboard, UserRound, Briefcase, LineChart, Phone, Cog, Code2, BadgeCheck } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Check, ArrowRight, Zap, Target, BarChart3, Clock, Brain, Layers, Shield, ChevronRight, FileText, Bot, RefreshCw, Wrench, CalendarCheck, LayoutDashboard, UserRound, Briefcase, LineChart, Phone, Cog, Code2, BadgeCheck, Signal, X } from "lucide-react";
 import SignaalLayout from "../components/SignaalLayout";
 import {
   Accordion,
