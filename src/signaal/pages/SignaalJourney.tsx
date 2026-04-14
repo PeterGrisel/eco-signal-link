@@ -8,15 +8,19 @@ import MobileBlueprintDrawer from "../components/MobileBlueprintDrawer";
 import MobileAgentSheet from "../components/MobileAgentSheet";
 import LayerProgress from "../components/LayerProgress";
 import JourneyLayer from "../components/JourneyLayer";
+import JourneyCompletion from "../components/JourneyCompletion";
 import { LAYERS } from "../data/layers";
 import { toast } from "sonner";
 import JourneyOnboarding from "../components/JourneyOnboarding";
 import { AnimatePresence } from "framer-motion";
+import { Clock, TrendingUp } from "lucide-react";
 
 interface AgentMessage {
   role: 'user' | 'assistant';
   content: string;
 }
+
+const TIME_SAVINGS = [0, 2, 4, 6, 8, 10, 12, 14]; // hrs/week per completed layer (cumulative index)
 
 const SignaalJourney = () => {
   const navigate = useNavigate();
@@ -57,6 +61,13 @@ const SignaalJourney = () => {
       }
 
       const journey = journeys[0];
+
+      // Gate: must be paid
+      if (!(journey as any).paid) {
+        navigate('/signaal/start');
+        return;
+      }
+
       setJourneyId(journey.id);
       setCurrentLayer(journey.current_layer);
       setScore(journey.score_total);
@@ -81,7 +92,7 @@ const SignaalJourney = () => {
         );
       }
 
-      // Show onboarding for first-time users (layer 1, no inputs yet)
+      // Show onboarding for first-time users
       if (journey.current_layer === 1 && (!inputs || inputs.length === 0)) {
         const seen = localStorage.getItem('signaal_onboarding_seen');
         if (!seen) setShowOnboarding(true);
@@ -103,7 +114,6 @@ const SignaalJourney = () => {
     loadJourney();
   }, [navigate]);
 
-  // Save input to Supabase (debounced via onBlur in JourneyLayer)
   const handleInputChange = useCallback((fieldKey: string, value: any) => {
     setAllInputs(prev => ({
       ...prev,
@@ -113,7 +123,6 @@ const SignaalJourney = () => {
       },
     }));
 
-    // Persist to Supabase
     if (journeyId) {
       supabase.from('journey_inputs').upsert(
         {
@@ -137,7 +146,6 @@ const SignaalJourney = () => {
     const newUserMsg: AgentMessage = { role: 'user', content: userMessage };
     setAgentMessages(prev => [...prev, newUserMsg]);
 
-    // Save user message
     await supabase.from('agent_messages').insert({
       journey_id: journeyId,
       layer_id: currentLayer,
@@ -163,7 +171,6 @@ const SignaalJourney = () => {
       const assistantMsg: AgentMessage = { role: 'assistant', content: assistantContent };
       setAgentMessages(prev => [...prev, assistantMsg]);
 
-      // Save assistant message
       await supabase.from('agent_messages').insert({
         journey_id: journeyId,
         layer_id: currentLayer,
@@ -197,13 +204,11 @@ const SignaalJourney = () => {
     setCurrentLayer(nextLayer);
     setScore(newScore);
 
-    // Update journey in Supabase
     await supabase.from('journeys').update({
       current_layer: nextLayer,
       score_total: newScore,
     }).eq('id', journeyId);
 
-    // Update blueprint
     await supabase.from('blueprints').upsert({
       journey_id: journeyId,
       doc_json: allInputs,
@@ -214,6 +219,7 @@ const SignaalJourney = () => {
   }, [journeyId, currentLayer, score, allInputs, callAgent]);
 
   const activeLayer = LAYERS.find(l => l.id === currentLayer);
+  const estimatedTimeSaved = TIME_SAVINGS[Math.min(completedLayers.length, TIME_SAVINGS.length - 1)];
 
   if (loading) {
     return (
@@ -223,16 +229,17 @@ const SignaalJourney = () => {
     );
   }
 
+  // Journey completed — show celebration screen
   if (!activeLayer) {
     return (
-      <SignaalLayout className="flex items-center justify-center">
-        <div className="text-center">
-          <h2 className="font-display text-3xl text-foreground mb-4">Journey voltooid!</h2>
-          <p className="text-sm text-muted-foreground font-body mb-6">Score: {score}/100</p>
-          <a href="/signaal/blueprint" className="px-6 py-3 bg-primary text-primary-foreground rounded-lg text-sm font-medium font-body">
-            Bekijk je Blueprint →
-          </a>
-        </div>
+      <SignaalLayout>
+        <JourneyCompletion
+          score={score}
+          quizScore={quizScore}
+          totalQuizQuestions={totalQuizQuestions}
+          completedLayers={completedLayers}
+          allInputs={allInputs}
+        />
       </SignaalLayout>
     );
   }
@@ -263,21 +270,46 @@ const SignaalJourney = () => {
         {/* Center — Journey Engine */}
         <div className="flex-1 overflow-y-auto">
           <div className="p-4 sm:p-6">
+            {/* ── Waarde-meter ── */}
+            <div className="mb-4 sm:mb-6 max-w-[600px] mx-auto">
+              <div className="flex items-center gap-3 p-3 rounded-xl border border-border bg-card">
+                <div className="flex items-center gap-2 flex-1 min-w-0">
+                  <TrendingUp className="w-4 h-4 text-primary shrink-0" />
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="font-body text-[11px] font-medium text-muted-foreground">Blueprint voortgang</span>
+                      <span className="font-mono text-xs font-bold text-primary">{completedLayers.length}/7</span>
+                    </div>
+                    <div className="h-1.5 bg-secondary rounded-full overflow-hidden">
+                      <div
+                        className="h-full bg-gradient-to-r from-primary to-primary rounded-full transition-all duration-700 ease-out"
+                        style={{ width: `${(completedLayers.length / 7) * 100}%` }}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-1.5 pl-3 border-l border-border shrink-0">
+                  <Clock className="w-3.5 h-3.5 text-muted-foreground" />
+                  <span className="font-mono text-[10px] text-muted-foreground">~{estimatedTimeSaved} uur/week bespaard</span>
+                </div>
+              </div>
+            </div>
+
             {/* Global Quiz Score Indicator */}
             {totalQuizQuestions > 0 && (
               <div className="mb-4 sm:mb-6 max-w-[600px] mx-auto">
-                <div className="flex items-center gap-3 p-3 rounded-xl border border-[hsl(24, 75%, 63%)]/20 bg-card">
-                  <div className="w-8 h-8 rounded-lg bg-[hsl(24, 75%, 63%)]/10 flex items-center justify-center shrink-0">
+                <div className="flex items-center gap-3 p-3 rounded-xl border border-primary/20 bg-card">
+                  <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
                     <span className="text-sm">🧠</span>
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between mb-1.5">
                       <span className="font-body text-[11px] font-medium text-muted-foreground">Quiz Score</span>
-                      <span className="font-mono text-xs font-bold text-[hsl(24, 75%, 63%)]">{quizScore}/{totalQuizQuestions}</span>
+                      <span className="font-mono text-xs font-bold text-primary">{quizScore}/{totalQuizQuestions}</span>
                     </div>
                     <div className="h-1.5 bg-secondary rounded-full overflow-hidden">
                       <div
-                        className="h-full bg-gradient-to-r from-[hsl(24, 75%, 63%)] to-[hsl(24, 75%, 63%)] rounded-full transition-all duration-700 ease-out"
+                        className="h-full bg-gradient-to-r from-primary to-primary rounded-full transition-all duration-700 ease-out"
                         style={{ width: `${(quizScore / totalQuizQuestions) * 100}%` }}
                       />
                     </div>

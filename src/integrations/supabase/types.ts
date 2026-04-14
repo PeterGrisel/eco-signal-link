@@ -640,6 +640,7 @@ export type Database = {
           current_layer: number
           id: string
           module_id: string
+          paid: boolean
           score_total: number
           started_at: string
           user_id: string
@@ -649,6 +650,7 @@ export type Database = {
           current_layer?: number
           id?: string
           module_id?: string
+          paid?: boolean
           score_total?: number
           started_at?: string
           user_id: string
@@ -658,6 +660,7 @@ export type Database = {
           current_layer?: number
           id?: string
           module_id?: string
+          paid?: boolean
           score_total?: number
           started_at?: string
           user_id?: string
