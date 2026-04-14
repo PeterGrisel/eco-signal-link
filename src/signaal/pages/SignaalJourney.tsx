@@ -25,6 +25,8 @@ const SignaalJourney = () => {
   const [completedLayers, setCompletedLayers] = useState<number[]>([]);
   const [allInputs, setAllInputs] = useState<Record<number, Record<string, any>>>({});
   const [score, setScore] = useState(0);
+  const [quizScore, setQuizScore] = useState(0);
+  const [totalQuizQuestions, setTotalQuizQuestions] = useState(0);
   const [agentMessages, setAgentMessages] = useState<AgentMessage[]>([
     { role: 'assistant', content: 'Welkom. Laten we je prospecting systeem bouwen. Begin met laag 01 — Definitie.' }
   ]);
@@ -274,6 +276,10 @@ const SignaalJourney = () => {
               onInputChange={handleInputChange}
               onComplete={handleLayerComplete}
               onAskAgent={handleAskAgent}
+              onQuizScoreUpdate={(correct, total) => {
+                setQuizScore(prev => prev + correct);
+                setTotalQuizQuestions(prev => prev + total);
+              }}
             />
           </div>
         </div>
