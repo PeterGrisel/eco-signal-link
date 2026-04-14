@@ -270,6 +270,23 @@ const JourneyCompletion = ({ score, quizScore, totalQuizQuestions, completedLaye
           Wil je dat wij dit systeem voor je implementeren? →
         </a>
       </motion.div>
+
+      {/* Partner Opt-In */}
+      {userId && journeyId && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.8 }}
+          className="mt-8"
+        >
+          <PartnerOptIn
+            userId={userId}
+            journeyId={journeyId}
+            userName={userName}
+            userCompany={userCompany}
+          />
+        </motion.div>
+      )}
     </div>
   );
 };
