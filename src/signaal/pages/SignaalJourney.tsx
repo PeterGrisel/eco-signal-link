@@ -166,7 +166,7 @@ const SignaalJourney = () => {
             all_inputs: allInputs,
             layer_principle: layer?.waarom.principle,
             layer_headline: layer?.waarom.headline,
-            layer_mistake: layer?.waarom.mistake,
+            layer_valkuil: layer?.waarom.valkuil ? { title: layer.waarom.valkuilTitel, body: layer.waarom.valkuil } : undefined,
             field_label: field?.label,
           },
         },

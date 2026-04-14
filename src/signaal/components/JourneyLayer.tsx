@@ -98,53 +98,97 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
         >
           {section === 'waarom' && (
             <div className="space-y-7">
+              {/* Akte-marker — alleen bij eerste laag van een akte */}
+              {layer.act && (
+                <motion.div
+                  initial={{ opacity: 0, y: -8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="flex items-center gap-3 pb-2"
+                >
+                  <span
+                    className="font-mono text-[10px] px-2 py-0.5 rounded uppercase tracking-wider"
+                    style={{ backgroundColor: layer.themeColor + '18', color: layer.themeColor }}
+                  >
+                    Akte {layer.act.number} · {layer.act.title}
+                  </span>
+                  <span className="font-body text-[12px] italic text-muted-foreground">{layer.act.promise}</span>
+                </motion.div>
+              )}
+
               <h2 className="font-display text-[28px] leading-tight text-foreground">
                 {layer.waarom.headline}
               </h2>
-              <div className="space-y-4 text-[15px] text-muted-foreground leading-[1.75] font-body">
-                {layer.waarom.body.split('\n\n').map((p, i) => (
-                  <p key={i}>{p}</p>
+
+              {/* Intentie — leerdoelstelling */}
+              {layer.waarom.intentie && (
+                <div
+                  className="flex items-start gap-3 p-4 rounded-lg border"
+                  style={{ borderColor: layer.themeColor + '30', backgroundColor: layer.themeColor + '08' }}
+                >
+                  <Sparkles className="w-4 h-4 mt-0.5 shrink-0" style={{ color: layer.themeColor }} />
+                  <p className="text-[13px] leading-[1.65] font-body" style={{ color: layer.themeColor }}>
+                    {layer.waarom.intentie}
+                  </p>
+                </div>
+              )}
+
+              {/* Aansluiting */}
+              <div className="text-[15px] text-muted-foreground leading-[1.75] font-body">
+                {layer.waarom.aansluiting.split('\n\n').map((p, i) => (
+                  <p key={i} className={i > 0 ? 'mt-4' : ''}>{p}</p>
                 ))}
               </div>
 
-              {/* Case Study Card — Velox Solutions */}
-              {layer.waarom.caseStudy && (
-                <motion.div
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2 }}
-                  className="rounded-xl border border-border bg-card overflow-hidden"
-                >
-                   <div className="flex items-center gap-2.5 px-5 py-3.5 border-b border-border bg-card">
-                     <div className="w-7 h-7 rounded-lg bg-primary/10 flex items-center justify-center">
-                       <Building2 className="w-3.5 h-3.5 text-primary" />
-                     </div>
-                     <span className="font-body text-sm font-semibold text-foreground">Velox Solutions</span>
-                     <span className="ml-auto font-mono text-[10px] text-muted-foreground uppercase tracking-wider">Case Study</span>
-                   </div>
-                   <div className="p-5 space-y-4">
-                     <p className="text-[14px] text-muted-foreground leading-[1.7] font-body">
-                       {layer.waarom.caseStudy.situation}
-                     </p>
-                     <div className="flex items-start gap-3 p-4 rounded-lg bg-primary/[0.04] border border-primary/10">
-                       <Lightbulb className="w-4 h-4 text-primary mt-1 shrink-0" />
-                       <p className="text-[14px] text-primary/90 leading-[1.65] font-body">
-                         {layer.waarom.caseStudy.result}
-                       </p>
-                     </div>
-                     <p className="text-[13px] text-muted-foreground italic leading-relaxed font-body">
-                       → {layer.waarom.caseStudy.lesson}
-                     </p>
-                   </div>
-                 </motion.div>
-              )}
+              {/* Kern — mentaal model */}
+              <div className="space-y-4 pl-4 border-l-2" style={{ borderColor: layer.themeColor + '60' }}>
+                {layer.waarom.kern.split('\n\n').map((p, i) => (
+                  <p key={i} className="text-[15px] text-foreground leading-[1.75] font-body">{p}</p>
+                ))}
+              </div>
+
+              {/* Valkuil */}
+              <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.25 }}
+                className="rounded-xl border border-[#F97316]/20 bg-[#F97316]/[0.03] p-5"
+              >
+                <div className="flex items-center gap-2 mb-3">
+                  <AlertTriangle className="w-4 h-4 text-[#F97316]" />
+                  <span className="font-body text-[13px] font-semibold text-[#F97316]">{layer.waarom.valkuilTitel}</span>
+                </div>
+                <p className="text-[14px] text-muted-foreground leading-[1.7] font-body">
+                  {layer.waarom.valkuil}
+                </p>
+              </motion.div>
+
+              {/* Scène — Velox doorlopend verhaal */}
+              <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.35 }}
+                className="rounded-xl border border-border bg-card overflow-hidden"
+              >
+                <div className="flex items-center gap-2.5 px-5 py-3.5 border-b border-border bg-card">
+                  <div className="w-7 h-7 rounded-lg bg-primary/10 flex items-center justify-center">
+                    <Building2 className="w-3.5 h-3.5 text-primary" />
+                  </div>
+                  <span className="font-body text-sm font-semibold text-foreground">Velox Solutions</span>
+                  <span className="ml-auto font-mono text-[10px] text-muted-foreground uppercase tracking-wider">Scène {layer.id}/7</span>
+                </div>
+                <div className="p-5">
+                  <p className="text-[14px] text-muted-foreground leading-[1.75] font-body italic">
+                    {layer.waarom.scene}
+                  </p>
+                </div>
+              </motion.div>
 
               {/* Before / After Stats */}
               {layer.waarom.stats && (
                  <motion.div
                    initial={{ opacity: 0, y: 12 }}
                    animate={{ opacity: 1, y: 0 }}
-                   transition={{ delay: 0.35 }}
+                   transition={{ delay: 0.45 }}
                    className="grid grid-cols-2 gap-3"
                  >
                    <div className="rounded-xl border border-[#F87171]/20 bg-[#F87171]/[0.04] p-5 text-center">
@@ -161,23 +205,24 @@ const JourneyLayer = ({ layer, inputs, completedLayers, onInputChange, onComplet
                 </motion.div>
               )}
 
-              {/* Veelgemaakte Fout */}
-              {layer.waarom.mistake && (
-                <motion.div
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.45 }}
-                   className="rounded-xl border border-[#F97316]/20 bg-[#F97316]/[0.03] p-5"
-                 >
-                   <div className="flex items-center gap-2 mb-3">
-                     <AlertTriangle className="w-4 h-4 text-[#F97316]" />
-                     <span className="font-body text-[13px] font-semibold text-[#F97316]">{layer.waarom.mistake.title}</span>
-                   </div>
-                   <p className="text-[14px] text-muted-foreground leading-[1.7] font-body">
-                     {layer.waarom.mistake.body}
-                   </p>
-                 </motion.div>
-              )}
+              {/* Opmaat — brug naar Configuratie */}
+              <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.55 }}
+                className="rounded-xl border p-5"
+                style={{ borderColor: layer.themeColor + '30', backgroundColor: layer.themeColor + '06' }}
+              >
+                <div className="flex items-center gap-2 mb-3">
+                  <ArrowRight className="w-4 h-4" style={{ color: layer.themeColor }} />
+                  <span className="font-body text-[12px] font-semibold uppercase tracking-wider" style={{ color: layer.themeColor }}>
+                    Opmaat naar configuratie
+                  </span>
+                </div>
+                <p className="text-[14px] text-foreground leading-[1.7] font-body">
+                  {layer.waarom.opmaat}
+                </p>
+              </motion.div>
 
               {/* Kernprincipe */}
               {layer.waarom.principle && (
