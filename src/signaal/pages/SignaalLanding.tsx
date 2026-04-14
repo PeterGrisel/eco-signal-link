@@ -641,8 +641,12 @@ const SignaalLanding = () => {
       </section>
 
       <Footer />
+
+      {/* Floating CTA */}
+      <FloatingTrainingCta />
     </div>
   );
+};
 };
 
 export default SignaalLanding;
