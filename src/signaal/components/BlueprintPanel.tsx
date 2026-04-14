@@ -13,7 +13,7 @@ const BlueprintPanel = ({ inputs, currentLayer, score }: BlueprintPanelProps) =>
   );
 
   return (
-    <div className="w-full lg:w-[300px] shrink-0 lg:border-r border-border lg:h-full overflow-y-auto p-5 flex flex-col">
+    <div className="w-full lg:w-[360px] shrink-0 lg:border-r border-border lg:h-full overflow-y-auto p-5 flex flex-col">
       {/* Header */}
       <div className="flex items-center gap-2 mb-6">
         <h2 className="font-display text-lg text-foreground">Jouw Blueprint</h2>
