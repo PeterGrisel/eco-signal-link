@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Check, ArrowRight, Zap, Target, BarChart3, Clock, Brain, Layers, Shield, ChevronRight, FileText, Bot, RefreshCw, Wrench, CalendarCheck, LayoutDashboard, Building2, Rocket, TrendingUp, Handshake, Factory, Monitor } from "lucide-react";
+import { Check, ArrowRight, Zap, Target, BarChart3, Clock, Brain, Layers, Shield, ChevronRight, FileText, Bot, RefreshCw, Wrench, CalendarCheck, LayoutDashboard, UserRound, Briefcase, LineChart, Phone, Cog, Code2 } from "lucide-react";
 import SignaalLayout from "../components/SignaalLayout";
 import {
   Accordion,
@@ -280,12 +280,12 @@ const SignaalLanding = () => {
 
           <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-4">
             {[
-              { icon: Building2, title: "Sales Directors & VP Sales", desc: "U wilt een voorspelbare pipeline maar uw team jaagt nog steeds op koude leads zonder systeem." },
-              { icon: Rocket, title: "Founders & CEO's (scale-ups)", desc: "U doet sales er zelf 'even' bij. U weet dat het beter moet, maar mist de structuur om te schalen." },
-              { icon: TrendingUp, title: "Revenue Operations", desc: "U heeft de tools, maar mist de strategie om signalen om te zetten in gekwalificeerde pipeline." },
-              { icon: Handshake, title: "Business Development Managers", desc: "U belt 50 prospects per dag. Slechts 3 zijn relevant. U wilt weten welke 3 dat zijn vóórdat u belt." },
-              { icon: Factory, title: "B2B Dienstverleners & Maakindustrie", desc: "Lange salescycli, meerdere beslissers. U heeft een systeem nodig dat koopsignalen vroegtijdig detecteert." },
-              { icon: Monitor, title: "IT & SaaS bedrijven", desc: "Uw markt is competitief. Wie het eerst het signaal oppikt, wint de deal. Timing is alles." },
+              { icon: UserRound, title: "Sales Directors & VP Sales", desc: "U wilt een voorspelbare pipeline maar uw team jaagt nog steeds op koude leads zonder systeem." },
+              { icon: Briefcase, title: "Founders & CEO's (scale-ups)", desc: "U doet sales er zelf 'even' bij. U weet dat het beter moet, maar mist de structuur om te schalen." },
+              { icon: LineChart, title: "Revenue Operations", desc: "U heeft de tools, maar mist de strategie om signalen om te zetten in gekwalificeerde pipeline." },
+              { icon: Phone, title: "Business Development Managers", desc: "U belt 50 prospects per dag. Slechts 3 zijn relevant. U wilt weten welke 3 dat zijn vóórdat u belt." },
+              { icon: Cog, title: "B2B Dienstverleners & Maakindustrie", desc: "Lange salescycli, meerdere beslissers. U heeft een systeem nodig dat koopsignalen vroegtijdig detecteert." },
+              { icon: Code2, title: "IT & SaaS bedrijven", desc: "Uw markt is competitief. Wie het eerst het signaal oppikt, wint de deal. Timing is alles." },
             ].map((persona, i) => (
               <motion.div
                 key={persona.title}
