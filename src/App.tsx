@@ -25,23 +25,14 @@ import Privacy from "./pages/Privacy.tsx";
 import Terms from "./pages/Terms.tsx";
 import Cookies from "./pages/Cookies.tsx";
 import AdminLogin from "./pages/AdminLogin.tsx";
-import AdminBlog from "./pages/admin/AdminBlog.tsx";
+import AdminDashboard from "./pages/admin/AdminDashboard.tsx";
+import AdminAnalyticsHub from "./pages/admin/AdminAnalyticsHub.tsx";
+import AdminContentHub from "./pages/admin/AdminContentHub.tsx";
+import AdminSeoHub from "./pages/admin/AdminSeoHub.tsx";
+import AdminSystem from "./pages/admin/AdminSystem.tsx";
 import AdminBlogEditor from "./pages/admin/AdminBlogEditor.tsx";
 import AdminBlogGenerate from "./pages/admin/AdminBlogGenerate.tsx";
-import AdminListings from "./pages/admin/AdminListings.tsx";
-import AdminIndexing from "./pages/admin/AdminIndexing.tsx";
-import AdminAutopilot from "./pages/admin/AdminAutopilot.tsx";
-import AdminSettings from "./pages/admin/AdminSettings.tsx";
-import AdminTaxonomy from "./pages/admin/AdminTaxonomy.tsx";
-import AdminKpi from "./pages/admin/AdminKpi.tsx";
-import AdminCalendar from "./pages/admin/AdminCalendar.tsx";
-import AdminLeads from "./pages/admin/AdminLeads.tsx";
-import AdminAnalytics from "./pages/admin/AdminAnalytics.tsx";
-import AdminScripts from "./pages/admin/AdminScripts.tsx";
-import AdminOverview from "./pages/admin/AdminOverview.tsx";
-import AdminCompetitors from "./pages/admin/AdminCompetitors.tsx";
 import AdminSignaal from "./pages/admin/AdminSignaal.tsx";
-import AdminMcp from "./pages/admin/AdminMcp.tsx";
 import SignalCheatsheet from "./pages/SignalCheatsheet.tsx";
 import LinkedInOutreach from "./pages/LinkedInOutreach.tsx";
 import HubSpotPipeline from "./pages/HubSpotPipeline.tsx";
@@ -103,24 +94,15 @@ const AnimatedRoutes = () => {
           <Route path="/terms" element={<Terms />} />
           <Route path="/cookies" element={<Cookies />} />
           <Route path="/admin/login" element={<AdminLogin />} />
-          <Route path="/admin/overview" element={<AdminOverview />} />
-          <Route path="/admin/blog" element={<AdminBlog />} />
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          <Route path="/admin/analytics" element={<AdminAnalyticsHub />} />
+          <Route path="/admin/content" element={<AdminContentHub />} />
+          <Route path="/admin/seo" element={<AdminSeoHub />} />
+          <Route path="/admin/system" element={<AdminSystem />} />
+          <Route path="/admin/signaal" element={<AdminSignaal />} />
           <Route path="/admin/blog/new" element={<AdminBlogEditor />} />
           <Route path="/admin/blog/edit/:id" element={<AdminBlogEditor />} />
           <Route path="/admin/blog/generate" element={<AdminBlogGenerate />} />
-          <Route path="/admin/listings" element={<AdminListings />} />
-          <Route path="/admin/indexing" element={<AdminIndexing />} />
-          <Route path="/admin/autopilot" element={<AdminAutopilot />} />
-          <Route path="/admin/settings" element={<AdminSettings />} />
-          <Route path="/admin/taxonomy" element={<AdminTaxonomy />} />
-          <Route path="/admin/kpi" element={<AdminKpi />} />
-          <Route path="/admin/calendar" element={<AdminCalendar />} />
-          <Route path="/admin/leads" element={<AdminLeads />} />
-          <Route path="/admin/analytics" element={<AdminAnalytics />} />
-          <Route path="/admin/scripts" element={<AdminScripts />} />
-          <Route path="/admin/competitors" element={<AdminCompetitors />} />
-          <Route path="/admin/signaal" element={<AdminSignaal />} />
-          <Route path="/admin/mcp" element={<AdminMcp />} />
           <Route path="/cheatsheets" element={<Cheatsheets />} />
           <Route path="/trainingen" element={<Trainingen />} />
           <Route path="/partners" element={<Partners />} />

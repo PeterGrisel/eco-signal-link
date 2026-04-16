@@ -98,7 +98,7 @@ const scoreColor = (score: number) =>
 const scoreBg = (score: number) =>
   score >= 90 ? "border-green-500/30 bg-green-500/10" : score >= 50 ? "border-yellow-500/30 bg-yellow-500/10" : "border-red-500/30 bg-red-500/10";
 
-const AdminKpi = () => {
+export const KpiTabContent = () => {
   const [overview, setOverview] = useState<GscOverview | null>(null);
   const [convPages, setConvPages] = useState<ConversionPage[]>([]);
   const [loading, setLoading] = useState(false);
@@ -275,7 +275,7 @@ const AdminKpi = () => {
   };
 
   return (
-    <AdminLayout>
+    <>
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
           <h1 className="font-display text-2xl font-bold text-foreground flex items-center gap-2">
@@ -878,8 +878,12 @@ const AdminKpi = () => {
           <p className="text-xs text-muted-foreground">Voeg conversie-pagina's toe om clicks te tracken</p>
         )}
       </div>
-    </AdminLayout>
+    </>
   );
 };
+
+const AdminKpi = () => (
+  <AdminLayout><KpiTabContent /></AdminLayout>
+);
 
 export default AdminKpi;

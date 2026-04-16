@@ -2,27 +2,18 @@ import { ReactNode, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAdminAuth } from "@/hooks/useAdminAuth";
-import { FileText, Globe, Zap, LogOut, Sparkles, Settings, FolderTree, BarChart3, Circle, CalendarDays, Users, Activity, Code2, LayoutDashboard, Menu, X, Search, Radio, Server } from "lucide-react";
+import { FileText, Globe, LogOut, Settings, BarChart3, Circle, Activity, LayoutDashboard, Menu, X, Radio } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 const navItems = [
-  { href: "/admin/overview", label: "Command Center", icon: LayoutDashboard },
-  { href: "/admin/kpi", label: "KPI Dashboard", icon: BarChart3 },
-  { href: "/admin/analytics", label: "Event Analytics", icon: Activity },
-  { href: "/admin/leads", label: "Leads", icon: Users },
-  { href: "/admin/blog", label: "Blog CMS", icon: FileText },
-  { href: "/admin/autopilot", label: "Autopilot", icon: Sparkles, showPilotBadge: true },
-  { href: "/admin/calendar", label: "Content Kalender", icon: CalendarDays },
-  { href: "/admin/taxonomy", label: "Content Strategie", icon: FolderTree },
-  { href: "/admin/competitors", label: "Concurrenten", icon: Search },
-  { href: "/admin/listings", label: "Listings", icon: Globe },
-  { href: "/admin/indexing", label: "Index Rusher", icon: Zap },
-  { href: "/admin/scripts", label: "Tracking Scripts", icon: Code2 },
+  { href: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/admin/analytics", label: "Analytics", icon: Activity },
+  { href: "/admin/content", label: "Content", icon: FileText, showPilotBadge: true },
+  { href: "/admin/seo", label: "SEO", icon: Globe },
   { href: "/admin/signaal", label: "Signaal", icon: Radio },
-  { href: "/admin/mcp", label: "MCP Server", icon: Server },
-  { href: "/admin/settings", label: "Settings", icon: Settings },
+  { href: "/admin/system", label: "System", icon: Settings },
 ];
 
 const AdminLayout = ({ children }: { children: ReactNode }) => {

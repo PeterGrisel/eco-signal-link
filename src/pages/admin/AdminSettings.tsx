@@ -19,21 +19,19 @@ const tabs = [
   { value: "advanced", label: "Advanced" },
 ];
 
-const AdminSettings = () => {
+export const SettingsTabContent = () => {
   const { config, updateConfig, saveSettings, loading, saving } = useSeoSettings();
 
   if (loading) {
     return (
-      <AdminLayout>
-        <div className="flex items-center justify-center py-20">
-          <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
-        </div>
-      </AdminLayout>
+      <div className="flex items-center justify-center py-20">
+        <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
+      </div>
     );
   }
 
   return (
-    <AdminLayout>
+    <>
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
           <h1 className="font-display text-2xl font-bold text-foreground flex items-center gap-2">
@@ -75,8 +73,12 @@ const AdminSettings = () => {
           <TabsContent value="advanced"><AdvancedTab config={config} onChange={updateConfig} /></TabsContent>
         </div>
       </Tabs>
-    </AdminLayout>
+    </>
   );
 };
+
+const AdminSettings = () => (
+  <AdminLayout><SettingsTabContent /></AdminLayout>
+);
 
 export default AdminSettings;

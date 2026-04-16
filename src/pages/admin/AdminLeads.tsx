@@ -19,7 +19,7 @@ interface Lead {
   created_at: string;
 }
 
-const AdminLeads = () => {
+export const LeadsTabContent = () => {
   const [leads, setLeads] = useState<Lead[]>([]);
   const [loading, setLoading] = useState(true);
   const [deleting, setDeleting] = useState<string | null>(null);
@@ -69,7 +69,7 @@ const AdminLeads = () => {
   };
 
   return (
-    <AdminLayout>
+    <>
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
@@ -161,8 +161,12 @@ const AdminLeads = () => {
           </div>
         )}
       </div>
-    </AdminLayout>
+    </>
   );
 };
+
+const AdminLeads = () => (
+  <AdminLayout><LeadsTabContent /></AdminLayout>
+);
 
 export default AdminLeads;

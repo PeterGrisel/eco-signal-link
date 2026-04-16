@@ -37,7 +37,7 @@ interface Lead {
   session_id: string | null;
 }
 
-const AdminOverview = () => {
+export const OverviewTabContent = () => {
   const [events, setEvents] = useState<SiteEvent[]>([]);
   const [leads, setLeads] = useState<Lead[]>([]);
   const [ga4Data, setGa4Data] = useState<any>(null);
@@ -176,7 +176,7 @@ const AdminOverview = () => {
   }, [events]);
 
   return (
-    <AdminLayout>
+    <>
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
           <h1 className="font-display text-2xl font-bold text-foreground flex items-center gap-2">
@@ -429,10 +429,10 @@ const AdminOverview = () => {
           {/* ── Quick links ── */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {[
-              { label: "Event Analytics", href: "/admin/analytics", icon: Activity },
-              { label: "KPI Dashboard", href: "/admin/kpi", icon: TrendingUp },
-              { label: "Leads", href: "/admin/leads", icon: Users },
-              { label: "Autopilot", href: "/admin/autopilot", icon: Zap },
+              { label: "Analytics", href: "/admin/analytics", icon: Activity },
+              { label: "KPI Dashboard", href: "/admin/dashboard?tab=kpi", icon: TrendingUp },
+              { label: "Leads", href: "/admin/analytics?tab=leads", icon: Users },
+              { label: "Autopilot", href: "/admin/content?tab=autopilot", icon: Zap },
             ].map(link => (
               <Link key={link.href} to={link.href}>
                 <Card className="bg-card border-border hover:border-primary/50 transition-colors cursor-pointer">
@@ -447,8 +447,12 @@ const AdminOverview = () => {
           </div>
         </div>
       )}
-    </AdminLayout>
+    </>
   );
 };
+
+const AdminOverview = () => (
+  <AdminLayout><OverviewTabContent /></AdminLayout>
+);
 
 export default AdminOverview;
