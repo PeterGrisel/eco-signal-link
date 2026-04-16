@@ -190,6 +190,21 @@ const AdminKpi = () => {
     setAdvisorLoading(false);
   };
 
+  const handleLighthouse = async () => {
+    setLhLoading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("lighthouse-audit", {
+        body: { strategy: lhStrategy },
+      });
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+      setLighthouse(data);
+    } catch (e: any) {
+      toast({ title: "Lighthouse audit mislukt", description: e.message, variant: "destructive" });
+    }
+    setLhLoading(false);
+  };
+
   const handleAudit = async () => {
     setAuditLoading(true);
     try {
