@@ -387,8 +387,10 @@ const transport = new StreamableHttpTransport();
 const httpHandler = transport.bind(mcp);
 
 app.all("/*", async (c) => {
+  // Support x-api-key header (preferred) or Authorization: Bearer
+  const apiKeyHeader = c.req.header("x-api-key");
   const authHeader = c.req.header("Authorization");
-  const token = authHeader?.replace("Bearer ", "");
+  const token = apiKeyHeader || authHeader?.replace("Bearer ", "");
   const { valid } = await validateApiKey(token);
   if (!valid) {
     return c.json({ error: "Unauthorized" }, 401);
