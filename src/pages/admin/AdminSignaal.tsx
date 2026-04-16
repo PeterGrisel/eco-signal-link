@@ -263,9 +263,14 @@ export const SignaalTabContent = () => {
           </TabsContent>
         </Tabs>
       </div>
-    </AdminLayout>
+    </>
   );
 };
+
+const AdminSignaal = () => (
+  <AdminLayout><SignaalTabContent /></AdminLayout>
+);
+
 
 const StatCard = ({ icon: Icon, label, value }: { icon: any; label: string; value: string | number }) => (
   <Card>
