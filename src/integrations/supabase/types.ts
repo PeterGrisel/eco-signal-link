@@ -675,6 +675,39 @@ export type Database = {
           },
         ]
       }
+      mcp_api_keys: {
+        Row: {
+          api_key: string
+          created_at: string
+          id: string
+          is_active: boolean
+          is_master: boolean
+          last_used_at: string | null
+          name: string
+          permissions: Json | null
+        }
+        Insert: {
+          api_key: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          is_master?: boolean
+          last_used_at?: string | null
+          name: string
+          permissions?: Json | null
+        }
+        Update: {
+          api_key?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          is_master?: boolean
+          last_used_at?: string | null
+          name?: string
+          permissions?: Json | null
+        }
+        Relationships: []
+      }
       monthly_evaluations: {
         Row: {
           articles_published: number | null

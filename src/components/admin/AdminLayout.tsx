@@ -2,7 +2,7 @@ import { ReactNode, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAdminAuth } from "@/hooks/useAdminAuth";
-import { FileText, Globe, Zap, LogOut, Sparkles, Settings, FolderTree, BarChart3, Circle, CalendarDays, Users, Activity, Code2, LayoutDashboard, Menu, X, Search, Radio } from "lucide-react";
+import { FileText, Globe, Zap, LogOut, Sparkles, Settings, FolderTree, BarChart3, Circle, CalendarDays, Users, Activity, Code2, LayoutDashboard, Menu, X, Search, Radio, Server } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -21,6 +21,7 @@ const navItems = [
   { href: "/admin/indexing", label: "Index Rusher", icon: Zap },
   { href: "/admin/scripts", label: "Tracking Scripts", icon: Code2 },
   { href: "/admin/signaal", label: "Signaal", icon: Radio },
+  { href: "/admin/mcp", label: "MCP Server", icon: Server },
   { href: "/admin/settings", label: "Settings", icon: Settings },
 ];
 
