@@ -84,6 +84,20 @@ const typeConfig: Record<string, { label: string; icon: React.ReactNode; color: 
   technical_fix: { label: "Technische fix", icon: <Shield className="w-3.5 h-3.5" />, color: "text-red-400" },
 };
 
+interface LighthouseResult {
+  url: string;
+  strategy: string;
+  scores: Record<string, number>;
+  metrics: Array<{ id: string; title: string; description: string; score: number | null; displayValue?: string }>;
+  opportunities: Array<{ id: string; title: string; description: string; score: number | null; displayValue?: string }>;
+  fetchTime: string;
+}
+
+const scoreColor = (score: number) =>
+  score >= 90 ? "text-green-400" : score >= 50 ? "text-yellow-400" : "text-red-400";
+const scoreBg = (score: number) =>
+  score >= 90 ? "border-green-500/30 bg-green-500/10" : score >= 50 ? "border-yellow-500/30 bg-yellow-500/10" : "border-red-500/30 bg-red-500/10";
+
 const AdminKpi = () => {
   const [overview, setOverview] = useState<GscOverview | null>(null);
   const [convPages, setConvPages] = useState<ConversionPage[]>([]);
@@ -100,6 +114,9 @@ const AdminKpi = () => {
   const [auditLoading, setAuditLoading] = useState(false);
   const [ga4, setGa4] = useState<Ga4Data | null>(null);
   const [ga4Loading, setGa4Loading] = useState(false);
+  const [lighthouse, setLighthouse] = useState<LighthouseResult | null>(null);
+  const [lhLoading, setLhLoading] = useState(false);
+  const [lhStrategy, setLhStrategy] = useState<"mobile" | "desktop">("mobile");
   const { toast } = useToast();
 
   const fetchConvPages = useCallback(async () => {
@@ -496,6 +513,136 @@ const AdminKpi = () => {
               ))}
             </div>
             <p className="text-[10px] text-muted-foreground text-right">Audit voltooid in {audit.audit_time_ms}ms</p>
+          </div>
+        )}
+      </div>
+
+      {/* Lighthouse / PageSpeed Insights Panel */}
+      <div className="bg-card border border-border rounded-lg p-5 mb-8">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <Zap className="w-5 h-5 text-primary" />
+            <h2 className="font-display font-semibold text-foreground">Lighthouse Audit</h2>
+            {lighthouse && (
+              <Badge variant="outline" className="text-[10px] bg-primary/10 text-primary border-primary/20">
+                {lighthouse.strategy}
+              </Badge>
+            )}
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="flex rounded-md border border-border overflow-hidden">
+              <button
+                onClick={() => setLhStrategy("mobile")}
+                className={`px-3 py-1 text-xs transition-colors ${lhStrategy === "mobile" ? "bg-primary text-primary-foreground" : "bg-background text-muted-foreground hover:text-foreground"}`}
+              >
+                Mobile
+              </button>
+              <button
+                onClick={() => setLhStrategy("desktop")}
+                className={`px-3 py-1 text-xs transition-colors ${lhStrategy === "desktop" ? "bg-primary text-primary-foreground" : "bg-background text-muted-foreground hover:text-foreground"}`}
+              >
+                Desktop
+              </button>
+            </div>
+            <Button variant="heroOutline" size="sm" onClick={handleLighthouse} disabled={lhLoading} className="gap-1.5">
+              {lhLoading ? (
+                <><Loader2 className="w-4 h-4 animate-spin" /> Scannen...</>
+              ) : (
+                <><Zap className="w-4 h-4" /> Run Lighthouse</>
+              )}
+            </Button>
+          </div>
+        </div>
+
+        {!lighthouse && !lhLoading && (
+          <p className="text-sm text-muted-foreground">
+            Test je site met Google Lighthouse — scores voor Performance, SEO, Accessibility en Best Practices.
+          </p>
+        )}
+
+        {lhLoading && (
+          <div className="flex items-center gap-3 py-8 justify-center">
+            <Loader2 className="w-5 h-5 animate-spin text-primary" />
+            <span className="text-sm text-muted-foreground">Lighthouse audit uitvoeren via PageSpeed Insights... (±15s)</span>
+          </div>
+        )}
+
+        {lighthouse && (
+          <div className="space-y-4">
+            {/* Score circles */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {[
+                { key: "performance", label: "Performance" },
+                { key: "seo", label: "SEO" },
+                { key: "accessibility", label: "Accessibility" },
+                { key: "best-practices", label: "Best Practices" },
+              ].map(({ key, label }) => {
+                const score = lighthouse.scores[key] ?? 0;
+                return (
+                  <div key={key} className={`p-4 rounded-lg border text-center ${scoreBg(score)}`}>
+                    <p className={`text-3xl font-bold ${scoreColor(score)}`}>{score}</p>
+                    <p className="text-xs text-muted-foreground mt-1">{label}</p>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Key metrics */}
+            {lighthouse.metrics.length > 0 && (
+              <div>
+                <h3 className="text-sm font-semibold text-foreground mb-2">Belangrijke metrics</h3>
+                <div className="space-y-1 max-h-[300px] overflow-y-auto">
+                  {lighthouse.metrics.map((m) => (
+                    <div key={m.id} className="flex items-center gap-3 py-1.5 px-3 rounded-lg hover:bg-muted/50 text-xs">
+                      <div className="flex-shrink-0">
+                        {m.score === null ? (
+                          <AlertCircle className="w-4 h-4 text-muted-foreground" />
+                        ) : m.score >= 0.9 ? (
+                          <CheckCircle className="w-4 h-4 text-green-400" />
+                        ) : m.score >= 0.5 ? (
+                          <AlertCircle className="w-4 h-4 text-yellow-400" />
+                        ) : (
+                          <XCircle className="w-4 h-4 text-red-400" />
+                        )}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <span className="font-medium text-foreground">{m.title}</span>
+                        {m.displayValue && (
+                          <span className="ml-2 text-muted-foreground">{m.displayValue}</span>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Opportunities */}
+            {lighthouse.opportunities.length > 0 && (
+              <div>
+                <h3 className="text-sm font-semibold text-foreground mb-2">Verbeterpunten</h3>
+                <div className="space-y-1 max-h-[250px] overflow-y-auto">
+                  {lighthouse.opportunities.map((o) => (
+                    <div key={o.id} className="flex items-start gap-3 py-2 px-3 rounded-lg hover:bg-muted/50 text-xs">
+                      <XCircle className="w-4 h-4 text-red-400 flex-shrink-0 mt-0.5" />
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2">
+                          <span className="font-medium text-foreground">{o.title}</span>
+                          {o.displayValue && (
+                            <Badge variant="outline" className="text-[10px] text-muted-foreground">{o.displayValue}</Badge>
+                          )}
+                        </div>
+                        <p className="text-muted-foreground mt-0.5">{o.description}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <p className="text-[10px] text-muted-foreground text-right">
+              Gescand op {new Date(lighthouse.fetchTime).toLocaleString("nl-NL")} · Strategie: {lighthouse.strategy}
+            </p>
           </div>
         )}
       </div>
