@@ -1,4 +1,3 @@
-import AdminLayout from "@/components/admin/AdminLayout";
 import { useSeoSettings } from "@/hooks/useSeoSettings";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
@@ -77,8 +76,3 @@ export const SettingsTabContent = () => {
   );
 };
 
-const AdminSettings = () => (
-  <AdminLayout><SettingsTabContent /></AdminLayout>
-);
-
-export default AdminSettings;
