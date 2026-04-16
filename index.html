@@ -58,14 +58,8 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Fira+Sans:wght@400;500;600;700&family=Fira+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
-    <!-- GA4 — vervang GA_MEASUREMENT_ID met je eigen ID (G-XXXXXXXXXX) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'GA_MEASUREMENT_ID', { send_page_view: false });
-    </script>
+    <!-- GA4 snippet is injected at runtime by TrackingScriptInjector after cookie consent.
+         Beheer in /admin/scripts; property- en measurement-ID in /admin/settings → Integrations. -->
   </head>
 
   <body>
