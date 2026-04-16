@@ -429,10 +429,10 @@ export const OverviewTabContent = () => {
           {/* ── Quick links ── */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {[
-              { label: "Event Analytics", href: "/admin/analytics", icon: Activity },
-              { label: "KPI Dashboard", href: "/admin/kpi", icon: TrendingUp },
-              { label: "Leads", href: "/admin/leads", icon: Users },
-              { label: "Autopilot", href: "/admin/autopilot", icon: Zap },
+              { label: "Analytics", href: "/admin/analytics", icon: Activity },
+              { label: "KPI Dashboard", href: "/admin/dashboard?tab=kpi", icon: TrendingUp },
+              { label: "Leads", href: "/admin/analytics?tab=leads", icon: Users },
+              { label: "Autopilot", href: "/admin/content?tab=autopilot", icon: Zap },
             ].map(link => (
               <Link key={link.href} to={link.href}>
                 <Card className="bg-card border-border hover:border-primary/50 transition-colors cursor-pointer">
