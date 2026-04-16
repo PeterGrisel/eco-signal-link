@@ -27,7 +27,7 @@ interface AgentMsg {
   created_at: string;
 }
 
-const AdminSignaal = () => {
+export const SignaalTabContent = () => {
   const [journeys, setJourneys] = useState<JourneyRow[]>([]);
   const [messages, setMessages] = useState<AgentMsg[]>([]);
   const [selectedJourney, setSelectedJourney] = useState<string | null>(null);
@@ -96,14 +96,12 @@ const AdminSignaal = () => {
 
   if (loading) {
     return (
-      <AdminLayout>
-        <div className="flex items-center justify-center h-64 text-muted-foreground animate-pulse">Laden...</div>
-      </AdminLayout>
+      <div className="flex items-center justify-center h-64 text-muted-foreground animate-pulse">Laden...</div>
     );
   }
 
   return (
-    <AdminLayout>
+    <>
       <div className="space-y-6">
         <div>
           <h1 className="text-2xl font-bold">Signaal Admin</h1>
