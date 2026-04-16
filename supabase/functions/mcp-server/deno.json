@@ -1,7 +1,6 @@
 {
   "imports": {
     "hono": "https://deno.land/x/hono@v4.3.11/mod.ts",
-    "mcp-lite": "npm:mcp-lite@^0.10.0",
-    "zod": "https://deno.land/x/zod@v3.23.8/mod.ts"
+    "mcp-lite": "npm:mcp-lite@^0.10.0"
   }
 }
