@@ -3,7 +3,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Settings, Save, Loader2 } from "lucide-react";
 import { GeneralTab, TargetAudienceTab, CompetitorsTab, ImagesTab } from "@/components/admin/settings/BasicTabs";
-import { CtaTab, PromptsTab, BacklinksTab, NewsTab, VideosTab, AdvancedTab } from "@/components/admin/settings/AdvancedTabs";
+import { CtaTab, PromptsTab, BacklinksTab, NewsTab, VideosTab, AdvancedTab, IntegrationsTab } from "@/components/admin/settings/AdvancedTabs";
 
 const tabs = [
   { value: "general", label: "General" },
@@ -15,6 +15,7 @@ const tabs = [
   { value: "backlinks", label: "Backlinks" },
   { value: "news", label: "News" },
   { value: "videos", label: "Videos" },
+  { value: "integrations", label: "Integrations" },
   { value: "advanced", label: "Advanced" },
 ];
 
@@ -69,6 +70,7 @@ export const SettingsTabContent = () => {
           <TabsContent value="backlinks"><BacklinksTab config={config} onChange={updateConfig} /></TabsContent>
           <TabsContent value="news"><NewsTab config={config} onChange={updateConfig} /></TabsContent>
           <TabsContent value="videos"><VideosTab config={config} onChange={updateConfig} /></TabsContent>
+          <TabsContent value="integrations"><IntegrationsTab config={config} onChange={updateConfig} /></TabsContent>
           <TabsContent value="advanced"><AdvancedTab config={config} onChange={updateConfig} /></TabsContent>
         </div>
       </Tabs>

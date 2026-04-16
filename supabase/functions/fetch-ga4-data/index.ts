@@ -1,11 +1,22 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
-const GA4_PROPERTY_ID = "502568051";
+const DEFAULT_GA4_PROPERTY_ID = "502568051";
+
+async function resolvePropertyId(): Promise<string> {
+  const url = Deno.env.get("SUPABASE_URL");
+  const key = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+  if (!url || !key) return DEFAULT_GA4_PROPERTY_ID;
+  const supabase = createClient(url, key);
+  const { data } = await supabase.from("seo_settings").select("config").limit(1).single();
+  const configured = (data?.config as any)?.ga4_property_id;
+  return (configured && String(configured).trim()) || DEFAULT_GA4_PROPERTY_ID;
+}
 
 async function getAccessToken(): Promise<string> {
   let email: string;
@@ -103,9 +114,9 @@ interface GA4Request {
   limit?: number;
 }
 
-async function runGA4Report(accessToken: string, body: GA4Request) {
+async function runGA4Report(accessToken: string, propertyId: string, body: GA4Request) {
   const res = await fetch(
-    `https://analyticsdata.googleapis.com/v1beta/properties/${GA4_PROPERTY_ID}:runReport`,
+    `https://analyticsdata.googleapis.com/v1beta/properties/${propertyId}:runReport`,
     {
       method: "POST",
       headers: {
@@ -130,12 +141,13 @@ serve(async (req) => {
   try {
     const { days = 28 } = await req.json().catch(() => ({}));
     const accessToken = await getAccessToken();
+    const propertyId = await resolvePropertyId();
 
     const endDate = "today";
     const startDate = `${days}daysAgo`;
 
     // Fetch overview metrics
-    const overviewData = await runGA4Report(accessToken, {
+    const overviewData = await runGA4Report(accessToken, propertyId, {
       dateRanges: [{ startDate, endDate }],
       metrics: [
         { name: "sessions" },
@@ -148,7 +160,7 @@ serve(async (req) => {
     });
 
     // Fetch top pages
-    const pagesData = await runGA4Report(accessToken, {
+    const pagesData = await runGA4Report(accessToken, propertyId, {
       dateRanges: [{ startDate, endDate }],
       dimensions: [{ name: "pagePath" }],
       metrics: [
@@ -162,7 +174,7 @@ serve(async (req) => {
     });
 
     // Fetch traffic sources
-    const sourcesData = await runGA4Report(accessToken, {
+    const sourcesData = await runGA4Report(accessToken, propertyId, {
       dateRanges: [{ startDate, endDate }],
       dimensions: [{ name: "sessionDefaultChannelGroup" }],
       metrics: [

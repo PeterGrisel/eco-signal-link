@@ -69,6 +69,10 @@ export interface SeoConfig {
   video_publication_date: string;
   video_search_queries: string;
 
+  // Integrations
+  ga4_property_id: string;
+  ga4_measurement_id: string;
+
   // Advanced
   max_articles_per_period: number;
   article_period: "day" | "week";
@@ -156,6 +160,10 @@ export const defaultSeoConfig: SeoConfig = {
   video_country: "Netherlands",
   video_publication_date: "Past month",
   video_search_queries: "B2B leadgeneratie strategie\noutbound sales automatisering\nrecruitment marketing B2B\nHubSpot sales pipeline opzetten\ndata-driven sales proces",
+
+  // Integrations
+  ga4_property_id: "",
+  ga4_measurement_id: "",
 
   // Advanced
   max_articles_per_period: 1,

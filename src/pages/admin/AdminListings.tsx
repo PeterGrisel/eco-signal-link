@@ -7,7 +7,14 @@ import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { Plus, Trash2, ExternalLink, Sparkles, Check, Loader2 } from "lucide-react";
+import { Plus, Trash2, ExternalLink, Sparkles, Check, Loader2, AlertTriangle } from "lucide-react";
+
+const STALE_DAYS = 14;
+
+function daysSince(iso: string | null): number | null {
+  if (!iso) return null;
+  return Math.floor((Date.now() - new Date(iso).getTime()) / 86_400_000);
+}
 
 type ListingStatus = "todo" | "submitted" | "live" | "rejected";
 
@@ -319,18 +326,36 @@ export const ListingsTabContent = () => {
         </div>
       ) : (
         <div className="space-y-2">
-          {listings.map((l) => (
+          {listings.map((l) => {
+            const submittedDays = daysSince(l.submitted_at);
+            const liveDays = daysSince(l.live_at);
+            const isStale = l.status === "submitted" && submittedDays !== null && submittedDays >= STALE_DAYS;
+            return (
             <div key={l.id} className="flex items-center justify-between p-4 rounded-lg bg-card border border-border">
               <div className="flex items-center gap-4 flex-1 min-w-0">
                 <div className="min-w-0">
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 flex-wrap">
                     <span className="font-medium text-foreground truncate">{l.name}</span>
                     {l.dr_score && <span className="text-xs text-primary font-mono">DR {l.dr_score}</span>}
                     {l.category && <Badge variant="outline" className="text-xs">{l.category}</Badge>}
+                    {isStale && (
+                      <Badge variant="outline" className="text-xs bg-amber-500/10 text-amber-400 border-amber-500/20 gap-1">
+                        <AlertTriangle className="w-3 h-3" /> stale
+                      </Badge>
+                    )}
                   </div>
                   <a href={l.url} target="_blank" rel="noopener noreferrer" className="text-xs text-muted-foreground hover:text-primary flex items-center gap-1 truncate">
                     {l.url} <ExternalLink className="w-3 h-3" />
                   </a>
+                  {(submittedDays !== null || liveDays !== null) && (
+                    <p className="text-[11px] text-muted-foreground mt-0.5">
+                      {liveDays !== null
+                        ? `Live ${liveDays === 0 ? "vandaag" : `${liveDays}d geleden`}`
+                        : submittedDays !== null
+                        ? `Ingediend ${submittedDays === 0 ? "vandaag" : `${submittedDays}d geleden`}`
+                        : null}
+                    </p>
+                  )}
                 </div>
               </div>
               <div className="flex items-center gap-2 ml-4">
@@ -350,7 +375,8 @@ export const ListingsTabContent = () => {
                 </Button>
               </div>
             </div>
-          ))}
+          );
+          })}
         </div>
       )}
     </>

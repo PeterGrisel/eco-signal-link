@@ -156,6 +156,34 @@ export const VideosTab = ({ config, onChange }: Props) => (
   </div>
 );
 
+export const IntegrationsTab = ({ config, onChange }: Props) => (
+  <div className="space-y-6">
+    <div className="p-4 rounded-lg border border-border bg-card/50 space-y-4">
+      <div>
+        <h3 className="text-sm font-semibold text-foreground">Google Analytics 4</h3>
+        <p className="text-xs text-muted-foreground mt-1">
+          Benodigd: GA4 property + service account met Viewer-rol in GA4, en GOOGLE_SERVICE_ACCOUNT_JSON als Supabase secret.
+          Property ID + Measurement ID beheer je hier; de JSON key blijft bij Supabase voor veiligheid.
+        </p>
+      </div>
+      <Field label="GA4 Property ID" hint="Numerieke ID (bijv. 502568051). Gebruikt door fetch-ga4-data om rapporten op te halen.">
+        <Input
+          value={config.ga4_property_id}
+          onChange={e => onChange({ ga4_property_id: e.target.value })}
+          placeholder="502568051"
+        />
+      </Field>
+      <Field label="GA4 Measurement ID" hint="Start met G- (bijv. G-XXXXXXXXXX). Plak de bijbehorende gtag-snippet in /admin/scripts voor client-side events met consent.">
+        <Input
+          value={config.ga4_measurement_id}
+          onChange={e => onChange({ ga4_measurement_id: e.target.value })}
+          placeholder="G-XXXXXXXXXX"
+        />
+      </Field>
+    </div>
+  </div>
+);
+
 export const AdvancedTab = ({ config, onChange }: Props) => (
   <div className="space-y-6">
     <div className="grid grid-cols-2 gap-4">
