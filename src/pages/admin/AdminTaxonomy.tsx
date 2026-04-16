@@ -81,10 +81,11 @@ function slugify(text: string): string {
 }
 
 const TopicNode = ({
-  topic, depth, onEdit, onDelete, onAddChild,
+  topic, depth, onEdit, onDelete, onAddChild, onReschedule, rescheduling,
 }: {
   topic: Topic; depth: number;
   onEdit: (t: Topic) => void; onDelete: (t: Topic) => void; onAddChild: (parentId: string) => void;
+  onReschedule: (t: Topic) => void; rescheduling: string | null;
 }) => {
   const [open, setOpen] = useState(depth < 1);
   const hasChildren = topic.children && topic.children.length > 0;
@@ -147,6 +148,16 @@ const TopicNode = ({
           </div>
 
           <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-7 w-7 text-primary hover:text-primary"
+              onClick={() => onReschedule(topic)}
+              disabled={rescheduling === topic.id || (queued === 0 && published === 0)}
+              title="Prioriteer in content queue"
+            >
+              {rescheduling === topic.id ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <TrendingUp className="w-3.5 h-3.5" />}
+            </Button>
             <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => onAddChild(topic.id)}>
               <Plus className="w-3.5 h-3.5" />
             </Button>
@@ -162,7 +173,7 @@ const TopicNode = ({
         {hasChildren && (
           <CollapsibleContent>
             {topic.children!.map((child) => (
-              <TopicNode key={child.id} topic={child} depth={depth + 1} onEdit={onEdit} onDelete={onDelete} onAddChild={onAddChild} />
+              <TopicNode key={child.id} topic={child} depth={depth + 1} onEdit={onEdit} onDelete={onDelete} onAddChild={onAddChild} onReschedule={onReschedule} rescheduling={rescheduling} />
             ))}
           </CollapsibleContent>
         )}
@@ -181,6 +192,7 @@ const AdminTaxonomy = () => {
   const [strategyResult, setStrategyResult] = useState<any>(null);
   const [strategyDialogOpen, setStrategyDialogOpen] = useState(false);
   const [competitorInput, setCompetitorInput] = useState("");
+  const [rescheduling, setRescheduling] = useState<string | null>(null);
 
   const { data: topics = [], isLoading } = useQuery({
     queryKey: ["content_topics"],
@@ -297,6 +309,27 @@ const AdminTaxonomy = () => {
     if (!form.name.trim()) return toast.error("Naam is verplicht");
     const slug = form.slug.trim() || slugify(form.name);
     saveMutation.mutate({ ...form, slug, id: editingTopic?.id });
+  };
+
+  const handleReschedule = async (topic: Topic) => {
+    if (!window.confirm(
+      `Items voor "${topic.name}" krijgen de eerstvolgende geplande datums, andere items schuiven door. Doorgaan?`
+    )) return;
+    setRescheduling(topic.id);
+    try {
+      const { data, error } = await supabase.functions.invoke("reschedule-by-topic", {
+        body: { topic_id: topic.id },
+      });
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+      toast.success(
+        `${data.focus_count} items naar voren, ${data.other_count} doorgeschoven (${data.dates_reassigned} datums aangepast)`
+      );
+      queryClient.invalidateQueries({ queryKey: ["topic_coverage"] });
+    } catch (e: any) {
+      toast.error(e.message || "Rescheduling mislukt");
+    }
+    setRescheduling(null);
   };
 
   // Strategy Agent
@@ -423,7 +456,7 @@ const AdminTaxonomy = () => {
               <span className="w-[100px]" />
             </div>
             {tree.map((topic) => (
-              <TopicNode key={topic.id} topic={topic} depth={0} onEdit={openEdit} onDelete={setDeleteTarget} onAddChild={(pid) => openCreate(pid)} />
+              <TopicNode key={topic.id} topic={topic} depth={0} onEdit={openEdit} onDelete={setDeleteTarget} onAddChild={(pid) => openCreate(pid)} onReschedule={handleReschedule} rescheduling={rescheduling} />
             ))}
           </div>
         )}
