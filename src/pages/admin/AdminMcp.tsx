@@ -225,7 +225,8 @@ const AdminMcp = () => {
     "b2bgroeimachine": {
       "url": "${import.meta.env.VITE_SUPABASE_URL}/functions/v1/mcp-server",
       "headers": {
-        "Authorization": "Bearer <jouw-api-key>"
+        "x-api-key": "<jouw-api-key>",
+        "Authorization": "Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}"
       }
     }
   }
