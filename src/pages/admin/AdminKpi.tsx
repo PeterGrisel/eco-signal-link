@@ -196,7 +196,16 @@ const AdminKpi = () => {
       const { data, error } = await supabase.functions.invoke("lighthouse-audit", {
         body: { strategy: lhStrategy },
       });
-      if (error) throw error;
+      if (error) {
+        // Check if the response body has rate_limit info
+        if (typeof error === "object" && error.message?.includes("429")) {
+          throw new Error("Google PageSpeed API quotum bereikt. Probeer het later opnieuw of configureer een eigen API key.");
+        }
+        throw error;
+      }
+      if (data?.error === "rate_limit") {
+        throw new Error(data.message || "API quotum bereikt");
+      }
       if (data?.error) throw new Error(data.error);
       setLighthouse(data);
     } catch (e: any) {
