@@ -1,6 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import AdminLayout from "@/components/admin/AdminLayout";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
@@ -276,34 +275,24 @@ export const KpiTabContent = () => {
 
   return (
     <>
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
-        <div>
-          <h1 className="font-display text-2xl font-bold text-foreground flex items-center gap-2">
-            <BarChart3 className="w-6 h-6 text-primary" /> KPI Dashboard
-          </h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            Search performance, keywords en conversie tracking
-          </p>
+      <div className="flex items-center justify-end gap-2 mb-6">
+        <div className="flex bg-card border border-border rounded-lg overflow-hidden">
+          {[7, 14, 28, 90].map(d => (
+            <button
+              key={d}
+              onClick={() => setDays(d)}
+              className={`px-3 py-1.5 text-xs font-medium transition-colors ${
+                days === d ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              {d}d
+            </button>
+          ))}
         </div>
-        <div className="flex items-center gap-2">
-          <div className="flex bg-card border border-border rounded-lg overflow-hidden">
-            {[7, 14, 28, 90].map(d => (
-              <button
-                key={d}
-                onClick={() => setDays(d)}
-                className={`px-3 py-1.5 text-xs font-medium transition-colors ${
-                  days === d ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                {d}d
-              </button>
-            ))}
-          </div>
-          <Button variant="heroOutline" size="sm" onClick={handleSync} disabled={syncing}>
-            {syncing ? <Loader2 className="w-4 h-4 animate-spin" /> : <RefreshCw className="w-4 h-4" />}
-            Sync
-          </Button>
-        </div>
+        <Button variant="heroOutline" size="sm" onClick={handleSync} disabled={syncing}>
+          {syncing ? <Loader2 className="w-4 h-4 animate-spin" /> : <RefreshCw className="w-4 h-4" />}
+          Sync
+        </Button>
       </div>
 
       {/* KPI Cards */}
@@ -882,8 +871,3 @@ export const KpiTabContent = () => {
   );
 };
 
-const AdminKpi = () => (
-  <AdminLayout><KpiTabContent /></AdminLayout>
-);
-
-export default AdminKpi;

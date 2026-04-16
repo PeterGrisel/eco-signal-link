@@ -21,7 +21,7 @@ const AdminLogin = () => {
     if (error) {
       toast({ title: "Fout", description: error.message, variant: "destructive" });
     } else {
-      navigate("/admin/blog");
+      navigate("/admin/dashboard");
     }
   };
 

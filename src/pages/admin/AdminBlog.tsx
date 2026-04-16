@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import AdminLayout from "@/components/admin/AdminLayout";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Plus, Pencil, Trash2, Sparkles, Eye, Send } from "lucide-react";
@@ -120,8 +119,3 @@ export const BlogTabContent = () => {
   );
 };
 
-const AdminBlog = () => (
-  <AdminLayout><BlogTabContent /></AdminLayout>
-);
-
-export default AdminBlog;

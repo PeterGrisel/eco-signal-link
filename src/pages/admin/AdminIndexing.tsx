@@ -1,6 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import AdminLayout from "@/components/admin/AdminLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -357,8 +356,3 @@ export const IndexingTabContent = () => {
   );
 };
 
-const AdminIndexing = () => (
-  <AdminLayout><IndexingTabContent /></AdminLayout>
-);
-
-export default AdminIndexing;

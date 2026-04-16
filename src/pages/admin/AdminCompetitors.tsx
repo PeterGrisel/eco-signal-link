@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import AdminLayout from "@/components/admin/AdminLayout";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -509,8 +508,3 @@ export const CompetitorsTabContent = () => {
   );
 };
 
-const AdminCompetitors = () => (
-  <AdminLayout><CompetitorsTabContent /></AdminLayout>
-);
-
-export default AdminCompetitors;

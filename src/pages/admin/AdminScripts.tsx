@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import AdminLayout from "@/components/admin/AdminLayout";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -276,8 +275,3 @@ export const ScriptsTabContent = () => {
   );
 };
 
-const AdminScripts = () => (
-  <AdminLayout><ScriptsTabContent /></AdminLayout>
-);
-
-export default AdminScripts;

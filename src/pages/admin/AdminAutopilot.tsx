@@ -1,6 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import AdminLayout from "@/components/admin/AdminLayout";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
@@ -294,9 +293,6 @@ export const AutopilotTabContent = () => {
   );
 };
 
-const AdminAutopilot = () => (
-  <AdminLayout><AutopilotTabContent /></AdminLayout>
-);
 
 // Section wrapper
 const Section = ({ title, count, color, description, children }: {
@@ -381,4 +377,4 @@ const QueueCard = ({ item, onApprovePublish, onDecline, onRetry, isProcessing }:
   );
 };
 
-export default AdminAutopilot;
+

@@ -1,6 +1,5 @@
 import { useEffect, useState, useMemo } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import AdminLayout from "@/components/admin/AdminLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -177,30 +176,20 @@ export const OverviewTabContent = () => {
 
   return (
     <>
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
-        <div>
-          <h1 className="font-display text-2xl font-bold text-foreground flex items-center gap-2">
-            <LayoutDashboard className="w-6 h-6 text-primary" /> Command Center
-          </h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            Unified overzicht van traffic, engagement en conversies
-          </p>
-        </div>
-        <div className="flex items-center gap-2">
-          {[7, 14, 28, 90].map(d => (
-            <Button
-              key={d}
-              variant={days === d ? "hero" : "outline"}
-              size="sm"
-              onClick={() => setDays(d)}
-            >
-              {d}d
-            </Button>
-          ))}
-          <Button variant="outline" size="sm" onClick={fetchAll} disabled={loading}>
-            <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} />
+      <div className="flex items-center justify-end gap-2 mb-6">
+        {[7, 14, 28, 90].map(d => (
+          <Button
+            key={d}
+            variant={days === d ? "hero" : "outline"}
+            size="sm"
+            onClick={() => setDays(d)}
+          >
+            {d}d
           </Button>
-        </div>
+        ))}
+        <Button variant="outline" size="sm" onClick={fetchAll} disabled={loading}>
+          <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} />
+        </Button>
       </div>
 
       {loading ? (
@@ -451,8 +440,3 @@ export const OverviewTabContent = () => {
   );
 };
 
-const AdminOverview = () => (
-  <AdminLayout><OverviewTabContent /></AdminLayout>
-);
-
-export default AdminOverview;
