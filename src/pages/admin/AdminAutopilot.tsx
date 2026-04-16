@@ -44,7 +44,7 @@ const typeIcons: Record<ContentType, React.ReactNode> = {
   pseo: <Globe className="w-3.5 h-3.5" />,
 };
 
-const AdminAutopilot = () => {
+export const AutopilotTabContent = () => {
   const [queue, setQueue] = useState<QueueItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [pipelineRunning, setPipelineRunning] = useState(false);
@@ -135,7 +135,7 @@ const AdminAutopilot = () => {
   const declinedItems = queue.filter(q => q.status === "declined");
 
   return (
-    <AdminLayout>
+    <>
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
           <h1 className="font-display text-2xl font-bold text-foreground flex items-center gap-2">
@@ -290,9 +290,13 @@ const AdminAutopilot = () => {
 
       {/* Content Cleanup Section */}
       <ContentCleanupSection />
-    </AdminLayout>
+    </>
   );
 };
+
+const AdminAutopilot = () => (
+  <AdminLayout><AutopilotTabContent /></AdminLayout>
+);
 
 // Section wrapper
 const Section = ({ title, count, color, description, children }: {

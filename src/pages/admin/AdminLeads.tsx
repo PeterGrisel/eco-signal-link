@@ -160,6 +160,7 @@ export const LeadsTabContent = () => {
             })}
           </div>
         )}
+      </div>
     </>
   );
 };

@@ -171,7 +171,7 @@ const TopicNode = ({
   );
 };
 
-const AdminTaxonomy = () => {
+export const TaxonomyTabContent = () => {
   const queryClient = useQueryClient();
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingTopic, setEditingTopic] = useState<Topic | null>(null);
@@ -344,7 +344,7 @@ const AdminTaxonomy = () => {
   const parentName = form.parent_id ? topics.find((t) => t.id === form.parent_id)?.name : null;
 
   return (
-    <AdminLayout>
+    <>
       <div className="max-w-5xl">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
           <div>
@@ -625,8 +625,12 @@ const AdminTaxonomy = () => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </AdminLayout>
+    </>
   );
 };
+
+const AdminTaxonomy = () => (
+  <AdminLayout><TaxonomyTabContent /></AdminLayout>
+);
 
 export default AdminTaxonomy;

@@ -98,7 +98,7 @@ function getNextCronRun(schedule: string, from: Date = new Date()): string {
   return "Handmatig";
 }
 
-const AdminCalendar = () => {
+export const CalendarTabContent = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [queue, setQueue] = useState<QueueItem[]>([]);
   const [evaluation, setEvaluation] = useState<MonthlyEval | null>(null);
@@ -237,7 +237,7 @@ const AdminCalendar = () => {
   ];
 
   return (
-    <AdminLayout>
+    <>
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
@@ -573,8 +573,12 @@ const AdminCalendar = () => {
           </div>
         </div>
       </div>
-    </AdminLayout>
+    </>
   );
 };
+
+const AdminCalendar = () => (
+  <AdminLayout><CalendarTabContent /></AdminLayout>
+);
 
 export default AdminCalendar;

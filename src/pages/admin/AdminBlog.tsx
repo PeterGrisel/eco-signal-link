@@ -8,7 +8,7 @@ import { Plus, Pencil, Trash2, Sparkles, Eye, Send } from "lucide-react";
 import { format } from "date-fns";
 import { useToast } from "@/hooks/use-toast";
 
-const AdminBlog = () => {
+export const BlogTabContent = () => {
   const [posts, setPosts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
@@ -51,7 +51,7 @@ const AdminBlog = () => {
   };
 
   return (
-    <AdminLayout>
+    <>
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
           <h1 className="font-display text-2xl font-bold text-foreground">Blog CMS</h1>
@@ -116,8 +116,12 @@ const AdminBlog = () => {
           ))}
         </div>
       )}
-    </AdminLayout>
+    </>
   );
 };
+
+const AdminBlog = () => (
+  <AdminLayout><BlogTabContent /></AdminLayout>
+);
 
 export default AdminBlog;
