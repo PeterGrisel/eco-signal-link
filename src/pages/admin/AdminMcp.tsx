@@ -27,13 +27,14 @@ const AVAILABLE_TOOLS = [
   "list_blog_categories", "list_content_queue", "update_content_queue_item", "list_content_topics",
   "get_gsc_data", "list_indexing_requests", "request_indexing", "get_monthly_evaluations",
   "get_site_events", "list_contact_submissions", "list_directory_listings",
+  "get_seo_settings", "update_seo_settings",
 ];
 
 const TOOL_GROUPS: Record<string, string[]> = {
   "Blog": ["list_blog_posts", "get_blog_post", "create_blog_post", "update_blog_post", "delete_blog_post", "list_blog_categories"],
   "Content Queue": ["list_content_queue", "update_content_queue_item", "list_content_topics"],
   "SEO & Analytics": ["get_gsc_data", "list_indexing_requests", "request_indexing", "get_monthly_evaluations"],
-  "Admin": ["get_site_events", "list_contact_submissions", "list_directory_listings"],
+  "Admin": ["get_site_events", "list_contact_submissions", "list_directory_listings", "get_seo_settings", "update_seo_settings"],
 };
 
 const AdminMcp = () => {

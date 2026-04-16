@@ -317,6 +317,48 @@ mcp.tool("list_directory_listings", {
   },
 });
 
+// ─── SEO SETTINGS ───
+
+mcp.tool("get_seo_settings", {
+  description: "Get the current SEO settings configuration (target audience, prompts, CTA, backlinks, etc.).",
+  inputSchema: z.object({}),
+  handler: async () => {
+    const { data, error } = await supabaseAdmin
+      .from("seo_settings")
+      .select("*")
+      .limit(1)
+      .single();
+    if (error) return { content: [{ type: "text" as const, text: `Error: ${error.message}` }] };
+    return { content: [{ type: "text" as const, text: JSON.stringify(data, null, 2) }] };
+  },
+});
+
+mcp.tool("update_seo_settings", {
+  description: "Update SEO settings. Pass a partial config object that will be merged with existing settings. Keys include: site_name, site_url, default_author, target_audience, tone_of_voice, competitors, cta_text, cta_url, image_style, system_prompt, backlink_domains, news_sources, video_channels, and more.",
+  inputSchema: z.object({
+    config: z.record(z.unknown()).describe("Partial config object to merge with existing settings"),
+  }),
+  handler: async ({ config }) => {
+    // Get current settings first
+    const { data: current, error: fetchErr } = await supabaseAdmin
+      .from("seo_settings")
+      .select("id, config")
+      .limit(1)
+      .single();
+    if (fetchErr) return { content: [{ type: "text" as const, text: `Error: ${fetchErr.message}` }] };
+
+    const merged = { ...(current.config as Record<string, unknown>), ...config };
+    const { data, error } = await supabaseAdmin
+      .from("seo_settings")
+      .update({ config: merged })
+      .eq("id", current.id)
+      .select("id, config")
+      .single();
+    if (error) return { content: [{ type: "text" as const, text: `Error: ${error.message}` }] };
+    return { content: [{ type: "text" as const, text: `Updated SEO settings: ${JSON.stringify(data, null, 2)}` }] };
+  },
+});
+
 // ─── AUTH: DB-based API key validation ───
 
 async function validateApiKey(token: string | undefined): Promise<{ valid: boolean; permissions: string[] | null }> {
