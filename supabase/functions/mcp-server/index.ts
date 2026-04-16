@@ -10,14 +10,13 @@ const supabaseAdmin = createClient(
 );
 
 const mcp = new McpServer({
-"b2bgroeimachine", {
+  name: "b2bgroeimachine",
   version: "1.0.0",
 });
 
 // ─── BLOG TOOLS ───
 
-mcp.tool(
-"list_blog_posts", {
+mcp.tool("list_blog_posts", {
   description: "List blog posts. Optionally filter by status (draft, published, archived).",
   inputSchema: {
     type: "object",
@@ -39,8 +38,7 @@ mcp.tool(
   },
 });
 
-mcp.tool(
-"get_blog_post", {
+mcp.tool("get_blog_post", {
   description: "Get a single blog post by ID or slug, including full content.",
   inputSchema: {
     type: "object",
@@ -60,8 +58,7 @@ mcp.tool(
   },
 });
 
-mcp.tool(
-"create_blog_post", {
+mcp.tool("create_blog_post", {
   description: "Create a new blog post (draft by default).",
   inputSchema: {
     type: "object",
@@ -71,7 +68,7 @@ mcp.tool(
       content: { type: "string" },
       excerpt: { type: "string" },
       meta_description: { type: "string" },
-      status: { type: "string", enum: ["draft", "published"], default: "draft" },
+      status: { type: "string", enum: ["draft", "published"] },
       category_id: { type: "string" },
       topic_id: { type: "string" },
     },
@@ -98,8 +95,7 @@ mcp.tool(
   },
 });
 
-mcp.tool(
-"update_blog_post", {
+mcp.tool("update_blog_post", {
   description: "Update an existing blog post by ID.",
   inputSchema: {
     type: "object",
@@ -130,8 +126,7 @@ mcp.tool(
   },
 });
 
-mcp.tool(
-"delete_blog_post", {
+mcp.tool("delete_blog_post", {
   description: "Delete a blog post by ID.",
   inputSchema: {
     type: "object",
@@ -147,8 +142,7 @@ mcp.tool(
 
 // ─── BLOG CATEGORIES ───
 
-mcp.tool(
-"list_blog_categories", {
+mcp.tool("list_blog_categories", {
   description: "List all blog categories.",
   inputSchema: { type: "object", properties: {} },
   handler: async () => {
@@ -160,8 +154,7 @@ mcp.tool(
 
 // ─── CONTENT QUEUE ───
 
-mcp.tool(
-"list_content_queue", {
+mcp.tool("list_content_queue", {
   description: "List content queue items. Filter by status: pending, approved, declined, generating, published, failed.",
   inputSchema: {
     type: "object",
@@ -183,8 +176,7 @@ mcp.tool(
   },
 });
 
-mcp.tool(
-"update_content_queue_item", {
+mcp.tool("update_content_queue_item", {
   description: "Update a content queue item status or notes.",
   inputSchema: {
     type: "object",
@@ -212,8 +204,7 @@ mcp.tool(
 
 // ─── CONTENT TOPICS ───
 
-mcp.tool(
-"list_content_topics", {
+mcp.tool("list_content_topics", {
   description: "List all content topics (taxonomy).",
   inputSchema: { type: "object", properties: {} },
   handler: async () => {
@@ -225,8 +216,7 @@ mcp.tool(
 
 // ─── SEO & ANALYTICS ───
 
-mcp.tool(
-"get_gsc_data", {
+mcp.tool("get_gsc_data", {
   description: "Get Google Search Console data. Optionally filter by query or page.",
   inputSchema: {
     type: "object",
@@ -250,8 +240,7 @@ mcp.tool(
   },
 });
 
-mcp.tool(
-"list_indexing_requests", {
+mcp.tool("list_indexing_requests", {
   description: "List indexing requests and their status.",
   inputSchema: {
     type: "object",
@@ -273,8 +262,7 @@ mcp.tool(
   },
 });
 
-mcp.tool(
-"request_indexing", {
+mcp.tool("request_indexing", {
   description: "Submit a URL for Google indexing.",
   inputSchema: {
     type: "object",
@@ -292,8 +280,7 @@ mcp.tool(
   },
 });
 
-mcp.tool(
-"get_monthly_evaluations", {
+mcp.tool("get_monthly_evaluations", {
   description: "Get monthly SEO evaluations with performance data.",
   inputSchema: {
     type: "object",
@@ -312,8 +299,7 @@ mcp.tool(
 
 // ─── SITE ANALYTICS ───
 
-mcp.tool(
-"get_site_events", {
+mcp.tool("get_site_events", {
   description: "Get recent site analytics events.",
   inputSchema: {
     type: "object",
@@ -337,8 +323,7 @@ mcp.tool(
 
 // ─── CONTACT SUBMISSIONS ───
 
-mcp.tool(
-"list_contact_submissions", {
+mcp.tool("list_contact_submissions", {
   description: "List recent contact form submissions.",
   inputSchema: {
     type: "object",
@@ -357,8 +342,7 @@ mcp.tool(
 
 // ─── DIRECTORY LISTINGS ───
 
-mcp.tool(
-"list_directory_listings", {
+mcp.tool("list_directory_listings", {
   description: "List directory/backlink listings and their status.",
   inputSchema: {
     type: "object",
@@ -380,8 +364,7 @@ mcp.tool(
 
 // ─── SEO SETTINGS ───
 
-mcp.tool(
-"get_seo_settings", {
+mcp.tool("get_seo_settings", {
   description: "Get the current SEO settings configuration (target audience, prompts, CTA, backlinks, etc.).",
   inputSchema: { type: "object", properties: {} },
   handler: async () => {
@@ -395,8 +378,7 @@ mcp.tool(
   },
 });
 
-mcp.tool(
-"update_seo_settings", {
+mcp.tool("update_seo_settings", {
   description: "Update SEO settings. Pass a partial config object that will be merged with existing settings. Keys include: site_name, site_url, default_author, target_audience, tone_of_voice, competitors, cta_text, cta_url, image_style, system_prompt, backlink_domains, news_sources, video_channels, and more.",
   inputSchema: {
     type: "object",
@@ -439,7 +421,6 @@ async function validateApiKey(token: string | undefined): Promise<{ valid: boole
 
   if (error || !data) return { valid: false, permissions: null };
 
-  // Update last_used_at
   await supabaseAdmin
     .from("mcp_api_keys")
     .update({ last_used_at: new Date().toISOString() })
