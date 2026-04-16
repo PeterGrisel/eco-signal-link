@@ -20,7 +20,7 @@ interface SitemapUrl {
   type: "static" | "blog";
 }
 
-const AdminIndexing = () => {
+export const IndexingTabContent = () => {
   const [requests, setRequests] = useState<any[]>([]);
   const [blogPosts, setBlogPosts] = useState<any[]>([]);
   const [sitemapUrls, setSitemapUrls] = useState<SitemapUrl[]>([]);
@@ -202,7 +202,7 @@ const AdminIndexing = () => {
   };
 
   return (
-    <AdminLayout>
+    <>
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
           <h1 className="font-display text-2xl font-bold text-foreground flex items-center gap-2">
@@ -353,8 +353,12 @@ const AdminIndexing = () => {
           </div>
         )
       )}
-    </AdminLayout>
+    </>
   );
 };
+
+const AdminIndexing = () => (
+  <AdminLayout><IndexingTabContent /></AdminLayout>
+);
 
 export default AdminIndexing;

@@ -37,7 +37,7 @@ const TOOL_GROUPS: Record<string, string[]> = {
   "Admin": ["get_site_events", "list_contact_submissions", "list_directory_listings", "get_seo_settings", "update_seo_settings"],
 };
 
-const AdminMcp = () => {
+export const McpTabContent = () => {
   const [keys, setKeys] = useState<McpApiKey[]>([]);
   const [loading, setLoading] = useState(true);
   const [createOpen, setCreateOpen] = useState(false);
@@ -127,16 +127,14 @@ const AdminMcp = () => {
 
   if (loading) {
     return (
-      <AdminLayout>
-        <div className="flex items-center justify-center py-20">
-          <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
-        </div>
-      </AdminLayout>
+      <div className="flex items-center justify-center py-20">
+        <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
+      </div>
     );
   }
 
   return (
-    <AdminLayout>
+    <>
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
           <h1 className="font-display text-2xl font-bold text-foreground flex items-center gap-2">
@@ -285,8 +283,12 @@ const AdminMcp = () => {
           </Card>
         ))}
       </div>
-    </AdminLayout>
+    </>
   );
 };
+
+const AdminMcp = () => (
+  <AdminLayout><McpTabContent /></AdminLayout>
+);
 
 export default AdminMcp;

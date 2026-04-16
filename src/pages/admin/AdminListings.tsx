@@ -27,7 +27,7 @@ interface DirectorySuggestion {
   reason: string;
 }
 
-const AdminListings = () => {
+export const ListingsTabContent = () => {
   const [listings, setListings] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
@@ -153,7 +153,7 @@ const AdminListings = () => {
   const avgDR = listings.filter((l) => l.dr_score).reduce((a, b) => a + (b.dr_score || 0), 0) / (listings.filter((l) => l.dr_score).length || 1);
 
   return (
-    <AdminLayout>
+    <>
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
           <h1 className="font-display text-2xl font-bold text-foreground">Directory Listings</h1>
@@ -354,8 +354,12 @@ const AdminListings = () => {
           ))}
         </div>
       )}
-    </AdminLayout>
+    </>
   );
 };
+
+const AdminListings = () => (
+  <AdminLayout><ListingsTabContent /></AdminLayout>
+);
 
 export default AdminListings;

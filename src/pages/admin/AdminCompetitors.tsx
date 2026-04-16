@@ -42,7 +42,7 @@ interface CompetitorData {
   report?: AnalysisReport;
 }
 
-const AdminCompetitors = () => {
+export const CompetitorsTabContent = () => {
   const [competitors, setCompetitors] = useState<string[]>([]);
   const [competitorData, setCompetitorData] = useState<Record<string, CompetitorData>>({});
   const [newUrl, setNewUrl] = useState("");
@@ -196,16 +196,14 @@ const AdminCompetitors = () => {
 
   if (loading) {
     return (
-      <AdminLayout>
-        <div className="flex items-center justify-center py-20">
-          <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
-        </div>
-      </AdminLayout>
+      <div className="flex items-center justify-center py-20">
+        <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
+      </div>
     );
   }
 
   return (
-    <AdminLayout>
+    <>
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
           <h1 className="font-display text-2xl font-bold text-foreground flex items-center gap-2">
@@ -507,8 +505,12 @@ const AdminCompetitors = () => {
           </ScrollArea>
         </DialogContent>
       </Dialog>
-    </AdminLayout>
+    </>
   );
 };
+
+const AdminCompetitors = () => (
+  <AdminLayout><CompetitorsTabContent /></AdminLayout>
+);
 
 export default AdminCompetitors;
