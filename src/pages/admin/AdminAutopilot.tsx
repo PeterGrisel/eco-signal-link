@@ -293,9 +293,6 @@ export const AutopilotTabContent = () => {
   );
 };
 
-const AdminAutopilot = () => (
-  <AdminLayout><AutopilotTabContent /></AdminLayout>
-);
 
 // Section wrapper
 const Section = ({ title, count, color, description, children }: {
