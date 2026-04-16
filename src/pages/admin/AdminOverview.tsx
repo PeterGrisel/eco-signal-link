@@ -37,7 +37,7 @@ interface Lead {
   session_id: string | null;
 }
 
-const AdminOverview = () => {
+export const OverviewTabContent = () => {
   const [events, setEvents] = useState<SiteEvent[]>([]);
   const [leads, setLeads] = useState<Lead[]>([]);
   const [ga4Data, setGa4Data] = useState<any>(null);
@@ -176,7 +176,7 @@ const AdminOverview = () => {
   }, [events]);
 
   return (
-    <AdminLayout>
+    <>
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
           <h1 className="font-display text-2xl font-bold text-foreground flex items-center gap-2">
@@ -447,8 +447,12 @@ const AdminOverview = () => {
           </div>
         </div>
       )}
-    </AdminLayout>
+    </>
   );
 };
+
+const AdminOverview = () => (
+  <AdminLayout><OverviewTabContent /></AdminLayout>
+);
 
 export default AdminOverview;
