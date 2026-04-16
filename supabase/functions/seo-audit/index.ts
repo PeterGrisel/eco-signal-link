@@ -230,13 +230,70 @@ serve(async (req) => {
     // ── 7. Blog posts without meta ──
     const { data: posts } = await supabase
       .from("blog_posts")
-      .select("title, slug, meta_description, featured_image")
+      .select("title, slug, meta_description, featured_image, content, topic_id")
       .eq("status", "published")
       .limit(200);
 
     if (posts?.length) {
       const noMeta = posts.filter(p => !p.meta_description);
       const noImage = posts.filter(p => !p.featured_image);
+
+      // Internal linking analysis
+      const slugSet = new Set(posts.map(p => p.slug));
+      const linkStats = posts.map(p => {
+        const content = p.content || "";
+        const mdLinks = [...content.matchAll(/\]\((\/[^)\s]+|https?:\/\/[^)\s]+)\)/g)].map(m => m[1]);
+        let internalOut = 0;
+        let intraCluster = 0;
+        let linksToPillar = false;
+        for (const href of mdLinks) {
+          const path = href.replace(/^https?:\/\/[^/]+/, "");
+          if (path.startsWith("/pipeline-equation")) linksToPillar = true;
+          const blogMatch = path.match(/^\/blog\/([^/?#]+)/);
+          if (blogMatch && blogMatch[1] !== p.slug && slugSet.has(blogMatch[1])) {
+            internalOut++;
+            const target = posts.find(pp => pp.slug === blogMatch[1]);
+            if (target && p.topic_id && target.topic_id === p.topic_id) intraCluster++;
+          }
+        }
+        return { slug: p.slug, title: p.title, internalOut, intraCluster, linksToPillar, topic_id: p.topic_id };
+      });
+
+      const orphans = linkStats.filter(s => s.internalOut === 0);
+      const noPillar = linkStats.filter(s => !s.linksToPillar);
+      const topicHasSiblings = (topicId: string | null) =>
+        !!topicId && posts.filter(pp => pp.topic_id === topicId).length > 1;
+      const weakCluster = linkStats.filter(s => topicHasSiblings(s.topic_id) && s.intraCluster === 0);
+
+      if (orphans.length > 0) {
+        checks.push({
+          category: "structure",
+          status: orphans.length > posts.length / 3 ? "fail" : "warning",
+          title: "Orphan posts (geen interne links)",
+          detail: `${orphans.length}/${posts.length} posts linken naar geen enkele andere blogpost: ${orphans.slice(0, 3).map(o => o.title).join(", ")}${orphans.length > 3 ? "..." : ""}`,
+          impact: "medium",
+        });
+      }
+
+      if (noPillar.length > 0) {
+        checks.push({
+          category: "structure",
+          status: noPillar.length > posts.length / 2 ? "fail" : "warning",
+          title: "Posts zonder link naar Pipeline Score",
+          detail: `${noPillar.length}/${posts.length} posts linken niet naar /pipeline-equation (de primaire lead magnet)`,
+          impact: "high",
+        });
+      }
+
+      if (weakCluster.length > 0) {
+        checks.push({
+          category: "structure",
+          status: "warning",
+          title: "Posts zonder intra-cluster links",
+          detail: `${weakCluster.length} posts hebben topic-siblings maar linken er niet naar — topical authority lekt weg: ${weakCluster.slice(0, 3).map(w => w.title).join(", ")}${weakCluster.length > 3 ? "..." : ""}`,
+          impact: "medium",
+        });
+      }
       
       if (noMeta.length > 0) {
         checks.push({
