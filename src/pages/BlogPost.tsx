@@ -12,6 +12,7 @@ import { nl } from "date-fns/locale";
 import { ArrowLeft, Clock, Calendar } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import RelatedSolutions from "@/components/blog/RelatedSolutions";
+import { trackCTA } from "@/lib/tracking";
 
 interface Post {
   id: string;
@@ -216,16 +217,17 @@ const BlogPost = () => {
           {/* Bottom CTA */}
           <div className="mt-16 p-8 rounded-2xl bg-gradient-to-br from-primary/10 via-secondary to-secondary border border-primary/20">
             <h3 className="font-display text-xl font-bold text-foreground mb-2">
-              Klaar om uw B2B groei te versnellen?
+              Benieuwd hoe uw pipeline scoort?
             </h3>
             <p className="text-muted-foreground text-sm mb-4">
-              Ontdek hoe B2BGroeiMachine uw salesproces transformeert met signaalgebaseerde prospecting.
+              Doe de gratis Pipeline Score™: 14 factoren, 10 verdiepingsvragen, en een AI-rapport met concrete verbeterpunten per fase. In 5 minuten.
             </p>
             <Link
-              to="/"
+              to="/pipeline-equation#calculator"
+              onClick={() => trackCTA("BlogPost — Pipeline Score", `/blog/${post.slug}`)}
               className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-6 py-2.5 rounded-lg font-display font-semibold text-sm hover:bg-primary/90 transition-colors"
             >
-              Plan een Demo →
+              Start de Pipeline Score →
             </Link>
           </div>
         </article>
