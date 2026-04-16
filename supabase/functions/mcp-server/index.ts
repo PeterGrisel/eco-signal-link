@@ -322,6 +322,7 @@ mcp.tool("list_directory_listings", {
 const MCP_API_KEY = Deno.env.get("MCP_API_KEY");
 
 const transport = new StreamableHttpTransport();
+const httpHandler = transport.bind(mcp);
 
 app.all("/*", async (c) => {
   if (MCP_API_KEY) {
@@ -331,7 +332,7 @@ app.all("/*", async (c) => {
       return c.json({ error: "Unauthorized" }, 401);
     }
   }
-  return await transport.handleRequest(c.req.raw, mcp);
+  return await httpHandler(c.req.raw);
 });
 
 Deno.serve(app.fetch);
