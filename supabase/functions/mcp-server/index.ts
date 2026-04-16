@@ -317,20 +317,39 @@ mcp.tool("list_directory_listings", {
   },
 });
 
-// ─── AUTH: API key check ───
+// ─── AUTH: DB-based API key validation ───
 
-const MCP_API_KEY = Deno.env.get("MCP_API_KEY");
+async function validateApiKey(token: string | undefined): Promise<{ valid: boolean; permissions: string[] | null }> {
+  if (!token) return { valid: false, permissions: null };
+
+  const { data, error } = await supabaseAdmin
+    .from("mcp_api_keys")
+    .select("id, is_master, permissions, is_active")
+    .eq("api_key", token)
+    .eq("is_active", true)
+    .single();
+
+  if (error || !data) return { valid: false, permissions: null };
+
+  // Update last_used_at
+  await supabaseAdmin
+    .from("mcp_api_keys")
+    .update({ last_used_at: new Date().toISOString() })
+    .eq("id", data.id);
+
+  if (data.is_master) return { valid: true, permissions: null }; // null = all permissions
+  return { valid: true, permissions: data.permissions as string[] | null };
+}
 
 const transport = new StreamableHttpTransport();
 const httpHandler = transport.bind(mcp);
 
 app.all("/*", async (c) => {
-  if (MCP_API_KEY) {
-    const authHeader = c.req.header("Authorization");
-    const token = authHeader?.replace("Bearer ", "");
-    if (token !== MCP_API_KEY) {
-      return c.json({ error: "Unauthorized" }, 401);
-    }
+  const authHeader = c.req.header("Authorization");
+  const token = authHeader?.replace("Bearer ", "");
+  const { valid } = await validateApiKey(token);
+  if (!valid) {
+    return c.json({ error: "Unauthorized" }, 401);
   }
   return await httpHandler(c.req.raw);
 });
