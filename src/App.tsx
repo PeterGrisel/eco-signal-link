@@ -94,24 +94,15 @@ const AnimatedRoutes = () => {
           <Route path="/terms" element={<Terms />} />
           <Route path="/cookies" element={<Cookies />} />
           <Route path="/admin/login" element={<AdminLogin />} />
-          <Route path="/admin/overview" element={<AdminOverview />} />
-          <Route path="/admin/blog" element={<AdminBlog />} />
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          <Route path="/admin/analytics" element={<AdminAnalyticsHub />} />
+          <Route path="/admin/content" element={<AdminContentHub />} />
+          <Route path="/admin/seo" element={<AdminSeoHub />} />
+          <Route path="/admin/system" element={<AdminSystem />} />
+          <Route path="/admin/signaal" element={<AdminSignaal />} />
           <Route path="/admin/blog/new" element={<AdminBlogEditor />} />
           <Route path="/admin/blog/edit/:id" element={<AdminBlogEditor />} />
           <Route path="/admin/blog/generate" element={<AdminBlogGenerate />} />
-          <Route path="/admin/listings" element={<AdminListings />} />
-          <Route path="/admin/indexing" element={<AdminIndexing />} />
-          <Route path="/admin/autopilot" element={<AdminAutopilot />} />
-          <Route path="/admin/settings" element={<AdminSettings />} />
-          <Route path="/admin/taxonomy" element={<AdminTaxonomy />} />
-          <Route path="/admin/kpi" element={<AdminKpi />} />
-          <Route path="/admin/calendar" element={<AdminCalendar />} />
-          <Route path="/admin/leads" element={<AdminLeads />} />
-          <Route path="/admin/analytics" element={<AdminAnalytics />} />
-          <Route path="/admin/scripts" element={<AdminScripts />} />
-          <Route path="/admin/competitors" element={<AdminCompetitors />} />
-          <Route path="/admin/signaal" element={<AdminSignaal />} />
-          <Route path="/admin/mcp" element={<AdminMcp />} />
           <Route path="/cheatsheets" element={<Cheatsheets />} />
           <Route path="/trainingen" element={<Trainingen />} />
           <Route path="/partners" element={<Partners />} />
