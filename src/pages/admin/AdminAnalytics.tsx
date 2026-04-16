@@ -41,7 +41,7 @@ const CATEGORY_COLORS = [
   "hsl(199, 89%, 48%)",
 ];
 
-const AdminAnalytics = () => {
+export const AnalyticsTabContent = () => {
   const [events, setEvents] = useState<SiteEvent[]>([]);
   const [loading, setLoading] = useState(true);
   const [days, setDays] = useState(7);
@@ -196,7 +196,7 @@ const AdminAnalytics = () => {
   };
 
   return (
-    <AdminLayout>
+    <>
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
           <h1 className="font-display text-2xl font-bold text-foreground flex items-center gap-2">
@@ -488,8 +488,12 @@ const AdminAnalytics = () => {
           )}
         </CardContent>
       </Card>
-    </AdminLayout>
+    </>
   );
 };
+
+const AdminAnalytics = () => (
+  <AdminLayout><AnalyticsTabContent /></AdminLayout>
+);
 
 export default AdminAnalytics;
