@@ -4,6 +4,7 @@ import { Copy, Check, ArrowLeft, Linkedin } from "lucide-react";
 import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
 import CheatsheetFeedback from "@/components/cheatsheet/CheatsheetFeedback";
+import CheatsheetTrainingCta from "@/components/cheatsheet/CheatsheetTrainingCta";
 import Footer from "@/components/Footer";
 
 const GammaCheatsheet = () => {
@@ -151,6 +152,9 @@ const GammaCheatsheet = () => {
 
         {/* FEEDBACK */}
         <CheatsheetFeedback slug="gamma-presentaties" />
+
+        {/* TRAINING UPSELL */}
+        <CheatsheetTrainingCta />
 
         {/* CTA */}
         <Card title="Wil je ook acties aanmaken direct vanuit Claude?" full accent>

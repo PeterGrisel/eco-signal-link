@@ -4,6 +4,7 @@ import { Copy, Check, ArrowLeft, Linkedin } from "lucide-react";
 import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
 import CheatsheetFeedback from "@/components/cheatsheet/CheatsheetFeedback";
+import CheatsheetTrainingCta from "@/components/cheatsheet/CheatsheetTrainingCta";
 import Footer from "@/components/Footer";
 
 const MultichannelSequencing = () => {
@@ -197,6 +198,9 @@ const MultichannelSequencing = () => {
 
         {/* FEEDBACK */}
         <CheatsheetFeedback slug="multichannel-sequencing" />
+
+        {/* TRAINING UPSELL */}
+        <CheatsheetTrainingCta />
 
         {/* CTA */}
         <Card title="Wil je een multi-channel machine laten bouwen?" full accent>

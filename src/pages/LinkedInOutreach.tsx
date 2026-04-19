@@ -4,6 +4,7 @@ import { Copy, Check, ArrowLeft, Linkedin } from "lucide-react";
 import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
 import CheatsheetFeedback from "@/components/cheatsheet/CheatsheetFeedback";
+import CheatsheetTrainingCta from "@/components/cheatsheet/CheatsheetTrainingCta";
 import Footer from "@/components/Footer";
 
 const LinkedInOutreach = () => {
@@ -166,6 +167,9 @@ const LinkedInOutreach = () => {
 
         {/* FEEDBACK */}
         <CheatsheetFeedback slug="linkedin-outreach" />
+
+        {/* TRAINING UPSELL */}
+        <CheatsheetTrainingCta />
 
         {/* CTA */}
         <Card title="Wil je dit structureel aanpakken?" full accent>

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import CheatsheetTrainingCta from "@/components/cheatsheet/CheatsheetTrainingCta";
 import { FileText, ArrowRight, ThumbsUp, Star } from "lucide-react";
 
 type Level = "Beginner" | "Gevorderd" | "Expert";
@@ -140,6 +141,11 @@ const Cheatsheets = () => {
           <p className="text-muted-foreground text-lg mb-8 max-w-2xl">
             Praktische quick-start guides. Kopieer de prompts, volg de stappen en ga direct live.
           </p>
+
+          {/* Training upsell */}
+          <div className="mb-10">
+            <CheatsheetTrainingCta full={false} />
+          </div>
 
           {/* Level filter */}
           <div className="flex items-center gap-2 mb-8">
