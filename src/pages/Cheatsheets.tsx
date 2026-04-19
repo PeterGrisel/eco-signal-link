@@ -142,6 +142,11 @@ const Cheatsheets = () => {
             Praktische quick-start guides. Kopieer de prompts, volg de stappen en ga direct live.
           </p>
 
+          {/* Training upsell */}
+          <div className="mb-10">
+            <CheatsheetTrainingCta full={false} />
+          </div>
+
           {/* Level filter */}
           <div className="flex items-center gap-2 mb-8">
             <button
