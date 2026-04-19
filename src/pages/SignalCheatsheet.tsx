@@ -4,6 +4,7 @@ import { Copy, Check, ArrowLeft, Linkedin } from "lucide-react";
 import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
 import CheatsheetFeedback from "@/components/cheatsheet/CheatsheetFeedback";
+import CheatsheetTrainingCta from "@/components/cheatsheet/CheatsheetTrainingCta";
 import Footer from "@/components/Footer";
 
 const SignalCheatsheet = () => {
@@ -161,6 +162,9 @@ const SignalCheatsheet = () => {
 
         {/* FEEDBACK */}
         <CheatsheetFeedback slug="signal-prospecting" />
+
+        {/* TRAINING UPSELL */}
+        <CheatsheetTrainingCta />
 
         {/* CTA - full width */}
         <Card title="Wil je ook acties aanmaken direct in Apollo?" full accent>

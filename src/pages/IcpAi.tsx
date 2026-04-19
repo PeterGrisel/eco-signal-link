@@ -4,6 +4,7 @@ import { Copy, Check, ArrowLeft, Linkedin } from "lucide-react";
 import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
 import CheatsheetFeedback from "@/components/cheatsheet/CheatsheetFeedback";
+import CheatsheetTrainingCta from "@/components/cheatsheet/CheatsheetTrainingCta";
 import Footer from "@/components/Footer";
 
 const IcpAi = () => {
@@ -155,6 +156,9 @@ const IcpAi = () => {
 
         {/* FEEDBACK */}
         <CheatsheetFeedback slug="icp-ai" />
+
+        {/* TRAINING UPSELL */}
+        <CheatsheetTrainingCta />
 
         {/* CTA */}
         <Card title="Wil je je ICP structureel bijslijpen?" full accent>
