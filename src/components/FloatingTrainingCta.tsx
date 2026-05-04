@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Signal, X, Check, ArrowRight } from "lucide-react";
+import { trackCTA } from "@/lib/tracking";
 
 const FloatingTrainingCta = () => {
   const [open, setOpen] = useState(false);
@@ -61,7 +62,10 @@ const FloatingTrainingCta = () => {
               </div>
               <Link
                 to="/signaal"
-                onClick={() => setOpen(false)}
+        onClick={() => {
+          trackCTA("Floating Training CTA — Bekijk training", "/signaal");
+          setOpen(false);
+        }}
                 className="flex items-center justify-center gap-2 w-full py-3 bg-primary text-primary-foreground rounded-lg font-medium text-sm hover:bg-primary/90 transition-colors group"
               >
                 Bekijk training — €97
@@ -74,7 +78,10 @@ const FloatingTrainingCta = () => {
 
       {/* Floating button — positioned left of WhatsApp button */}
       <motion.button
-        onClick={() => setOpen(prev => !prev)}
+        onClick={() => {
+          if (!open) trackCTA("Floating Training CTA — Open popup", location.pathname);
+          setOpen(prev => !prev);
+        }}
         initial={{ y: 80, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 2, type: "spring", damping: 20 }}

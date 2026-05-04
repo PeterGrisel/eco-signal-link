@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Database, Brain, RefreshCw, Lock, MessageCircleQuestion, ShieldCheck, Cpu, Workflow, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { trackCTA } from "@/lib/tracking";
 import datahubScreenshot from "@/assets/datahub-screenshot.png";
 
 const features = [
@@ -107,7 +108,12 @@ const DatahubSection = () => {
           className="text-center space-y-6"
         >
           <Button variant="heroOutline" size="lg" asChild>
-            <a href="https://app.usemotion.com/meet/Rebel-Force/meeting" target="_blank" rel="noopener noreferrer">
+            <a
+              href="https://app.usemotion.com/meet/Rebel-Force/meeting"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => trackCTA("Datahub — Meer weten", "https://app.usemotion.com/meet/Rebel-Force/meeting")}
+            >
               Meer weten over Datahub →
             </a>
           </Button>

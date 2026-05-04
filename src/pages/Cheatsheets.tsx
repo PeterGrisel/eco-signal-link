@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CheatsheetTrainingCta from "@/components/cheatsheet/CheatsheetTrainingCta";
 import { FileText, ArrowRight, ThumbsUp, Star } from "lucide-react";
+import { trackCTA } from "@/lib/tracking";
 
 type Level = "Beginner" | "Gevorderd" | "Expert";
 
@@ -205,6 +206,7 @@ const Cheatsheets = () => {
               <Link
                 key={sheet.href}
                 to={sheet.href}
+                onClick={() => trackCTA(`Cheatsheets — Open: ${sheet.title}`, sheet.href)}
                 className="group flex items-start gap-4 p-6 rounded-lg border border-border bg-card hover:border-primary/50 transition-all"
               >
                 <div className="flex-shrink-0 w-10 h-10 rounded-md bg-primary/10 flex items-center justify-center">
