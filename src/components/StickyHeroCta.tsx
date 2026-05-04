@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { forwardRef, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Calendar } from "lucide-react";
 import { trackCTA } from "@/lib/tracking";
@@ -13,7 +13,7 @@ import { trackCTA } from "@/lib/tracking";
  */
 const STORAGE_KEY = "sticky_hero_cta_dismissed";
 
-const StickyHeroCta = () => {
+const StickyHeroCta = forwardRef<HTMLDivElement>((_, ref) => {
   const [visible, setVisible] = useState(false);
   const [dismissed, setDismissed] = useState(false);
 
@@ -43,6 +43,7 @@ const StickyHeroCta = () => {
     <AnimatePresence>
       {visible && (
         <motion.div
+          ref={ref}
           initial={{ y: 80, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 80, opacity: 0 }}
