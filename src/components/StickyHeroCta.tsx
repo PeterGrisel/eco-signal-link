@@ -47,9 +47,9 @@ const StickyHeroCta = () => {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 80, opacity: 0 }}
           transition={{ duration: 0.25, ease: "easeOut" }}
-          className="lg:hidden fixed bottom-0 inset-x-0 z-40 px-3 pb-[max(env(safe-area-inset-bottom),0.5rem)] pt-2 pointer-events-none"
+          className="lg:hidden fixed bottom-0 left-0 right-0 z-40 px-3 pb-[max(env(safe-area-inset-bottom),0.5rem)] pt-2 pointer-events-none"
         >
-          <div className="pointer-events-auto mx-auto max-w-md flex items-stretch gap-2 rounded-xl border border-primary/30 bg-background/90 backdrop-blur-xl shadow-2xl p-2">
+          <div className="pointer-events-auto mr-[9rem] max-w-sm flex items-stretch gap-2 rounded-xl border border-primary/30 bg-background/90 backdrop-blur-xl shadow-2xl p-2">
             <a
               href="https://app.usemotion.com/meet/Rebel-Force/meeting"
               target="_blank"
