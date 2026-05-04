@@ -120,7 +120,12 @@ const Hero = () => {
                 </a>
               </Button>
               <Button variant="heroOutline" size="lg" asChild>
-                <a href="#hoe-het-werkt">Hoe het werkt</a>
+                <a
+                  href="#hoe-het-werkt"
+                  onClick={() => trackCTA("Hero — Hoe het werkt", "#hoe-het-werkt")}
+                >
+                  Hoe het werkt
+                </a>
               </Button>
             </motion.div>
           </div>

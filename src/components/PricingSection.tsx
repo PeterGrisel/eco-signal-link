@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { trackCTA } from "@/lib/tracking";
 import { Button } from "@/components/ui/button";
 import { Check, Plus, Users, Briefcase, Database, ArrowDown, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -204,14 +205,24 @@ const PricingSection = () => {
               </div>
               <div className="hidden md:flex flex-col items-center justify-center">
                 <Button variant="hero" size="lg" asChild>
-                  <a href="https://app.usemotion.com/meet/Rebel-Force/meeting" target="_blank" rel="noopener noreferrer">
+                  <a
+                    href="https://app.usemotion.com/meet/Rebel-Force/meeting"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => trackCTA("Homepage Pricing — Plan een Demo (desktop)", "https://app.usemotion.com/meet/Rebel-Force/meeting")}
+                  >
                     Plan een Demo →
                   </a>
                 </Button>
               </div>
             </div>
             <Button variant="hero" size="lg" className="w-full mt-6 md:hidden" asChild>
-              <a href="https://app.usemotion.com/meet/Rebel-Force/meeting" target="_blank" rel="noopener noreferrer">
+              <a
+                href="https://app.usemotion.com/meet/Rebel-Force/meeting"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => trackCTA("Homepage Pricing — Plan een Demo (mobile)", "https://app.usemotion.com/meet/Rebel-Force/meeting")}
+              >
                 Plan een Demo →
               </a>
             </Button>
@@ -362,6 +373,7 @@ const PricingSection = () => {
               target="_blank"
               rel="noopener noreferrer"
               className="text-primary hover:underline font-medium"
+              onClick={() => trackCTA("Homepage Pricing — Bespreek uw situatie", "https://app.usemotion.com/meet/Rebel-Force/meeting")}
             >
               Bespreek uw situatie →
             </a>
