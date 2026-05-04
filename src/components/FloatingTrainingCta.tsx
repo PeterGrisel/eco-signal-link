@@ -85,7 +85,7 @@ const FloatingTrainingCta = () => {
         initial={{ y: 80, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 2, type: "spring", damping: 20 }}
-        className={`fixed bottom-6 right-[5.5rem] z-[95] flex items-center gap-2 px-4 py-3 rounded-full shadow-lg transition-all font-display font-semibold text-sm ${
+        className={`hidden lg:flex fixed bottom-6 right-[5.5rem] z-[95] items-center gap-2 px-4 py-3 rounded-full shadow-lg transition-all font-display font-semibold text-sm ${
           open
             ? "bg-muted text-muted-foreground"
             : "bg-primary text-primary-foreground hover:shadow-[0_0_30px_hsl(var(--primary)/0.4)] animate-pulse hover:animate-none"
