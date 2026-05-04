@@ -433,15 +433,36 @@ async function validateApiKey(token: string | undefined): Promise<{ valid: boole
 const transport = new StreamableHttpTransport();
 const httpHandler = transport.bind(mcp);
 
+const corsHeaders: Record<string, string> = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-api-key, accept",
+  "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+  "Access-Control-Max-Age": "86400",
+};
+
+const withCors = (res: Response): Response => {
+  const headers = new Headers(res.headers);
+  for (const [k, v] of Object.entries(corsHeaders)) headers.set(k, v);
+  return new Response(res.body, { status: res.status, statusText: res.statusText, headers });
+};
+
+app.options("/*", (c) => {
+  return new Response(null, { status: 204, headers: corsHeaders });
+});
+
 app.all("/*", async (c) => {
   const apiKeyHeader = c.req.header("x-api-key");
   const authHeader = c.req.header("Authorization");
   const token = apiKeyHeader || authHeader?.replace("Bearer ", "");
   const { valid } = await validateApiKey(token);
   if (!valid) {
-    return c.json({ error: "Unauthorized" }, 401);
+    return new Response(JSON.stringify({ error: "Unauthorized" }), {
+      status: 401,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
   }
-  return await httpHandler(c.req.raw);
+  const res = await httpHandler(c.req.raw);
+  return withCors(res);
 });
 
 Deno.serve(app.fetch);
