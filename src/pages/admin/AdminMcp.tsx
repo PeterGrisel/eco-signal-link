@@ -110,18 +110,17 @@ export const McpTabContent = () => {
     toast({ title: "Endpoint URL gekopieerd" });
   };
 
+  const claudeProxyScript = `const u=process.argv[1],k=process.argv[2];process.stdin.setEncoding('utf8');let b='';process.stdin.on('data',c=>{b+=c;let i;while((i=b.indexOf('\\n'))>=0){const l=b.slice(0,i).trim();b=b.slice(i+1);if(l)send(l)}});async function send(l){let id=null;try{id=JSON.parse(l).id}catch{}try{const r=await fetch(u,{method:'POST',headers:{'content-type':'application/json','accept':'application/json, text/event-stream','x-api-key':k},body:l});const t=await r.text();if(!r.ok){if(id!==undefined&&id!==null)process.stdout.write(JSON.stringify({jsonrpc:'2.0',id,error:{code:r.status,message:t||r.statusText}})+'\\n');return}for(const p of t.split(/\\r?\\n/)){const s=p.trim();if(!s)continue;const d=s.startsWith('data:')?s.slice(5).trim():s;if(d&&d!=='[DONE]')process.stdout.write(d+'\\n')}}catch(e){if(id!==undefined&&id!==null)process.stdout.write(JSON.stringify({jsonrpc:'2.0',id,error:{code:-32000,message:e.message}})+'\\n')}}`;
+
   const claudeConfig = `{
   "mcpServers": {
     "b2bgroeimachine": {
-      "command": "npx",
+      "command": "node",
       "args": [
-        "-y",
-        "mcp-remote",
+        "-e",
+        ${JSON.stringify(claudeProxyScript)},
         "${import.meta.env.VITE_SUPABASE_URL}/functions/v1/mcp-server",
-        "--transport",
-        "http-only",
-        "--header",
-        "x-api-key:<jouw-api-key>"
+        "<jouw-api-key>"
       ]
     }
   }
@@ -241,7 +240,7 @@ export const McpTabContent = () => {
           <div className="flex items-center justify-between gap-3">
             <div>
               <p className="font-medium text-foreground">Claude Desktop configuratie:</p>
-              <p className="text-xs text-muted-foreground">Gebruik http-only. Laat de Authorization-header weg.</p>
+              <p className="text-xs text-muted-foreground">Stabiele proxy zonder mcp-remote. Vervang alleen &lt;jouw-api-key&gt;.</p>
             </div>
             <Button variant="outline" size="sm" onClick={copyClaudeConfig} className="gap-2 shrink-0">
               <Copy className="w-4 h-4" /> Kopieer
