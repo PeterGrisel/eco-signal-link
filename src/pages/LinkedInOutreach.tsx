@@ -139,6 +139,8 @@ const LinkedInOutreach = () => {
           </div>
         </Card>
 
+        <CheatsheetTrainingCta variant="compact" trackLabel="Cheatsheet Mid CTA — LinkedIn" />
+
         {/* TIPS */}
         <Card title="Do's & don'ts" full>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
