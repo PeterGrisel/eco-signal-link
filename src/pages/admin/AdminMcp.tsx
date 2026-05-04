@@ -9,6 +9,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Key, Plus, Copy, Trash2, Shield, Eye, EyeOff, Loader2, Server } from "lucide-react";
+import { McpHealthPanel } from "@/components/admin/McpHealthPanel";
 
 interface McpApiKey {
   id: string;
