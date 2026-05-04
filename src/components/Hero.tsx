@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { trackCTA } from "@/lib/tracking";
+import { trackCTA, trackFormSubmit } from "@/lib/tracking";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import teamBanner from "@/assets/team-banner.jpg";
@@ -28,7 +28,14 @@ const Hero = () => {
       toast.error("Vul alle velden in");
       return;
     }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
+      toast.error("Vul een geldig e-mailadres in");
+      return;
+    }
     setSubmitting(true);
+    trackFormSubmit("Hero Contact Form — Attempt", {
+      has_company_email: !formData.email.includes("gmail.com"),
+    });
     try {
       const { error } = await supabase.from("contact_submissions").insert({
         name: formData.name.trim(),
@@ -39,8 +46,12 @@ const Hero = () => {
       toast.success("Bericht verzonden!");
       setFormData({ name: "", email: "", message: "" });
       trackCTA("Hero — Contact Form Submit", window.location.href);
-    } catch {
-      toast.error("Er ging iets mis. Probeer het opnieuw.");
+      trackFormSubmit("Hero Contact Form — Success");
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "onbekende fout";
+      console.error("[Hero contact form] submit failed:", err);
+      toast.error(`Verzenden mislukt: ${message}`);
+      trackFormSubmit("Hero Contact Form — Error", { error: message });
     } finally {
       setSubmitting(false);
     }
