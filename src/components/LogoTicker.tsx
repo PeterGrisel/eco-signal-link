@@ -26,6 +26,8 @@ const clients = [
   { name: "RTC Group", url: "https://www.rtc-group.nl/" },
   { name: "Yaskawa", url: "https://www.yaskawa.nl/" },
   { name: "ThriveOS", url: "https://thriveos.nl/" },
+  { name: "Eurofast", url: "https://eurofast.eu/" },
+  { name: "Leister Benelux", url: "https://www.leister.com/" },
 ];
 
 const LogoTicker = () => {
