@@ -12,6 +12,7 @@ import { nl } from "date-fns/locale";
 import { ArrowLeft, Clock, Calendar } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import RelatedSolutions from "@/components/blog/RelatedSolutions";
+import MidContentCta from "@/components/blog/MidContentCta";
 import { trackCTA } from "@/lib/tracking";
 
 interface Post {
@@ -182,33 +183,57 @@ const BlogPost = () => {
             prose-tr:transition-colors hover:prose-tr:bg-secondary/30
             prose-figure:my-8
           ">
-            {splitContentWithInfographics(cleanContent).map((part, i) =>
-              part.type === "infographic" ? (
-                <div key={i} className="not-prose">{renderInfographic(part.block)}</div>
-              ) : (
-                <ReactMarkdown
-                  key={i}
-                  remarkPlugins={[remarkGfm]}
-                  components={{
-                    a: ({ href, children, ...props }) => {
-                      const isExternal = href?.startsWith("http");
-                      return (
-                        <a
-                          href={href}
-                          {...props}
-                          className="text-primary font-medium underline underline-offset-2 hover:text-primary/80 transition-colors"
-                          {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                        >
-                          {children}
-                        </a>
-                      );
-                    },
-                  }}
-                >
-                  {part.content}
-                </ReactMarkdown>
-              )
-            )}
+            {(() => {
+              const parts = splitContentWithInfographics(cleanContent);
+              // Pick CTA variant deterministically based on slug
+              const variant: "signaal" | "pricing" =
+                (post.slug.charCodeAt(0) + post.slug.length) % 2 === 0 ? "signaal" : "pricing";
+              // Insert mid-content CTA after the text part closest to the middle
+              const textIndices = parts
+                .map((p, idx) => (p.type !== "infographic" ? idx : -1))
+                .filter((idx) => idx !== -1);
+              const midInjectAfter =
+                textIndices.length > 1 ? textIndices[Math.floor(textIndices.length / 2)] : -1;
+
+              return parts.map((part, i) => {
+                const node =
+                  part.type === "infographic" ? (
+                    <div key={i} className="not-prose">{renderInfographic(part.block)}</div>
+                  ) : (
+                    <ReactMarkdown
+                      key={i}
+                      remarkPlugins={[remarkGfm]}
+                      components={{
+                        a: ({ href, children, ...props }) => {
+                          const isExternal = href?.startsWith("http");
+                          return (
+                            <a
+                              href={href}
+                              {...props}
+                              className="text-primary font-medium underline underline-offset-2 hover:text-primary/80 transition-colors"
+                              {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                            >
+                              {children}
+                            </a>
+                          );
+                        },
+                      }}
+                    >
+                      {part.content}
+                    </ReactMarkdown>
+                  );
+
+                if (i === midInjectAfter) {
+                  return (
+                    <div key={i}>
+                      {node}
+                      <MidContentCta variant={variant} slug={post.slug} />
+                    </div>
+                  );
+                }
+                return node;
+              });
+            })()}
           </div>
 
           {/* Related Solutions */}
