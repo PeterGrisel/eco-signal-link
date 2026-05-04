@@ -18,6 +18,7 @@ import DeliveryModelSection from "@/components/DeliveryModelSection";
 import CtaSection from "@/components/CtaSection";
 import FaqSection from "@/components/FaqSection";
 import Footer from "@/components/Footer";
+import StickyHeroCta from "@/components/StickyHeroCta";
 
 const Index = () => {
   // Redirect auth errors (expired magic links) to /signaal/start
@@ -48,6 +49,7 @@ const Index = () => {
       <FaqSection />
       <CtaSection />
       <Footer />
+      <StickyHeroCta />
     </div>
     </PageLoader>
   );
