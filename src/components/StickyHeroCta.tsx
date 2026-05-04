@@ -78,6 +78,7 @@ const StickyHeroCta = forwardRef<HTMLDivElement>((_, ref) => {
       )}
     </AnimatePresence>
   );
-};
+});
+StickyHeroCta.displayName = "StickyHeroCta";
 
 export default StickyHeroCta;
