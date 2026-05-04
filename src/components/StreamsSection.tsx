@@ -20,6 +20,8 @@ const clients = [
   { name: "RTC Group", url: "https://www.rtc-group.nl/", domain: "rtc-group.nl" },
   { name: "Yaskawa", url: "https://www.yaskawa.nl/", domain: "yaskawa.nl" },
   { name: "ThriveOS", url: "https://thriveos.nl/", domain: "thriveos.nl" },
+  { name: "Eurofast", url: "https://eurofast.eu/", domain: "eurofast.eu" },
+  { name: "Leister Benelux", url: "https://www.leister.com/", domain: "leister.com" },
 ];
 
 const StreamsSection = () => {
