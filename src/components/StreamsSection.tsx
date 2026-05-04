@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { sectors } from "@/data/sectors";
 import { solutions } from "@/data/solutions";
+import { trackCTA } from "@/lib/tracking";
 
 const clients = [
   { name: "Krak de Rijder", url: "https://www.krakderijder.nl/", domain: "krakderijder.nl" },
@@ -51,6 +52,7 @@ const StreamsSection = () => {
             <motion.a
               key={sector.slug}
               href={`/sectoren/${sector.slug}`}
+              onClick={() => trackCTA(`Streams — Sector: ${sector.title}`, `/sectoren/${sector.slug}`)}
               initial={{ opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
@@ -82,6 +84,7 @@ const StreamsSection = () => {
                 href={client.url}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => trackCTA(`Streams — Client: ${client.name}`, client.url)}
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}

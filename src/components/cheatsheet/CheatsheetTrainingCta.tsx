@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Signal, ArrowRight, Check } from "lucide-react";
+import { trackCTA } from "@/lib/tracking";
 
 /**
  * Reusable upsell card linking from cheatsheets to the full Signaal training.
@@ -52,6 +53,7 @@ const CheatsheetTrainingCta = ({ full = true }: { full?: boolean }) => {
 
         <Link
           to="/signaal"
+          onClick={() => trackCTA("Cheatsheet Training CTA — Bekijk training", "/signaal")}
           className="group flex-shrink-0 inline-flex items-center gap-2 bg-[#E3874F] text-[#0B0B0B] px-5 py-2.5 rounded font-bold text-xs uppercase tracking-wider hover:opacity-90 transition-opacity whitespace-nowrap"
         >
           Bekijk training
