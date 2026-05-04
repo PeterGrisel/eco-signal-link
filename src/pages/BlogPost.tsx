@@ -190,7 +190,7 @@ const BlogPost = () => {
                 (post.slug.charCodeAt(0) + post.slug.length) % 2 === 0 ? "signaal" : "pricing";
               // Insert mid-content CTA after the text part closest to the middle
               const textIndices = parts
-                .map((p, idx) => (p.type === "text" ? idx : -1))
+                .map((p, idx) => (p.type !== "infographic" ? idx : -1))
                 .filter((idx) => idx !== -1);
               const midInjectAfter =
                 textIndices.length > 1 ? textIndices[Math.floor(textIndices.length / 2)] : -1;
