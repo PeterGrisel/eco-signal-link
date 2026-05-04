@@ -129,6 +129,8 @@ const MultichannelSequencing = () => {
           </div>
         </Card>
 
+        <CheatsheetTrainingCta variant="compact" trackLabel="Cheatsheet Mid CTA — Multichannel" />
+
         {/* INSTANTLY SETUP */}
         <Card title="Instantly setup checklist">
           <div className="flex flex-col gap-2.5">

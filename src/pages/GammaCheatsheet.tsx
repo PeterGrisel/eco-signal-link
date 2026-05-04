@@ -132,6 +132,8 @@ const GammaCheatsheet = () => {
           </div>
         </Card>
 
+        <CheatsheetTrainingCta variant="compact" trackLabel="Cheatsheet Mid CTA — Gamma" />
+
         {/* PRO TIPS */}
         <Card title="Pro tips — meer resultaat uit elke prompt" full titleColor="purple">
           <div className="flex flex-col gap-2">

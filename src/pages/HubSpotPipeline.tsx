@@ -107,6 +107,8 @@ const HubSpotPipeline = () => {
           </div>
         </Card>
 
+        <CheatsheetTrainingCta variant="compact" trackLabel="Cheatsheet Mid CTA — HubSpot" />
+
         {/* AUTOMATIONS */}
         <Card title="Stap 3 — Automatiseringen" full>
           <div className="flex flex-col gap-2.5">
