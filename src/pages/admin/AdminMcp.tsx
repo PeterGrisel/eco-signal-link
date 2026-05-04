@@ -233,6 +233,11 @@ export const McpTabContent = () => {
         </CardContent>
       </Card>
 
+      {/* Health panel */}
+      <div className="mb-6">
+        <McpHealthPanel />
+      </div>
+
       {/* Keys list */}
       <div className="space-y-3">
         {keys.map(key => (
