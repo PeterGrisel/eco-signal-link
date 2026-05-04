@@ -110,6 +110,28 @@ export const McpTabContent = () => {
     toast({ title: "Endpoint URL gekopieerd" });
   };
 
+  const claudeConfig = `{
+  "mcpServers": {
+    "b2bgroeimachine": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "${import.meta.env.VITE_SUPABASE_URL}/functions/v1/mcp-server",
+        "--transport",
+        "http-only",
+        "--header",
+        "x-api-key:<jouw-api-key>"
+      ]
+    }
+  }
+}`;
+
+  const copyClaudeConfig = () => {
+    navigator.clipboard.writeText(claudeConfig);
+    toast({ title: "Claude config gekopieerd" });
+  };
+
   const togglePermission = (tool: string) => {
     setNewPermissions(prev =>
       prev.includes(tool) ? prev.filter(t => t !== tool) : [...prev, tool]
@@ -216,19 +238,17 @@ export const McpTabContent = () => {
       {/* Connection info */}
       <Card className="mb-6 border-primary/20 bg-primary/5">
         <CardContent className="pt-4 pb-4 text-sm space-y-1">
-          <p className="font-medium text-foreground">Claude Desktop configuratie:</p>
+          <div className="flex items-center justify-between gap-3">
+            <div>
+              <p className="font-medium text-foreground">Claude Desktop configuratie:</p>
+              <p className="text-xs text-muted-foreground">Gebruik http-only. Laat de Authorization-header weg.</p>
+            </div>
+            <Button variant="outline" size="sm" onClick={copyClaudeConfig} className="gap-2 shrink-0">
+              <Copy className="w-4 h-4" /> Kopieer
+            </Button>
+          </div>
           <code className="block bg-card p-3 rounded text-xs break-all whitespace-pre-wrap">
-{`{
-  "mcpServers": {
-    "b2bgroeimachine": {
-      "url": "${import.meta.env.VITE_SUPABASE_URL}/functions/v1/mcp-server",
-      "headers": {
-        "x-api-key": "<jouw-api-key>",
-        "Authorization": "Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}"
-      }
-    }
-  }
-}`}
+            {claudeConfig}
           </code>
         </CardContent>
       </Card>
