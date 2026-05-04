@@ -101,6 +101,8 @@ const IcpAi = () => {
           </div>
         </Card>
 
+        <CheatsheetTrainingCta variant="compact" trackLabel="Cheatsheet Mid CTA — ICP AI" />
+
         {/* STAP 3 — APOLLO */}
         <Card title="Stap 3 — Apollo filters voor lookalikes" full>
           <div className="flex flex-col gap-2.5">
