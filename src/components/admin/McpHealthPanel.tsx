@@ -55,6 +55,15 @@ const saveResults = (r: Record<string, Result>) => {
   try { localStorage.setItem(STORAGE_KEY, JSON.stringify(r)); } catch { /* ignore */ }
 };
 
+const parseMcpBody = (text: string): unknown => {
+  const dataLine = text
+    .split(/\r?\n/)
+    .map(line => line.trim())
+    .find(line => line.startsWith("data:"));
+  const jsonText = dataLine ? dataLine.slice(5).trim() : text;
+  try { return JSON.parse(jsonText); } catch { return text; }
+};
+
 async function callMcp(payload: object, apiKey: string, timeoutMs = 15000): Promise<{ status: number; body: unknown; ms: number; error?: string }> {
   const start = performance.now();
   const ctrl = new AbortController();
@@ -73,8 +82,7 @@ async function callMcp(payload: object, apiKey: string, timeoutMs = 15000): Prom
     });
     const ms = Math.round(performance.now() - start);
     const text = await res.text();
-    let body: unknown = text;
-    try { body = JSON.parse(text); } catch { /* keep text */ }
+    const body = parseMcpBody(text);
     return { status: res.status, body, ms };
   } catch (err) {
     const ms = Math.round(performance.now() - start);
