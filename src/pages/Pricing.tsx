@@ -60,6 +60,7 @@ const Pricing = () => {
             </motion.div>
 
             {/* Configurator */}
+            <h2 className="sr-only">Pakket-configurator</h2>
             <div className="grid lg:grid-cols-[1fr_380px] gap-8 max-w-5xl mx-auto">
               {/* Left: Options */}
               <div className="space-y-6">
