@@ -4,7 +4,40 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CompetitorsTabContent } from "./AdminCompetitors";
 import { ListingsTabContent } from "./AdminListings";
 import { IndexingTabContent } from "./AdminIndexing";
-import { Globe } from "lucide-react";
+import { Globe, Save, Loader2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useSeoSettings } from "@/hooks/useSeoSettings";
+import { IntegrationsTab } from "@/components/admin/settings/AdvancedTabs";
+
+const AnalyticsTabContent = () => {
+  const { config, updateConfig, saveSettings, loading, saving } = useSeoSettings();
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-20">
+        <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
+      </div>
+    );
+  }
+
+  return (
+    <div className="max-w-3xl space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-lg font-semibold text-foreground">Google Analytics 4</h2>
+          <p className="text-sm text-muted-foreground mt-1">
+            Vul je GA4 Measurement ID in. Bij opslaan wordt de gtag.js snippet automatisch geseed en geactiveerd na cookie-consent.
+          </p>
+        </div>
+        <Button variant="hero" onClick={saveSettings} disabled={saving}>
+          {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+          {saving ? "Opslaan..." : "Opslaan"}
+        </Button>
+      </div>
+      <IntegrationsTab config={config} onChange={updateConfig} />
+    </div>
+  );
+};
 
 const AdminSeoHub = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -17,7 +50,7 @@ const AdminSeoHub = () => {
           <Globe className="w-6 h-6 text-primary" /> SEO
         </h1>
         <p className="text-sm text-muted-foreground mt-1">
-          Concurrenten, listings en indexering
+          Concurrenten, listings, indexering en analytics
         </p>
       </div>
 
@@ -32,11 +65,15 @@ const AdminSeoHub = () => {
           <TabsTrigger value="indexing" className="text-xs data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
             Indexing
           </TabsTrigger>
+          <TabsTrigger value="analytics" className="text-xs data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
+            Analytics
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="competitors"><CompetitorsTabContent /></TabsContent>
         <TabsContent value="listings"><ListingsTabContent /></TabsContent>
         <TabsContent value="indexing"><IndexingTabContent /></TabsContent>
+        <TabsContent value="analytics"><AnalyticsTabContent /></TabsContent>
       </Tabs>
     </AdminLayout>
   );
