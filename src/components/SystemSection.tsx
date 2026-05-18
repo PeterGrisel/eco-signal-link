@@ -8,25 +8,25 @@ const layers = [
     icon: Settings,
     number: "01",
     title: "Nulmeting & infrastructuur",
-    description: "Wij brengen uw sales- en serviceproces in kaart. Daarna zetten we e-mail, LinkedIn en CRM veilig klaar.",
+    description: "Wij brengen uw sales- en serviceproces in kaart. Daarna richten we de infrastructuur in die bij uw ICP en data past.",
   },
   {
     icon: Brain,
     number: "02",
     title: "Intelligence",
-    description: "Wij brengen uw ideale klant in kaart. Daarna volgen we signalen: nieuwe functies, groei en websitebezoek.",
+    description: "Wij brengen uw ideale klant in kaart en volgen signalen: nieuwe functies, groei, websitebezoek en intentie.",
   },
   {
     icon: MessageSquare,
     number: "03",
     title: "Betrokkenheid",
-    description: "Via e-mail en LinkedIn nemen we 6 tot 8 keer contact op. Persoonlijk, rustig en op het juiste moment.",
+    description: "Wij activeren signalen via het kanaal waar uw ICP zit. Rustig, relevant en op het juiste moment.",
   },
   {
     icon: Target,
     number: "04",
     title: "Kwalificatie",
-    description: "Wij beoordelen elke reactie. Alleen serieuze gesprekken komen in uw agenda.",
+    description: "Wij beoordelen elk signaal en elke reactie. Alleen serieuze gesprekken komen in uw agenda.",
   },
 ];
 
