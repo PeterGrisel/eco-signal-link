@@ -93,9 +93,9 @@ const Pricing = () => {
                     <span className="w-7 h-7 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-xs">2</span>
                     <h3 className="font-display font-bold text-lg">Engagement-uren</h3>
                     <Popover>
-                      <PopoverTrigger asChild>
-                        <button type="button" className="text-muted-foreground hover:text-primary transition-colors">
-                          <Info className="w-4 h-4" />
+                       <PopoverTrigger asChild>
+                        <button type="button" aria-label="Uitleg engagement-uren" className="text-muted-foreground hover:text-primary transition-colors">
+                          <Info className="w-4 h-4" aria-hidden="true" />
                         </button>
                       </PopoverTrigger>
                       <PopoverContent side="top" className="max-w-xs text-sm">
