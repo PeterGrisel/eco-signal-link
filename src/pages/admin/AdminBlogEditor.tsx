@@ -8,7 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { ArrowLeft, Save, Eye } from "lucide-react";
+import { ArrowLeft, Save, Eye, Link2Off, ShieldCheck, Loader2 } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const AdminBlogEditor = () => {
@@ -28,6 +28,12 @@ const AdminBlogEditor = () => {
   const [categories, setCategories] = useState<any[]>([]);
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [linkCheck, setLinkCheck] = useState<{
+    running: boolean;
+    broken: Array<{ url: string; status: number; reason?: string }> | null;
+    checked: number;
+  }>({ running: false, broken: null, checked: 0 });
+  const [bypassLinkCheck, setBypassLinkCheck] = useState(false);
 
   useEffect(() => {
     supabase.from("blog_categories").select("*").order("name").then(({ data }) => {
@@ -73,6 +79,32 @@ const AdminBlogEditor = () => {
     }
     setUploading(false);
   };
+
+  /**
+   * Calls the validate-external-links edge function.
+   * Returns the broken list (empty array = all good).
+   */
+  const runLinkCheck = async (): Promise<Array<{ url: string; status: number; reason?: string }>> => {
+    setLinkCheck({ running: true, broken: null, checked: 0 });
+    try {
+      const { data, error } = await supabase.functions.invoke("validate-external-links", {
+        body: { content },
+      });
+      if (error) throw error;
+      const broken = (data?.broken ?? []) as Array<{ url: string; status: number; reason?: string }>;
+      setLinkCheck({ running: false, broken, checked: data?.checked ?? 0 });
+      return broken;
+    } catch (e: any) {
+      setLinkCheck({ running: false, broken: [], checked: 0 });
+      toast({
+        title: "Link-check mislukt",
+        description: e?.message ?? "Onbekende fout",
+        variant: "destructive",
+      });
+      return [];
+    }
+  };
+
   const autoSubmitIndexing = async (postSlug: string) => {
     try {
       const blogUrl = `https://b2bgroeimachine.io/blog/${postSlug}`;
@@ -90,6 +122,22 @@ const AdminBlogEditor = () => {
       toast({ title: "Vul titel en slug in", variant: "destructive" });
       return;
     }
+
+    // Gate publishing on external link validation.
+    // Drafts kunnen altijd worden opgeslagen; gepubliceerd alleen als links live zijn.
+    if (status === "published" && !bypassLinkCheck) {
+      const broken = await runLinkCheck();
+      if (broken.length > 0) {
+        toast({
+          title: `${broken.length} dode link${broken.length > 1 ? "s" : ""} gevonden`,
+          description: "Repareer ze of klik nogmaals op Opslaan om toch te publiceren.",
+          variant: "destructive",
+        });
+        setBypassLinkCheck(true); // next click bypasses the check
+        return;
+      }
+    }
+
     setSaving(true);
 
     const postData = {
@@ -125,6 +173,7 @@ const AdminBlogEditor = () => {
       }
     }
     setSaving(false);
+    setBypassLinkCheck(false);
   };
 
   return (
