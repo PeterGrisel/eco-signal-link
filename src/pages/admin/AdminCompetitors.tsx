@@ -56,19 +56,26 @@ export const CompetitorsTabContent = () => {
   }, []);
 
   const loadCompetitors = async () => {
-    const { data } = await supabase.from("seo_settings").select("config").limit(1).single();
-    const config = data?.config as any;
-    const urls = config?.competitors || [];
-    setCompetitors(urls);
-    // Load saved reports
-    if (config?.competitor_reports) {
-      const saved: Record<string, CompetitorData> = {};
-      for (const [url, report] of Object.entries(config.competitor_reports as Record<string, any>)) {
-        saved[url] = { url, title: new URL(url).hostname, lastScraped: (report as any).analyzedAt, report: report as AnalysisReport };
+    try {
+      const { data } = await supabase.from("seo_settings").select("config").limit(1).maybeSingle();
+      const config = (data?.config as any) || {};
+      const urls: string[] = Array.isArray(config.competitors) ? config.competitors : [];
+      setCompetitors(urls);
+      if (config.competitor_reports) {
+        const saved: Record<string, CompetitorData> = {};
+        for (const [url, report] of Object.entries(config.competitor_reports as Record<string, any>)) {
+          let hostname = url;
+          try { hostname = new URL(url).hostname; } catch { /* invalid stored URL, fall back to raw */ }
+          saved[url] = { url, title: hostname, lastScraped: (report as any)?.analyzedAt, report: report as AnalysisReport };
+        }
+        setCompetitorData(saved);
       }
-      setCompetitorData(saved);
+    } catch (e) {
+      console.error("loadCompetitors failed", e);
+      toast.error("Kon concurrenten niet laden");
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const saveCompetitors = async (urls: string[], reports?: Record<string, AnalysisReport>) => {
