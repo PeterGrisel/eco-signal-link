@@ -179,15 +179,15 @@ const GammaCheatsheet = () => {
 };
 
 const Card = ({ title, children, full, accent, titleColor }: { title: string; children: React.ReactNode; full?: boolean; accent?: boolean; titleColor?: "purple" }) => (
-  <div
+  <section
     className={`${full ? "md:col-span-2" : ""} bg-[#181818] rounded-md p-4 md:p-5 ${accent ? "border border-[#E3874F] border-l-[3px]" : "border border-[#222]"}`}
   >
-    <div className={`flex items-center gap-2 mb-3.5 text-[13px] tracking-[.1em] uppercase ${titleColor === "purple" ? "text-[#7C6FE0]" : "text-[#E3874F]"}`} style={{ fontFamily: "Anton, sans-serif" }}>
-      <span className={`inline-block w-[3px] h-3.5 rounded-sm ${titleColor === "purple" ? "bg-[#7C6FE0]" : "bg-[#E3874F]"}`} />
+    <h2 className={`flex items-center gap-2 mb-3.5 text-[13px] tracking-[.1em] uppercase font-normal ${titleColor === "purple" ? "text-[#7C6FE0]" : "text-[#E3874F]"}`} style={{ fontFamily: "Anton, sans-serif" }}>
+      <span className={`inline-block w-[3px] h-3.5 rounded-sm ${titleColor === "purple" ? "bg-[#7C6FE0]" : "bg-[#E3874F]"}`} aria-hidden="true" />
       {title}
-    </div>
+    </h2>
     {children}
-  </div>
+  </section>
 );
 
 const PromptBlock = ({ label, children, text }: { label: string; children: React.ReactNode; text: string }) => {
