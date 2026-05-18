@@ -9,28 +9,28 @@ import {
 
 const faqs = [
   {
+    q: "Wat is een nulmeting?",
+    a: "Een korte analyse van uw sales- en serviceproces. Wij brengen in kaart wat handmatig loopt, waar signalen blijven liggen en welke stappen het meeste opleveren als we ze automatiseren. U krijgt een concrete kaart binnen 5 werkdagen.",
+  },
+  {
     q: "Wat doet B2BGroeiMachine precies?",
-    a: "Wij bouwen een systeem dat nieuwe klanten vindt en gesprekken plant. Van het eerste bericht tot een afspraak in uw agenda. Het draait elke dag, zonder dat u er naar hoeft om te kijken.",
+    a: "Wij vinden handmatig en reactief werk in uw proces en automatiseren het. Van leadgeneratie tot opvolging en service-signalen. Het systeem draait elke dag, zonder dat uw team eraan moet trekken.",
   },
   {
     q: "Voor welke bedrijven is dit geschikt?",
-    a: "Voor B2B-bedrijven in Nederland en België die willen groeien. Van dienstverleners en productiebedrijven tot de financiële sector en profvoetbal.",
+    a: "Voor B2B-bedrijven in Nederland en België met een team dat te veel tijd kwijt is aan handwerk. Maakindustrie, bouw, technische dienstverlening, groothandel en zakelijke dienstverlening passen het beste.",
   },
   {
-    q: "Hoe snel zijn we operationeel?",
-    a: "Binnen 4 weken. Week 1: strategie en data. Week 2: systeem en teksten. Week 3: de eerste campagnes gaan live. Week 4: bijsturen op basis van resultaten.",
+    q: "Hoe snel zien we resultaat?",
+    a: "Eerste 30 dagen: nulmeting en kaart. Dag 30 tot 60: eerste automatiseringen live. Dag 60 tot 90: meetbare verschuiving in pipeline en tijdwinst. Geen wonderclaims, wel een meetbare lijn.",
   },
   {
-    q: "Wat zijn signalen?",
-    a: "Signalen zijn veranderingen bij bedrijven. Denk aan: iemand krijgt een nieuwe functie, een bedrijf groeit, of bezoekt uw website. Wij herkennen dat en nemen op het juiste moment contact op.",
+    q: "Wat kost het?",
+    a: "Vast maandtarief, drie maanden opzegbaar. U betaalt voor uitvoering, niet voor uren of beloftes. Exacte investering hangt af van de scope die uit de nulmeting komt.",
   },
   {
-    q: "Zijn jullie een leadgenerator?",
-    a: "Nee! Wij bouwen systemen die dat voor u doen. Subtiel verschil. 😉",
-  },
-  {
-    q: "Welke kanalen gebruiken jullie?",
-    a: "LinkedIn, e-mail en telefonische opvolging. Alles afgestemd op uw doelgroep. Via meerdere kanalen bereikt u meer mensen.",
+    q: "Zit ik vast aan jullie tools?",
+    a: "Nee. Wij zijn agnostisch en bouwen op uw bestaande stack. Geen eigen platform, geen vendor lock-in. Bij Build & Transfer dragen we alles over inclusief data en draaiboek.",
   },
 ];
 

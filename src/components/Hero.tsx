@@ -8,7 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import teamBanner from "@/assets/team-banner.jpg";
 
-const rotatingWords = ["salesproces.", "pipeline.", "groei.", "resultaat."];
+const rotatingWords = ["handmatig werk.", "reactief reageren.", "gemiste signalen."];
 
 const Hero = () => {
   const [wordIndex, setWordIndex] = useState(0);
@@ -80,9 +80,7 @@ const Hero = () => {
               transition={{ duration: 0.8, delay: 0.1 }}
               className="font-display font-bold text-[3rem] md:text-[5.5rem] lg:text-[6rem] leading-[1.05] tracking-tighter mb-6 md:mb-8"
             >
-              Wij automatiseren
-              <br />
-              en schalen uw
+              Minder
               <br />
               <AnimatePresence mode="wait">
                 <motion.span
@@ -96,6 +94,8 @@ const Hero = () => {
                   {rotatingWords[wordIndex]}
                 </motion.span>
               </AnimatePresence>
+              <br />
+              Meer resultaat.
             </motion.h1>
 
             <motion.p
@@ -104,8 +104,8 @@ const Hero = () => {
               transition={{ duration: 0.6, delay: 0.3 }}
               className="text-muted-foreground text-base md:text-xl max-w-2xl mb-8 md:mb-10 leading-relaxed"
             >
-              U weet precies waar uw volgende klant vandaan komt.
-              Elke week scherper. Elke maand meer resultaat.
+              Wij brengen uw sales- en serviceproces in kaart en
+              automatiseren wat handmatig loopt. Begin met een nulmeting.
             </motion.p>
 
             <motion.div
@@ -121,13 +121,13 @@ const Hero = () => {
                   rel="noopener noreferrer"
                   onClick={() =>
                     trackCTA(
-                      "Hero — Plan een Gesprek",
+                      "Hero — Plan de nulmeting",
                       "https://app.usemotion.com/meet/Rebel-Force/meeting"
                     )
                   }
                 >
                   <span className="absolute inset-0 rounded-md bg-primary/20 animate-pulse group-hover:animate-none" />
-                  Plan een Gesprek →
+                  Plan de nulmeting →
                 </a>
               </Button>
               <Button variant="heroOutline" size="lg" asChild>
