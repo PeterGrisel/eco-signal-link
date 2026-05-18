@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { trackCTA } from "@/lib/tracking";
 import CtaLink from "@/components/CtaLink";
-import { CTA } from "@/content/copy";
 import { Button } from "@/components/ui/button";
 import { Check, Plus, Users, Briefcase, Database, ArrowDown, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
