@@ -312,11 +312,13 @@ serve(async (req) => {
         if (postError) throw postError;
 
         // Update queue item — only mark as published when we actually published.
+        // When link-check failed we mark as 'failed' with an error_message so it surfaces
+        // in the admin queue for manual fix + re-approve.
         await supabase.from("content_queue").update({
-          status: (publishStatus === "published" ? "published" : "needs_review") as any,
+          status: (publishStatus === "published" ? "published" : "failed") as any,
           blog_post_id: post.id,
           ...(brokenLinks.length > 0
-            ? { error_message: `Dode links: ${brokenLinks.map((b) => b.url).join(", ").slice(0, 500)}` }
+            ? { error_message: `Dode externe links: ${brokenLinks.map((b) => b.url).join(", ").slice(0, 500)}` }
             : {}),
         }).eq("id", item.id);
 
