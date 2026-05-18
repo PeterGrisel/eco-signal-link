@@ -203,6 +203,66 @@ const AdminBlogEditor = () => {
         </div>
 
         <div className="space-y-6">
+          {/* External link validation panel */}
+          <div className="rounded-lg border border-border bg-card/50 p-4 flex items-center justify-between gap-4 flex-wrap">
+            <div className="flex items-center gap-2 text-sm">
+              {linkCheck.running ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin text-muted-foreground" />
+                  <span className="text-muted-foreground">Externe links controleren…</span>
+                </>
+              ) : linkCheck.broken === null ? (
+                <>
+                  <ShieldCheck className="w-4 h-4 text-muted-foreground" />
+                  <span className="text-muted-foreground">
+                    Externe links worden automatisch gecheckt bij publiceren.
+                  </span>
+                </>
+              ) : linkCheck.broken.length === 0 ? (
+                <>
+                  <ShieldCheck className="w-4 h-4 text-primary" />
+                  <span>Alle {linkCheck.checked} externe links zijn live.</span>
+                </>
+              ) : (
+                <>
+                  <Link2Off className="w-4 h-4 text-destructive" />
+                  <span className="text-destructive">
+                    {linkCheck.broken.length} dode link{linkCheck.broken.length > 1 ? "s" : ""} van {linkCheck.checked} gevonden
+                  </span>
+                </>
+              )}
+            </div>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={runLinkCheck}
+              disabled={linkCheck.running || !content}
+            >
+              Check links nu
+            </Button>
+          </div>
+
+          {linkCheck.broken && linkCheck.broken.length > 0 && (
+            <div className="rounded-lg border border-destructive/40 bg-destructive/5 p-4 space-y-2">
+              <p className="text-sm font-medium text-destructive">Repareer deze links voor publicatie:</p>
+              <ul className="space-y-1 text-xs font-mono">
+                {linkCheck.broken.map((b) => (
+                  <li key={b.url} className="flex items-start gap-2">
+                    <span className="text-destructive shrink-0">[{b.reason ?? b.status}]</span>
+                    <a href={b.url} target="_blank" rel="noopener noreferrer" className="break-all hover:underline">
+                      {b.url}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+              {bypassLinkCheck && (
+                <p className="text-xs text-muted-foreground pt-2 border-t border-destructive/20">
+                  Klik nogmaals op <strong>Opslaan</strong> om toch te publiceren (link-check wordt dan overgeslagen).
+                </p>
+              )}
+            </div>
+          )}
+
           <div className="grid md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label>Titel</Label>
