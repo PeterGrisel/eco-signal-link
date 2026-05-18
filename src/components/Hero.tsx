@@ -115,28 +115,13 @@ const Hero = () => {
               className="flex flex-wrap gap-4"
             >
               <Button variant="hero" size="lg" className="relative group" asChild>
-                <a
-                  href="https://app.usemotion.com/meet/Rebel-Force/meeting"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() =>
-                    trackCTA(
-                      "Hero — Plan de nulmeting",
-                      "https://app.usemotion.com/meet/Rebel-Force/meeting"
-                    )
-                  }
-                >
+                <CtaLink intent="nulmeting" location="Hero">
                   <span className="absolute inset-0 rounded-md bg-primary/20 animate-pulse group-hover:animate-none" />
-                  Plan de nulmeting →
-                </a>
+                  {CTA.nulmeting.label}
+                </CtaLink>
               </Button>
               <Button variant="heroOutline" size="lg" asChild>
-                <a
-                  href="#hoe-het-werkt"
-                  onClick={() => trackCTA("Hero — Hoe het werkt", "#hoe-het-werkt")}
-                >
-                  Hoe het werkt
-                </a>
+                <CtaLink intent="hoeHetWerkt" location="Hero" />
               </Button>
             </motion.div>
           </div>
