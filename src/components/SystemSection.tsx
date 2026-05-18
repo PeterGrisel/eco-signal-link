@@ -26,7 +26,7 @@ const layers = [
     icon: Target,
     number: "04",
     title: "Kwalificatie",
-    description: "Wij beoordelen elk signaal en elke reactie. Alleen serieuze gesprekken komen in uw agenda.",
+    description: "Wij beoordelen elk signaal en elke reactie. Samen bepalen we welke terecht moet komen.",
   },
 ];
 
