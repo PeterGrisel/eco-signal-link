@@ -263,6 +263,40 @@ serve(async (req) => {
         }
 
         // Auto-publish: save as published immediately
+        // First validate external links — broken links → save as draft instead of published.
+        let publishStatus: "published" | "draft" = "published";
+        let brokenLinks: Array<{ url: string; status: number; reason?: string }> = [];
+        try {
+          const validateRes = await fetch(`${supabaseUrl}/functions/v1/validate-external-links`, {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${serviceKey}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ content: articleData.content }),
+          });
+          if (validateRes.ok) {
+            const v = await validateRes.json();
+            brokenLinks = v.broken || [];
+            if (brokenLinks.length > 0) {
+              publishStatus = "draft";
+              log.push(
+                `⚠ ${brokenLinks.length} dode externe link(s) gevonden — opgeslagen als draft:`
+              );
+              for (const b of brokenLinks.slice(0, 5)) {
+                log.push(`   • [${b.reason ?? b.status}] ${b.url}`);
+              }
+            } else {
+              log.push(`✓ Externe links gecheckt (${v.checked} ok)`);
+            }
+          } else {
+            await validateRes.text();
+            log.push("⚠ Link-validatie mislukt, doorgaan met publiceren");
+          }
+        } catch {
+          log.push("⚠ Link-validatie crashte, doorgaan met publiceren");
+        }
+
         const { data: post, error: postError } = await supabase.from("blog_posts").insert({
           title: articleData.title,
           slug: articleData.slug,
@@ -271,19 +305,33 @@ serve(async (req) => {
           meta_description: articleData.meta_description,
           featured_image: featuredImage,
           topic_id: item.topic_id || null,
-          status: "published",
-          published_at: new Date().toISOString(),
+          status: publishStatus,
+          published_at: publishStatus === "published" ? new Date().toISOString() : null,
         }).select("id, slug").single();
 
         if (postError) throw postError;
 
-        // Update queue item to published
+        // Update queue item — only mark as published when we actually published.
         await supabase.from("content_queue").update({
-          status: "published" as any,
+          status: (publishStatus === "published" ? "published" : "needs_review") as any,
           blog_post_id: post.id,
+          ...(brokenLinks.length > 0
+            ? { error_message: `Dode links: ${brokenLinks.map((b) => b.url).join(", ").slice(0, 500)}` }
+            : {}),
         }).eq("id", item.id);
 
-        log.push(`✓ "${articleData.title}" automatisch gepubliceerd`);
+        if (publishStatus === "published") {
+          log.push(`✓ "${articleData.title}" automatisch gepubliceerd`);
+        } else {
+          log.push(`⏸ "${articleData.title}" opgeslagen als draft (link-check vereist)`);
+        }
+
+        // Skip indexing + prerender when we didn't actually publish.
+        if (publishStatus !== "published") {
+          return new Response(JSON.stringify({ log, articles_generated: 1, broken_links: brokenLinks }), {
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+          });
+        }
 
         // Auto-request indexing
         try {
