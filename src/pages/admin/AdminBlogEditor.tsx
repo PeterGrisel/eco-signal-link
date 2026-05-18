@@ -8,7 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { ArrowLeft, Save, Eye } from "lucide-react";
+import { ArrowLeft, Save, Eye, Link2Off, ShieldCheck, Loader2 } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const AdminBlogEditor = () => {
@@ -28,6 +28,12 @@ const AdminBlogEditor = () => {
   const [categories, setCategories] = useState<any[]>([]);
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [linkCheck, setLinkCheck] = useState<{
+    running: boolean;
+    broken: Array<{ url: string; status: number; reason?: string }> | null;
+    checked: number;
+  }>({ running: false, broken: null, checked: 0 });
+  const [bypassLinkCheck, setBypassLinkCheck] = useState(false);
 
   useEffect(() => {
     supabase.from("blog_categories").select("*").order("name").then(({ data }) => {
@@ -73,6 +79,32 @@ const AdminBlogEditor = () => {
     }
     setUploading(false);
   };
+
+  /**
+   * Calls the validate-external-links edge function.
+   * Returns the broken list (empty array = all good).
+   */
+  const runLinkCheck = async (): Promise<Array<{ url: string; status: number; reason?: string }>> => {
+    setLinkCheck({ running: true, broken: null, checked: 0 });
+    try {
+      const { data, error } = await supabase.functions.invoke("validate-external-links", {
+        body: { content },
+      });
+      if (error) throw error;
+      const broken = (data?.broken ?? []) as Array<{ url: string; status: number; reason?: string }>;
+      setLinkCheck({ running: false, broken, checked: data?.checked ?? 0 });
+      return broken;
+    } catch (e: any) {
+      setLinkCheck({ running: false, broken: [], checked: 0 });
+      toast({
+        title: "Link-check mislukt",
+        description: e?.message ?? "Onbekende fout",
+        variant: "destructive",
+      });
+      return [];
+    }
+  };
+
   const autoSubmitIndexing = async (postSlug: string) => {
     try {
       const blogUrl = `https://b2bgroeimachine.io/blog/${postSlug}`;
@@ -90,6 +122,22 @@ const AdminBlogEditor = () => {
       toast({ title: "Vul titel en slug in", variant: "destructive" });
       return;
     }
+
+    // Gate publishing on external link validation.
+    // Drafts kunnen altijd worden opgeslagen; gepubliceerd alleen als links live zijn.
+    if (status === "published" && !bypassLinkCheck) {
+      const broken = await runLinkCheck();
+      if (broken.length > 0) {
+        toast({
+          title: `${broken.length} dode link${broken.length > 1 ? "s" : ""} gevonden`,
+          description: "Repareer ze of klik nogmaals op Opslaan om toch te publiceren.",
+          variant: "destructive",
+        });
+        setBypassLinkCheck(true); // next click bypasses the check
+        return;
+      }
+    }
+
     setSaving(true);
 
     const postData = {
@@ -125,6 +173,7 @@ const AdminBlogEditor = () => {
       }
     }
     setSaving(false);
+    setBypassLinkCheck(false);
   };
 
   return (
@@ -154,6 +203,66 @@ const AdminBlogEditor = () => {
         </div>
 
         <div className="space-y-6">
+          {/* External link validation panel */}
+          <div className="rounded-lg border border-border bg-card/50 p-4 flex items-center justify-between gap-4 flex-wrap">
+            <div className="flex items-center gap-2 text-sm">
+              {linkCheck.running ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin text-muted-foreground" />
+                  <span className="text-muted-foreground">Externe links controleren…</span>
+                </>
+              ) : linkCheck.broken === null ? (
+                <>
+                  <ShieldCheck className="w-4 h-4 text-muted-foreground" />
+                  <span className="text-muted-foreground">
+                    Externe links worden automatisch gecheckt bij publiceren.
+                  </span>
+                </>
+              ) : linkCheck.broken.length === 0 ? (
+                <>
+                  <ShieldCheck className="w-4 h-4 text-primary" />
+                  <span>Alle {linkCheck.checked} externe links zijn live.</span>
+                </>
+              ) : (
+                <>
+                  <Link2Off className="w-4 h-4 text-destructive" />
+                  <span className="text-destructive">
+                    {linkCheck.broken.length} dode link{linkCheck.broken.length > 1 ? "s" : ""} van {linkCheck.checked} gevonden
+                  </span>
+                </>
+              )}
+            </div>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={runLinkCheck}
+              disabled={linkCheck.running || !content}
+            >
+              Check links nu
+            </Button>
+          </div>
+
+          {linkCheck.broken && linkCheck.broken.length > 0 && (
+            <div className="rounded-lg border border-destructive/40 bg-destructive/5 p-4 space-y-2">
+              <p className="text-sm font-medium text-destructive">Repareer deze links voor publicatie:</p>
+              <ul className="space-y-1 text-xs font-mono">
+                {linkCheck.broken.map((b) => (
+                  <li key={b.url} className="flex items-start gap-2">
+                    <span className="text-destructive shrink-0">[{b.reason ?? b.status}]</span>
+                    <a href={b.url} target="_blank" rel="noopener noreferrer" className="break-all hover:underline">
+                      {b.url}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+              {bypassLinkCheck && (
+                <p className="text-xs text-muted-foreground pt-2 border-t border-destructive/20">
+                  Klik nogmaals op <strong>Opslaan</strong> om toch te publiceren (link-check wordt dan overgeslagen).
+                </p>
+              )}
+            </div>
+          )}
+
           <div className="grid md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label>Titel</Label>
