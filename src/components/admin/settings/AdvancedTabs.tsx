@@ -173,7 +173,7 @@ export const IntegrationsTab = ({ config, onChange }: Props) => (
           placeholder="502568051"
         />
       </Field>
-      <Field label="GA4 Measurement ID" hint="Start met G- (bijv. G-XXXXXXXXXX). Plak de bijbehorende gtag-snippet in /admin/scripts voor client-side events met consent.">
+      <Field label="GA4 Measurement ID" hint="Start met G- (bijv. G-XXXXXXXXXX). Bij opslaan wordt de gtag.js snippet automatisch geseed in /admin/scripts en geactiveerd (categorie: analytics, laadt pas na cookie-consent).">
         <Input
           value={config.ga4_measurement_id}
           onChange={e => onChange({ ga4_measurement_id: e.target.value })}
