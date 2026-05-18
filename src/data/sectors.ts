@@ -1,4 +1,4 @@
-import { Trophy, Package, Car, Wrench, Building2, Landmark, Factory, GraduationCap, Monitor, type LucideIcon } from "lucide-react";
+import { Trophy, Package, Car, Wrench, Building2, Landmark, Factory, GraduationCap, Monitor, HardHat, Cog, type LucideIcon } from "lucide-react";
 
 export interface FunnelDefaults {
   monthlyRevenue: number;
@@ -269,6 +269,60 @@ export const sectors: Sector[] = [
       "Bezoek aan tech-evenementen of beurzen (SaaS, cloud)",
     ],
     funnelDefaults: { monthlyRevenue: 150000, expenseRate: 30, marketingRate: 8, avgDealSize: 12000, optInRate: 3, optInToSqlRate: 20, sqlToCallRate: 55, salesConversionRate: 28, ltv: 24 },
+  },
+  {
+    slug: "bouw-en-renovatie",
+    icon: HardHat,
+    title: "Bouw & Renovatie",
+    tagline: "Procesautomatisering voor bouw en renovatie.",
+    description: "Bouw- en renovatiebedrijven die offertes, planning en opvolging willen stroomlijnen. Wij automatiseren wat handmatig loopt, van eerste vraag tot oplevering.",
+    metaTitle: "Procesautomatisering Bouw & Renovatie — B2BGroeiMachine",
+    metaDescription: "Bouw- en renovatiebedrijven: automatiseer offertes, planning en opvolging. Wij brengen uw proces in kaart en zetten signalen om in nieuwe opdrachten.",
+    challenges: [
+      "Offertes en opvolging slokken uren projectleiding op",
+      "Vergunningen, aanbestedingen en signalen blijven liggen",
+      "Reactief werken aan binnenkomende vragen in plaats van vooruit plannen",
+    ],
+    solutions: [
+      "Geautomatiseerde signaaldetectie op vergunningen en projectstarts",
+      "Offerte- en opvolgflows gekoppeld aan uw CRM",
+      "Strakke pipeline van eerste vraag tot opgeleverde opdracht",
+    ],
+    signals: [
+      "Nieuwe omgevingsvergunning afgegeven in uw regio",
+      "Aanbesteding gepubliceerd binnen uw discipline",
+      "Opdrachtgever opent of verbouwt vestiging",
+      "Projectontwikkelaar koopt grond of pand",
+      "Vacatures voor projectleiders of uitvoerders",
+    ],
+    funnelDefaults: { monthlyRevenue: 220000, expenseRate: 30, marketingRate: 3, avgDealSize: 35000, optInRate: 2, optInToSqlRate: 18, sqlToCallRate: 55, salesConversionRate: 28, ltv: 12 },
+  },
+  {
+    slug: "technische-dienstverlening",
+    icon: Cog,
+    title: "Technische Dienstverlening",
+    tagline: "Verkoopproces optimaliseren voor technische dienstverleners.",
+    description: "Installateurs, service- en onderhoudsbedrijven die hun verkoopproces willen optimaliseren. Wij vangen reparatie- en servicesignalen op en zetten ze om in nieuwe opdrachten.",
+    metaTitle: "Verkoopproces Optimaliseren Technische Dienstverlening — B2BGroeiMachine",
+    metaDescription: "Installateurs, service- en onderhoudsbedrijven: optimaliseer uw verkoopproces. Wij vangen service- en reparatiesignalen op en zetten ze om in opdrachten.",
+    challenges: [
+      "Servicedata blijft in tickets hangen en wordt niet commercieel gebruikt",
+      "Onderhoudscontracten lopen af zonder tijdige opvolging",
+      "Te veel handwerk in offertes, planning en facturatie",
+    ],
+    solutions: [
+      "Reparatiedata omzetten naar verkoopkansen voor vervanging of upgrade",
+      "Automatische opvolging op contracteindes en inspectiemomenten",
+      "Koppeling tussen servicesysteem, CRM en outreach-flows",
+    ],
+    signals: [
+      "Onderhoudscontract nadert einddatum",
+      "Storingsmelding op verouderde installatie",
+      "Bedrijf breidt vestiging of productie uit",
+      "Nieuwe facility manager of technisch directeur",
+      "Verplichte keuring of certificering staat gepland",
+    ],
+    funnelDefaults: { monthlyRevenue: 180000, expenseRate: 32, marketingRate: 4, avgDealSize: 9000, optInRate: 2.5, optInToSqlRate: 20, sqlToCallRate: 55, salesConversionRate: 30, ltv: 24 },
   },
 ];
 
