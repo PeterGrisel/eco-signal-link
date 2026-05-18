@@ -209,9 +209,9 @@ const PricingSection = () => {
                     href="https://app.usemotion.com/meet/Rebel-Force/meeting"
                     target="_blank"
                     rel="noopener noreferrer"
-                    onClick={() => trackCTA("Homepage Pricing — Plan een Demo (desktop)", "https://app.usemotion.com/meet/Rebel-Force/meeting")}
+                    onClick={() => trackCTA("Homepage Pricing — Plan de nulmeting (desktop)", "https://app.usemotion.com/meet/Rebel-Force/meeting")}
                   >
-                    Plan een Demo →
+                    Plan de nulmeting →
                   </a>
                 </Button>
               </div>
@@ -221,9 +221,9 @@ const PricingSection = () => {
                 href="https://app.usemotion.com/meet/Rebel-Force/meeting"
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={() => trackCTA("Homepage Pricing — Plan een Demo (mobile)", "https://app.usemotion.com/meet/Rebel-Force/meeting")}
+                onClick={() => trackCTA("Homepage Pricing — Plan de nulmeting (mobile)", "https://app.usemotion.com/meet/Rebel-Force/meeting")}
               >
-                Plan een Demo →
+                Plan de nulmeting →
               </a>
             </Button>
           </div>

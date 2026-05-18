@@ -16,15 +16,13 @@ const CtaSection = () => {
           className="text-center max-w-3xl mx-auto"
         >
           <h2 className="font-display font-bold text-3xl md:text-5xl lg:text-6xl tracking-tight leading-tight mb-6">
-            Klaar om meer
+            Klaar voor uw
             <br />
-            klanten te
-            <br />
-            <span className="text-gradient">krijgen?</span>
+            <span className="text-gradient">nulmeting?</span>
           </h2>
           <p className="text-muted-foreground text-lg mb-10 max-w-xl mx-auto leading-relaxed">
-            Plan een vrijblijvend gesprek. We laten u zien hoe het systeem
-            werkt voor uw situatie.
+            30 minuten. Wij brengen uw proces in kaart en laten zien
+            waar de winst zit. Geen verkoopgesprek.
           </p>
           <div className="flex flex-col items-center gap-5">
             <div className="flex items-center gap-3">
@@ -33,13 +31,13 @@ const CtaSection = () => {
             </div>
             <Button variant="hero" size="lg" asChild>
               <a href="https://app.usemotion.com/meet/Rebel-Force/meeting" target="_blank" rel="noopener noreferrer"
-                onClick={() => trackCTA("CTA Section — Plan een Demo", "https://app.usemotion.com/meet/Rebel-Force/meeting")}>
-                Plan een gratis Demo →
+                onClick={() => trackCTA("CTA Section — Plan de nulmeting", "https://app.usemotion.com/meet/Rebel-Force/meeting")}>
+                Plan de nulmeting →
               </a>
             </Button>
           </div>
           <p className="text-muted-foreground text-sm mt-6">
-            €0 opstartkosten · Operationeel in 4 weken · Vanaf €1.500/maand
+            €0 · 30 minuten · Vrijblijvend
           </p>
         </motion.div>
       </div>

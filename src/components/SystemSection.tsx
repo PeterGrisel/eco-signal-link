@@ -7,8 +7,8 @@ const layers = [
   {
     icon: Settings,
     number: "01",
-    title: "Infrastructuur",
-    description: "Wij zetten alles klaar: e-mail, LinkedIn en CRM. Uw hoofddomein blijft veilig.",
+    title: "Nulmeting & infrastructuur",
+    description: "Wij brengen uw sales- en serviceproces in kaart. Daarna zetten we e-mail, LinkedIn en CRM veilig klaar.",
   },
   {
     icon: Brain,
@@ -63,10 +63,15 @@ const SystemSection = () => {
             Zo werkt het
           </p>
           <h2 className="font-display font-bold text-3xl md:text-5xl lg:text-6xl tracking-tight leading-tight">
-            Gebouwd voor
+            Eerst in kaart.
             <br />
-            <span className="text-gradient">resultaat.</span>
+            <span className="text-gradient">Dan automatiseren.</span>
           </h2>
+          <p className="text-muted-foreground text-lg leading-relaxed mt-6 max-w-2xl">
+            Wij beginnen met een nulmeting van uw sales- en serviceproces.
+            Daarna automatiseren we wat handmatig loopt en zetten we
+            signalen om in afspraken.
+          </p>
         </motion.div>
 
         <div className="grid md:grid-cols-2 gap-4 md:gap-6 mb-16 md:mb-24">
