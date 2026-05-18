@@ -1,0 +1,30 @@
+# B2BGroeiMachine
+
+> Wij bouwen schaalbare B2B sales engines: van prospecting tot geboekte afspraken. Twee groeistromen (nieuwe klanten en talent) in één data-gedreven systeem met signaalgebaseerde targeting, omnichannel outreach en intent-scoring.
+
+Platform-agnostisch en integreert met bestaande CRM's en tools (HubSpot, Salesforce, Clay, Zapier). Focus op MKB en midmarket bedrijven in Nederland en België.
+
+## Pages
+
+- [Home](/): Schaalbare sales automation & prospecting voor ambitieuze B2B-bedrijven.
+- [Over Ons](/over-ons): Wie we zijn en waarom we systemen bouwen, geen leads leveren.
+- [Ons Team](/ons-team): Het team achter B2BGroeiMachine.
+- [Pricing](/pricing): Pakketten, uurtarieven en add-ons.
+- [Datahub](/datahub): AI-gedreven sales tooling en datacontext.
+- [Pipeline Equation](/pipeline-equation): Hoe wij voorspelbare pipeline berekenen.
+- [Full Sales Management](/full-sales-management): Volledig uitbesteed salesteam.
+- [Full Service Recruitment](/full-service-recruitment): Commerciële en digitale rollen invullen.
+- [Signaal](/signaal): Mission control voor signaalgebaseerde prospecting.
+- [Blog](/blog): Frameworks en cases over B2B groei.
+- [Cheatsheets](/cheatsheets): Praktische gidsen voor sales en prospecting.
+- [Trainingen](/trainingen): Trainingen voor sales- en recruitmentteams.
+- [Partners](/partners): Signal Certified partner-netwerk.
+- [Contact](/contact): Plan een gesprek.
+
+## Optional
+
+- [Brandstory](/brandstory): Achtergrond en visie.
+- [Brandbook](/brandbook): Visuele identiteit.
+- [Privacy](/privacy)
+- [Voorwaarden](/terms)
+- [Cookies](/cookies)
