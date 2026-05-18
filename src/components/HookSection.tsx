@@ -1,21 +1,21 @@
 import { motion } from "framer-motion";
-import { Zap, Shield, Target } from "lucide-react";
+import { Hand, AlarmClock, EyeOff } from "lucide-react";
 
 const hooks = [
   {
-    icon: Target,
-    title: "Altijd weten waar uw klant zit",
-    description: "U weet precies waar uw volgende klant vandaan komt. Elke week scherper, elke maand meer resultaat.",
+    icon: Hand,
+    title: "Handmatig werk dat blijft hangen",
+    description: "Offertes, opvolging en data-invoer slokken uren op. Wij brengen het in kaart en automatiseren wat herhaalt.",
   },
   {
-    icon: Zap,
-    title: "Meer tijd voor wat telt",
-    description: "Wij automatiseren de repetitieve taken zodat uw team zich volledig kan richten op klantcontact en groei.",
+    icon: AlarmClock,
+    title: "Reactief in plaats van vooruit",
+    description: "Uw team reageert op binnenkomende vragen, maar mist de signalen die er écht toe doen. Dat keren we om.",
   },
   {
-    icon: Shield,
-    title: "Eén systeem, meerdere groeistromen",
-    description: "Nieuwe klanten, talent én partners. Alles vanuit één geautomatiseerd systeem dat voor u draait.",
+    icon: EyeOff,
+    title: "Signalen die u nu niet ziet",
+    description: "Klanten geven hints af: een reparatie, een wisseling, een groei. Wij vangen ze op en zetten ze om in omzet.",
   },
 ];
 
