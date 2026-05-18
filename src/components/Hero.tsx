@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { trackCTA, trackFormSubmit } from "@/lib/tracking";
+import CtaLink from "@/components/CtaLink";
+import { CTA } from "@/content/copy";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import teamBanner from "@/assets/team-banner.jpg";
@@ -115,28 +117,13 @@ const Hero = () => {
               className="flex flex-wrap gap-4"
             >
               <Button variant="hero" size="lg" className="relative group" asChild>
-                <a
-                  href="https://app.usemotion.com/meet/Rebel-Force/meeting"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() =>
-                    trackCTA(
-                      "Hero — Plan de nulmeting",
-                      "https://app.usemotion.com/meet/Rebel-Force/meeting"
-                    )
-                  }
-                >
+                <CtaLink intent="nulmeting" location="Hero">
                   <span className="absolute inset-0 rounded-md bg-primary/20 animate-pulse group-hover:animate-none" />
-                  Plan de nulmeting →
-                </a>
+                  {CTA.nulmeting.label}
+                </CtaLink>
               </Button>
               <Button variant="heroOutline" size="lg" asChild>
-                <a
-                  href="#hoe-het-werkt"
-                  onClick={() => trackCTA("Hero — Hoe het werkt", "#hoe-het-werkt")}
-                >
-                  Hoe het werkt
-                </a>
+                <CtaLink intent="hoeHetWerkt" location="Hero" />
               </Button>
             </motion.div>
           </div>

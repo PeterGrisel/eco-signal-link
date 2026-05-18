@@ -2,6 +2,7 @@ import { forwardRef, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Calendar } from "lucide-react";
 import { trackCTA } from "@/lib/tracking";
+import { CTA } from "@/content/copy";
 
 /**
  * Mobile-only sticky bottom CTA bar.
@@ -52,19 +53,16 @@ const StickyHeroCta = forwardRef<HTMLDivElement>((_, ref) => {
         >
           <div className="pointer-events-auto mx-auto max-w-md flex items-stretch gap-2 rounded-xl border border-primary/30 bg-background/90 backdrop-blur-xl shadow-2xl p-2">
             <a
-              href="https://app.usemotion.com/meet/Rebel-Force/meeting"
+              href={CTA.nulmeting.href}
               target="_blank"
               rel="noopener noreferrer"
               onClick={() =>
-                trackCTA(
-                  "Sticky Hero CTA — Plan de nulmeting",
-                  "https://app.usemotion.com/meet/Rebel-Force/meeting"
-                )
+                trackCTA("Sticky Hero CTA — Plan de nulmeting", CTA.nulmeting.href)
               }
               className="flex-1 flex items-center justify-center gap-2 bg-primary text-primary-foreground rounded-lg px-4 py-3 font-semibold text-sm hover:opacity-90 transition-opacity"
             >
               <Calendar className="w-4 h-4" />
-              Plan de nulmeting
+              {CTA.nulmeting.labelShort}
             </a>
             <button
               onClick={handleDismiss}

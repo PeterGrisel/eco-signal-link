@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { trackCTA } from "@/lib/tracking";
+import CtaLink from "@/components/CtaLink";
 import { Button } from "@/components/ui/button";
 import { Check, Plus, Users, Briefcase, Database, ArrowDown, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -205,26 +205,12 @@ const PricingSection = () => {
               </div>
               <div className="hidden md:flex flex-col items-center justify-center">
                 <Button variant="hero" size="lg" asChild>
-                  <a
-                    href="https://app.usemotion.com/meet/Rebel-Force/meeting"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={() => trackCTA("Homepage Pricing — Plan de nulmeting (desktop)", "https://app.usemotion.com/meet/Rebel-Force/meeting")}
-                  >
-                    Plan de nulmeting →
-                  </a>
+                  <CtaLink intent="nulmeting" location="Homepage Pricing (desktop)" />
                 </Button>
               </div>
             </div>
             <Button variant="hero" size="lg" className="w-full mt-6 md:hidden" asChild>
-              <a
-                href="https://app.usemotion.com/meet/Rebel-Force/meeting"
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => trackCTA("Homepage Pricing — Plan de nulmeting (mobile)", "https://app.usemotion.com/meet/Rebel-Force/meeting")}
-              >
-                Plan de nulmeting →
-              </a>
+              <CtaLink intent="nulmeting" location="Homepage Pricing (mobile)" />
             </Button>
           </div>
         </motion.div>
@@ -368,15 +354,11 @@ const PricingSection = () => {
         >
           <p className="text-muted-foreground text-sm">
             Wilt u weten wat dit voor uw situatie betekent?{" "}
-            <a
-              href="https://app.usemotion.com/meet/Rebel-Force/meeting"
-              target="_blank"
-              rel="noopener noreferrer"
+            <CtaLink
+              intent="bespreekSituatie"
+              location="Homepage Pricing"
               className="text-primary hover:underline font-medium"
-              onClick={() => trackCTA("Homepage Pricing — Bespreek uw situatie", "https://app.usemotion.com/meet/Rebel-Force/meeting")}
-            >
-              Bespreek uw situatie →
-            </a>
+            />
           </p>
         </motion.div>
       </div>

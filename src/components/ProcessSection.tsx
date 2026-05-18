@@ -2,7 +2,8 @@ import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { trackCTA } from "@/lib/tracking";
+import CtaLink from "@/components/CtaLink";
+import { COPY } from "@/content/copy";
 
 const steps = [
   {
@@ -61,7 +62,7 @@ const ProcessSection = () => {
           className="mb-16 text-center max-w-2xl mx-auto"
         >
           <p className="text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4">
-            Van nulmeting tot resultaat
+            {COPY.process.eyebrow}
           </p>
           <h2 className="font-display font-bold text-3xl md:text-5xl lg:text-6xl tracking-tight leading-tight">
             In 4 weken
@@ -111,25 +112,13 @@ const ProcessSection = () => {
           className="text-center max-w-2xl mx-auto mb-16"
         >
           <h3 className="font-display font-bold text-xl md:text-2xl mb-3">
-            Samen bepalen we welke signalen en reacties terechtkomen
+            {COPY.proposition.signalHeading}
           </h3>
           <p className="text-muted-foreground mb-6 leading-relaxed">
-            Geen algemene demo. We kijken welke signalen bij uw ICP passen en hoe we die samen kwalificeren.
+            {COPY.proposition.signalSubtext}
           </p>
           <Button variant="hero" size="lg" asChild>
-            <a
-              href="https://app.usemotion.com/meet/Rebel-Force/meeting"
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() =>
-                trackCTA(
-                  "Proces — Samen bepalen",
-                  "https://app.usemotion.com/meet/Rebel-Force/meeting"
-                )
-              }
-            >
-              Plan de nulmeting →
-            </a>
+            <CtaLink intent="nulmeting" location="Proces — Samen bepalen" />
           </Button>
         </motion.div>
 

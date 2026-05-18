@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { trackCTA, trackNavClick } from "@/lib/tracking";
+import { trackNavClick } from "@/lib/tracking";
+import CtaLink from "@/components/CtaLink";
 import { solutions } from "@/data/solutions";
 
 const navLinks = [
@@ -140,10 +141,7 @@ const Navbar = () => {
 
         <div className="flex items-center gap-2">
           <Button variant="hero" size="sm" asChild className="hidden sm:inline-flex">
-            <a href="https://app.usemotion.com/meet/Rebel-Force/meeting" target="_blank" rel="noopener noreferrer"
-              onClick={() => trackCTA("Navbar — Plan de nulmeting", "https://app.usemotion.com/meet/Rebel-Force/meeting")}>
-              Plan de nulmeting →
-            </a>
+            <CtaLink intent="nulmeting" location="Navbar" />
           </Button>
 
           {/* Mobile/tablet toggle */}
@@ -243,9 +241,7 @@ const Navbar = () => {
 
               <div className="pt-3 border-t border-border mt-2">
                 <Button variant="hero" size="sm" asChild className="w-full">
-                  <a href="https://app.usemotion.com/meet/Rebel-Force/meeting" target="_blank" rel="noopener noreferrer">
-                    Plan de nulmeting →
-                  </a>
+                  <CtaLink intent="nulmeting" location="Navbar (mobile)" />
                 </Button>
               </div>
             </div>
