@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { trackCTA, trackFormSubmit } from "@/lib/tracking";
+import CtaLink from "@/components/CtaLink";
+import { CTA } from "@/content/copy";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import teamBanner from "@/assets/team-banner.jpg";
