@@ -36,9 +36,9 @@ const HookSection = () => {
               <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
                 <hook.icon className="w-6 h-6 text-primary" />
               </div>
-              <h3 className="font-display font-semibold text-foreground text-lg mb-2">
+              <h2 className="font-display font-semibold text-foreground text-lg mb-2">
                 {hook.title}
-              </h3>
+              </h2>
               <p className="text-muted-foreground text-sm leading-relaxed">
                 {hook.description}
               </p>
