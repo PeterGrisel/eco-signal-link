@@ -1,16 +1,26 @@
 import { motion } from "framer-motion";
-import { ArrowRight, RefreshCw, Send } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const steps = [
   {
-    phase: "Week 1 tot 2",
-    title: "Analyse en opzet",
+    phase: "Week 0",
+    title: "Nulmeting",
     items: [
+      "Sales- en serviceproces in kaart",
+      "Quick wins identificeren",
       "Uw ideale klant bepalen",
       "De juiste tools kiezen",
+    ],
+  },
+  {
+    phase: "Week 1 tot 2",
+    title: "Opzet",
+    items: [
       "E-mail en LinkedIn klaarzetten",
       "CRM koppelen en dashboards inrichten",
+      "Signalen en doelgroepen activeren",
+      "Eerste berichten voorbereiden",
     ],
   },
   {
@@ -35,25 +45,6 @@ const steps = [
   },
 ];
 
-const deliveryModels = [
-  {
-    icon: Send,
-    title: "Done-for-you",
-    subtitle: "Wij doen het voor u",
-    description:
-      "U focust op gesprekken voeren. Wij runnen het systeem, elke dag. Alsof u een heel team heeft, zonder de kosten.",
-    tags: ["Dagelijks beheer", "Elke maand beter", "Wij kwalificeren voor u"],
-  },
-  {
-    icon: RefreshCw,
-    title: "Build & Transfer",
-    subtitle: "Wij bouwen, u neemt over",
-    description:
-      "Wij zetten alles op, trainen uw team en dragen het over. U houdt alle tools en data zelf in handen.",
-    tags: ["Volledige overdracht", "Training voor uw team", "Handleiding en draaiboek"],
-  },
-];
-
 const ProcessSection = () => {
   return (
     <section id="systeem" className="py-16 md:py-32 relative">
@@ -68,16 +59,16 @@ const ProcessSection = () => {
           className="mb-16 text-center max-w-2xl mx-auto"
         >
           <p className="text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4">
-            Van Setup tot Resultaat
+            Van nulmeting tot resultaat
           </p>
           <h2 className="font-display font-bold text-3xl md:text-5xl lg:text-6xl tracking-tight leading-tight">
             In 4 weken
             <br />
-            <span className="text-gradient">operationeel.</span>
+            <span className="text-gradient">live.</span>
           </h2>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-4 md:gap-6 mb-16 md:mb-24">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-16 md:mb-24">
           {steps.map((step, i) => (
             <motion.div
               key={step.phase}
@@ -101,61 +92,10 @@ const ProcessSection = () => {
               </ul>
 
               {i < steps.length - 1 && (
-                <div className="hidden md:flex absolute -right-3 top-1/2 -translate-y-1/2 z-10">
+                <div className="hidden lg:flex absolute -right-3 top-1/2 -translate-y-1/2 z-10">
                   <ArrowRight className="w-6 h-6 text-primary/40" />
                 </div>
               )}
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Delivery Models */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6 }}
-          className="mb-12 text-center max-w-2xl mx-auto"
-        >
-          <p className="text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4">
-            Uw keuze
-          </p>
-          <h2 className="font-display font-bold text-3xl md:text-4xl lg:text-5xl tracking-tight leading-tight">
-            Wij beheren, of
-            <br />
-            <span className="text-gradient">u doet het zelf.</span>
-          </h2>
-          <p className="text-muted-foreground mt-4 text-lg leading-relaxed">
-            Geen verplichtingen. Geen eigen platform. Het systeem draait op uw tools. Wij passen in wat werkt.
-          </p>
-        </motion.div>
-
-        <div className="grid md:grid-cols-2 gap-4 md:gap-6">
-          {deliveryModels.map((model, i) => (
-            <motion.div
-              key={model.title}
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="card-gradient border border-glow rounded-lg p-6 md:p-10 hover:border-primary/30 transition-colors group"
-            >
-              <model.icon className="w-8 h-8 text-primary mb-5 group-hover:scale-110 transition-transform" />
-              <div className="mb-4">
-                <h3 className="font-display font-bold text-2xl">{model.title}</h3>
-                <p className="text-primary font-display text-sm font-semibold mt-1">{model.subtitle}</p>
-              </div>
-              <p className="text-muted-foreground leading-relaxed mb-6">{model.description}</p>
-              <div className="flex flex-wrap gap-2">
-                {model.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="text-xs px-3 py-1.5 rounded-full bg-secondary text-secondary-foreground font-medium"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
             </motion.div>
           ))}
         </div>
@@ -166,7 +106,7 @@ const ProcessSection = () => {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="mt-12 flex flex-wrap gap-3 justify-center"
+          className="flex flex-wrap gap-3 justify-center"
         >
           <Link to="/solutions/voorspelbare-pipeline" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors font-medium">
             Voorspelbare pipeline <ArrowRight className="w-3.5 h-3.5" />

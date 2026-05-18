@@ -57,14 +57,14 @@ const StickyHeroCta = forwardRef<HTMLDivElement>((_, ref) => {
               rel="noopener noreferrer"
               onClick={() =>
                 trackCTA(
-                  "Sticky Hero CTA — Plan een Gesprek",
+                  "Sticky Hero CTA — Plan de nulmeting",
                   "https://app.usemotion.com/meet/Rebel-Force/meeting"
                 )
               }
               className="flex-1 flex items-center justify-center gap-2 bg-primary text-primary-foreground rounded-lg px-4 py-3 font-semibold text-sm hover:opacity-90 transition-opacity"
             >
               <Calendar className="w-4 h-4" />
-              Plan een gratis gesprek
+              Plan de nulmeting
             </a>
             <button
               onClick={handleDismiss}

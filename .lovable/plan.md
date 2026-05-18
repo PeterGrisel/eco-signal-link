@@ -1,91 +1,42 @@
-# Plan: Home, landingspagina's en content engine verbeteren
+## Waarom dit nodig is
 
-## Analyse van uw v2-document
+Phase 1 heeft alleen Hero, HookSection en FAQ aangepast. De rest van de homepage praat nog over "Plan een Demo", "Gebouwd voor resultaat" en een lineair 4-staps proces. Daardoor breekt het verhaal halverwege: bezoeker leest "begin met een nulmeting", maar krijgt verderop een ander frame en een andere CTA. Hieronder de aanpassingen om het narratief consistent te maken.
 
-De v2-copy zet een sterkere propositie neer dan de huidige homepage:
+## Secties die mee moeten
 
-- **Huidige hero**: roterend woord "uw [salesproces / pipeline / groei / resultaat]" — abstract, geen concrete pijn.
-- **v2 hero**: *"Minder handmatig werk. Minder reactief reageren. Meer resultaat."* + nulmeting-CTA — concreet, B1, koppelt aan een eerste stap.
-- **Belofte**: v1 = "leadgeneratiebureau". v2 = "wij vinden handmatig en reactief werk en automatiseren het". Past beter bij uw werkelijke service-mix (sales + service + operatie) en bij de cases (Leister, Zondervantechniek).
-- **Bewijs**: v2 brengt twee cross-sector cases. v1 leunt op generieke claims.
-- **SEO-anker**: *b2b leadgeneratie* (1.300/mnd, KDI 23) — realistisch om page 1 te halen, mits we ook "wat is" + "hoe" varianten dekken. Concurrent-analyse (Marketing Guys, IMU) bevestigt dat patroon.
-- **Risico**: pricing op aanvraag verlaagt conversie van prijs-gevoelige bezoekers. Mitigatie: "vanaf"-indicatie behouden op /pricing.
+### 1. SystemSection ("Zo werkt het" → "Gebouwd voor resultaat")
+- Eyebrow blijft "Zo werkt het", H2 wordt: **"Eerst in kaart. Dan automatiseren."**
+- Intro-alinea toevoegen onder H2: "Wij beginnen met een nulmeting van uw sales- en serviceproces. Daarna automatiseren we wat handmatig loopt en zetten we signalen om in afspraken."
+- 4 layers (Infrastructuur / Intelligence / Betrokkenheid / Kwalificatie) behouden, maar laag 01 hernoemen naar **"Nulmeting & infrastructuur"** met copy die aansluit op de nulmeting-CTA.
+- Principles-blok ("Het proces levert data") laten staan, copy ongewijzigd.
 
-## Fase 1 — Homepage refactor (week 1)
+### 2. ProcessSection ("In 4 weken operationeel")
+- Eyebrow: "Van nulmeting tot resultaat".
+- H2: **"In 4 weken live."**
+- Stap "Week 1 tot 2" hernoemen naar **"Week 0 — Nulmeting"** (huidige items aanvullen met "Sales- en serviceproces in kaart" en "Quick wins identificeren").
+- Stappen 2 en 3 ongewijzigd.
+- Het ingebouwde "Wij beheren / U doet het zelf" blok in deze sectie verwijderen (dubbel met DeliveryModelSection).
 
-Bouw de v2-structuur in op `src/pages/Index.tsx`, hergebruik wat al werkt:
+### 3. CtaSection (onderaan home)
+- H2: **"Klaar voor uw nulmeting?"**
+- Subkopie: "30 minuten. Wij brengen uw proces in kaart en laten zien waar de winst zit. Geen verkoopgesprek."
+- CTA-tekst: **"Plan de nulmeting →"** (link blijft Motion-meeting), `trackCTA` label: `CTA Section — Plan de nulmeting`.
+- Microcopy onder knop: "€0 · 30 minuten · Vrijblijvend".
 
+### 4. PricingSection
+- Bottom CTA ongewijzigd, maar twee "Plan een Demo" knoppen (desktop + mobile in stap 1) worden **"Plan de nulmeting →"** met bijbehorende `trackCTA`-labels.
 
-| v2 sectie                 | Bestaand component              | Actie                                                        |
-| ------------------------- | ------------------------------- | ------------------------------------------------------------ |
-| Meta + Hero               | `Hero.tsx`                      | Nieuwe H1, sub, CTA "Plan de nulmeting"                      |
-| Sectie 1 — Patroon        | `HookSection.tsx`               | 3 cards met v2-tekst (handmatig / reactief / gemist signaal) |
-| Sectie 2 — Hoe wij werken | `ProcessSection.tsx`            | 4 stappen: nulmeting → kaart → automatiseren → uitvoeren     |
-| Sectie 3 — Voor wie       | `SystemSection.tsx`             | Herkenbare bullets + sector-chips                            |
-| Sectie 4 — Bewijs         | `ResultsSection.tsx`            | Cases Leister + Zondervantechniek                            |
-| Sectie 5 — 90 dagen       | nieuwe `TimelineSection`        | Fase-tabel uit v2                                            |
-| Sectie 6 — Investering    | `PricingSection.tsx`            | "Vast tarief, 3 mnd opzegbaar"-blok                          |
-| Sectie 7 — Onderscheid    | nieuwe `DifferentiatorsSection` | 4 punten                                                     |
-| FAQ                       | `FaqSection.tsx`                | 6 nieuwe vragen + FAQPage JSON-LD                            |
-| Close                     | `CtaSection.tsx`                | "Plan de nulmeting · binnen 5 werkdagen"                     |
+### 5. StickyHeroCta + Navbar
+- Verifiëren dat de sticky CTA en navbar-CTA dezelfde tekst "Plan de nulmeting" voeren. Aanpassen indien nodig (geen scope-uitbreiding, alleen label + tracking).
 
+### 6. DeliveryModelSection, StreamsSection, DatahubSection, FunnelSection, PipelineEquationTeaser, ResultsSection
+- Inhoudelijk geen wijziging. Deze secties beschrijven aanbod/sectoren/bewijs en blijven on-brand. Wel snelle check: nergens nog "Plan een Demo" als CTA-tekst (anders meenemen in dezelfde pass).
 
-Metadata: title naar *"B2B Leadgeneratie & Procesautomatisering — B2BGroeiMachine"* (60 chars). Description uit v2.
+## Niet in scope
+- Visuele redesign van secties
+- Nieuwe componenten of routes
+- Aanpassingen aan SectorPage of solution-pagina's
+- Wijzigingen in tracking-infrastructuur (alleen labels)
 
-## Fase 2 — Drie sector-landingspagina's (week 2)
-
-Reuse de `SectorPage.tsx`-template, voeg toe aan `src/data/sectors.ts`:
-
-1. `/sectoren/maakindustrie` — anker *"b2b leadgeneratie maakindustrie"*. 
-2. `/sectoren/bouw-en-renovatie` — anker *"procesautomatisering bouw"*. 
-3. `/sectoren/technische-dienstverlening` — anker *"verkoopproces optimaliseren technische dienstverlening"*. 
-
-Per pagina: hero met sector-pijn, 4-staps proces, één case, FAQ (3 vragen), CTA nulmeting. Helmet met unieke title/description/canonical.
-
-## Fase 3 — Content engine (week 3–6)
-
-### Pijler-artikelen (cornerstone, 1.500+ woorden)
-
-
-| URL                             | Target keyword       | NL volume |
-| ------------------------------- | -------------------- | --------- |
-| /blog/wat-is-b2b-leadgeneratie  | b2b leadgeneratie    | 1.300     |
-| /blog/wat-is-leadgeneratie      | leadgeneratie        | 1.900     |
-| /blog/zakelijke-leads-genereren | zakelijke leads      | 480       |
-| /blog/sales-automatisering-b2b  | sales automatisering | long-tail |
-
-
-### Cluster-artikelen (500–900 woorden, linken naar pijler)
-
-- "5 processen in elk B2B-bedrijf die vandaag nog handmatig lopen"
-- "Waarom uw reparatiedata een verkoopkans is die u mist"
-- "Wat is signaalgebaseerde prospecting"
-- "Hoe bouw je een B2B sales pipeline in 90 dagen"
-- "Intent data uitleg: wanneer is een lead koopklaar"
-- "CRM als sturingsinstrument vs CRM als archief"
-
-### Engine-mechaniek
-
-- Autopilot draait al (`autopilot-run` edge function); priority anchor keywords aanvullen in `seoSettings`.
-- `RelatedSolutions` voor bidirectionele linking pijler ↔ cluster ↔ sector.
-- Maandelijks: top-pages check via Semrush + GSC, herschrijf onderpresterende cluster-stukken (Backlinko-refresh).
-
-## Fase 4 — Conversie en meting (doorlopend)
-
-- Tracking-event `cta_nulmeting_click` toevoegen.
-- A/B test op /pricing: "op aanvraag" vs "vanaf €X / maand".
-- 4-wekelijkse evaluatie (sluit aan op bestaande methodology-cyclus).
-
-## Wat ik na akkoord ga bouwen (Fase 1 + 2)
-
-1. Hero, Process, FAQ refactor met v2-copy.
-2. Nieuwe `TimelineSection` en `DifferentiatorsSection`.
-3. FAQPage JSON-LD op de homepage.
-4. Sector-data uitbreiden met maakindustrie, bouw, technische dienstverlening.
-5. Eerste pijlerblog "wat is b2b leadgeneratie" als cornerstone.
-
-## Niet in scope (apart akkoord)
-
-- Per-route Helmet uitrol op álle pagina's (komt uit eerdere SEO-finding).
-- Volledig open prijs-model op /pricing.
-- Nieuwe cases voordat resultaten beschikbaar zijn.
+## Technisch
+Bestanden geraakt: `SystemSection.tsx`, `ProcessSection.tsx`, `CtaSection.tsx`, `PricingSection.tsx`, `StickyHeroCta.tsx`, `Navbar.tsx`. Alleen copy + `trackCTA` labels. Geen state/logic-wijzigingen.
