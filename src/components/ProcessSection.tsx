@@ -17,10 +17,10 @@ const steps = [
     phase: "Week 1 tot 2",
     title: "Opzet",
     items: [
-      "E-mail en LinkedIn klaarzetten",
+      "Infrastructuur inrichten op uw ICP",
       "CRM koppelen en dashboards inrichten",
       "Signalen en doelgroepen activeren",
-      "Eerste berichten voorbereiden",
+      "Eerste engagement voorbereiden",
     ],
   },
   {
@@ -28,7 +28,7 @@ const steps = [
     title: "Eerste campagnes live",
     items: [
       "Signalen activeren",
-      "Eerste berichten versturen",
+      "Engagement starten via het juiste kanaal",
       "Testen welke aanpak het beste werkt",
       "Resultaten bijhouden en bijsturen",
     ],
@@ -38,8 +38,8 @@ const steps = [
     title: "Opschalen",
     items: [
       "Resultaten analyseren en verbeteren",
-      "Warme contacten opvolgen",
-      "Nieuwe doelgroepen toevoegen",
+      "Warme signalen samen kwalificeren",
+      "Nieuwe doelgroepen en signalen toevoegen",
       "Meer uren inzetten waar het werkt",
     ],
   },
