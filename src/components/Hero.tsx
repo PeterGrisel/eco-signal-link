@@ -139,17 +139,21 @@ const Hero = () => {
               onSubmit={handleSubmit}
               className="rounded-xl border border-border/50 bg-background/60 backdrop-blur-xl p-6 space-y-4 shadow-2xl"
             >
-              <h3 className="font-display font-semibold text-lg text-foreground">
+              <h2 className="font-display font-semibold text-lg text-foreground">
                 Direct in gesprek
-              </h3>
+              </h2>
+              <label htmlFor="hero-name" className="sr-only">Naam</label>
               <Input
+                id="hero-name"
                 placeholder="Naam"
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 className="bg-background/50 border-border/40"
                 maxLength={100}
               />
+              <label htmlFor="hero-email" className="sr-only">E-mail</label>
               <Input
+                id="hero-email"
                 type="email"
                 placeholder="E-mail"
                 value={formData.email}
@@ -157,7 +161,9 @@ const Hero = () => {
                 className="bg-background/50 border-border/40"
                 maxLength={255}
               />
+              <label htmlFor="hero-message" className="sr-only">Bericht</label>
               <Textarea
+                id="hero-message"
                 placeholder="Waar kunnen we bij helpen?"
                 value={formData.message}
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}

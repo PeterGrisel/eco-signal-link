@@ -107,8 +107,9 @@ const Contact = () => {
                 ) : (
                   <form onSubmit={handleSubmit} className="bg-card border border-border rounded-lg p-6 space-y-4">
                     <div>
-                      <label className="text-xs font-medium text-muted-foreground mb-1.5 block">Naam *</label>
+                      <label htmlFor="contact-name" className="text-xs font-medium text-muted-foreground mb-1.5 block">Naam *</label>
                       <input
+                        id="contact-name"
                         type="text"
                         value={form.name}
                         onChange={e => setForm({ ...form, name: e.target.value })}
@@ -119,8 +120,9 @@ const Contact = () => {
                     </div>
 
                     <div>
-                      <label className="text-xs font-medium text-muted-foreground mb-1.5 block">E-mail *</label>
+                      <label htmlFor="contact-email" className="text-xs font-medium text-muted-foreground mb-1.5 block">E-mail *</label>
                       <input
+                        id="contact-email"
                         type="email"
                         value={form.email}
                         onChange={e => setForm({ ...form, email: e.target.value })}
@@ -132,8 +134,9 @@ const Contact = () => {
 
                     <div className="grid grid-cols-2 gap-3">
                       <div>
-                        <label className="text-xs font-medium text-muted-foreground mb-1.5 block">Bedrijf</label>
+                        <label htmlFor="contact-company" className="text-xs font-medium text-muted-foreground mb-1.5 block">Bedrijf</label>
                         <input
+                          id="contact-company"
                           type="text"
                           value={form.company}
                           onChange={e => setForm({ ...form, company: e.target.value })}
@@ -142,8 +145,9 @@ const Contact = () => {
                         />
                       </div>
                       <div>
-                        <label className="text-xs font-medium text-muted-foreground mb-1.5 block">Telefoon</label>
+                        <label htmlFor="contact-phone" className="text-xs font-medium text-muted-foreground mb-1.5 block">Telefoon</label>
                         <input
+                          id="contact-phone"
                           type="tel"
                           value={form.phone}
                           onChange={e => setForm({ ...form, phone: e.target.value })}
@@ -154,8 +158,9 @@ const Contact = () => {
                     </div>
 
                     <div>
-                      <label className="text-xs font-medium text-muted-foreground mb-1.5 block">Bericht *</label>
+                      <label htmlFor="contact-message" className="text-xs font-medium text-muted-foreground mb-1.5 block">Bericht *</label>
                       <textarea
+                        id="contact-message"
                         value={form.message}
                         onChange={e => setForm({ ...form, message: e.target.value })}
                         placeholder="Waar kunnen we u mee helpen?"

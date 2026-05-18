@@ -267,7 +267,7 @@ const OnsTeam = () => {
                         >
                           <img
                             src={src}
-                            alt="Team member"
+                            alt={`RF×AI teamlid portret ${i + 1}`}
                             className="w-full h-full object-cover grayscale"
                             loading="lazy"
                           />
@@ -443,7 +443,7 @@ const OnsTeam = () => {
                     <div className="relative w-full h-full group/photo">
                       <img
                         src={item.src}
-                        alt="Team member"
+                        alt={`Rebel Force teamlid portret ${i + 1}`}
                         loading="lazy"
                         width={512}
                         height={640}
