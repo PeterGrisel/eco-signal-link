@@ -102,6 +102,37 @@ const ProcessSection = () => {
           ))}
         </div>
 
+        {/* CTA: samen bepalen */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="text-center max-w-2xl mx-auto mb-16"
+        >
+          <h3 className="font-display font-bold text-xl md:text-2xl mb-3">
+            Samen bepalen we welke signalen en reacties terechtkomen
+          </h3>
+          <p className="text-muted-foreground mb-6 leading-relaxed">
+            Geen algemene demo. We kijken welke signalen bij uw ICP passen en hoe we die samen kwalificeren.
+          </p>
+          <Button variant="hero" size="lg" asChild>
+            <a
+              href="https://app.usemotion.com/meet/Rebel-Force/meeting"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() =>
+                trackCTA(
+                  "Proces — Samen bepalen",
+                  "https://app.usemotion.com/meet/Rebel-Force/meeting"
+                )
+              }
+            >
+              Plan de nulmeting →
+            </a>
+          </Button>
+        </motion.div>
+
         {/* Internal links to solutions */}
         <motion.div
           initial={{ opacity: 0 }}
