@@ -5,7 +5,7 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Send, Loader2, Calendar, Mail, Phone, Building2 } from "lucide-react";
+import { Send, Loader2, Calendar, Mail, Phone, Building2, TrendingUp, Users, Workflow, ArrowRight } from "lucide-react";
 import { z } from "zod";
 import { trackCTA, trackFormSubmit } from "@/lib/tracking";
 
@@ -83,11 +83,65 @@ const Contact = () => {
                 <span className="text-gradient">praten.</span>
               </h1>
               <p className="text-muted-foreground text-lg leading-relaxed">
-                Stel een vraag of plan direct een demo.
+                Waar staat u? Kies wat het beste past, dan sturen we het gesprek de juiste kant op.
               </p>
             </motion.div>
 
-            <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            {/* Intent cards */}
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="grid md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-16"
+            >
+              {[
+                {
+                  icon: TrendingUp,
+                  title: "Ik wil meer klanten",
+                  desc: "Bouw een commercieel systeem dat structureel pijplijn oplevert.",
+                  href: "#contact-form",
+                  intent: "meer-klanten",
+                },
+                {
+                  icon: Users,
+                  title: "Ik wil commercieel talent vinden",
+                  desc: "Vind, screen en onboard sales- en commercieel talent dat past.",
+                  href: "/full-service-recruitment",
+                  intent: "talent",
+                },
+                {
+                  icon: Workflow,
+                  title: "Ik wil mijn salesproces automatiseren",
+                  desc: "Van eerste signaal tot CRM-discipline en opvolging in één flow.",
+                  href: "/full-sales-management",
+                  intent: "automatisering",
+                },
+              ].map((c) => (
+                <a
+                  key={c.intent}
+                  href={c.href}
+                  onClick={() => {
+                    trackCTA(`Contact intent — ${c.title}`, c.href);
+                    if (c.href.startsWith("#")) {
+                      const el = document.getElementById(c.href.slice(1));
+                      el?.scrollIntoView({ behavior: "smooth" });
+                    }
+                  }}
+                  className="group bg-card border border-border rounded-lg p-6 hover:border-primary/40 transition-colors flex flex-col"
+                >
+                  <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
+                    <c.icon className="w-5 h-5 text-primary" />
+                  </div>
+                  <h3 className="font-display font-semibold text-base mb-2">{c.title}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed mb-4">{c.desc}</p>
+                  <span className="inline-flex items-center gap-1.5 text-sm text-primary font-medium mt-auto">
+                    Verder <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                  </span>
+                </a>
+              ))}
+            </motion.div>
+
+            <div id="contact-form" className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto scroll-mt-24">
               {/* Form */}
               <motion.div
                 initial={{ opacity: 0, y: 12 }}

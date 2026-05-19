@@ -38,11 +38,28 @@ export const CTA = {
 export const COPY = {
   proposition: {
     heroBody:
-      "Wij brengen uw sales- en serviceproces in kaart en automatiseren wat handmatig loopt. Begin met een nulmeting.",
+      "Wij bouwen en beheren uw B2B groeimachine op uw eigen tools. Van marktdata en koopsignalen tot outreach, opvolging, CRM-discipline en geboekte gesprekken.",
     signalHeading:
       "Samen bepalen we welke signalen en reacties terechtkomen",
     signalSubtext:
       "Geen algemene demo. We kijken welke signalen bij uw ICP passen en hoe we die samen kwalificeren.",
+  },
+  noLeadAgency: {
+    eyebrow: "Geen leadbureau",
+    heading: "Geen lijsten. Geen trucje.",
+    headingAccent: "Een systeem dat blijft staan.",
+    body: "Een leadbureau levert lijsten. Wij bouwen het commerciële proces achter voorspelbare groei. Op uw eigen tools, in uw eigen CRM, met uw eigen data.",
+    contrasts: [
+      { from: "Losse lijsten en campagnes", to: "Eén systeem dat elke week leert" },
+      { from: "Afhankelijk van personen", to: "Proces, data en discipline" },
+      { from: "Tijdelijk pieken in pijplijn", to: "Structureel marktinzicht" },
+    ],
+  },
+  datahubCore: {
+    eyebrow: "Het brein achter uw groei",
+    heading: "Iedere campagne levert data op.",
+    headingAccent: "Iedere actie maakt het systeem slimmer.",
+    body: "Datahub is geen dashboard. Het is uw commerciële geheugen. Elke reactie, elke afspraak en elk signaal verrijkt het systeem dat uw markt benadert.",
   },
   ctaSection: {
     headingLine1: "Klaar voor uw",

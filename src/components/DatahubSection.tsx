@@ -3,6 +3,7 @@ import { Database, Brain, RefreshCw, Lock, MessageCircleQuestion, ShieldCheck, C
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { trackCTA } from "@/lib/tracking";
+import { COPY } from "@/content/copy";
 import datahubScreenshot from "@/assets/datahub-screenshot.png";
 
 const features = [
@@ -56,15 +57,15 @@ const DatahubSection = () => {
           className="mb-16 max-w-2xl"
         >
           <p className="text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4">
-            Ons dataplatform
+            {COPY.datahubCore.eyebrow}
           </p>
           <h2 className="font-display font-bold text-3xl md:text-5xl lg:text-6xl tracking-tight leading-tight">
-            Datahub.
+            {COPY.datahubCore.heading}
             <br />
-            <span className="text-gradient">Uw commercieel geheugen.</span>
+            <span className="text-gradient">{COPY.datahubCore.headingAccent}</span>
           </h2>
           <p className="text-muted-foreground mt-6 text-lg leading-relaxed max-w-xl">
-            Alle data uit uw campagnes op één plek. Zo kunt u met AI steeds slimmer werken.
+            {COPY.datahubCore.body}
           </p>
         </motion.div>
 

@@ -110,8 +110,9 @@ const Hero = () => {
               transition={{ duration: 0.6, delay: 0.3 }}
               className="text-muted-foreground text-base md:text-xl max-w-2xl mb-8 md:mb-10 leading-relaxed"
             >
-              Wij brengen uw sales- en serviceproces in kaart en
-              automatiseren wat handmatig loopt. Begin met een nulmeting.
+              Wij bouwen en beheren uw B2B groeimachine op uw eigen tools.
+              Van marktdata en koopsignalen tot outreach, opvolging,
+              CRM-discipline en geboekte gesprekken.
             </motion.p>
 
             <motion.div

@@ -49,8 +49,8 @@ const HookSection = () => {
             <span className="text-primary">.</span>
           </h2>
           <p className="text-muted-foreground text-base md:text-lg leading-relaxed mt-5 max-w-2xl">
-            Niet omdat uw team niet hard werkt. Maar omdat het proces eronder
-            ontbreekt. Dit is wat ondernemers ons elke week vertellen.
+            Uw salesproces hangt te veel aan mensen, losse acties en toevallige
+            timing. Dit is wat ondernemers ons elke week vertellen.
           </p>
         </motion.div>
 

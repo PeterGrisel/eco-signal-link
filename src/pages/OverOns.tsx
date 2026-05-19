@@ -3,7 +3,7 @@ import Navbar from "@/components/Navbar";
 import PageLoader from "@/components/PageLoader";
 import Footer from "@/components/Footer";
 import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
-import { ArrowRight, Zap, Users, Brain, Globe } from "lucide-react";
+import { ArrowRight, Zap, Users, Brain, Globe, Layers, Workflow, Database, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import teamAbout from "@/assets/team-about.jpg";
 import peterGrisel from "@/assets/peter-grisel.png";
@@ -131,31 +131,106 @@ const OverOns = () => {
                 Onze missie
               </p>
               <h2 className="font-display font-bold text-3xl md:text-4xl leading-tight mb-6">
-                De kloof dichten tussen{" "}
-                <span className="text-primary">technologie</span> en{" "}
-                <span className="text-primary">ondernemen</span>.
+                Eén commercieel systeem in plaats van{" "}
+                <span className="text-primary">losse acties</span>.
               </h2>
             </motion.div>
             <motion.div {...fadeUp} transition={{ duration: 0.6, delay: 0.2 }}>
               <div className="space-y-6 text-muted-foreground leading-relaxed">
                 <p>
-                  Veel bedrijven weten dat digitalisering en AI kansen bieden,
-                  maar weten niet waar te beginnen. De markt is vol met
-                  buzzwords, dure consultants en oplossingen die niet passen bij
-                  het MKB.
+                  B2BGroeiMachine is gebouwd door <strong className="text-foreground">Rebel Force</strong> voor
+                  bedrijven die groei niet meer afhankelijk willen maken van
+                  losse salesacties, bureaus of individuele verkopers.
                 </p>
                 <p>
-                  Daar komen wij in beeld. Vanuit <strong className="text-foreground">Rebel Force</strong> hebben
-                  we een ecosysteem gebouwd dat ondernemers stap voor stap
-                  meeneemt. Van strategie tot implementatie, van data tot
-                  resultaat.
+                  Wij combineren sales, data, AI, procesinrichting en
+                  multichannel executie tot één schaalbaar commercieel
+                  systeem. Op uw eigen tools. In uw eigen CRM. Met data die
+                  van u blijft.
                 </p>
                 <p>
-                  Geen dikke rapporten die in een la verdwijnen, maar werkende
-                  systemen die direct waarde opleveren. Dat is onze belofte.
+                  Geen vendor lock-in. Geen tijdelijk trucje. Wel een proces
+                  dat elke vier weken bijgestuurd wordt op basis van wat de
+                  data laat zien.
                 </p>
               </div>
             </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Methodiek */}
+      <section className="py-24 border-t border-border">
+        <div className="container mx-auto px-6">
+          <motion.div {...fadeUp} className="max-w-2xl mb-14">
+            <p className="text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4">
+              Onze methodiek
+            </p>
+            <h2 className="font-display font-bold text-3xl md:text-4xl leading-tight">
+              Vier bouwblokken.{" "}
+              <span className="text-gradient">Eén systeem.</span>
+            </h2>
+            <p className="text-muted-foreground leading-relaxed mt-5">
+              Elke vier weken meten we, leren we en sturen we bij. Zo wordt
+              uw groeimachine elke maand een stukje slimmer.
+            </p>
+          </motion.div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { icon: Layers, title: "Infrastructuur", text: "Tools, CRM en data koppelen tot één werkbaar geheel." },
+              { icon: Brain, title: "Intelligence", text: "ICP, signalen en marktdata vertalen naar actiepunten." },
+              { icon: Workflow, title: "Executie", text: "Multichannel outreach, opvolging en CRM-discipline." },
+              { icon: Database, title: "Datahub", text: "Elke campagne verrijkt uw commerciële geheugen." },
+            ].map((b, i) => (
+              <motion.div
+                key={b.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.08 }}
+                className="bg-card border border-border rounded-2xl p-7"
+              >
+                <div className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center mb-5">
+                  <b.icon className="w-5 h-5 text-primary" />
+                </div>
+                <h3 className="font-display font-semibold text-lg mb-2">{b.title}</h3>
+                <p className="text-muted-foreground text-sm leading-relaxed">{b.text}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Filosofie */}
+      <section className="py-24 border-t border-border">
+        <div className="container mx-auto px-6">
+          <div className="grid md:grid-cols-3 gap-6">
+            {[
+              { icon: ShieldCheck, title: "Agnostisch en modulair", text: "Wij werken op uw eigen tools. Geen vendor lock-in. U blijft eigenaar van data, modellen en proces." },
+              { icon: Users, title: "Verlengstuk van uw team", text: "Wij voeren uit, denken mee en dragen over. Build & Transfer of Done-for-you, u kiest het ritme." },
+              { icon: Brain, title: "Leren als standaard", text: "Elke vier weken een evaluatie. Wat werkt schalen we op. Wat niet werkt sturen we bij." },
+            ].map((b, i) => (
+              <motion.div
+                key={b.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.08 }}
+                className="card-gradient border border-glow rounded-2xl p-8"
+              >
+                <b.icon className="w-6 h-6 text-primary mb-4" />
+                <h3 className="font-display font-semibold text-lg mb-2">{b.title}</h3>
+                <p className="text-muted-foreground text-sm leading-relaxed">{b.text}</p>
+              </motion.div>
+            ))}
+          </div>
+          <div className="mt-12 text-center">
+            <Button variant="heroOutline" size="lg" asChild>
+              <a href="/ons-team">
+                Maak kennis met het team →
+              </a>
+            </Button>
           </div>
         </div>
       </section>
