@@ -12,6 +12,10 @@ import {
 } from "lucide-react";
 
 interface Ga4Data {
+  connected?: boolean;
+  error?: string;
+  message?: string;
+  property_id?: string;
   period: { days: number };
   totals: {
     sessions: number;
@@ -112,6 +116,7 @@ export const KpiTabContent = () => {
   const [audit, setAudit] = useState<AuditResult | null>(null);
   const [auditLoading, setAuditLoading] = useState(false);
   const [ga4, setGa4] = useState<Ga4Data | null>(null);
+  const [ga4Error, setGa4Error] = useState<string | null>(null);
   const [ga4Loading, setGa4Loading] = useState(false);
   const [lighthouse, setLighthouse] = useState<LighthouseResult | null>(null);
   const [lhLoading, setLhLoading] = useState(false);
@@ -145,9 +150,16 @@ export const KpiTabContent = () => {
         body: { days },
       });
       if (error) throw error;
-      if (data?.error) throw new Error(data.error);
+      if (data?.error) {
+        setGa4(null);
+        setGa4Error(data.message || data.error);
+        return;
+      }
+      setGa4Error(null);
       setGa4(data);
     } catch (e: any) {
+      setGa4(null);
+      setGa4Error(e.message);
       toast({ title: "GA4 data ophalen mislukt", description: e.message, variant: "destructive" });
     }
     setGa4Loading(false);
