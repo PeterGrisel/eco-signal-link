@@ -153,6 +153,7 @@ export const KpiTabContent = () => {
       if (data?.error) {
         setGa4(null);
         setGa4Error(data.message || data.error);
+        setGa4Loading(false);
         return;
       }
       setGa4Error(null);
