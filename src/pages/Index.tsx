@@ -6,6 +6,7 @@ import PageLoader from "@/components/PageLoader";
 import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 
 import HookSection from "@/components/HookSection";
+import NoLeadAgencySection from "@/components/NoLeadAgencySection";
 import StreamsSection from "@/components/StreamsSection";
 import SystemSection from "@/components/SystemSection";
 import PipelineEquationTeaser from "@/components/PipelineEquationTeaser";
@@ -41,7 +42,8 @@ const Index = () => {
       <BreadcrumbJsonLd items={[{ name: "Home", url: "https://b2bgroeimachine.io/" }]} />
       <Navbar />
       <Hero />
-      
+
+      <NoLeadAgencySection />
       <HookSection />
       <StreamsSection />
       <SystemSection />
