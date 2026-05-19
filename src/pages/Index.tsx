@@ -44,12 +44,12 @@ const Index = () => {
       <Navbar />
       <Hero />
 
+      <FunnelInfographic />
       <NoLeadAgencySection />
       <HookSection />
       <StreamsSection />
       <SystemSection />
       <PipelineEquationTeaser />
-      <FunnelInfographic />
       <FunnelSection />
       <ProcessSection />
       <DatahubSection />
