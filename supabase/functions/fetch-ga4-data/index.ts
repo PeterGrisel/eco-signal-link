@@ -103,6 +103,10 @@ async function getAccessToken(): Promise<string> {
     }
   }
 
+  if (!tokenRes) {
+    throw new Error("Token exchange failed: no response from Google");
+  }
+
   if (!tokenRes.ok) {
     const err = await tokenRes.text();
     throw new Error(`Token exchange failed: ${err}`);
