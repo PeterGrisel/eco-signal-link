@@ -37,6 +37,12 @@
 
     --radius: 0.5rem;
 
+    /* Funnel layer tones */
+    --funnel-awareness: 265 80% 70%;
+    --funnel-engagement: 175 70% 55%;
+    --funnel-conversion: 45 90% 60%;
+    --funnel-sales: 24 85% 60%;
+
     --sidebar-background: 0 0% 8%;
     --sidebar-foreground: 30 20% 92%;
     --sidebar-primary: 24 75% 63%;
