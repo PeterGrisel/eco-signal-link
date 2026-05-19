@@ -1,5 +1,6 @@
-import { motion } from "framer-motion";
-import { Hand, AlarmClock, EyeOff, ArrowRight } from "lucide-react";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Hand, AlarmClock, EyeOff, ArrowRight, Plus, Minus } from "lucide-react";
 
 const hooks = [
   {
@@ -26,6 +27,7 @@ const hooks = [
 ];
 
 const HookSection = () => {
+  const [openIndex, setOpenIndex] = useState<number>(0);
   return (
     <section className="py-20 md:py-28 border-b border-border/30 relative overflow-hidden">
       {/* Subtle background grain */}
@@ -38,7 +40,7 @@ const HookSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.5 }}
-          className="max-w-3xl mb-14 md:mb-20"
+          className="max-w-3xl mb-10 md:mb-14"
         >
           <p className="text-primary font-display font-semibold text-xs tracking-[0.25em] uppercase mb-5">
             Herkent u dit?
@@ -54,53 +56,63 @@ const HookSection = () => {
           </p>
         </motion.div>
 
-        {/* Pain cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-border/40 rounded-2xl overflow-hidden border border-border/40">
-          {hooks.map((hook, i) => (
-            <motion.article
-              key={hook.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="group relative bg-card p-7 md:p-9 flex flex-col hover:bg-secondary/30 transition-colors duration-300"
-            >
-              {/* Number + icon row */}
-              <div className="flex items-center justify-between mb-7">
-                <span className="font-mono text-xs text-muted-foreground/70 tracking-widest">
-                  0{i + 1} / 03
-                </span>
-                <hook.icon className="w-5 h-5 text-primary/70 group-hover:text-primary transition-colors" />
+        {/* Accordion list — compact, one open at a time */}
+        <div className="rounded-2xl border border-border/40 overflow-hidden bg-card/40 backdrop-blur-sm divide-y divide-border/40">
+          {hooks.map((hook, i) => {
+            const isOpen = openIndex === i;
+            const Icon = hook.icon;
+            return (
+              <div key={hook.title} className="group">
+                <button
+                  onClick={() => setOpenIndex(isOpen ? -1 : i)}
+                  className="w-full text-left flex items-center gap-4 md:gap-6 px-5 md:px-8 py-5 md:py-6 hover:bg-secondary/30 transition-colors"
+                  aria-expanded={isOpen}
+                >
+                  <span className="font-mono text-xs text-muted-foreground/70 tracking-widest shrink-0 w-12">
+                    0{i + 1}/03
+                  </span>
+                  <Icon className={`w-5 h-5 shrink-0 transition-colors ${isOpen ? "text-primary" : "text-primary/60"}`} />
+                  <p className="flex-1 font-display text-base md:text-xl leading-snug tracking-tight text-foreground">
+                    <span className="text-primary/60">“</span>
+                    {hook.quote}
+                    <span className="text-primary/60">”</span>
+                  </p>
+                  <span className="shrink-0 w-8 h-8 rounded-full border border-border/60 flex items-center justify-center text-muted-foreground group-hover:text-foreground">
+                    {isOpen ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
+                  </span>
+                </button>
+                <AnimatePresence initial={false}>
+                  {isOpen && (
+                    <motion.div
+                      key="content"
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.25, ease: "easeOut" }}
+                      className="overflow-hidden"
+                    >
+                      <div className="px-5 md:px-8 pb-6 md:pb-8 md:pl-[7.5rem] grid md:grid-cols-2 gap-6 md:gap-10">
+                        <div>
+                          <p className="text-xs uppercase tracking-[0.18em] font-semibold text-primary/80 mb-2">
+                            {hook.title}
+                          </p>
+                          <p className="text-muted-foreground text-sm leading-relaxed">
+                            {hook.pain}
+                          </p>
+                        </div>
+                        <div className="flex items-start gap-2.5 md:border-l md:border-border/50 md:pl-6">
+                          <ArrowRight className="w-4 h-4 text-primary mt-0.5 shrink-0" />
+                          <p className="text-sm text-foreground/90 leading-relaxed font-medium">
+                            {hook.shift}
+                          </p>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
-
-              {/* Customer quote — the pain in their own voice */}
-              <blockquote className="mb-6">
-                <p className="font-display text-xl md:text-2xl leading-snug text-foreground tracking-tight">
-                  <span className="text-primary/60">“</span>
-                  {hook.quote}
-                  <span className="text-primary/60">”</span>
-                </p>
-              </blockquote>
-
-              {/* Label */}
-              <p className="text-xs uppercase tracking-[0.18em] font-semibold text-primary/80 mb-3">
-                {hook.title}
-              </p>
-
-              {/* Pain description */}
-              <p className="text-muted-foreground text-sm leading-relaxed mb-6">
-                {hook.pain}
-              </p>
-
-              {/* Resolution — pushed to bottom */}
-              <div className="mt-auto pt-5 border-t border-border/50 flex items-start gap-2.5">
-                <ArrowRight className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
-                <p className="text-sm text-foreground/90 leading-relaxed font-medium">
-                  {hook.shift}
-                </p>
-              </div>
-            </motion.article>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
