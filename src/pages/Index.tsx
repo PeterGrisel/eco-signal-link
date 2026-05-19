@@ -7,7 +7,6 @@ import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 
 import HookSection from "@/components/HookSection";
 import NoLeadAgencySection from "@/components/NoLeadAgencySection";
-import StreamsSection from "@/components/StreamsSection";
 import SystemSection from "@/components/SystemSection";
 import PipelineEquationTeaser from "@/components/PipelineEquationTeaser";
 import FunnelSection from "@/components/FunnelSection";
@@ -49,7 +48,6 @@ const Index = () => {
       <SectorPicker />
       <NoLeadAgencySection />
       <HookSection />
-      <StreamsSection />
       <SystemSection />
       <PipelineEquationTeaser />
       <FunnelSection />
