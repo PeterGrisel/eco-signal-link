@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Megaphone, Target } from "lucide-react";
 import { sectors } from "@/data/sectors";
 import { solutions } from "@/data/solutions";
 import { trackCTA } from "@/lib/tracking";
@@ -46,6 +46,98 @@ const StreamsSection = () => {
           <p className="text-muted-foreground text-lg leading-relaxed">
             Dezelfde aanpak, afgestemd op uw markt. Van profvoetbal tot engineering:
             wij weten hoe we uw doelgroep bereiken.
+          </p>
+        </motion.div>
+
+        {/* Marketing-driven vs Sales-driven */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.5 }}
+          className="mb-16 md:mb-20"
+        >
+          <div className="flex items-baseline justify-between mb-6 flex-wrap gap-2">
+            <p className="text-xs font-display uppercase tracking-[0.25em] text-muted-foreground">
+              Twee routes, één systeem
+            </p>
+            <p className="text-sm text-muted-foreground/80 max-w-md text-right">
+              Elk bedrijf kiest de route die past bij product, dealgrootte en doelgroep.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-border/40 rounded-2xl overflow-hidden border border-border/40">
+            {/* Marketing-driven */}
+            <div className="bg-card p-7 md:p-9 group hover:bg-secondary/30 transition-colors">
+              <div className="flex items-center justify-between mb-6">
+                <span className="font-mono text-xs text-muted-foreground/70 tracking-widest">
+                  ROUTE A
+                </span>
+                <Megaphone className="w-5 h-5 text-primary/70 group-hover:text-primary transition-colors" />
+              </div>
+              <p className="text-xs uppercase tracking-[0.18em] font-semibold text-primary/80 mb-2">
+                Marketing-driven
+              </p>
+              <h3 className="font-display font-bold text-2xl md:text-3xl tracking-tight mb-4 leading-tight">
+                Klanten komen naar u toe.
+              </h3>
+              <p className="text-muted-foreground text-sm leading-relaxed mb-5">
+                Inbound: content, SEO en advertenties trekken vraag aan. Past bij een breed
+                aanbod, kortere salescycli en producten die mensen actief zoeken.
+              </p>
+              <ul className="space-y-2 text-sm">
+                <li className="flex items-start gap-2.5">
+                  <span className="text-primary mt-1.5 w-1 h-1 rounded-full bg-primary flex-shrink-0" />
+                  <span className="text-foreground/85">Vraag is aanwezig en zoekbaar</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <span className="text-primary mt-1.5 w-1 h-1 rounded-full bg-primary flex-shrink-0" />
+                  <span className="text-foreground/85">Brede doelgroep, meerdere beslissers</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <span className="text-primary mt-1.5 w-1 h-1 rounded-full bg-primary flex-shrink-0" />
+                  <span className="text-foreground/85">Schaal via aandacht en autoriteit</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Sales-driven */}
+            <div className="bg-card p-7 md:p-9 group hover:bg-secondary/30 transition-colors">
+              <div className="flex items-center justify-between mb-6">
+                <span className="font-mono text-xs text-muted-foreground/70 tracking-widest">
+                  ROUTE B
+                </span>
+                <Target className="w-5 h-5 text-primary/70 group-hover:text-primary transition-colors" />
+              </div>
+              <p className="text-xs uppercase tracking-[0.18em] font-semibold text-primary/80 mb-2">
+                Sales-driven
+              </p>
+              <h3 className="font-display font-bold text-2xl md:text-3xl tracking-tight mb-4 leading-tight">
+                U gaat naar de klant toe.
+              </h3>
+              <p className="text-muted-foreground text-sm leading-relaxed mb-5">
+                Outbound: signalen, lijsten en gerichte gesprekken. Past bij niche-aanbod,
+                hogere dealwaarde en doelgroepen die niet actief zoeken.
+              </p>
+              <ul className="space-y-2 text-sm">
+                <li className="flex items-start gap-2.5">
+                  <span className="text-primary mt-1.5 w-1 h-1 rounded-full bg-primary flex-shrink-0" />
+                  <span className="text-foreground/85">Beperkte, scherp af te bakenen markt</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <span className="text-primary mt-1.5 w-1 h-1 rounded-full bg-primary flex-shrink-0" />
+                  <span className="text-foreground/85">Hogere dealwaarde, langere cyclus</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <span className="text-primary mt-1.5 w-1 h-1 rounded-full bg-primary flex-shrink-0" />
+                  <span className="text-foreground/85">Schaal via signalen en timing</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <p className="text-sm text-muted-foreground/80 mt-5 text-center">
+            Veel klanten combineren beide. Wij helpen u kiezen wat past — en bouwen het proces eronder.
           </p>
         </motion.div>
 
