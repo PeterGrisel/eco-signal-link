@@ -215,7 +215,7 @@ const FunnelShape = () => {
               y={yMid - 4}
               textAnchor="middle"
               className="fill-foreground"
-              style={{ font: "700 14px var(--font-display, system-ui)" }}
+              style={{ font: "700 16px var(--font-display, system-ui)" }}
             >
               {layer.label.toUpperCase()}
             </text>
@@ -224,7 +224,7 @@ const FunnelShape = () => {
               y={yMid + 12}
               textAnchor="middle"
               className="fill-muted-foreground"
-              style={{ font: "400 9px var(--font-body, system-ui)" }}
+              style={{ font: "400 10px var(--font-body, system-ui)" }}
             >
               {layer.sub}
             </text>
@@ -237,7 +237,7 @@ const FunnelShape = () => {
 
 const FunnelInfographic = () => {
   return (
-    <section className="py-16 md:py-28 relative overflow-hidden">
+    <section className="py-12 md:py-28 relative overflow-hidden">
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         {/* Header */}
         <motion.div
@@ -245,37 +245,37 @@ const FunnelInfographic = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-12 md:mb-16 max-w-3xl mx-auto"
+          className="text-center mb-8 md:mb-16 max-w-3xl mx-auto"
         >
-          <p className="text-primary font-display font-semibold text-xs md:text-sm tracking-[0.25em] uppercase mb-4">
+          <p className="text-primary font-display font-semibold text-[11px] md:text-sm tracking-[0.25em] uppercase mb-3 md:mb-4">
             Hoe het werkt
           </p>
-          <h2 className="font-display font-bold text-3xl md:text-5xl lg:text-6xl tracking-tight leading-[1.05] mb-4">
+          <h2 className="font-display font-bold text-[2rem] sm:text-4xl md:text-5xl lg:text-6xl tracking-tight leading-[1.05] mb-3 md:mb-4">
             <span className="text-primary">B2B</span> Groeimachine
           </h2>
-          <p className="font-display text-sm md:text-base tracking-[0.2em] uppercase text-muted-foreground mb-4">
+          <p className="font-display text-[11px] sm:text-sm md:text-base tracking-[0.18em] uppercase text-muted-foreground mb-3 md:mb-4">
             Van signalen naar schaalbare groei
           </p>
-          <p className="text-muted-foreground text-base md:text-lg">
+          <p className="text-muted-foreground text-sm md:text-lg leading-relaxed">
             Een schaalbaar B2B systeem dat elke week slimmer wordt.
           </p>
         </motion.div>
 
         {/* TOF / MOF / BOF rail */}
-        <div className="flex items-center justify-center gap-3 md:gap-8 mb-10 md:mb-14 flex-wrap">
+        <div className="flex items-center justify-center gap-2 sm:gap-3 md:gap-8 mb-8 md:mb-14 flex-wrap">
           {tofMof.map((t, i) => {
             const tone = toneClasses[t.tone];
             return (
-              <div key={t.label} className="flex items-center gap-3 md:gap-8">
-                <div className="flex items-center gap-3">
-                  <div className={`w-12 h-12 md:w-14 md:h-14 ${tone.bg} ${tone.border} border-2 rotate-45 flex items-center justify-center`}>
-                    <span className={`-rotate-45 font-display font-bold text-xs md:text-sm ${tone.text}`}>
+              <div key={t.label} className="flex items-center gap-2 sm:gap-3 md:gap-8">
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <div className={`w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 ${tone.bg} ${tone.border} border-2 rotate-45 flex items-center justify-center shrink-0`}>
+                    <span className={`-rotate-45 font-display font-bold text-[10px] sm:text-xs md:text-sm ${tone.text}`}>
                       {t.label}
                     </span>
                   </div>
                   <div className="text-left">
-                    <div className="font-display font-semibold text-sm text-foreground">{t.label}</div>
-                    <div className="text-xs text-muted-foreground">{t.sub}</div>
+                    <div className="font-display font-semibold text-xs sm:text-sm text-foreground leading-tight">{t.label}</div>
+                    <div className="text-[10px] sm:text-xs text-muted-foreground leading-tight">{t.sub}</div>
                   </div>
                 </div>
                 {i < tofMof.length - 1 && (
@@ -287,13 +287,13 @@ const FunnelInfographic = () => {
         </div>
 
         {/* 3-column funnel grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_minmax(320px,420px)_1fr] gap-6 lg:gap-8 items-start mb-12">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_minmax(320px,420px)_1fr] gap-8 lg:gap-8 items-start mb-10 md:mb-12">
           {/* LEFT — data sources */}
           <div>
-            <p className="text-primary font-display font-semibold text-xs tracking-[0.2em] uppercase mb-4 lg:text-right">
+            <p className="text-primary font-display font-semibold text-[11px] tracking-[0.18em] uppercase mb-3 md:mb-4 lg:text-right">
               Signalen & data · B2B focus
             </p>
-            <div className="space-y-3">
+            <div className="space-y-2.5 md:space-y-3">
               {dataSources.map((d, i) => (
                 <motion.div
                   key={d.title}
@@ -303,12 +303,12 @@ const FunnelInfographic = () => {
                   transition={{ duration: 0.4, delay: i * 0.06 }}
                   className="card-gradient border border-glow rounded-lg p-3 md:p-4 flex items-start gap-3"
                 >
-                  <div className="w-9 h-9 rounded-md bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
+                  <div className="w-8 h-8 md:w-9 md:h-9 rounded-md bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
                     <d.icon className="w-4 h-4 text-primary" />
                   </div>
                   <div className="min-w-0">
-                    <h4 className="font-display font-bold text-sm text-foreground uppercase tracking-wide">{d.title}</h4>
-                    <p className="text-xs text-muted-foreground leading-snug mt-0.5">{d.body}</p>
+                    <h4 className="font-display font-bold text-[13px] md:text-sm text-foreground uppercase tracking-wide leading-tight">{d.title}</h4>
+                    <p className="text-xs text-muted-foreground leading-snug mt-1">{d.body}</p>
                   </div>
                 </motion.div>
               ))}
@@ -316,17 +316,17 @@ const FunnelInfographic = () => {
           </div>
 
           {/* CENTER — funnel shape */}
-          <div className="relative mx-auto w-full max-w-md">
+          <div className="relative mx-auto w-full max-w-sm md:max-w-md order-first lg:order-none">
             <FunnelShape />
           </div>
 
           {/* RIGHT — tools + KPIs (stacked sub-grid) */}
-          <div className="space-y-6">
+          <div className="space-y-6 md:space-y-6">
             <div>
-              <p className="text-primary font-display font-semibold text-xs tracking-[0.2em] uppercase mb-4">
+              <p className="text-primary font-display font-semibold text-[11px] tracking-[0.18em] uppercase mb-3 md:mb-4">
                 Tools & connecties
               </p>
-              <div className="space-y-3">
+              <div className="space-y-2.5 md:space-y-3">
                 {funnelLayers.map((layer, i) => {
                   const tone = toneClasses[layer.tone];
                   return (
@@ -338,11 +338,15 @@ const FunnelInfographic = () => {
                       transition={{ duration: 0.4, delay: i * 0.06 }}
                       className={`rounded-lg border ${tone.border} ${tone.bg} p-3`}
                     >
-                      <div className="flex flex-wrap gap-x-4 gap-y-1.5">
+                      <div className="mb-1.5 flex items-center gap-2">
+                        <span className={`w-1.5 h-1.5 rounded-full ${tone.dot}`} />
+                        <span className={`text-[10px] font-display font-semibold uppercase tracking-wider ${tone.text}`}>{layer.label}</span>
+                      </div>
+                      <div className="flex flex-wrap gap-x-3 gap-y-1.5">
                         {layer.tools.map((tool) => (
                           <div key={tool.label} className="flex items-center gap-2 text-xs">
                             <tool.icon className={`w-3.5 h-3.5 ${tone.text}`} />
-                            <span className="text-foreground/85">{tool.label}</span>
+                            <span className="text-foreground/85 leading-tight">{tool.label}</span>
                           </div>
                         ))}
                       </div>
@@ -353,10 +357,10 @@ const FunnelInfographic = () => {
             </div>
 
             <div>
-              <p className="text-primary font-display font-semibold text-xs tracking-[0.2em] uppercase mb-4">
+              <p className="text-primary font-display font-semibold text-[11px] tracking-[0.18em] uppercase mb-3 md:mb-4">
                 Meten wat telt · signal based
               </p>
-              <div className="space-y-3">
+              <div className="space-y-2.5 md:space-y-3">
                 {funnelLayers.map((layer, i) => {
                   const tone = toneClasses[layer.tone];
                   return (
@@ -366,17 +370,23 @@ const FunnelInfographic = () => {
                       whileInView={{ opacity: 1, x: 0 }}
                       viewport={{ once: true, margin: "-50px" }}
                       transition={{ duration: 0.4, delay: i * 0.06 }}
-                      className={`rounded-lg border ${tone.border} p-3 flex flex-wrap gap-x-5 gap-y-1.5`}
+                      className={`rounded-lg border ${tone.border} p-3`}
                     >
-                      {layer.kpis.map((k) => (
-                        <div key={k.label} className="flex items-center gap-2">
-                          <k.icon className={`w-3.5 h-3.5 ${tone.text}`} />
-                          <div className="leading-tight">
-                            <div className="text-xs font-semibold text-foreground">{k.label}</div>
-                            <div className="text-[10px] text-muted-foreground uppercase tracking-wide">{k.sub}</div>
+                      <div className="mb-1.5 flex items-center gap-2">
+                        <span className={`w-1.5 h-1.5 rounded-full ${tone.dot}`} />
+                        <span className={`text-[10px] font-display font-semibold uppercase tracking-wider ${tone.text}`}>{layer.label}</span>
+                      </div>
+                      <div className="grid grid-cols-2 gap-3">
+                        {layer.kpis.map((k) => (
+                          <div key={k.label} className="flex items-center gap-2 min-w-0">
+                            <k.icon className={`w-3.5 h-3.5 ${tone.text} shrink-0`} />
+                            <div className="leading-tight min-w-0">
+                              <div className="text-xs font-semibold text-foreground truncate">{k.label}</div>
+                              <div className="text-[10px] text-muted-foreground uppercase tracking-wide truncate">{k.sub}</div>
+                            </div>
                           </div>
-                        </div>
-                      ))}
+                        ))}
+                      </div>
                     </motion.div>
                   );
                 })}
@@ -391,29 +401,29 @@ const FunnelInfographic = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.6 }}
-          className="card-gradient border border-glow rounded-2xl p-6 md:p-8 mb-8 flex flex-col md:flex-row items-center gap-6 md:gap-10"
+          className="card-gradient border border-glow rounded-2xl p-5 md:p-8 mb-8 flex flex-col md:flex-row items-center gap-5 md:gap-10"
         >
           <div className="relative shrink-0">
             <div className="absolute inset-0 rounded-full bg-primary/20 blur-2xl" />
-            <div className="relative w-24 h-24 md:w-28 md:h-28 rounded-full border-2 border-primary/40 bg-primary/10 flex items-center justify-center">
-              <Brain className="w-10 h-10 md:w-12 md:h-12 text-primary" />
+            <div className="relative w-20 h-20 md:w-28 md:h-28 rounded-full border-2 border-primary/40 bg-primary/10 flex items-center justify-center">
+              <Brain className="w-8 h-8 md:w-12 md:h-12 text-primary" />
             </div>
           </div>
           <div className="text-center md:text-left">
-            <p className="text-primary font-display font-semibold text-xs tracking-[0.25em] uppercase mb-2">
+            <p className="text-primary font-display font-semibold text-[11px] tracking-[0.22em] uppercase mb-2">
               Intelligentielaag · optioneel
             </p>
-            <h3 className="font-display font-bold text-xl md:text-2xl text-foreground mb-2">
+            <h3 className="font-display font-bold text-lg md:text-2xl text-foreground mb-2 leading-tight">
               Het zenuwcentrum van uw groeimachine
             </h3>
-            <p className="text-muted-foreground text-sm md:text-base max-w-2xl">
+            <p className="text-muted-foreground text-sm md:text-base max-w-2xl leading-relaxed">
               Verbindt, verrijkt en analyseert elke interactie. Uw commerciële systeem wordt elke week slimmer.
             </p>
           </div>
         </motion.div>
 
         {/* Benefits row */}
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-2.5 md:gap-3 mb-10 md:mb-12">
           {benefits.map((b, i) => (
             <motion.div
               key={b.title}
@@ -421,10 +431,10 @@ const FunnelInfographic = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.4, delay: i * 0.05 }}
-              className="card-gradient border border-glow rounded-lg p-4"
+              className="card-gradient border border-glow rounded-lg p-3 md:p-4"
             >
               <b.icon className="w-5 h-5 text-primary mb-2" />
-              <h4 className="font-display font-bold text-sm text-foreground mb-1">{b.title}</h4>
+              <h4 className="font-display font-bold text-[13px] md:text-sm text-foreground mb-1 leading-tight">{b.title}</h4>
               <p className="text-xs text-muted-foreground leading-snug">{b.body}</p>
             </motion.div>
           ))}
@@ -436,15 +446,15 @@ const FunnelInfographic = () => {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center max-w-2xl mx-auto"
+          className="text-center max-w-2xl mx-auto px-2"
         >
-          <p className="text-primary font-display font-semibold text-sm tracking-[0.3em] uppercase mb-3">
+          <p className="text-primary font-display font-semibold text-[11px] md:text-sm tracking-[0.25em] md:tracking-[0.3em] uppercase mb-3">
             100% B2B focus
           </p>
-          <p className="text-muted-foreground text-base md:text-lg mb-1">
+          <p className="text-muted-foreground text-sm md:text-lg mb-2 leading-relaxed">
             Geen leads. Geen lijsten. Geen tijdelijke trucs.
           </p>
-          <p className="text-foreground font-display text-lg md:text-xl">
+          <p className="text-foreground font-display text-base md:text-xl leading-snug">
             Wij bouwen het <span className="text-gradient">commerciële systeem</span> achter voorspelbare B2B groei.
           </p>
         </motion.div>
