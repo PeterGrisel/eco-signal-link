@@ -31,7 +31,13 @@ const Index = () => {
 
   return (
     <PageLoader>
-    <div className="min-h-screen">
+    <div className="min-h-screen relative">
+      {/* Homepage-wide ambient glow background */}
+      <div
+        aria-hidden
+        className="fixed inset-0 glow-bg pointer-events-none z-0"
+      />
+      <div className="relative z-10">
       <BreadcrumbJsonLd items={[{ name: "Home", url: "https://b2bgroeimachine.io/" }]} />
       <Navbar />
       <Hero />
@@ -50,6 +56,7 @@ const Index = () => {
       <CtaSection />
       <Footer />
       <StickyHeroCta />
+      </div>
     </div>
     </PageLoader>
   );
