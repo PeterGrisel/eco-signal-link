@@ -194,7 +194,7 @@ const Footer = () => {
               <span className="text-foreground">B2B</span>
               <span className="text-primary">GroeiMachine</span>
             </Link>
-            <p className="text-muted-foreground/60 text-xs mt-0.5">Signal-Based Prospecting Systems</p>
+            <p className="text-muted-foreground text-xs mt-0.5">Signal-Based Prospecting Systems</p>
           </div>
 
           <nav className="flex items-center gap-4 text-sm flex-wrap">
@@ -221,7 +221,7 @@ const Footer = () => {
             </a>
           </nav>
 
-          <p className="text-muted-foreground/50 text-xs flex-shrink-0">
+          <p className="text-muted-foreground text-xs flex-shrink-0">
             © {new Date().getFullYear()} B2BGroeiMachine · powered by Rebel Force™ · KVK 94347778 · BTW NL866743856B01
           </p>
         </div>
