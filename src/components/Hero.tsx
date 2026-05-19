@@ -71,10 +71,10 @@ const Hero = () => {
           decoding="async"
           className="w-full h-full object-cover object-center"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/80 to-background/50" />
+        <div className="absolute inset-0 bg-background/80 md:bg-gradient-to-r md:from-background/95 md:via-background/80 md:to-background/50" />
       </div>
 
-      <div className="absolute inset-0 glow-bg pointer-events-none" />
+      <div className="absolute inset-0 glow-bg pointer-events-none opacity-40 md:opacity-100" />
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
