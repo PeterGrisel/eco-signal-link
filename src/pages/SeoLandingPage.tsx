@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useParams, Navigate, Link } from "react-router-dom";
+import { useLocation, Navigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Check, ArrowRight, Sparkles } from "lucide-react";
 import Navbar from "@/components/Navbar";
@@ -19,7 +19,8 @@ const fadeUp = {
 };
 
 const SeoLandingPage = () => {
-  const { slug } = useParams<{ slug: string }>();
+  const { pathname } = useLocation();
+  const slug = pathname.replace(/^\/+/, "").replace(/\/+$/, "");
   const page = seoLandingPages.find((p) => p.slug === slug);
 
   if (!page) return <Navigate to="/404" replace />;
