@@ -44,11 +44,11 @@ export const seoLandingPages: SeoLandingPage[] = [
       { title: "Multichannel sequenties", description: "E-mail, LinkedIn en bellen werken samen in één flow." },
       { title: "Transparante rapportage", description: "Dagelijks inzicht in volumes, replies en kwalitatieve gesprekken." },
     ],
-    proofTitle: "Wat klanten typisch zien na 90 dagen",
+    proofTitle: "Waar we samen naartoe werken",
     proof: [
-      { metric: "3x", label: "meer gekwalificeerde gesprekken" },
-      { metric: "40%", label: "minder tijd kwijt aan prospecting" },
-      { metric: "85%", label: "automatisering top- en mid-funnel" },
+      { metric: "Meer", label: "gekwalificeerde gesprekken per maand" },
+      { metric: "Minder", label: "tijd kwijt aan handmatig prospecten" },
+      { metric: "Schaal", label: "in top- en mid-funnel activiteiten" },
     ],
     faqs: [
       { q: "Wat is B2B leadgeneratie precies?", a: "B2B leadgeneratie is het structureel aantrekken van beslissers bij andere bedrijven. Doel is een continue stroom gekwalificeerde gesprekken voor sales." },
@@ -84,11 +84,11 @@ export const seoLandingPages: SeoLandingPage[] = [
       { title: "Sequenties op maat", description: "Per segment passende boodschap, kanaal en cadans." },
       { title: "Kwalificatie door mens", description: "Een SDR voert de eerste echte gesprekken, geen bots." },
     ],
-    proofTitle: "Wat klanten zien in een normaal kwartaal",
+    proofTitle: "Waar we samen naartoe werken",
     proof: [
-      { metric: "30+", label: "gesprekken per maand" },
-      { metric: "5x", label: "meer outreach volume" },
-      { metric: "70%", label: "tijdsbesparing voor sales" },
+      { metric: "Meer", label: "gesprekken per maand" },
+      { metric: "Groter", label: "outreach volume zonder extra mensen" },
+      { metric: "Minder", label: "tijd kwijt aan prospecting" },
     ],
     faqs: [
       { q: "Welke kanalen werken het best om leads te genereren?", a: "De combinatie van e-mail, LinkedIn en telefoon werkt het best. Eén kanaal alleen levert te weinig op." },
@@ -124,11 +124,11 @@ export const seoLandingPages: SeoLandingPage[] = [
       { title: "Content op intent", description: "Andere boodschap voor onderzoekers dan voor kopers." },
       { title: "Volledige attributie", description: "Zicht op welk online kanaal welke deal oplevert." },
     ],
-    proofTitle: "Wat u mag verwachten",
+    proofTitle: "Waar we samen naartoe werken",
     proof: [
-      { metric: "2-3x", label: "hogere conversie van website-bezoek" },
-      { metric: "100%", label: "follow-up op intent signalen" },
-      { metric: "0", label: "leads die in een zwart gat verdwijnen" },
+      { metric: "Hogere", label: "conversie van website-bezoek" },
+      { metric: "Snellere", label: "follow-up op intent signalen" },
+      { metric: "Minder", label: "leads die in een zwart gat verdwijnen" },
     ],
     faqs: [
       { q: "Werkt online leadgeneratie zonder advertenties?", a: "Ja. Veel resultaat komt uit organisch verkeer, signalen en gerichte outreach. Ads zijn een versneller, geen voorwaarde." },
@@ -164,11 +164,11 @@ export const seoLandingPages: SeoLandingPage[] = [
       { title: "Compliance ingebouwd", description: "AVG-conforme aanpak, met juiste opt-outs en logging." },
       { title: "Live dashboard", description: "Realtime overzicht van nieuwe leads, status en eigenaar." },
     ],
-    proofTitle: "Verschil ten opzichte van een lijst",
+    proofTitle: "Waar we samen naartoe werken",
     proof: [
-      { metric: "95%+", label: "correcte contactgegevens" },
-      { metric: "10x", label: "hogere reply rates" },
-      { metric: "0", label: "klachten over spam" },
+      { metric: "Actuele", label: "en geverifieerde contactgegevens" },
+      { metric: "Hogere", label: "reply rates dan gekochte lijsten" },
+      { metric: "Schone", label: "afzendreputatie van uw domein" },
     ],
     faqs: [
       { q: "Is het slim om zakelijke leads te kopen?", a: "Eénmalig misschien, voor verkenning. Structureel niet: de kwaliteit is laag en het schaadt uw afzendreputatie." },
