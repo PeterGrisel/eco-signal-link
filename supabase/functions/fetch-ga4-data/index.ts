@@ -8,6 +8,12 @@ const corsHeaders = {
 
 const DEFAULT_GA4_PROPERTY_ID = "502568051";
 
+const normalizePropertyId = (value: string) => {
+  const trimmed = value.trim();
+  const fromPath = trimmed.match(/(?:^|\/)properties\/(\d+)$/i);
+  return fromPath?.[1] || trimmed.replace(/^properties\//i, "");
+};
+
 async function resolvePropertyId(): Promise<string> {
   const url = Deno.env.get("SUPABASE_URL");
   const key = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
@@ -15,7 +21,7 @@ async function resolvePropertyId(): Promise<string> {
   const supabase = createClient(url, key);
   const { data } = await supabase.from("seo_settings").select("config").limit(1).single();
   const configured = (data?.config as any)?.ga4_property_id;
-  return (configured && String(configured).trim()) || DEFAULT_GA4_PROPERTY_ID;
+  return normalizePropertyId((configured && String(configured).trim()) || DEFAULT_GA4_PROPERTY_ID);
 }
 
 async function getAccessToken(): Promise<string> {
@@ -97,6 +103,10 @@ async function getAccessToken(): Promise<string> {
     }
   }
 
+  if (!tokenRes) {
+    throw new Error("Token exchange failed: no response from Google");
+  }
+
   if (!tokenRes.ok) {
     const err = await tokenRes.text();
     throw new Error(`Token exchange failed: ${err}`);
@@ -114,6 +124,31 @@ interface GA4Request {
   limit?: number;
 }
 
+class GA4ApiError extends Error {
+  constructor(public status: number, message: string, public code = "ga4_api_error") {
+    super(message);
+    this.name = "GA4ApiError";
+  }
+}
+
+const emptyGA4Payload = (days: number, propertyId: string, error: string, message: string) => ({
+  connected: false,
+  error,
+  message,
+  property_id: propertyId,
+  period: { days },
+  totals: {
+    sessions: 0,
+    users: 0,
+    pageviews: 0,
+    bounce_rate: 0,
+    avg_session_duration: 0,
+    engaged_sessions: 0,
+  },
+  top_pages: [],
+  traffic_sources: [],
+});
+
 async function runGA4Report(accessToken: string, propertyId: string, body: GA4Request) {
   const res = await fetch(
     `https://analyticsdata.googleapis.com/v1beta/properties/${propertyId}:runReport`,
@@ -129,7 +164,16 @@ async function runGA4Report(accessToken: string, propertyId: string, body: GA4Re
 
   if (!res.ok) {
     const err = await res.text();
-    throw new Error(`GA4 API error [${res.status}]: ${err}`);
+    let message = err;
+    let code = "ga4_api_error";
+    try {
+      const parsed = JSON.parse(err);
+      message = parsed?.error?.message || err;
+      code = parsed?.error?.status === "PERMISSION_DENIED" ? "ga4_permission_denied" : code;
+    } catch (_) {
+      // Keep raw Google response when it is not JSON.
+    }
+    throw new GA4ApiError(res.status, message, code);
   }
 
   return await res.json();
@@ -138,10 +182,24 @@ async function runGA4Report(accessToken: string, propertyId: string, body: GA4Re
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
+  const requestBody = await req.json().catch(() => ({}));
+  const days = Number(requestBody.days) || 28;
+
   try {
-    const { days = 28 } = await req.json().catch(() => ({}));
-    const accessToken = await getAccessToken();
     const propertyId = await resolvePropertyId();
+
+    if (!/^\d+$/.test(propertyId)) {
+      return new Response(JSON.stringify(emptyGA4Payload(
+        days,
+        propertyId,
+        "ga4_invalid_property_id",
+        "Gebruik de numerieke GA4 Property ID. Gebruik niet de Measurement ID of Stream ID."
+      )), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    const accessToken = await getAccessToken();
 
     const endDate = "today";
     const startDate = `${days}daysAgo`;
@@ -223,6 +281,17 @@ serve(async (req) => {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (e) {
+    if (e instanceof GA4ApiError && (e.status === 403 || e.status === 404)) {
+      const propertyId = await resolvePropertyId().catch(() => "");
+      const message = e.code === "ga4_permission_denied"
+        ? "De service account heeft geen toegang tot deze GA4 property. Geef de service account Viewer-rechten in Property access management."
+        : e.message;
+
+      return new Response(JSON.stringify(emptyGA4Payload(days, propertyId, e.code, message)), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
     console.error("fetch-ga4-data error:", e);
     return new Response(JSON.stringify({ error: e instanceof Error ? e.message : "Onbekende fout" }), {
       status: 500,
