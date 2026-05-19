@@ -45,19 +45,19 @@ const Index = () => {
       <Navbar />
       <Hero />
 
-      <FunnelInfographic />
+      <div className="hidden md:block"><FunnelInfographic /></div>
       <SectorPicker />
-      <LogoTicker />
-      <NoLeadAgencySection />
+      <div className="hidden md:block"><LogoTicker /></div>
+      <div className="hidden md:block"><NoLeadAgencySection /></div>
       <HookSection />
-      <SystemSection />
-      <PipelineEquationTeaser />
-      <FunnelSection />
+      <div className="hidden md:block"><SystemSection /></div>
+      <div className="hidden md:block"><PipelineEquationTeaser /></div>
+      <div className="hidden md:block"><FunnelSection /></div>
       <ProcessSection />
-      <DatahubSection />
+      <div className="hidden md:block"><DatahubSection /></div>
       <PricingSection />
-      <DeliveryModelSection />
-      <ResultsSection />
+      <div className="hidden md:block"><DeliveryModelSection /></div>
+      <div className="hidden md:block"><ResultsSection /></div>
       <FaqSection />
       <CtaSection />
       <Footer />
