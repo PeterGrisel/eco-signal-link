@@ -178,9 +178,10 @@ async function runGA4Report(accessToken: string, propertyId: string, body: GA4Re
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
+  const requestBody = await req.json().catch(() => ({}));
+  const days = Number(requestBody.days) || 28;
+
   try {
-    const { days = 28 } = await req.json().catch(() => ({}));
-    const accessToken = await getAccessToken();
     const propertyId = await resolvePropertyId();
 
     if (!/^\d+$/.test(propertyId)) {
@@ -193,6 +194,8 @@ serve(async (req) => {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
+
+    const accessToken = await getAccessToken();
 
     const endDate = "today";
     const startDate = `${days}daysAgo`;
@@ -275,7 +278,6 @@ serve(async (req) => {
     });
   } catch (e) {
     if (e instanceof GA4ApiError && (e.status === 403 || e.status === 404)) {
-      const { days = 28 } = await req.json().catch(() => ({}));
       const propertyId = await resolvePropertyId().catch(() => "");
       const message = e.code === "ga4_permission_denied"
         ? "De service account heeft geen toegang tot deze GA4 property. Geef de service account Viewer-rechten in Property access management."
