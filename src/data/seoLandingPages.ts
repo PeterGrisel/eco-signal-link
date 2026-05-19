@@ -52,7 +52,7 @@ export const seoLandingPages: SeoLandingPage[] = [
     ],
     faqs: [
       { q: "Wat is B2B leadgeneratie precies?", a: "B2B leadgeneratie is het structureel aantrekken van beslissers bij andere bedrijven. Doel is een continue stroom gekwalificeerde gesprekken voor sales." },
-      { q: "Hoe snel zie ik resultaat?", a: "De eerste gesprekken plannen we doorgaans binnen 4 tot 6 weken na de start. Voorspelbaarheid groeit verder in de maanden daarna." },
+      { q: "Hoe snel zie ik resultaat?", a: "De eerste weken zijn voor opbouw en testen. Daarna werken we samen toe naar voorspelbare gesprekken, afhankelijk van markt en propositie." },
       { q: "Werken jullie met onze eigen tools?", a: "Ja. Wij zijn tool-agnostisch en bouwen op uw bestaande stack. Heeft u nog niets, dan adviseren we een passende set." },
       { q: "Voor welke bedrijven werkt dit?", a: "Voor B2B-organisaties met een bewezen propositie en een dealwaarde die outbound investering rechtvaardigt." },
     ],
@@ -92,7 +92,7 @@ export const seoLandingPages: SeoLandingPage[] = [
     ],
     faqs: [
       { q: "Welke kanalen werken het best om leads te genereren?", a: "De combinatie van e-mail, LinkedIn en telefoon werkt het best. Eén kanaal alleen levert te weinig op." },
-      { q: "Hoeveel leads kan ik per maand verwachten?", a: "Dat hangt af van uw ICP en doelmarkt. Een typische start ligt tussen 15 en 40 gekwalificeerde gesprekken per maand." },
+      { q: "Hoeveel leads kan ik per maand verwachten?", a: "Dat hangt sterk af van uw ICP, doelmarkt en propositie. We bepalen samen realistische doelen en sturen daar maandelijks op bij." },
       { q: "Wat doen we zelf en wat doen jullie?", a: "Wij doen de complete top- en mid-funnel. U voert alleen het eindgesprek en sluit de deal." },
       { q: "Is dit ook geschikt voor niche markten?", a: "Ja, juist daar werkt signaal-gedreven leadgeneratie goed. Kleiner publiek vraagt om scherpere selectie." },
     ],
@@ -131,7 +131,7 @@ export const seoLandingPages: SeoLandingPage[] = [
       { metric: "Minder", label: "leads die in een zwart gat verdwijnen" },
     ],
     faqs: [
-      { q: "Werkt online leadgeneratie zonder advertenties?", a: "Ja. Veel resultaat komt uit organisch verkeer, signalen en gerichte outreach. Ads zijn een versneller, geen voorwaarde." },
+      { q: "Werkt online leadgeneratie zonder advertenties?", a: "Ja. Organisch verkeer, signalen en gerichte outreach vormen de basis. Ads kunnen een versneller zijn, maar zijn geen voorwaarde." },
       { q: "Mag ik bezoekers identificeren onder de AVG?", a: "Wij identificeren bedrijven, geen personen. Dat is binnen de AVG toegestaan en gebruikelijk in B2B." },
       { q: "Hoe meten jullie succes?", a: "Wij sturen op gekwalificeerde gesprekken en pipeline, niet op kliks of vage MQL-scores." },
       { q: "Past dit bij een lange salescyclus?", a: "Juist dan werkt het goed. Online signalen vertellen wanneer een prospect actief is, ook na maanden stilte." },
