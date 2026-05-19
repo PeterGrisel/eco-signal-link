@@ -1,26 +1,35 @@
 import { motion } from "framer-motion";
-import { Database, Brain, RefreshCw, Lock, MessageCircleQuestion, ShieldCheck, Cpu, Workflow, ArrowRight } from "lucide-react";
+import {
+  Database,
+  Brain,
+  ShieldCheck,
+  Cpu,
+  RefreshCw,
+  Lock,
+  MessageCircleQuestion,
+  ArrowRight,
+  CheckCircle2,
+} from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { trackCTA } from "@/lib/tracking";
 import { COPY } from "@/content/copy";
-import datahubScreenshot from "@/assets/datahub-screenshot.png";
 
 const features = [
   {
     icon: MessageCircleQuestion,
     title: "Stel vragen aan uw data",
-    description: "Welke doelgroep levert de meeste klanten? Welk kanaal werkt het best? Uw data geeft het antwoord.",
+    description: "Welke doelgroep levert de meeste klanten? Welk kanaal werkt? Uw data geeft het antwoord.",
   },
   {
     icon: Database,
     title: "Alle data op één plek",
-    description: "Contacten, campagnes, signalen en resultaten. Alles gebundeld in uw eigen omgeving.",
+    description: "Contacten, campagnes, signalen en resultaten. Gebundeld in uw eigen omgeving.",
   },
   {
     icon: Brain,
     title: "AI wordt steeds slimmer",
-    description: "Elk gesprek en resultaat voegt context toe. Hoe langer het draait, hoe beter de AI werkt.",
+    description: "Elk gesprek voegt context toe. Hoe langer het draait, hoe beter de AI werkt.",
   },
   {
     icon: ShieldCheck,
@@ -29,82 +38,156 @@ const features = [
   },
   {
     icon: Cpu,
-    title: "Klaar voor AI-automatisering",
-    description: "Van scoring tot opvolging: bouw stap voor stap richting automatische workflows.",
-  },
-  {
-    icon: RefreshCw,
-    title: "Automatisch opvolgen",
-    description: "Gebruik uw data om vervolgacties en opvolging automatisch te laten lopen.",
+    title: "Klaar voor automatisering",
+    description: "Van scoring tot opvolging. Bouw stap voor stap richting automatische workflows.",
   },
   {
     icon: Lock,
     title: "Alles blijft van u",
-    description: "Geen verplichtingen. De data, inzichten en modellen zijn van u. Altijd.",
+    description: "Geen lock-in. De data, inzichten en modellen zijn van u. Altijd.",
   },
+];
+
+const summaryBullets = [
+  "Eén bron van waarheid voor sales en marketing",
+  "Realtime monitoring op datakwaliteit",
+  "Audit trails en compliance ingebakken",
+  "Naadloze koppeling met uw bestaande systemen",
 ];
 
 const DatahubSection = () => {
   return (
-    <section id="datahub" className="py-16 md:py-32 relative">
+    <section id="datahub" className="py-20 md:py-32 relative overflow-hidden">
       <div className="absolute inset-0 glow-bg pointer-events-none" />
-      <div className="container mx-auto px-4 md:px-6 relative z-10">
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,hsl(var(--primary)/0.06),transparent_60%)]" />
+
+      <div className="container mx-auto px-4 md:px-6 relative z-10 max-w-6xl">
+        {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6 }}
-          className="mb-16 max-w-2xl"
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-12 md:mb-16"
         >
-          <p className="text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4">
-            {COPY.datahubCore.eyebrow}
-          </p>
-          <h2 className="font-display font-bold text-3xl md:text-5xl lg:text-6xl tracking-tight leading-tight">
-            {COPY.datahubCore.heading}
-            <br />
-            <span className="text-gradient">{COPY.datahubCore.headingAccent}</span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary mb-6">
+            <Database className="w-4 h-4" />
+            <span className="text-sm font-medium">Dataplatform inbegrepen</span>
+          </div>
+
+          <h2 className="font-display font-bold text-3xl md:text-5xl lg:text-6xl tracking-tight leading-tight mb-5">
+            Aangedreven door{" "}
+            <span className="text-gradient">Datahub</span>
           </h2>
-          <p className="text-muted-foreground mt-6 text-lg leading-relaxed max-w-xl">
-            {COPY.datahubCore.body}
+
+          <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+            Elke groeimachine die wij bouwen draait op Datahub. Een gegoverneerd dataplatform waarmee uw AI-investering staat op een solide fundament.
           </p>
         </motion.div>
 
-        {/* Screenshot */}
+        {/* Summary card */}
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-50px" }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="mb-16 rounded-lg border border-glow overflow-hidden shadow-2xl shadow-primary/5"
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="card-gradient border border-glow rounded-2xl p-6 md:p-10 mb-12 md:mb-16"
         >
-          <img
-            src={datahubScreenshot}
-            alt="Datahub platform interface"
-            className="w-full h-auto"
-            loading="lazy"
-          />
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+            <div>
+              <h3 className="font-display font-bold text-2xl md:text-3xl mb-4">
+                Fundament voor intelligentie
+              </h3>
+              <p className="text-muted-foreground mb-6 leading-relaxed">
+                Datahub levert AI-ready infrastructuur met Master Data Management, governance en redenerende agents. Van ruwe data naar bruikbare inzichten via een gestructureerde cyclus.
+              </p>
+              <ul className="space-y-3">
+                {summaryBullets.map((item, i) => (
+                  <motion.li
+                    key={item}
+                    initial={{ opacity: 0, x: -5 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.05, duration: 0.3 }}
+                    className="flex items-center gap-3 text-sm md:text-base"
+                  >
+                    <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
+                    <span>{item}</span>
+                  </motion.li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Code preview */}
+            <div className="bg-background/60 rounded-xl p-5 md:p-6 font-mono text-sm border border-border/40">
+              <div className="flex items-center gap-2 mb-4 text-muted-foreground">
+                <div className="w-2.5 h-2.5 rounded-full bg-destructive/60" />
+                <div className="w-2.5 h-2.5 rounded-full bg-primary/60" />
+                <div className="w-2.5 h-2.5 rounded-full bg-primary/40" />
+                <span className="ml-2 text-xs">datahub.config.ts</span>
+              </div>
+              <pre className="text-xs md:text-sm overflow-x-auto leading-relaxed">
+                <code>
+                  <span className="text-primary">await</span>{" "}
+                  <span className="text-foreground">rebelforce</span>
+                  <span className="text-muted-foreground">.</span>
+                  <span className="text-primary">intelligence</span>
+                  <span className="text-muted-foreground">{"({"}</span>
+                  {"\n"}
+                  {"  "}<span className="text-primary/80">datahub</span>
+                  <span className="text-muted-foreground">: </span>
+                  <span className="text-foreground">"governed"</span>
+                  <span className="text-muted-foreground">,</span>
+                  {"\n"}
+                  {"  "}<span className="text-primary/80">mdm</span>
+                  <span className="text-muted-foreground">: </span>
+                  <span className="text-foreground">"enabled"</span>
+                  <span className="text-muted-foreground">,</span>
+                  {"\n"}
+                  {"  "}<span className="text-primary/80">aiReady</span>
+                  <span className="text-muted-foreground">: </span>
+                  <span className="text-foreground">true</span>
+                  <span className="text-muted-foreground">,</span>
+                  {"\n"}
+                  {"  "}<span className="text-primary/80">reasoning</span>
+                  <span className="text-muted-foreground">: </span>
+                  <span className="text-foreground">"autonomous"</span>
+                  {"\n"}
+                  <span className="text-muted-foreground">{"});"}</span>
+                </code>
+              </pre>
+            </div>
+          </div>
         </motion.div>
-        <div className="grid md:grid-cols-2 gap-4 md:gap-6 mb-12">
-          {features.map((feature, i) => (
-            <motion.div
-              key={feature.title}
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.5, delay: i * 0.08 }}
-              className="card-gradient border border-glow rounded-lg p-8 hover:border-primary/30 transition-colors group"
-            >
-              <feature.icon className="w-8 h-8 text-primary mb-5 group-hover:scale-110 transition-transform" />
-              <h3 className="font-display font-bold text-xl mb-3">{feature.title}</h3>
-              <p className="text-muted-foreground leading-relaxed">{feature.description}</p>
-            </motion.div>
-          ))}
+
+        {/* Features grid */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-12">
+          {features.map((feature, i) => {
+            const Icon = feature.icon;
+            return (
+              <motion.div
+                key={feature.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.06, duration: 0.5 }}
+                className="group card-gradient border border-glow rounded-2xl p-6 hover:border-primary/30 transition-all duration-300"
+              >
+                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
+                  <Icon className="w-6 h-6 text-primary" />
+                </div>
+                <h3 className="font-display font-semibold text-lg mb-2">{feature.title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{feature.description}</p>
+              </motion.div>
+            );
+          })}
         </div>
 
+        {/* CTA */}
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
-          viewport={{ once: true, margin: "-50px" }}
+          viewport={{ once: true }}
           transition={{ duration: 0.5 }}
           className="text-center space-y-6"
         >
@@ -115,7 +198,8 @@ const DatahubSection = () => {
               rel="noopener noreferrer"
               onClick={() => trackCTA("Datahub — Meer weten", "https://app.usemotion.com/meet/Rebel-Force/meeting")}
             >
-              Meer weten over Datahub →
+              Meer weten over Datahub
+              <ArrowRight className="w-4 h-4 ml-2" />
             </a>
           </Button>
           <div className="flex flex-wrap gap-3 justify-center">
