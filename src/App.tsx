@@ -11,6 +11,7 @@ import OverOns from "./pages/OverOns.tsx";
 import OnsTeam from "./pages/OnsTeam.tsx";
 import SectorPage from "./pages/SectorPage.tsx";
 import SolutionPage from "./pages/SolutionPage.tsx";
+import SeoLandingPage from "./pages/SeoLandingPage.tsx";
 import FullSalesManagement from "./pages/FullSalesManagement.tsx";
 import FullServiceRecruitment from "./pages/FullServiceRecruitment.tsx";
 import Blog from "./pages/Blog.tsx";
@@ -80,6 +81,10 @@ const AnimatedRoutes = () => {
           <Route path="/ons-team" element={<OnsTeam />} />
           <Route path="/sectoren/:slug" element={<SectorPage />} />
           <Route path="/solutions/:slug" element={<SolutionPage />} />
+          <Route path="/b2b-leadgeneratie" element={<SeoLandingPage />} />
+          <Route path="/leads-genereren-b2b" element={<SeoLandingPage />} />
+          <Route path="/online-leadgeneratie" element={<SeoLandingPage />} />
+          <Route path="/zakelijke-leads" element={<SeoLandingPage />} />
           <Route path="/full-service-recruitment" element={<FullServiceRecruitment />} />
           <Route path="/full-sales-management" element={<FullSalesManagement />} />
           <Route path="/blog" element={<Blog />} />
