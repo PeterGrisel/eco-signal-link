@@ -54,7 +54,7 @@ export const seoLandingPages: SeoLandingPage[] = [
       { q: "Wat is B2B leadgeneratie precies?", a: "B2B leadgeneratie is het structureel aantrekken van beslissers bij andere bedrijven. Doel is een continue stroom gekwalificeerde gesprekken voor sales." },
       { q: "Hoe snel zie ik resultaat?", a: "De eerste gesprekken plannen we doorgaans binnen 4 tot 6 weken na de start. Voorspelbaarheid groeit verder in de maanden daarna." },
       { q: "Werken jullie met onze eigen tools?", a: "Ja. Wij zijn tool-agnostisch en bouwen op uw bestaande stack. Heeft u nog niets, dan adviseren we een passende set." },
-      { q: "Voor welke bedrijven werkt dit?", a: "Voor B2B-organisaties met een bewezen propositie en gemiddelde dealwaarde vanaf circa 5.000 euro per jaar." },
+      { q: "Voor welke bedrijven werkt dit?", a: "Voor B2B-organisaties met een bewezen propositie en een dealwaarde die outbound investering rechtvaardigt." },
     ],
     relatedSolutions: [
       { slug: "voorspelbare-pipeline", label: "Voorspelbare pipeline" },
