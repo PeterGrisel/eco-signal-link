@@ -72,7 +72,7 @@ const DatahubSection = () => {
         >
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary mb-6">
             <Database className="w-4 h-4" />
-            <span className="text-sm font-medium">Dataplatform inbegrepen</span>
+            <span className="text-sm font-medium">Optioneel dataplatform</span>
           </div>
 
           <h2 className="font-display font-bold text-3xl md:text-5xl lg:text-6xl tracking-tight leading-tight mb-5">
@@ -81,7 +81,7 @@ const DatahubSection = () => {
           </h2>
 
           <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Elke groeimachine die wij bouwen draait op Datahub. Een gegoverneerd dataplatform waarmee uw AI-investering staat op een solide fundament.
+            Wilt u meer uit uw data halen? Dan koppelen wij optioneel Datahub aan uw groeimachine. Een gegoverneerd dataplatform als solide fundament onder uw AI.
           </p>
         </motion.div>
 
