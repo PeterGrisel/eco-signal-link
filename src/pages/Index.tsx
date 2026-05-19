@@ -12,6 +12,7 @@ import PipelineEquationTeaser from "@/components/PipelineEquationTeaser";
 import FunnelSection from "@/components/FunnelSection";
 import FunnelInfographic from "@/components/FunnelInfographic";
 import SectorPicker from "@/components/SectorPicker";
+import LogoTicker from "@/components/LogoTicker";
 import ProcessSection from "@/components/ProcessSection";
 import DatahubSection from "@/components/DatahubSection";
 import PricingSection from "@/components/PricingSection";
@@ -46,6 +47,7 @@ const Index = () => {
 
       <FunnelInfographic />
       <SectorPicker />
+      <LogoTicker />
       <NoLeadAgencySection />
       <HookSection />
       <SystemSection />
