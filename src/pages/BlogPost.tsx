@@ -56,6 +56,8 @@ const BlogPost = () => {
     title: post ? `${post.title} | B2BGroeiMachine` : "Blog | B2BGroeiMachine",
     description: post?.meta_description || post?.excerpt || undefined,
     canonical: post ? `https://b2bgroeimachine.io/blog/${post.slug}` : undefined,
+    ogType: post ? "article" : "website",
+    ogImage: post?.featured_image || undefined,
   });
 
   if (loading) {
