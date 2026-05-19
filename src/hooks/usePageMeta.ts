@@ -4,9 +4,11 @@ interface PageMeta {
   title: string;
   description?: string;
   canonical?: string;
+  ogType?: string;
+  ogImage?: string;
 }
 
-export const usePageMeta = ({ title, description, canonical }: PageMeta) => {
+export const usePageMeta = ({ title, description, canonical, ogType, ogImage }: PageMeta) => {
   useEffect(() => {
     const prevTitle = document.title;
     document.title = title;
@@ -27,6 +29,15 @@ export const usePageMeta = ({ title, description, canonical }: PageMeta) => {
     }
 
     setMeta("og:title", title, "property");
+    setMeta("og:type", ogType || "website", "property");
+    setMeta("og:url", canonical || window.location.href, "property");
+    if (ogImage) {
+      setMeta("og:image", ogImage, "property");
+      setMeta("twitter:image", ogImage);
+    }
+    setMeta("twitter:card", ogImage ? "summary_large_image" : "summary");
+    setMeta("twitter:title", title);
+    if (description) setMeta("twitter:description", description);
 
     if (canonical) {
       let link = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
@@ -41,5 +52,5 @@ export const usePageMeta = ({ title, description, canonical }: PageMeta) => {
     return () => {
       document.title = prevTitle;
     };
-  }, [title, description, canonical]);
+  }, [title, description, canonical, ogType, ogImage]);
 };
