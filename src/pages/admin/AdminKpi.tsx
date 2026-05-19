@@ -678,7 +678,7 @@ export const KpiTabContent = () => {
           <div className="flex items-center gap-2">
             <Activity className="w-5 h-5 text-primary" />
             <h2 className="font-display font-semibold text-foreground">Google Analytics</h2>
-            {ga4 && (
+            {ga4 && !ga4Error && (
               <Badge variant="outline" className="text-[10px] bg-green-500/10 text-green-400 border-green-500/20">
                 LIVE
               </Badge>
@@ -689,6 +689,16 @@ export const KpiTabContent = () => {
         {ga4Loading && !ga4 ? (
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[1, 2, 3, 4].map(i => <div key={i} className="h-24 bg-muted rounded-lg animate-pulse" />)}
+          </div>
+        ) : ga4Error ? (
+          <div className="rounded-lg border border-yellow-500/20 bg-yellow-500/10 p-4">
+            <div className="flex items-start gap-3">
+              <AlertTriangle className="mt-0.5 h-4 w-4 flex-shrink-0 text-yellow-400" />
+              <div className="space-y-1">
+                <p className="text-sm font-medium text-foreground">GA4 is nog niet gekoppeld</p>
+                <p className="text-sm text-muted-foreground">{ga4Error}</p>
+              </div>
+            </div>
           </div>
         ) : ga4 ? (
           <div className="space-y-5">
@@ -770,7 +780,7 @@ export const KpiTabContent = () => {
             </div>
           </div>
         ) : (
-          <p className="text-sm text-muted-foreground">GA4 data wordt geladen...</p>
+          <p className="text-sm text-muted-foreground">Geen GA4 data beschikbaar.</p>
         )}
       </div>
 
