@@ -23,6 +23,11 @@ export interface Sector {
   challenges: string[];
   solutions: string[];
   signals: string[];
+  voorbeeldcampagne?: string;
+  dataGebruikt?: string[];
+  beslissers?: string[];
+  naVierWeken?: string[];
+  geenGoedeFit?: string[];
   funnelDefaults: FunnelDefaults;
 }
 
