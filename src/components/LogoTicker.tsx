@@ -76,7 +76,7 @@ const LogoTicker = () => {
           {repeated.map((name, i) => (
             <span
               key={i}
-              className="mx-8 md:mx-14 shrink-0 text-lg md:text-xl font-display font-bold text-muted-foreground/40 hover:text-primary transition-colors duration-300 select-none whitespace-nowrap"
+              className="mx-8 md:mx-14 shrink-0 text-lg md:text-xl font-display font-bold text-muted-foreground hover:text-primary transition-colors duration-300 select-none whitespace-nowrap"
             >
               {name}
             </span>
