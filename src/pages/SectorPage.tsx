@@ -2,7 +2,7 @@ import { useParams, Navigate } from "react-router-dom";
 import { useMemo } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { CheckCircle, AlertTriangle, Radio } from "lucide-react";
+import { CheckCircle, AlertTriangle, Radio, FileText, Database, Users, Calendar, Ban } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PageLoader from "@/components/PageLoader";
@@ -174,6 +174,125 @@ const SectorPage = () => {
         </section>
 
         <FunnelCalculatorSection defaults={sector.funnelDefaults} />
+
+        {/* Voorbeeldcampagne */}
+        {sector.voorbeeldcampagne && (
+          <section className="py-24 border-t border-border">
+            <div className="container mx-auto px-6 max-w-4xl">
+              <motion.div {...fadeUp}>
+                <p className="text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4 flex items-center gap-2">
+                  <FileText className="w-4 h-4" /> Voorbeeldcampagne
+                </p>
+                <h2 className="font-display font-bold text-2xl md:text-4xl mb-6 leading-tight">
+                  Zo ziet het er in <span className="text-gradient">{sector.title.toLowerCase()}</span> uit
+                </h2>
+                <p className="text-muted-foreground text-lg leading-relaxed">
+                  {sector.voorbeeldcampagne}
+                </p>
+              </motion.div>
+            </div>
+          </section>
+        )}
+
+        {/* Data + Beslissers grid */}
+        {(sector.dataGebruikt || sector.beslissers) && (
+          <section className="py-24 border-t border-border">
+            <div className="container mx-auto px-6">
+              <div className="grid md:grid-cols-2 gap-8">
+                {sector.dataGebruikt && (
+                  <motion.div {...fadeUp} className="card-gradient border border-glow rounded-lg p-8">
+                    <div className="flex items-center gap-3 mb-5">
+                      <Database className="w-5 h-5 text-primary" />
+                      <h3 className="font-display font-bold text-xl">Welke data gebruiken we</h3>
+                    </div>
+                    <ul className="space-y-3">
+                      {sector.dataGebruikt.map((d) => (
+                        <li key={d} className="flex gap-3 text-muted-foreground leading-relaxed">
+                          <span className="text-primary mt-1">·</span>
+                          <span>{d}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </motion.div>
+                )}
+                {sector.beslissers && (
+                  <motion.div {...fadeUp} transition={{ duration: 0.6, delay: 0.15 }} className="card-gradient border border-glow rounded-lg p-8">
+                    <div className="flex items-center gap-3 mb-5">
+                      <Users className="w-5 h-5 text-primary" />
+                      <h3 className="font-display font-bold text-xl">Welke beslissers benaderen we</h3>
+                    </div>
+                    <ul className="space-y-3">
+                      {sector.beslissers.map((b) => (
+                        <li key={b} className="flex gap-3 text-muted-foreground leading-relaxed">
+                          <span className="text-primary mt-1">·</span>
+                          <span>{b}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </motion.div>
+                )}
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* Na 4 weken */}
+        {sector.naVierWeken && (
+          <section className="py-24 border-t border-border">
+            <div className="container mx-auto px-6">
+              <motion.div {...fadeUp} className="max-w-2xl mb-10">
+                <p className="text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4 flex items-center gap-2">
+                  <Calendar className="w-4 h-4" /> Na 4 weken
+                </p>
+                <h2 className="font-display font-bold text-2xl md:text-4xl mb-4">
+                  Wat <span className="text-gradient">u letterlijk ziet</span>
+                </h2>
+                <p className="text-muted-foreground leading-relaxed">
+                  Geen beloftes over aantallen. Wel een concrete check van waar u na vier weken staat.
+                </p>
+              </motion.div>
+              <div className="grid sm:grid-cols-2 gap-4">
+                {sector.naVierWeken.map((n, i) => (
+                  <motion.div
+                    key={n}
+                    initial={{ opacity: 0, y: 12 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: i * 0.06 }}
+                    className="flex items-start gap-3 card-gradient border border-glow rounded-lg p-5"
+                  >
+                    <CheckCircle className="w-4 h-4 text-primary mt-1 shrink-0" />
+                    <span className="text-sm leading-relaxed">{n}</span>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* Geen goede fit */}
+        {sector.geenGoedeFit && (
+          <section className="py-24 border-t border-border">
+            <div className="container mx-auto px-6 max-w-3xl">
+              <motion.div {...fadeUp}>
+                <p className="text-muted-foreground font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4 flex items-center gap-2">
+                  <Ban className="w-4 h-4" /> Wanneer dit geen goede fit is
+                </p>
+                <h2 className="font-display font-bold text-2xl md:text-3xl mb-6">
+                  Wij werken liever eerlijk dan groot.
+                </h2>
+                <ul className="space-y-4">
+                  {sector.geenGoedeFit.map((g) => (
+                    <li key={g} className="flex gap-3 text-muted-foreground leading-relaxed">
+                      <Ban className="w-4 h-4 text-muted-foreground/70 mt-1 shrink-0" />
+                      <span>{g}</span>
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+            </div>
+          </section>
+        )}
 
         {/* Other sectors */}
         <section className="py-24 border-t border-border">
