@@ -7,26 +7,7 @@ import { trackNavClick } from "@/lib/tracking";
 import CtaLink from "@/components/CtaLink";
 import { solutions } from "@/data/solutions";
 
-const navLinks = [
-  { href: "/#pricing", label: "Pricing" },
-];
-
-const solutionLinks = solutions.map((s) => ({
-  href: `/solutions/${s.slug}`,
-  label: s.navLabel,
-  description: s.description,
-}));
-
-const kennisLinks = [
-  { href: "/pipeline-equation", label: "Pipeline Equation™", description: "Ons X1–X10 framework" },
-  { href: "/blog", label: "Blog", description: "Artikelen & inzichten" },
-  { href: "/cheatsheets", label: "Cheatsheets", description: "Praktische quick-start guides" },
-  { href: "/trainingen", label: "Trainingen", description: "Interactieve programma's & workshops" },
-  { href: "/partners", label: "Partners", description: "Signal Certified community" },
-  { href: "/over-ons", label: "Over Ons", description: "Het bedrijf achter B2BGroeiMachine" },
-  { href: "/ons-team", label: "Ons Team", description: "Maak kennis met de experts" },
-  { href: "/brandstory", label: "Brandstory", description: "Ons verhaal & visie" },
-];
+const navLinks: { href: string; label: string }[] = [];
 
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
