@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
-import { Mail, Linkedin, HelpCircle, MessageCircle } from "lucide-react";
+import { Mail, Linkedin, HelpCircle, MessageCircle, Euro } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
@@ -24,6 +24,12 @@ export default function LeftDock() {
         setFaqOpen(true);
         trackCTA("LeftDock — FAQ", "#faq");
       },
+    },
+    {
+      icon: Euro,
+      label: "Pricing",
+      href: "/#pricing",
+      onClick: () => trackCTA("LeftDock — Pricing", "/#pricing"),
     },
     {
       icon: Mail,
