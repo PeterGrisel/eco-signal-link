@@ -45,7 +45,7 @@ export default function Chapter03TwoWays() {
     >
       <div className="grid lg:grid-cols-2 gap-6 lg:gap-10">
         {/* Standaard */}
-        <div className="rounded-2xl border border-foreground/10 bg-background/70 p-8">
+        <div className="rounded-2xl border border-foreground/10 bg-background/40 backdrop-blur-md p-8">
           <div className="mb-6 pb-5 border-b border-foreground/10">
             <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-2">Standaard methode</div>
             <div className="text-sm text-muted-foreground">Campagne-gebaseerd. Handmatig. Lineair.</div>
@@ -99,7 +99,7 @@ export default function Chapter03TwoWays() {
       </div>
 
       {/* Key differences als doorlopende rij */}
-      <div className="mt-12 rounded-2xl border border-foreground/10 bg-background/75 p-8">
+      <div className="mt-12 rounded-2xl border border-foreground/10 bg-background/45 backdrop-blur-md p-8">
         <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-6 text-center">
           Het verschil
         </div>
