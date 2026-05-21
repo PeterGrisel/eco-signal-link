@@ -43,9 +43,9 @@ const DeliveryModelSection = () => {
               <Send className="w-6 h-6 text-primary" />
             </div>
             <h3 className="font-display font-bold text-2xl mb-1">Done-for-you</h3>
-            <p className="text-primary font-display text-sm font-semibold mb-4">Wij doen het voor u</p>
+            <p className="text-primary font-display text-sm font-semibold mb-4">Uw MSP voor groei</p>
             <p className="text-muted-foreground leading-relaxed mb-6">
-              U focust op gesprekken voeren. Wij runnen het systeem, elke dag. Alsof u een heel team heeft, zonder de kosten.
+              U focust op gesprekken voeren. Wij runnen het systeem, elke dag. U hoeft niets te beheren. Wij zijn uw Managed Service Provider voor voorspelbare pipeline.
             </p>
             <div className="flex flex-wrap gap-2 mt-auto">
               {["Dagelijks beheer", "Elke maand beter", "Wij kwalificeren voor u"].map((tag) => (
