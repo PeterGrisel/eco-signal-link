@@ -24,27 +24,39 @@ export default function HomepageNarrative() {
       <Chapter01Scenario />
       <Chapter02Context />
 
-      <CinematicBridge white="Outbound is geen ruis." orange="Het is een signaal." />
+      <CinematicBridge
+        white="Niet alleen activiteit vastleggen."
+        orange="Eerst context vastleggen."
+      />
 
       {/* ACT II — DE METHODE */}
       <Chapter03TwoWays />
       <Chapter04Methode />
 
-      <CinematicBridge white="Methode alleen schaalt niet." orange="Fundament maakt het herhaalbaar." />
+      <CinematicBridge
+        white="Engagement is geen losse actie."
+        orange="Het is een patroon van gedrag."
+      />
 
       {/* ACT III — HET FUNDAMENT */}
       <Chapter05Brein />
       <Chapter06Blauwdruk />
       <Chapter07Schaal />
 
-      <CinematicBridge white="Het fundament staat." orange="Nu draait de operatie." />
+      <CinematicBridge
+        white="Eén setup. Eén methode."
+        orange="Oneindig veel groei-bewegingen."
+      />
 
       {/* ACT IV — DE OPERATIE */}
       <Chapter08Funnel />
       <Chapter09Modules />
       <Chapter10Levering />
 
-      <CinematicBridge white="Pipeline is geen lijst." orange="Het is een patroon." />
+      <CinematicBridge
+        white="Geen rapport."
+        orange="Een volgende beste actie."
+      />
 
       {/* ACT V — DE BELOFTE */}
       <Chapter11Bewegingen />
