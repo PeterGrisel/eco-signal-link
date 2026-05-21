@@ -40,9 +40,9 @@ export default function ChapterFrame({
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
+          viewport={{ once: true, margin: "200px 0px 200px 0px" }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          className="group relative mx-auto max-w-3xl rounded-2xl bg-background/45 backdrop-blur-md border border-foreground/10 px-6 py-8 md:px-10 md:py-10 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.5)] text-center mb-14 md:mb-20 overflow-hidden"
+          className="group relative mx-auto max-w-3xl rounded-2xl bg-card/85 backdrop-blur-md shadow-lg border border-foreground/10 px-6 py-8 md:px-10 md:py-10 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.5)] text-center mb-14 md:mb-20 overflow-hidden"
         >
           {/* GlassCard accent line — top primary gradient */}
           <span
@@ -77,7 +77,7 @@ export default function ChapterFrame({
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
+          viewport={{ once: true, margin: "200px 0px 200px 0px" }}
           transition={{ duration: 0.7, ease: "easeOut", delay: 0.1 }}
         >
           {children}
@@ -87,7 +87,7 @@ export default function ChapterFrame({
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
-            viewport={{ once: true, margin: "-80px" }}
+            viewport={{ once: true, margin: "200px 0px 200px 0px" }}
             transition={{ duration: 0.6, delay: 0.2 }}
             className="mt-16 md:mt-20 text-center"
           >
