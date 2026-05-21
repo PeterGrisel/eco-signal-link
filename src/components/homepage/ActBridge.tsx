@@ -46,7 +46,7 @@ export default function ActBridge({
       <div className="relative h-24 md:h-32 flex items-center justify-center pointer-events-none">
         <div className="absolute left-1/2 top-0 -translate-x-1/2 h-full w-px bg-gradient-to-b from-transparent via-primary/30 to-transparent" />
         {label && (
-          <div className="relative bg-background/80 backdrop-blur-sm border border-foreground/10 rounded-full px-4 py-1.5">
+          <div className="relative bg-background/80 border border-foreground/10 rounded-full px-4 py-1.5">
             <span className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
               {label}
             </span>

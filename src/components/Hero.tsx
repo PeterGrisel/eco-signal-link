@@ -21,7 +21,7 @@ const Hero = () => {
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
           {/* Glass-morph hero card */}
-          <div className="flex-1 max-w-2xl rounded-[2rem] border border-white/[0.08] bg-white/[0.04] backdrop-blur-xl shadow-[0_8px_32px_0_rgba(0,5,5,0.2)] p-6 md:p-10">
+          <div className="flex-1 max-w-2xl rounded-[2rem] border border-white/[0.08] bg-white/[0.04] shadow-[0_8px_32px_0_rgba(0,5,5,0.2)] p-6 md:p-10">
             <motion.h1
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}

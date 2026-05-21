@@ -33,7 +33,7 @@ export default function Chapter05Brein() {
           <div className="absolute inset-8 rounded-full border border-primary/15" />
           <div className="absolute inset-16 rounded-full border border-primary/10" />
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="flex flex-col items-center justify-center h-28 w-28 rounded-full bg-primary/10 border border-primary/40 backdrop-blur-sm">
+            <div className="flex flex-col items-center justify-center h-28 w-28 rounded-full bg-primary/10 border border-primary/40">
               <Brain className="h-7 w-7 text-primary mb-1" strokeWidth={1.5} />
               <span className="text-[9px] uppercase tracking-[0.2em] text-foreground/90 text-center leading-tight">
                 Commercieel<br />Brein
@@ -48,7 +48,7 @@ export default function Chapter05Brein() {
             return (
               <div
                 key={l.label}
-                className="absolute -translate-x-1/2 -translate-y-1/2 flex items-center gap-1.5 rounded-md bg-background/80 border border-foreground/15 backdrop-blur px-2.5 py-1.5 shadow-sm"
+                className="absolute -translate-x-1/2 -translate-y-1/2 flex items-center gap-1.5 rounded-md bg-background/80 border border-foreground/15 px-2.5 py-1.5 shadow-sm"
                 style={{ left: `${x}%`, top: `${y}%` }}
               >
                 <l.icon className="h-3 w-3 text-primary" strokeWidth={1.6} />
