@@ -36,7 +36,7 @@ const differences = [
 export default function Chapter03TwoWays() {
   return (
     <ChapterFrame
-      number="03"
+      id="chapter-03" number="03"
       eyebrow="Twee manieren"
       title={<>Twee manieren om B2B groei te sturen. <span className="text-primary">Eén is lineair. Eén schaalt.</span></>}
       intro="De standaardmethode is campagne-gebaseerd, handmatig en lineair. De B2BGroeiMachine-methode is systeem-gebaseerd, signaal-gedreven en schaalbaar."

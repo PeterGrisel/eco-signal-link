@@ -7,6 +7,7 @@ import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 import HomepageNarrative from "@/components/homepage/HomepageNarrative";
 import Footer from "@/components/Footer";
 import StickyHeroCta from "@/components/StickyHeroCta";
+import ActScrollProgress from "@/components/homepage/ActScrollProgress";
 
 const Index = () => {
   // Redirect auth errors (expired magic links) to /signaal/start
@@ -32,6 +33,16 @@ const Index = () => {
       <HomepageNarrative />
       <Footer />
       <StickyHeroCta />
+      <ActScrollProgress
+        acts={[
+          { id: "chapter-01", label: "Scenario" },
+          { id: "chapter-02", label: "Context" },
+          { id: "chapter-03", label: "Twee manieren" },
+          { id: "chapter-04", label: "Schaal" },
+          { id: "chapter-05", label: "Aanpak" },
+          { id: "act-finale", label: "Start" },
+        ]}
+      />
       </div>
     </div>
     </PageLoader>
