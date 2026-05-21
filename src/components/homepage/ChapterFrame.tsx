@@ -41,8 +41,19 @@ export default function ChapterFrame({
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          className="mx-auto max-w-3xl rounded-2xl bg-background/55 backdrop-blur-md border border-foreground/10 px-6 py-8 md:px-10 md:py-10 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.5)] text-center mb-14 md:mb-20"
+          className="group relative mx-auto max-w-3xl rounded-2xl bg-background/55 backdrop-blur-md border border-foreground/10 px-6 py-8 md:px-10 md:py-10 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.5)] text-center mb-14 md:mb-20 overflow-hidden"
         >
+          {/* GlassCard accent line — top primary gradient */}
+          <span
+            aria-hidden
+            className="pointer-events-none absolute top-0 left-0 h-px w-full bg-gradient-to-r from-transparent via-primary/60 to-transparent"
+          />
+          {/* Subtle hover glow */}
+          <span
+            aria-hidden
+            className="pointer-events-none absolute inset-0 bg-primary/0 group-hover:bg-primary/[0.04] transition-colors duration-500"
+          />
+          <div className="relative">
           <div className="flex items-center justify-center gap-3 mb-5">
             <span className="text-[10px] tabular-nums text-primary/70 tracking-[0.2em]">
               {number}
@@ -62,6 +73,7 @@ export default function ChapterFrame({
               {intro}
             </p>
           )}
+          </div>
         </motion.div>
 
         {/* Body */}
