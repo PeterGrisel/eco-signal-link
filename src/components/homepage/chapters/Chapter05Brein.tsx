@@ -23,8 +23,8 @@ export default function Chapter05Brein() {
       id="chapter-05"
       number="05"
       eyebrow="Stap 01 — 02 · Het fundament"
-      title={<>Het <span className="text-primary">Commerciële Brein</span>: context wordt herbruikbare intelligentie.</>}
-      intro="Wij beginnen niet bij campagnes. Wij beginnen bij het commerciële DNA van uw bedrijf — één herbruikbare laag voor ICP, signalen, regels en routing."
+      title={<>Het <span className="text-primary">Commerciële Brein</span>. Context wordt herbruikbare intelligentie.</>}
+      intro="Wij beginnen niet bij campagnes. Wij beginnen bij uw commerciële DNA. Eén herbruikbare laag voor ICP, signalen, regels en routing."
     >
       <div className="grid lg:grid-cols-2 gap-8 items-center">
         {/* Visual: orbital brein */}
