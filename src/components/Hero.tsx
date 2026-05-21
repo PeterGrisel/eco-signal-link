@@ -4,11 +4,15 @@ import { Button } from "@/components/ui/button";
 import CtaLink from "@/components/CtaLink";
 import { CTA } from "@/content/copy";
 import ParallaxBrain from "@/components/hero/ParallaxBrain";
+import ClientOrbit from "@/components/hero/ClientOrbit";
+import { Users, ArrowLeft } from "lucide-react";
+import { trackCTA } from "@/lib/tracking";
 
 const rotatingWords = ["handmatig werk.", "reactief reageren.", "gemiste signalen."];
 
 const Hero = () => {
   const [wordIndex, setWordIndex] = useState(0);
+  const [showClients, setShowClients] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -23,10 +27,35 @@ const Hero = () => {
       <div aria-hidden className="absolute inset-0 z-0 pointer-events-none">
         <ParallaxBrain />
       </div>
+
+      {/* Klanten orbit — fades in when toggle active */}
+      <AnimatePresence>
+        {showClients && (
+          <motion.div
+            key="orbit"
+            initial={{ opacity: 0, scale: 0.85 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.85 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="absolute inset-0 z-[5] pointer-events-none"
+          >
+            <ClientOrbit rings={3} baseSize={22} gap={14} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
-          {/* Glass-morph hero card */}
-          <div className="flex-1 max-w-2xl rounded-[2rem] border border-white/[0.08] bg-white/[0.04] shadow-[0_8px_32px_0_rgba(0,5,5,0.2)] p-6 md:p-10">
+          <AnimatePresence mode="wait">
+          {!showClients ? (
+          <motion.div
+            key="hero-card"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.4 }}
+            className="flex-1 max-w-2xl rounded-[2rem] border border-white/[0.08] bg-white/[0.04] shadow-[0_8px_32px_0_rgba(0,5,5,0.2)] p-6 md:p-10"
+          >
             <motion.h1
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -74,12 +103,48 @@ const Hero = () => {
                   {CTA.nulmeting.label}
                 </CtaLink>
               </Button>
-              <Button variant="heroOutline" size="lg" asChild>
-                <CtaLink intent="hoeHetWerkt" location="Hero" />
+              <Button
+                variant="heroOutline"
+                size="lg"
+                onClick={() => {
+                  setShowClients(true);
+                  trackCTA("Hero — Toon klanten", "#klanten");
+                }}
+              >
+                <Users className="w-4 h-4 mr-2" />
+                Klanten
               </Button>
             </motion.div>
-
-          </div>
+          </motion.div>
+          ) : (
+          <motion.div
+            key="clients-view"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="flex-1 max-w-2xl text-center mx-auto"
+          >
+            <p className="text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4">
+              Onze klanten
+            </p>
+            <h2 className="font-display font-bold text-4xl md:text-6xl tracking-tighter mb-6">
+              In <span className="text-gradient">goed gezelschap</span>
+            </h2>
+            <p className="text-foreground/80 text-base md:text-lg mb-8 leading-relaxed">
+              B2B-bedrijven die hun groei niet meer aan toeval overlaten.
+            </p>
+            <Button
+              variant="heroOutline"
+              size="lg"
+              onClick={() => setShowClients(false)}
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Terug naar hero
+            </Button>
+          </motion.div>
+          )}
+          </AnimatePresence>
         </div>
       </div>
     </section>
