@@ -10,12 +10,9 @@ import Chapter09Modules from "./chapters/Chapter09Modules";
 import Chapter10Levering from "./chapters/Chapter10Levering";
 import Chapter11Bewegingen from "./chapters/Chapter11Bewegingen";
 import CtaFinale from "./CtaFinale";
-import CinematicBridge from "./CinematicBridge";
 
 /**
  * Cinematic homepage narrative — 5 acts woven into one stage.
- * Acts 1–2 share the sticky ambient stage from Index.tsx (transparent bg),
- * acts 3–5 layer onto solid backgrounds with bridges between them.
  */
 export default function HomepageNarrative() {
   return (
@@ -24,39 +21,19 @@ export default function HomepageNarrative() {
       <Chapter01Scenario />
       <Chapter02Context />
 
-      <CinematicBridge
-        white="Niet alleen activiteit vastleggen."
-        orange="Eerst context vastleggen."
-      />
-
       {/* ACT II — DE METHODE */}
       <Chapter03TwoWays />
       <Chapter04Methode />
-
-      <CinematicBridge
-        white="Engagement is geen losse actie."
-        orange="Het is een patroon van gedrag."
-      />
 
       {/* ACT III — HET FUNDAMENT */}
       <Chapter05Brein />
       <Chapter06Blauwdruk />
       <Chapter07Schaal />
 
-      <CinematicBridge
-        white="Eén setup. Eén methode."
-        orange="Oneindig veel groei-bewegingen."
-      />
-
       {/* ACT IV — DE OPERATIE */}
       <Chapter08Funnel />
       <Chapter09Modules />
       <Chapter10Levering />
-
-      <CinematicBridge
-        white="Geen rapport."
-        orange="Een volgende beste actie."
-      />
 
       {/* ACT V — DE BELOFTE */}
       <Chapter11Bewegingen />
