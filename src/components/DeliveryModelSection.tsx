@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Send, RefreshCw } from "lucide-react";
+import { Send } from "lucide-react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { solutions } from "@/data/solutions";
