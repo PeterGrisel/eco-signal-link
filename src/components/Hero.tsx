@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import CtaLink from "@/components/CtaLink";
 import { CTA } from "@/content/copy";
+import ParallaxBrain from "@/components/hero/ParallaxBrain";
 
 const rotatingWords = ["handmatig werk.", "reactief reageren.", "gemiste signalen."];
 
@@ -17,7 +18,11 @@ const Hero = () => {
   }, []);
 
   return (
-    <section className="relative min-h-[85vh] lg:min-h-screen flex items-center pt-14 md:pt-16">
+    <section className="relative min-h-[85vh] lg:min-h-screen flex items-center pt-14 md:pt-16 overflow-hidden">
+      {/* Brain visual — scoped to hero only (no fixed sticky behind page) */}
+      <div aria-hidden className="absolute inset-0 z-0 pointer-events-none">
+        <ParallaxBrain />
+      </div>
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
           {/* Glass-morph hero card */}
