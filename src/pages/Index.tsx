@@ -7,7 +7,7 @@ import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 import HomepageNarrative from "@/components/homepage/HomepageNarrative";
 import HomepageHook from "@/components/homepage/HomepageHook";
 import Footer from "@/components/Footer";
-import StickyHeroCta from "@/components/StickyHeroCta";
+import MobileDock from "@/components/MobileDock";
 import ActScrollProgress from "@/components/homepage/ActScrollProgress";
 import AmbientBackdrop from "@/components/homepage/AmbientBackdrop";
 import PricingSection from "@/components/PricingSection";
@@ -34,7 +34,7 @@ const Index = () => {
       <HomepageNarrative />
       <PricingSection />
       <Footer />
-      <StickyHeroCta />
+      <MobileDock />
       <ActScrollProgress
         acts={[
           { id: "chapter-01", label: "Scenario" },
