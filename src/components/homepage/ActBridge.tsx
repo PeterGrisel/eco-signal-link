@@ -37,6 +37,7 @@ export default function ActBridge({
   const y = useTransform(scrollYProgress, [0.18, 0.52], [80, 0]);
   const scale = useTransform(scrollYProgress, [0.18, 0.58], [0.9, 1]);
   const blur = useTransform(scrollYProgress, [0.18, 0.58], [18, 0]);
+  const filter = useTransform(blur, (v) => `blur(${v}px)`);
 
   if (!text) {
     return (
@@ -59,7 +60,7 @@ export default function ActBridge({
     <div ref={sectionRef} className="relative w-full min-h-[135vh] flex items-center justify-center py-40 md:py-56">
       <div className="container mx-auto px-4 md:px-6">
         <motion.p
-          style={{ opacity, y, scale, filter: useTransform(blur, (v) => `blur(${v}px)`) }}
+          style={{ opacity, y, scale, filter }}
           className="mx-auto max-w-5xl text-center font-display font-bold text-4xl md:text-6xl lg:text-7xl tracking-tight text-foreground leading-[1.05] [text-wrap:balance] [text-shadow:0_2px_24px_rgba(0,0,0,0.7),0_0_80px_rgba(232,148,90,0.18)]"
         >
           {words.map((w, i) => (
