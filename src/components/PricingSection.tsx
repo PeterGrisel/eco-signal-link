@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
-import { Check, Sparkles, ArrowRight, Handshake } from "lucide-react";
+import { Check, ArrowRight, Handshake } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import CtaLink from "@/components/CtaLink";
 
