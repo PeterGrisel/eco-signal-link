@@ -9,8 +9,10 @@ interface ChapterFrameProps {
   closing?: ReactNode;
   children: ReactNode;
   id?: string;
-  /** Transparent so a sticky ambient stage behind can show through */
-  transparent?: boolean;
+  /** Legacy — ignored. All chapters now transparent on shared ambient stage. */
+  tone?: "cool" | "neutral" | "warm";
+  /** Force opaque section bg (rarely needed). */
+  solid?: boolean;
 }
 
 /**
@@ -25,12 +27,12 @@ export default function ChapterFrame({
   closing,
   children,
   id,
-  transparent = false,
+  solid = false,
 }: ChapterFrameProps) {
   return (
     <section
       id={id}
-      className={`relative py-24 md:py-32 ${transparent ? "" : "bg-background/40"}`}
+      className={`relative py-24 md:py-32 ${solid ? "bg-background/60" : ""}`}
     >
       <div className="container max-w-6xl mx-auto px-4 md:px-6">
         {/* Glass-card header */}

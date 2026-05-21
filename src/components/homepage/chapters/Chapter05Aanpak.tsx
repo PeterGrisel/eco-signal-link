@@ -1,5 +1,4 @@
 import ChapterFrame from "../ChapterFrame";
-import CtaLink from "@/components/CtaLink";
 import { Wrench, Zap, ArrowRight } from "lucide-react";
 
 const paths = [
@@ -60,22 +59,6 @@ export default function Chapter05Aanpak() {
             </ul>
           </div>
         ))}
-      </div>
-
-      {/* Eindpunt: één duidelijke CTA */}
-      <div className="rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/10 via-primary/[0.04] to-transparent p-10 md:p-14 text-center">
-        <div className="text-xs uppercase tracking-[0.25em] text-primary mb-4">
-          Begin hier
-        </div>
-        <h3 className="font-display text-3xl md:text-4xl font-medium mb-4 text-foreground max-w-2xl mx-auto leading-tight">
-          Plan een nulmeting van 30 minuten.
-        </h3>
-        <p className="text-base text-muted-foreground max-w-xl mx-auto mb-8">
-          We kijken samen welke signalen bij uw ICP passen en hoe we die kwalificeren. Vrijblijvend en zonder demo.
-        </p>
-        <div className="flex justify-center">
-          <CtaLink intent="nulmeting" location="Chapter 05 Final CTA" />
-        </div>
       </div>
     </ChapterFrame>
   );
