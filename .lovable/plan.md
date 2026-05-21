@@ -1,72 +1,77 @@
 ## Doel
 
-Eén harde conversie: **nulmeting geboekt**. Elke sectie ondersteunt die actie of wordt geschrapt. Methode-HTML als visuele inspiratie voor één nieuwe sectie.
+Weg met de losse widgets. De homepage wordt één doorlopend verhaal — zoals de presentatie en de vier infographics. Eén canvas, vijf hoofdstukken, één ritme, één eindpunt: nulmeting boeken.
 
-## Nieuwe sectievolgorde
+## Wat eruit gaat
+
+Verwijderen van de huidige Index pagina:
+- `HookSection` (3 losse cards)
+- `VergelijkingSection` (2-koloms blok)
+- `MethodeSection` (4x2 grid)
+- `SchaalCijfersSection` (5 cijfers + arrows)
+- `ProcessSection`
+- `PricingSection`
+- `MiniFaq`
+- `CtaSection`
+
+De componenten blijven bestaan (worden elders gebruikt), maar de homepage stopt ermee.
+
+## De nieuwe opbouw
+
+Eén `<main>` met vijf hoofdstukken die in elkaar overvloeien — gedeelde achtergrond, doorlopende kolom, hoofdstuknummers, geen harde section-breaks.
 
 ```text
-1.  Hero (aangescherpt)            ── headline + sub + dubbele CTA + sociaal bewijs strip
-2.  Pijn → Oplossing (HookSection) ── 3 cards, herschreven op pijnpunten
-3.  De Methode (NIEUW)             ── visuele 4-laagse uitleg, geïnspireerd op upload
-4.  Bewijs (ResultsSection)        ── cijfers + 1 quote, eerder dan nu
-5.  Process (7 stappen, ingekort)  ── "zo werkt het bij u"
-6.  Pricing                        ── 6/12 mnd toggle blijft
-7.  Mini-FAQ (3-4 bezwaren)        ── focus: tijd, geld, controle
-8.  Final CTA (peter + agenda)     ── bestaand, sterker contrast
-9.  Footer
+HERO
+  ↓
+HOOFDSTUK 01 — Het herkenbare scenario
+  "U wacht op een lancering. De markt geeft al signalen af."
+  Links: hoe het vaak voelt (4 iconen: lancering → wachten → aanvragen → sales)
+  Rechts: wat er echt gebeurt (signaal-wolk → commercieel brein → routering)
+  Sluit af: "Engagement is geen losse actie. Het is een patroon."
+  ↓
+HOOFDSTUK 02 — Van kennis in hoofden naar meetbare context
+  Drie fases naast elkaar: Hoe het nu gaat → Wat we vastleggen → Wat dat mogelijk maakt
+  Centraal: het Commercieel Brein als hub
+  Sluit af: "Niet alleen activiteit vastleggen. Eerst context."
+  ↓
+HOOFDSTUK 03 — Twee manieren om B2B groei te sturen
+  Volledig scherm split: Standaard methode (grijs, lineair, 7 stappen)
+  vs B2BGroeimachine (donker, 8 stappen rond het brein, learning loop)
+  Onderaan: key differences als doorlopende rij
+  Sluit af: "One setup. One method. Infinite growth motions."
+  ↓
+HOOFDSTUK 04 — De schaal die dit oplevert
+  Cijfer-trap: 2000 bedrijven → 4000 contacten → 200 in beweging → 20 meetings → €500k pipeline
+  Geen losse cards meer — één doorlopende horizontale flow met verbindingen
+  ↓
+HOOFDSTUK 05 — Hoe wij dit voor u bouwen
+  Done-for-you of Build & Transfer, één blok, twee paden
+  Direct gevolgd door één enkele CTA: nulmeting boeken
 ```
 
-**Geschrapt of verplaatst:**
-- `FunnelInfographic`, `SectorPicker`, `LogoTicker`, `NoLeadAgencySection`, `SystemSection`, `PipelineEquationTeaser`, `FunnelSection`, `DatahubSection`, `DeliveryModelSection` → verplaatst naar sub-pagina's of geschrapt. Deze creëren afleiding en zwakken de hoofd-CTA af.
-- Lange FAQ → ingekort tot 4 conversie-bezwaren; volledige FAQ blijft op /faq.
+## Visuele aanpak
 
-## Conversie-ingrepen per sectie
+- **Eén canvas**: gedeelde donkere achtergrond met subtiele gradient die per hoofdstuk meeshift (kouder → warmer richting de CTA)
+- **Hoofdstuknummers** links in beeld (sticky), zoals een editorial magazine — `01`, `02`, `03`...
+- **Verbindingslijnen** tussen hoofdstukken: dunne verticale lijn die doorloopt, met een knooppunt bij elk hoofdstuk
+- **Geen sectie-padding stapeling**: hoofdstukken overlappen visueel via gradient-overgangen, niet via harde achtergrondwissels
+- **Typografie als ritme**: hoofdstuk-eyebrow (klein, tracking-wide) → grote display headline (Space Grotesk) → body kolom max 65ch → afsluitende quote in groter formaat
+- **Iconografie consistent**: zelfde lijn-stijl iconen door alle hoofdstukken (lucide-react), met `#E8945A` accent op het juiste moment
+- **Beweging**: subtiele scroll-reveal per hoofdstuk (fade + 8px omhoog), niet per cardje
 
-**Hero**
-- Sub-kop uitbreiden met concreet beloofd resultaat (binnen X weken een werkend proces).
-- Onder CTA's: micro-bewijsstrip (bv. "30 min · vrijblijvend · spreek direct Peter").
-- Contactformulier rechts behouden (warme lane), CTA wint visueel.
+## Bouwopzet
 
-**Pijn → Methode → Bewijs in 3 schermen**
-Klassiek high-converting pattern: probleem erkennen, methode uitleggen, bewijs leveren — daarna pas prijs.
+- Nieuwe component `src/components/homepage/HomepageNarrative.tsx` — bevat het hele verhaal als één samenhangend geheel
+- Sub-componenten per hoofdstuk in `src/components/homepage/chapters/` (Chapter01Scenario, Chapter02Context, Chapter03TwoWays, Chapter04Schaal, Chapter05Aanpak)
+- Eén shared `ChapterFrame` voor hoofdstuknummer, eyebrow, headline en sluitquote — garandeert ritme
+- Eén shared `ConnectorLine` voor de verticale lijn tussen hoofdstukken
+- Alle copy uit `src/content/copy.ts` (volgens centralized-copy regel)
+- `Index.tsx` wordt: `Navbar → Hero → HomepageNarrative → Footer → StickyHeroCta`
 
-**Methode-sectie (nieuw)**
-- 4 lagen verticaal: Infrastructure → Intelligence → Engagement → Qualification.
-- Per laag: 1 icoon, 1 zin, 1 micro-output ("u krijgt: X").
-- Sticky scroll of accordion. Eindigt met inline CTA "Plan de nulmeting".
+## Wat blijft uit Hero
 
-**Mini-FAQ**
-Vier vragen, allemaal conversie-bezwaren:
-1. Hoe lang voor ik resultaat zie?
-2. Wat als ik al een leadbureau heb?
-3. Hoeveel tijd kost het mij intern?
-4. Wat als het niet werkt?
+Hero blijft staan zoals nu. Daaronder begint het verhaal direct met hoofdstuk 01 — geen aparte "hook cards" meer.
 
-**Sticky CTA (mobiel)** blijft, label wordt sterker.
+## Wat ik nog van u nodig heb
 
-## Copy-strategie
-
-Alle nieuwe copy in `src/content/copy.ts` (centralized-copy regel). Bestaande propositie behouden, focus toevoegen op:
-- Eén meetbaar resultaat per sectie
-- "U" perspectief, max 12 woorden/zin
-- Geen specifieke meeting-beloftes (brand-voice regel)
-
-## Technische uitvoering
-
-- Nieuwe component: `src/components/MethodeSection.tsx`
-- Nieuwe component: `src/components/MiniFaq.tsx`
-- `src/pages/Index.tsx`: rebuild sectievolgorde, oude imports weghalen (componenten zelf blijven bestaan voor sub-pagina's).
-- `src/content/copy.ts`: blokken toevoegen voor `methode`, `miniFaq`, `heroProof`.
-- `Hero.tsx`: sub-kop + proof-strip onder CTA's.
-- `HookSection.tsx`: copy herschrijven naar pijn-frame.
-- Geen wijzigingen aan routing, backend, of Signaal.
-
-## Niet in scope
-
-- Geen visuele redesign (kleuren/typografie/animatie-stijl blijven).
-- Geen wijzigingen aan /signaal, /pricing detail, blog, admin.
-- Geen A/B-test infra (kan later).
-
-## Validatie
-
-Na implementatie: visueel scrollen door homepage in preview, console check, link/CTA check (alle CTA's wijzen naar `BOOKING_URL` of `#hoe-het-werkt`).
+Niets. Ik bouw dit in één keer door. Wilt u eerst visueel kiezen tussen 2-3 ontwerprichtingen voor het hoofdstuk-ritme (editorial magazine, presentation deck of zachte glasmorf), zeg het — dan render ik die eerst.

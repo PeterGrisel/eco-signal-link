@@ -4,16 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Hero from "@/components/Hero";
 import PageLoader from "@/components/PageLoader";
 import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
-
-import HookSection from "@/components/HookSection";
-import MethodeSection from "@/components/MethodeSection";
-import VergelijkingSection from "@/components/VergelijkingSection";
-import SchaalCijfersSection from "@/components/SchaalCijfersSection";
-import MiniFaq from "@/components/MiniFaq";
-import ProcessSection from "@/components/ProcessSection";
-import PricingSection from "@/components/PricingSection";
-import ResultsSection from "@/components/ResultsSection";
-import CtaSection from "@/components/CtaSection";
+import HomepageNarrative from "@/components/homepage/HomepageNarrative";
 import Footer from "@/components/Footer";
 import StickyHeroCta from "@/components/StickyHeroCta";
 
@@ -38,15 +29,7 @@ const Index = () => {
       <BreadcrumbJsonLd items={[{ name: "Home", url: "https://b2bgroeimachine.io/" }]} />
       <Navbar />
       <Hero />
-      <HookSection />
-      <VergelijkingSection />
-      <MethodeSection />
-      <SchaalCijfersSection />
-      <ResultsSection />
-      <ProcessSection />
-      <PricingSection />
-      <MiniFaq />
-      <CtaSection />
+      <HomepageNarrative />
       <Footer />
       <StickyHeroCta />
       </div>
