@@ -1,6 +1,8 @@
+import { FluidParticlesBackground } from "@/components/ui/fluid-particles-background";
+
 /**
- * Fixed ambient stage layer — static dotted grid + radial primary glows + vignette.
- * Sits behind the entire homepage, content scrolls over it.
+ * Fixed ambient stage — fluid particles in brand orange + radial glows + vignette.
+ * Sits behind the entire homepage; chapter cards sit on top with bg-card/95.
  */
 export default function AmbientBackdrop() {
   return (
@@ -11,17 +13,16 @@ export default function AmbientBackdrop() {
       {/* Base */}
       <div className="absolute inset-0 bg-background" />
 
-      {/* Static dotted grid — avoids canvas repaint stutter while keeping the AI Fctry texture */}
-      <div
-        className="absolute inset-0 opacity-[0.12]"
-        style={{
-          backgroundImage:
-            "radial-gradient(circle, hsl(var(--primary) / 0.42) 1px, transparent 1.5px)",
-          backgroundSize: "12px 12px",
-          maskImage: "radial-gradient(ellipse at center, black 18%, transparent 78%)",
-          WebkitMaskImage: "radial-gradient(ellipse at center, black 18%, transparent 78%)",
-        }}
-      />
+      {/* Fluid particles — brand orange #E8945A, low count for smooth scroll */}
+      <div className="absolute inset-0 opacity-70">
+        <FluidParticlesBackground
+          particleCount={420}
+          noiseIntensity={0.0025}
+          particleSize={{ min: 0.4, max: 1.6 }}
+          colorRgb="232,148,90"
+          trailRgba="rgba(10, 10, 12, 0.18)"
+        />
+      </div>
 
       {/* Radial primary glow — top */}
       <div
