@@ -34,7 +34,6 @@ const products: [ProductData, ProductData] = [
       { label: "Voorspelbaarheid", value: 88, icon: Gauge },
       { label: "Automatisering", value: 84, icon: Workflow },
     ],
-    cta: { label: "Hoe het werkt" },
   },
 ];
 
