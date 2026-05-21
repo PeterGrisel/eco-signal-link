@@ -107,7 +107,7 @@ const Hero = () => {
         </div>
 
         {/* Brain stage */}
-        <div className="relative w-full h-[60vh] md:h-[70vh] mt-12 md:mt-16">
+        <div className="relative w-full h-[38vh] md:h-[70vh] mt-12 md:mt-16">
           <motion.div
             aria-hidden
             animate={{ opacity: showClients ? 0.15 : 1 }}
@@ -127,7 +127,7 @@ const Hero = () => {
                 transition={{ duration: 0.6, ease: "easeOut" }}
                 className="absolute inset-0 z-[5] pointer-events-none"
               >
-                <ClientOrbit rings={3} baseSize={22} gap={14} />
+                <ClientOrbit rings={3} baseSize={14} gap={8} className="md:[--orbit:1]" />
               </motion.div>
             )}
           </AnimatePresence>
