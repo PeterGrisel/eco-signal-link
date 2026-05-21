@@ -263,22 +263,39 @@ const BlogPost = () => {
 
       <Footer />
 
-      {/* Article JSON-LD */}
+      {/* BlogPosting JSON-LD */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             "@context": "https://schema.org",
-            "@type": "Article",
-            headline: post.title,
+            "@type": "BlogPosting",
+            headline: post.title.slice(0, 110),
             description: post.meta_description || post.excerpt || "",
-            image: post.featured_image || undefined,
+            image: post.featured_image ? [post.featured_image] : undefined,
             datePublished: publishDate,
+            dateModified: post.updated_at || publishDate,
             url: `https://b2bgroeimachine.io/blog/${post.slug}`,
+            mainEntityOfPage: {
+              "@type": "WebPage",
+              "@id": `https://b2bgroeimachine.io/blog/${post.slug}`,
+            },
+            author: {
+              "@type": "Organization",
+              name: "B2BGroeiMachine",
+              url: "https://b2bgroeimachine.io",
+            },
             publisher: {
               "@type": "Organization",
               name: "B2BGroeiMachine",
+              logo: {
+                "@type": "ImageObject",
+                url: "https://b2bgroeimachine.io/favicon.ico",
+              },
             },
+            articleSection: post.category?.name || undefined,
+            wordCount: post.content.trim().split(/\s+/).length,
+            inLanguage: "nl-NL",
           }),
         }}
       />
