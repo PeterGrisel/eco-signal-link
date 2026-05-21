@@ -9,15 +9,14 @@ interface ChapterFrameProps {
   closing?: ReactNode;
   children: ReactNode;
   id?: string;
-  tone?: "cool" | "neutral" | "warm";
+  /** Transparent so a sticky ambient stage behind can show through */
+  transparent?: boolean;
 }
 
-const toneGradient: Record<NonNullable<ChapterFrameProps["tone"]>, string> = {
-  cool: "from-transparent via-primary/[0.025] to-transparent",
-  neutral: "from-transparent via-foreground/[0.02] to-transparent",
-  warm: "from-transparent via-primary/[0.05] to-transparent",
-};
-
+/**
+ * Cinematic chapter frame — glass-card header (max-w-3xl, backdrop-blur),
+ * centered, floats above a shared ambient background.
+ */
 export default function ChapterFrame({
   number,
   eyebrow,
@@ -26,40 +25,44 @@ export default function ChapterFrame({
   closing,
   children,
   id,
-  tone = "neutral",
+  transparent = false,
 }: ChapterFrameProps) {
   return (
     <section
       id={id}
-      className={`relative py-24 md:py-32 bg-gradient-to-b ${toneGradient[tone]}`}
+      className={`relative py-24 md:py-32 ${transparent ? "" : "bg-background/40"}`}
     >
-      <div className="container max-w-6xl mx-auto px-6">
+      <div className="container max-w-6xl mx-auto px-4 md:px-6">
+        {/* Glass-card header */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.6, ease: "easeOut" }}
+          className="mx-auto max-w-3xl rounded-2xl bg-background/55 backdrop-blur-md border border-foreground/10 px-6 py-8 md:px-10 md:py-10 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.5)] text-center mb-14 md:mb-20"
         >
-          <div className="flex items-baseline gap-6 mb-6">
-            <span className="font-display text-5xl md:text-6xl font-light text-primary/40 tabular-nums leading-none">
+          <div className="flex items-center justify-center gap-3 mb-5">
+            <span className="text-[10px] tabular-nums text-primary/70 tracking-[0.2em]">
               {number}
             </span>
-            <span className="text-xs uppercase tracking-[0.25em] text-muted-foreground">
+            <span className="h-px w-8 bg-primary/40" />
+            <span className="text-[10px] uppercase tracking-[0.3em] text-primary">
               {eyebrow}
             </span>
           </div>
 
-          <h2 className="font-display text-4xl md:text-6xl font-medium leading-[1.05] mb-6 text-foreground max-w-4xl">
+          <h2 className="font-display text-3xl md:text-5xl lg:text-6xl font-medium leading-[1.05] mb-4 text-foreground [text-wrap:balance] [text-shadow:0_1px_8px_rgba(0,0,0,0.4)]">
             {title}
           </h2>
 
           {intro && (
-            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl leading-relaxed mb-16">
+            <p className="text-base md:text-lg text-foreground/80 max-w-2xl mx-auto leading-relaxed [text-shadow:0_1px_8px_rgba(0,0,0,0.4)]">
               {intro}
             </p>
           )}
         </motion.div>
 
+        {/* Body */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -75,9 +78,9 @@ export default function ChapterFrame({
             whileInView={{ opacity: 1 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="mt-20 pt-10 border-t border-foreground/10"
+            className="mt-16 md:mt-20 text-center"
           >
-            <p className="font-display text-2xl md:text-3xl text-foreground/90 leading-snug max-w-3xl">
+            <p className="font-display text-2xl md:text-3xl text-foreground/90 leading-snug max-w-3xl mx-auto [text-wrap:balance] [text-shadow:0_1px_8px_rgba(0,0,0,0.4)]">
               {closing}
             </p>
           </motion.div>
