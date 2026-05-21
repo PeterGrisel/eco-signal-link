@@ -24,7 +24,7 @@ export default function Chapter04Methode() {
         {steps.map((s) => (
           <div
             key={s.n}
-            className="group relative rounded-2xl border border-foreground/10 bg-background/40 p-6 hover:border-primary/40 transition-colors"
+            className="group relative rounded-2xl border border-foreground/10 bg-background/70 p-6 hover:border-primary/40 transition-colors"
           >
             <div className="flex items-start gap-4">
               <span className="font-display text-3xl text-primary/80 tabular-nums leading-none">{s.n}</span>
