@@ -18,18 +18,22 @@ export default function HomepageNarrative() {
       {/* ACT I — HET PROBLEEM */}
       <Chapter01Scenario />
 
-      {/* ACT II — DE METHODE */}
+      {/* ACT II — DE OMSLAG: vroeger vs nu */}
       <Chapter03TwoWays />
+
+      {/* ACT III — HET FUNDAMENT (het brein dat onthoudt) */}
+      <Chapter05Brein />
+
+      {/* ACT IV — DE METHODE (hoe wij werken) */}
       <Chapter04Methode />
 
-      {/* ACT III — HET FUNDAMENT */}
-      <Chapter05Brein />
+      {/* ACT V — WAT U KRIJGT (blauwdruk, modules, schaal) */}
       <Chapter06Blauwdruk />
+      <Chapter09Modules />
       <Chapter07Schaal />
 
-      {/* ACT IV — DE OPERATIE */}
+      {/* ACT VI — DE OPERATIE (funnel + levering) */}
       <Chapter08Funnel />
-      <Chapter09Modules />
       <Chapter10Levering />
 
       {/* FINALE */}
