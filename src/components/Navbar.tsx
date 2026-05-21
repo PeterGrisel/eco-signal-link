@@ -20,13 +20,13 @@ const Navbar = () => {
 
         <div className="flex items-center gap-2">
           <CtaLink
-            intent="nulmeting"
+            intent="gratisScan"
             location="Navbar"
             className={`hidden sm:inline-flex ${ctaClasses}`}
           >
             <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
             <Rocket className="w-4 h-4 relative" />
-            <span className="relative">Start nulmeting</span>
+            <span className="relative">Start gratis scan</span>
             <ArrowRight className="w-4 h-4 relative transition-transform group-hover:translate-x-0.5" />
           </CtaLink>
 
@@ -51,13 +51,13 @@ const Navbar = () => {
           >
             <div className="container mx-auto px-4 py-4">
               <CtaLink
-                intent="nulmeting"
+                intent="gratisScan"
                 location="Navbar (mobile)"
                 className={`w-full justify-center ${ctaClasses}`}
               >
                 <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
                 <Rocket className="w-4 h-4 relative" />
-                <span className="relative">Start nulmeting</span>
+                <span className="relative">Start gratis scan</span>
                 <ArrowRight className="w-4 h-4 relative" />
               </CtaLink>
             </div>

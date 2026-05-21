@@ -30,7 +30,7 @@ const CtaSection = () => {
               <span className="text-muted-foreground text-sm">{COPY.ctaSection.speakWith}</span>
             </div>
             <Button variant="hero" size="lg" asChild>
-              <CtaLink intent="nulmeting" location="CTA Section" />
+              <CtaLink intent="gratisScan" location="CTA Section" />
             </Button>
           </div>
           <p className="text-muted-foreground text-sm mt-6">

@@ -39,7 +39,7 @@ export default function Chapter07Schaal() {
       </div>
 
       <p className="mt-12 text-center text-sm text-muted-foreground italic max-w-2xl mx-auto">
-        Geen belofte. Een rekenmodel. Tijdens de nulmeting vullen we het in met uw eigen markt, ICP en uitgangscijfers.
+        Geen belofte. Een rekenmodel. Tijdens de scan vullen we het in met uw eigen markt, ICP en uitgangscijfers.
       </p>
     </ChapterFrame>
   );

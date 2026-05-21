@@ -13,7 +13,7 @@ type Fase = {
   meta: string;
   description: string;
   features: string[];
-  ctaIntent: "nulmeting" | "bespreekSituatie";
+  ctaIntent: "gratisScan" | "bespreekSituatie";
   ctaLocation: string;
   highlight?: boolean;
 };
@@ -31,7 +31,7 @@ const fases: Fase[] = [
       "Eerste blauwdruk",
       "Helder advies, geen verkoop",
     ],
-    ctaIntent: "nulmeting",
+    ctaIntent: "gratisScan",
     ctaLocation: "Pricing Fase 01",
   },
   {
@@ -47,7 +47,7 @@ const fases: Fase[] = [
       "Routing en reporting",
       "Dedicated campagnemanager",
     ],
-    ctaIntent: "nulmeting",
+    ctaIntent: "gratisScan",
     ctaLocation: "Pricing Fase 02",
     highlight: true,
   },
@@ -64,7 +64,7 @@ const fases: Fase[] = [
       "Routing en dashboard",
       "Hergebruikbaar fundament",
     ],
-    ctaIntent: "nulmeting",
+    ctaIntent: "gratisScan",
     ctaLocation: "Pricing Fase 03",
   },
   {

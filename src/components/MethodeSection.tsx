@@ -54,7 +54,7 @@ const MethodeSection = () => {
 
         <div className="mt-12 md:mt-16 flex justify-center">
           <Button variant="hero" size="lg" asChild>
-            <CtaLink intent="nulmeting" location="Methode Section" />
+            <CtaLink intent="gratisScan" location="Methode Section" />
           </Button>
         </div>
       </div>

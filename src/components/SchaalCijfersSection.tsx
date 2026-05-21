@@ -78,7 +78,7 @@ const SchaalCijfersSection = () => {
 
         <div className="mt-10 flex">
           <Button variant="hero" size="lg" asChild>
-            <CtaLink intent="nulmeting" location="Schaal Cijfers Section" />
+            <CtaLink intent="gratisScan" location="Schaal Cijfers Section" />
           </Button>
         </div>
       </div>

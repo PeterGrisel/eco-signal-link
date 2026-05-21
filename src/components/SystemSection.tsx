@@ -7,7 +7,7 @@ const layers = [
   {
     icon: Settings,
     number: "01",
-    title: "Nulmeting & infrastructuur",
+    title: "Scan & infrastructuur",
     description: "Wij brengen uw sales- en serviceproces in kaart. Daarna richten we de infrastructuur in die bij uw ICP en data past.",
   },
   {
@@ -68,7 +68,7 @@ const SystemSection = () => {
             <span className="text-gradient">Dan automatiseren.</span>
           </h2>
           <p className="text-muted-foreground text-lg leading-relaxed mt-6 max-w-2xl">
-            Wij beginnen met een nulmeting van uw sales- en serviceproces.
+            Wij beginnen met een scan van uw sales- en serviceproces.
             Daarna automatiseren we wat handmatig loopt en zetten we
             signalen om in afspraken.
           </p>
