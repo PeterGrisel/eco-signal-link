@@ -193,8 +193,8 @@ function StagePanel({
       </div>
 
       <span
-        className="absolute bottom-12 right-6 md:right-12 font-display font-bold text-foreground/[0.04] leading-none select-none pointer-events-none"
-        style={{ fontSize: "clamp(10rem, 22vw, 22rem)" }}
+        className="absolute bottom-12 right-10 md:right-24 lg:right-32 font-display font-bold text-foreground/[0.04] leading-none select-none pointer-events-none"
+        style={{ fontSize: "clamp(8rem, 18vw, 18rem)" }}
         aria-hidden
       >
         {stage.num}
