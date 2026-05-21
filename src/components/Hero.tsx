@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import CtaLink from "@/components/CtaLink";
 import { CTA } from "@/content/copy";
-import SplineBrain from "@/components/hero/SplineBrain";
 import ClientOrbit from "@/components/hero/ClientOrbit";
 
 const rotatingWords = ["handmatig werk.", "reactief reageren.", "gemiste signalen."];
@@ -22,7 +21,6 @@ const Hero = () => {
     <section className="relative min-h-[85vh] lg:min-h-screen flex items-center pt-14 md:pt-16 overflow-hidden bg-[#0a0807]">
       {/* Cinematic backdrop: Spline brein + orbiting client-logos */}
       <div className="absolute inset-0">
-        <SplineBrain className="absolute inset-0" />
         {/* Soft vignette to push content forward */}
         <div
           className="absolute inset-0 pointer-events-none"
