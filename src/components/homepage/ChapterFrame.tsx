@@ -21,9 +21,10 @@ function ScrollReveal({ children, className = "", delay = 0 }: { children: React
   const opacity = useTransform(scrollYProgress, [0.08 + delay, 0.48 + delay], [0.12, 1]);
   const y = useTransform(scrollYProgress, [0.08 + delay, 0.5 + delay], [42, 0]);
   const blur = useTransform(scrollYProgress, [0.08 + delay, 0.52 + delay], [10, 0]);
+  const filter = useTransform(blur, (v) => `blur(${v}px)`);
 
   return (
-    <motion.div ref={ref} style={{ opacity, y, filter: useTransform(blur, (v) => `blur(${v}px)`) }} className={className}>
+    <motion.div ref={ref} style={{ opacity, y, filter }} className={className}>
       {children}
     </motion.div>
   );
