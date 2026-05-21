@@ -14,7 +14,7 @@ export const BOOKING_URL =
 /** CTA-labels en hun bijbehorende doel-URL */
 export const CTA = {
   /** Hoofd-CTA: gebruikt in hero, navbar, sticky, sections */
-  nulmeting: {
+  gratisScan: {
     label: "Boek gratis scan →",
     labelShort: "Boek gratis scan",
     href: "#boek-gratis-scan",
@@ -80,7 +80,7 @@ export const COPY = {
       { label: "Meetings", value: "20", unit: "afspraken", note: "Gekwalificeerde gesprekken in agenda." },
       { label: "Pipeline", value: "€500k", unit: "pipelinewaarde", note: "Per cyclus. Verbetert iedere ronde." },
     ],
-    fineprint: "Uw ratio's, marktomvang en dealwaarde vullen we samen in tijdens de nulmeting.",
+    fineprint: "Uw ratio's, marktomvang en dealwaarde vullen we samen in tijdens de gratis scan.",
   },
   vergelijking: {
     eyebrow: "Twee manieren",
@@ -120,7 +120,7 @@ export const COPY = {
     items: [
       {
         q: "Hoe lang voor ik resultaat zie?",
-        a: "Eerste 30 dagen: nulmeting en kaart. Dag 30 tot 60: eerste flows live. Dag 60 tot 90: meetbare beweging in uw pijplijn.",
+        a: "Eerste 30 dagen: scan en kaart. Dag 30 tot 60: eerste flows live. Dag 60 tot 90: meetbare beweging in uw pijplijn.",
       },
       {
         q: "Wat als ik al een leadbureau heb?",
@@ -155,14 +155,14 @@ export const COPY = {
   },
   ctaSection: {
     headingLine1: "Klaar voor uw",
-    headingAccent: "nulmeting?",
+    headingAccent: "gratis scan?",
     body:
       "30 minuten. Wij brengen uw proces in kaart en laten zien waar de winst zit. Geen verkoopgesprek.",
     speakWith: "Spreek direct met Peter",
     fineprint: "€0 · 30 minuten · Vrijblijvend",
   },
   process: {
-    eyebrow: "Van nulmeting tot resultaat",
+    eyebrow: "Van scan tot resultaat",
   },
 } as const;
 
