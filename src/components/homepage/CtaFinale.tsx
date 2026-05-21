@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import CtaLink from "@/components/CtaLink";
+import { TextSplit } from "@/components/ui/split-text";
 
 export default function CtaFinale() {
   return (
@@ -32,9 +33,14 @@ export default function CtaFinale() {
           <div className="text-xs uppercase tracking-[0.3em] text-primary mb-6">
             Begin hier
           </div>
-          <h2 className="font-display text-5xl md:text-7xl font-medium leading-[1.02] mb-8 text-foreground [text-wrap:balance]">
-            Eén gesprek.<br />
-            <span className="text-primary">Eén machine.</span>
+          <h2 className="font-display font-medium leading-[1.02] mb-8 text-foreground [text-wrap:balance]">
+            <TextSplit
+              className="text-5xl md:text-7xl"
+              topClassName="text-foreground"
+              bottomClassName="text-primary"
+            >
+              Eén machine.
+            </TextSplit>
           </h2>
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-12 leading-relaxed">
             30 minuten over uw markt, uw ICP en welke signalen er nu al zichtbaar zijn. Vrijblijvend en zonder demo.
