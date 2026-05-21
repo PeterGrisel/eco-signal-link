@@ -135,7 +135,6 @@ const App = () => (
         <Toaster />
         <Sonner />
         <TrackingScriptInjector />
-        <WhatsAppButton />
         <CookieConsent />
         <BookingModalHost />
         <LeftDock />
