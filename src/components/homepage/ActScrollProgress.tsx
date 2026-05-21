@@ -12,7 +12,8 @@ export default function ActScrollProgress({ acts }: { acts: Act[] }) {
   const progress = useSpring(scrollYProgress, { stiffness: 90, damping: 24, mass: 0.4 });
 
   useEffect(() => {
-    const handler = () => {
+    let raf = 0;
+    const compute = () => {
       let current = acts[0]?.id ?? "";
       for (const a of acts) {
         const el = document.getElementById(a.id);
@@ -22,9 +23,19 @@ export default function ActScrollProgress({ acts }: { acts: Act[] }) {
       }
       setActiveId(current);
     };
-    handler();
+    const handler = () => {
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        compute();
+      });
+    };
+    compute();
     window.addEventListener("scroll", handler, { passive: true });
-    return () => window.removeEventListener("scroll", handler);
+    return () => {
+      window.removeEventListener("scroll", handler);
+      if (raf) cancelAnimationFrame(raf);
+    };
   }, [acts]);
 
   return (
