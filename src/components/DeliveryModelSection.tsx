@@ -17,15 +17,15 @@ const DeliveryModelSection = () => {
           className="text-center max-w-3xl mx-auto mb-16"
         >
           <p className="text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4">
-            Uw keuze
+            Onze werkwijze
           </p>
           <h2 className="font-display font-bold text-3xl md:text-5xl lg:text-6xl tracking-tight leading-tight mb-6">
-            Wij beheren, of
+            Wij draaien het systeem,
             <br />
-            <span className="text-gradient">u doet het zelf.</span>
+            <span className="text-gradient">punt.</span>
           </h2>
           <p className="text-muted-foreground text-lg leading-relaxed max-w-2xl mx-auto">
-            Geen verplichtingen. Geen eigen platform. Het systeem draait op onze tools. Wij passen in wat werkt voor u.
+            Geen verplichtingen. Geen eigen platform. Het systeem draait op onze tools. Wij beheren alles, u focust op gesprekken.
           </p>
         </motion.div>
 
