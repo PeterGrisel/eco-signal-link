@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
-import { Mail, Linkedin, HelpCircle } from "lucide-react";
+import { Mail, Linkedin, HelpCircle, MessageCircle } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
@@ -9,6 +9,7 @@ import { trackCTA } from "@/lib/tracking";
 
 const EMAIL = "peter@b2bgroeimachine.io";
 const LINKEDIN = "https://www.linkedin.com/company/b2bgroeimachine/";
+const WHATSAPP = "https://wa.me/31852502925";
 
 export default function LeftDock() {
   const [faqOpen, setFaqOpen] = useState(false);
@@ -29,6 +30,13 @@ export default function LeftDock() {
       label: "E-mail",
       href: `mailto:${EMAIL}`,
       onClick: () => trackCTA("LeftDock — Email", `mailto:${EMAIL}`),
+    },
+    {
+      icon: MessageCircle,
+      label: "WhatsApp",
+      href: WHATSAPP,
+      external: true,
+      onClick: () => trackCTA("LeftDock — WhatsApp", WHATSAPP),
     },
     {
       icon: Linkedin,
