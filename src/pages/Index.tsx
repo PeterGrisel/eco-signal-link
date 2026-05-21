@@ -36,8 +36,14 @@ const Index = () => {
           { id: "chapter-01", label: "Scenario" },
           { id: "chapter-02", label: "Context" },
           { id: "chapter-03", label: "Twee manieren" },
-          { id: "chapter-04", label: "Schaal" },
-          { id: "chapter-05", label: "Aanpak" },
+          { id: "chapter-04", label: "Methode" },
+          { id: "chapter-05", label: "Brein" },
+          { id: "chapter-06", label: "Blauwdruk" },
+          { id: "chapter-07", label: "Schaal" },
+          { id: "chapter-08", label: "Funnel" },
+          { id: "chapter-09", label: "Modules" },
+          { id: "chapter-10", label: "Levering" },
+          { id: "chapter-11", label: "Bewegingen" },
           { id: "act-finale", label: "Start" },
         ]}
       />
