@@ -41,7 +41,7 @@ const fases: Fase[] = [
     title: "System + Engagement Service",
     price: "€1.500",
     priceSuffix: "/ maand",
-    meta: "Maandelijks opzegbaar",
+    meta: "3 maanden · geen lock-in",
     description: "Actieve engagement, optimalisatie en routing. Wij draaien de machine.",
     features: [
       "Engagement en optimalisatie",
@@ -58,7 +58,7 @@ const fases: Fase[] = [
     title: "Growth System Foundation",
     price: "€2.250",
     priceSuffix: "/ maand",
-    meta: "3 maanden · geen lock-in",
+    meta: "Maandelijks opzegbaar",
     description: "Technische en commerciële setup van het systeem.",
     features: [
       "ICP en signaal-scoring",
