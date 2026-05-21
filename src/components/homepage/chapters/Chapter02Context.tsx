@@ -20,7 +20,7 @@ const outputs = [
 export default function Chapter02Context() {
   return (
     <ChapterFrame
-      number="02"
+      id="chapter-02" number="02"
       eyebrow="Context vastleggen"
       title={<>Van kennis in hoofden naar <span className="text-primary">digitaal meetbare context.</span></>}
       intro="Waarom doen we wat we doen? Hoe starten we sales? Als die context niet wordt vastgelegd, blijven signalen onzichtbaar."

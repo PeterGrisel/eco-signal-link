@@ -12,7 +12,7 @@ const steps = [
 export default function Chapter04Schaal() {
   return (
     <ChapterFrame
-      number="04"
+      id="chapter-04" number="04"
       eyebrow="De rekensom"
       title={<>De schaal die <span className="text-primary">een systeem oplevert.</span></>}
       intro="Wat er gebeurt als context, signalen en routering samenwerken. Indicatieve cijfers per kwartaal, gebaseerd op middelgrote B2B-trajecten."

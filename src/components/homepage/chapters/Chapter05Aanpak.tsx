@@ -29,7 +29,7 @@ const paths = [
 export default function Chapter05Aanpak() {
   return (
     <ChapterFrame
-      number="05"
+      id="chapter-05" number="05"
       eyebrow="Hoe wij dit voor u bouwen"
       title={<>Twee paden. <span className="text-primary">Eén nulmeting om te kiezen.</span></>}
       intro="We starten altijd hetzelfde: één gesprek om uw situatie en signalen door te nemen. Daarna kiezen we samen het pad dat past."
