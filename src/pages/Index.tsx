@@ -11,6 +11,7 @@ import MobileDock from "@/components/MobileDock";
 import ActScrollProgress from "@/components/homepage/ActScrollProgress";
 import AmbientBackdrop from "@/components/homepage/AmbientBackdrop";
 import PricingSection from "@/components/PricingSection";
+import FaqSection from "@/components/FaqSection";
 
 const Index = () => {
   // Redirect auth errors (expired magic links) to /signaal/start
@@ -33,6 +34,7 @@ const Index = () => {
       <HomepageHook />
       <HomepageNarrative />
       <PricingSection />
+      <FaqSection />
       <Footer />
       <MobileDock />
       <ActScrollProgress
