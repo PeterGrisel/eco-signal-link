@@ -9,13 +9,13 @@ const steps = [
   { icon: TrendingUp, value: "€500k", label: "Pipeline toegevoegd", note: "Op kwartaalbasis" },
 ];
 
-export default function Chapter04Schaal() {
+export default function Chapter07Schaal() {
   return (
     <ChapterFrame
-      id="chapter-04" number="04"
-      eyebrow="De rekensom"
-      title={<>De schaal die <span className="text-primary">een systeem oplevert.</span></>}
-      intro="Wat er gebeurt als context, signalen en routering samenwerken. Indicatieve cijfers per kwartaal, gebaseerd op middelgrote B2B-trajecten."
+      id="chapter-07" number="07"
+      eyebrow="Schaal in cijfers"
+      title={<>Een voorbeeld: van markt naar <span className="text-primary">€500k pipeline.</span></>}
+      intro="Stel u richt zich op 2.000 bedrijven binnen uw ICP. Zo loopt het door uw funnel — stap voor stap, niet gegokt."
       tone="warm"
     >
       <div className="relative">
