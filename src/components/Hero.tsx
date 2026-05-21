@@ -22,40 +22,65 @@ const Hero = () => {
             "radial-gradient(ellipse 80% 50% at 50% 75%, hsl(var(--primary) / 0.18), transparent 70%)",
         }}
       />
-      {/* Brain visual — full viewport below the text card */}
-      <motion.div
-        aria-hidden
-        animate={{ opacity: showClients ? 0.15 : 1 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-        className="relative order-2 w-full h-screen z-0 pointer-events-none"
-      >
-        <ParallaxBrain />
-      </motion.div>
+      {/* Brain stage — full viewport below the text card */}
+      <div className="relative order-2 w-full h-screen">
+        <motion.div
+          aria-hidden
+          animate={{ opacity: showClients ? 0.15 : 1 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="absolute inset-0 z-0 pointer-events-none"
+        >
+          <ParallaxBrain />
+        </motion.div>
 
-      {/* Klanten orbit — fades in when toggle active */}
-      <AnimatePresence>
-        {showClients && (
-          <motion.div
-            key="orbit"
-            initial={{ opacity: 0, scale: 0.85 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.85 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className="absolute inset-0 z-[5] pointer-events-none"
-          >
-            <ClientOrbit rings={3} baseSize={22} gap={14} />
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      <div className="relative z-10 w-full">
-        <AnimatePresence mode="wait">
-          {!showClients ? (
+        {/* Klanten orbit — fades in over the brain */}
+        <AnimatePresence>
+          {showClients && (
             <motion.div
+              key="orbit"
+              initial={{ opacity: 0, scale: 0.85 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.85 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              className="absolute inset-0 z-[5] pointer-events-none"
+            >
+              <ClientOrbit rings={3} baseSize={22} gap={14} />
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Klanten / Terug toggle — overlay on brain */}
+        <div className="absolute inset-x-0 bottom-12 md:bottom-16 z-10 flex justify-center">
+          {!showClients ? (
+            <Button
+              variant="heroOutline"
+              size="lg"
+              onClick={() => {
+                setShowClients(true);
+                trackCTA("Hero — Toon klanten", "#klanten");
+              }}
+            >
+              <Users className="w-4 h-4 mr-2" />
+              Klanten
+            </Button>
+          ) : (
+            <Button
+              variant="heroOutline"
+              size="lg"
+              onClick={() => setShowClients(false)}
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Terug
+            </Button>
+          )}
+        </div>
+      </div>
+
+      <div className="relative order-1 z-10 w-full">
+        <motion.div
               key="hero-card"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.4 }}
               className="w-full border-y border-white/[0.08] bg-white/[0.04] shadow-[0_8px_32px_0_rgba(0,5,5,0.2)] py-8 md:py-14 lg:py-20"
             >
@@ -95,52 +120,10 @@ const Hero = () => {
                         {CTA.nulmeting.label}
                       </CtaLink>
                     </Button>
-                    <Button
-                      variant="heroOutline"
-                      size="lg"
-                      onClick={() => {
-                        setShowClients(true);
-                        trackCTA("Hero — Toon klanten", "#klanten");
-                      }}
-                    >
-                      <Users className="w-4 h-4 mr-2" />
-                      Klanten
-                    </Button>
                   </motion.div>
                 </div>
               </div>
-            </motion.div>
-          ) : (
-            <motion.div
-              key="clients-view"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 1, y: -20 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="container mx-auto px-4 md:px-6"
-            >
-              <div className="max-w-2xl mx-auto text-center">
-                <p className="text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4">
-                  Onze klanten
-                </p>
-                <h2 className="font-display font-bold text-4xl md:text-6xl tracking-tighter mb-6">
-                  In <span className="text-gradient">goed gezelschap</span>
-                </h2>
-                <p className="text-foreground/80 text-base md:text-lg mb-8 leading-relaxed">
-                  B2B-bedrijven die hun groei niet meer aan toeval overlaten.
-                </p>
-                <Button
-                  variant="heroOutline"
-                  size="lg"
-                  onClick={() => setShowClients(false)}
-                >
-                  <ArrowLeft className="w-4 h-4 mr-2" />
-                  Terug
-                </Button>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        </motion.div>
       </div>
     </section>
   );
