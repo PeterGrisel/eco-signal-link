@@ -224,6 +224,20 @@ const PerformancePartnership = () => (
             beïnvloede omzet. Attributie wordt vooraf vastgelegd.
           </p>
         </div>
+        <div className="sm:col-span-2 rounded-xl border border-dashed border-primary/25 bg-background/30 p-5">
+          <p className="text-xs text-muted-foreground leading-relaxed">
+            Wij investeren regelmatig in start-ups met een barter-constructie.{" "}
+            <a
+              href="https://rebelforce-hubs.com/rebel-force"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary underline underline-offset-2 hover:text-primary/80"
+            >
+              Bekijk de voorwaarden
+            </a>{" "}
+            en join onze hub.
+          </p>
+        </div>
         <div className="sm:col-span-2">
           <Button variant="hero" size="lg" asChild className="w-full group">
             <CtaLink intent="bespreekSituatie" location="Pricing Performance Partnership" />
