@@ -53,16 +53,14 @@ export default function Chapter02Context() {
             <span className="text-xs uppercase tracking-wider text-primary">Wat we vastleggen</span>
           </div>
 
-          <div className="relative flex items-center justify-center mb-6">
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="h-24 w-24 rounded-full bg-primary/10 border border-primary/30 flex flex-col items-center justify-center">
-                <Brain className="h-6 w-6 text-primary mb-0.5" strokeWidth={1.5} />
-                <span className="text-[9px] uppercase tracking-wide text-foreground/80 text-center leading-tight px-1">
-                  Commercieel<br/>brein
-                </span>
-              </div>
+          <div className="flex flex-col items-center mb-6">
+            <div className="h-20 w-20 rounded-full bg-primary/10 border border-primary/30 flex flex-col items-center justify-center mb-5">
+              <Brain className="h-5 w-5 text-primary mb-0.5" strokeWidth={1.5} />
+              <span className="text-[8px] uppercase tracking-wide text-foreground/80 text-center leading-tight px-1">
+                Commercieel<br/>brein
+              </span>
             </div>
-            <div className="grid grid-cols-2 gap-2 w-full pt-32">
+            <div className="grid grid-cols-2 gap-2 w-full">
               {contextPieces.map((p, i) => (
                 <div key={i} className="flex items-center gap-1.5 rounded-md bg-background/40 border border-foreground/10 px-2 py-1.5">
                   <p.icon className="h-3 w-3 text-primary shrink-0" strokeWidth={1.5} />
