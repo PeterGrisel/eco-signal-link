@@ -4,6 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScriptsTabContent } from "./AdminScripts";
 import { McpTabContent } from "./AdminMcp";
 import { SettingsTabContent } from "./AdminSettings";
+import { ClientLogosTabContent } from "./AdminClientLogos";
 import { Settings } from "lucide-react";
 
 const AdminSystem = () => {
@@ -32,11 +33,15 @@ const AdminSystem = () => {
           <TabsTrigger value="settings" className="text-xs data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
             Settings
           </TabsTrigger>
+          <TabsTrigger value="logos" className="text-xs data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
+            Klantlogo's
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="scripts"><ScriptsTabContent /></TabsContent>
         <TabsContent value="mcp"><McpTabContent /></TabsContent>
         <TabsContent value="settings"><SettingsTabContent /></TabsContent>
+        <TabsContent value="logos"><ClientLogosTabContent /></TabsContent>
       </Tabs>
     </AdminLayout>
   );
