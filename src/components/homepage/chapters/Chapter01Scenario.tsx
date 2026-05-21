@@ -70,7 +70,7 @@ export default function Chapter01Scenario() {
             {signals.map((s, i) => (
               <div
                 key={i}
-                className="flex items-center gap-2 rounded-lg border border-foreground/10 bg-background/75 px-3 py-2"
+                className="flex items-center gap-2 rounded-lg border border-foreground/10 bg-background/45 backdrop-blur-md px-3 py-2"
               >
                 <s.icon className="h-3.5 w-3.5 text-primary/80" strokeWidth={1.5} />
                 <span className="text-xs text-foreground/80 truncate">{s.label}</span>
