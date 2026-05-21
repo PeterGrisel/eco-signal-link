@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowUp, Layers, Tag, Calendar } from "lucide-react";
+import { ArrowUp, Layers, Tag, HelpCircle, Calendar } from "lucide-react";
 import { trackCTA } from "@/lib/tracking";
 
 /**
@@ -58,6 +58,9 @@ const MobileDock = () => {
             </DockButton>
             <DockButton onClick={() => goTo("pricing", "Pricing")} label="Prijzen">
               <Tag className="w-5 h-5" />
+            </DockButton>
+            <DockButton onClick={() => goTo("faq", "FAQ")} label="FAQ">
+              <HelpCircle className="w-5 h-5" />
             </DockButton>
             <button
               onClick={openBooking}
