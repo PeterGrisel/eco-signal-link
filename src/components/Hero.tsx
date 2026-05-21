@@ -5,6 +5,7 @@ import CtaLink from "@/components/CtaLink";
 import { CTA } from "@/content/copy";
 import ParallaxBrain from "@/components/hero/ParallaxBrain";
 import ClientOrbit from "@/components/hero/ClientOrbit";
+import { GlowCard } from "@/components/ui/spotlight-card";
 import { Users, ArrowLeft, UserPlus, MapPin, Globe, Handshake, Briefcase, RotateCcw } from "lucide-react";
 import { trackCTA } from "@/lib/tracking";
 
@@ -80,17 +81,21 @@ const Hero = () => {
           className="grid grid-cols-2 md:grid-cols-3 gap-4"
         >
           {motions.map((m) => (
-            <div
+            <GlowCard
               key={m.n}
-              className="group rounded-2xl border border-foreground/10 bg-card/95 shadow-lg p-6 hover:border-primary/40 hover:bg-background/60 transition-colors"
+              glowColor="orange"
+              customSize
+              className="group bg-card/95 p-6 w-full h-auto aspect-auto"
             >
-              <div className="flex items-center gap-3 mb-3">
-                <span className="text-[10px] tabular-nums text-primary/70 tracking-[0.2em]">{m.n}</span>
-                <span className="h-px flex-1 bg-foreground/10 group-hover:bg-primary/40 transition-colors" />
-                <m.icon className="h-4 w-4 text-primary" strokeWidth={1.5} />
+              <div className="relative z-10">
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="text-[10px] tabular-nums text-primary/70 tracking-[0.2em]">{m.n}</span>
+                  <span className="h-px flex-1 bg-foreground/10 group-hover:bg-primary/40 transition-colors" />
+                  <m.icon className="h-4 w-4 text-primary" strokeWidth={1.5} />
+                </div>
+                <h3 className="font-display text-lg md:text-xl text-foreground">{m.title}</h3>
               </div>
-              <h3 className="font-display text-lg md:text-xl text-foreground">{m.title}</h3>
-            </div>
+            </GlowCard>
           ))}
         </motion.div>
 
