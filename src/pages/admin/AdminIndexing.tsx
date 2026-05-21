@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
-import { Zap, Trash2, RefreshCw, Globe, CheckCircle2, XCircle, Clock, MapPin, Download } from "lucide-react";
+import { Zap, Trash2, RefreshCw, Globe, CheckCircle2, XCircle, Clock, MapPin, Download, FileText } from "lucide-react";
 import { format } from "date-fns";
 
 const statusColors: Record<string, string> = {
@@ -215,6 +215,15 @@ export const IndexingTabContent = () => {
               <Zap className="w-4 h-4" /> Sync & Index ({stats.notSubmitted + stats.pending})
             </Button>
           )}
+          <Button
+            variant="heroOutline"
+            size="sm"
+            onClick={() => handleBatchIndex(sitemapUrls.filter(u => u.type === "blog").map(u => u.url))}
+            disabled={submitting || sitemapUrls.filter(u => u.type === "blog").length === 0}
+            title="Hersubmit alle gepubliceerde blog posts"
+          >
+            <FileText className="w-4 h-4" /> Re-index blogs ({sitemapUrls.filter(u => u.type === "blog").length})
+          </Button>
           <Button variant="heroOutline" size="sm" onClick={() => handleBatchIndex(sitemapUrls.map(u => u.url))} disabled={submitting}>
             <RefreshCw className="w-4 h-4" /> Re-index alles
           </Button>
