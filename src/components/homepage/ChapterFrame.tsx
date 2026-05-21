@@ -54,13 +54,9 @@ export default function ChapterFrame({
             className="pointer-events-none absolute inset-0 bg-primary/0 group-hover:bg-primary/[0.04] transition-colors duration-500"
           />
           <div className="relative">
-          <div className="flex items-center justify-center gap-3 mb-5">
-            <span className="text-[10px] tabular-nums text-primary/70 tracking-[0.2em]">
-              {number}
-            </span>
-            <span className="h-px w-8 bg-primary/40" />
+          <div className="flex items-center justify-center mb-5">
             <span className="text-[10px] uppercase tracking-[0.3em] text-primary">
-              {eyebrow}
+              {eyebrow.replace(/^Stap\s+\d+(\s*[—-]\s*\d+)?\s*·\s*/i, "")}
             </span>
           </div>
 
