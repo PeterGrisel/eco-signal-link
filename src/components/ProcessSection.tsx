@@ -95,7 +95,7 @@ const ProcessSection = () => {
           className="mb-12 md:mb-20 text-center max-w-3xl mx-auto"
         >
           <p className="text-primary font-display font-semibold text-xs md:text-sm tracking-[0.2em] uppercase mb-4">
-            Van nulmeting tot resultaat
+            Van scan tot resultaat
           </p>
           <h2 className="font-display font-bold text-3xl md:text-5xl lg:text-6xl tracking-tight leading-tight mb-4">
             Een bewezen <span className="text-gradient">proces.</span>

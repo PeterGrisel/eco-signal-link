@@ -9,7 +9,7 @@ import {
 
 const faqs = [
   {
-    q: "Wat is een nulmeting?",
+    q: "Wat is een gratis scan?",
     a: "Een korte analyse van uw sales- en serviceproces. Wij brengen in kaart wat handmatig loopt, waar signalen blijven liggen en welke stappen het meeste opleveren als we ze automatiseren. U krijgt een concrete kaart binnen 5 werkdagen.",
   },
   {
@@ -22,11 +22,11 @@ const faqs = [
   },
   {
     q: "Hoe snel zien we resultaat?",
-    a: "Eerste 30 dagen: nulmeting en kaart. Dag 30 tot 60: eerste automatiseringen live. Dag 60 tot 90: meetbare verschuiving in pipeline en tijdwinst. Geen wonderclaims, wel een meetbare lijn.",
+    a: "Eerste 30 dagen: scan en kaart. Dag 30 tot 60: eerste automatiseringen live. Dag 60 tot 90: meetbare verschuiving in pipeline en tijdwinst. Geen wonderclaims, wel een meetbare lijn.",
   },
   {
     q: "Wat kost het?",
-    a: "Vast maandtarief, drie maanden opzegbaar. U betaalt voor uitvoering, niet voor uren of beloftes. Exacte investering hangt af van de scope die uit de nulmeting komt.",
+    a: "Vast maandtarief, drie maanden opzegbaar. U betaalt voor uitvoering, niet voor uren of beloftes. Exacte investering hangt af van de scope die uit de scan komt.",
   },
   {
     q: "Zit ik vast aan jullie tools?",
