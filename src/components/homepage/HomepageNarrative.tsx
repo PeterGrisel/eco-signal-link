@@ -1,5 +1,4 @@
 import Chapter01Scenario from "./chapters/Chapter01Scenario";
-import Chapter02Context from "./chapters/Chapter02Context";
 import Chapter03TwoWays from "./chapters/Chapter03TwoWays";
 import Chapter04Methode from "./chapters/Chapter04Methode";
 import Chapter05Brein from "./chapters/Chapter05Brein";
@@ -18,7 +17,6 @@ export default function HomepageNarrative() {
     <main className="cinematic-home relative">
       {/* ACT I — HET PROBLEEM */}
       <Chapter01Scenario />
-      <Chapter02Context />
 
       {/* ACT II — DE METHODE */}
       <Chapter03TwoWays />
