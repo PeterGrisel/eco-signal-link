@@ -28,7 +28,9 @@ export interface ProductData {
     connectionStatus: string;
     batteryLevel: number; // 0-100
   };
-  features: FeatureMetric[];
+  features?: FeatureMetric[];
+  /** Optional vertical step list, rendered in place of the metric grid. */
+  steps?: { icon: LucideIcon; label: string }[];
   cta?: { label: string };
 }
 
@@ -162,36 +164,70 @@ function ProductDetails({ data, isLeft }: { data: ProductData; isLeft: boolean }
         {data.description}
       </motion.p>
 
-      {/* Feature metrics */}
-      <motion.div variants={ITEM} className="grid grid-cols-2 gap-3 w-full max-w-md pt-2">
-        {data.features.map((f) => {
-          const FIcon = f.icon;
-          return (
-            <div
-              key={f.label}
-              className="rounded-xl border border-foreground/10 bg-card/95 p-3 shadow-sm"
-            >
-              <div className="flex items-center justify-between mb-2">
-                <div className="flex items-center gap-2">
-                  <FIcon className={`h-3.5 w-3.5 ${accentText}`} strokeWidth={1.75} />
-                  <span className="text-xs text-foreground/80">{f.label}</span>
-                </div>
-                <span className="text-xs font-display font-semibold text-foreground tabular-nums">
-                  {f.value}%
+      {/* Step list (preferred) or metric grid */}
+      {data.steps ? (
+        <motion.ul
+          variants={ITEM}
+          className={`w-full max-w-md pt-2 space-y-2.5 ${isLeft ? '' : 'md:ml-auto'}`}
+        >
+          {data.steps.map((s, i) => {
+            const SIcon = s.icon;
+            return (
+              <li
+                key={s.label}
+                className="flex items-center gap-3 rounded-xl border border-foreground/10 bg-card/80 px-3 py-2.5 backdrop-blur-sm"
+              >
+                <span
+                  className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[11px] font-medium tabular-nums ${
+                    data.accent === 'primary'
+                      ? 'bg-primary/15 text-primary border border-primary/30'
+                      : 'bg-foreground/10 text-foreground/60 border border-foreground/15'
+                  }`}
+                >
+                  {i + 1}
                 </span>
-              </div>
-              <div className="relative h-1 rounded-full bg-foreground/10 overflow-hidden">
-                <motion.span
-                  initial={{ width: 0 }}
-                  animate={{ width: `${f.value}%` }}
-                  transition={{ duration: 0.8, ease: 'easeOut' }}
-                  className={`absolute left-0 top-0 h-full rounded-full ${accentBar}`}
+                <SIcon
+                  className={`h-4 w-4 shrink-0 ${accentText}`}
+                  strokeWidth={1.5}
                 />
+                <span className="text-sm text-foreground/90 leading-snug">
+                  {s.label}
+                </span>
+              </li>
+            );
+          })}
+        </motion.ul>
+      ) : data.features && data.features.length > 0 ? (
+        <motion.div variants={ITEM} className="grid grid-cols-2 gap-3 w-full max-w-md pt-2">
+          {data.features.map((f) => {
+            const FIcon = f.icon;
+            return (
+              <div
+                key={f.label}
+                className="rounded-xl border border-foreground/10 bg-card/95 p-3 shadow-sm"
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-2">
+                    <FIcon className={`h-3.5 w-3.5 ${accentText}`} strokeWidth={1.75} />
+                    <span className="text-xs text-foreground/80">{f.label}</span>
+                  </div>
+                  <span className="text-xs font-display font-semibold text-foreground tabular-nums">
+                    {f.value}%
+                  </span>
+                </div>
+                <div className="relative h-1 rounded-full bg-foreground/10 overflow-hidden">
+                  <motion.span
+                    initial={{ width: 0 }}
+                    animate={{ width: `${f.value}%` }}
+                    transition={{ duration: 0.8, ease: 'easeOut' }}
+                    className={`absolute left-0 top-0 h-full rounded-full ${accentBar}`}
+                  />
+                </div>
               </div>
-            </div>
-          );
-        })}
-      </motion.div>
+            );
+          })}
+        </motion.div>
+      ) : null}
 
       {/* Battery + CTA */}
       <motion.div
