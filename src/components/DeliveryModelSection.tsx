@@ -73,7 +73,7 @@ const DeliveryModelSection = () => {
             <h3 className="font-display font-bold text-2xl mb-1">Build &amp; Transfer</h3>
             <p className="text-primary font-display text-sm font-semibold mb-4">Wij bouwen, u neemt over</p>
             <p className="text-muted-foreground leading-relaxed mb-6">
-              Wij zetten alles op, trainen uw team en dragen het over. U houdt alle tools en data zelf in handen.
+              Wij zetten alles op en dragen het volledig over. Inclusief alle data, workflows en draaiboek. Uw team kan direct zelfstandig doorgaan.
             </p>
             <div className="flex flex-wrap gap-2 mt-auto">
               {["Volledige overdracht", "Training voor uw team", "Handleiding en draaiboek"].map((tag) => (
