@@ -75,7 +75,7 @@ export default function ChapterFrame({
             </span>
           </div>
 
-          <h2 className="font-display text-3xl md:text-5xl lg:text-6xl font-medium leading-[1.05] mb-4 text-foreground [text-wrap:balance] [text-shadow:0_1px_8px_rgba(0,0,0,0.4)]">
+          <h2 className="font-display text-3xl md:text-[2.75rem] lg:text-[3.25rem] font-medium leading-[1.08] mb-4 text-foreground [text-wrap:pretty] [hyphens:none] [text-shadow:0_1px_8px_rgba(0,0,0,0.4)]">
             {title}
           </h2>
 
