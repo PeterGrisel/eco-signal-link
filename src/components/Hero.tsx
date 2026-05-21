@@ -42,96 +42,99 @@ const Hero = () => {
       <div className="relative z-10 w-full">
         <AnimatePresence mode="wait">
           {!showClients ? (
-          <motion.div
-            key="hero-card"
-            initial={{ opacity:  0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.4 }}
-            className="w-full border-y border-white/[0.08] bg-white/[0.04] shadow-[0_8px_32px_0_rgba(0,5,5,0.2)] py-8 md:py-14 lg:py-20"
-          >
-            <div className="container mx-auto px-4 md:px-6">
-              <div className="max-w-2xl">
-            <motion.h1
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.1 }}
-              className="font-display font-bold text-[2.25rem] md:text-[3.75rem] lg:text-[4.25rem] leading-[1.05] tracking-tighter mb-6 md:mb-8"
-            >
-              Stop met wachten op aanvragen.
-              <br />
-              <span className="text-gradient">
-                Bouw een systeem dat interesse herkent
-              </span>{" "}
-              vóórdat klanten actief zoeken.
-            </motion.h1>
-
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="text-foreground/80 text-base md:text-xl max-w-2xl mb-8 md:mb-10 leading-relaxed"
-            >
-              Eén commercieel brein. Eén levend groeisysteem.
-              Van marktdata en koopsignalen tot outreach, opvolging,
-              CRM-discipline en geboekte gesprekken.
-            </motion.p>
-
             <motion.div
+              key="hero-card"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="flex flex-wrap gap-4"
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.4 }}
+              className="w-full border-y border-white/[0.08] bg-white/[0.04] shadow-[0_8px_32px_0_rgba(0,5,5,0.2)] py-8 md:py-14 lg:py-20"
             >
-              <Button variant="hero" size="lg" className="relative group" asChild>
-                <CtaLink intent="nulmeting" location="Hero">
-                  <span className="absolute inset-0 rounded-md bg-primary/20 animate-pulse group-hover:animate-none" />
-                  {CTA.nulmeting.label}
-                </CtaLink>
-              </Button>
-              <Button
-                variant="heroOutline"
-                size="lg"
-                onClick={() => {
-                  setShowClients(true);
-                  trackCTA("Hero — Toon klanten", "#klanten");
-                }}
-              >
-                <Users className="w-4 h-4 mr-2" />
-                Klanten
-              </Button>
+              <div className="container mx-auto px-4 md:px-6">
+                <div className="max-w-2xl">
+                  <motion.h1
+                    initial={{ opacity: 1 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 1.2, delay: 0.1 }}
+                    className="font-display font-bold text-[2.25rem] md:text-[3.75rem] lg:text-[4.25rem] leading-[1.05] tracking-tighter mb-6 md:mb-8"
+                  >
+                    Stop met wachten op aanvragen.
+                    <br />
+                    <span className="text-gradient">
+                      Bouw een systeem dat interesse herkent
+                    </span>{" "}
+                    vóórdat klanten actief zoeken.
+                  </motion.h1>
+
+                  <motion.p
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.6, delay: 0.3 }}
+                    className="text-foreground/80 text-base md:text-xl max-w-2xl mb-8 md:mb-10 leading-relaxed"
+                  >
+                    Eén commercieel brein. Eén levend groeisysteem.
+                    Van marktdata en koopsignalen tot outreach, opvolging,
+                    CRM-discipline en geboekte gesprekken.
+                  </motion.p>
+
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.6, delay: 0.4 }}
+                    className="flex flex-wrap gap-4"
+                  >
+                    <Button variant="hero" size="lg" className="relative group" asChild>
+                      <CtaLink intent="nulmeting" location="Hero">
+                        <span className="absolute inset-0 rounded-md bg-primary/20 animate-pulse group-hover:animate-none" />
+                        {CTA.nulmeting.label}
+                      </CtaLink>
+                    </Button>
+                    <Button
+                      variant="heroOutline"
+                      size="lg"
+                      onClick={() => {
+                        setShowClients(true);
+                        trackCTA("Hero — Toon klanten", "#klanten");
+                      }}
+                    >
+                      <Users className="w-4 h-4 mr-2" />
+                      Klanten
+                    </Button>
+                  </motion.div>
+                </div>
+              </div>
             </motion.div>
-          </motion.div>
           ) : (
-          <motion.div
-            key="clients-view"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="flex-1 max-w-2xl text-center mx-auto"
-          >
-            <p className="text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4">
-              Onze klanten
-            </p>
-            <h2 className="font-display font-bold text-4xl md:text-6xl tracking-tighter mb-6">
-              In <span className="text-gradient">goed gezelschap</span>
-            </h2>
-            <p className="text-foreground/80 text-base md:text-lg mb-8 leading-relaxed">
-              B2B-bedrijven die hun groei niet meer aan toeval overlaten.
-            </p>
-            <Button
-              variant="heroOutline"
-              size="lg"
-              onClick={() => setShowClients(false)}
+            <motion.div
+              key="clients-view"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 1, y: -20 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="container mx-auto px-4 md:px-6"
             >
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Terug naar hero
-            </Button>
-          </motion.div>
+              <div className="max-w-2xl mx-auto text-center">
+                <p className="text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4">
+                  Onze klanten
+                </p>
+                <h2 className="font-display font-bold text-4xl md:text-6xl tracking-tighter mb-6">
+                  In <span className="text-gradient">goed gezelschap</span>
+                </h2>
+                <p className="text-foreground/80 text-base md:text-lg mb-8 leading-relaxed">
+                  B2B-bedrijven die hun groei niet meer aan toeval overlaten.
+                </p>
+                <Button
+                  variant="heroOutline"
+                  size="lg"
+                  onClick={() => setShowClients(false)}
+                >
+                  <ArrowLeft className="w-4 h-4 mr-2" />
+                  Terug naar hero
+                </Button>
+              </div>
+            </motion.div>
           )}
-          </AnimatePresence>
-        </div>
+        </AnimatePresence>
       </div>
     </section>
   );
