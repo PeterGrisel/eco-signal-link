@@ -28,22 +28,18 @@ export default function HomepageNarrative() {
       {/* ACT II — DE METHODE */}
       <ActBridge text="Twee manieren om B2B-groei te realiseren. Eén lineair. Eén lerend." />
       <Chapter03TwoWays />
-      <ActBridge text="Van commerciële context naar acht concrete stappen." />
       <Chapter04Methode />
 
       {/* ACT III — HET FUNDAMENT */}
       <ActBridge text="Eerst het brein. Daarna pas de beweging." />
       <Chapter05Brein />
       <Chapter06Blauwdruk />
-      <ActBridge text="Een systeem schaalt anders dan een campagne. Reken even mee." />
       <Chapter07Schaal />
 
       {/* ACT IV — DE OPERATIE */}
       <ActBridge text="Van impressies naar engagement, naar deals." />
       <Chapter08Funnel />
-      <ActBridge text="Modules creëren engagement. Routing maakt er actie van." />
       <Chapter09Modules />
-      <ActBridge text="Geleverd waar uw teams al werken." />
       <Chapter10Levering />
 
       {/* ACT V — DE BELOFTE */}
