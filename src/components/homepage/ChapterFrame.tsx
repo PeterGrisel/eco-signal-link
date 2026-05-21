@@ -32,10 +32,9 @@ export default function ChapterFrame({
   return (
     <section
       id={id}
-      data-dock-hide
       className={`relative py-24 md:py-32 ${solid ? "bg-background/60" : ""}`}
     >
-      <div className="container max-w-6xl mx-auto px-4 md:px-6">
+      <div className="container max-w-6xl mx-auto px-4 md:px-6 md:pl-24 lg:pl-28">
         {/* Glass-card header */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
