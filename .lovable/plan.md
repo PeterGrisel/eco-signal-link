@@ -1,71 +1,72 @@
 ## Doel
 
-Homepage korter en scanbaar maken. De bezoeker kiest zelf wat hij leest, in plaats van door 14 secties te scrollen. We starten met het blok **"Werkt in elke branche"** als interactief sectorkiezer-component.
+Eén harde conversie: **nulmeting geboekt**. Elke sectie ondersteunt die actie of wordt geschrapt. Methode-HTML als visuele inspiratie voor één nieuwe sectie.
 
-## Stap 1 — Nieuw blok: "Werkt in elke branche"
-
-Plaats direct onder de `FunnelInfographic` (vóór `NoLeadAgencySection`). Vervangt nog niets, is de eerste compacte module.
-
-### Layout
+## Nieuwe sectievolgorde
 
 ```text
-┌───────────────────────────────────────────────────────────┐
-│  Werkt in elke B2B branche                                │
-│  Kies uw sector — zie direct welke signalen we volgen     │
-│                                                           │
-│  [⚽ Profvoetbal] [📦 Groothandel] [🔧 Techniek] [🏭 …]   │  ← chips/pills
-│   actief                                                  │
-│                                                           │
-│  ┌─────────────────────────────────────────────────────┐  │
-│  │  Tagline van sector                                 │  │
-│  │                                                     │  │
-│  │  Signalen die wij volgen   │  Wat u krijgt na 4 wk  │  │
-│  │  • signaal 1               │  • resultaat 1         │  │
-│  │  • signaal 2               │  • resultaat 2         │  │
-│  │  • signaal 3               │  • resultaat 3         │  │
-│  │                                                     │  │
-│  │  [Bekijk volledige sectorpagina →]                  │  │
-│  └─────────────────────────────────────────────────────┘  │
-└───────────────────────────────────────────────────────────┘
+1.  Hero (aangescherpt)            ── headline + sub + dubbele CTA + sociaal bewijs strip
+2.  Pijn → Oplossing (HookSection) ── 3 cards, herschreven op pijnpunten
+3.  De Methode (NIEUW)             ── visuele 4-laagse uitleg, geïnspireerd op upload
+4.  Bewijs (ResultsSection)        ── cijfers + 1 quote, eerder dan nu
+5.  Process (7 stappen, ingekort)  ── "zo werkt het bij u"
+6.  Pricing                        ── 6/12 mnd toggle blijft
+7.  Mini-FAQ (3-4 bezwaren)        ── focus: tijd, geld, controle
+8.  Final CTA (peter + agenda)     ── bestaand, sterker contrast
+9.  Footer
 ```
 
-### Gedrag
+**Geschrapt of verplaatst:**
+- `FunnelInfographic`, `SectorPicker`, `LogoTicker`, `NoLeadAgencySection`, `SystemSection`, `PipelineEquationTeaser`, `FunnelSection`, `DatahubSection`, `DeliveryModelSection` → verplaatst naar sub-pagina's of geschrapt. Deze creëren afleiding en zwakken de hoofd-CTA af.
+- Lange FAQ → ingekort tot 4 conversie-bezwaren; volledige FAQ blijft op /faq.
 
-- 9 sectoren als horizontale, scrollbare chips (mobiel: swipe; desktop: wrap).
-- Klik op chip = inhoud wisselt direct (geen pagina-navigatie), met korte fade.
-- Standaard actief: eerste sector (Profvoetbal) of detecteer via URL-hash.
-- CTA onderin linkt naar `/sectoren/{slug}` voor de volledige pagina.
+## Conversie-ingrepen per sectie
 
-### Data
+**Hero**
+- Sub-kop uitbreiden met concreet beloofd resultaat (binnen X weken een werkend proces).
+- Onder CTA's: micro-bewijsstrip (bv. "30 min · vrijblijvend · spreek direct Peter").
+- Contactformulier rechts behouden (warme lane), CTA wint visueel.
 
-Hergebruik `src/data/sectors.ts` — velden `title`, `tagline`, `signals` (max 4 tonen), `naVierWeken` (max 4 tonen), `slug`, `icon`.
+**Pijn → Methode → Bewijs in 3 schermen**
+Klassiek high-converting pattern: probleem erkennen, methode uitleggen, bewijs leveren — daarna pas prijs.
 
-### Nieuw bestand
+**Methode-sectie (nieuw)**
+- 4 lagen verticaal: Infrastructure → Intelligence → Engagement → Qualification.
+- Per laag: 1 icoon, 1 zin, 1 micro-output ("u krijgt: X").
+- Sticky scroll of accordion. Eindigt met inline CTA "Plan de nulmeting".
 
-- `src/components/SectorPicker.tsx` — zelfstandig component, Framer Motion fade, design-tokens (geen hardcoded kleuren).
+**Mini-FAQ**
+Vier vragen, allemaal conversie-bezwaren:
+1. Hoe lang voor ik resultaat zie?
+2. Wat als ik al een leadbureau heb?
+3. Hoeveel tijd kost het mij intern?
+4. Wat als het niet werkt?
 
-### Integratie
+**Sticky CTA (mobiel)** blijft, label wordt sterker.
 
-`src/pages/Index.tsx`:
-```tsx
-<Hero />
-<FunnelInfographic />
-<SectorPicker />        // ← nieuw
-<NoLeadAgencySection />
-...
-```
+## Copy-strategie
 
-## Vervolgstappen (later, na akkoord op stap 1)
+Alle nieuwe copy in `src/content/copy.ts` (centralized-copy regel). Bestaande propositie behouden, focus toevoegen op:
+- Eén meetbaar resultaat per sectie
+- "U" perspectief, max 12 woorden/zin
+- Geen specifieke meeting-beloftes (brand-voice regel)
 
-Pas wanneer dit blok staat, gaan we de rest comprimeren. Voorgestelde richting:
+## Technische uitvoering
 
-1. **HookSection + StreamsSection + SystemSection** → één blok met tabs ("Wat", "Hoe", "Voor wie").
-2. **ProcessSection + DatahubSection + DeliveryModelSection** → accordions onder één kop "Hoe wij bouwen".
-3. **PipelineEquationTeaser + FunnelSection** behouden als interactieve blokken (al compact).
-4. **Pricing + Results + FAQ + CTA** blijven onderaan zichtbaar voor conversie.
+- Nieuwe component: `src/components/MethodeSection.tsx`
+- Nieuwe component: `src/components/MiniFaq.tsx`
+- `src/pages/Index.tsx`: rebuild sectievolgorde, oude imports weghalen (componenten zelf blijven bestaan voor sub-pagina's).
+- `src/content/copy.ts`: blokken toevoegen voor `methode`, `miniFaq`, `heroProof`.
+- `Hero.tsx`: sub-kop + proof-strip onder CTA's.
+- `HookSection.tsx`: copy herschrijven naar pijn-frame.
+- Geen wijzigingen aan routing, backend, of Signaal.
 
-Verwachte reductie: ~50% paginalengte zonder content te verliezen.
+## Niet in scope
 
-## Scope nu
+- Geen visuele redesign (kleuren/typografie/animatie-stijl blijven).
+- Geen wijzigingen aan /signaal, /pricing detail, blog, admin.
+- Geen A/B-test infra (kan later).
 
-Alleen stap 1: bouw `SectorPicker` en integreer in `Index.tsx`. Geen wijzigingen aan bestaande secties.
+## Validatie
+
+Na implementatie: visueel scrollen door homepage in preview, console check, link/CTA check (alle CTA's wijzen naar `BOOKING_URL` of `#hoe-het-werkt`).
