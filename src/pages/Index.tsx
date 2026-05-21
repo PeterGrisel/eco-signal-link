@@ -5,6 +5,7 @@ import Hero from "@/components/Hero";
 import PageLoader from "@/components/PageLoader";
 import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 import HomepageNarrative from "@/components/homepage/HomepageNarrative";
+import HomepageHook from "@/components/homepage/HomepageHook";
 import Footer from "@/components/Footer";
 import StickyHeroCta from "@/components/StickyHeroCta";
 import ActScrollProgress from "@/components/homepage/ActScrollProgress";
@@ -29,6 +30,7 @@ const Index = () => {
       <BreadcrumbJsonLd items={[{ name: "Home", url: "https://b2bgroeimachine.io/" }]} />
       <Navbar />
       <Hero />
+      <HomepageHook />
       <HomepageNarrative />
       <PricingSection />
       <Footer />
