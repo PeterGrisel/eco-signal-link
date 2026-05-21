@@ -79,7 +79,7 @@ export default function ClientOrbit({
                     style={{ left: `${x}%`, top: `${y}%` }}
                   >
                     <div
-                      className="h-9 w-9 md:h-11 md:w-11 rounded-xl bg-background/70 backdrop-blur-md border border-border/40 shadow-[0_6px_24px_-8px_rgba(0,0,0,0.6)] flex items-center justify-center overflow-hidden"
+                      className="h-9 w-9 md:h-11 md:w-11 rounded-xl bg-background/90 border border-border/40 shadow-[0_6px_24px_-8px_rgba(0,0,0,0.6)] flex items-center justify-center overflow-hidden"
                       style={{
                         animation: `client-orbit ${duration}s linear infinite`,
                         animationDirection: direction === "normal" ? "reverse" : "normal",

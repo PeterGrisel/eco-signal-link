@@ -61,7 +61,7 @@ export default function Chapter01Scenario() {
         </div>
 
         {/* Wat er echt gebeurt */}
-        <div className="relative rounded-2xl border border-primary/20 bg-card/80 backdrop-blur-md shadow-lg ring-1 ring-primary/20 p-8">
+        <div className="relative rounded-2xl border border-primary/20 bg-card/95 shadow-lg ring-1 ring-primary/20 p-8">
           <div className="text-xs uppercase tracking-[0.2em] text-primary mb-8">
             Wat er echt gebeurt in de markt
           </div>
@@ -70,7 +70,7 @@ export default function Chapter01Scenario() {
             {signals.map((s, i) => (
               <div
                 key={i}
-                className="flex items-center gap-2 rounded-lg border border-foreground/10 bg-card/85 backdrop-blur-md shadow-lg px-3 py-2"
+                className="flex items-center gap-2 rounded-lg border border-foreground/10 bg-card/95 shadow-lg px-3 py-2"
               >
                 <s.icon className="h-3.5 w-3.5 text-primary/80" strokeWidth={1.5} />
                 <span className="text-xs text-foreground/80 truncate">{s.label}</span>

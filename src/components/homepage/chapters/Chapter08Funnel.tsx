@@ -20,7 +20,7 @@ export default function Chapter08Funnel() {
         {stages.map((s, i) => (
           <div
             key={s.tag}
-            className="relative rounded-2xl border border-foreground/10 bg-card/80 backdrop-blur-md shadow-lg p-6 flex flex-col"
+            className="relative rounded-2xl border border-foreground/10 bg-card/95 shadow-lg p-6 flex flex-col"
             style={{ marginTop: `${i * 14}px` }}
           >
             <span className="text-[10px] uppercase tracking-[0.25em] text-primary mb-3">{s.tag}</span>
