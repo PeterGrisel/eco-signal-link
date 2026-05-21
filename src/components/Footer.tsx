@@ -22,7 +22,6 @@ const bedrijf = [
   { href: "/over-ons", label: "Over Ons" },
   { href: "/ons-team", label: "Ons Team" },
   { href: "/brandstory", label: "Brandstory" },
-  { href: "/pricing", label: "Pricing" },
   { href: "/blog", label: "Blog" },
   { href: "/contact", label: "Contact" },
 ];

@@ -16,7 +16,6 @@ import FullSalesManagement from "./pages/FullSalesManagement.tsx";
 import FullServiceRecruitment from "./pages/FullServiceRecruitment.tsx";
 import Blog from "./pages/Blog.tsx";
 import BlogPost from "./pages/BlogPost.tsx";
-import Pricing from "./pages/Pricing.tsx";
 import Datahub from "./pages/Datahub.tsx";
 import Brandstory from "./pages/Brandstory.tsx";
 import Brandbook from "./pages/Brandbook.tsx";
@@ -89,7 +88,6 @@ const AnimatedRoutes = () => {
           <Route path="/full-sales-management" element={<FullSalesManagement />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:slug" element={<BlogPost />} />
-          <Route path="/pricing" element={<Pricing />} />
           <Route path="/datahub" element={<Datahub />} />
           <Route path="/brandstory" element={<Brandstory />} />
           <Route path="/brandbook" element={<Brandbook />} />
