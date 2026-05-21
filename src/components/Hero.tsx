@@ -51,7 +51,7 @@ const Hero = () => {
               className="w-full border-y border-white/[0.08] bg-white/[0.04] shadow-[0_8px_32px_0_rgba(0,5,5,0.2)] py-8 md:py-14 lg:py-20"
             >
               <div className="container mx-auto px-4 md:px-6">
-                <div className="max-w-2xl">
+              <div className="max-w-2xl mx-auto text-center">
                   <motion.h1
                     initial={{ opacity: 1 }}
                     animate={{ opacity: 1 }}
@@ -81,7 +81,7 @@ const Hero = () => {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.6, delay: 0.4 }}
-                    className="flex flex-wrap gap-4"
+                    className="flex flex-wrap gap-4 justify-center"
                   >
                     <Button variant="hero" size="lg" className="relative group" asChild>
                       <CtaLink intent="nulmeting" location="Hero">
