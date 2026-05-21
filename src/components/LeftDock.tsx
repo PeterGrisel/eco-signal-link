@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Mail, Linkedin, HelpCircle, MessageCircle } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -13,30 +13,7 @@ const WHATSAPP = "https://wa.me/31852502925";
 
 export default function LeftDock() {
   const [faqOpen, setFaqOpen] = useState(false);
-  const [hidden, setHidden] = useState(true);
   const location = useLocation();
-
-  useEffect(() => {
-    const check = () => {
-      const heroVisible = window.scrollY < window.innerHeight * 0.85;
-      if (heroVisible) { setHidden(true); return; }
-      const dockY = window.innerHeight / 2;
-      const zones = document.querySelectorAll<HTMLElement>("[data-dock-hide]");
-      for (const el of zones) {
-        const r = el.getBoundingClientRect();
-        if (r.top < dockY + 40 && r.bottom > dockY - 40) { setHidden(true); return; }
-      }
-      setHidden(false);
-    };
-    check();
-    window.addEventListener("scroll", check, { passive: true });
-    window.addEventListener("resize", check);
-    return () => {
-      window.removeEventListener("scroll", check);
-      window.removeEventListener("resize", check);
-    };
-  }, [location.pathname]);
-
   if (location.pathname.startsWith("/signaal") || location.pathname.startsWith("/admin")) return null;
 
   const items = [
