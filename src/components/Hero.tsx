@@ -24,9 +24,14 @@ const Hero = () => {
   return (
     <section className="relative min-h-[85vh] lg:min-h-screen flex items-center pt-14 md:pt-16 overflow-hidden">
       {/* Brain visual — scoped to hero only (no fixed sticky behind page) */}
-      <div aria-hidden className="absolute inset-0 z-0 pointer-events-none">
+      <motion.div
+        aria-hidden
+        animate={{ opacity: showClients ? 0.15 : 1 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="absolute inset-0 z-0 pointer-events-none"
+      >
         <ParallaxBrain />
-      </div>
+      </motion.div>
 
       {/* Klanten orbit — fades in when toggle active */}
       <AnimatePresence>
