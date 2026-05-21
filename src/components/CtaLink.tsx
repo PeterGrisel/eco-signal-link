@@ -14,13 +14,13 @@ type CtaLinkProps = {
 
 /**
  * Eén plek voor CTA-href, label en trackingnaam.
- * Voorkomt drift tussen "Plan de nulmeting", "Plan een gesprek", etc.
+ * Voorkomt drift tussen "Plan de gratis scan", "Plan een gesprek", etc.
  */
 const CtaLink = forwardRef<HTMLAnchorElement, CtaLinkProps>(
   ({ intent, location, children, ...rest }, ref) => {
     const cta = CTA[intent];
     const external = "external" in cta && cta.external;
-    const opensBookingModal = intent === "nulmeting" || intent === "bespreekSituatie";
+    const opensBookingModal = intent === "gratisScan" || intent === "bespreekSituatie";
     return (
       <a
         ref={ref}
