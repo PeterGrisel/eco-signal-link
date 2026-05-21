@@ -58,12 +58,7 @@ const Hero = () => {
                     transition={{ duration: 1.2, delay: 0.1 }}
                     className="font-display font-bold text-[2.25rem] md:text-[3.75rem] lg:text-[4.25rem] leading-[1.05] tracking-tighter mb-6 md:mb-8"
                   >
-                    Stop met wachten op aanvragen.
-                    <br />
-                    <span className="text-gradient">
-                      Bouw een systeem dat interesse herkent
-                    </span>{" "}
-                    vóórdat klanten actief zoeken.
+                    Wilt u uw bedrijf schalen?
                   </motion.h1>
 
                   <motion.p
