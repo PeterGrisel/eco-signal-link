@@ -14,8 +14,6 @@ export default function ParallaxBrain() {
       </div>
       {/* Brain on top of orbit */}
       <SplineBrain className="absolute inset-0" />
-      {/* Soft vignette so content cards read clearly */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,hsl(var(--background)/0.55)_75%,hsl(var(--background)/0.85)_100%)]" />
     </div>
   );
 }
