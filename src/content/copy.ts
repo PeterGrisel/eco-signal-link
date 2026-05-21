@@ -15,10 +15,10 @@ export const BOOKING_URL =
 export const CTA = {
   /** Hoofd-CTA: gebruikt in hero, navbar, sticky, sections */
   nulmeting: {
-    label: "Plan de nulmeting →",
-    labelShort: "Plan de nulmeting",
-    href: BOOKING_URL,
-    external: true,
+    label: "Boek gratis scan →",
+    labelShort: "Boek gratis scan",
+    href: "#boek-gratis-scan",
+    external: false,
   },
   /** Soft CTA: hoe het werkt anker */
   hoeHetWerkt: {
@@ -28,9 +28,9 @@ export const CTA = {
   },
   /** Tertiaire CTA: situatie bespreken (in body-tekst) */
   bespreekSituatie: {
-    label: "Bespreek uw situatie →",
-    href: BOOKING_URL,
-    external: true,
+    label: "Boek gratis scan →",
+    href: "#boek-gratis-scan",
+    external: false,
   },
 } as const;
 

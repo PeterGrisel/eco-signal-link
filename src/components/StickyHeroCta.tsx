@@ -54,11 +54,11 @@ const StickyHeroCta = forwardRef<HTMLDivElement>((_, ref) => {
           <div className="pointer-events-auto mx-auto max-w-md flex items-stretch gap-2 rounded-xl border border-primary/30 bg-background/90 backdrop-blur-xl shadow-2xl p-2">
             <a
               href={CTA.nulmeting.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() =>
-                trackCTA("Sticky Hero CTA — Plan de nulmeting", CTA.nulmeting.href)
-              }
+              onClick={(e) => {
+                e.preventDefault();
+                import("@/components/booking/GlobalBookingModal").then((m) => m.openBookingModal());
+                trackCTA("Sticky Hero CTA — Boek gratis scan", CTA.nulmeting.href);
+              }}
               className="flex-1 flex items-center justify-center gap-2 bg-primary text-primary-foreground rounded-lg px-4 py-3 font-semibold text-sm hover:opacity-90 transition-opacity"
             >
               <Calendar className="w-4 h-4" />

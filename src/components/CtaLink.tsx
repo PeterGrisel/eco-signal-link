@@ -1,6 +1,7 @@
 import { forwardRef, type AnchorHTMLAttributes, type ReactNode } from "react";
 import { CTA, type CtaKey } from "@/content/copy";
 import { trackCTA } from "@/lib/tracking";
+import { openBookingModal } from "@/components/booking/GlobalBookingModal";
 
 type CtaLinkProps = {
   /** Welke centrale CTA wordt gebruikt (label/href komen uit `src/content/copy.ts`) */
@@ -19,13 +20,20 @@ const CtaLink = forwardRef<HTMLAnchorElement, CtaLinkProps>(
   ({ intent, location, children, ...rest }, ref) => {
     const cta = CTA[intent];
     const external = "external" in cta && cta.external;
+    const opensBookingModal = intent === "nulmeting" || intent === "bespreekSituatie";
     return (
       <a
         ref={ref}
         href={cta.href}
         target={external ? "_blank" : undefined}
         rel={external ? "noopener noreferrer" : undefined}
-        onClick={() => trackCTA(`${location} — ${cta.label.replace(/\s*→\s*$/, "")}`, cta.href)}
+        onClick={(e) => {
+          if (opensBookingModal) {
+            e.preventDefault();
+            openBookingModal();
+          }
+          trackCTA(`${location} — ${cta.label.replace(/\s*→\s*$/, "")}`, cta.href);
+        }}
         {...rest}
       >
         {children ?? cta.label}

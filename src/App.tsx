@@ -52,6 +52,7 @@ import TrackingScriptInjector from "./components/TrackingScriptInjector";
 import WhatsAppButton from "./components/WhatsAppButton";
 import FloatingTrainingCta from "./components/FloatingTrainingCta";
 import CookieConsent from "./components/CookieConsent";
+import { BookingModalHost } from "./components/booking/GlobalBookingModal";
 
 const queryClient = new QueryClient();
 
@@ -139,6 +140,7 @@ const App = () => (
         <WhatsAppButton />
         <FloatingTrainingCta />
         <CookieConsent />
+        <BookingModalHost />
         <AnimatedRoutes />
       </BrowserRouter>
     </TooltipProvider>
