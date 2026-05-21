@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import CtaLink from "@/components/CtaLink";
+import { FeatureCard } from "@/components/ui/feature-card";
 
 export default function CtaFinale() {
   return (
@@ -40,7 +41,17 @@ export default function CtaFinale() {
             30 minuten over uw markt, uw ICP en welke signalen er nu al zichtbaar zijn. Vrijblijvend en zonder demo.
           </p>
           <div className="flex justify-center">
-            <CtaLink intent="nulmeting" location="Cinematic Finale" />
+            <FeatureCard
+              title="Uw nulmeting in 30 minuten"
+              description="We kijken samen naar uw markt, uw ICP en de signalen die er nu al zijn. Vrijblijvend, zonder demo."
+              items={[
+                "Analyse van uw huidige funnel",
+                "Eerste signalen uit uw markt",
+                "Concreet groeiplan op maat",
+                "Heldere volgende stap",
+              ]}
+              action={<CtaLink intent="nulmeting" location="Cinematic Finale" />}
+            />
           </div>
         </motion.div>
       </div>
