@@ -10,10 +10,10 @@ const references = [
 ];
 
 const axes = [
-  { k: "Fit", v: "past binnen ICP" },
-  { k: "Context", v: "markt, branche, fase" },
-  { k: "Intent", v: "gedrag en signaal" },
-  { k: "Timing", v: "recency & ritme" },
+  { k: "Fit", v: "past binnen ICP", score: 64 },
+  { k: "Context", v: "markt, branche, fase", score: 82 },
+  { k: "Intent", v: "gedrag en signaal", score: 71 },
+  { k: "Timing", v: "recency & ritme", score: 86 },
 ];
 
 const targets = [
@@ -58,7 +58,7 @@ export default function Chapter06Blauwdruk() {
                   <span className="text-xs text-muted-foreground">{a.v}</span>
                 </div>
                 <div className="h-1 w-full rounded-full bg-foreground/10 overflow-hidden">
-                  <div className="h-full bg-gradient-to-r from-primary/40 to-primary rounded-full" style={{ width: `${60 + Math.random() * 35}%` }} />
+                  <div className="h-full bg-gradient-to-r from-primary/40 to-primary rounded-full" style={{ width: `${a.score}%` }} />
                 </div>
               </div>
             ))}
