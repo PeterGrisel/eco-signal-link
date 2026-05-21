@@ -1,44 +1,19 @@
-import { useRef } from "react";
-import { motion, MotionValue, useScroll, useTransform } from "framer-motion";
-
-function BridgeWord({ word, index, progress }: { word: string; index: number; progress: MotionValue<number> }) {
-  const start = Math.min(0.62, 0.24 + index * 0.018);
-  const opacity = useTransform(progress, [start, start + 0.14], [0, 1]);
-  const y = useTransform(progress, [start, start + 0.2], [36, 0]);
-
-  return (
-    <motion.span className="inline-block mx-[0.18em] will-change-transform" style={{ opacity, y }}>
-      {word}
-    </motion.span>
-  );
-}
+import { useEffect, useRef, useState } from "react";
+import { TextEffect } from "@/components/ui/text-effect";
 
 /**
- * Word-by-word reveal bridge between acts. Adapted from AI Fctry's WordRevealBridge.
- * Transparent background so the ambient stage shows through.
+ * Cinematic word-by-word reveal between acts. Triggers once when scrolled
+ * into view (IntersectionObserver) — no scroll-linked transforms, so no jank.
  */
 export default function ActBridge({
   text,
   label,
 }: {
-  /** Optional bridge text — words animate in with blur fade */
   text?: string;
-  /** Legacy: small pill label. Used as fallback when text not provided. */
   label?: string;
   startDelay?: number;
   step?: number;
 }) {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start 85%", "end 20%"],
-  });
-  const opacity = useTransform(scrollYProgress, [0.18, 0.42, 0.78], [0, 1, 1]);
-  const y = useTransform(scrollYProgress, [0.18, 0.52], [80, 0]);
-  const scale = useTransform(scrollYProgress, [0.18, 0.58], [0.9, 1]);
-  const blur = useTransform(scrollYProgress, [0.18, 0.58], [18, 0]);
-  const filter = useTransform(blur, (v) => `blur(${v}px)`);
-
   if (!text) {
     return (
       <div className="relative h-24 md:h-32 flex items-center justify-center pointer-events-none">
@@ -54,24 +29,43 @@ export default function ActBridge({
     );
   }
 
-  const words = text.split(/\s+/);
+  const ref = useRef<HTMLDivElement>(null);
+  const [trigger, setTrigger] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            setTrigger(true);
+            io.disconnect();
+          }
+        });
+      },
+      { threshold: 0.35, rootMargin: "0px 0px -10% 0px" }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   return (
-    <div ref={sectionRef} className="relative w-full min-h-[135vh] flex items-center justify-center py-40 md:py-56">
+    <div
+      ref={ref}
+      className="relative w-full min-h-[100vh] flex items-center justify-center py-32 md:py-48"
+    >
       <div className="container mx-auto px-4 md:px-6">
-        <motion.p
-          style={{ opacity, y, scale, filter }}
+        <TextEffect
+          per="word"
+          as="p"
+          preset="blur"
+          trigger={trigger}
+          delay={0.1}
           className="mx-auto max-w-5xl text-center font-display font-bold text-4xl md:text-6xl lg:text-7xl tracking-tight text-foreground leading-[1.05] [text-wrap:balance] [text-shadow:0_2px_24px_rgba(0,0,0,0.7),0_0_80px_rgba(232,148,90,0.18)]"
         >
-          {words.map((w, i) => (
-            <BridgeWord
-              key={`${w}-${i}`}
-              word={w}
-              index={i}
-              progress={scrollYProgress}
-            />
-          ))}
-        </motion.p>
+          {text}
+        </TextEffect>
       </div>
     </div>
   );
