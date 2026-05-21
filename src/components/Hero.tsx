@@ -18,21 +18,12 @@ const Hero = () => {
   }, []);
 
   return (
-    <section className="relative min-h-[85vh] lg:min-h-screen flex items-center pt-14 md:pt-16 overflow-hidden bg-[#0a0807]">
-      {/* Cinematic backdrop: Spline brein + orbiting client-logos */}
-      <div className="absolute inset-0">
-        {/* Soft vignette to push content forward */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background:
-              "radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.65) 100%)",
-          }}
-          aria-hidden
-        />
+    <section className="relative min-h-[85vh] lg:min-h-screen flex items-center pt-14 md:pt-16 overflow-hidden">
+      {/* Glass-morph backdrop: orbit behind a frosted pane */}
+      <div className="absolute inset-4 md:inset-6 rounded-[2rem] overflow-hidden border border-white/[0.08] bg-white/[0.03] backdrop-blur-xl shadow-[0_8px_32px_0_rgba(0,5,5,0.2)]">
         <ClientOrbit />
-        {/* Left-side text legibility scrim on desktop */}
-        <div className="absolute inset-0 bg-background/55 md:bg-gradient-to-r md:from-background/80 md:via-background/30 md:to-transparent pointer-events-none" />
+        {/* Glass highlight edge */}
+        <div className="absolute inset-1 rounded-[1.8rem] pointer-events-none border border-white/[0.04]" aria-hidden />
       </div>
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
@@ -67,7 +58,7 @@ const Hero = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.3 }}
-              className="text-foreground/80 text-base md:text-xl max-w-2xl mb-8 md:mb-10 leading-relaxed [text-shadow:0_1px_8px_rgba(0,0,0,0.5)]"
+              className="text-foreground/80 text-base md:text-xl max-w-2xl mb-8 md:mb-10 leading-relaxed"
             >
               Eén commercieel brein. Eén levend groeisysteem.
               Van marktdata en koopsignalen tot outreach, opvolging,
