@@ -28,7 +28,7 @@ function Grid({ items, accent }: { items: typeof engagement; accent: boolean }) 
         <div
           key={m.name}
           className={`flex items-center gap-3 rounded-lg border px-3 py-2.5 ${
-            accent ? "border-primary/25 bg-primary/[0.05]" : "border-foreground/10 bg-background/40"
+            accent ? "border-primary/25 bg-primary/[0.12]" : "border-foreground/10 bg-background/75"
           }`}
         >
           <m.icon className="h-4 w-4 text-primary shrink-0" strokeWidth={1.5} />
@@ -51,7 +51,7 @@ export default function Chapter09Modules() {
       title={<>Modules creëren engagement. <span className="text-primary">Routing maakt er actie van.</span></>}
     >
       <div className="grid lg:grid-cols-2 gap-6">
-        <div className="rounded-2xl border border-foreground/10 bg-background/30 p-6">
+        <div className="rounded-2xl border border-foreground/10 bg-background/70 p-6">
           <div className="flex items-baseline justify-between mb-5">
             <span className="text-xs uppercase tracking-[0.25em] text-primary/80">Engagement-modules</span>
             <span className="text-[10px] text-muted-foreground">Outbound · Inbound</span>

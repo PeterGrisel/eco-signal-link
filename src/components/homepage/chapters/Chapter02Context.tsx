@@ -28,7 +28,7 @@ export default function Chapter02Context() {
     >
       <div className="grid lg:grid-cols-3 gap-4 lg:gap-0">
         {/* Fase 1: Hoe het nu gaat */}
-        <div className="rounded-l-2xl rounded-r-2xl lg:rounded-r-none border border-foreground/10 bg-foreground/[0.02] p-6">
+        <div className="rounded-l-2xl rounded-r-2xl lg:rounded-r-none border border-foreground/10 bg-background/70 p-6">
           <div className="flex items-center gap-2 mb-5">
             <span className="text-xs tabular-nums text-muted-foreground">01</span>
             <span className="text-xs uppercase tracking-wider text-muted-foreground">Hoe het nu vaak gaat</span>
@@ -47,7 +47,7 @@ export default function Chapter02Context() {
         </div>
 
         {/* Fase 2: Wat we vastleggen */}
-        <div className="rounded-2xl lg:rounded-none border border-primary/30 bg-primary/[0.05] p-6 lg:-mx-px lg:-my-4 lg:py-10 relative z-10">
+        <div className="rounded-2xl lg:rounded-none border border-primary/30 bg-primary/[0.12] bg-background/60 p-6 lg:-mx-px lg:-my-4 lg:py-10 relative z-10">
           <div className="flex items-center gap-2 mb-5">
             <span className="text-xs tabular-nums text-primary">02</span>
             <span className="text-xs uppercase tracking-wider text-primary">Wat we vastleggen</span>
@@ -62,7 +62,7 @@ export default function Chapter02Context() {
             </div>
             <div className="grid grid-cols-2 gap-2 w-full">
               {contextPieces.map((p, i) => (
-                <div key={i} className="flex items-center gap-1.5 rounded-md bg-background/40 border border-foreground/10 px-2 py-1.5">
+                <div key={i} className="flex items-center gap-1.5 rounded-md bg-background/75 border border-foreground/10 px-2 py-1.5">
                   <p.icon className="h-3 w-3 text-primary shrink-0" strokeWidth={1.5} />
                   <span className="text-[10px] text-foreground/80 truncate">{p.label}</span>
                 </div>
@@ -76,20 +76,20 @@ export default function Chapter02Context() {
         </div>
 
         {/* Fase 3: Wat dat mogelijk maakt */}
-        <div className="rounded-2xl lg:rounded-l-none border border-foreground/10 bg-foreground/[0.02] p-6">
+        <div className="rounded-2xl lg:rounded-l-none border border-foreground/10 bg-background/70 p-6">
           <div className="flex items-center gap-2 mb-5">
             <span className="text-xs tabular-nums text-muted-foreground">03</span>
             <span className="text-xs uppercase tracking-wider text-muted-foreground">Wat dat mogelijk maakt</span>
           </div>
 
-          <div className="rounded-md bg-background/40 border border-foreground/10 px-3 py-2 mb-4 flex items-center gap-2">
+          <div className="rounded-md bg-background/75 border border-foreground/10 px-3 py-2 mb-4 flex items-center gap-2">
             <BarChart3 className="h-3.5 w-3.5 text-primary" strokeWidth={1.5} />
             <span className="text-xs text-foreground/80">Digitale signalen meten</span>
           </div>
 
           <div className="grid grid-cols-2 gap-2 mb-5">
             {outputs.map((o, i) => (
-              <div key={i} className="flex flex-col items-center gap-1 rounded-md bg-background/40 border border-foreground/10 py-3">
+              <div key={i} className="flex flex-col items-center gap-1 rounded-md bg-background/75 border border-foreground/10 py-3">
                 <o.icon className="h-4 w-4 text-primary" strokeWidth={1.5} />
                 <span className="text-[10px] text-foreground/80 text-center px-1">{o.label}</span>
               </div>
