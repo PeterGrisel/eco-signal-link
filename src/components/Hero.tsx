@@ -103,6 +103,24 @@ const Hero = () => {
 
         {/* Brain stage */}
         <div className="relative w-full h-[60vh] md:h-[70vh] mt-12 md:mt-16">
+          {/* Begeleidende tekst */}
+          <div className="absolute inset-x-0 top-0 z-10 flex justify-center px-4 pointer-events-none">
+            <AnimatePresence mode="wait">
+              <motion.p
+                key={showClients ? "clients" : "brain"}
+                initial={{ opacity: 0, y: -6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -6 }}
+                transition={{ duration: 0.35, ease: "easeOut" }}
+                className="max-w-xl text-center text-xs md:text-sm text-foreground/80 [text-shadow:0_1px_8px_rgba(0,0,0,0.6)]"
+              >
+                {showClients
+                  ? "Elke stip is een prospect met een koopsignaal. Het brein weegt, sorteert en activeert wie nu relevant is."
+                  : "Eén commercieel brein bundelt context, signalen en logica. Druk op ‘Klanten’ om te zien wie er nu klaar zijn voor contact."}
+              </motion.p>
+            </AnimatePresence>
+          </div>
+
           <motion.div
             aria-hidden
             animate={{ opacity: showClients ? 0.15 : 1 }}
