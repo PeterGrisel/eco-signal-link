@@ -44,6 +44,68 @@ export const COPY = {
     signalSubtext:
       "Geen algemene demo. We kijken welke signalen bij uw ICP passen en hoe we die samen kwalificeren.",
   },
+  heroProof: {
+    items: [
+      "30 minuten",
+      "Vrijblijvend",
+      "Direct met Peter",
+      "Werkende kaart binnen 5 dagen",
+    ],
+  },
+  methode: {
+    eyebrow: "De methode",
+    heading: "Vier lagen.",
+    headingAccent: "Eén werkend systeem.",
+    body: "Wij bouwen uw groeimachine in vier lagen. Elke laag levert iets op dat u kunt zien en sturen.",
+    layers: [
+      {
+        number: "01",
+        title: "Infrastructuur",
+        line: "Uw tools en data worden één werkend geheel.",
+        output: "U krijgt: stabiele CRM, schone data, gekoppelde kanalen.",
+      },
+      {
+        number: "02",
+        title: "Intelligence",
+        line: "Wij vangen signalen op die uw markt afgeeft.",
+        output: "U krijgt: dagelijkse lijst van bedrijven met koopintentie.",
+      },
+      {
+        number: "03",
+        title: "Engagement",
+        line: "Outreach en opvolging draaien geautomatiseerd.",
+        output: "U krijgt: gestructureerde gesprekken op het juiste moment.",
+      },
+      {
+        number: "04",
+        title: "Kwalificatie",
+        line: "Alleen passende gesprekken belanden in uw agenda.",
+        output: "U krijgt: voorspelbare flow van gekwalificeerde meetings.",
+      },
+    ],
+  },
+  miniFaq: {
+    eyebrow: "Voor u boekt",
+    heading: "De vier vragen die u nu stelt.",
+    items: [
+      {
+        q: "Hoe lang voor ik resultaat zie?",
+        a: "Eerste 30 dagen: nulmeting en kaart. Dag 30 tot 60: eerste flows live. Dag 60 tot 90: meetbare beweging in uw pijplijn.",
+      },
+      {
+        q: "Wat als ik al een leadbureau heb?",
+        a: "Dat blijft draaien. Wij bouwen het proces eronder. Lijsten worden lijsten in een systeem dat leert.",
+      },
+      {
+        q: "Hoeveel tijd kost het mij intern?",
+        a: "Eerste maand: 2 tot 3 uur per week. Daarna 1 uur per week voor sturing. Wij doen de uitvoering.",
+      },
+      {
+        q: "Wat als het niet werkt?",
+        a: "Drie maanden opzegbaar. U houdt alle data, draaiboeken en flows. Geen lock-in op onze tools.",
+      },
+    ],
+  },
   noLeadAgency: {
     eyebrow: "Geen leadbureau",
     heading: "Geen lijsten. Geen trucje.",
