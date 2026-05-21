@@ -50,7 +50,7 @@ export default function CtaFinale() {
                 "Concreet groeiplan op maat",
                 "Heldere volgende stap",
               ]}
-              action={<CtaLink intent="nulmeting" location="Cinematic Finale" />}
+              action={<CtaLink intent="gratisScan" location="Cinematic Finale" />}
             />
           </div>
         </motion.div>

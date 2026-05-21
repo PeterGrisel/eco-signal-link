@@ -245,7 +245,7 @@ const ProcessSection = () => {
             {COPY.proposition.signalSubtext}
           </p>
           <Button variant="hero" size="lg" asChild>
-            <CtaLink intent="nulmeting" location="Proces — Samen bepalen" />
+            <CtaLink intent="gratisScan" location="Proces — Samen bepalen" />
           </Button>
         </motion.div>
 

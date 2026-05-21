@@ -115,9 +115,9 @@ const Hero = () => {
                     className="flex flex-wrap gap-4 justify-center"
                   >
                     <Button variant="hero" size="lg" className="relative group" asChild>
-                      <CtaLink intent="nulmeting" location="Hero">
+                      <CtaLink intent="gratisScan" location="Hero">
                         <span className="absolute inset-0 rounded-md bg-primary/20 animate-pulse group-hover:animate-none" />
-                        {CTA.nulmeting.label}
+                        {CTA.gratisScan.label}
                       </CtaLink>
                     </Button>
                   </motion.div>
