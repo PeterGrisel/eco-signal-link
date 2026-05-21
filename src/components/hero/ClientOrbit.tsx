@@ -1,22 +1,35 @@
-const clients = [
-  { name: "Krak de Rijder", domain: "krakderijder.nl" },
-  { name: "Excelsior Rotterdam", domain: "excelsiorrotterdam.nl" },
-  { name: "Core Vision", domain: "core-vision.nl" },
-  { name: "GoBytes", domain: "gobytes.nl" },
-  { name: "Nexer", domain: "nexer.nl" },
-  { name: "Rebel Force", domain: "rebelforce.nl" },
-  { name: "Exes Engineering", domain: "exesengineering.nl" },
-  { name: "Datahub", domain: "datahub.nl" },
-  { name: "Drivewise Lease", domain: "drivewiselease.nl" },
-  { name: "Sascha del Sal", domain: "saschadelsal.com" },
-  { name: "HappyBase", domain: "happybase.me" },
-  { name: "RTC Group", domain: "rtc-group.nl" },
-  { name: "Yaskawa", domain: "yaskawa.nl" },
-  { name: "ThriveOS", domain: "thriveos.nl" },
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
+
+interface ClientItem {
+  name: string;
+  domain: string;
+  logo_url: string | null;
+  scale: number;
+  padding: number;
+}
+
+const FALLBACK: ClientItem[] = [
+  { name: "Krak de Rijder", domain: "krakderijder.nl", logo_url: null, scale: 1, padding: 0 },
+  { name: "Excelsior Rotterdam", domain: "excelsiorrotterdam.nl", logo_url: null, scale: 1, padding: 0 },
+  { name: "Core Vision", domain: "core-vision.nl", logo_url: null, scale: 1, padding: 0 },
+  { name: "GoBytes", domain: "gobytes.nl", logo_url: null, scale: 1, padding: 0 },
+  { name: "Nexer", domain: "nexer.nl", logo_url: null, scale: 1, padding: 0 },
+  { name: "Rebel Force", domain: "rebelforce.nl", logo_url: null, scale: 1, padding: 0 },
+  { name: "Exes Engineering", domain: "exesengineering.nl", logo_url: null, scale: 1, padding: 0 },
+  { name: "Datahub", domain: "datahub.nl", logo_url: null, scale: 1, padding: 0 },
+  { name: "Drivewise Lease", domain: "drivewiselease.nl", logo_url: null, scale: 1, padding: 0 },
+  { name: "Sascha del Sal", domain: "saschadelsal.com", logo_url: null, scale: 1, padding: 0 },
+  { name: "HappyBase", domain: "happybase.me", logo_url: null, scale: 1, padding: 0 },
+  { name: "RTC Group", domain: "rtc-group.nl", logo_url: null, scale: 1, padding: 0 },
+  { name: "Yaskawa", domain: "yaskawa.nl", logo_url: null, scale: 1, padding: 0 },
+  { name: "ThriveOS", domain: "thriveos.nl", logo_url: null, scale: 1, padding: 0 },
 ];
 
-function logoUrl(domain: string) {
-  return `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
+function logoSrc(c: ClientItem) {
+  return c.logo_url && c.logo_url.trim().length > 0
+    ? c.logo_url
+    : `https://www.google.com/s2/favicons?domain=${c.domain}&sz=128`;
 }
 
 interface ClientOrbitProps {
@@ -39,7 +52,33 @@ export default function ClientOrbit({
   gap = 12,
   className = "",
 }: ClientOrbitProps) {
-  const items = clients.slice(0, 14);
+  const [items, setItems] = useState<ClientItem[]>(FALLBACK);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      const { data, error } = await supabase
+        .from("client_logos")
+        .select("name,domain,logo_url,scale,padding")
+        .eq("is_visible", true)
+        .order("sort_order", { ascending: true });
+      if (!cancelled && !error && data && data.length > 0) {
+        setItems(
+          data.map((d: any) => ({
+            name: d.name,
+            domain: d.domain,
+            logo_url: d.logo_url,
+            scale: Number(d.scale) || 1,
+            padding: d.padding ?? 0,
+          }))
+        );
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   const perRing = Math.ceil(items.length / rings);
 
   return (
@@ -83,14 +122,16 @@ export default function ClientOrbit({
                       style={{
                         animation: `client-orbit ${duration}s linear infinite`,
                         animationDirection: direction === "normal" ? "reverse" : "normal",
+                        padding: `${c.padding}px`,
                       }}
                       title={c.name}
                     >
                       <img
-                        src={logoUrl(c.domain)}
+                        src={logoSrc(c)}
                         alt=""
                         loading="lazy"
                         className="h-5 w-5 md:h-6 md:w-6 object-contain opacity-85"
+                        style={{ transform: `scale(${c.scale})` }}
                       />
                     </div>
                   </div>

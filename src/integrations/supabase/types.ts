@@ -222,6 +222,45 @@ export type Database = {
         }
         Relationships: []
       }
+      client_logos: {
+        Row: {
+          created_at: string
+          domain: string
+          id: string
+          is_visible: boolean
+          logo_url: string | null
+          name: string
+          padding: number
+          scale: number
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          domain: string
+          id?: string
+          is_visible?: boolean
+          logo_url?: string | null
+          name: string
+          padding?: number
+          scale?: number
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          domain?: string
+          id?: string
+          is_visible?: boolean
+          logo_url?: string | null
+          name?: string
+          padding?: number
+          scale?: number
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       contact_submissions: {
         Row: {
           company: string | null
