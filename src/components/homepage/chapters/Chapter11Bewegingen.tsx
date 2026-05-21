@@ -24,7 +24,7 @@ export default function Chapter11Bewegingen() {
           {motions.map((m) => (
             <div
               key={m.n}
-              className="group rounded-2xl border border-foreground/10 bg-card/80 backdrop-blur-md shadow-lg p-6 hover:border-primary/40 hover:bg-background/60 transition-colors"
+              className="group rounded-2xl border border-foreground/10 bg-card/95 shadow-lg p-6 hover:border-primary/40 hover:bg-background/60 transition-colors"
             >
               <div className="flex items-center gap-3 mb-3">
                 <span className="text-[10px] tabular-nums text-primary/70 tracking-[0.2em]">{m.n}</span>

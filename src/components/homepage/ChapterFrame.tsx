@@ -1,5 +1,5 @@
-import { ReactNode, useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { ReactNode } from "react";
+import { motion } from "framer-motion";
 
 interface ChapterFrameProps {
   number: string;
@@ -15,16 +15,20 @@ interface ChapterFrameProps {
   solid?: boolean;
 }
 
+/**
+ * Lightweight one-shot reveal. Uses whileInView (fires once) instead of
+ * scroll-linked transforms — no per-frame CSS filter rasterization, so
+ * scrolling stays smooth.
+ */
 function ScrollReveal({ children, className = "", delay = 0 }: { children: ReactNode; className?: string; delay?: number }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 88%", "center 45%"] });
-  const opacity = useTransform(scrollYProgress, [0.08 + delay, 0.48 + delay], [0.12, 1]);
-  const y = useTransform(scrollYProgress, [0.08 + delay, 0.5 + delay], [42, 0]);
-  const blur = useTransform(scrollYProgress, [0.08 + delay, 0.52 + delay], [10, 0]);
-  const filter = useTransform(blur, (v) => `blur(${v}px)`);
-
   return (
-    <motion.div ref={ref} style={{ opacity, y, filter }} className={`relative ${className}`}>
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2, margin: "0px 0px -10% 0px" }}
+      transition={{ duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] }}
+      className={`relative ${className}`}
+    >
       {children}
     </motion.div>
   );
@@ -52,7 +56,7 @@ export default function ChapterFrame({
       <div className="container max-w-6xl mx-auto px-4 md:px-6 md:pl-24 lg:pl-28">
         {/* Glass-card header */}
         <ScrollReveal
-          className="group glass-readability relative mx-auto max-w-3xl rounded-2xl bg-card/85 backdrop-blur-xl shadow-lg border border-foreground/10 px-6 py-8 md:px-10 md:py-10 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.5)] text-center mb-14 md:mb-20 overflow-hidden"
+          className="group glass-readability relative mx-auto max-w-3xl rounded-2xl bg-card/95 shadow-lg border border-foreground/10 px-6 py-8 md:px-10 md:py-10 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.5)] text-center mb-14 md:mb-20 overflow-hidden"
         >
           {/* GlassCard accent line — top primary gradient */}
           <span

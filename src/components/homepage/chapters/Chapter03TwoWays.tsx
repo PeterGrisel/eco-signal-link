@@ -45,7 +45,7 @@ export default function Chapter03TwoWays() {
     >
       <div className="grid lg:grid-cols-2 gap-6 lg:gap-10">
         {/* Standaard */}
-        <div className="rounded-2xl border border-foreground/10 bg-card/80 backdrop-blur-md shadow-lg p-8">
+        <div className="rounded-2xl border border-foreground/10 bg-card/95 shadow-lg p-8">
           <div className="mb-6 pb-5 border-b border-foreground/10">
             <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-2">Standaard methode</div>
             <div className="text-sm text-muted-foreground">Campagne-gebaseerd. Handmatig. Lineair.</div>
@@ -70,7 +70,7 @@ export default function Chapter03TwoWays() {
         </div>
 
         {/* Digital */}
-        <div className="glass-readability rounded-2xl border border-primary/30 bg-card/90 backdrop-blur-xl p-8 relative overflow-hidden">
+        <div className="glass-readability rounded-2xl border border-primary/30 bg-card/95 p-8 relative overflow-hidden">
           <div className="absolute -top-20 -right-20 w-60 h-60 rounded-full bg-primary/10 blur-3xl pointer-events-none" />
           <div className="relative">
             <div className="mb-6 pb-5 border-b border-primary/20">
@@ -99,7 +99,7 @@ export default function Chapter03TwoWays() {
       </div>
 
       {/* Key differences als doorlopende rij */}
-      <div className="mt-12 rounded-2xl border border-foreground/10 bg-card/85 backdrop-blur-md shadow-lg p-8">
+      <div className="mt-12 rounded-2xl border border-foreground/10 bg-card/95 shadow-lg p-8">
         <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-6 text-center">
           Het verschil
         </div>

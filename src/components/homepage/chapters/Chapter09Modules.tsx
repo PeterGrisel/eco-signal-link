@@ -28,7 +28,7 @@ function Grid({ items, accent }: { items: typeof engagement; accent: boolean }) 
         <div
           key={m.name}
           className={`flex items-center gap-3 rounded-lg border px-3 py-2.5 ${
-            accent ? "border-primary/25 bg-card/85 backdrop-blur-md shadow-xl ring-1 ring-primary/30" : "border-foreground/10 bg-card/85 backdrop-blur-md shadow-lg"
+            accent ? "border-primary/25 bg-card/95 shadow-xl ring-1 ring-primary/30" : "border-foreground/10 bg-card/95 shadow-lg"
           }`}
         >
           <m.icon className="h-4 w-4 text-primary shrink-0" strokeWidth={1.5} />
@@ -51,14 +51,14 @@ export default function Chapter09Modules() {
       title={<>Modules creëren engagement. <span className="text-primary">Routing maakt er actie van.</span></>}
     >
       <div className="grid lg:grid-cols-2 gap-6">
-        <div className="rounded-2xl border border-foreground/10 bg-card/80 backdrop-blur-md shadow-lg p-6">
+        <div className="rounded-2xl border border-foreground/10 bg-card/95 shadow-lg p-6">
           <div className="flex items-baseline justify-between mb-5">
             <span className="text-xs uppercase tracking-[0.25em] text-primary/80">Engagement-modules</span>
             <span className="text-[10px] text-muted-foreground">Outbound · Inbound</span>
           </div>
           <Grid items={engagement} accent={false} />
         </div>
-        <div className="glass-readability rounded-2xl border border-primary/25 bg-card/90 backdrop-blur-xl p-6">
+        <div className="glass-readability rounded-2xl border border-primary/25 bg-card/95 p-6">
           <div className="flex items-baseline justify-between mb-5">
             <span className="text-xs uppercase tracking-[0.25em] text-primary">Routing & sales</span>
             <span className="text-[10px] text-muted-foreground">Mission control</span>
