@@ -67,9 +67,11 @@ const Hero = () => {
                     transition={{ duration: 0.6, delay: 0.3 }}
                     className="text-foreground/80 text-base md:text-xl max-w-2xl mb-8 md:mb-10 leading-relaxed"
                   >
-                    Eén commercieel brein. Eén levend groeisysteem.
-                    Van marktdata en koopsignalen tot outreach, opvolging,
-                    CRM-discipline en geboekte gesprekken.
+                    Stop met wachten op aanvragen.{" "}
+                    <span className="text-gradient">
+                      Bouw een systeem dat interesse herkent
+                    </span>{" "}
+                    vóórdat klanten actief zoeken.
                   </motion.p>
 
                   <motion.div
