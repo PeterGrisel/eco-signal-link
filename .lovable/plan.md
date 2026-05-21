@@ -1,77 +1,28 @@
 ## Doel
+Een eigen icon-systeem dat herkenbaar B2BGroeiMachine voelt: dunne lijnen, geometrisch, met een subtiel signaal/orbit-DNA (kleine punt, gebogen lijn, of stroke-end accent in #E8945A). De set vervangt Lucide op de plekken die merk-bepalend zijn, en laat Lucide intact voor utility-iconen (chevrons, x, loader, etc.) waar custom geen waarde toevoegt.
 
-Weg met de losse widgets. De homepage wordt één doorlopend verhaal — zoals de presentatie en de vier infographics. Eén canvas, vijf hoofdstukken, één ritme, één eindpunt: nulmeting boeken.
+## Aanpak (gefaseerd)
 
-## Wat eruit gaat
+### Fase 1 — Icon library opzetten (deze beurt)
+Nieuwe map `src/components/icons/` met:
+- `BgmIcon.tsx` — basis-wrapper (size, strokeWidth, className, accent prop voor oranje accent-detail)
+- `index.ts` — barrel export
+- ~24 custom SVG-iconen voor de meest brand-bepalende plekken:
+  - **Architectuur/proces**: Signal, Brain, Layers, Workflow, Target, Radar, GitBranch, Activity, Gauge, Magnet
+  - **Resultaat/KPI**: TrendingUp, BarChart3, Trophy, Sparkles, Zap, Rocket
+  - **Mens/relatie**: Users, Handshake, UserCheck, MessageSquare
+  - **Operatie**: Database, Wrench, Shield, Repeat
 
-Verwijderen van de huidige Index pagina:
-- `HookSection` (3 losse cards)
-- `VergelijkingSection` (2-koloms blok)
-- `MethodeSection` (4x2 grid)
-- `SchaalCijfersSection` (5 cijfers + arrows)
-- `ProcessSection`
-- `PricingSection`
-- `MiniFaq`
-- `CtaSection`
+Elk icoon: 24×24 viewBox, `stroke="currentColor"`, `strokeWidth={1.5}`, `fill="none"`, ronde lijneindes. Eén klein accent-detail (punt, korte lijn, of cirkel) dat optioneel in `--brand` (oranje #E8945A) kleurt via een `<circle className="text-brand">` met `fill="currentColor"` binnen een aparte group — zo blijft het icoon monochroom waar gewenst, of krijgt het oranje accent waar het mag schitteren.
 
-De componenten blijven bestaan (worden elders gebruikt), maar de homepage stopt ermee.
+### Fase 2 — Showcase + gefaseerde vervanging (volgende beurten, op jouw signaal)
+- Eerst een interne demo-route `/icons-preview` zodat je de set kunt beoordelen voor we gaan vervangen
+- Daarna stapsgewijs swap in: Hero hook-cards → Architectuur sectie → Pricing → Service add-ons → Datahub → Brandstory
+- Utility-iconen (ArrowRight, Check, X, ChevronDown, Loader2, Copy, ExternalLink) blijven Lucide — geen merkwaarde, wel risico op inconsistentie als we ze namaken
 
-## De nieuwe opbouw
+## Waarom niet alles in één keer
+134 bestanden gebruiken Lucide met 80+ unieke iconen. Alles in één klap vervangen = breekrisico, en utility-iconen tekenen voegt niks toe aan het merk. Beter: custom waar het telt, Lucide waar het neutraal mag zijn.
 
-Eén `<main>` met vijf hoofdstukken die in elkaar overvloeien — gedeelde achtergrond, doorlopende kolom, hoofdstuknummers, geen harde section-breaks.
-
-```text
-HERO
-  ↓
-HOOFDSTUK 01 — Het herkenbare scenario
-  "U wacht op een lancering. De markt geeft al signalen af."
-  Links: hoe het vaak voelt (4 iconen: lancering → wachten → aanvragen → sales)
-  Rechts: wat er echt gebeurt (signaal-wolk → commercieel brein → routering)
-  Sluit af: "Engagement is geen losse actie. Het is een patroon."
-  ↓
-HOOFDSTUK 02 — Van kennis in hoofden naar meetbare context
-  Drie fases naast elkaar: Hoe het nu gaat → Wat we vastleggen → Wat dat mogelijk maakt
-  Centraal: het Commercieel Brein als hub
-  Sluit af: "Niet alleen activiteit vastleggen. Eerst context."
-  ↓
-HOOFDSTUK 03 — Twee manieren om B2B groei te sturen
-  Volledig scherm split: Standaard methode (grijs, lineair, 7 stappen)
-  vs B2BGroeimachine (donker, 8 stappen rond het brein, learning loop)
-  Onderaan: key differences als doorlopende rij
-  Sluit af: "One setup. One method. Infinite growth motions."
-  ↓
-HOOFDSTUK 04 — De schaal die dit oplevert
-  Cijfer-trap: 2000 bedrijven → 4000 contacten → 200 in beweging → 20 meetings → €500k pipeline
-  Geen losse cards meer — één doorlopende horizontale flow met verbindingen
-  ↓
-HOOFDSTUK 05 — Hoe wij dit voor u bouwen
-  Done-for-you of Build & Transfer, één blok, twee paden
-  Direct gevolgd door één enkele CTA: nulmeting boeken
-```
-
-## Visuele aanpak
-
-- **Eén canvas**: gedeelde donkere achtergrond met subtiele gradient die per hoofdstuk meeshift (kouder → warmer richting de CTA)
-- **Hoofdstuknummers** links in beeld (sticky), zoals een editorial magazine — `01`, `02`, `03`...
-- **Verbindingslijnen** tussen hoofdstukken: dunne verticale lijn die doorloopt, met een knooppunt bij elk hoofdstuk
-- **Geen sectie-padding stapeling**: hoofdstukken overlappen visueel via gradient-overgangen, niet via harde achtergrondwissels
-- **Typografie als ritme**: hoofdstuk-eyebrow (klein, tracking-wide) → grote display headline (Space Grotesk) → body kolom max 65ch → afsluitende quote in groter formaat
-- **Iconografie consistent**: zelfde lijn-stijl iconen door alle hoofdstukken (lucide-react), met `#E8945A` accent op het juiste moment
-- **Beweging**: subtiele scroll-reveal per hoofdstuk (fade + 8px omhoog), niet per cardje
-
-## Bouwopzet
-
-- Nieuwe component `src/components/homepage/HomepageNarrative.tsx` — bevat het hele verhaal als één samenhangend geheel
-- Sub-componenten per hoofdstuk in `src/components/homepage/chapters/` (Chapter01Scenario, Chapter02Context, Chapter03TwoWays, Chapter04Schaal, Chapter05Aanpak)
-- Eén shared `ChapterFrame` voor hoofdstuknummer, eyebrow, headline en sluitquote — garandeert ritme
-- Eén shared `ConnectorLine` voor de verticale lijn tussen hoofdstukken
-- Alle copy uit `src/content/copy.ts` (volgens centralized-copy regel)
-- `Index.tsx` wordt: `Navbar → Hero → HomepageNarrative → Footer → StickyHeroCta`
-
-## Wat blijft uit Hero
-
-Hero blijft staan zoals nu. Daaronder begint het verhaal direct met hoofdstuk 01 — geen aparte "hook cards" meer.
-
-## Wat ik nog van u nodig heb
-
-Niets. Ik bouw dit in één keer door. Wilt u eerst visueel kiezen tussen 2-3 ontwerprichtingen voor het hoofdstuk-ritme (editorial magazine, presentation deck of zachte glasmorf), zeg het — dan render ik die eerst.
+## Te bevestigen
+1. Akkoord met deze scope (24 brand-iconen nu, utility blijft Lucide)?
+2. Accent-strategie: subtiel oranje detail per icoon (mijn voorstel), of puur monochroom dunne lijn?

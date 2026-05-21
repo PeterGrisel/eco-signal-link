@@ -41,6 +41,7 @@ import GammaCheatsheet from "./pages/GammaCheatsheet.tsx";
 import Cheatsheets from "./pages/Cheatsheets.tsx";
 import Trainingen from "./pages/Trainingen.tsx";
 import Partners from "./pages/Partners.tsx";
+import IconsPreview from "./pages/IconsPreview.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import SignaalLanding from "./signaal/pages/SignaalLanding.tsx";
 import SignaalStart from "./signaal/pages/SignaalStart.tsx";
@@ -107,6 +108,7 @@ const AnimatedRoutes = () => {
           <Route path="/cheatsheets" element={<Cheatsheets />} />
           <Route path="/trainingen" element={<Trainingen />} />
           <Route path="/partners" element={<Partners />} />
+          <Route path="/icons-preview" element={<IconsPreview />} />
           <Route path="/cheatsheet/signal-prospecting" element={<SignalCheatsheet />} />
           <Route path="/cheatsheet/linkedin-outreach" element={<LinkedInOutreach />} />
           <Route path="/cheatsheet/hubspot-pipeline" element={<HubSpotPipeline />} />
