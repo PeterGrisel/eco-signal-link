@@ -12,22 +12,22 @@ const Hero = () => {
   const [showClients, setShowClients] = useState(false);
 
   return (
-    <section className="relative min-h-[85vh] lg:min-h-screen flex items-start pt-14 md:pt-16 overflow-hidden">
+    <section className="relative flex flex-col pt-14 md:pt-16 overflow-hidden">
       {/* Themed radial background */}
       <div
         aria-hidden
         className="absolute inset-0 z-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse 80% 60% at 50% 60%, hsl(var(--primary) / 0.18), transparent 70%)",
+            "radial-gradient(ellipse 80% 50% at 50% 75%, hsl(var(--primary) / 0.18), transparent 70%)",
         }}
       />
-      {/* Brain visual — positioned below the text card */}
+      {/* Brain visual — full viewport below the text card */}
       <motion.div
         aria-hidden
         animate={{ opacity: showClients ? 0.15 : 1 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
-        className="absolute inset-x-0 bottom-0 top-[55%] z-0 pointer-events-none"
+        className="relative order-2 w-full h-screen z-0 pointer-events-none"
       >
         <ParallaxBrain />
       </motion.div>
