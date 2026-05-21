@@ -48,7 +48,6 @@ import SignaalJourney from "./signaal/pages/SignaalJourney.tsx";
 import SignaalBlueprint from "./signaal/pages/SignaalBlueprint.tsx";
 import SignaalDashboard from "./signaal/pages/SignaalDashboard.tsx";
 import TrackingScriptInjector from "./components/TrackingScriptInjector";
-import WhatsAppButton from "./components/WhatsAppButton";
 import CookieConsent from "./components/CookieConsent";
 import { BookingModalHost } from "./components/booking/GlobalBookingModal";
 import LeftDock from "./components/LeftDock";
