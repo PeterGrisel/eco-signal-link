@@ -129,7 +129,7 @@ const Hero = () => {
                   onClick={() => setShowClients(false)}
                 >
                   <ArrowLeft className="w-4 h-4 mr-2" />
-                  Terug naar hero
+                  Terug
                 </Button>
               </div>
             </motion.div>
