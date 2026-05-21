@@ -24,7 +24,7 @@ function ScrollReveal({ children, className = "", delay = 0 }: { children: React
   const filter = useTransform(blur, (v) => `blur(${v}px)`);
 
   return (
-    <motion.div ref={ref} style={{ opacity, y, filter }} className={className}>
+    <motion.div ref={ref} style={{ opacity, y, filter }} className={`relative ${className}`}>
       {children}
     </motion.div>
   );
