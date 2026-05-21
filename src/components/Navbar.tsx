@@ -8,9 +8,7 @@ import CtaLink from "@/components/CtaLink";
 import { solutions } from "@/data/solutions";
 
 const navLinks = [
-  { href: "/#hoe-het-werkt", label: "Hoe het werkt" },
   { href: "/#pricing", label: "Pricing" },
-  { href: "/datahub", label: "Datahub" },
 ];
 
 const solutionLinks = solutions.map((s) => ({

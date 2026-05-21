@@ -13,7 +13,6 @@ interface RecentPost {
 const diensten = [
   { href: "/full-sales-management", label: "Full Sales Management" },
   { href: "/full-service-recruitment", label: "Full Service Recruitment" },
-  { href: "/datahub", label: "Datahub" },
   { href: "/pipeline-equation", label: "Pipeline Equation™" },
   { href: "/signaal", label: "Signaal Detectiesysteem" },
 ];
