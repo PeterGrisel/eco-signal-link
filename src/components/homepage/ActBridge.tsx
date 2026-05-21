@@ -20,8 +20,6 @@ function BridgeWord({ word, index, progress }: { word: string; index: number; pr
 export default function ActBridge({
   text,
   label,
-  startDelay: _startDelay = 200,
-  step: _step = 90,
 }: {
   /** Optional bridge text — words animate in with blur fade */
   text?: string;
