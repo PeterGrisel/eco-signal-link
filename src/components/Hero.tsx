@@ -120,8 +120,8 @@ const Hero = () => {
                 className="max-w-xl text-center text-xs md:text-sm text-foreground/80 [text-shadow:0_1px_8px_rgba(0,0,0,0.6)]"
               >
                 {showClients
-                  ? "Elke stip is een prospect met een koopsignaal. Het brein weegt, sorteert en activeert wie nu relevant is."
-                  : "Eén commercieel brein bundelt context, signalen en logica. Druk op ‘Klanten’ om te zien wie er nu klaar zijn voor contact."}
+                  ? "Onze klanten gebruiken de B2BGroeiMachine om koopklare bedrijven te herkennen."
+                  : "Onze klanten gebruiken de B2BGroeiMachine. Druk op ‘Klanten’ om te zien wie er nu klaar zijn voor contact."}
               </motion.p>
             </AnimatePresence>
           </div>
