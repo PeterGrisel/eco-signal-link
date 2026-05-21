@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { trackCTA, trackFormSubmit } from "@/lib/tracking";
 import CtaLink from "@/components/CtaLink";
-import { CTA } from "@/content/copy";
+import { CTA, COPY } from "@/content/copy";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import teamBanner from "@/assets/team-banner.jpg";
@@ -131,6 +131,20 @@ const Hero = () => {
                 <CtaLink intent="hoeHetWerkt" location="Hero" />
               </Button>
             </motion.div>
+
+            <motion.ul
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.55 }}
+              className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs md:text-sm text-muted-foreground"
+            >
+              {COPY.heroProof.items.map((item) => (
+                <li key={item} className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary/70" />
+                  {item}
+                </li>
+              ))}
+            </motion.ul>
           </div>
 
           {/* Right: Contact form */}
