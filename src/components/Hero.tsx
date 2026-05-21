@@ -50,7 +50,7 @@ const Hero = () => {
               </span>
             </div>
 
-            <h1 className="font-display font-bold text-[2.25rem] md:text-[3.5rem] lg:text-[4rem] leading-[1.05] tracking-tighter mb-6 text-foreground [text-wrap:pretty] [hyphens:none] [text-shadow:0_1px_8px_rgba(0,0,0,0.4)]">
+            <h1 className="font-display font-bold text-[2.25rem] md:text-[3.5rem] lg:text-[4rem] leading-[1.05] tracking-tighter mb-6 text-foreground [text-wrap:pretty] [hyphens:none] [text-shadow:0_1px_8px_rgba(0,0,1,0.4)]">
               Wilt u uw bedrijf schalen?
             </h1>
 
@@ -108,24 +108,6 @@ const Hero = () => {
 
         {/* Brain stage */}
         <div className="relative w-full h-[60vh] md:h-[70vh] mt-12 md:mt-16">
-          {/* Begeleidende tekst */}
-          <div className="absolute inset-x-0 top-0 z-10 flex justify-center px-4 pointer-events-none">
-            <AnimatePresence mode="wait">
-              <motion.p
-                key={showClients ? "clients" : "brain"}
-                initial={{ opacity: 0, y: -6 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -6 }}
-                transition={{ duration: 0.35, ease: "easeOut" }}
-                className="max-w-xl text-center text-xs md:text-sm text-foreground/80 [text-shadow:0_1px_8px_rgba(0,0,0,0.6)]"
-              >
-                {showClients
-                  ? "Onze klanten gebruiken de B2BGroeiMachine om koopklare bedrijven te herkennen."
-                  : "Onze klanten gebruiken de B2BGroeiMachine. Druk op ‘Klanten’ om te zien wie er nu klaar zijn voor contact."}
-              </motion.p>
-            </AnimatePresence>
-          </div>
-
           <motion.div
             aria-hidden
             animate={{ opacity: showClients ? 0.15 : 1 }}
