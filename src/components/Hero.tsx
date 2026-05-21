@@ -39,18 +39,19 @@ const Hero = () => {
         )}
       </AnimatePresence>
 
-      <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
-          <AnimatePresence mode="wait">
+      <div className="relative z-10 w-full">
+        <AnimatePresence mode="wait">
           {!showClients ? (
           <motion.div
             key="hero-card"
-            initial={{ opacity: 0 }}
+            initial={{ opacity:  0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.4 }}
-            className="flex-1 max-w-2xl rounded-[2rem] border border-white/[0.08] bg-white/[0.04] shadow-[0_8px_32px_0_rgba(0,5,5,0.2)] p-6 md:p-10"
+            className="w-full border-y border-white/[0.08] bg-white/[0.04] shadow-[0_8px_32px_0_rgba(0,5,5,0.2)] py-8 md:py-14 lg:py-20"
           >
+            <div className="container mx-auto px-4 md:px-6">
+              <div className="max-w-2xl">
             <motion.h1
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
