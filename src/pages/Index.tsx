@@ -8,6 +8,7 @@ import HomepageNarrative from "@/components/homepage/HomepageNarrative";
 import Footer from "@/components/Footer";
 import StickyHeroCta from "@/components/StickyHeroCta";
 import ActScrollProgress from "@/components/homepage/ActScrollProgress";
+import AmbientBackdrop from "@/components/homepage/AmbientBackdrop";
 
 const Index = () => {
   // Redirect auth errors (expired magic links) to /signaal/start
@@ -21,11 +22,8 @@ const Index = () => {
   return (
     <PageLoader>
     <div className="min-h-screen relative">
-      {/* Homepage-wide ambient glow background */}
-      <div
-        aria-hidden
-        className="fixed inset-0 glow-bg pointer-events-none z-0"
-      />
+      {/* Cinematic ambient backdrop — flickering grid + primary glows */}
+      <AmbientBackdrop />
       <div className="relative z-10">
       <BreadcrumbJsonLd items={[{ name: "Home", url: "https://b2bgroeimachine.io/" }]} />
       <Navbar />

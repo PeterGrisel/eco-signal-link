@@ -17,22 +17,22 @@ export default function HomepageNarrative() {
       {/* ACT 1 — Spanning */}
       <Chapter01Scenario />
 
-      <ActBridge label="Onthulling" />
+      <ActBridge text="Niet één campagne. Maar één systeem dat élke dag signalen oppikt." />
 
       {/* ACT 2 — Onthulling */}
       <Chapter02Context />
 
-      <ActBridge label="Bewijs" />
+      <ActBridge text="Eerst context. Daarna pas activiteit. Daar zit het verschil." />
 
       {/* ACT 3 — Bewijs (twee manieren) */}
       <Chapter03TwoWays />
 
-      <ActBridge label="Schaal" />
+      <ActBridge text="Een systeem schaalt anders dan een campagne. Reken even mee." />
 
       {/* ACT 4 — Schaal */}
       <Chapter04Schaal />
 
-      <ActBridge label="Belofte" />
+      <ActBridge text="U hoeft het niet alleen te bouwen. Twee paden. Eén start." />
 
       {/* ACT 5 — Belofte */}
       <Chapter05Aanpak />
