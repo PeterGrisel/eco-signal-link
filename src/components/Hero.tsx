@@ -8,7 +8,8 @@ import CtaLink from "@/components/CtaLink";
 import { CTA, COPY } from "@/content/copy";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import teamBanner from "@/assets/team-banner.jpg";
+import SplineBrain from "@/components/hero/SplineBrain";
+import ClientOrbit from "@/components/hero/ClientOrbit";
 
 const rotatingWords = ["handmatig werk.", "reactief reageren.", "gemiste signalen."];
 
@@ -60,21 +61,23 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative min-h-[85vh] lg:min-h-screen flex items-center pt-14 md:pt-16 overflow-hidden">
+    <section className="relative min-h-[85vh] lg:min-h-screen flex items-center pt-14 md:pt-16 overflow-hidden bg-[#0a0807]">
+      {/* Cinematic backdrop: Spline brein + orbiting client-logos */}
       <div className="absolute inset-0">
-        <img
-          src={teamBanner}
-          alt="Team Rebel Force"
-          width={1920}
-          height={1080}
-          fetchPriority="high"
-          decoding="async"
-          className="w-full h-full object-cover object-center"
+        <SplineBrain className="absolute inset-0" />
+        {/* Soft vignette to push content forward */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              "radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.65) 100%)",
+          }}
+          aria-hidden
         />
-        <div className="absolute inset-0 bg-background/80 md:bg-gradient-to-r md:from-background/80 md:via-background/40 md:to-transparent" />
+        <ClientOrbit />
+        {/* Left-side text legibility scrim on desktop */}
+        <div className="absolute inset-0 bg-background/55 md:bg-gradient-to-r md:from-background/80 md:via-background/30 md:to-transparent pointer-events-none" />
       </div>
-
-      <div className="absolute inset-0 glow-bg pointer-events-none opacity-40 md:opacity-50" />
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
@@ -108,9 +111,9 @@ const Hero = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.3 }}
-              className="text-muted-foreground text-base md:text-xl max-w-2xl mb-8 md:mb-10 leading-relaxed"
+              className="text-foreground/80 text-base md:text-xl max-w-2xl mb-8 md:mb-10 leading-relaxed [text-shadow:0_1px_8px_rgba(0,0,0,0.5)]"
             >
-              Wij bouwen en beheren uw B2B groeimachine op uw eigen tools.
+              Eén commercieel brein. Eén levend groeisysteem.
               Van marktdata en koopsignalen tot outreach, opvolging,
               CRM-discipline en geboekte gesprekken.
             </motion.p>
