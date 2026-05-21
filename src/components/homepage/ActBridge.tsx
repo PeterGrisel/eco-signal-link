@@ -1,5 +1,17 @@
 import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, MotionValue, useScroll, useTransform } from "framer-motion";
+
+function BridgeWord({ word, index, progress }: { word: string; index: number; progress: MotionValue<number> }) {
+  const start = Math.min(0.62, 0.24 + index * 0.018);
+  const opacity = useTransform(progress, [start, start + 0.14], [0, 1]);
+  const y = useTransform(progress, [start, start + 0.2], [36, 0]);
+
+  return (
+    <motion.span className="inline-block mx-[0.18em] will-change-transform" style={{ opacity, y }}>
+      {word}
+    </motion.span>
+  );
+}
 
 /**
  * Word-by-word reveal bridge between acts. Adapted from AI Fctry's WordRevealBridge.
@@ -8,8 +20,8 @@ import { motion, useScroll, useTransform } from "framer-motion";
 export default function ActBridge({
   text,
   label,
-  startDelay = 200,
-  step = 90,
+  startDelay: _startDelay = 200,
+  step: _step = 90,
 }: {
   /** Optional bridge text — words animate in with blur fade */
   text?: string;
@@ -53,16 +65,12 @@ export default function ActBridge({
           className="mx-auto max-w-5xl text-center font-display font-bold text-4xl md:text-6xl lg:text-7xl tracking-tight text-foreground leading-[1.05] [text-wrap:balance] [text-shadow:0_2px_24px_rgba(0,0,0,0.7),0_0_80px_rgba(232,148,90,0.18)]"
         >
           {words.map((w, i) => (
-            <motion.span
+            <BridgeWord
               key={`${w}-${i}`}
-              className="inline-block mx-[0.18em] will-change-transform"
-              style={{
-                opacity: useTransform(scrollYProgress, [0.24 + i * 0.018, 0.38 + i * 0.018], [0, 1]),
-                y: useTransform(scrollYProgress, [0.24 + i * 0.018, 0.44 + i * 0.018], [36, 0]),
-              }}
-            >
-              {w}
-            </motion.span>
+              word={w}
+              index={i}
+              progress={scrollYProgress}
+            />
           ))}
         </motion.p>
       </div>
