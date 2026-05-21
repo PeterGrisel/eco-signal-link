@@ -1,10 +1,6 @@
-import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Mail, Linkedin, HelpCircle, MessageCircle, Euro } from "lucide-react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
-import { COPY } from "@/content/copy";
 import { trackCTA } from "@/lib/tracking";
 
 const EMAIL = "peter@b2bgroeimachine.io";
@@ -12,7 +8,6 @@ const LINKEDIN = "https://www.linkedin.com/company/b2bgroeimachine/";
 const WHATSAPP = "https://wa.me/31852502925";
 
 export default function LeftDock() {
-  const [faqOpen, setFaqOpen] = useState(false);
   const location = useLocation();
   if (location.pathname.startsWith("/signaal") || location.pathname.startsWith("/admin")) return null;
 
@@ -20,10 +15,8 @@ export default function LeftDock() {
     {
       icon: HelpCircle,
       label: "FAQ",
-      onClick: () => {
-        setFaqOpen(true);
-        trackCTA("LeftDock — FAQ", "#faq");
-      },
+      href: "/#faq",
+      onClick: () => trackCTA("LeftDock — FAQ", "/#faq"),
     },
     {
       icon: Euro,
@@ -94,22 +87,6 @@ export default function LeftDock() {
           })}
         </div>
       </TooltipProvider>
-
-      <Dialog open={faqOpen} onOpenChange={setFaqOpen}>
-        <DialogContent className="sm:max-w-[640px] max-h-[85vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle className="font-display text-2xl">{COPY.miniFaq.heading}</DialogTitle>
-          </DialogHeader>
-          <Accordion type="single" collapsible className="w-full">
-            {COPY.miniFaq.items.map((item, i) => (
-              <AccordionItem key={i} value={`item-${i}`}>
-                <AccordionTrigger className="text-left">{item.q}</AccordionTrigger>
-                <AccordionContent className="text-muted-foreground">{item.a}</AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
-        </DialogContent>
-      </Dialog>
     </>
   );
 }
