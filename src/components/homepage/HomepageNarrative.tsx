@@ -8,7 +8,6 @@ import Chapter07Schaal from "./chapters/Chapter04Schaal";
 import Chapter08Funnel from "./chapters/Chapter08Funnel";
 import Chapter09Modules from "./chapters/Chapter09Modules";
 import Chapter10Levering from "./chapters/Chapter10Levering";
-import Chapter11Bewegingen from "./chapters/Chapter11Bewegingen";
 import CtaFinale from "./CtaFinale";
 
 /**
@@ -34,9 +33,6 @@ export default function HomepageNarrative() {
       <Chapter08Funnel />
       <Chapter09Modules />
       <Chapter10Levering />
-
-      {/* ACT V — DE BELOFTE */}
-      <Chapter11Bewegingen />
 
       {/* FINALE */}
       <CtaFinale />

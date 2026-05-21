@@ -49,7 +49,6 @@ const Index = () => {
           { id: "chapter-08", label: "Funnel" },
           { id: "chapter-09", label: "Modules" },
           { id: "chapter-10", label: "Levering" },
-          { id: "chapter-11", label: "Bewegingen" },
           { id: "act-finale", label: "Start" },
         ]}
       />
