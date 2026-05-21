@@ -10,6 +10,7 @@ import Chapter09Modules from "./chapters/Chapter09Modules";
 import Chapter10Levering from "./chapters/Chapter10Levering";
 import Chapter11Bewegingen from "./chapters/Chapter11Bewegingen";
 import CtaFinale from "./CtaFinale";
+import CinematicBridge from "./CinematicBridge";
 
 /**
  * Cinematic homepage narrative — 5 acts woven into one stage.
@@ -23,19 +24,27 @@ export default function HomepageNarrative() {
       <Chapter01Scenario />
       <Chapter02Context />
 
+      <CinematicBridge white="Outbound is geen ruis." orange="Het is een signaal." />
+
       {/* ACT II — DE METHODE */}
       <Chapter03TwoWays />
       <Chapter04Methode />
+
+      <CinematicBridge white="Methode alleen schaalt niet." orange="Fundament maakt het herhaalbaar." />
 
       {/* ACT III — HET FUNDAMENT */}
       <Chapter05Brein />
       <Chapter06Blauwdruk />
       <Chapter07Schaal />
 
+      <CinematicBridge white="Het fundament staat." orange="Nu draait de operatie." />
+
       {/* ACT IV — DE OPERATIE */}
       <Chapter08Funnel />
       <Chapter09Modules />
       <Chapter10Levering />
+
+      <CinematicBridge white="Pipeline is geen lijst." orange="Het is een patroon." />
 
       {/* ACT V — DE BELOFTE */}
       <Chapter11Bewegingen />
