@@ -87,8 +87,7 @@ const FaqSection = () => {
             ))}
           </Accordion>
 
-          <motion.div
-            initial={{ opacity:  = "center mt-12">
+          <div className="text-center mt-12">
             <div className="flex items-center justify-center gap-2 text-muted-foreground text-sm mb-3">
               <span className="inline-block animate-bounce">👆</span>
               <span>Nog steeds niet overtuigd?</span>
@@ -99,7 +98,7 @@ const FaqSection = () => {
             <p className="text-center text-muted-foreground text-sm">
               Binnen 15 min weet u of dit iets voor uw bedrijf is.
             </p>
-          </motion.div>
+          </div>
         </motion.div>
       </div>
     </section>
