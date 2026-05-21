@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
-import { Check, Sparkles, ArrowRight, Handshake } from "lucide-react";
+import { Check, ArrowRight, Handshake } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import CtaLink from "@/components/CtaLink";
 
@@ -98,13 +97,6 @@ const PricingCard = ({ fase, index }: { fase: Fase; index: number }) => (
         : "border-border bg-card hover:border-primary/30",
     )}
   >
-    {fase.highlight && (
-      <Badge className="absolute -top-3 left-6 bg-primary text-primary-foreground hover:bg-primary border-transparent gap-1 px-2.5">
-        <Sparkles className="w-3 h-3" />
-        Aanbevolen
-      </Badge>
-    )}
-
     <div className="flex items-center justify-between mb-5">
       <span className="text-[10px] font-display font-semibold tracking-[0.2em] uppercase text-primary/80">
         {fase.step}
