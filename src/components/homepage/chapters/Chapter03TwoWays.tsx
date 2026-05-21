@@ -70,7 +70,7 @@ export default function Chapter03TwoWays() {
         </div>
 
         {/* Digital */}
-        <div className="rounded-2xl border border-primary/30 bg-primary/[0.04] p-8 relative overflow-hidden">
+        <div className="glass-readability rounded-2xl border border-primary/30 bg-card/90 backdrop-blur-xl p-8 relative overflow-hidden">
           <div className="absolute -top-20 -right-20 w-60 h-60 rounded-full bg-primary/10 blur-3xl pointer-events-none" />
           <div className="relative">
             <div className="mb-6 pb-5 border-b border-primary/20">

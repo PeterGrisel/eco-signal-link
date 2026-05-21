@@ -1,4 +1,17 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
+import { motion, MotionValue, useScroll, useTransform } from "framer-motion";
+
+function BridgeWord({ word, index, progress }: { word: string; index: number; progress: MotionValue<number> }) {
+  const start = Math.min(0.62, 0.24 + index * 0.018);
+  const opacity = useTransform(progress, [start, start + 0.14], [0, 1]);
+  const y = useTransform(progress, [start, start + 0.2], [36, 0]);
+
+  return (
+    <motion.span className="inline-block mx-[0.18em] will-change-transform" style={{ opacity, y }}>
+      {word}
+    </motion.span>
+  );
+}
 
 /**
  * Word-by-word reveal bridge between acts. Adapted from AI Fctry's WordRevealBridge.
@@ -7,8 +20,6 @@ import { useEffect, useRef } from "react";
 export default function ActBridge({
   text,
   label,
-  startDelay = 200,
-  step = 90,
 }: {
   /** Optional bridge text — words animate in with blur fade */
   text?: string;
@@ -17,29 +28,16 @@ export default function ActBridge({
   startDelay?: number;
   step?: number;
 }) {
-  const ref = useRef<HTMLParagraphElement>(null);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const words = el.querySelectorAll<HTMLSpanElement>(".wr-word");
-            words.forEach((w, i) => {
-              const delay = startDelay + i * step;
-              w.style.animation = `wr-word-appear 0.9s ease-out ${delay}ms forwards`;
-            });
-            observer.disconnect();
-          }
-        });
-      },
-      { threshold: 0.4 }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, [startDelay, step]);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start 85%", "end 20%"],
+  });
+  const opacity = useTransform(scrollYProgress, [0.18, 0.42, 0.78], [0, 1, 1]);
+  const y = useTransform(scrollYProgress, [0.18, 0.52], [80, 0]);
+  const scale = useTransform(scrollYProgress, [0.18, 0.58], [0.9, 1]);
+  const blur = useTransform(scrollYProgress, [0.18, 0.58], [18, 0]);
+  const filter = useTransform(blur, (v) => `blur(${v}px)`);
 
   if (!text) {
     return (
@@ -59,37 +57,21 @@ export default function ActBridge({
   const words = text.split(/\s+/);
 
   return (
-    <div className="relative w-full min-h-[110vh] flex items-center justify-center py-32 md:py-48">
-      <style>{`
-        @keyframes wr-word-appear {
-          0% { opacity: 0; transform: translateY(40px) scale(0.9); filter: blur(14px); }
-          60% { opacity: 0.85; transform: translateY(8px) scale(0.98); filter: blur(3px); }
-          100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
-        }
-        .wr-word {
-          display: inline-block;
-          opacity: 0;
-          margin: 0 0.22em;
-          transition: color 0.3s ease, transform 0.3s ease, text-shadow 0.3s ease;
-          will-change: opacity, transform, filter;
-        }
-        .wr-word:hover {
-          color: hsl(var(--primary));
-          transform: translateY(-2px);
-          text-shadow: 0 0 18px hsl(var(--primary) / 0.45);
-        }
-      `}</style>
+    <div ref={sectionRef} className="relative w-full min-h-[135vh] flex items-center justify-center py-40 md:py-56">
       <div className="container mx-auto px-4 md:px-6">
-        <p
-          ref={ref}
+        <motion.p
+          style={{ opacity, y, scale, filter }}
           className="mx-auto max-w-5xl text-center font-display font-bold text-4xl md:text-6xl lg:text-7xl tracking-tight text-foreground leading-[1.05] [text-wrap:balance] [text-shadow:0_2px_24px_rgba(0,0,0,0.7),0_0_80px_rgba(232,148,90,0.18)]"
         >
           {words.map((w, i) => (
-            <span key={`${w}-${i}`} className="wr-word">
-              {w}
-            </span>
+            <BridgeWord
+              key={`${w}-${i}`}
+              word={w}
+              index={i}
+              progress={scrollYProgress}
+            />
           ))}
-        </p>
+        </motion.p>
       </div>
     </div>
   );

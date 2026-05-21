@@ -58,7 +58,7 @@ export default function Chapter09Modules() {
           </div>
           <Grid items={engagement} accent={false} />
         </div>
-        <div className="rounded-2xl border border-primary/25 bg-primary/[0.04] p-6">
+        <div className="glass-readability rounded-2xl border border-primary/25 bg-card/90 backdrop-blur-xl p-6">
           <div className="flex items-baseline justify-between mb-5">
             <span className="text-xs uppercase tracking-[0.25em] text-primary">Routing & sales</span>
             <span className="text-[10px] text-muted-foreground">Mission control</span>

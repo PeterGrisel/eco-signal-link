@@ -19,7 +19,7 @@ import CtaFinale from "./CtaFinale";
  */
 export default function HomepageNarrative() {
   return (
-    <main className="relative">
+    <main className="cinematic-home relative">
       {/* ACT I — HET PROBLEEM */}
       <Chapter01Scenario />
       <ActBridge text="Niet één campagne. Maar één systeem dat élke dag signalen oppikt." />

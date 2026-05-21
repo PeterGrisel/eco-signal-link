@@ -1,7 +1,5 @@
-import FlickeringGrid from "./FlickeringGrid";
-
 /**
- * Fixed ambient stage layer — flickering canvas grid + radial primary glows + vignette.
+ * Fixed ambient stage layer — static dotted grid + radial primary glows + vignette.
  * Sits behind the entire homepage, content scrolls over it.
  */
 export default function AmbientBackdrop() {
@@ -13,14 +11,16 @@ export default function AmbientBackdrop() {
       {/* Base */}
       <div className="absolute inset-0 bg-background" />
 
-      {/* Flickering grid */}
-      <FlickeringGrid
-        squareSize={3}
-        gridGap={8}
-        flickerChance={0.25}
-        maxOpacity={0.18}
-        color="232,148,90"
-        className="opacity-60"
+      {/* Static dotted grid — avoids canvas repaint stutter while keeping the AI Fctry texture */}
+      <div
+        className="absolute inset-0 opacity-[0.12]"
+        style={{
+          backgroundImage:
+            "radial-gradient(circle, hsl(var(--primary) / 0.42) 1px, transparent 1.5px)",
+          backgroundSize: "12px 12px",
+          maskImage: "radial-gradient(ellipse at center, black 18%, transparent 78%)",
+          WebkitMaskImage: "radial-gradient(ellipse at center, black 18%, transparent 78%)",
+        }}
       />
 
       {/* Radial primary glow — top */}
