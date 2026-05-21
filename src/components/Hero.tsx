@@ -19,21 +19,11 @@ const Hero = () => {
 
   return (
     <section className="relative min-h-[85vh] lg:min-h-screen flex items-center pt-14 md:pt-16 overflow-hidden">
-      {/* Cinematic backdrop: orbiting client-logos */}
-      <div className="absolute inset-1 rounded-2xl overflow-hidden border border-primary/10">
-        <div
-          className="absolute inset-1 rounded-2xl bg-background/30 backdrop-blur-md border border-white/5"
-          aria-hidden
-        />
+      {/* Glass-morph backdrop: orbit behind a frosted pane */}
+      <div className="absolute inset-4 md:inset-6 rounded-[2rem] overflow-hidden border border-white/10 bg-background/20 backdrop-blur-xl">
         <ClientOrbit />
-        {/* Subtle glass edge glow */}
-        <div
-          className="absolute inset-0 pointer-events-none rounded-2xl"
-          style={{
-            boxShadow: "inset 1px 1px 2px rgba(255,255,255,1) , inset -1px -1px 2px rgba(0,0,0,0.1), 0 0 10px rgba(0,0,0,0.1)",
-          }}
-          aria-hidden
-        />
+        {/* Inner glass edge */}
+        <div className="absolute inset-0 rounded-[2rem] pointer-events-none border border-white/5" aria-hidden />
       </div>
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
