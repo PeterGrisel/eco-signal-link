@@ -32,6 +32,7 @@ export default function ChapterFrame({
   return (
     <section
       id={id}
+      data-dock-hide
       className={`relative py-24 md:py-32 ${solid ? "bg-background/60" : ""}`}
     >
       <div className="container max-w-6xl mx-auto px-4 md:px-6">
