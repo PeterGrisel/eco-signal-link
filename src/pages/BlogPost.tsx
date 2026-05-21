@@ -26,6 +26,7 @@ interface Post {
   published_at: string | null;
   status: string;
   created_at: string;
+  updated_at?: string | null;
   category: { name: string; slug: string } | null;
 }
 
