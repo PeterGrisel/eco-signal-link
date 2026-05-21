@@ -109,9 +109,6 @@ serve(async (req) => {
       clicks: Math.max(0, (total14.clicks || 0) - (curr.clicks || 0)),
     };
 
-    const topQueries = (last7.top_queries || []).slice(0, 5);
-    const topPages = (last7.top_pages || []).slice(0, 5);
-
     // Weekly re-index on Mondays (UTC; cron runs at 16:00 UTC = 18:00 CEST)
     const isMonday = new Date().getUTCDay() === 1;
     let reindexInfo: { count: number; urls: string[] } | null = null;
@@ -141,34 +138,7 @@ serve(async (req) => {
           { type: "mrkdwn", text: `*Conversie-clicks*\n${fmtNum(curr.conversion_clicks || 0)}` },
         ],
       },
-      { type: "divider" },
     ];
-
-    if (topQueries.length > 0) {
-      blocks.push({
-        type: "section",
-        text: {
-          type: "mrkdwn",
-          text: `*🔍 Top 5 queries (impressies)*\n` +
-            topQueries.map((q: any, i: number) =>
-              `${i + 1}. \`${q.query}\` — ${fmtNum(q.impressions)} impr · ${fmtNum(q.clicks)} clicks · pos ${(q.position || 0).toFixed(1)}`
-            ).join("\n"),
-        },
-      });
-    }
-
-    if (topPages.length > 0) {
-      blocks.push({
-        type: "section",
-        text: {
-          type: "mrkdwn",
-          text: `*📄 Top 5 pagina's*\n` +
-            topPages.map((p: any, i: number) =>
-              `${i + 1}. <${p.page}|${p.page.replace("https://b2bgroeimachine.io", "") || "/"}> — ${fmtNum(p.impressions)} impr · ${fmtNum(p.clicks)} clicks`
-            ).join("\n"),
-        },
-      });
-    }
 
     if (reindexInfo) {
       blocks.push({ type: "divider" });
