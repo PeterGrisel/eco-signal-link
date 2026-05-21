@@ -63,7 +63,7 @@ export default function Chapter05Brein() {
           <p className="text-sm uppercase tracking-[0.25em] text-primary/80 mb-4">Geen campagne. Een fundament.</p>
           <ul className="space-y-3">
             {benefits.map((b) => (
-              <li key={b} className="flex items-start gap-3 rounded-xl border border-foreground/10 bg-background/40 px-4 py-3">
+              <li key={b} className="flex items-start gap-3 rounded-xl border border-foreground/10 bg-background/75 px-4 py-3">
                 <span className="mt-1 h-1.5 w-1.5 rounded-full bg-primary shrink-0" />
                 <span className="text-foreground/85">{b}</span>
               </li>

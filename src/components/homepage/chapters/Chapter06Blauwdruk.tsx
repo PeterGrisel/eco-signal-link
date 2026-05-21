@@ -35,7 +35,7 @@ export default function Chapter06Blauwdruk() {
     >
       <div className="grid lg:grid-cols-3 gap-4">
         {/* Referentiemodellen */}
-        <div className="rounded-2xl border border-foreground/10 bg-background/40 p-6">
+        <div className="rounded-2xl border border-foreground/10 bg-background/75 p-6">
           <div className="text-xs uppercase tracking-[0.25em] text-primary/80 mb-4">Referentiemodellen</div>
           <ul className="space-y-2.5">
             {references.map((r) => (
@@ -48,7 +48,7 @@ export default function Chapter06Blauwdruk() {
         </div>
 
         {/* Score op vier assen */}
-        <div className="rounded-2xl border border-primary/30 bg-primary/[0.05] p-6 relative">
+        <div className="rounded-2xl border border-primary/30 bg-primary/[0.12] p-6 relative">
           <div className="text-xs uppercase tracking-[0.25em] text-primary mb-4">Score op vier assen</div>
           <div className="space-y-3">
             {axes.map((a) => (
@@ -66,7 +66,7 @@ export default function Chapter06Blauwdruk() {
         </div>
 
         {/* Dynamische doelgroepen */}
-        <div className="rounded-2xl border border-foreground/10 bg-background/40 p-6">
+        <div className="rounded-2xl border border-foreground/10 bg-background/75 p-6">
           <div className="text-xs uppercase tracking-[0.25em] text-primary/80 mb-4">Dynamische doelgroepen</div>
           <ul className="space-y-2.5">
             {targets.map((t) => (
