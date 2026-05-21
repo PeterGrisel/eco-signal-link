@@ -9,7 +9,6 @@ import Chapter08Funnel from "./chapters/Chapter08Funnel";
 import Chapter09Modules from "./chapters/Chapter09Modules";
 import Chapter10Levering from "./chapters/Chapter10Levering";
 import Chapter11Bewegingen from "./chapters/Chapter11Bewegingen";
-import ActBridge from "./ActBridge";
 import CtaFinale from "./CtaFinale";
 
 /**
@@ -22,28 +21,23 @@ export default function HomepageNarrative() {
     <main className="cinematic-home relative">
       {/* ACT I — HET PROBLEEM */}
       <Chapter01Scenario />
-      <ActBridge text="Niet één campagne. Maar één systeem dat élke dag signalen oppikt." />
       <Chapter02Context />
 
       {/* ACT II — DE METHODE */}
-      <ActBridge text="Twee manieren om B2B-groei te realiseren. Eén lineair. Eén lerend." />
       <Chapter03TwoWays />
       <Chapter04Methode />
 
       {/* ACT III — HET FUNDAMENT */}
-      <ActBridge text="Eerst het brein. Daarna pas de beweging." />
       <Chapter05Brein />
       <Chapter06Blauwdruk />
       <Chapter07Schaal />
 
       {/* ACT IV — DE OPERATIE */}
-      <ActBridge text="Van impressies naar engagement, naar deals." />
       <Chapter08Funnel />
       <Chapter09Modules />
       <Chapter10Levering />
 
       {/* ACT V — DE BELOFTE */}
-      <ActBridge text="Eenmaal verbonden, niet meer opnieuw beginnen." />
       <Chapter11Bewegingen />
 
       {/* FINALE */}
