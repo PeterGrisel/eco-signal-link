@@ -58,7 +58,7 @@ const Hero = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.3 }}
-              className="text-foreground/80 text-base md:text-xl max-w-2xl mb-8 md:mb-10 leading-relaxed [text-shadow:0_1px_8px_rgba(0,0,0,0.5)]"
+              className="text-foreground/80 text-base md:text-xl max-w-2xl mb-8 md:mb-10 leading-relaxed"
             >
               Eén commercieel brein. Eén levend groeisysteem.
               Van marktdata en koopsignalen tot outreach, opvolging,
