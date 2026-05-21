@@ -7,7 +7,7 @@ import ClientOrbit from "./ClientOrbit";
  */
 export default function ParallaxBrain() {
   return (
-    <div aria-hidden className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+    <div aria-hidden className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
       {/* Radial orbit behind brain — pre-blurred so glass cards stay performant */}
       <div className="absolute inset-0 flex items-center justify-center opacity-50 blur-[2px]">
         <ClientOrbit />
