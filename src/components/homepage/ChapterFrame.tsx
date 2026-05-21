@@ -1,5 +1,5 @@
-import { ReactNode } from "react";
-import { motion } from "framer-motion";
+import { ReactNode, useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 
 interface ChapterFrameProps {
   number: string;
@@ -13,6 +13,20 @@ interface ChapterFrameProps {
   tone?: "cool" | "neutral" | "warm";
   /** Force opaque section bg (rarely needed). */
   solid?: boolean;
+}
+
+function ScrollReveal({ children, className = "", delay = 0 }: { children: ReactNode; className?: string; delay?: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 88%", "center 45%"] });
+  const opacity = useTransform(scrollYProgress, [0.08 + delay, 0.48 + delay], [0.12, 1]);
+  const y = useTransform(scrollYProgress, [0.08 + delay, 0.5 + delay], [42, 0]);
+  const blur = useTransform(scrollYProgress, [0.08 + delay, 0.52 + delay], [10, 0]);
+
+  return (
+    <motion.div ref={ref} style={{ opacity, y, filter: useTransform(blur, (v) => `blur(${v}px)`) }} className={className}>
+      {children}
+    </motion.div>
+  );
 }
 
 /**
@@ -36,12 +50,8 @@ export default function ChapterFrame({
     >
       <div className="container max-w-6xl mx-auto px-4 md:px-6 md:pl-24 lg:pl-28">
         {/* Glass-card header */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "200px 0px 200px 0px" }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          className="group relative mx-auto max-w-3xl rounded-2xl bg-card/85 backdrop-blur-md shadow-lg border border-foreground/10 px-6 py-8 md:px-10 md:py-10 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.5)] text-center mb-14 md:mb-20 overflow-hidden"
+        <ScrollReveal
+          className="group glass-readability relative mx-auto max-w-3xl rounded-2xl bg-card/85 backdrop-blur-xl shadow-lg border border-foreground/10 px-6 py-8 md:px-10 md:py-10 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.5)] text-center mb-14 md:mb-20 overflow-hidden"
         >
           {/* GlassCard accent line — top primary gradient */}
           <span
@@ -70,31 +80,20 @@ export default function ChapterFrame({
             </p>
           )}
           </div>
-        </motion.div>
+        </ScrollReveal>
 
         {/* Body */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "200px 0px 200px 0px" }}
-          transition={{ duration: 0.7, ease: "easeOut", delay: 0.1 }}
-        >
+        <ScrollReveal delay={0.06}>
           {children}
-        </motion.div>
+        </ScrollReveal>
 
       </div>
 
       {closing && (
-        <div className="relative min-h-[90vh] flex items-center justify-center px-4 md:px-6 mt-16 md:mt-24">
-          <motion.p
-            initial={{ opacity: 0, scale: 0.96, filter: "blur(8px)" }}
-            whileInView={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-            viewport={{ once: true, margin: "200px 0px 200px 0px" }}
-            transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
-            className="font-display font-bold text-center text-4xl md:text-6xl lg:text-7xl leading-[1.05] tracking-tight text-foreground max-w-5xl [text-wrap:balance] [text-shadow:0_2px_24px_rgba(0,0,0,0.7),0_0_60px_rgba(232,148,90,0.15)]"
-          >
-            {closing}
-          </motion.p>
+        <div className="relative min-h-[125vh] flex items-center justify-center px-4 md:px-6 mt-20 md:mt-32">
+          <ScrollReveal className="font-display font-bold text-center text-5xl md:text-7xl lg:text-8xl leading-[0.98] tracking-tight text-foreground max-w-6xl [text-wrap:balance] [text-shadow:0_2px_24px_rgba(0,0,0,0.75),0_0_90px_rgba(232,148,90,0.22)]">
+            <p>{closing}</p>
+          </ScrollReveal>
         </div>
       )}
     </section>
