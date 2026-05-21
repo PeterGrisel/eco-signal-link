@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import CtaLink from "@/components/CtaLink";
 import { CTA } from "@/content/copy";
-import ClientOrbit from "@/components/hero/ClientOrbit";
 
 const rotatingWords = ["handmatig werk.", "reactief reageren.", "gemiste signalen."];
 
@@ -18,18 +17,11 @@ const Hero = () => {
   }, []);
 
   return (
-    <section className="relative min-h-[85vh] lg:min-h-screen flex items-center pt-14 md:pt-16 overflow-hidden">
-      {/* Glass-morph backdrop: orbit behind a frosted pane */}
-      <div className="absolute inset-4 md:inset-6 rounded-[2rem] overflow-hidden border border-white/[0.08] bg-white/[0.03] backdrop-blur-xl shadow-[0_8px_32px_0_rgba(0,5,5,0.2)]">
-        <ClientOrbit />
-        {/* Glass highlight edge */}
-        <div className="absolute inset-1 rounded-[1.8rem] pointer-events-none border border-white/[0.04]" aria-hidden />
-      </div>
-
+    <section className="relative min-h-[85vh] lg:min-h-screen flex items-center pt-14 md:pt-16">
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
-          {/* Left: Hero text */}
-          <div className="flex-1 max-w-2xl">
+          {/* Glass-morph hero card */}
+          <div className="flex-1 max-w-2xl rounded-[2rem] border border-white/[0.08] bg-white/[0.04] backdrop-blur-xl shadow-[0_8px_32px_0_rgba(0,5,5,0.2)] p-6 md:p-10">
             <motion.h1
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
