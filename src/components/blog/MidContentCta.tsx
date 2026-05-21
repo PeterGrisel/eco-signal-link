@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Sparkles, TrendingUp, ArrowRight } from "lucide-react";
+import { Sparkles, ArrowRight } from "lucide-react";
 import { trackCTA } from "@/lib/tracking";
 
 interface Props {
