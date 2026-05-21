@@ -38,9 +38,9 @@ export default function Chapter03TwoWays() {
     <ChapterFrame
       id="chapter-03" number="03"
       eyebrow="Twee manieren"
-      title={<>Twee manieren om B2B groei te sturen. <span className="text-primary">Eén is lineair. Eén schaalt.</span></>}
-      intro="De standaardmethode is campagne-gebaseerd, handmatig en lineair. De B2BGroeiMachine-methode is systeem-gebaseerd, signaal-gedreven en schaalbaar."
-      closing={<>One setup. One method. <span className="text-primary">Infinite growth motions.</span></>}
+      title={<>Lineair, of <span className="text-primary">lerend.</span></>}
+      intro="De standaard is handmatig. De B2BGroeiMachine is een systeem dat leert."
+      closing={<>Eén setup. Eén methode. <span className="text-primary">Oneindig veel groei-bewegingen.</span></>}
       tone="neutral"
     >
       <div className="grid lg:grid-cols-2 gap-6 lg:gap-10">

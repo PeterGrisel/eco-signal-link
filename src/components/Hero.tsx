@@ -2,8 +2,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import CtaLink from "@/components/CtaLink";
-import { CTA, COPY } from "@/content/copy";
-import SplineBrain from "@/components/hero/SplineBrain";
+import { CTA } from "@/content/copy";
 import ClientOrbit from "@/components/hero/ClientOrbit";
 
 const rotatingWords = ["handmatig werk.", "reactief reageren.", "gemiste signalen."];
@@ -22,7 +21,6 @@ const Hero = () => {
     <section className="relative min-h-[85vh] lg:min-h-screen flex items-center pt-14 md:pt-16 overflow-hidden bg-[#0a0807]">
       {/* Cinematic backdrop: Spline brein + orbiting client-logos */}
       <div className="absolute inset-0">
-        <SplineBrain className="absolute inset-0" />
         {/* Soft vignette to push content forward */}
         <div
           className="absolute inset-0 pointer-events-none"
@@ -93,19 +91,6 @@ const Hero = () => {
               </Button>
             </motion.div>
 
-            <motion.ul
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.55 }}
-              className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs md:text-sm text-muted-foreground"
-            >
-              {COPY.heroProof.items.map((item) => (
-                <li key={item} className="flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-primary/70" />
-                  {item}
-                </li>
-              ))}
-            </motion.ul>
           </div>
         </div>
       </div>

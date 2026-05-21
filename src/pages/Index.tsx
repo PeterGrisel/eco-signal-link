@@ -9,6 +9,8 @@ import Footer from "@/components/Footer";
 import StickyHeroCta from "@/components/StickyHeroCta";
 import ActScrollProgress from "@/components/homepage/ActScrollProgress";
 import AmbientBackdrop from "@/components/homepage/AmbientBackdrop";
+import ParallaxBrain from "@/components/hero/ParallaxBrain";
+import PricingSection from "@/components/PricingSection";
 
 const Index = () => {
   // Redirect auth errors (expired magic links) to /signaal/start
@@ -24,11 +26,13 @@ const Index = () => {
     <div className="min-h-screen relative">
       {/* Cinematic ambient backdrop — flickering grid + primary glows */}
       <AmbientBackdrop />
+      <ParallaxBrain />
       <div className="relative z-10">
       <BreadcrumbJsonLd items={[{ name: "Home", url: "https://b2bgroeimachine.io/" }]} />
       <Navbar />
       <Hero />
       <HomepageNarrative />
+      <PricingSection />
       <Footer />
       <StickyHeroCta />
       <ActScrollProgress
