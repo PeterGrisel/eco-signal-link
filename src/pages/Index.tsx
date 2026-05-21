@@ -6,20 +6,12 @@ import PageLoader from "@/components/PageLoader";
 import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 
 import HookSection from "@/components/HookSection";
-import NoLeadAgencySection from "@/components/NoLeadAgencySection";
-import SystemSection from "@/components/SystemSection";
-import PipelineEquationTeaser from "@/components/PipelineEquationTeaser";
-import FunnelSection from "@/components/FunnelSection";
-import FunnelInfographic from "@/components/FunnelInfographic";
-import SectorPicker from "@/components/SectorPicker";
-import LogoTicker from "@/components/LogoTicker";
+import MethodeSection from "@/components/MethodeSection";
+import MiniFaq from "@/components/MiniFaq";
 import ProcessSection from "@/components/ProcessSection";
-import DatahubSection from "@/components/DatahubSection";
 import PricingSection from "@/components/PricingSection";
 import ResultsSection from "@/components/ResultsSection";
-import DeliveryModelSection from "@/components/DeliveryModelSection";
 import CtaSection from "@/components/CtaSection";
-import FaqSection from "@/components/FaqSection";
 import Footer from "@/components/Footer";
 import StickyHeroCta from "@/components/StickyHeroCta";
 
@@ -44,21 +36,12 @@ const Index = () => {
       <BreadcrumbJsonLd items={[{ name: "Home", url: "https://b2bgroeimachine.io/" }]} />
       <Navbar />
       <Hero />
-
-      <div className="hidden md:block"><FunnelInfographic /></div>
-      <SectorPicker />
-      <div className="hidden md:block"><LogoTicker /></div>
-      <div className="hidden md:block"><NoLeadAgencySection /></div>
       <HookSection />
-      <div className="hidden md:block"><SystemSection /></div>
-      <div className="hidden md:block"><PipelineEquationTeaser /></div>
-      <div className="hidden md:block"><FunnelSection /></div>
+      <MethodeSection />
+      <ResultsSection />
       <ProcessSection />
-      <div className="hidden md:block"><DatahubSection /></div>
       <PricingSection />
-      <div className="hidden md:block"><DeliveryModelSection /></div>
-      <div className="hidden md:block"><ResultsSection /></div>
-      <FaqSection />
+      <MiniFaq />
       <CtaSection />
       <Footer />
       <StickyHeroCta />
