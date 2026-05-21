@@ -59,17 +59,17 @@ export default function ActBridge({
   const words = text.split(/\s+/);
 
   return (
-    <div className="relative w-full py-16 md:py-24">
+    <div className="relative w-full min-h-[110vh] flex items-center justify-center py-32 md:py-48">
       <style>{`
         @keyframes wr-word-appear {
-          0% { opacity: 0; transform: translateY(24px) scale(0.92); filter: blur(8px); }
-          60% { opacity: 0.85; transform: translateY(6px) scale(0.98); filter: blur(2px); }
+          0% { opacity: 0; transform: translateY(40px) scale(0.9); filter: blur(14px); }
+          60% { opacity: 0.85; transform: translateY(8px) scale(0.98); filter: blur(3px); }
           100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
         }
         .wr-word {
           display: inline-block;
           opacity: 0;
-          margin: 0 0.18em;
+          margin: 0 0.22em;
           transition: color 0.3s ease, transform 0.3s ease, text-shadow 0.3s ease;
           will-change: opacity, transform, filter;
         }
@@ -82,7 +82,7 @@ export default function ActBridge({
       <div className="container mx-auto px-4 md:px-6">
         <p
           ref={ref}
-          className="mx-auto max-w-2xl text-center font-body text-base md:text-xl font-light italic tracking-normal text-foreground/75 leading-[1.7]"
+          className="mx-auto max-w-5xl text-center font-display font-bold text-4xl md:text-6xl lg:text-7xl tracking-tight text-foreground leading-[1.05] [text-wrap:balance] [text-shadow:0_2px_24px_rgba(0,0,0,0.7),0_0_80px_rgba(232,148,90,0.18)]"
         >
           {words.map((w, i) => (
             <span key={`${w}-${i}`} className="wr-word">
