@@ -29,9 +29,8 @@ const DeliveryModelSection = () => {
           </p>
         </motion.div>
 
-        {/* Two cards */}
-        <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-          {/* Done-for-you */}
+        {/* Single card */}
+        <div className="max-w-xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -49,34 +48,6 @@ const DeliveryModelSection = () => {
             </p>
             <div className="flex flex-wrap gap-2 mt-auto">
               {["Dagelijks beheer", "Elke maand beter", "Wij kwalificeren voor u"].map((tag) => (
-                <span
-                  key={tag}
-                  className="text-xs font-medium px-3 py-1.5 rounded-full border border-border bg-secondary/50 text-muted-foreground"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Build & Transfer */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="card-gradient border border-glow rounded-xl p-8 md:p-10 flex flex-col"
-          >
-            <div className="w-12 h-12 rounded-xl bg-secondary flex items-center justify-center mb-6">
-              <RefreshCw className="w-6 h-6 text-primary" />
-            </div>
-            <h3 className="font-display font-bold text-2xl mb-1">Build &amp; Transfer</h3>
-            <p className="text-primary font-display text-sm font-semibold mb-4">Wij bouwen, u neemt over</p>
-            <p className="text-muted-foreground leading-relaxed mb-6">
-              Wij zetten alles op en dragen het volledig over. Inclusief alle data, workflows en draaiboek. Uw team kan direct zelfstandig doorgaan.
-            </p>
-            <div className="flex flex-wrap gap-2 mt-auto">
-              {["Volledige overdracht", "Training voor uw team", "Handleiding en draaiboek"].map((tag) => (
                 <span
                   key={tag}
                   className="text-xs font-medium px-3 py-1.5 rounded-full border border-border bg-secondary/50 text-muted-foreground"
