@@ -40,7 +40,6 @@ const Index = () => {
       <ActScrollProgress
         acts={[
           { id: "chapter-01", label: "Scenario" },
-          { id: "chapter-02", label: "Context" },
           { id: "chapter-03", label: "Twee manieren" },
           { id: "chapter-04", label: "Methode" },
           { id: "chapter-05", label: "Brein" },
