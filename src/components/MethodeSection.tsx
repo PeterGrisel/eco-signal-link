@@ -26,36 +26,28 @@ const MethodeSection = () => {
           </p>
         </motion.div>
 
-        <div className="grid gap-4 md:gap-5 max-w-5xl">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
           {COPY.methode.layers.map((layer, i) => (
             <motion.div
               key={layer.number}
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.4, delay: i * 0.05 }}
-              className="group relative rounded-2xl border border-border/40 bg-card/40 backdrop-blur-sm p-6 md:p-8 hover:border-primary/40 transition-colors"
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.35, delay: i * 0.04 }}
+              className="group rounded-2xl border border-border/40 bg-card/40 backdrop-blur-sm p-5 md:p-6 hover:border-primary/40 transition-colors"
             >
-              <div className="flex items-start gap-6 md:gap-10">
-                <span className="font-mono text-xs text-muted-foreground/70 tracking-widest shrink-0 pt-1">
-                  {layer.number}
-                </span>
-                <div className="flex-1 grid md:grid-cols-[1fr_1fr] gap-4 md:gap-10 items-start">
-                  <div>
-                    <h3 className="font-display font-semibold text-xl md:text-2xl tracking-tight mb-2 text-foreground">
-                      {layer.title}
-                    </h3>
-                    <p className="text-muted-foreground text-sm md:text-base leading-relaxed">
-                      {layer.line}
-                    </p>
-                  </div>
-                  <div className="md:border-l md:border-border/50 md:pl-8">
-                    <p className="text-sm md:text-base text-foreground/90 leading-relaxed font-medium">
-                      {layer.output}
-                    </p>
-                  </div>
-                </div>
-              </div>
+              <p className="font-mono text-xs text-primary/80 tracking-widest mb-3">
+                {layer.number}
+              </p>
+              <h3 className="font-display font-semibold text-base md:text-lg tracking-tight mb-2 text-foreground leading-snug">
+                {layer.title}
+              </h3>
+              <p className="text-muted-foreground text-sm leading-relaxed mb-4">
+                {layer.line}
+              </p>
+              <p className="text-xs md:text-sm text-foreground/85 leading-relaxed font-medium pt-4 border-t border-border/30">
+                {layer.output}
+              </p>
             </motion.div>
           ))}
         </div>
