@@ -8,6 +8,7 @@ import ClientOrbit from "@/components/hero/ClientOrbit";
 import { GlowCard } from "@/components/ui/spotlight-card";
 import { Users, ArrowLeft, UserPlus, MapPin, Globe, Handshake, Briefcase, RotateCcw } from "lucide-react";
 import { trackCTA } from "@/lib/tracking";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const motions = [
   { icon: UserPlus, n: "01", title: "Klanten werven" },
@@ -20,6 +21,7 @@ const motions = [
 
 const Hero = () => {
   const [showClients, setShowClients] = useState(false);
+  const isMobile = useIsMobile();
   return (
     <section className="relative pt-28 md:pt-36 pb-12 md:pb-16 overflow-hidden">
       {/* Themed radial background */}
@@ -127,7 +129,11 @@ const Hero = () => {
                 transition={{ duration: 0.6, ease: "easeOut" }}
                 className="absolute inset-0 z-[5] pointer-events-none"
               >
-                <ClientOrbit rings={3} baseSize={14} gap={8} className="md:[--orbit:1]" />
+                <ClientOrbit
+                  rings={isMobile ? 2 : 3}
+                  baseSize={isMobile ? 14 : 22}
+                  gap={isMobile ? 7 : 14}
+                />
               </motion.div>
             )}
           </AnimatePresence>
