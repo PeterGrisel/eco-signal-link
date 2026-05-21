@@ -86,6 +86,19 @@ const FaqSection = () => {
               </AccordionItem>
             ))}
           </Accordion>
+
+          <div className="text-center mt-12">
+            <div className="flex items-center justify-center gap-2 text-muted-foreground text-sm mb-3">
+              <span className="inline-block animate-bounce">👆</span>
+              <span>Nog steeds niet overtuigd?</span>
+            </div>
+            <p className="text-center text-lg font-display font-semibold mb-4">
+              Bel ons op <a href="tel:+31852502925" className="text-primary underline underline-offset-4 hover:text-primary/80 transition-colors">+31 85 250 2925</a>
+            </p>
+            <p className="text-center text-muted-foreground text-sm">
+              Binnen 15 min weet u of dit iets voor uw bedrijf is.
+            </p>
+          </div>
         </motion.div>
       </div>
     </section>
