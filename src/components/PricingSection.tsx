@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import CtaLink from "@/components/CtaLink";
 import { Button } from "@/components/ui/button";
-import { Check, Plus, Users, Briefcase, Database, ArrowDown, ArrowRight } from "lucide-react";
+import { Check, Plus, Users, Briefcase, ArrowDown, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
 type CommitmentPeriod = "6" | "12";
@@ -169,10 +169,10 @@ const PricingSection = () => {
           <h2 className="font-display font-bold text-3xl md:text-5xl lg:text-6xl tracking-tight leading-tight">
             Stel uw pakket samen
             <br />
-            <span className="text-gradient">in 4 stappen.</span>
+            <span className="text-gradient">in 3 stappen.</span>
           </h2>
           <p className="text-muted-foreground mt-4 text-lg leading-relaxed">
-            Begin met een vaste fee. Kies daarna hoeveel uren u wilt. Voeg eventueel Datahub en extra diensten toe.
+            Begin met een vaste fee. Kies daarna hoeveel uren u wilt. Voeg eventueel extra diensten toe.
           </p>
         </motion.div>
 
@@ -222,60 +222,14 @@ const PricingSection = () => {
 
         <StepDivider />
 
-        {/* STEP 3 — Datahub */}
+        {/* STEP 3 — Add-ons */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.5 }}
         >
-          <StepBadge step={3} label="Voeg Datahub toe" />
-          <div className="card-gradient border border-glow rounded-lg p-5 md:p-8 group hover:border-primary/30 transition-colors">
-            <div className="grid md:grid-cols-[1fr_auto] gap-8 items-start">
-              <div>
-                <div className="flex items-center gap-3 mb-4">
-                  <Database className="w-5 h-5 text-primary" />
-                  <h3 className="font-display font-bold text-xl">Datahub</h3>
-                  <span className="text-xs font-display font-semibold text-primary bg-primary/10 px-2 py-0.5 rounded-full">
-                    vanaf €499/mnd
-                  </span>
-                </div>
-                <p className="text-muted-foreground text-sm leading-relaxed mb-5">
-                   Uw commercieel geheugen. Al uw data op één plek.
-                   Stel vragen aan uw data, zonder verplichtingen.
-                </p>
-                <ul className="space-y-2">
-                  {[
-                    "Alle data en AI-context op één plek",
-                    "Geen verplichtingen: uw data blijft van u",
-                    "Werkt met uw bestaande CRM en tools",
-                  ].map((item) => (
-                    <li key={item} className="flex items-start gap-3 text-sm text-muted-foreground">
-                      <Check className="w-4 h-4 text-primary mt-0.5 shrink-0" />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="hidden md:flex items-start pt-2">
-                <span className="text-muted-foreground text-sm mr-1 mt-2">vanaf</span>
-                <span className="font-display font-bold text-4xl text-foreground">€499</span>
-                <span className="text-muted-foreground text-sm ml-1 mt-2">/maand</span>
-              </div>
-            </div>
-          </div>
-        </motion.div>
-
-        <StepDivider />
-
-        {/* STEP 4 — Add-ons */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-50px" }}
-          transition={{ duration: 0.5 }}
-        >
-          <StepBadge step={4} label="Activeer add-ons" />
+          <StepBadge step={3} label="Activeer add-ons" />
           <div className="grid md:grid-cols-2 gap-4 md:gap-6">
             {[
               {

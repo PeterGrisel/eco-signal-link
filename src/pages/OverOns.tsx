@@ -181,7 +181,6 @@ const OverOns = () => {
               { icon: Layers, title: "Infrastructuur", text: "Tools, CRM en data koppelen tot één werkbaar geheel." },
               { icon: Brain, title: "Intelligence", text: "ICP, signalen en marktdata vertalen naar actiepunten." },
               { icon: Workflow, title: "Executie", text: "Multichannel outreach, opvolging en CRM-discipline." },
-              { icon: Database, title: "Datahub", text: "Elke campagne verrijkt uw commerciële geheugen." },
             ].map((b, i) => (
               <motion.div
                 key={b.title}
