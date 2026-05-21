@@ -82,20 +82,21 @@ export default function ChapterFrame({
           {children}
         </motion.div>
 
-        {closing && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true, margin: "200px 0px 200px 0px" }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="mt-16 md:mt-20 text-center"
-          >
-            <p className="font-display text-2xl md:text-3xl text-foreground/90 leading-snug max-w-3xl mx-auto [text-wrap:balance] [text-shadow:0_1px_8px_rgba(0,0,0,0.4)]">
-              {closing}
-            </p>
-          </motion.div>
-        )}
       </div>
+
+      {closing && (
+        <div className="relative min-h-[90vh] flex items-center justify-center px-4 md:px-6 mt-16 md:mt-24">
+          <motion.p
+            initial={{ opacity: 0, scale: 0.96, filter: "blur(8px)" }}
+            whileInView={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+            viewport={{ once: true, margin: "200px 0px 200px 0px" }}
+            transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
+            className="font-display font-bold text-center text-4xl md:text-6xl lg:text-7xl leading-[1.05] tracking-tight text-foreground max-w-5xl [text-wrap:balance] [text-shadow:0_2px_24px_rgba(0,0,0,0.7),0_0_60px_rgba(232,148,90,0.15)]"
+          >
+            {closing}
+          </motion.p>
+        </div>
+      )}
     </section>
   );
 }
