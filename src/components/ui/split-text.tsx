@@ -30,7 +30,7 @@ export const TextSplit = ({
   };
 
   return (
-    <div className={cn("flex justify-center", className)}>
+    <div className={cn("flex flex-wrap justify-center", className)}>
       {children.split("").map((char, index) => {
         const offset = getOffset(index);
         const displayChar = char === " " ? "\u00A0" : char;
