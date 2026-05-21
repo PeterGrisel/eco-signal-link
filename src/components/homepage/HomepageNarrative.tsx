@@ -34,7 +34,6 @@ export default function HomepageNarrative() {
       {/* ACT III — HET FUNDAMENT */}
       <ActBridge text="Eerst het brein. Daarna pas de beweging." />
       <Chapter05Brein />
-      <ActBridge text="Uw beste klanten worden de blauwdruk voor schaal." />
       <Chapter06Blauwdruk />
       <ActBridge text="Een systeem schaalt anders dan een campagne. Reken even mee." />
       <Chapter07Schaal />
