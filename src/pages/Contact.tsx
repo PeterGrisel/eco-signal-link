@@ -284,7 +284,6 @@ const Contact = () => {
                   <h3 className="font-display font-bold text-sm mb-3">Bekijk ook</h3>
                   <div className="space-y-2">
                     {[
-                      { to: "/pricing", label: "Pricing configurator" },
                       { to: "/full-sales-management", label: "Full Sales Management" },
                       { to: "/full-service-recruitment", label: "Full Service Recruitment" },
                     ].map(link => (

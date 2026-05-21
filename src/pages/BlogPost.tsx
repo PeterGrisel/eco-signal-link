@@ -188,9 +188,7 @@ const BlogPost = () => {
           ">
             {(() => {
               const parts = splitContentWithInfographics(cleanContent);
-              // Pick CTA variant deterministically based on slug
-              const variant: "signaal" | "pricing" =
-                (post.slug.charCodeAt(0) + post.slug.length) % 2 === 0 ? "signaal" : "pricing";
+              const variant: "signaal" = "signaal";
               // Insert mid-content CTA after the text part closest to the middle
               const textIndices = parts
                 .map((p, idx) => (p.type !== "infographic" ? idx : -1))

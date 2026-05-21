@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
-import { Sparkles, TrendingUp, ArrowRight } from "lucide-react";
+import { Sparkles, ArrowRight } from "lucide-react";
 import { trackCTA } from "@/lib/tracking";
 
 interface Props {
-  variant: "signaal" | "pricing";
+  variant: "signaal";
   slug: string;
 }
 
@@ -16,15 +16,6 @@ const config = {
     cta: "Start Signaal",
     href: "/signaal",
     label: "BlogPost Mid — Signaal",
-  },
-  pricing: {
-    icon: TrendingUp,
-    eyebrow: "Done-for-you of Build & Transfer",
-    title: "Bekijk wat een groeimachine kost",
-    body: "Transparante uurtarieven, 6 of 12 maanden engagement. Geen vendor lock-in, u behoudt alle data en flows.",
-    cta: "Bekijk pricing",
-    href: "/pricing",
-    label: "BlogPost Mid — Pricing",
   },
 };
 
