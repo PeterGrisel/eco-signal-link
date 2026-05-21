@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import CtaLink from "@/components/CtaLink";
 import { CTA } from "@/content/copy";
@@ -8,18 +8,8 @@ import ClientOrbit from "@/components/hero/ClientOrbit";
 import { Users, ArrowLeft } from "lucide-react";
 import { trackCTA } from "@/lib/tracking";
 
-const rotatingWords = ["handmatig werk.", "reactief reageren.", "gemiste signalen."];
-
 const Hero = () => {
-  const [wordIndex, setWordIndex] = useState(0);
   const [showClients, setShowClients] = useState(false);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setWordIndex((prev) => (prev + 1) % rotatingWords.length);
-    }, 2500);
-    return () => clearInterval(interval);
-  }, []);
 
   return (
     <section className="relative min-h-[85vh] lg:min-h-screen flex items-center pt-14 md:pt-16 overflow-hidden">
@@ -65,24 +55,14 @@ const Hero = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.1 }}
-              className="font-display font-bold text-[3rem] md:text-[5.5rem] lg:text-[6rem] leading-[1.05] tracking-tighter mb-6 md:mb-8"
+              className="font-display font-bold text-[2.25rem] md:text-[3.75rem] lg:text-[4.25rem] leading-[1.05] tracking-tighter mb-6 md:mb-8"
             >
-              Minder
+              Stop met wachten op aanvragen.
               <br />
-              <AnimatePresence mode="wait">
-                <motion.span
-                  key={wordIndex}
-                  initial={{ y: 40, opacity: 0, filter: "blur(6px)" }}
-                  animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
-                  exit={{ y: -40, opacity: 0, filter: "blur(6px)" }}
-                  transition={{ duration: 0.35 }}
-                  className="inline-block text-gradient"
-                >
-                  {rotatingWords[wordIndex]}
-                </motion.span>
-              </AnimatePresence>
-              <br />
-              Meer resultaat.
+              <span className="text-gradient">
+                Bouw een systeem dat interesse herkent
+              </span>{" "}
+              vóórdat klanten actief zoeken.
             </motion.h1>
 
             <motion.p
