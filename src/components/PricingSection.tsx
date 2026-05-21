@@ -213,7 +213,7 @@ const PerformancePartnership = () => (
             Min. techkosten
           </p>
           <div className="flex items-baseline gap-1 mb-1">
-            <span className="font-display font-bold text-3xl tracking-tight">€750 — 1.500</span>
+            <span className="font-display font-bold text-3xl tracking-tight">€500 — 1.000</span>
           </div>
           <p className="text-xs text-muted-foreground">/ maand</p>
         </div>
