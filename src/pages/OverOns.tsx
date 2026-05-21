@@ -3,7 +3,7 @@ import Navbar from "@/components/Navbar";
 import PageLoader from "@/components/PageLoader";
 import Footer from "@/components/Footer";
 import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
-import { ArrowRight, Zap, Users, Brain, Globe, Layers, Workflow, Database, ShieldCheck } from "lucide-react";
+import { ArrowRight, Zap, Users, Brain, Globe, Layers, Workflow, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import teamAbout from "@/assets/team-about.jpg";
 import peterGrisel from "@/assets/peter-grisel.png";
@@ -181,7 +181,6 @@ const OverOns = () => {
               { icon: Layers, title: "Infrastructuur", text: "Tools, CRM en data koppelen tot één werkbaar geheel." },
               { icon: Brain, title: "Intelligence", text: "ICP, signalen en marktdata vertalen naar actiepunten." },
               { icon: Workflow, title: "Executie", text: "Multichannel outreach, opvolging en CRM-discipline." },
-              { icon: Database, title: "Datahub", text: "Elke campagne verrijkt uw commerciële geheugen." },
             ].map((b, i) => (
               <motion.div
                 key={b.title}
