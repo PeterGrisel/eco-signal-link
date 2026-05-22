@@ -77,8 +77,8 @@ function PinnedPanel({
         willChange: "transform, opacity",
       }}
     >
-      <div className="w-full h-full overflow-y-auto overflow-x-hidden flex items-center justify-center bg-background">
-        <div className="w-full">{children}</div>
+      <div className="w-full h-full overflow-hidden flex items-center justify-center bg-background">
+        <div className="w-full max-h-full overflow-hidden">{children}</div>
       </div>
     </motion.div>
   );
