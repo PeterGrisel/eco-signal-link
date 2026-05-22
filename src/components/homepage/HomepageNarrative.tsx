@@ -21,28 +21,28 @@ export default function HomepageNarrative() {
       <Chapter01Scenario />
 
       <NarrativeTransition>
-        Dit overkomt bijna elk B2B-bedrijf. Het verschil zit in hoe u er morgen mee omgaat.
+        Dit overkomt bijna elk B2B-bedrijf. Zo ziet de uitkomst eruit in cijfers.
       </NarrativeTransition>
 
-      {/* 2. DROOM — het contrast */}
-      <Chapter03TwoWays />
-
-      <NarrativeTransition>
-        Dit is geen theorie. Zo ziet de uitkomst eruit in cijfers.
-      </NarrativeTransition>
-
-      {/* 3. BEWIJS VAN DE DROOM — meetbaar maken */}
+      {/* 2. BEWIJS VAN DE DROOM — meetbaar maken */}
       <Chapter07Schaal />
 
       <NarrativeTransition>
         Hoe komt u daar? Niet met meer outreach. Met een ander fundament.
       </NarrativeTransition>
 
-      {/* 4. FUNDAMENT — het brein */}
+      {/* 3. FUNDAMENT — het brein */}
       <Chapter05Brein />
 
       <NarrativeTransition>
-        Het brein heeft een methode nodig. Acht stappen, één route.
+        De eerste stap van het brein: kiezen tussen de oude en de nieuwe manier.
+      </NarrativeTransition>
+
+      {/* 4. EERSTE STAP — het contrast */}
+      <Chapter03TwoWays />
+
+      <NarrativeTransition>
+        Vanaf hier loopt de route. Acht stappen, één richting.
       </NarrativeTransition>
 
       {/* 5. METHODE — de route */}
