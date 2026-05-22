@@ -13,6 +13,7 @@ import { ArrowLeft, Clock, Calendar } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import RelatedSolutions from "@/components/blog/RelatedSolutions";
 import MidContentCta from "@/components/blog/MidContentCta";
+import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 import { trackCTA } from "@/lib/tracking";
 
 interface Post {
