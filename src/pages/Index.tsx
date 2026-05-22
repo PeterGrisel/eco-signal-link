@@ -5,7 +5,6 @@ import Hero from "@/components/Hero";
 import PageLoader from "@/components/PageLoader";
 import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 import HomepageNarrative from "@/components/homepage/HomepageNarrative";
-import HomepageHook from "@/components/homepage/HomepageHook";
 import Footer from "@/components/Footer";
 import MobileDock from "@/components/MobileDock";
 import ActScrollProgress from "@/components/homepage/ActScrollProgress";
@@ -30,8 +29,9 @@ const Index = () => {
       <div className="relative z-10">
       <BreadcrumbJsonLd items={[{ name: "Home", url: "https://b2bgroeimachine.io/" }]} />
       <Navbar />
-      <Hero />
-      <HomepageHook />
+      <div id="section-hero">
+        <Hero />
+      </div>
       <HomepageNarrative />
       <PricingSection />
       <FaqSection />
@@ -39,16 +39,20 @@ const Index = () => {
       <MobileDock />
       <ActScrollProgress
         acts={[
-          { id: "chapter-01", label: "Scenario" },
-          { id: "chapter-03", label: "Vroeger vs nu" },
+          { id: "section-hero", label: "Schalen" },
           { id: "chapter-05", label: "Brein" },
-          { id: "chapter-04", label: "Methode" },
+          { id: "chapter-03", label: "Twee kanten" },
+          { id: "section-smederij", label: "Smederij" },
+          { id: "chapter-07", label: "Cijfers" },
+          { id: "chapter-04", label: "8 stappen" },
+          { id: "chapter-02", label: "Commercieel brein" },
           { id: "chapter-06", label: "Blauwdruk" },
+          { id: "chapter-08", label: "Impressies → deal" },
           { id: "chapter-09", label: "Modules" },
-          { id: "chapter-07", label: "Schaal" },
-          { id: "chapter-08", label: "Funnel" },
           { id: "chapter-10", label: "Levering" },
-          { id: "act-finale", label: "Start" },
+          { id: "section-flipcards", label: "3 voordelen" },
+          { id: "act-finale", label: "Een gesprek, een machine" },
+          { id: "pricing", label: "Pricing" },
         ]}
       />
       </div>
