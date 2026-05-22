@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import { Building2, Users, Activity, Calendar, Wallet, TrendingUp, RotateCcw } from "lucide-react";
 import ChapterFrame from "../ChapterFrame";
 import { Slider } from "@/components/ui/slider";
-import { Button } from "@/components/ui/button";
 
 const DEFAULTS = {
   markt: 2000,
