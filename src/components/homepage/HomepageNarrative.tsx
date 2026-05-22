@@ -9,7 +9,6 @@ import Chapter10Levering from "./chapters/Chapter10Levering";
 import ScenarioSideScroller from "./ScenarioSideScroller";
 import HomepageHook from "./HomepageHook";
 import CtaFinale from "./CtaFinale";
-import FlowArt, { FlowSection } from "@/components/ui/story-scroll";
 
 /**
  * Homepage narrative — vaste volgorde:
@@ -34,19 +33,25 @@ export default function HomepageNarrative() {
       {/* 5. 8 stappen */}
       <Chapter04Methode />
 
-      {/* 6-11. Story-scroll stack: elke sectie pint, volgende kantelt eroverheen */}
-      <FlowArt aria-label="Methode in beweging">
-        <FlowSection><Chapter05Brein /></FlowSection>
-        <FlowSection><Chapter06Blauwdruk /></FlowSection>
-        <FlowSection><Chapter08Funnel /></FlowSection>
-        <FlowSection><Chapter09Modules /></FlowSection>
-        <FlowSection><Chapter10Levering /></FlowSection>
-        <FlowSection>
-          <div id="section-flipcards">
-            <HomepageHook />
-          </div>
-        </FlowSection>
-      </FlowArt>
+      {/* 6. Commercieel brein (radial) — eerste stap onder de 8 stappen */}
+      <Chapter05Brein />
+
+      {/* 7. Beste klanten worden blauwdruk */}
+      <Chapter06Blauwdruk />
+
+      {/* 8. Impressies → deal */}
+      <Chapter08Funnel />
+
+      {/* 9. Modules */}
+      <Chapter09Modules />
+
+      {/* 10. Levering */}
+      <Chapter10Levering />
+
+      {/* 11. 3 flipcards (verplaatst van hero) */}
+      <div id="section-flipcards">
+        <HomepageHook />
+      </div>
 
       {/* 12. CTA finale — een gesprek, een machine */}
       <CtaFinale />
