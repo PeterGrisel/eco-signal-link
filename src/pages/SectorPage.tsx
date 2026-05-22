@@ -9,6 +9,7 @@ import PageLoader from "@/components/PageLoader";
 import CtaSection from "@/components/CtaSection";
 import FunnelCalculatorSection from "@/components/FunnelCalculatorSection";
 import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
+import JsonLd from "@/components/JsonLd";
 import { getSectorBySlug, sectors } from "@/data/sectors";
 import { usePageMeta } from "@/hooks/usePageMeta";
 
@@ -41,6 +42,28 @@ const SectorPage = () => {
           { name: "Sectoren", url: "https://b2bgroeimachine.io/" },
           { name: sector.title, url: `https://b2bgroeimachine.io/sectoren/${sector.slug}` },
         ]} />
+        <JsonLd
+          id="service-jsonld"
+          data={{
+            "@context": "https://schema.org",
+            "@type": "Service",
+            name: `Leadgeneratie voor ${sector.title}`,
+            serviceType: "B2B Leadgeneratie & Sales Automation",
+            description: sector.metaDescription || sector.description,
+            areaServed: { "@type": "Country", name: "Netherlands" },
+            provider: {
+              "@type": "Organization",
+              name: "B2BGroeiMachine",
+              url: "https://b2bgroeimachine.io",
+            },
+            audience: {
+              "@type": "BusinessAudience",
+              name: sector.title,
+            },
+            url: `https://b2bgroeimachine.io/sectoren/${sector.slug}`,
+            inLanguage: "nl-NL",
+          }}
+        />
         <Navbar />
 
         {/* Hero */}
