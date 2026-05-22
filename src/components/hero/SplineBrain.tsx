@@ -10,8 +10,8 @@ export default function SplineBrain({ className = "" }: { className?: string }) 
   const [loaded, setLoaded] = useState(false);
   const [reduced, setReduced] = useState(false);
   const isMobile = useIsMobile();
-  const mobileFrameClass = isMobile ? "left-1/2 top-1/2 h-[46vh] w-[170vw]" : "inset-0 w-full h-full";
-  const mobileFrameTransform = isMobile ? "translate(-50%, -50%) scale(0.62)" : "scale(1)";
+  const mobileFrameClass = isMobile ? "left-1/2 top-1/2 h-[34vh] w-[132vw]" : "inset-0 w-full h-full";
+  const mobileFrameTransform = isMobile ? "translate(-50%, -50%) scale(0.56)" : "scale(1)";
 
   useEffect(() => {
     const prefersReduced = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
