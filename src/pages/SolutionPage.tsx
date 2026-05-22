@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import PageLoader from "@/components/PageLoader";
 import CtaSection from "@/components/CtaSection";
 import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
+import JsonLd from "@/components/JsonLd";
 import { usePageMeta } from "@/hooks/usePageMeta";
 import { solutions } from "@/data/solutions";
 import { sectors } from "@/data/sectors";
@@ -51,6 +52,24 @@ const SolutionPage = () => {
             { name: "Home", url: "https://b2bgroeimachine.io/" },
             { name: solution.title, url: `https://b2bgroeimachine.io/solutions/${solution.slug}` },
           ]}
+        />
+        <JsonLd
+          id="service-jsonld"
+          data={{
+            "@context": "https://schema.org",
+            "@type": "Service",
+            name: solution.title,
+            serviceType: "B2B Sales Automation",
+            description: solution.metaDescription || solution.heroDescription,
+            areaServed: { "@type": "Country", name: "Netherlands" },
+            provider: {
+              "@type": "Organization",
+              name: "B2BGroeiMachine",
+              url: "https://b2bgroeimachine.io",
+            },
+            url: `https://b2bgroeimachine.io/solutions/${solution.slug}`,
+            inLanguage: "nl-NL",
+          }}
         />
         <Navbar />
 
