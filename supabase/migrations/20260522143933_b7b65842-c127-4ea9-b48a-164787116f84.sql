@@ -1,0 +1,1 @@
+UPDATE public.client_logos SET logo_url = 'https://exesengineering.nl/wp-content/uploads/2021/04/Exes-Engineering2021.png', scale = 1.0, padding = 2 WHERE domain = 'exesengineering.nl';
