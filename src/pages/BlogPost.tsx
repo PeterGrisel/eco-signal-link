@@ -262,6 +262,15 @@ const BlogPost = () => {
 
       <Footer />
 
+      {/* BreadcrumbList JSON-LD */}
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Home", url: "https://b2bgroeimachine.io/" },
+          { name: "Blog", url: "https://b2bgroeimachine.io/blog" },
+          { name: post.title, url: `https://b2bgroeimachine.io/blog/${post.slug}` },
+        ]}
+      />
+
       {/* BlogPosting JSON-LD */}
       <script
         type="application/ld+json"
