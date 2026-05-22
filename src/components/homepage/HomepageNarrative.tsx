@@ -1,4 +1,3 @@
-import Chapter02Context from "./chapters/Chapter02Context";
 import Chapter03TwoWays from "./chapters/Chapter03TwoWays";
 import Chapter04Methode from "./chapters/Chapter04Methode";
 import Chapter05Brein from "./chapters/Chapter05Brein";
@@ -20,44 +19,41 @@ import CtaFinale from "./CtaFinale";
 export default function HomepageNarrative() {
   return (
     <main className="cinematic-home relative">
-      {/* 2. Brein (radial) */}
-      <Chapter05Brein />
-
-      {/* 3. Twee kanten */}
+      {/* 2. Twee kanten */}
       <Chapter03TwoWays />
 
-      {/* 4. Smederij — side scroller met 5 cards */}
+      {/* 3. Smederij — side scroller met 5 cards */}
       <div id="section-smederij">
         <ScenarioSideScroller />
       </div>
 
-      {/* 5. Cijfers */}
+      {/* 4. Cijfers */}
       <Chapter07Schaal />
 
-      {/* 6. 8 stappen */}
+      {/* 5. 8 stappen */}
       <Chapter04Methode />
 
-      {/* 7. Commercieel brein */}
-      <Chapter02Context />
+      {/* 6. Commercieel brein (radial) — eerste stap onder de 8 stappen */}
+      <Chapter05Brein />
 
-      {/* 8. Beste klanten worden blauwdruk */}
+      {/* 7. Beste klanten worden blauwdruk */}
       <Chapter06Blauwdruk />
 
-      {/* 9. Impressies → deal */}
+      {/* 8. Impressies → deal */}
       <Chapter08Funnel />
 
-      {/* 10. Modules */}
+      {/* 9. Modules */}
       <Chapter09Modules />
 
-      {/* 11. Levering */}
+      {/* 10. Levering */}
       <Chapter10Levering />
 
-      {/* 12. 3 flipcards (verplaatst van hero) */}
+      {/* 11. 3 flipcards (verplaatst van hero) */}
       <div id="section-flipcards">
         <HomepageHook />
       </div>
 
-      {/* 13. CTA finale — een gesprek, een machine */}
+      {/* 12. CTA finale — een gesprek, een machine */}
       <CtaFinale />
     </main>
   );
