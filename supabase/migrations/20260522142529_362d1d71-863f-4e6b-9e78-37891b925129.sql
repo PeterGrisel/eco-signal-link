@@ -1,0 +1,2 @@
+INSERT INTO public.client_logos (name, domain, logo_url, scale, padding, is_visible, sort_order)
+VALUES ('Leister Benelux', 'leister.com', 'https://www.leister.com/svg/logos/Logo-LeisterTechnologies.svg', 1.0, 0, true, (SELECT COALESCE(MAX(sort_order), 0) + 10 FROM public.client_logos));
