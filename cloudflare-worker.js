@@ -28,6 +28,12 @@ const BOT_AGENTS = [
 
 const STATIC_EXTENSIONS = /\.(js|css|png|jpg|jpeg|gif|svg|ico|woff2?|ttf|eot|map|webp|avif|json)$/i;
 
+// 301 redirects for removed routes -> most relevant live page
+const REDIRECTS_301 = {
+  '/datahub': '/pipeline-equation',
+  '/pricing': '/pipeline-equation',
+};
+
 function isBot(userAgent) {
   if (!userAgent) return false;
   const ua = userAgent.toLowerCase();
@@ -113,6 +119,12 @@ export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
     const userAgent = request.headers.get('user-agent') || '';
+
+    // 0a. Permanent redirects for removed routes
+    const redirectTarget = REDIRECTS_301[url.pathname];
+    if (redirectTarget) {
+      return Response.redirect(`https://b2bgroeimachine.io${redirectTarget}`, 301);
+    }
 
     // 0. Proxy /sitemap.xml to dynamic Edge Function
     if (url.pathname === '/sitemap.xml') {
