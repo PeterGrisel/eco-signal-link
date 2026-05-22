@@ -13,6 +13,7 @@ import { ArrowLeft, Clock, Calendar } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import RelatedSolutions from "@/components/blog/RelatedSolutions";
 import MidContentCta from "@/components/blog/MidContentCta";
+import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 import { trackCTA } from "@/lib/tracking";
 
 interface Post {
@@ -260,6 +261,15 @@ const BlogPost = () => {
       </div>
 
       <Footer />
+
+      {/* BreadcrumbList JSON-LD */}
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Home", url: "https://b2bgroeimachine.io/" },
+          { name: "Blog", url: "https://b2bgroeimachine.io/blog" },
+          { name: post.title, url: `https://b2bgroeimachine.io/blog/${post.slug}` },
+        ]}
+      />
 
       {/* BlogPosting JSON-LD */}
       <script
