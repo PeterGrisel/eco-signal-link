@@ -2,7 +2,7 @@
 
 import { cn } from '@/lib/utils';
 import { ArrowRight, Code2, Copy, Rocket, Zap, type LucideIcon } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 export interface CardFlipProps {
   title?: string;
@@ -25,27 +25,18 @@ export default function CardFlip({
 }: CardFlipProps) {
   const [isFlipped, setIsFlipped] = useState(false);
   const icons = featureIcons ?? [Copy, Code2, Rocket, Zap];
-  const [canHover, setCanHover] = useState(true);
-
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const mql = window.matchMedia('(hover: hover) and (pointer: fine)');
-    const update = () => setCanHover(mql.matches);
-    update();
-    mql.addEventListener('change', update);
-    return () => mql.removeEventListener('change', update);
-  }, []);
 
   return (
     <div
       className={cn(
-        'relative h-[360px] w-full [perspective:1600px] group outline-none focus:outline-none focus-visible:outline-none',
+        'relative h-[360px] w-full [perspective:1600px] group',
         className,
       )}
-      onMouseEnter={canHover ? () => setIsFlipped(true) : undefined}
-      onMouseLeave={canHover ? () => setIsFlipped(false) : undefined}
-      onClick={!canHover ? () => setIsFlipped((v) => !v) : undefined}
-      style={{ WebkitTapHighlightColor: 'transparent' }}
+      onMouseEnter={() => setIsFlipped(true)}
+      onMouseLeave={() => setIsFlipped(false)}
+      onFocus={() => setIsFlipped(true)}
+      onBlur={() => setIsFlipped(false)}
+      tabIndex={0}
     >
       <div
         className={cn(

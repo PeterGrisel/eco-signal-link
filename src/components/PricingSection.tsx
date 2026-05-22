@@ -90,10 +90,10 @@ const PricingCard = ({ fase, index }: { fase: Fase; index: number }) => (
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true, margin: "-50px" }}
     transition={{ duration: 0.45, delay: index * 0.06 }}
-      className={cn(
+    className={cn(
       "relative rounded-2xl p-6 md:p-7 flex flex-col h-full border transition-colors",
       fase.highlight
-        ? "border-primary/40 bg-primary/5 md:shadow-[0_0_40px_-12px_hsl(var(--primary)/0.35)]"
+        ? "border-primary/40 bg-primary/5 shadow-[0_0_40px_-12px_hsl(var(--primary)/0.35)]"
         : "border-border bg-card hover:border-primary/30",
     )}
   >

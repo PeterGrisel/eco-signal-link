@@ -57,7 +57,7 @@ const VergelijkingSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.4, delay: 0.08 }}
-            className="rounded-2xl border border-primary/40 bg-card/60 backdrop-blur-sm p-6 md:p-8 md:shadow-[0_0_40px_-12px_hsl(var(--primary)/0.3)]"
+            className="rounded-2xl border border-primary/40 bg-card/60 backdrop-blur-sm p-6 md:p-8 shadow-[0_0_40px_-12px_hsl(var(--primary)/0.3)]"
           >
             <p className="text-xs uppercase tracking-[0.18em] text-primary mb-2">
               {groeimachine.tag}

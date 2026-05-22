@@ -40,7 +40,7 @@ const SchaalCijfersSection = () => {
                 transition={{ duration: 0.35, delay: i * 0.07 }}
                 className={`relative rounded-2xl border p-5 md:p-6 backdrop-blur-sm ${
                   isLast
-                    ? "border-primary/50 bg-primary/5 md:shadow-[0_0_40px_-12px_hsl(var(--primary)/0.4)]"
+                    ? "border-primary/50 bg-primary/5 shadow-[0_0_40px_-12px_hsl(var(--primary)/0.4)]"
                     : "border-border/40 bg-card/40"
                 }`}
               >
