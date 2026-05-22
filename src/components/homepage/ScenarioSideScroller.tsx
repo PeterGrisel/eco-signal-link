@@ -56,7 +56,7 @@ const stages: StageDef[] = [
   {
     num: "03",
     label: "Stap 3 — Context verrijken",
-    lead: "DATAHUB",
+    lead: "CONTEXT",
     title: "Wij plakken het profiel rond het signaal.",
     desc: "Bedrijfs­data, rolinformatie, technografie en historie komen samen. Zo wordt een signaal een compleet beeld.",
     bullets: [
