@@ -83,7 +83,7 @@ export default function Chapter03TwoWays() {
       }
       tone="neutral"
     >
-      <SpatialProductShowcase products={products} defaultActiveId="nu" />
+      <SpatialProductShowcase products={products} defaultActiveId="vroeger" />
     </ChapterFrame>
   );
 }
