@@ -40,12 +40,11 @@ const Index = () => {
       <ActScrollProgress
         acts={[
           { id: "section-hero", label: "Schalen" },
-          { id: "chapter-05", label: "Brein" },
           { id: "chapter-03", label: "Twee kanten" },
           { id: "section-smederij", label: "Smederij" },
           { id: "chapter-07", label: "Cijfers" },
           { id: "chapter-04", label: "8 stappen" },
-          { id: "chapter-02", label: "Commercieel brein" },
+          { id: "chapter-05", label: "Commercieel brein" },
           { id: "chapter-06", label: "Blauwdruk" },
           { id: "chapter-08", label: "Impressies → deal" },
           { id: "chapter-09", label: "Modules" },
