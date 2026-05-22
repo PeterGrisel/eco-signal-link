@@ -1,4 +1,5 @@
 import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { Mail, Linkedin, HelpCircle, MessageCircle, Euro } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { trackCTA } from "@/lib/tracking";
@@ -9,6 +10,19 @@ const WHATSAPP = "https://wa.me/31852502925";
 
 export default function LeftDock() {
   const location = useLocation();
+  const [hidden, setHidden] = useState(false);
+
+  useEffect(() => {
+    const target = document.getElementById("section-smederij");
+    if (!target) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setHidden(entry.isIntersecting),
+      { threshold: 0, rootMargin: "-20% 0px -20% 0px" }
+    );
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, [location.pathname]);
+
   if (location.pathname.startsWith("/signaal") || location.pathname.startsWith("/admin")) return null;
 
   const items = [
@@ -50,7 +64,7 @@ export default function LeftDock() {
     <>
       <TooltipProvider delayDuration={120}>
         <div
-          className="hidden md:flex fixed left-4 top-1/2 -translate-y-1/2 z-40 flex-col items-center gap-1 rounded-full border border-border/50 bg-background/70 backdrop-blur-xl p-2 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.6)]"
+          className={`hidden md:flex fixed left-4 top-1/2 -translate-y-1/2 z-40 flex-col items-center gap-1 rounded-full border border-border/50 bg-background/70 backdrop-blur-xl p-2 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.6)] transition-opacity duration-300 ${hidden ? "opacity-0 pointer-events-none" : "opacity-100"}`}
         >
           {items.map((item) => {
             const Icon = item.icon;
