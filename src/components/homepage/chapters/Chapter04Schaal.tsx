@@ -1,19 +1,60 @@
+import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { Building2, Users, Activity, Calendar, Wallet, TrendingUp } from "lucide-react";
+import { Building2, Users, Activity, Calendar, Wallet, TrendingUp, RotateCcw } from "lucide-react";
 import ChapterFrame from "../ChapterFrame";
+import { Slider } from "@/components/ui/slider";
 
-const STEPS = [
-  { icon: Building2, value: "2.000", unit: "bedrijven", label: "Markt", note: "ICP-fit en verrijkt", count: 2000 },
-  { icon: Users, value: "4.000", unit: "contacten", label: "Beslissers", note: "Op meerdere kanalen", count: 4000 },
-  { icon: Activity, value: "200", unit: "in beweging", label: "Engaged", note: "Engagement boven drempel", count: 200 },
-  { icon: Calendar, value: "20", unit: "afspraken", label: "Meetings", note: "Met sales-bevoegd contact", count: 20 },
-  { icon: Wallet, value: "€500k", unit: "pipeline", label: "Pipeline", note: "Op kwartaalbasis", count: 20 },
-];
+const DEFAULTS = {
+  markt: 2000,
+  beslissersPerAccount: 2,
+  engagementPct: 5, // % van beslissers in beweging
+  meetingPct: 10, // % van engaged → meeting
+  dealwaarde: 25000, // €
+};
+
+const fmtNum = (n: number) => new Intl.NumberFormat("nl-NL").format(Math.round(n));
+const fmtEur = (n: number) => {
+  if (n >= 1_000_000) return `€${(n / 1_000_000).toFixed(n >= 10_000_000 ? 0 : 1)}M`;
+  if (n >= 1000) return `€${Math.round(n / 1000)}k`;
+  return `€${Math.round(n)}`;
+};
+const fmtPct = (n: number) => (n < 10 ? n.toFixed(1) : n.toFixed(0)) + "%";
 
 export default function Chapter07Schaal() {
-  const maxCount = Math.max(...STEPS.map((s) => s.count));
-  const widths = STEPS.map((s) => Math.max(22, (s.count / maxCount) * 100));
-  const conversions = STEPS.slice(1).map((s, i) => (s.count / STEPS[i].count) * 100);
+  const [markt, setMarkt] = useState(DEFAULTS.markt);
+  const [bpa, setBpa] = useState(DEFAULTS.beslissersPerAccount);
+  const [engPct, setEngPct] = useState(DEFAULTS.engagementPct);
+  const [mtgPct, setMtgPct] = useState(DEFAULTS.meetingPct);
+  const [deal, setDeal] = useState(DEFAULTS.dealwaarde);
+
+  const calc = useMemo(() => {
+    const beslissers = markt * bpa;
+    const engaged = beslissers * (engPct / 100);
+    const meetings = engaged * (mtgPct / 100);
+    const pipeline = meetings * deal;
+    const overallPct = markt > 0 ? (meetings / markt) * 100 : 0;
+    return { beslissers, engaged, meetings, pipeline, overallPct };
+  }, [markt, bpa, engPct, mtgPct, deal]);
+
+  const reset = () => {
+    setMarkt(DEFAULTS.markt);
+    setBpa(DEFAULTS.beslissersPerAccount);
+    setEngPct(DEFAULTS.engagementPct);
+    setMtgPct(DEFAULTS.meetingPct);
+    setDeal(DEFAULTS.dealwaarde);
+  };
+
+  const STEPS = [
+    { icon: Building2, label: "Markt", value: fmtNum(markt), unit: "bedrijven", count: markt },
+    { icon: Users, label: "Beslissers", value: fmtNum(calc.beslissers), unit: "contacten", count: calc.beslissers },
+    { icon: Activity, label: "Engaged", value: fmtNum(calc.engaged), unit: "in beweging", count: calc.engaged },
+    { icon: Calendar, label: "Meetings", value: fmtNum(calc.meetings), unit: "afspraken", count: calc.meetings },
+    { icon: Wallet, label: "Pipeline", value: fmtEur(calc.pipeline), unit: "waarde", count: calc.meetings },
+  ];
+
+  // Bar fills proportionally inside a full-width row so text never overlaps.
+  const maxCount = Math.max(...STEPS.map((s) => s.count), 1);
+  const fills = STEPS.map((s) => Math.max(4, (s.count / maxCount) * 100));
 
   return (
     <ChapterFrame
@@ -31,20 +72,20 @@ export default function Chapter07Schaal() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.4 }}
-          className="md:col-span-2 rounded-2xl border border-primary/30 bg-primary/5 px-6 py-5 shadow-[0_0_40px_-16px_hsl(var(--primary)/0.5)] flex items-center justify-between gap-4"
+          className="md:col-span-2 rounded-2xl border border-primary/30 bg-primary/5 px-6 py-5 shadow-[0_0_40px_-16px_hsl(var(--primary)/0.5)] flex flex-wrap items-center justify-between gap-4"
         >
           <div>
             <p className="font-mono text-[0.65rem] md:text-xs text-primary/80 tracking-widest uppercase mb-1.5">
               Markt → Pipeline · per cyclus
             </p>
-            <p className="font-display font-bold text-3xl md:text-4xl text-gradient leading-none">
-              €500k pipelinewaarde
+            <p className="font-display font-bold text-3xl md:text-4xl text-gradient leading-none tabular-nums">
+              {fmtEur(calc.pipeline)} pipelinewaarde
             </p>
             <p className="text-xs md:text-sm text-muted-foreground mt-2">
-              Uit 2.000 doelaccounts. Herhaalbaar elke cyclus.
+              Uit {fmtNum(markt)} doelaccounts. Herhaalbaar elke cyclus.
             </p>
           </div>
-          <div className="hidden sm:flex items-center gap-1.5 rounded-full border border-primary/30 bg-background/60 px-3 py-1.5 shrink-0">
+          <div className="flex items-center gap-1.5 rounded-full border border-primary/30 bg-background/60 px-3 py-1.5 shrink-0">
             <TrendingUp className="w-3.5 h-3.5 text-primary" />
             <span className="text-xs font-medium text-primary">Verbetert iedere ronde</span>
           </div>
@@ -60,56 +101,57 @@ export default function Chapter07Schaal() {
           <p className="font-mono text-[0.65rem] md:text-xs text-muted-foreground/70 tracking-widest uppercase mb-1.5">
             Markt → Meeting
           </p>
-          <p className="font-display font-bold text-3xl md:text-4xl text-foreground leading-none">
-            1,0%
+          <p className="font-display font-bold text-3xl md:text-4xl text-foreground leading-none tabular-nums">
+            {fmtPct(calc.overallPct).replace(".", ",")}
           </p>
           <p className="text-xs md:text-sm text-muted-foreground mt-2">
-            20 gekwalificeerde afspraken op 2.000 accounts.
+            {fmtNum(calc.meetings)} gekwalificeerde afspraken op {fmtNum(markt)} accounts.
           </p>
         </motion.div>
       </div>
 
-      {/* Funnel + Conversie */}
+      {/* Funnel + Inputs */}
       <div className="grid lg:grid-cols-5 gap-6 lg:gap-8 mb-10">
+        {/* Funnel — full-width rows with proportional fill, no overlap */}
         <div className="lg:col-span-3 rounded-2xl border border-border/40 bg-card/40 p-6 md:p-8 backdrop-blur-sm">
           <div className="flex items-center justify-between mb-6">
             <p className="font-mono text-[0.65rem] md:text-xs text-muted-foreground/70 tracking-widest uppercase">
               Funnel · één cyclus
             </p>
-            <span className="text-[10px] uppercase tracking-[0.2em] text-primary/80">ICP-gestuurd</span>
+            <span className="text-[10px] uppercase tracking-[0.2em] text-primary/80">Live berekend</span>
           </div>
 
-          <div className="flex flex-col items-center gap-1.5">
+          <div className="flex flex-col gap-2">
             {STEPS.map((s, i) => {
-              const w = widths[i];
+              const fill = fills[i];
               const isLast = i === STEPS.length - 1;
-              const tintA = Math.max(0.1, 0.32 - i * 0.05);
-              const tintB = Math.max(0.05, 0.14 - i * 0.025);
               return (
-                <motion.div
+                <div
                   key={s.label}
-                  initial={{ opacity: 0, scaleX: 0.6 }}
-                  whileInView={{ opacity: 1, scaleX: 1 }}
-                  viewport={{ once: true, margin: "-40px" }}
-                  transition={{ duration: 0.45, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
-                  style={{ width: `${w}%` }}
-                  className="w-full"
+                  className={`relative overflow-hidden rounded-md border w-full ${
+                    isLast
+                      ? "border-primary/50 shadow-[0_0_30px_-8px_hsl(var(--primary)/0.6)] bg-primary/5"
+                      : "border-border/30 bg-background/40"
+                  }`}
                 >
-                  <div
-                    className={`relative rounded-md px-4 py-3 md:py-3.5 flex items-center justify-between gap-3 ${
-                      isLast
-                        ? "border border-primary/50 shadow-[0_0_30px_-8px_hsl(var(--primary)/0.6)]"
-                        : "border border-primary/15"
-                    }`}
+                  {/* Animated fill */}
+                  <motion.div
+                    aria-hidden
+                    initial={false}
+                    animate={{ width: `${fill}%` }}
+                    transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                    className="absolute inset-y-0 left-0"
                     style={{
                       background: isLast
-                        ? "linear-gradient(90deg, hsl(var(--primary) / 0.4), hsl(var(--primary) / 0.2))"
-                        : `linear-gradient(90deg, hsl(var(--primary) / ${tintA}), hsl(var(--primary) / ${tintB}))`,
+                        ? "linear-gradient(90deg, hsl(var(--primary) / 0.55), hsl(var(--primary) / 0.25))"
+                        : "linear-gradient(90deg, hsl(var(--primary) / 0.35), hsl(var(--primary) / 0.12))",
                     }}
-                  >
+                  />
+                  {/* Content sits above fill, always full width */}
+                  <div className="relative flex items-center justify-between gap-3 px-3 sm:px-4 py-3 md:py-3.5">
                     <div className="flex items-center gap-2.5 min-w-0">
                       <s.icon className="w-4 h-4 text-primary shrink-0" strokeWidth={1.6} />
-                      <span className="font-mono text-[10px] md:text-xs text-foreground/80 tracking-widest uppercase truncate">
+                      <span className="font-mono text-[10px] md:text-xs text-foreground/85 tracking-widest uppercase truncate">
                         {s.label}
                       </span>
                     </div>
@@ -121,57 +163,136 @@ export default function Chapter07Schaal() {
                       >
                         {s.value}
                       </span>
-                      <span className="hidden sm:inline text-[10px] md:text-xs text-muted-foreground">
-                        {s.unit}
-                      </span>
+                      <span className="text-[10px] md:text-xs text-muted-foreground">{s.unit}</span>
                     </div>
                   </div>
-                </motion.div>
+                </div>
               );
             })}
           </div>
         </div>
 
+        {/* Interactive inputs */}
         <div className="lg:col-span-2 rounded-2xl border border-border/40 bg-card/40 p-6 md:p-8 backdrop-blur-sm">
-          <p className="font-mono text-[0.65rem] md:text-xs text-muted-foreground/70 tracking-widest uppercase mb-5">
-            Conversie per stap
-          </p>
-          <ul className="space-y-3">
-            {STEPS.slice(0, -1).map((s, i) => {
-              const next = STEPS[i + 1];
-              const pct = conversions[i];
-              return (
-                <motion.li
-                  key={s.label}
-                  initial={{ opacity: 0, x: -8 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.35, delay: i * 0.06 }}
-                  className="flex items-center justify-between gap-3 pb-3 border-b border-border/30 last:border-0 last:pb-0"
-                >
-                  <span className="text-xs md:text-sm truncate">
-                    <span className="text-muted-foreground">{s.label}</span>
-                    <span className="text-muted-foreground/50 mx-1.5">→</span>
-                    <span className="text-foreground">{next.label}</span>
-                  </span>
-                  <span className="font-display font-bold text-sm md:text-base text-primary tabular-nums">
-                    {pct < 10 ? pct.toFixed(1) : pct.toFixed(0)}%
-                  </span>
-                </motion.li>
-              );
-            })}
-          </ul>
+          <div className="flex items-center justify-between mb-5">
+            <p className="font-mono text-[0.65rem] md:text-xs text-muted-foreground/70 tracking-widest uppercase">
+              Speel met uw cijfers
+            </p>
+            <button
+              type="button"
+              onClick={reset}
+              className="flex items-center gap-1 text-[10px] uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors"
+            >
+              <RotateCcw className="w-3 h-3" /> reset
+            </button>
+          </div>
 
-          <div className="mt-5 pt-4 border-t border-primary/20 flex items-center justify-between">
-            <span className="text-xs md:text-sm text-foreground/80">Overall</span>
-            <span className="font-display font-bold text-lg md:text-xl text-gradient tabular-nums">1,0%</span>
+          <div className="space-y-5">
+            <SliderRow
+              label="Adresseerbare markt"
+              value={`${fmtNum(markt)} bedrijven`}
+              min={200}
+              max={10000}
+              step={100}
+              v={markt}
+              onChange={setMarkt}
+            />
+            <SliderRow
+              label="Beslissers per account"
+              value={`${bpa}`}
+              min={1}
+              max={5}
+              step={1}
+              v={bpa}
+              onChange={setBpa}
+            />
+            <SliderRow
+              label="% beslissers in beweging"
+              value={`${engPct}%`}
+              min={1}
+              max={20}
+              step={1}
+              v={engPct}
+              onChange={setEngPct}
+            />
+            <SliderRow
+              label="% engaged → meeting"
+              value={`${mtgPct}%`}
+              min={2}
+              max={40}
+              step={1}
+              v={mtgPct}
+              onChange={setMtgPct}
+            />
+            <SliderRow
+              label="Gem. dealwaarde"
+              value={fmtEur(deal)}
+              min={2500}
+              max={150000}
+              step={2500}
+              v={deal}
+              onChange={setDeal}
+            />
+          </div>
+
+          <div className="mt-6 pt-5 border-t border-primary/20 grid grid-cols-2 gap-3 text-center">
+            <div>
+              <p className="font-mono text-[10px] text-muted-foreground/70 tracking-widest uppercase mb-1">
+                Meetings
+              </p>
+              <p className="font-display font-bold text-lg md:text-xl text-foreground tabular-nums">
+                {fmtNum(calc.meetings)}
+              </p>
+            </div>
+            <div>
+              <p className="font-mono text-[10px] text-primary/80 tracking-widest uppercase mb-1">
+                Pipeline
+              </p>
+              <p className="font-display font-bold text-lg md:text-xl text-gradient tabular-nums">
+                {fmtEur(calc.pipeline)}
+              </p>
+            </div>
           </div>
         </div>
       </div>
 
       <p className="text-sm text-muted-foreground italic max-w-2xl mx-auto text-center">
-        Geen belofte. Een rekenmodel. Tijdens de scan vullen we het in met uw eigen markt, ICP en uitgangscijfers.
+        Geen belofte. Een rekenmodel. Schuif met de cijfers om te zien hoeveel beslissers u moet bereiken voor uw eigen pipeline.
       </p>
     </ChapterFrame>
+  );
+}
+
+function SliderRow({
+  label,
+  value,
+  v,
+  min,
+  max,
+  step,
+  onChange,
+}: {
+  label: string;
+  value: string;
+  v: number;
+  min: number;
+  max: number;
+  step: number;
+  onChange: (n: number) => void;
+}) {
+  return (
+    <div>
+      <div className="flex items-baseline justify-between gap-3 mb-2">
+        <span className="text-xs md:text-sm text-muted-foreground">{label}</span>
+        <span className="font-mono text-xs md:text-sm text-primary tabular-nums">{value}</span>
+      </div>
+      <Slider
+        value={[v]}
+        min={min}
+        max={max}
+        step={step}
+        onValueChange={(arr) => onChange(arr[0])}
+      />
+    </div>
   );
 }
