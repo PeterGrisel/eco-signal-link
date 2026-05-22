@@ -1,4 +1,4 @@
-import Chapter01Scenario from "./chapters/Chapter01Scenario";
+import Chapter02Context from "./chapters/Chapter02Context";
 import Chapter03TwoWays from "./chapters/Chapter03TwoWays";
 import Chapter04Methode from "./chapters/Chapter04Methode";
 import Chapter05Brein from "./chapters/Chapter05Brein";
@@ -7,64 +7,57 @@ import Chapter07Schaal from "./chapters/Chapter04Schaal";
 import Chapter08Funnel from "./chapters/Chapter08Funnel";
 import Chapter09Modules from "./chapters/Chapter09Modules";
 import Chapter10Levering from "./chapters/Chapter10Levering";
+import ScenarioSideScroller from "./ScenarioSideScroller";
+import HomepageHook from "./HomepageHook";
 import CtaFinale from "./CtaFinale";
-import NarrativeTransition from "./NarrativeTransition";
 
 /**
- * Cinematic homepage narrative — journey: pijn → droom → bewijs → methode → snelheid.
- * Tussen elk hoofdstuk staat een korte overgangsregel die de bezoeker meeneemt.
+ * Homepage narrative — vaste volgorde:
+ * Hero (in Index) → Brein → Twee kanten → Smederij → Cijfers → 8 stappen →
+ * Commercieel brein → Blauwdruk → Impressies → Modules → Levering →
+ * 3 flipcards → CTA finale → Pricing (in Index).
  */
 export default function HomepageNarrative() {
   return (
     <main className="cinematic-home relative">
-      {/* 1. PIJN — herkenning */}
-      <Chapter01Scenario />
-
-      <NarrativeTransition>
-        Dit overkomt bijna elk B2B-bedrijf. Zo ziet de uitkomst eruit in cijfers.
-      </NarrativeTransition>
-
-      {/* 2. BEWIJS VAN DE DROOM — meetbaar maken */}
-      <Chapter07Schaal />
-
-      <NarrativeTransition>
-        Hoe komt u daar? Niet met meer outreach. Met een ander fundament.
-      </NarrativeTransition>
-
-      {/* 3. FUNDAMENT — het brein */}
+      {/* 2. Brein (radial) */}
       <Chapter05Brein />
 
-      <NarrativeTransition>
-        De eerste stap van het brein: kiezen tussen de oude en de nieuwe manier.
-      </NarrativeTransition>
-
-      {/* 4. EERSTE STAP — het contrast */}
+      {/* 3. Twee kanten */}
       <Chapter03TwoWays />
 
-      <NarrativeTransition>
-        Vanaf hier loopt de route. Acht stappen, één richting.
-      </NarrativeTransition>
+      {/* 4. Smederij — side scroller met 5 cards */}
+      <div id="section-smederij">
+        <ScenarioSideScroller />
+      </div>
 
-      {/* 5. METHODE — de route */}
+      {/* 5. Cijfers */}
+      <Chapter07Schaal />
+
+      {/* 6. 8 stappen */}
       <Chapter04Methode />
 
-      <NarrativeTransition>
-        Stap één: uw beste klanten worden de blauwdruk.
-      </NarrativeTransition>
+      {/* 7. Commercieel brein */}
+      <Chapter02Context />
 
-      {/* 6. BLAUWDRUK + UITVOERING */}
+      {/* 8. Beste klanten worden blauwdruk */}
       <Chapter06Blauwdruk />
+
+      {/* 9. Impressies → deal */}
       <Chapter08Funnel />
+
+      {/* 10. Modules */}
       <Chapter09Modules />
 
-      <NarrativeTransition>
-        Alles wat hierboven staat, levert u zonder nieuw systeem.
-      </NarrativeTransition>
-
-      {/* 7. SNELHEID — levering waar u al werkt */}
+      {/* 11. Levering */}
       <Chapter10Levering />
 
-      {/* FINALE */}
+      {/* 12. 3 flipcards (verplaatst van hero) */}
+      <div id="section-flipcards">
+        <HomepageHook />
+      </div>
+
+      {/* 13. CTA finale — een gesprek, een machine */}
       <CtaFinale />
     </main>
   );
