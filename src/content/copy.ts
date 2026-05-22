@@ -46,7 +46,7 @@ export const COPY = {
   },
   heroProof: {
     items: [
-      "30 minuten",
+      "60 minuten",
       "Vrijblijvend",
       "Direct met Peter",
       "Werkende kaart binnen 5 dagen",
@@ -157,9 +157,9 @@ export const COPY = {
     headingLine1: "Klaar voor uw",
     headingAccent: "gratis scan?",
     body:
-      "30 minuten. Wij brengen uw proces in kaart en laten zien waar de winst zit. Geen verkoopgesprek.",
+      "60 minuten. Wij brengen uw proces in kaart en laten zien waar de winst zit. Geen verkoopgesprek.",
     speakWith: "Spreek direct met Peter",
-    fineprint: "€0 · 30 minuten · Vrijblijvend",
+    fineprint: "€0 · 60 minuten · Vrijblijvend",
   },
   process: {
     eyebrow: "Van scan tot resultaat",
