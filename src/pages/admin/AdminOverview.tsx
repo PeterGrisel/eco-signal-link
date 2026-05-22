@@ -264,101 +264,13 @@ export const OverviewTabContent = () => {
             </Card>
           </div>
 
-          {/* ── Lead Journeys ── */}
-          <Card className="bg-card border-border">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-base flex items-center gap-2">
-                <Target className="w-4 h-4 text-red-400" /> Recente Leads & Journey
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              {leadJourneys.length === 0 ? (
-                <p className="text-sm text-muted-foreground">Geen leads in deze periode</p>
-              ) : (
-                <div className="space-y-4">
-                  {leadJourneys.map(lead => (
-                    <div key={lead.id} className="p-4 rounded-lg bg-muted/30 border border-border">
-                      <div className="flex items-center justify-between mb-2">
-                        <div>
-                          <span className="font-semibold text-foreground">{lead.name}</span>
-                          {lead.company && (
-                            <span className="text-muted-foreground text-sm ml-2">· {lead.company}</span>
-                          )}
-                        </div>
-                        <span className="text-xs text-muted-foreground">
-                          {format(new Date(lead.created_at), "d MMM HH:mm", { locale: nl })}
-                        </span>
-                      </div>
-                      {lead.journey.length > 0 ? (
-                        <div className="flex flex-wrap items-center gap-1">
-                          {lead.journey.slice(0, 12).map((step, i) => (
-                            <span key={i} className="inline-flex items-center gap-1">
-                              <span className={`text-xs px-2 py-0.5 rounded-full ${
-                                step.event === "page_view" ? "bg-green-500/10 text-green-400" :
-                                step.event === "cta_click" ? "bg-yellow-500/10 text-yellow-400" :
-                                step.event === "form_submit" ? "bg-red-500/10 text-red-400" :
-                                step.event === "scroll_depth" ? "bg-blue-500/10 text-blue-400" :
-                                "bg-muted text-muted-foreground"
-                              }`}>
-                                {step.event === "page_view" ? step.label :
-                                 step.event === "scroll_depth" ? `↓${(step.label)}` :
-                                 step.event === "cta_click" ? `🖱 ${step.label.substring(0, 20)}` :
-                                 step.event === "form_submit" ? "📝 Formulier" :
-                                 step.event}
-                              </span>
-                              {i < Math.min(lead.journey.length, 12) - 1 && (
-                                <ArrowRight className="w-3 h-3 text-muted-foreground" />
-                              )}
-                            </span>
-                          ))}
-                          {lead.journey.length > 12 && (
-                            <span className="text-xs text-muted-foreground">+{lead.journey.length - 12} meer</span>
-                          )}
-                        </div>
-                      ) : (
-                        <p className="text-xs text-muted-foreground italic">Geen sessie-data gekoppeld</p>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              )}
-            </CardContent>
-          </Card>
-
-          {/* ── Converting Pages ── */}
-          {convertingPages.length > 0 && (
-            <Card className="bg-card border-border">
-              <CardHeader className="pb-2">
-                <CardTitle className="text-base flex items-center gap-2">
-                  <Zap className="w-4 h-4 text-primary" /> Converterende Pagina's
-                  <span className="text-xs text-muted-foreground font-normal ml-2">
-                    Pagina's bezocht door leads vóór conversie
-                  </span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ChartContainer config={{
-                  count: { label: "Lead-sessies", color: "hsl(var(--primary))" },
-                }} className="h-[200px]">
-                  <BarChart data={convertingPages} layout="vertical">
-                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                    <XAxis type="number" tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }} />
-                    <YAxis dataKey="page" type="category" width={200} tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }} />
-                    <ChartTooltip content={<ChartTooltipContent />} />
-                    <Bar dataKey="count" fill="hsl(var(--primary))" radius={[0, 4, 4, 0]} />
-                  </BarChart>
-                </ChartContainer>
-              </CardContent>
-            </Card>
-          )}
-
           {/* ── Quick links ── */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {[
               { label: "Analytics", href: "/admin/analytics", icon: Activity },
               { label: "KPI Dashboard", href: "/admin/dashboard?tab=kpi", icon: TrendingUp },
-              { label: "Leads", href: "/admin/analytics?tab=leads", icon: Users },
               { label: "Autopilot", href: "/admin/content?tab=autopilot", icon: Zap },
+              { label: "SEO Hub", href: "/admin/seo", icon: TrendingUp },
             ].map(link => (
               <Link key={link.href} to={link.href}>
                 <Card className="bg-card border-border hover:border-primary/50 transition-colors cursor-pointer">
