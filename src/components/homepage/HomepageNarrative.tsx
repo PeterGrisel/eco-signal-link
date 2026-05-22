@@ -9,7 +9,7 @@ import Chapter10Levering from "./chapters/Chapter10Levering";
 import ScenarioSideScroller from "./ScenarioSideScroller";
 import HomepageHook from "./HomepageHook";
 import CtaFinale from "./CtaFinale";
-import ScrollReveal from "./ScrollReveal";
+import FlowArt, { FlowSection } from "@/components/ui/story-scroll";
 
 /**
  * Homepage narrative — vaste volgorde:
@@ -34,17 +34,19 @@ export default function HomepageNarrative() {
       {/* 5. 8 stappen */}
       <Chapter04Methode />
 
-      {/* 6-11. Reveal-stack: elk blok kantelt en schaalt in beeld */}
-      <ScrollReveal><Chapter05Brein /></ScrollReveal>
-      <ScrollReveal><Chapter06Blauwdruk /></ScrollReveal>
-      <ScrollReveal><Chapter08Funnel /></ScrollReveal>
-      <ScrollReveal><Chapter09Modules /></ScrollReveal>
-      <ScrollReveal><Chapter10Levering /></ScrollReveal>
-      <ScrollReveal>
-        <div id="section-flipcards">
-          <HomepageHook />
-        </div>
-      </ScrollReveal>
+      {/* 6-11. Story-scroll stack: elke sectie pint, volgende kantelt eroverheen */}
+      <FlowArt aria-label="Methode in beweging">
+        <FlowSection><Chapter05Brein /></FlowSection>
+        <FlowSection><Chapter06Blauwdruk /></FlowSection>
+        <FlowSection><Chapter08Funnel /></FlowSection>
+        <FlowSection><Chapter09Modules /></FlowSection>
+        <FlowSection><Chapter10Levering /></FlowSection>
+        <FlowSection>
+          <div id="section-flipcards">
+            <HomepageHook />
+          </div>
+        </FlowSection>
+      </FlowArt>
 
       {/* 12. CTA finale — een gesprek, een machine */}
       <CtaFinale />
