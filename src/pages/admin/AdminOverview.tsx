@@ -11,7 +11,7 @@ import {
 } from "recharts";
 import {
   LayoutDashboard, Users, Activity, MousePointerClick, Eye, TrendingUp,
-  RefreshCw, Loader2, ArrowRight, FileText, Zap, Target,
+  RefreshCw, Loader2, ArrowRight, FileText, Zap,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { format, subDays, startOfDay } from "date-fns";
@@ -27,18 +27,8 @@ interface SiteEvent {
   created_at: string;
 }
 
-interface Lead {
-  id: string;
-  name: string;
-  email: string;
-  company: string | null;
-  created_at: string;
-  session_id: string | null;
-}
-
 export const OverviewTabContent = () => {
   const [events, setEvents] = useState<SiteEvent[]>([]);
-  const [leads, setLeads] = useState<Lead[]>([]);
   const [ga4Data, setGa4Data] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [days, setDays] = useState(7);
@@ -47,23 +37,17 @@ export const OverviewTabContent = () => {
     setLoading(true);
     const since = subDays(new Date(), days).toISOString();
 
-    const [eventsRes, leadsRes, ga4Res] = await Promise.all([
+    const [eventsRes, ga4Res] = await Promise.all([
       supabase
         .from("site_events")
         .select("event_name, event_category, event_label, page_path, session_id, metadata, created_at")
         .gte("created_at", since)
         .order("created_at", { ascending: false })
         .limit(1000),
-      supabase
-        .from("contact_submissions")
-        .select("id, name, email, company, created_at, session_id")
-        .gte("created_at", since)
-        .order("created_at", { ascending: false }),
       supabase.functions.invoke("fetch-ga4-data", { body: { days } }).catch(() => ({ data: null })),
     ]);
 
     if (eventsRes.data) setEvents(eventsRes.data as SiteEvent[]);
-    if (leadsRes.data) setLeads(leadsRes.data as Lead[]);
     if (ga4Res.data && !ga4Res.data?.error) setGa4Data(ga4Res.data);
     setLoading(false);
   };
@@ -76,24 +60,20 @@ export const OverviewTabContent = () => {
   const ctaClicks = useMemo(() => events.filter(e => e.event_category === "cta").length, [events]);
   const formSubmits = useMemo(() => events.filter(e => e.event_name === "form_submit").length, [events]);
 
-  // Conversion rate: leads / unique sessions
-  const conversionRate = uniqueSessions > 0 ? ((leads.length / uniqueSessions) * 100).toFixed(1) : "0";
-
   // ── Funnel data ──
   const funnelData = useMemo(() => [
     { name: "Sessies", value: uniqueSessions, fill: "hsl(var(--primary))" },
     { name: "Pageviews", value: pageViews, fill: "hsl(142, 71%, 45%)" },
     { name: "CTA Clicks", value: ctaClicks, fill: "hsl(48, 96%, 53%)" },
     { name: "Formulieren", value: formSubmits, fill: "hsl(280, 65%, 60%)" },
-    { name: "Leads", value: leads.length, fill: "hsl(0, 84%, 60%)" },
-  ], [uniqueSessions, pageViews, ctaClicks, formSubmits, leads.length]);
+  ], [uniqueSessions, pageViews, ctaClicks, formSubmits]);
 
   // ── Daily trend (sessions + leads) ──
   const dailyTrend = useMemo(() => {
-    const map = new Map<string, { sessions: Set<string>; leads: number; events: number }>();
+    const map = new Map<string, { sessions: Set<string>; events: number }>();
     for (let i = days - 1; i >= 0; i--) {
       const d = format(subDays(new Date(), i), "yyyy-MM-dd");
-      map.set(d, { sessions: new Set(), leads: 0, events: 0 });
+      map.set(d, { sessions: new Set(), events: 0 });
     }
     events.forEach(e => {
       const d = format(new Date(e.created_at), "yyyy-MM-dd");
@@ -103,52 +83,12 @@ export const OverviewTabContent = () => {
         if (e.session_id) entry.sessions.add(e.session_id);
       }
     });
-    leads.forEach(l => {
-      const d = format(new Date(l.created_at), "yyyy-MM-dd");
-      const entry = map.get(d);
-      if (entry) entry.leads++;
-    });
     return Array.from(map.entries()).map(([date, data]) => ({
       date: format(new Date(date), "d/M"),
       sessies: data.sessions.size,
       events: data.events,
-      leads: data.leads,
     }));
-  }, [events, leads, days]);
-
-  // ── Top converting pages (pages visited in sessions that became leads) ──
-  const leadSessionIds = useMemo(() => new Set(leads.filter(l => l.session_id).map(l => l.session_id)), [leads]);
-
-  const convertingPages = useMemo(() => {
-    if (leadSessionIds.size === 0) return [];
-    const pageCount = new Map<string, number>();
-    events.forEach(e => {
-      if (e.event_name === "page_view" && e.session_id && leadSessionIds.has(e.session_id) && e.page_path) {
-        pageCount.set(e.page_path, (pageCount.get(e.page_path) || 0) + 1);
-      }
-    });
-    return Array.from(pageCount.entries())
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 8)
-      .map(([page, count]) => ({ page, count }));
-  }, [events, leadSessionIds]);
-
-  // ── Lead journeys ──
-  const leadJourneys = useMemo(() => {
-    return leads.slice(0, 5).map(lead => {
-      const journey = lead.session_id
-        ? events
-            .filter(e => e.session_id === lead.session_id)
-            .sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime())
-            .map(e => ({
-              event: e.event_name,
-              label: e.event_label || e.page_path || "",
-              time: format(new Date(e.created_at), "HH:mm"),
-            }))
-        : [];
-      return { ...lead, journey };
-    });
-  }, [leads, events]);
+  }, [events, days]);
 
   // ── Top pages by views ──
   const topPages = useMemo(() => {
@@ -199,13 +139,12 @@ export const OverviewTabContent = () => {
       ) : (
         <div className="space-y-6">
           {/* ── KPI Cards ── */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
             {[
               { label: "Sessies", value: ga4Data?.totals?.sessions || uniqueSessions, icon: Users, color: "text-primary" },
               { label: "Pageviews", value: pageViews, icon: Eye, color: "text-green-400" },
               { label: "CTA Clicks", value: ctaClicks, icon: MousePointerClick, color: "text-yellow-400" },
-              { label: "Leads", value: leads.length, icon: Target, color: "text-red-400" },
-              { label: "Conversie %", value: `${conversionRate}%`, icon: TrendingUp, color: "text-primary" },
+              { label: "Formulieren", value: formSubmits, icon: FileText, color: "text-primary" },
               { label: "Events", value: events.length, icon: Activity, color: "text-blue-400" },
             ].map(stat => (
               <Card key={stat.label} className="bg-card border-border">
@@ -270,7 +209,6 @@ export const OverviewTabContent = () => {
                 <ChartContainer config={{
                   sessies: { label: "Sessies", color: "hsl(var(--primary))" },
                   events: { label: "Events", color: "hsl(142, 71%, 45%)" },
-                  leads: { label: "Leads", color: "hsl(0, 84%, 60%)" },
                 }} className="h-[220px]">
                   <LineChart data={dailyTrend}>
                     <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
@@ -279,7 +217,6 @@ export const OverviewTabContent = () => {
                     <ChartTooltip content={<ChartTooltipContent />} />
                     <Line type="monotone" dataKey="sessies" stroke="hsl(var(--primary))" strokeWidth={2} dot={false} />
                     <Line type="monotone" dataKey="events" stroke="hsl(142, 71%, 45%)" strokeWidth={2} dot={false} />
-                    <Line type="monotone" dataKey="leads" stroke="hsl(0, 84%, 60%)" strokeWidth={2} dot={{ r: 4 }} />
                   </LineChart>
                 </ChartContainer>
               </CardContent>
