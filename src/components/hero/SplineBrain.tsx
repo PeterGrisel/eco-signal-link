@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 /**
  * Lazy Spline particle-brain iframe — mounts when the hero is on screen.
@@ -7,9 +7,26 @@ import { useState } from "react";
  */
 export default function SplineBrain({ className = "" }: { className?: string }) {
   const [loaded, setLoaded] = useState(false);
+  const [mount, setMount] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!ref.current) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          setMount(true);
+          io.disconnect();
+        }
+      },
+      { rootMargin: "200px" }
+    );
+    io.observe(ref.current);
+    return () => io.disconnect();
+  }, []);
 
   return (
-    <div className={className} style={{ pointerEvents: "none" }} aria-hidden>
+    <div ref={ref} className={className} style={{ pointerEvents: "none" }} aria-hidden>
       {/* Glow fallback (also visible while iframe loads / reduced motion) */}
       <div
         className="absolute inset-0 w-full h-full transition-opacity duration-[1400ms] ease-out"
@@ -19,16 +36,18 @@ export default function SplineBrain({ className = "" }: { className?: string }) 
           opacity: loaded ? 0.25 : 1,
         }}
       />
-      <iframe
-        src="https://my.spline.design/particleaibrain-WUFOLmm71YjH5Fiu45taNkF0/"
-        title="AI brein"
-        loading="eager"
-        onLoad={() => setLoaded(true)}
-        referrerPolicy="no-referrer-when-downgrade"
-        className="absolute inset-0 w-full h-full border-0 transition-opacity duration-[1600ms] ease-out"
-        style={{ pointerEvents: "none", opacity: loaded ? 1 : 0 }}
-        allow="autoplay"
-      />
+      {mount && (
+        <iframe
+          src="https://my.spline.design/particleaibrain-WUFOLmm71YjH5Fiu45taNkF0/"
+          title="AI brein"
+          loading="lazy"
+          onLoad={() => setLoaded(true)}
+          referrerPolicy="no-referrer-when-downgrade"
+          className="absolute inset-0 w-full h-full border-0 transition-opacity duration-[1600ms] ease-out"
+          style={{ pointerEvents: "none", opacity: loaded ? 1 : 0 }}
+          allow="autoplay"
+        />
+      )}
       {/* Vignette — blend square iframe edges into the dark background */}
       <div
         className="absolute inset-0 pointer-events-none"
