@@ -38,11 +38,11 @@ export default function CtaFinale() {
             <span className="text-primary">Eén machine.</span>
           </h2>
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-12 leading-relaxed">
-            30 minuten over uw markt, uw ICP en welke signalen er nu al zichtbaar zijn. Vrijblijvend.
+            60 minuten over uw markt, uw ICP en welke signalen er nu al zichtbaar zijn. Vrijblijvend.
           </p>
           <div className="flex justify-center">
             <FeatureCard
-              title="Uw gratis scan in 30 minuten"
+              title="Uw gratis scan in 60 minuten"
               description="We kijken samen naar uw markt, uw ICP en de signalen die er nu al zijn. Vrijblijvend."
               items={[
                 "Analyse van uw huidige funnel",
