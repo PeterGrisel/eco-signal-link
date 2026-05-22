@@ -3,7 +3,7 @@ import { Mail, Linkedin, HelpCircle, MessageCircle, Euro } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { trackCTA } from "@/lib/tracking";
 
-const EMAIL = "peter@b2bgroeimachine.io";
+const EMAIL = "info@rebelforce.nl";
 const LINKEDIN = "https://www.linkedin.com/company/b2bgroeimachine/";
 const WHATSAPP = "https://wa.me/31852502925";
 
