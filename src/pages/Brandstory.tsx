@@ -62,10 +62,10 @@ const Brandstory = () => {
         </motion.div>
 
         <div className="flex justify-between items-end pt-8 border-t border-foreground/10">
-          <p className="text-xs text-foreground/30 leading-relaxed">
+          <p className="text-xs text-foreground/60 leading-relaxed">
             b2bgroeimachine.io
           </p>
-          <p className="text-xs text-foreground/30 leading-relaxed text-right">
+          <p className="text-xs text-foreground/60 leading-relaxed text-right">
             Signal-Based Prospecting Systems
             <br />
             powered by Rebel Force
@@ -390,12 +390,12 @@ const Brandstory = () => {
           </div>
 
           <div className="flex justify-between items-end pt-7 border-t border-foreground/10 mt-6">
-            <span className="text-xs text-foreground/30">
+            <span className="text-xs text-foreground/60">
               <span className="text-foreground/50">B2B</span>
               <span className="text-primary/50">GroeiMachine</span>
               {" "}· b2bgroeimachine.io
             </span>
-            <span className="text-xs text-foreground/30">
+            <span className="text-xs text-foreground/60">
               Voorspelbare Groei. Zonder Gokken.
             </span>
           </div>
