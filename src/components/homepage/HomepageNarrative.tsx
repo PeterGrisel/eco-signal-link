@@ -9,6 +9,7 @@ import Chapter10Levering from "./chapters/Chapter10Levering";
 import ScenarioSideScroller from "./ScenarioSideScroller";
 import HomepageHook from "./HomepageHook";
 import CtaFinale from "./CtaFinale";
+import ScrollReveal from "./ScrollReveal";
 
 /**
  * Homepage narrative — vaste volgorde:
@@ -33,25 +34,17 @@ export default function HomepageNarrative() {
       {/* 5. 8 stappen */}
       <Chapter04Methode />
 
-      {/* 6. Commercieel brein (radial) — eerste stap onder de 8 stappen */}
-      <Chapter05Brein />
-
-      {/* 7. Beste klanten worden blauwdruk */}
-      <Chapter06Blauwdruk />
-
-      {/* 8. Impressies → deal */}
-      <Chapter08Funnel />
-
-      {/* 9. Modules */}
-      <Chapter09Modules />
-
-      {/* 10. Levering */}
-      <Chapter10Levering />
-
-      {/* 11. 3 flipcards (verplaatst van hero) */}
-      <div id="section-flipcards">
-        <HomepageHook />
-      </div>
+      {/* 6-11. Reveal-stack: elk blok kantelt en schaalt in beeld */}
+      <ScrollReveal><Chapter05Brein /></ScrollReveal>
+      <ScrollReveal><Chapter06Blauwdruk /></ScrollReveal>
+      <ScrollReveal><Chapter08Funnel /></ScrollReveal>
+      <ScrollReveal><Chapter09Modules /></ScrollReveal>
+      <ScrollReveal><Chapter10Levering /></ScrollReveal>
+      <ScrollReveal>
+        <div id="section-flipcards">
+          <HomepageHook />
+        </div>
+      </ScrollReveal>
 
       {/* 12. CTA finale — een gesprek, een machine */}
       <CtaFinale />
