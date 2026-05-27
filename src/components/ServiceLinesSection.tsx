@@ -136,15 +136,13 @@ const ServiceLinesSection = () => {
                       location={`Diensten — ${line.name}`}
                     />
                   </Button>
-                  {line.href && (
-                    <Link
-                      to={line.href}
-                      className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors font-medium"
-                    >
-                      Meer over deze lijn
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </Link>
-                  )}
+                  <Link
+                    to={`/diensten/${line.slug}`}
+                    className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors font-medium"
+                  >
+                    Meer over deze lijn
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
                 </div>
               </motion.div>
             );
