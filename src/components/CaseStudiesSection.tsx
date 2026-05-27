@@ -168,9 +168,6 @@ const CaseStudiesSection = () => {
           <Button variant="hero" size="lg" asChild>
             <CtaLink intent="gratisScan" location="Cases" />
           </Button>
-          <p className="text-xs text-muted-foreground mt-4">
-            Klantcases met naam en cijfers volgen binnenkort.
-          </p>
         </motion.div>
       </div>
     </section>
