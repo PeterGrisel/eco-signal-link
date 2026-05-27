@@ -4,8 +4,16 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import CtaLink from "@/components/CtaLink";
 import { CTA } from "@/content/copy";
-import { Compass, ArrowRight, ArrowDown } from "lucide-react";
-import { serviceLines } from "@/data/serviceLines";
+import { Compass, ArrowRight, ArrowDown, UserPlus, MapPin, Globe, Handshake, Briefcase, RotateCcw } from "lucide-react";
+
+const heroMotions = [
+  { icon: UserPlus, title: "Klanten werven" },
+  { icon: MapPin, title: "Lokaal uitbreiden" },
+  { icon: Globe, title: "Nieuwe markten openen" },
+  { icon: Handshake, title: "Partners vinden" },
+  { icon: Briefcase, title: "Talent werven" },
+  { icon: RotateCcw, title: "Relaties reactiveren" },
+];
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -132,14 +140,15 @@ const Hero = () => {
           className="flex flex-col lg:flex-row items-center justify-between gap-6 pb-8 md:pb-10"
         >
           <div className="flex flex-wrap items-center justify-center gap-2.5">
-            {serviceLines.map((line) => (
-              <Link
-                key={line.slug}
-                to={`/diensten/${line.slug}`}
-                className="rounded-full border border-border/60 bg-card/50 px-3.5 py-1.5 text-xs font-medium text-foreground/80 hover:border-primary/40 hover:text-primary transition-colors"
+            {heroMotions.map((m) => (
+              <a
+                key={m.title}
+                href="#chapter-11"
+                className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-card/50 px-3.5 py-1.5 text-xs font-medium text-foreground/80 hover:border-primary/40 hover:text-primary transition-colors"
               >
-                {line.name}
-              </Link>
+                <m.icon className="h-3.5 w-3.5 text-primary" strokeWidth={1.75} />
+                {m.title}
+              </a>
             ))}
           </div>
 
