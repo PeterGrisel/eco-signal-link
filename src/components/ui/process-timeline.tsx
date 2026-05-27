@@ -154,8 +154,7 @@ export const ProcessCard: React.FC<ProcessCardProps> = ({
   return (
     <motion.div
       ref={ref}
-      // @ts-expect-error – framer-motion style accepts MotionValue
-      style={{ x: index > 0 ? x : 0, ...style }}
+      style={{ x: index > 0 ? x : 0, ...(style as object) }}
       className={cn(processCardVariants({ variant, size }), className)}
       {...props}
     />
