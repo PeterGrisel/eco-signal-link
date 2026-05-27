@@ -16,6 +16,7 @@ import {
   serviceLines,
   supportingServices,
   type ServiceIcon,
+  type ServiceLine,
 } from "@/data/serviceLines";
 
 const iconMap: Record<ServiceIcon, LucideIcon> = {
@@ -23,6 +24,96 @@ const iconMap: Record<ServiceIcon, LucideIcon> = {
   abm: Target,
   brein: Brain,
   content: Megaphone,
+};
+
+const ServiceBentoCard = ({ line, index }: { line: ServiceLine; index: number }) => {
+  const Icon = iconMap[line.icon];
+  const feature = !!line.highlight;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.5, delay: index * 0.06 }}
+      className={cn(
+        "group relative flex flex-col overflow-hidden rounded-2xl p-6 md:p-8 transition-colors",
+        feature
+          ? "border border-primary/40 bg-primary/5 shadow-[0_0_40px_-12px_hsl(var(--primary)/0.35)]"
+          : "card-gradient border-glow hover:border-primary/30",
+        line.bentoClassName,
+      )}
+    >
+      {/* Hover glow */}
+      <span
+        aria-hidden
+        className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-[radial-gradient(circle_at_50%_0%,hsl(var(--primary)/0.10),transparent_70%)]"
+      />
+
+      {/* Top: eyebrow + icon */}
+      <div className="relative flex items-center justify-between mb-4">
+        <p className="text-[10px] font-display font-semibold tracking-[0.2em] uppercase text-primary/80">
+          {line.eyebrow}
+        </p>
+        <span className="shrink-0 w-11 h-11 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center">
+          <Icon className="w-5 h-5 text-primary" strokeWidth={1.6} />
+        </span>
+      </div>
+
+      {/* Always visible: name + tagline + outcome */}
+      <h3
+        className={cn(
+          "relative font-display font-bold leading-tight",
+          feature ? "text-3xl md:text-4xl" : "text-2xl",
+        )}
+      >
+        {line.name}
+      </h3>
+      <p className="relative text-foreground/80 leading-relaxed mt-3 max-w-md">
+        {line.tagline}
+      </p>
+      <p className="relative text-sm font-medium text-foreground/90 border-l-2 border-primary/50 pl-3 mt-5">
+        {line.outcome}
+      </p>
+
+      {/* Hybride: voor wie + CTA. Altijd zichtbaar op de feature-cel en op
+          mobiel; op lg verschijnt het bij hover of focus. */}
+      <div
+        className={cn(
+          "relative mt-6",
+          !feature &&
+            "transition-all duration-300 lg:opacity-0 lg:translate-y-2 lg:group-hover:opacity-100 lg:group-hover:translate-y-0 lg:group-focus-within:opacity-100 lg:group-focus-within:translate-y-0",
+        )}
+      >
+        <p className="text-[10px] font-display font-semibold tracking-[0.22em] uppercase text-primary/90 mb-3">
+          Voor wie
+        </p>
+        <ul className="space-y-2 mb-5">
+          {line.criteria.map((c) => (
+            <li key={c} className="flex items-start gap-2.5 text-sm">
+              <Check className="w-4 h-4 text-primary mt-0.5 shrink-0" />
+              <span className="text-foreground/90">{c}</span>
+            </li>
+          ))}
+        </ul>
+        <div className="flex flex-wrap items-center gap-3">
+          <Button variant={feature ? "hero" : "outline"} size="sm" asChild>
+            <CtaLink intent="gratisScan" location={`Diensten — ${line.name}`} />
+          </Button>
+          <Link
+            to={`/diensten/${line.slug}`}
+            className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors font-medium"
+          >
+            Meer over deze lijn
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
+        </div>
+      </div>
+
+      {/* Spacer zodat de feature-cel de volle hoogte vult */}
+      {feature && <div className="flex-1" />}
+    </motion.div>
+  );
 };
 
 const ServiceLinesSection = () => {
@@ -51,102 +142,11 @@ const ServiceLinesSection = () => {
           </p>
         </motion.div>
 
-        {/* 4 dienstlijnen */}
-        <div className="grid lg:grid-cols-2 gap-5 md:gap-6 mb-12 md:mb-16">
-          {serviceLines.map((line, i) => {
-            const Icon = iconMap[line.icon];
-            return (
-              <motion.div
-                key={line.slug}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.5, delay: i * 0.06 }}
-                className={cn(
-                  "relative rounded-2xl border p-6 md:p-8 flex flex-col h-full transition-colors",
-                  line.highlight
-                    ? "border-primary/40 bg-primary/5 shadow-[0_0_40px_-12px_hsl(var(--primary)/0.35)]"
-                    : "card-gradient border-glow hover:border-primary/30",
-                )}
-              >
-                {/* Head */}
-                <div className="flex items-start justify-between gap-4 mb-5">
-                  <div>
-                    <p className="text-[10px] font-display font-semibold tracking-[0.2em] uppercase text-primary/80 mb-2">
-                      {line.eyebrow}
-                    </p>
-                    <h3 className="font-display font-bold text-2xl leading-tight">
-                      {line.name}
-                    </h3>
-                  </div>
-                  <span className="shrink-0 w-11 h-11 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center">
-                    <Icon className="w-5 h-5 text-primary" strokeWidth={1.6} />
-                  </span>
-                </div>
-
-                <p className="text-foreground/80 leading-relaxed mb-6">
-                  {line.tagline}
-                </p>
-
-                {/* Voor wie — ICP gate */}
-                <div className="rounded-xl border border-primary/20 bg-background/40 p-4 mb-6">
-                  <p className="text-[10px] font-display font-semibold tracking-[0.22em] uppercase text-primary/90 mb-3">
-                    Voor wie
-                  </p>
-                  <ul className="space-y-2">
-                    {line.criteria.map((c) => (
-                      <li key={c} className="flex items-start gap-2.5 text-sm">
-                        <Check className="w-4 h-4 text-primary mt-0.5 shrink-0" />
-                        <span className="text-foreground/90">{c}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                {/* Inbegrepen */}
-                <p className="text-[10px] font-display font-semibold tracking-[0.22em] uppercase text-muted-foreground mb-3">
-                  Inbegrepen
-                </p>
-                <ul className="space-y-2 mb-6 flex-1">
-                  {line.includes.map((f) => (
-                    <li
-                      key={f}
-                      className="flex items-start gap-2.5 text-sm text-muted-foreground"
-                    >
-                      <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary/60 shrink-0" />
-                      <span>{f}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                {/* Outcome */}
-                <p className="text-sm font-medium text-foreground/90 border-l-2 border-primary/50 pl-3 mb-6">
-                  {line.outcome}
-                </p>
-
-                {/* CTAs */}
-                <div className="flex flex-wrap items-center gap-3 mt-auto">
-                  <Button
-                    variant={line.highlight ? "hero" : "outline"}
-                    size="sm"
-                    asChild
-                  >
-                    <CtaLink
-                      intent="gratisScan"
-                      location={`Diensten — ${line.name}`}
-                    />
-                  </Button>
-                  <Link
-                    to={`/diensten/${line.slug}`}
-                    className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors font-medium"
-                  >
-                    Meer over deze lijn
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </Link>
-                </div>
-              </motion.div>
-            );
-          })}
+        {/* Bento-grid */}
+        <div className="grid gap-4 md:gap-5 md:grid-cols-2 lg:grid-cols-4 lg:grid-rows-2 lg:auto-rows-fr mb-12 md:mb-16">
+          {serviceLines.map((line, i) => (
+            <ServiceBentoCard key={line.slug} line={line} index={i} />
+          ))}
         </div>
 
         {/* Aanvullende diensten */}

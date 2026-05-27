@@ -21,6 +21,8 @@ export interface ServiceLine {
   outcome: string;
   icon: ServiceIcon;
   highlight?: boolean;
+  /** Bento-grid span-classes (col-span/row-span per cel) */
+  bentoClassName?: string;
 
   // ---- Detailpagina (/diensten/:slug) ----
   metaTitle: string;
@@ -58,6 +60,7 @@ export const serviceLines: ServiceLine[] = [
     outcome: "Een voorspelbare stroom gekwalificeerde afspraken.",
     icon: "outbound",
     highlight: true,
+    bentoClassName: "md:col-span-2 lg:col-span-2 lg:row-span-2",
     metaTitle:
       "Outbound Engine — geautomatiseerde B2B-outreach | B2BGroeiMachine",
     metaDescription:
@@ -126,6 +129,7 @@ export const serviceLines: ServiceLine[] = [
     ],
     outcome: "Toegang tot de accounts die uw kwartaal maken.",
     icon: "abm",
+    bentoClassName: "lg:col-span-2",
     metaTitle:
       "ABM & Key Accounts — account-based B2B-groei | B2BGroeiMachine",
     metaDescription:
@@ -259,6 +263,7 @@ export const serviceLines: ServiceLine[] = [
     ],
     outcome: "Een publiek dat u kent voordat u belt.",
     icon: "content",
+    bentoClassName: "md:col-span-2 lg:col-span-1",
     metaTitle:
       "Content & Autoriteit — founder-led LinkedIn-content | B2BGroeiMachine",
     metaDescription:
