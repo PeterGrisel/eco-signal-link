@@ -13,3 +13,5 @@ project_id = "snymrcialncxkcsibkjv"
     verify_jwt = false
   [functions.process-email-queue]
     verify_jwt = true
+  [functions.groeistack-refresh]
+    verify_jwt = false

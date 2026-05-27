@@ -13,6 +13,8 @@ import SectorPage from "./pages/SectorPage.tsx";
 import SolutionPage from "./pages/SolutionPage.tsx";
 import ServiceLinePage from "./pages/ServiceLinePage.tsx";
 import HoeHetWerkt from "./pages/HoeHetWerkt.tsx";
+import Groeistack from "./pages/Groeistack.tsx";
+import AdminGroeistack from "./pages/admin/AdminGroeistack.tsx";
 import SeoLandingPage from "./pages/SeoLandingPage.tsx";
 import FullSalesManagement from "./pages/FullSalesManagement.tsx";
 import FullServiceRecruitment from "./pages/FullServiceRecruitment.tsx";
@@ -87,6 +89,8 @@ const AnimatedRoutes = () => {
           <Route path="/solutions/:slug" element={<SolutionPage />} />
           <Route path="/diensten/:slug" element={<ServiceLinePage />} />
           <Route path="/hoe-het-werkt" element={<HoeHetWerkt />} />
+          <Route path="/groeistack" element={<Groeistack />} />
+          <Route path="/admin/groeistack" element={<AdminGroeistack />} />
           <Route path="/b2b-leadgeneratie" element={<SeoLandingPage />} />
           <Route path="/leads-genereren-b2b" element={<SeoLandingPage />} />
           <Route path="/online-leadgeneratie" element={<SeoLandingPage />} />

@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import { Radar, Database, Send, Workflow, Sparkles, BarChart3 } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Radar, Database, Send, Workflow, Sparkles, BarChart3, ArrowRight } from "lucide-react";
 
 const layers = [
   {
@@ -87,16 +88,25 @@ const GroeistackSection = () => {
           ))}
         </div>
 
-        {/* Sluit-regel */}
-        <motion.p
+        {/* Sluit-regel + link naar de volledige Groeistack */}
+        <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.5 }}
-          className="mt-8 text-center text-sm text-muted-foreground"
+          className="mt-8 flex flex-col items-center gap-3"
         >
-          Geen lock-in. Uw stack, slimmer gemaakt.
-        </motion.p>
+          <Link
+            to="/groeistack"
+            className="inline-flex items-center gap-2 font-medium text-primary hover:gap-3 transition-all"
+          >
+            Bekijk de volledige Groeistack
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+          <p className="text-sm text-muted-foreground">
+            Geen lock-in. Uw stack, slimmer gemaakt.
+          </p>
+        </motion.div>
       </div>
     </section>
   );
