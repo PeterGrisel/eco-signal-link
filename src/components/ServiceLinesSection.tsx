@@ -34,13 +34,14 @@ const ServiceBentoCard = ({ line, index }: { line: ServiceLine; index: number })
     <motion.div
       initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
+      whileHover={{ y: -4 }}
       viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.5, delay: index * 0.06 }}
+      transition={{ duration: 0.4, delay: index * 0.05 }}
       className={cn(
-        "group relative flex flex-col overflow-hidden rounded-2xl p-6 md:p-8 transition-colors",
+        "group relative flex flex-col overflow-hidden rounded-2xl p-5 md:p-6 transition-colors duration-300",
         feature
-          ? "border border-primary/40 bg-primary/5 shadow-[0_0_40px_-12px_hsl(var(--primary)/0.35)]"
-          : "card-gradient border-glow hover:border-primary/30",
+          ? "md:p-7 border border-primary/40 bg-primary/[0.07] hover:border-primary/60 shadow-[0_0_30px_-14px_hsl(var(--primary)/0.4)] hover:shadow-[0_0_44px_-12px_hsl(var(--primary)/0.55)]"
+          : "card-gradient border-glow hover:border-primary/40",
         line.bentoClassName,
       )}
     >
@@ -51,51 +52,64 @@ const ServiceBentoCard = ({ line, index }: { line: ServiceLine; index: number })
       />
 
       {/* Top: eyebrow + icon */}
-      <div className="relative flex items-center justify-between mb-4">
+      <div className="relative flex items-center justify-between gap-3 mb-4">
         <p className="text-[10px] font-display font-semibold tracking-[0.2em] uppercase text-primary/80">
           {line.eyebrow}
         </p>
-        <span className="shrink-0 w-11 h-11 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center">
-          <Icon className="w-5 h-5 text-primary" strokeWidth={1.6} />
+        <span className="shrink-0 w-9 h-9 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center">
+          <Icon className="w-4 h-4 text-primary" strokeWidth={1.7} />
         </span>
       </div>
 
-      {/* Always visible: name + tagline + outcome */}
-      <h3
-        className={cn(
-          "relative font-display font-bold leading-tight",
-          feature ? "text-3xl md:text-4xl" : "text-2xl",
-        )}
-      >
-        {line.name}
-      </h3>
-      <p className="relative text-foreground/80 leading-relaxed mt-3 max-w-md">
-        {line.tagline}
-      </p>
-      <p className="relative text-sm font-medium text-foreground/90 border-l-2 border-primary/50 pl-3 mt-5">
-        {line.outcome}
-      </p>
+      {/* Altijd zichtbaar: naam + tagline + outcome */}
+      <div className="relative">
+        <h3
+          className={cn(
+            "font-display font-bold leading-tight",
+            feature ? "text-2xl md:text-3xl" : "text-lg md:text-xl",
+          )}
+        >
+          {line.name}
+        </h3>
+        <p
+          className={cn(
+            "text-muted-foreground leading-relaxed mt-2",
+            feature ? "text-base max-w-md" : "text-sm",
+          )}
+        >
+          {line.tagline}
+        </p>
+        <p className="text-xs text-foreground/70 mt-2.5">{line.outcome}</p>
+      </div>
 
-      {/* Hybride: voor wie + CTA. Altijd zichtbaar op de feature-cel en op
-          mobiel; op lg verschijnt het bij hover of focus. */}
+      {/* Reveal: op mobiel inline, op lg een absolute overlay die bij hover
+          opkomt (geen gereserveerde ruimte -> compacte kaart). */}
       <div
         className={cn(
-          "relative mt-6",
-          !feature &&
-            "transition-all duration-300 lg:opacity-0 lg:translate-y-2 lg:group-hover:opacity-100 lg:group-hover:translate-y-0 lg:group-focus-within:opacity-100 lg:group-focus-within:translate-y-0",
+          "relative mt-4",
+          "lg:absolute lg:inset-x-0 lg:bottom-0 lg:mt-0 lg:p-5 lg:pt-12",
+          "lg:bg-gradient-to-t lg:from-card lg:via-card/95 lg:to-transparent lg:backdrop-blur-[2px]",
+          "lg:opacity-0 lg:translate-y-3 lg:pointer-events-none lg:transition-all lg:duration-300",
+          "lg:group-hover:opacity-100 lg:group-hover:translate-y-0 lg:group-hover:pointer-events-auto",
+          "lg:group-focus-within:opacity-100 lg:group-focus-within:translate-y-0 lg:group-focus-within:pointer-events-auto",
+          feature && "lg:p-7 lg:pt-14",
         )}
       >
-        <p className="text-[10px] font-display font-semibold tracking-[0.22em] uppercase text-primary/90 mb-3">
-          Voor wie
-        </p>
-        <ul className="space-y-2 mb-5">
-          {line.criteria.map((c) => (
-            <li key={c} className="flex items-start gap-2.5 text-sm">
-              <Check className="w-4 h-4 text-primary mt-0.5 shrink-0" />
-              <span className="text-foreground/90">{c}</span>
-            </li>
-          ))}
-        </ul>
+        {feature && (
+          <>
+            <p className="text-[10px] font-display font-semibold tracking-[0.22em] uppercase text-primary/90 mb-2.5">
+              Voor wie
+            </p>
+            <ul className="space-y-1.5 mb-4">
+              {line.criteria.map((c) => (
+                <li key={c} className="flex items-start gap-2 text-sm">
+                  <Check className="w-3.5 h-3.5 text-primary mt-0.5 shrink-0" />
+                  <span className="text-foreground/90">{c}</span>
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
         <div className="flex flex-wrap items-center gap-3">
           <Button variant={feature ? "hero" : "outline"} size="sm" asChild>
             <CtaLink intent="gratisScan" location={`Diensten — ${line.name}`} />
@@ -104,14 +118,11 @@ const ServiceBentoCard = ({ line, index }: { line: ServiceLine; index: number })
             to={`/diensten/${line.slug}`}
             className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors font-medium"
           >
-            Meer over deze lijn
+            Meer
             <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
       </div>
-
-      {/* Spacer zodat de feature-cel de volle hoogte vult */}
-      {feature && <div className="flex-1" />}
     </motion.div>
   );
 };
@@ -143,7 +154,7 @@ const ServiceLinesSection = () => {
         </motion.div>
 
         {/* Bento-grid */}
-        <div className="grid gap-4 md:gap-5 md:grid-cols-2 lg:grid-cols-4 lg:grid-rows-2 lg:auto-rows-fr mb-12 md:mb-16">
+        <div className="grid gap-3 md:gap-4 md:grid-cols-2 lg:grid-cols-4 lg:grid-rows-2 mb-12 md:mb-16">
           {serviceLines.map((line, i) => (
             <ServiceBentoCard key={line.slug} line={line} index={i} />
           ))}
@@ -155,19 +166,19 @@ const ServiceLinesSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.5 }}
-          className="rounded-2xl border border-border/50 bg-card/40 p-6 md:p-8"
+          className="rounded-2xl border border-border/50 bg-card/40 p-5 md:p-7"
         >
           <p className="text-[10px] font-display font-semibold tracking-[0.22em] uppercase text-muted-foreground mb-5">
             Bouwt voort op het fundament
           </p>
-          <div className="grid sm:grid-cols-3 gap-4">
+          <div className="grid sm:grid-cols-3 gap-3 md:gap-4">
             {supportingServices.map((s) => (
               <Link
                 key={s.href}
                 to={s.href}
-                className="group rounded-xl border border-border/50 bg-background/40 p-5 hover:border-primary/30 transition-colors"
+                className="group rounded-xl border border-border/50 bg-background/40 p-4 hover:border-primary/30 transition-colors"
               >
-                <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center justify-between mb-1.5">
                   <span className="font-display font-bold text-foreground">
                     {s.label}
                   </span>
