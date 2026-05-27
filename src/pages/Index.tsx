@@ -10,6 +10,7 @@ import PricingSection from "@/components/PricingSection";
 import FaqSection from "@/components/FaqSection";
 import CtaSection from "@/components/CtaSection";
 import ServiceLinesSection from "@/components/ServiceLinesSection";
+import Gtm2026Section from "@/components/Gtm2026Section";
 import HowItWorksSection from "@/components/HowItWorksSection";
 import CaseStudiesSection from "@/components/CaseStudiesSection";
 import LogoTicker from "@/components/LogoTicker";
@@ -36,6 +37,7 @@ const Index = () => {
       </div>
       {/* Offer-led: aanbod, hoe het werkt, en het bewijs */}
       <ServiceLinesSection />
+      <Gtm2026Section />
       <HowItWorksSection />
       <LogoTicker />
       <CaseStudiesSection />
