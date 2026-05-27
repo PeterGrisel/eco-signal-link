@@ -99,7 +99,7 @@ export default function LeftDock() {
                     </button>
                   )}
                 </TooltipTrigger>
-                <TooltipContent side="right" className="font-display text-[10px] tracking-[0.18em] uppercase">
+                <TooltipContent side="top" className="font-display text-[10px] tracking-[0.18em] uppercase">
                   {item.label}
                 </TooltipContent>
               </Tooltip>
