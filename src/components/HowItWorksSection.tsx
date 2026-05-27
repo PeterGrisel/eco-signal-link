@@ -1,6 +1,13 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Search, Brain, Rocket, ArrowRight } from "lucide-react";
+import {
+  ContainerScroll,
+  ContainerSticky,
+  ProcessCard,
+  ProcessCardBody,
+  ProcessCardTitle,
+} from "@/components/ui/process-timeline";
 
 const steps = [
   {
@@ -52,8 +59,48 @@ const HowItWorksSection = () => {
           </p>
         </motion.div>
 
-        {/* 3 stappen met verbindingslijn */}
-        <div className="relative grid md:grid-cols-3 gap-6 md:gap-8">
+        {/* Horizontale pinned timeline (desktop) */}
+        <div className="hidden lg:block">
+          <ContainerScroll className="min-h-[160vh]">
+            <ContainerSticky className="h-[70vh]">
+              <div className="flex gap-16 pl-16 pr-16 items-stretch">
+                {steps.map((s, i) => (
+                  <ProcessCard
+                    key={s.n}
+                    index={i}
+                    itemsLength={steps.length}
+                    size="md"
+                    variant="brand"
+                    className="rounded-2xl h-[60vh]"
+                  >
+                    <ProcessCardTitle className="flex-col items-start justify-between">
+                      <div className="w-14 h-14 rounded-full border border-primary/30 bg-card flex items-center justify-center shadow-[0_0_30px_-10px_hsl(var(--primary)/0.5)]">
+                        <s.icon className="w-6 h-6 text-primary" strokeWidth={1.6} />
+                      </div>
+                      <span className="font-display font-bold text-7xl xl:text-8xl text-gradient leading-none">
+                        {s.n}
+                      </span>
+                    </ProcessCardTitle>
+                    <ProcessCardBody>
+                      <span className="text-[11px] font-display font-semibold tracking-[0.18em] uppercase text-primary/80 mb-3">
+                        {s.phase}
+                      </span>
+                      <h3 className="font-display font-bold text-2xl xl:text-3xl tracking-tight mb-4">
+                        {s.title}
+                      </h3>
+                      <p className="text-base text-muted-foreground leading-relaxed">
+                        {s.desc}
+                      </p>
+                    </ProcessCardBody>
+                  </ProcessCard>
+                ))}
+              </div>
+            </ContainerSticky>
+          </ContainerScroll>
+        </div>
+
+        {/* 3 stappen met verbindingslijn (mobile / tablet) */}
+        <div className="relative grid md:grid-cols-3 gap-6 md:gap-8 lg:hidden">
           {/* Verbindingslijn (desktop) */}
           <div
             aria-hidden

@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import { ChevronRight, Check, X } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { GlowCard } from "@/components/ui/spotlight-card";
 
 const problems = [
   "Reactieve sales: u wacht op aanvragen in plaats van vraag te creëren.",
@@ -32,7 +31,7 @@ const rows: { feature: string; values: Cell[] }[] = [
   { feature: "Strategie, uitvoering én data", values: [true, false, true, "Mist strategie", "Alleen advies"] },
   { feature: "Snel live (binnen 30 dagen)", values: [true, "Setup varieert", "Inwerktijd", true, true] },
   { feature: "Geen lock-in", values: [true, false, "—", false, true] },
-  { feature: "Betaald op resultaat", values: [true, false, false, false, false] },
+  { feature: "Betaald op resultaat", values: ["Bij Performance Partnership", false, false, false, false] },
 ];
 
 const CompareCell = ({ value, highlight }: { value: Cell; highlight: boolean }) => {
@@ -100,7 +99,7 @@ const Gtm2026Section = () => {
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.5 }}
           >
-            <GlowCard glowColor="red" customSize className="bg-card/95 p-7 md:p-8 w-full h-full">
+            <div className="rounded-2xl border border-border/50 bg-card/95 p-7 md:p-8 w-full h-full">
               <div className="relative z-10">
                 <h3 className="font-display font-bold text-xl md:text-2xl mb-6">
                   Wat u in de weg zit
@@ -114,7 +113,7 @@ const Gtm2026Section = () => {
                   ))}
                 </ul>
               </div>
-            </GlowCard>
+            </div>
           </motion.div>
 
           <motion.div
@@ -123,7 +122,7 @@ const Gtm2026Section = () => {
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.5, delay: 0.08 }}
           >
-            <GlowCard glowColor="orange" customSize className="bg-card/95 p-7 md:p-8 w-full h-full">
+            <div className="rounded-2xl border border-border/50 bg-card/95 p-7 md:p-8 w-full h-full">
               <div className="relative z-10">
                 <h3 className="font-display font-bold text-xl md:text-2xl mb-6">
                   Wat u nodig heeft
@@ -137,7 +136,7 @@ const Gtm2026Section = () => {
                   ))}
                 </ul>
               </div>
-            </GlowCard>
+            </div>
           </motion.div>
         </div>
 

@@ -1,11 +1,18 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import CtaLink from "@/components/CtaLink";
 import { CTA } from "@/content/copy";
-import { Compass, ArrowRight, ArrowDown } from "lucide-react";
-import { serviceLines } from "@/data/serviceLines";
+import { Compass, ArrowRight, ArrowDown, UserPlus, MapPin, Globe, Handshake, Briefcase, RotateCcw } from "lucide-react";
+
+const heroMotions = [
+  { icon: UserPlus, title: "Klanten werven" },
+  { icon: MapPin, title: "Lokaal uitbreiden" },
+  { icon: Globe, title: "Nieuwe markten openen" },
+  { icon: Handshake, title: "Partners vinden" },
+  { icon: Briefcase, title: "Talent werven" },
+  { icon: RotateCcw, title: "Relaties reactiveren" },
+];
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -131,15 +138,16 @@ const Hero = () => {
           transition={{ duration: 0.6, ease, delay: 0.28 }}
           className="flex flex-col lg:flex-row items-center justify-between gap-6 pb-8 md:pb-10"
         >
-          <div className="flex flex-wrap items-center justify-center gap-2.5">
-            {serviceLines.map((line) => (
-              <Link
-                key={line.slug}
-                to={`/diensten/${line.slug}`}
-                className="rounded-full border border-border/60 bg-card/50 px-3.5 py-1.5 text-xs font-medium text-foreground/80 hover:border-primary/40 hover:text-primary transition-colors"
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 w-full max-w-5xl mx-auto">
+            {heroMotions.map((m) => (
+              <a
+                key={m.title}
+                href="#chapter-11"
+                className="inline-flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 rounded-xl sm:rounded-full border border-border/60 bg-card/50 px-4 sm:px-5 py-3 sm:py-3.5 text-sm sm:text-base font-medium text-foreground/80 hover:border-primary/40 hover:text-primary transition-colors shadow-sm text-center"
               >
-                {line.name}
-              </Link>
+                <m.icon className="h-5 w-5 sm:h-6 sm:w-6 text-primary shrink-0" strokeWidth={1.75} />
+                <span className="leading-tight">{m.title}</span>
+              </a>
             ))}
           </div>
 
