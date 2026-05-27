@@ -71,7 +71,7 @@ const FaqSection = () => {
           <p className="text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4 text-center">
             Veelgestelde vragen
           </p>
-          <h2 className="font-display font-bold text-3xl md:text-4xl text-center mb-12">
+          <h2 className="font-display font-bold text-4xl md:text-5xl lg:text-6xl text-center mb-12">
             Alles wat u wilt <span className="text-gradient">weten</span>
           </h2>
           <Accordion type="single" collapsible className="w-full">

@@ -11,7 +11,7 @@ const ease = [0.22, 1, 0.36, 1] as const;
 const Hero = () => {
   return (
     <section className="relative pt-32 md:pt-40 pb-16 md:pb-20 overflow-hidden">
-      <div className="container max-w-5xl mx-auto px-4 md:px-6 relative z-10 text-center">
+      <div className="container mx-auto px-4 md:px-6 relative z-10 text-center">
         {/* Pill */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
@@ -34,7 +34,7 @@ const Hero = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease, delay: 0.05 }}
-          className="font-display text-[2.5rem] md:text-[4.25rem] lg:text-[5rem] leading-[1.02] tracking-tighter mb-6 [text-wrap:balance] [text-shadow:0_2px_24px_hsl(var(--background))]"
+          className="font-display text-[2.75rem] md:text-[4.75rem] lg:text-[6rem] xl:text-[7rem] leading-[0.98] tracking-tighter mb-6 [text-wrap:balance] [text-shadow:0_2px_24px_hsl(var(--background))]"
         >
           <span className="font-bold text-foreground">Eén systeem</span>{" "}
           <span className="font-normal text-muted-foreground">voor</span>
@@ -47,7 +47,7 @@ const Hero = () => {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease, delay: 0.12 }}
-          className="text-muted-foreground text-base md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed"
+          className="text-muted-foreground text-lg md:text-2xl max-w-3xl mx-auto mb-10 leading-relaxed"
         >
           Wij combineren AI-workflows met menselijke expertise. Van koopsignalen
           tot geboekte gesprekken, op uw eigen tools.

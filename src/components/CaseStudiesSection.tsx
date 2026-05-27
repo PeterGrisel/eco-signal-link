@@ -49,7 +49,7 @@ const CaseStudiesSection = () => {
           <p className="text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4">
             Bewijs
           </p>
-          <h2 className="font-display font-bold text-3xl md:text-5xl lg:text-6xl tracking-tight leading-tight">
+          <h2 className="font-display font-bold text-4xl md:text-5xl lg:text-6xl xl:text-7xl tracking-tight leading-tight">
             Cijfers,
             <br />
             <span className="text-gradient">geen beloftes.</span>

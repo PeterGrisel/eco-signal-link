@@ -264,7 +264,7 @@ const PricingSection = () => {
           <p className="text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4">
             Commercieel model
           </p>
-          <h2 className="font-display font-bold text-3xl md:text-5xl lg:text-6xl tracking-tight leading-tight">
+          <h2 className="font-display font-bold text-4xl md:text-5xl lg:text-6xl xl:text-7xl tracking-tight leading-tight">
             Lage drempel.
             <br />
             <span className="text-gradient">Schaalbare waarde.</span>
