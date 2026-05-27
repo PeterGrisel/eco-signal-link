@@ -1,168 +1,126 @@
-import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import CtaLink from "@/components/CtaLink";
 import { CTA } from "@/content/copy";
-import ParallaxBrain from "@/components/hero/ParallaxBrain";
-import ClientOrbit from "@/components/hero/ClientOrbit";
-import { GlowCard } from "@/components/ui/spotlight-card";
-import { Users, ArrowLeft, UserPlus, MapPin, Globe, Handshake, Briefcase, RotateCcw } from "lucide-react";
-import { trackCTA } from "@/lib/tracking";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { Compass, ArrowRight, ArrowDown } from "lucide-react";
+import { serviceLines } from "@/data/serviceLines";
 
-const motions = [
-  { icon: UserPlus, n: "01", title: "Klanten werven" },
-  { icon: MapPin, n: "02", title: "Lokaal uitbreiden" },
-  { icon: Globe, n: "03", title: "Nieuwe markten openen" },
-  { icon: Handshake, n: "04", title: "Partners vinden" },
-  { icon: Briefcase, n: "05", title: "Talent werven" },
-  { icon: RotateCcw, n: "06", title: "Relaties reactiveren" },
-];
+const ease = [0.22, 1, 0.36, 1] as const;
 
 const Hero = () => {
-  const [showClients, setShowClients] = useState(false);
-  const isMobile = useIsMobile();
   return (
-    <section className="relative pt-28 md:pt-36 pb-12 md:pb-16 overflow-hidden">
-      {/* Themed radial background */}
+    <section className="relative pt-32 md:pt-40 pb-16 md:pb-20 overflow-hidden">
+      {/* Bovenboog + glow, ingetogen (donker thema) */}
       <div
         aria-hidden
-        className="absolute inset-0 z-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(ellipse 80% 50% at 50% 40%, hsl(var(--primary) / 0.18), transparent 70%)",
-        }}
-      />
-      <div className="container max-w-6xl mx-auto px-4 md:px-6 relative z-10">
-        {/* Glass-card header */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="group glass-readability relative mx-auto max-w-3xl rounded-2xl bg-card/95 border border-foreground/10 px-6 py-8 md:px-10 md:py-12 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.5)] text-center mb-14 md:mb-20 overflow-hidden"
-        >
-          <span
-            aria-hidden
-            className="pointer-events-none absolute top-0 left-0 h-px w-full bg-gradient-to-r from-transparent via-primary/60 to-transparent"
-          />
-          <div className="relative">
-            <div className="flex items-center justify-center mb-5">
-              <span className="text-[10px] uppercase tracking-[0.3em] text-primary">
-                B2B-groeisysteem · één fundament
-              </span>
-            </div>
+        className="absolute inset-x-0 top-0 z-0 pointer-events-none h-[120%]"
+      >
+        <div
+          className="absolute left-1/2 top-[-60%] h-[120%] w-[160%] -translate-x-1/2 rounded-[100%] border-t border-foreground/10"
+          style={{
+            background:
+              "radial-gradient(ellipse 60% 50% at 50% 100%, hsl(var(--primary) / 0.16), transparent 70%)",
+          }}
+        />
+      </div>
 
-            <h1 className="font-display font-bold text-[2.25rem] md:text-[3.5rem] lg:text-[4rem] leading-[1.05] tracking-tighter mb-6 text-foreground [text-wrap:pretty] [hyphens:none] [text-shadow:0_1px_8px_rgba(0,0,1,0.4)]">
-              Wilt u uw bedrijf schalen?
-            </h1>
-
-            <p className="text-foreground/80 text-base md:text-xl max-w-2xl mx-auto mb-8 leading-relaxed [text-shadow:0_1px_8px_rgba(0,0,0,0.4)]">
-              Stop met wachten op aanvragen.{" "}
-              <span className="text-gradient">
-                Bouw een systeem dat interesse herkent
-              </span>{" "}
-              vóórdat klanten actief zoeken.
-            </p>
-
-            <div className="flex flex-wrap gap-4 justify-center">
-              <Button variant="hero" size="lg" className="relative group" asChild>
-                <CtaLink intent="gratisScan" location="Hero">
-                  <span className="absolute inset-0 rounded-md bg-primary/20 animate-pulse group-hover:animate-none" />
-                  {CTA.gratisScan.label}
-                </CtaLink>
-              </Button>
-            </div>
-          </div>
-        </motion.div>
-
-        {/* 6 bewegingen */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-          className="grid grid-cols-2 md:grid-cols-3 gap-4"
-        >
-          {motions.map((m) => (
-            <GlowCard
-              key={m.n}
-              glowColor="orange"
-              customSize
-              className="group bg-card/95 p-6 w-full h-auto aspect-auto"
-            >
-              <div className="relative z-10">
-                <div className="flex items-center gap-3 mb-3">
-                  <span className="text-[10px] tabular-nums text-primary/70 tracking-[0.2em]">{m.n}</span>
-                  <span className="h-px flex-1 bg-foreground/10 group-hover:bg-primary/40 transition-colors" />
-                  <m.icon className="h-4 w-4 text-primary" strokeWidth={1.5} />
-                </div>
-                <h3 className="font-display text-lg md:text-xl text-foreground">{m.title}</h3>
-              </div>
-            </GlowCard>
-          ))}
-        </motion.div>
-
+      <div className="container max-w-5xl mx-auto px-4 md:px-6 relative z-10 text-center">
         {/* Pill */}
-        <div className="mt-10 flex items-center justify-center">
-          <div className="rounded-full border border-primary/30 bg-primary/[0.06] px-5 py-2 text-[10px] uppercase tracking-[0.3em] text-primary">
-            Eén fundament · B2B-groeisysteem
-          </div>
-        </div>
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease }}
+          className="flex justify-center mb-8"
+        >
+          <span className="inline-flex items-center gap-2 rounded-full border border-foreground/10 bg-card/70 backdrop-blur px-4 py-1.5 shadow-[0_4px_20px_-8px_rgba(0,0,0,0.6)]">
+            <span className="w-5 h-5 rounded-full bg-primary/15 border border-primary/30 flex items-center justify-center">
+              <Compass className="w-3 h-3 text-primary" strokeWidth={2} />
+            </span>
+            <span className="text-[10px] font-display font-semibold uppercase tracking-[0.22em] text-foreground/80">
+              Voor ambitieuze B2B-bedrijven
+            </span>
+          </span>
+        </motion.div>
 
-        {/* Brain stage */}
-        <div className="relative w-full h-[38vh] md:h-[70vh] mt-12 md:mt-16">
-          <motion.div
-            aria-hidden
-            animate={{ opacity: showClients ? 0.15 : 1 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className="absolute inset-0 z-0 pointer-events-none"
+        {/* Twee-toon headline */}
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease, delay: 0.05 }}
+          className="font-display text-[2.5rem] md:text-[4.25rem] lg:text-[5rem] leading-[1.02] tracking-tighter mb-6 [text-wrap:balance]"
+        >
+          <span className="font-bold text-foreground">Eén systeem</span>{" "}
+          <span className="font-normal text-muted-foreground">voor</span>
+          <br />
+          <span className="font-bold text-gradient">voorspelbare groei.</span>
+        </motion.h1>
+
+        {/* Subkop */}
+        <motion.p
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease, delay: 0.12 }}
+          className="text-muted-foreground text-base md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed"
+        >
+          Wij combineren AI-workflows met menselijke expertise. Van koopsignalen
+          tot geboekte gesprekken, op uw eigen tools.
+        </motion.p>
+
+        {/* Eén CTA + ghost-link */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease, delay: 0.18 }}
+          className="flex flex-wrap items-center justify-center gap-4 mb-16 md:mb-24"
+        >
+          <Button variant="hero" size="lg" className="relative group" asChild>
+            <CtaLink intent="gratisScan" location="Hero">
+              <span className="absolute inset-0 rounded-md bg-primary/20 animate-pulse group-hover:animate-none" />
+              {CTA.gratisScan.label}
+            </CtaLink>
+          </Button>
+          <a
+            href="#diensten"
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
           >
-            <ParallaxBrain />
-          </motion.div>
+            Bekijk onze diensten
+            <ArrowDown className="w-4 h-4" />
+          </a>
+        </motion.div>
 
-          <AnimatePresence>
-            {showClients && (
-              <motion.div
-                key="orbit"
-                initial={{ opacity: 0, scale: 0.85 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.85 }}
-                transition={{ duration: 0.6, ease: "easeOut" }}
-                className="absolute inset-0 z-[5] pointer-events-none"
+        {/* Onderbalk: dienst-pills + trust */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, ease, delay: 0.28 }}
+          className="flex flex-col lg:flex-row items-center justify-between gap-6 border-t border-border/40 pt-8"
+        >
+          <div className="flex flex-wrap items-center justify-center gap-2.5">
+            {serviceLines.map((line) => (
+              <Link
+                key={line.slug}
+                to={`/diensten/${line.slug}`}
+                className="rounded-full border border-border/60 bg-card/50 px-3.5 py-1.5 text-xs font-medium text-foreground/80 hover:border-primary/40 hover:text-primary transition-colors"
               >
-                <ClientOrbit
-                  rings={isMobile ? 2 : 3}
-                  baseSize={isMobile ? 14 : 22}
-                  gap={isMobile ? 7 : 14}
-                />
-              </motion.div>
-            )}
-          </AnimatePresence>
-
-          <div className="absolute inset-x-0 bottom-4 md:bottom-8 z-10 flex justify-center">
-            {!showClients ? (
-              <Button
-                variant="heroOutline"
-                size="lg"
-                onClick={() => {
-                  setShowClients(true);
-                  trackCTA("Hero — Toon klanten", "#klanten");
-                }}
-              >
-                <Users className="w-4 h-4 mr-2" />
-                Klanten
-              </Button>
-            ) : (
-              <Button
-                variant="heroOutline"
-                size="lg"
-                onClick={() => setShowClients(false)}
-              >
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Terug
-              </Button>
-            )}
+                {line.name}
+              </Link>
+            ))}
           </div>
-        </div>
+
+          <a
+            href="#diensten"
+            className="group inline-flex items-center gap-2 text-left"
+          >
+            <span className="text-xs md:text-sm text-muted-foreground leading-snug max-w-[15rem]">
+              Vertrouwd door snelgroeiende B2B-teams, van Yaskawa tot Leister
+              Benelux
+            </span>
+            <span className="w-8 h-8 rounded-full border border-border/60 flex items-center justify-center shrink-0 group-hover:border-primary/40 transition-colors">
+              <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
+            </span>
+          </a>
+        </motion.div>
       </div>
     </section>
   );
