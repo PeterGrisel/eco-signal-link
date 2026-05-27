@@ -12,6 +12,7 @@ import CtaSection from "@/components/CtaSection";
 import ServiceLinesSection from "@/components/ServiceLinesSection";
 import Gtm2026Section from "@/components/Gtm2026Section";
 import HowItWorksSection from "@/components/HowItWorksSection";
+import GroeistackSection from "@/components/GroeistackSection";
 import CaseStudiesSection from "@/components/CaseStudiesSection";
 import LogoTicker from "@/components/LogoTicker";
 
@@ -39,6 +40,7 @@ const Index = () => {
       <ServiceLinesSection />
       <Gtm2026Section />
       <HowItWorksSection />
+      <GroeistackSection />
       <LogoTicker />
       <CaseStudiesSection />
       <PricingSection />
