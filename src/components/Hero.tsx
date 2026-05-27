@@ -138,15 +138,15 @@ const Hero = () => {
           transition={{ duration: 0.6, ease, delay: 0.28 }}
           className="flex flex-col lg:flex-row items-center justify-between gap-6 pb-8 md:pb-10"
         >
-          <div className="flex flex-wrap items-center justify-center gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 w-full max-w-5xl mx-auto">
             {heroMotions.map((m) => (
               <a
                 key={m.title}
                 href="#chapter-11"
-                className="inline-flex items-center gap-3 rounded-full border border-border/60 bg-card/50 px-7 py-3.5 text-base font-medium text-foreground/80 hover:border-primary/40 hover:text-primary transition-colors shadow-sm"
+                className="inline-flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 rounded-xl sm:rounded-full border border-border/60 bg-card/50 px-4 sm:px-5 py-3 sm:py-3.5 text-sm sm:text-base font-medium text-foreground/80 hover:border-primary/40 hover:text-primary transition-colors shadow-sm text-center"
               >
-                <m.icon className="h-6 w-6 text-primary" strokeWidth={1.75} />
-                {m.title}
+                <m.icon className="h-5 w-5 sm:h-6 sm:w-6 text-primary shrink-0" strokeWidth={1.75} />
+                <span className="leading-tight">{m.title}</span>
               </a>
             ))}
           </div>
