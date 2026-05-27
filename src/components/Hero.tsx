@@ -138,14 +138,14 @@ const Hero = () => {
           transition={{ duration: 0.6, ease, delay: 0.28 }}
           className="flex flex-col lg:flex-row items-center justify-between gap-6 pb-8 md:pb-10"
         >
-          <div className="flex flex-wrap items-center justify-center gap-2.5">
+          <div className="flex flex-wrap items-center justify-center gap-3">
             {heroMotions.map((m) => (
               <a
                 key={m.title}
                 href="#chapter-11"
-                className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-card/50 px-3.5 py-1.5 text-xs font-medium text-foreground/80 hover:border-primary/40 hover:text-primary transition-colors"
+                className="inline-flex items-center gap-2.5 rounded-full border border-border/60 bg-card/50 px-5 py-2.5 text-sm font-medium text-foreground/80 hover:border-primary/40 hover:text-primary transition-colors shadow-sm"
               >
-                <m.icon className="h-3.5 w-3.5 text-primary" strokeWidth={1.75} />
+                <m.icon className="h-5 w-5 text-primary" strokeWidth={1.75} />
                 {m.title}
               </a>
             ))}
