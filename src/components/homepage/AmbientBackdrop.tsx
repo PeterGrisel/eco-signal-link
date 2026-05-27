@@ -1,7 +1,7 @@
-import { FluidParticlesBackground } from "@/components/ui/fluid-particles-background";
+import { FallingPattern } from "@/components/ui/falling-pattern";
 
 /**
- * Fixed ambient stage — fluid particles in brand orange + radial glows + vignette.
+ * Fixed ambient stage — falling pattern in brand orange + radial glows + vignette.
  * Sits behind the entire homepage; chapter cards sit on top with bg-card/95.
  */
 export default function AmbientBackdrop() {
@@ -13,14 +13,13 @@ export default function AmbientBackdrop() {
       {/* Base */}
       <div className="absolute inset-0 bg-background" />
 
-      {/* Fluid particles — brand orange #E8945A, low count for smooth scroll */}
-      <div className="absolute inset-0 opacity-70">
-        <FluidParticlesBackground
-          particleCount={420}
-          noiseIntensity={0.0025}
-          particleSize={{ min: 0.4, max: 1.6 }}
-          colorRgb="232,148,90"
-          trailRgba="rgba(10, 10, 12, 0.18)"
+      {/* Falling pattern — brand orange, helderder gemaakt (dark:brightness
+          uit het origineel werkt niet zonder .dark-class op deze site) */}
+      <div className="absolute inset-0 brightness-[1.8]">
+        <FallingPattern
+          color="hsl(var(--primary))"
+          backgroundColor="hsl(var(--background))"
+          duration={200}
         />
       </div>
 
@@ -42,12 +41,12 @@ export default function AmbientBackdrop() {
         }}
       />
 
-      {/* Vignette */}
+      {/* Vignette — houdt de randen donker en tekst leesbaar */}
       <div
         className="absolute inset-0"
         style={{
           background:
-            "radial-gradient(ellipse at center, transparent 25%, hsl(var(--background) / 0.85) 100%)",
+            "radial-gradient(ellipse at center, transparent 15%, hsl(var(--background) / 0.88) 100%)",
         }}
       />
     </div>

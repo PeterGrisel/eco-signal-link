@@ -5,24 +5,12 @@ import CtaLink from "@/components/CtaLink";
 import { CTA } from "@/content/copy";
 import { Compass, ArrowRight, ArrowDown } from "lucide-react";
 import { serviceLines } from "@/data/serviceLines";
-import { FallingPattern } from "@/components/ui/falling-pattern";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
 const Hero = () => {
   return (
     <section className="relative pt-32 md:pt-40 pb-16 md:pb-20 overflow-hidden">
-      {/* Achtergrond: falling pattern in merkoranje, vervaagd aan de randen
-          zodat het overloopt in de pagina-ambient. */}
-      <div aria-hidden className="absolute inset-0 z-0 pointer-events-none">
-        <FallingPattern
-          color="hsl(var(--primary))"
-          backgroundColor="hsl(var(--background))"
-          duration={160}
-          className="h-full w-full [mask-image:radial-gradient(ellipse_90%_80%_at_50%_38%,black_45%,transparent)]"
-        />
-      </div>
-
       <div className="container max-w-5xl mx-auto px-4 md:px-6 relative z-10 text-center">
         {/* Pill */}
         <motion.div
