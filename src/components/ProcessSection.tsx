@@ -4,6 +4,13 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import CtaLink from "@/components/CtaLink";
 import { COPY } from "@/content/copy";
+import {
+  ContainerScroll,
+  ContainerSticky,
+  ProcessCard,
+  ProcessCardBody,
+  ProcessCardTitle,
+} from "@/components/ui/process-timeline";
 
 const steps = [
   {
@@ -105,11 +112,68 @@ const ProcessSection = () => {
           </p>
         </motion.div>
 
-        {/* Timeline rail (desktop) */}
-        <div className="relative">
+        {/* Horizontal pinned timeline (desktop) */}
+        <div className="hidden lg:block">
+          <ContainerScroll className="min-h-[180vh]">
+            <ContainerSticky>
+              <div className="flex gap-16 pl-16 pr-16">
+                {steps.map((step, i) => {
+                  const Icon = step.icon;
+                  const DurIcon = step.durationIcon;
+                  return (
+                    <ProcessCard
+                      key={step.title}
+                      index={i}
+                      itemsLength={steps.length}
+                      size="md"
+                      variant="brand"
+                      className="rounded-2xl"
+                    >
+                      <ProcessCardTitle>
+                        <span className="font-display font-bold text-6xl xl:text-7xl text-gradient leading-none">
+                          {String(i + 1).padStart(2, "0")}
+                        </span>
+                      </ProcessCardTitle>
+                      <ProcessCardBody>
+                        <div className="flex items-center gap-3 mb-4">
+                          <div className="w-12 h-12 rounded-full border border-primary/40 bg-card flex items-center justify-center">
+                            <Icon className="w-5 h-5 text-primary" />
+                          </div>
+                          <h3 className="font-display font-bold text-xl xl:text-2xl tracking-tight">
+                            {step.title}
+                          </h3>
+                        </div>
+                        <ul className="space-y-2.5 mb-5">
+                          {step.items.map((item) => (
+                            <li
+                              key={item}
+                              className="flex items-start gap-2 text-muted-foreground text-sm xl:text-base leading-snug"
+                            >
+                              <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2 shrink-0" />
+                              <span>{item}</span>
+                            </li>
+                          ))}
+                        </ul>
+                        <div className="pt-4 border-t border-border/40 flex items-center gap-2 text-xs text-muted-foreground">
+                          <DurIcon className="w-3.5 h-3.5 text-primary" />
+                          <span className="uppercase tracking-wider">
+                            {step.duration}
+                          </span>
+                        </div>
+                      </ProcessCardBody>
+                    </ProcessCard>
+                  );
+                })}
+              </div>
+            </ContainerSticky>
+          </ContainerScroll>
+        </div>
+
+        {/* Vertical timeline (mobile / tablet) */}
+        <div className="relative lg:hidden">
           <div className="hidden lg:block absolute top-8 left-0 right-0 h-px bg-gradient-to-r from-primary/0 via-primary/40 to-primary/0" />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 md:gap-6 mb-16 md:mb-20">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-16 md:mb-20">
             {steps.map((step, i) => {
               const Icon = step.icon;
               const DurIcon = step.durationIcon;
