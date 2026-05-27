@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Building2, Calendar, Wallet, ArrowRight, Sparkles } from "lucide-react";
+import { Building2, Calendar, Wallet, ArrowRight, Database, Clock, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import CtaLink from "@/components/CtaLink";
 import { caseStudies } from "@/data/caseStudies";
@@ -9,6 +9,27 @@ const modelStats = [
   { icon: Building2, value: "2.000", label: "bedrijven in uw ICP" },
   { icon: Calendar, value: "20", label: "afspraken per maand" },
   { icon: Wallet, value: "€500k", label: "pipeline per cyclus" },
+];
+
+const pillars = [
+  {
+    icon: Database,
+    title: "Op uw eigen tools",
+    description:
+      "Alle data, flows en contacten staan in uw eigen CRM. Die blijven van u.",
+  },
+  {
+    icon: Clock,
+    title: "Binnen 30 dagen live",
+    description:
+      "Scan en kaart in de eerste maand. Daarna draaien de eerste flows.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Geen lock-in",
+    description:
+      "Drie maanden opzegbaar. U houdt alle draaiboeken, data en flows.",
+  },
 ];
 
 const CaseStudiesSection = () => {
@@ -114,41 +135,23 @@ const CaseStudiesSection = () => {
             ))}
           </div>
         ) : (
-          <div className="grid md:grid-cols-3 gap-5 md:gap-6">
-            {[0, 1, 2].map((i) => (
+          <div className="grid md:grid-cols-3 gap-3 md:gap-4">
+            {pillars.map((p, i) => (
               <motion.div
-                key={i}
+                key={p.title}
                 initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.5, delay: i * 0.06 }}
-                className="rounded-2xl border border-dashed border-border/60 bg-card/30 p-6 md:p-7 flex flex-col"
+                className="card-gradient border-glow rounded-2xl p-6 md:p-7 flex flex-col"
               >
-                <div className="flex items-center gap-2 mb-4">
-                  <Sparkles className="w-4 h-4 text-primary/70" />
-                  <span className="text-[10px] font-display font-semibold tracking-[0.2em] uppercase text-muted-foreground">
-                    Case in voorbereiding
-                  </span>
-                </div>
-                <h3 className="font-display font-bold text-xl text-foreground/70 mb-3">
-                  Uw sector?
-                </h3>
-                <p className="text-sm text-muted-foreground leading-relaxed mb-6">
-                  We publiceren binnenkort resultaten met naam en cijfers. Wilt u
-                  hier staan? Word onze volgende case.
+                <span className="w-10 h-10 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center mb-4">
+                  <p.icon className="w-5 h-5 text-primary" strokeWidth={1.6} />
+                </span>
+                <h3 className="font-display font-bold text-lg mb-2">{p.title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  {p.description}
                 </p>
-                <div className="grid grid-cols-3 gap-2 mt-auto pt-5 border-t border-border/40 opacity-40">
-                  {["€—", "—", "—%"].map((m, j) => (
-                    <div key={j}>
-                      <p className="font-display font-bold text-xl text-foreground tabular-nums">
-                        {m}
-                      </p>
-                      <p className="text-[11px] text-muted-foreground leading-tight mt-1">
-                        volgt
-                      </p>
-                    </div>
-                  ))}
-                </div>
               </motion.div>
             ))}
           </div>
@@ -165,6 +168,9 @@ const CaseStudiesSection = () => {
           <Button variant="hero" size="lg" asChild>
             <CtaLink intent="gratisScan" location="Cases" />
           </Button>
+          <p className="text-xs text-muted-foreground mt-4">
+            Klantcases met naam en cijfers volgen binnenkort.
+          </p>
         </motion.div>
       </div>
     </section>
