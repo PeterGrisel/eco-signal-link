@@ -5,23 +5,21 @@ import CtaLink from "@/components/CtaLink";
 import { CTA } from "@/content/copy";
 import { Compass, ArrowRight, ArrowDown } from "lucide-react";
 import { serviceLines } from "@/data/serviceLines";
+import { FallingPattern } from "@/components/ui/falling-pattern";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
 const Hero = () => {
   return (
     <section className="relative pt-32 md:pt-40 pb-16 md:pb-20 overflow-hidden">
-      {/* Bovenboog + glow, ingetogen (donker thema) */}
-      <div
-        aria-hidden
-        className="absolute inset-x-0 top-0 z-0 pointer-events-none h-[120%]"
-      >
-        <div
-          className="absolute left-1/2 top-[-60%] h-[120%] w-[160%] -translate-x-1/2 rounded-[100%] border-t border-foreground/10"
-          style={{
-            background:
-              "radial-gradient(ellipse 60% 50% at 50% 100%, hsl(var(--primary) / 0.16), transparent 70%)",
-          }}
+      {/* Achtergrond: falling pattern in merkoranje, vervaagd aan de randen
+          zodat het overloopt in de pagina-ambient. */}
+      <div aria-hidden className="absolute inset-0 z-0 pointer-events-none">
+        <FallingPattern
+          color="hsl(var(--primary))"
+          backgroundColor="hsl(var(--background))"
+          duration={160}
+          className="h-full w-full [mask-image:radial-gradient(ellipse_90%_80%_at_50%_38%,black_45%,transparent)]"
         />
       </div>
 
@@ -48,7 +46,7 @@ const Hero = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease, delay: 0.05 }}
-          className="font-display text-[2.5rem] md:text-[4.25rem] lg:text-[5rem] leading-[1.02] tracking-tighter mb-6 [text-wrap:balance]"
+          className="font-display text-[2.5rem] md:text-[4.25rem] lg:text-[5rem] leading-[1.02] tracking-tighter mb-6 [text-wrap:balance] [text-shadow:0_2px_24px_hsl(var(--background))]"
         >
           <span className="font-bold text-foreground">Eén systeem</span>{" "}
           <span className="font-normal text-muted-foreground">voor</span>
