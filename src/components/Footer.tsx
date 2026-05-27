@@ -11,6 +11,7 @@ interface RecentPost {
 }
 
 const diensten = [
+  { href: "/hoe-het-werkt", label: "Hoe het werkt" },
   { href: "/full-sales-management", label: "Full Sales Management" },
   { href: "/full-service-recruitment", label: "Full Service Recruitment" },
   { href: "/pipeline-equation", label: "Pipeline Equation™" },
