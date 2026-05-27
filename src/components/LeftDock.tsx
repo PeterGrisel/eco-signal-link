@@ -33,6 +33,12 @@ export default function LeftDock() {
       onClick: () => trackCTA("LeftDock — FAQ", "/#faq"),
     },
     {
+      icon: BookOpen,
+      label: "Hoe het werkt",
+      href: "/hoe-het-werkt",
+      onClick: () => trackCTA("LeftDock — Hoe het werkt", "/hoe-het-werkt"),
+    },
+    {
       icon: Euro,
       label: "Pricing",
       href: "/#pricing",
