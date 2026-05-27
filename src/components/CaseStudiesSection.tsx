@@ -89,7 +89,7 @@ const CaseStudiesSection = () => {
               met uw eigen markt en cijfers.
             </p>
             <a
-              href="#chapter-07"
+              href="/hoe-het-werkt#chapter-07"
               className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
             >
               Speel met het rekenmodel
