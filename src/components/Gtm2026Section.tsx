@@ -32,7 +32,7 @@ const rows: { feature: string; values: Cell[] }[] = [
   { feature: "Strategie, uitvoering én data", values: [true, false, true, "Mist strategie", "Alleen advies"] },
   { feature: "Snel live (binnen 30 dagen)", values: [true, "Setup varieert", "Inwerktijd", true, true] },
   { feature: "Geen lock-in", values: [true, false, "—", false, true] },
-  { feature: "Betaald op resultaat", values: [true, false, false, false, false] },
+  { feature: "Betaald op resultaat", values: ["Bij Performance Partnership", false, false, false, false] },
 ];
 
 const CompareCell = ({ value, highlight }: { value: Cell; highlight: boolean }) => {
