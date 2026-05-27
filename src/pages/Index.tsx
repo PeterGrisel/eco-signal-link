@@ -11,6 +11,9 @@ import ActScrollProgress from "@/components/homepage/ActScrollProgress";
 import AmbientBackdrop from "@/components/homepage/AmbientBackdrop";
 import PricingSection from "@/components/PricingSection";
 import FaqSection from "@/components/FaqSection";
+import ServiceLinesSection from "@/components/ServiceLinesSection";
+import CaseStudiesSection from "@/components/CaseStudiesSection";
+import LogoTicker from "@/components/LogoTicker";
 
 const Index = () => {
   // Redirect auth errors (expired magic links) to /signaal/start
@@ -32,14 +35,22 @@ const Index = () => {
       <div id="section-hero">
         <Hero />
       </div>
-      <HomepageNarrative />
+      {/* Offer-led: meteen het aanbod en het bewijs */}
+      <ServiceLinesSection />
+      <LogoTicker />
+      <CaseStudiesSection />
       <PricingSection />
       <FaqSection />
+      {/* Verdieping: het cinematische verhaal voor wie verder leest */}
+      <HomepageNarrative />
       <Footer />
       <MobileDock />
       <ActScrollProgress
         acts={[
           { id: "section-hero", label: "Schalen" },
+          { id: "diensten", label: "Diensten" },
+          { id: "section-cases", label: "Bewijs" },
+          { id: "pricing", label: "Pricing" },
           { id: "chapter-03", label: "Twee kanten" },
           { id: "section-smederij", label: "Smederij" },
           { id: "chapter-07", label: "Cijfers" },
@@ -50,8 +61,7 @@ const Index = () => {
           { id: "chapter-09", label: "Modules" },
           { id: "chapter-10", label: "Levering" },
           { id: "section-flipcards", label: "3 voordelen" },
-          { id: "act-finale", label: "Een gesprek, een machine" },
-          { id: "pricing", label: "Pricing" },
+          { id: "act-finale", label: "Finale" },
         ]}
       />
       </div>
