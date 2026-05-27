@@ -3,7 +3,7 @@ import { Database, Clock, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import CtaLink from "@/components/CtaLink";
 import { caseStudies } from "@/data/caseStudies";
-import FunnelCalculatorSection from "@/components/FunnelCalculatorSection";
+import Chapter04Schaal from "@/components/homepage/chapters/Chapter04Schaal";
 
 const pillars = [
   {
@@ -56,7 +56,7 @@ const CaseStudiesSection = () => {
 
         {/* Interactief rekenmodel — direct inline */}
         <div className="mb-12 -mx-4 md:-mx-6">
-          <FunnelCalculatorSection />
+          <Chapter04Schaal />
         </div>
 
         {/* Cases of placeholders */}
