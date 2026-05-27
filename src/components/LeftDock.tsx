@@ -1,6 +1,6 @@
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Mail, Linkedin, HelpCircle, MessageCircle, Euro } from "lucide-react";
+import { Mail, Linkedin, HelpCircle, MessageCircle, Euro, BookOpen } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { trackCTA } from "@/lib/tracking";
 
@@ -31,6 +31,12 @@ export default function LeftDock() {
       label: "FAQ",
       href: "/#faq",
       onClick: () => trackCTA("LeftDock — FAQ", "/#faq"),
+    },
+    {
+      icon: BookOpen,
+      label: "Hoe het werkt",
+      href: "/hoe-het-werkt",
+      onClick: () => trackCTA("LeftDock — Hoe het werkt", "/hoe-het-werkt"),
     },
     {
       icon: Euro,

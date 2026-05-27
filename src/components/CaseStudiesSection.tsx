@@ -1,15 +1,9 @@
 import { motion } from "framer-motion";
-import { Building2, Calendar, Wallet, ArrowRight, Database, Clock, ShieldCheck } from "lucide-react";
+import { Database, Clock, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import CtaLink from "@/components/CtaLink";
 import { caseStudies } from "@/data/caseStudies";
-
-/** Rekenmodel-defaults, gelijk aan het interactieve model verderop. */
-const modelStats = [
-  { icon: Building2, value: "2.000", label: "bedrijven in uw ICP" },
-  { icon: Calendar, value: "20", label: "afspraken per maand" },
-  { icon: Wallet, value: "€500k", label: "pipeline per cyclus" },
-];
+import Chapter04Schaal from "@/components/homepage/chapters/Chapter04Schaal";
 
 const pillars = [
   {
@@ -60,43 +54,10 @@ const CaseStudiesSection = () => {
           </p>
         </motion.div>
 
-        {/* Rekenmodel-strip */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-50px" }}
-          transition={{ duration: 0.5 }}
-          className="rounded-2xl border border-primary/25 bg-primary/5 p-6 md:p-8 mb-12 shadow-[0_0_40px_-16px_hsl(var(--primary)/0.5)]"
-        >
-          <div className="grid sm:grid-cols-3 gap-6 md:gap-4 mb-6">
-            {modelStats.map((s) => (
-              <div key={s.label} className="flex items-center gap-3">
-                <span className="w-10 h-10 rounded-xl bg-background/50 border border-primary/20 flex items-center justify-center shrink-0">
-                  <s.icon className="w-5 h-5 text-primary" strokeWidth={1.6} />
-                </span>
-                <div>
-                  <p className="font-display font-bold text-2xl md:text-3xl text-gradient leading-none tabular-nums">
-                    {s.value}
-                  </p>
-                  <p className="text-xs text-muted-foreground mt-1">{s.label}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="flex flex-wrap items-center justify-between gap-4 pt-5 border-t border-primary/15">
-            <p className="text-sm text-muted-foreground italic max-w-md">
-              Een voorbeeld, geen belofte. Tijdens de scan vullen we het model
-              met uw eigen markt en cijfers.
-            </p>
-            <a
-              href="#chapter-07"
-              className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
-            >
-              Speel met het rekenmodel
-              <ArrowRight className="w-3.5 h-3.5" />
-            </a>
-          </div>
-        </motion.div>
+        {/* Interactief rekenmodel — direct inline */}
+        <div className="mb-12 -mx-4 md:-mx-6">
+          <Chapter04Schaal />
+        </div>
 
         {/* Cases of placeholders */}
         {published.length > 0 ? (
