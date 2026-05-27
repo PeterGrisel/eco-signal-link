@@ -1,48 +1,56 @@
-const clients = [
-  { name: "Krak de Rijder", url: "https://www.krakderijder.nl/" },
-  { name: "Excelsior Rotterdam", url: "https://excelsiorrotterdam.nl/" },
-  { name: "Core Vision", url: "https://www.core-vision.nl/" },
-  { name: "GoBytes", url: "https://gobytes.nl/" },
-  { name: "Nexer", url: "https://nexer.nl/" },
-  { name: "Rebel Force", url: "https://www.rebelforce.nl/" },
-  { name: "Exes Engineering", url: "https://exesengineering.nl/" },
-  { name: "Datahub", url: "https://datahub.nl/" },
-  { name: "Drivewise Lease", url: "https://www.drivewiselease.nl/" },
-  { name: "Sascha del Sal", url: "https://saschadelsal.com/" },
-  { name: "HappyBase", url: "https://www.happybase.me/" },
-  { name: "RTC Group", url: "https://www.rtc-group.nl/" },
-  { name: "Yaskawa", url: "https://www.yaskawa.nl/" },
-  { name: "ThriveOS", url: "https://thriveos.nl/" },
-  { name: "Eurofast", url: "https://eurofastgroup.nl/" },
-  { name: "Leister Benelux", url: "https://www.leister.com/" },
-];
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
+import { groeistackSeed, faviconFor } from "@/data/groeistack";
+
+const ToolLogo = ({ name, website }: { name: string; website: string }) => {
+  const [err, setErr] = useState(false);
+  const src = faviconFor(website);
+  return (
+    <span className="mx-6 md:mx-9 shrink-0 inline-flex items-center gap-2.5 whitespace-nowrap select-none">
+      <span className="w-7 h-7 rounded-full bg-white border border-foreground/10 flex items-center justify-center overflow-hidden shrink-0">
+        {err || !src ? (
+          <span className="text-[10px] font-display font-bold text-neutral-700">
+            {name[0]}
+          </span>
+        ) : (
+          <img
+            src={src}
+            alt={name}
+            className="w-4 h-4 object-contain"
+            loading="lazy"
+            onError={() => setErr(true)}
+          />
+        )}
+      </span>
+      <span className="text-base md:text-lg font-display font-semibold text-foreground/55">
+        {name}
+      </span>
+    </span>
+  );
+};
 
 const LogoTicker = () => {
-  // Repeat enough times to fill ultra-wide screens
-  const repeatedClients = [...clients, ...clients, ...clients, ...clients, ...clients, ...clients];
+  // Twee kopieën zodat de marquee naadloos loopt (-50%).
+  const repeated = [...groeistackSeed, ...groeistackSeed];
 
   return (
     <section className="border-y border-border/30 bg-background py-10">
-      {/* Clients ticker */}
-      <div className="container mx-auto px-4 mb-6">
-        <p className="text-xs font-display uppercase tracking-[0.25em] text-muted-foreground text-center">
-          Vertrouwd door
-        </p>
+      <div className="container mx-auto px-4 mb-6 flex items-center justify-center">
+        <Link
+          to="/groeistack"
+          className="group inline-flex items-center gap-1.5 text-xs font-display uppercase tracking-[0.25em] text-muted-foreground hover:text-primary transition-colors"
+        >
+          Gebouwd met de beste tools
+          <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />
+        </Link>
       </div>
       <div className="overflow-hidden relative">
         <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-background to-transparent z-10" />
         <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-background to-transparent z-10" />
         <div className="flex animate-marquee" style={{ width: "max-content" }}>
-          {repeatedClients.map((client, i) => (
-            <a
-              key={i}
-              href={client.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mx-8 md:mx-14 shrink-0 text-lg md:text-xl font-display font-bold text-foreground/60 hover:text-primary transition-colors duration-300 select-none whitespace-nowrap"
-            >
-              {client.name}
-            </a>
+          {repeated.map((tool, i) => (
+            <ToolLogo key={i} name={tool.name} website={tool.website} />
           ))}
         </div>
       </div>
