@@ -299,8 +299,6 @@ serve(async (req) => {
   } catch (e) {
     console.error("generate-glossary error:", e);
     try {
-      await supabase
-      .from("seo_settings").select("config").limit(1).single();
       await supabase.from("glossary_runs").insert({
         status: "failed", message: e instanceof Error ? e.message : String(e), log: [],
       });
