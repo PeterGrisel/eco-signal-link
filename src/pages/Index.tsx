@@ -16,6 +16,17 @@ import GroeistackSection from "@/components/GroeistackSection";
 import CaseStudiesSection from "@/components/CaseStudiesSection";
 
 const Index = () => {
+  // Scroll to hash after entrance animation completes (300ms fade)
+  useEffect(() => {
+    if (!window.location.hash || window.location.hash === '#') return;
+    const id = window.location.hash.slice(1);
+    const timer = setTimeout(() => {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 350);
+    return () => clearTimeout(timer);
+  }, []);
+
   // Redirect auth errors (expired magic links) to /signaal/start
   useEffect(() => {
     const hash = window.location.hash;
