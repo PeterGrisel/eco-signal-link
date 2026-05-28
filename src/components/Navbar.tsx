@@ -53,16 +53,10 @@ const oplossingen: LinkItem[] = [
     description: "Onze modulaire B2B groeistack",
   },
   {
-    title: "Pipeline equation",
-    href: "/pipeline-equation",
-    icon: Calculator,
-    description: "Reken uw pipeline en pricing door",
-  },
-  {
     title: "Tools",
     href: "/tools",
     icon: Calculator,
-    description: "Funnel-, pipeline- en blueprint calculators",
+    description: "Funnel-, pipeline- en value calculators",
   },
   {
     title: "Trainingen",

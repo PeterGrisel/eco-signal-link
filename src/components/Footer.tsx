@@ -15,7 +15,6 @@ const diensten = [
   { href: "/groeistack", label: "De Groeistack" },
   { href: "/full-sales-management", label: "Full Sales Management" },
   { href: "/full-service-recruitment", label: "Full Service Recruitment" },
-  { href: "/pipeline-equation", label: "Pipeline Equation™" },
   { href: "/signaal", label: "Signaal Detectiesysteem" },
 ];
 

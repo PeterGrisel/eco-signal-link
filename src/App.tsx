@@ -31,6 +31,7 @@ import Brandbook from "./pages/Brandbook.tsx";
 import PipelineEquation from "./pages/PipelineEquation.tsx";
 import Tools from "./pages/Tools.tsx";
 import FunnelCalculatorPage from "./pages/FunnelCalculatorPage.tsx";
+import PipelineValuePage from "./pages/PipelineValuePage.tsx";
 import Contact from "./pages/Contact.tsx";
 import Privacy from "./pages/Privacy.tsx";
 import Terms from "./pages/Terms.tsx";
@@ -118,6 +119,7 @@ const AnimatedRoutes = () => {
           <Route path="/pipeline-equation" element={<PipelineEquation />} />
           <Route path="/tools" element={<Tools />} />
           <Route path="/tools/funnel-calculator" element={<FunnelCalculatorPage />} />
+          <Route path="/tools/pipeline-value" element={<PipelineValuePage />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/terms" element={<Terms />} />
