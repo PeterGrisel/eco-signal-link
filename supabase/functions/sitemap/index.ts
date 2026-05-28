@@ -32,6 +32,20 @@ serve(async (req) => {
       .eq("status", "published")
       .order("published_at", { ascending: false });
 
+    // Fetch published playbooks
+    const { data: playbooks } = await supabase
+      .from("playbooks")
+      .select("slug, updated_at, published_at")
+      .eq("status", "published")
+      .order("published_at", { ascending: false });
+
+    // Fetch published glossary terms
+    const { data: glossary } = await supabase
+      .from("glossary_terms")
+      .select("slug, updated_at, published_at")
+      .eq("status", "published")
+      .order("published_at", { ascending: false });
+
     const today = new Date().toISOString().split("T")[0];
 
     let xml = `<?xml version="1.0" encoding="UTF-8"?>\n`;
@@ -62,6 +76,30 @@ serve(async (req) => {
       }
     }
 
+    if (playbooks) {
+      for (const pb of playbooks) {
+        const lastmod = (pb.updated_at || pb.published_at || today).split("T")[0];
+        xml += `  <url>\n`;
+        xml += `    <loc>${SITE_URL}/playbooks/${pb.slug}</loc>\n`;
+        xml += `    <lastmod>${lastmod}</lastmod>\n`;
+        xml += `    <changefreq>weekly</changefreq>\n`;
+        xml += `    <priority>0.8</priority>\n`;
+        xml += `  </url>\n`;
+      }
+    }
+
+    if (glossary) {
+      for (const g of glossary) {
+        const lastmod = (g.updated_at || g.published_at || today).split("T")[0];
+        xml += `  <url>\n`;
+        xml += `    <loc>${SITE_URL}/woordenboek/${g.slug}</loc>\n`;
+        xml += `    <lastmod>${lastmod}</lastmod>\n`;
+        xml += `    <changefreq>monthly</changefreq>\n`;
+        xml += `    <priority>0.7</priority>\n`;
+        xml += `  </url>\n`;
+      }
+    }
+
     xml += `</urlset>`;
 
     // JSON format for admin dashboard
@@ -70,6 +108,8 @@ serve(async (req) => {
       const allUrls = [
         ...(sitePages || []).map(p => ({ url: `${SITE_URL}${p.path}`, type: "static" as const })),
         ...(posts || []).map(p => ({ url: `${SITE_URL}/blog/${p.slug}`, type: "blog" as const })),
+        ...(playbooks || []).map(p => ({ url: `${SITE_URL}/playbooks/${p.slug}`, type: "blog" as const })),
+        ...(glossary || []).map(g => ({ url: `${SITE_URL}/woordenboek/${g.slug}`, type: "blog" as const })),
       ];
       return new Response(JSON.stringify({ urls: allUrls, total: allUrls.length }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
