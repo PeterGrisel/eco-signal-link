@@ -566,6 +566,78 @@ export type Database = {
         }
         Relationships: []
       }
+      glossary_runs: {
+        Row: {
+          created_at: string
+          id: string
+          log: Json | null
+          message: string | null
+          status: string
+          term_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          log?: Json | null
+          message?: string | null
+          status: string
+          term_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          log?: Json | null
+          message?: string | null
+          status?: string
+          term_id?: string | null
+        }
+        Relationships: []
+      }
+      glossary_terms: {
+        Row: {
+          category: string | null
+          content: string
+          created_at: string
+          id: string
+          meta_description: string | null
+          published_at: string | null
+          related_terms: string[]
+          short_def: string
+          slug: string
+          status: string
+          term: string
+          updated_at: string
+        }
+        Insert: {
+          category?: string | null
+          content?: string
+          created_at?: string
+          id?: string
+          meta_description?: string | null
+          published_at?: string | null
+          related_terms?: string[]
+          short_def?: string
+          slug: string
+          status?: string
+          term: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string | null
+          content?: string
+          created_at?: string
+          id?: string
+          meta_description?: string | null
+          published_at?: string | null
+          related_terms?: string[]
+          short_def?: string
+          slug?: string
+          status?: string
+          term?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       groeistack_tools: {
         Row: {
           category: string
