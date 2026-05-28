@@ -42,7 +42,7 @@ export default function CtaFinale() {
           </p>
           <div className="flex justify-center">
             <FeatureCard
-              title="Uw gratis scan in 60 minuten"
+              title="Reserveer uw capaciteit"
               description="We kijken samen naar uw markt, uw ICP en de signalen die er nu al zijn. Vrijblijvend."
               items={[
                 "Analyse van uw huidige funnel",
