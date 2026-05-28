@@ -12,7 +12,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Loader2, Pencil, Plus, Trash2, Eye, EyeOff, ExternalLink } from "lucide-react";
+import { Loader2, Pencil, Plus, Trash2, Eye, EyeOff, ExternalLink, Sparkles } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 
 interface ClientLogo {
@@ -24,6 +25,10 @@ interface ClientLogo {
   padding: number;
   is_visible: boolean;
   sort_order: number;
+  sector: string | null;
+  description: string | null;
+  blog_slug: string | null;
+  website: string | null;
 }
 
 const emptyForm = {
@@ -35,6 +40,10 @@ const emptyForm = {
   padding: 0,
   is_visible: true,
   sort_order: 0,
+  sector: "",
+  description: "",
+  blog_slug: "",
+  website: "",
 };
 
 function faviconUrl(domain: string) {
@@ -53,6 +62,8 @@ export const ClientLogosTabContent = () => {
   const [saving, setSaving] = useState(false);
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState<typeof emptyForm>(emptyForm);
+  const [enrichingId, setEnrichingId] = useState<string | null>(null);
+  const [enrichingForm, setEnrichingForm] = useState(false);
 
   const fetchLogos = async () => {
     setLoading(true);
@@ -88,6 +99,10 @@ export const ClientLogosTabContent = () => {
       padding: l.padding,
       is_visible: l.is_visible,
       sort_order: l.sort_order,
+      sector: l.sector ?? "",
+      description: l.description ?? "",
+      blog_slug: l.blog_slug ?? "",
+      website: l.website ?? "",
     });
     setOpen(true);
   };
@@ -106,6 +121,10 @@ export const ClientLogosTabContent = () => {
       padding: form.padding,
       is_visible: form.is_visible,
       sort_order: form.sort_order,
+      sector: form.sector.trim() || null,
+      description: form.description.trim() || null,
+      blog_slug: form.blog_slug.trim() || null,
+      website: form.website.trim() || null,
     };
     const { error } = form.id
       ? await supabase.from("client_logos").update(payload).eq("id", form.id)
@@ -137,6 +156,73 @@ export const ClientLogosTabContent = () => {
     fetchLogos();
   };
 
+  const enrichRow = async (l: ClientLogo) => {
+    setEnrichingId(l.id);
+    const { data, error } = await supabase.functions.invoke("enrich-client", {
+      body: { client_id: l.id },
+    });
+    setEnrichingId(null);
+    if (error || data?.error) {
+      toast.error(data?.error || "AI-verrijking mislukt");
+      return;
+    }
+    const p = data.proposal || {};
+    const { error: updErr } = await supabase
+      .from("client_logos")
+      .update({
+        sector: p.sector ?? l.sector ?? null,
+        description: p.description || l.description || null,
+        blog_slug: p.blog_slug ?? l.blog_slug ?? null,
+        website: p.website || l.website || null,
+      })
+      .eq("id", l.id);
+    if (updErr) {
+      toast.error("Opslaan mislukt");
+      return;
+    }
+    toast.success(`Verrijkt: ${l.name}`);
+    fetchLogos();
+  };
+
+  const enrichForm = async () => {
+    if (!form.id) {
+      toast.error("Sla eerst op voor AI kan verrijken");
+      return;
+    }
+    setEnrichingForm(true);
+    const { data, error } = await supabase.functions.invoke("enrich-client", {
+      body: { client_id: form.id },
+    });
+    setEnrichingForm(false);
+    if (error || data?.error) {
+      toast.error(data?.error || "AI-verrijking mislukt");
+      return;
+    }
+    const p = data.proposal || {};
+    setForm({
+      ...form,
+      sector: p.sector || form.sector,
+      description: p.description || form.description,
+      blog_slug: p.blog_slug || form.blog_slug,
+      website: p.website || form.website,
+    });
+    toast.success("AI-voorstel ingevuld. Controleer en sla op.");
+  };
+
+  const enrichAll = async () => {
+    const targets = logos.filter((l) => !l.description || !l.sector);
+    if (targets.length === 0) {
+      toast.info("Alle klanten zijn al verrijkt");
+      return;
+    }
+    if (!confirm(`AI verrijkt ${targets.length} klanten. Doorgaan?`)) return;
+    for (const l of targets) {
+      await enrichRow(l);
+      await new Promise((r) => setTimeout(r, 500));
+    }
+    toast.success("Bulk-verrijking klaar");
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12 text-muted-foreground">
@@ -153,12 +239,17 @@ export const ClientLogosTabContent = () => {
             Klantlogo's ({logos.length})
           </h2>
           <p className="text-xs text-muted-foreground mt-1">
-            Roteren in de hero-orbit. Eigen logo-URL overschrijft het favicon.
+            Roteren in de hero-orbit. AI-verrijking vult sector, beschrijving en blog-link.
           </p>
         </div>
-        <Button onClick={openNew} size="sm">
-          <Plus className="w-4 h-4 mr-1" /> Nieuw logo
-        </Button>
+        <div className="flex gap-2">
+          <Button onClick={enrichAll} size="sm" variant="outline">
+            <Sparkles className="w-4 h-4 mr-1" /> Verrijk alles
+          </Button>
+          <Button onClick={openNew} size="sm">
+            <Plus className="w-4 h-4 mr-1" /> Nieuw logo
+          </Button>
+        </div>
       </div>
 
       <div className="rounded-lg border border-border bg-card divide-y divide-border">
@@ -181,6 +272,11 @@ export const ClientLogosTabContent = () => {
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2">
                 <span className="font-medium text-foreground truncate">{l.name}</span>
+                {l.sector && (
+                  <span className="text-[10px] uppercase tracking-wider text-primary/80 px-1.5 py-0.5 border border-primary/30 rounded">
+                    {l.sector}
+                  </span>
+                )}
                 {!l.is_visible && (
                   <span className="text-[10px] uppercase tracking-wider text-muted-foreground px-1.5 py-0.5 border border-border rounded">
                     verborgen
@@ -195,11 +291,24 @@ export const ClientLogosTabContent = () => {
               >
                 {l.domain} <ExternalLink className="w-3 h-3" />
               </a>
-              <div className="text-[10px] text-muted-foreground mt-0.5">
-                schaal {Number(l.scale).toFixed(2)} · padding {l.padding}px · sort {l.sort_order}
-              </div>
+              {l.description ? (
+                <div className="text-xs text-muted-foreground mt-1 line-clamp-2">{l.description}</div>
+              ) : (
+                <div className="text-[10px] text-amber-500/80 mt-0.5">Geen beschrijving — verrijk met AI</div>
+              )}
             </div>
             <div className="flex items-center gap-1 shrink-0">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => enrichRow(l)}
+                disabled={enrichingId === l.id}
+                title="Verrijk met AI"
+              >
+                {enrichingId === l.id
+                  ? <Loader2 className="w-4 h-4 animate-spin" />
+                  : <Sparkles className="w-4 h-4 text-primary" />}
+              </Button>
               <Button variant="ghost" size="icon" onClick={() => toggleVisible(l)} title={l.is_visible ? "Verbergen" : "Tonen"}>
                 {l.is_visible ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4 text-muted-foreground" />}
               </Button>
@@ -297,6 +406,47 @@ export const ClientLogosTabContent = () => {
                   checked={form.is_visible}
                   onCheckedChange={(v) => setForm({ ...form, is_visible: v })}
                 />
+              </div>
+            </div>
+
+            <div className="border-t border-border pt-4 space-y-3">
+              <div className="flex items-center justify-between">
+                <Label className="mb-0 text-sm">Klantenpagina-content</Label>
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="outline"
+                  onClick={enrichForm}
+                  disabled={enrichingForm || !form.id}
+                >
+                  {enrichingForm
+                    ? <Loader2 className="w-3.5 h-3.5 mr-1 animate-spin" />
+                    : <Sparkles className="w-3.5 h-3.5 mr-1" />}
+                  Verrijk met AI
+                </Button>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-1">
+                  <Label>Sector</Label>
+                  <Input value={form.sector} onChange={(e) => setForm({ ...form, sector: e.target.value })} placeholder="bv. Maakindustrie" />
+                </div>
+                <div className="space-y-1">
+                  <Label>Website (optioneel)</Label>
+                  <Input value={form.website} onChange={(e) => setForm({ ...form, website: e.target.value })} placeholder="https://…" />
+                </div>
+              </div>
+              <div className="space-y-1">
+                <Label>Beschrijving</Label>
+                <Textarea
+                  value={form.description}
+                  onChange={(e) => setForm({ ...form, description: e.target.value })}
+                  rows={3}
+                  placeholder="Korte omschrijving voor de klantenpagina"
+                />
+              </div>
+              <div className="space-y-1">
+                <Label>Gerelateerde blog (slug, optioneel)</Label>
+                <Input value={form.blog_slug} onChange={(e) => setForm({ ...form, blog_slug: e.target.value })} placeholder="bv. signaal-prospecting-uitleg" />
               </div>
             </div>
           </div>
