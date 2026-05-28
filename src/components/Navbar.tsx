@@ -17,6 +17,7 @@ import {
   Mail,
   Sparkles,
   BookMarked,
+  Phone,
   type LucideIcon,
 } from "lucide-react";
 import {
