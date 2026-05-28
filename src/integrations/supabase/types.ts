@@ -224,7 +224,9 @@ export type Database = {
       }
       client_logos: {
         Row: {
+          blog_slug: string | null
           created_at: string
+          description: string | null
           domain: string
           id: string
           is_visible: boolean
@@ -232,11 +234,15 @@ export type Database = {
           name: string
           padding: number
           scale: number
+          sector: string | null
           sort_order: number
           updated_at: string
+          website: string | null
         }
         Insert: {
+          blog_slug?: string | null
           created_at?: string
+          description?: string | null
           domain: string
           id?: string
           is_visible?: boolean
@@ -244,11 +250,15 @@ export type Database = {
           name: string
           padding?: number
           scale?: number
+          sector?: string | null
           sort_order?: number
           updated_at?: string
+          website?: string | null
         }
         Update: {
+          blog_slug?: string | null
           created_at?: string
+          description?: string | null
           domain?: string
           id?: string
           is_visible?: boolean
@@ -256,8 +266,10 @@ export type Database = {
           name?: string
           padding?: number
           scale?: number
+          sector?: string | null
           sort_order?: number
           updated_at?: string
+          website?: string | null
         }
         Relationships: []
       }
