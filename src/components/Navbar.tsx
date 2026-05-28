@@ -125,6 +125,18 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
   const scrolled = useScroll(10);
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const scrollToPricing = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (location.pathname === "/") {
+      const el = document.getElementById("pricing");
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    } else {
+      navigate("/#pricing");
+    }
+    trackCTA("Navbar — Pricing", "#pricing");
+  };
 
   // Close mobile sheet on route change
   useEffect(() => {
