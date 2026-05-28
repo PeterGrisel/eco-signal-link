@@ -7,15 +7,28 @@ import { trackCTA } from "@/lib/tracking";
  * Mobile-only macOS-style bottom dock.
  * Replaces the dismissible sticky CTA bar.
  * Appears once the user scrolls past the hero (~300px).
+ * Hides when the footer enters the viewport so it never overlaps.
  */
 const MobileDock = () => {
   const [visible, setVisible] = useState(false);
+  const [footerVisible, setFooterVisible] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setVisible(window.scrollY > 300);
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const footer = document.querySelector("footer");
+    if (!footer) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => setFooterVisible(entry.isIntersecting),
+      { threshold: 0.05 }
+    );
+    obs.observe(footer);
+    return () => obs.disconnect();
   }, []);
 
   const goTo = (id: string, label: string) => {
