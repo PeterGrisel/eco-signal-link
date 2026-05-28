@@ -3,8 +3,7 @@ import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { createPortal } from "react-dom";
 import {
-  ArrowRight,
-  Rocket,
+  Phone,
   Workflow,
   Layers,
   Calculator,
@@ -28,7 +27,7 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import { MenuToggleIcon } from "@/components/ui/menu-toggle-icon";
-import CtaLink from "@/components/CtaLink";
+
 import { trackCTA } from "@/lib/tracking";
 import { cn } from "@/lib/utils";
 
@@ -223,12 +222,15 @@ const Navbar = () => {
         </NavigationMenu>
 
         <div className="hidden md:flex items-center gap-2">
-          <CtaLink intent="gratisScan" location="Navbar" className={ctaClasses}>
+          <a
+            href="tel:+493075675721"
+            className={ctaClasses}
+          >
             <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
-            <Rocket className="w-4 h-4 relative" />
-            <span className="relative">Start gratis scan</span>
-            <ArrowRight className="w-4 h-4 relative transition-transform group-hover:translate-x-0.5" />
-          </CtaLink>
+            <Phone className="w-4 h-4 relative" />
+            <span className="relative">Bel onze AI Assistent</span>
+            <span className="text-xs font-normal opacity-80">+49 30 75675721</span>
+          </a>
         </div>
 
         <button
@@ -261,16 +263,15 @@ const Navbar = () => {
           >
             Pricing
           </a>
-          <CtaLink
-            intent="gratisScan"
-            location="Navbar (mobile)"
+          <a
+            href="tel:+493075675721"
             className={cn(ctaClasses, "w-full justify-center mt-4")}
           >
             <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
-            <Rocket className="w-4 h-4 relative" />
-            <span className="relative">Start gratis scan</span>
-            <ArrowRight className="w-4 h-4 relative" />
-          </CtaLink>
+            <Phone className="w-4 h-4 relative" />
+            <span className="relative">Bel onze AI Assistent</span>
+            <span className="text-xs font-normal opacity-80">+49 30 75675721</span>
+          </a>
         </div>
       </MobileMenu>
     </header>
