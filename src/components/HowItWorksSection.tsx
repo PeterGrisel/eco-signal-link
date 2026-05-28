@@ -13,13 +13,6 @@ import {
   BookOpenCheck,
 } from "lucide-react";
 import { COPY } from "@/content/copy";
-import {
-  ContainerScroll,
-  ContainerSticky,
-  ProcessCard,
-  ProcessCardBody,
-  ProcessCardTitle,
-} from "@/components/ui/process-timeline";
 
 const stepIcons = [Compass, Brain, Filter, Calculator, Layers, Send, Route, LineChart];
 
@@ -61,51 +54,8 @@ const HowItWorksSection = () => {
           </p>
         </motion.div>
 
-        {/* Horizontale pinned timeline (desktop) */}
-        <div className="hidden lg:block">
-          <ContainerScroll className="min-h-[280vh]">
-            <ContainerSticky className="h-[70vh]">
-              <div className="flex gap-8 pl-16 pr-16 items-stretch">
-                {steps.map((s, i) => (
-                  <ProcessCard
-                    key={s.n}
-                    index={i}
-                    itemsLength={steps.length}
-                    size="md"
-                    variant="brand"
-                    className="rounded-2xl h-[60vh] min-w-[360px] max-w-[420px]"
-                  >
-                    <ProcessCardTitle className="flex-col items-start justify-between">
-                      <div className="w-14 h-14 rounded-full border border-primary/30 bg-card flex items-center justify-center shadow-[0_0_30px_-10px_hsl(var(--primary)/0.5)]">
-                        <s.icon className="w-6 h-6 text-primary" strokeWidth={1.6} />
-                      </div>
-                      <span className="font-display font-bold text-7xl xl:text-8xl text-gradient leading-none">
-                        {s.n}
-                      </span>
-                    </ProcessCardTitle>
-                    <ProcessCardBody>
-                      <span className="text-[11px] font-display font-semibold tracking-[0.18em] uppercase text-primary/80 mb-3">
-                        Playbook · {s.phase}
-                      </span>
-                      <h3 className="font-display font-bold text-xl xl:text-2xl tracking-tight mb-3">
-                        {s.title}
-                      </h3>
-                      <p className="text-sm text-muted-foreground leading-relaxed mb-4">
-                        {s.desc}
-                      </p>
-                      <p className="text-xs text-primary/80 leading-relaxed border-t border-primary/15 pt-3">
-                        {s.output}
-                      </p>
-                    </ProcessCardBody>
-                  </ProcessCard>
-                ))}
-              </div>
-            </ContainerSticky>
-          </ContainerScroll>
-        </div>
-
-        {/* 8 playbooks in 2-koloms raster (mobile / tablet) */}
-        <div className="grid sm:grid-cols-2 gap-4 md:gap-5 lg:hidden">
+        {/* 8 playbooks in raster (zelfde stijl als Groeistack) */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
           {steps.map((s, i) => (
             <motion.div
               key={s.n}
