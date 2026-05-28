@@ -35,7 +35,7 @@ const MobileDock = () => {
     import("@/components/booking/GlobalBookingModal").then((m) =>
       m.openBookingModal()
     );
-    trackCTA("Mobile Dock — Boek gratis scan", "#boek-gratis-scan");
+    trackCTA("Mobile Dock — Reserveer uw capaciteit", "#boek-gratis-scan");
   };
 
   return (
