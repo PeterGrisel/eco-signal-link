@@ -58,36 +58,42 @@ const ClientLogo = ({ client, size = 56 }: { client: Client; size?: number }) =>
 };
 
 const BrainRadial = ({ clients }: { clients: Client[] }) => {
-  const orbitCount = 3;
-  const perOrbit = Math.ceil(Math.max(clients.length, 6) / orbitCount);
-  const orbits = Array.from({ length: orbitCount }, (_, o) =>
-    clients.slice(o * perOrbit, o * perOrbit + perOrbit)
-  );
-  // Sizes in % of container width
-  const ringSizes = [44, 68, 92];
-  const durations = [28, 40, 55];
+  // Inner ring: first 6 clients close to brein; outer ring: the rest.
+  const inner = clients.slice(0, Math.min(6, Math.ceil(clients.length / 2)));
+  const outer = clients.slice(inner.length);
+
+  const renderRing = (group: Client[], radiusPct: number, offset = 0) =>
+    group.map((c, i) => {
+      const angle = (i / group.length) * 2 * Math.PI - Math.PI / 2 + offset;
+      const x = 50 + radiusPct * Math.cos(angle);
+      const y = 50 + radiusPct * Math.sin(angle);
+      return (
+        <a
+          key={c.id}
+          href={`#klant-${c.id}`}
+          className="absolute -translate-x-1/2 -translate-y-1/2 flex items-center gap-1.5 rounded-md bg-background/80 border border-foreground/15 px-2.5 py-1.5 shadow-sm hover:border-primary/50 hover:bg-background transition-colors"
+          style={{ left: `${x}%`, top: `${y}%` }}
+        >
+          <ClientLogo client={c} size={18} />
+          <span className="text-[10px] uppercase tracking-wider text-foreground/85 whitespace-nowrap">
+            {c.name}
+          </span>
+        </a>
+      );
+    });
 
   return (
-    <div className="relative aspect-square w-full max-w-[640px] mx-auto">
-      {/* Faint ring guides */}
-      {ringSizes.map((s, i) => (
-        <div
-          key={i}
-          className="absolute rounded-full border border-primary/15"
-          style={{
-            width: `${s}%`,
-            height: `${s}%`,
-            top: `${(100 - s) / 2}%`,
-            left: `${(100 - s) / 2}%`,
-          }}
-        />
-      ))}
+    <div className="relative aspect-square w-full max-w-md mx-auto">
+      {/* Ring guides — exactly like Chapter05Brein */}
+      <div className="absolute inset-0 rounded-full border border-primary/20" />
+      <div className="absolute inset-8 rounded-full border border-primary/15" />
+      <div className="absolute inset-16 rounded-full border border-primary/10" />
 
-      {/* Center brain */}
-      <div className="absolute inset-0 flex items-center justify-center z-10">
-        <div className="flex flex-col items-center justify-center h-32 w-32 md:h-40 md:w-40 rounded-full bg-primary/10 border border-primary/40 backdrop-blur-sm">
-          <Brain className="h-9 w-9 text-primary mb-1.5" strokeWidth={1.5} />
-          <span className="text-[10px] uppercase tracking-[0.2em] text-foreground/90 text-center leading-tight px-2">
+      {/* Center brein */}
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="flex flex-col items-center justify-center h-28 w-28 rounded-full bg-primary/10 border border-primary/40">
+          <Brain className="h-7 w-7 text-primary mb-1" strokeWidth={1.5} />
+          <span className="text-[9px] uppercase tracking-[0.2em] text-foreground/90 text-center leading-tight">
             Commercieel
             <br />
             Brein
@@ -95,58 +101,10 @@ const BrainRadial = ({ clients }: { clients: Client[] }) => {
         </div>
       </div>
 
-      {/* Spinning orbits */}
-      {orbits.map((group, o) => {
-        const size = ringSizes[o];
-        const duration = durations[o];
-        const reverse = o % 2 === 1;
-        return (
-          <div
-            key={o}
-            className="absolute"
-            style={{
-              width: `${size}%`,
-              height: `${size}%`,
-              top: `${(100 - size) / 2}%`,
-              left: `${(100 - size) / 2}%`,
-              animation: `klanten-spin ${duration}s linear infinite`,
-              animationDirection: reverse ? "reverse" : "normal",
-            }}
-          >
-            {group.map((c, i) => {
-              const angle = (i / group.length) * 2 * Math.PI - Math.PI / 2;
-              const x = 50 + 50 * Math.cos(angle);
-              const y = 50 + 50 * Math.sin(angle);
-              return (
-                <div
-                  key={c.id}
-                  className="absolute -translate-x-1/2 -translate-y-1/2"
-                  style={{
-                    left: `${x}%`,
-                    top: `${y}%`,
-                    animation: `klanten-spin ${duration}s linear infinite`,
-                    animationDirection: reverse ? "normal" : "reverse",
-                  }}
-                >
-                  <a href={`#klant-${c.id}`} className="block group">
-                    <ClientLogo client={c} size={o === 0 ? 44 : 36} />
-                    <span className="block text-center mt-1.5 text-[10px] uppercase tracking-wider text-foreground/60 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
-                      {c.name}
-                    </span>
-                  </a>
-                </div>
-              );
-            })}
-          </div>
-        );
-      })}
-
-      <style>{`
-        @keyframes klanten-spin {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-      `}</style>
+      {/* Inner orbit */}
+      {renderRing(inner, 30)}
+      {/* Outer orbit (offset to interleave) */}
+      {renderRing(outer, 46, Math.PI / outer.length)}
     </div>
   );
 };
