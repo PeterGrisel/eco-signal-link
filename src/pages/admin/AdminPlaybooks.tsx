@@ -37,6 +37,7 @@ const AdminPlaybooks = () => {
   const [playbooks, setPlaybooks] = useState<Playbook[]>([]);
   const [runs, setRuns] = useState<Run[]>([]);
   const [generating, setGenerating] = useState(false);
+  const [planning, setPlanning] = useState(false);
 
   const load = async () => {
     const { data: sc } = await sb
@@ -78,6 +79,65 @@ const AdminPlaybooks = () => {
     const value = date || null;
     await sb.from("playbook_scenarios").update({ scheduled_date: value }).eq("id", s.id);
     setScenarios((r) => r.map((x) => (x.id === s.id ? { ...x, scheduled_date: value } : x)));
+  };
+
+  // Verdeel alle actieve scenario's zonder datum over komende werkdagen (ma-vr),
+  // sla data over die al bezet zijn door een ander scenario.
+  const autoSchedule = async () => {
+    setPlanning(true);
+    try {
+      const taken = new Set(
+        scenarios.map((s) => s.scheduled_date).filter(Boolean) as string[]
+      );
+      const toPlan = scenarios.filter((s) => s.active && !s.scheduled_date);
+      if (toPlan.length === 0) {
+        toast({ title: "Niets te plannen", description: "Alle actieve scenario's hebben al een datum." });
+        setPlanning(false);
+        return;
+      }
+      const cursor = new Date();
+      cursor.setDate(cursor.getDate() + 1);
+      const updates: { id: string; date: string }[] = [];
+      for (const s of toPlan) {
+        while (
+          cursor.getDay() === 0 ||
+          cursor.getDay() === 6 ||
+          taken.has(cursor.toISOString().split("T")[0])
+        ) {
+          cursor.setDate(cursor.getDate() + 1);
+        }
+        const dateStr = cursor.toISOString().split("T")[0];
+        taken.add(dateStr);
+        updates.push({ id: s.id, date: dateStr });
+        cursor.setDate(cursor.getDate() + 1);
+      }
+      await Promise.all(
+        updates.map((u) =>
+          sb.from("playbook_scenarios").update({ scheduled_date: u.date }).eq("id", u.id)
+        )
+      );
+      setScenarios((r) =>
+        r.map((x) => {
+          const u = updates.find((up) => up.id === x.id);
+          return u ? { ...x, scheduled_date: u.date } : x;
+        })
+      );
+      toast({
+        title: "Ingepland",
+        description: `${updates.length} scenario's verdeeld van ${updates[0].date} t/m ${updates[updates.length - 1].date}.`,
+      });
+    } catch (e: any) {
+      toast({ title: "Plannen mislukt", description: e?.message || String(e), variant: "destructive" });
+    } finally {
+      setPlanning(false);
+    }
+  };
+
+  const clearSchedule = async () => {
+    if (!confirm("Alle geplande datums wissen?")) return;
+    await sb.from("playbook_scenarios").update({ scheduled_date: null }).not("scheduled_date", "is", null);
+    setScenarios((r) => r.map((x) => ({ ...x, scheduled_date: null })));
+    toast({ title: "Planning gewist" });
   };
 
   const setStatus = async (p: Playbook, status: string) => {
@@ -138,6 +198,15 @@ const AdminPlaybooks = () => {
         <p className="text-[11px] font-display font-semibold tracking-[0.2em] uppercase text-primary/70 mb-4">
           Scenario's ({scenarios.filter((s) => s.active).length} actief) — vul een datum om in te plannen
         </p>
+        <div className="flex flex-wrap gap-2 mb-4">
+          <Button size="sm" variant="secondary" onClick={autoSchedule} disabled={planning} className="gap-2">
+            <Calendar className="w-3.5 h-3.5" />
+            {planning ? "Plannen..." : "Auto-plan op werkdagen"}
+          </Button>
+          <Button size="sm" variant="ghost" onClick={clearSchedule}>
+            Planning wissen
+          </Button>
+        </div>
         <div className="space-y-2">
           {scenarios.map((s) => (
             <div key={s.id} className="flex items-center gap-3 text-sm">
