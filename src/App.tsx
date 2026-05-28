@@ -138,6 +138,7 @@ const AnimatedRoutes = () => {
           <Route path="/cheatsheets" element={<Cheatsheets />} />
           <Route path="/trainingen" element={<Trainingen />} />
           <Route path="/partners" element={<Partners />} />
+          <Route path="/klanten" element={<Klanten />} />
           <Route path="/icons-preview" element={<IconsPreview />} />
           <Route path="/cheatsheet/signal-prospecting" element={<SignalCheatsheet />} />
           <Route path="/cheatsheet/linkedin-outreach" element={<LinkedInOutreach />} />
