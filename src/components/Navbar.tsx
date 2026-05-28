@@ -97,6 +97,12 @@ const bedrijf: LinkItem[] = [
     description: "De mensen achter B2BGroeiMachine",
   },
   {
+    title: "Klanten",
+    href: "/klanten",
+    icon: Building2,
+    description: "Wie werkt met ons commerciële brein",
+  },
+  {
     title: "Brandstory",
     href: "/brandstory",
     icon: BookOpen,
