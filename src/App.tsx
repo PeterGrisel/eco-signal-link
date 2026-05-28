@@ -29,6 +29,8 @@ import BlogPost from "./pages/BlogPost.tsx";
 import Brandstory from "./pages/Brandstory.tsx";
 import Brandbook from "./pages/Brandbook.tsx";
 import PipelineEquation from "./pages/PipelineEquation.tsx";
+import Tools from "./pages/Tools.tsx";
+import FunnelCalculatorPage from "./pages/FunnelCalculatorPage.tsx";
 import Contact from "./pages/Contact.tsx";
 import Privacy from "./pages/Privacy.tsx";
 import Terms from "./pages/Terms.tsx";
