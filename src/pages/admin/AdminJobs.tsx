@@ -5,7 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import {
   Activity, BookOpen, Calendar, CheckCircle2, ChevronDown, ChevronRight,
   FileText, Link as LinkIcon, Loader2, Network, Play, RefreshCw, Search,
-  Sparkles, XCircle, Zap,
+  Sparkles, Target, ShieldCheck, XCircle, Zap,
 } from "lucide-react";
 
 type JobStatus = "success" | "error" | "running" | "idle";
@@ -32,6 +32,8 @@ const JOBS: JobDef[] = [
   { key: "gsc-opportunity-scan", label: "GSC kansen scanner", description: "Vindt keyword kansen uit GSC", fn: "gsc-opportunity-scan", schedule: "Dagelijks 05:00", icon: Search },
   { key: "generate-page-embeddings", label: "Pagina embeddings", description: "Vector embeddings voor alle pagina's", fn: "generate-page-embeddings", schedule: "Wekelijks zondag 02:00", icon: Sparkles },
   { key: "orphan-link-detector", label: "Weespagina detector", description: "Vindt slecht gelinkte pagina's", fn: "orphan-link-detector", schedule: "Wekelijks zondag 03:00", icon: Network },
+  { key: "striking-distance-scan", label: "Striking distance scanner", description: "Vindt keywords op positie 8-20 met prioriteit", fn: "striking-distance-scan", schedule: "Wekelijks maandag 05:00", icon: Target },
+  { key: "seo-health-monitor", label: "SEO health monitor", description: "Anker-diversiteit, over-linking en weespagina's", fn: "seo-health-monitor", schedule: "Wekelijks maandag 06:00", icon: ShieldCheck },
 ];
 
 interface Run {

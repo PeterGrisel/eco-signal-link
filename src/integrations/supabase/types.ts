@@ -929,6 +929,8 @@ export type Database = {
       }
       link_suggestions: {
         Row: {
+          anchor_text: string | null
+          anchor_type: string
           created_at: string
           id: string
           reason: string | null
@@ -939,6 +941,8 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          anchor_text?: string | null
+          anchor_type?: string
           created_at?: string
           id?: string
           reason?: string | null
@@ -949,6 +953,8 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          anchor_text?: string | null
+          anchor_type?: string
           created_at?: string
           id?: string
           reason?: string | null
@@ -1297,6 +1303,78 @@ export type Database = {
           },
         ]
       }
+      seo_action_items: {
+        Row: {
+          clicks: number | null
+          created_at: string
+          id: string
+          impressions: number | null
+          notes: string | null
+          page: string | null
+          position: number | null
+          priority: string
+          query: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          clicks?: number | null
+          created_at?: string
+          id?: string
+          impressions?: number | null
+          notes?: string | null
+          page?: string | null
+          position?: number | null
+          priority?: string
+          query: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          clicks?: number | null
+          created_at?: string
+          id?: string
+          impressions?: number | null
+          notes?: string | null
+          page?: string | null
+          position?: number | null
+          priority?: string
+          query?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      seo_health_log: {
+        Row: {
+          check_type: string
+          created_at: string
+          details: Json | null
+          id: string
+          metric_value: number | null
+          severity: string
+          target: string | null
+        }
+        Insert: {
+          check_type: string
+          created_at?: string
+          details?: Json | null
+          id?: string
+          metric_value?: number | null
+          severity?: string
+          target?: string | null
+        }
+        Update: {
+          check_type?: string
+          created_at?: string
+          details?: Json | null
+          id?: string
+          metric_value?: number | null
+          severity?: string
+          target?: string | null
+        }
+        Relationships: []
+      }
       seo_settings: {
         Row: {
           config: Json
@@ -1494,6 +1572,16 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      compute_anchor_diversity: {
+        Args: never
+        Returns: {
+          exact_count: number
+          exact_pct: number
+          severity: string
+          target_url: string
+          total_links: number
+        }[]
+      }
       delete_email: {
         Args: { message_id: number; queue_name: string }
         Returns: boolean
@@ -1502,12 +1590,33 @@ export type Database = {
         Args: { payload: Json; queue_name: string }
         Returns: number
       }
+      find_orphan_pages: {
+        Args: never
+        Returns: {
+          page_type: string
+          page_url: string
+          title: string
+        }[]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
           _user_id: string
         }
         Returns: boolean
+      }
+      match_related_pages: {
+        Args: {
+          match_count?: number
+          match_threshold?: number
+          query_url: string
+        }
+        Returns: {
+          page_type: string
+          page_url: string
+          similarity: number
+          title: string
+        }[]
       }
       move_to_dlq: {
         Args: {
