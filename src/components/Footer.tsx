@@ -28,6 +28,7 @@ const bedrijf = [
 ];
 
 const kennis = [
+  { href: "/playbooks", label: "Playbooks" },
   { href: "/cheatsheets", label: "Cheatsheets" },
   { href: "/trainingen", label: "Trainingen" },
   { href: "/partners", label: "Signal Partners" },

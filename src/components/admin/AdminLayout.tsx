@@ -2,7 +2,7 @@ import { ReactNode, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAdminAuth } from "@/hooks/useAdminAuth";
-import { FileText, Globe, LogOut, Settings, BarChart3, Circle, Activity, LayoutDashboard, Menu, X, Radio, Boxes } from "lucide-react";
+import { FileText, Globe, LogOut, Settings, BarChart3, Circle, Activity, LayoutDashboard, Menu, X, Radio, Boxes, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -14,6 +14,7 @@ const navItems = [
   { href: "/admin/seo", label: "SEO", icon: Globe },
   { href: "/admin/signaal", label: "Signaal", icon: Radio },
   { href: "/admin/groeistack", label: "Groeistack", icon: Boxes },
+  { href: "/admin/playbooks", label: "Playbooks", icon: BookOpen },
   { href: "/admin/system", label: "System", icon: Settings },
 ];
 

@@ -15,6 +15,9 @@ import ServiceLinePage from "./pages/ServiceLinePage.tsx";
 import HoeHetWerkt from "./pages/HoeHetWerkt.tsx";
 import Groeistack from "./pages/Groeistack.tsx";
 import AdminGroeistack from "./pages/admin/AdminGroeistack.tsx";
+import Playbooks from "./pages/Playbooks.tsx";
+import PlaybookPost from "./pages/PlaybookPost.tsx";
+import AdminPlaybooks from "./pages/admin/AdminPlaybooks.tsx";
 import SeoLandingPage from "./pages/SeoLandingPage.tsx";
 import FullSalesManagement from "./pages/FullSalesManagement.tsx";
 import FullServiceRecruitment from "./pages/FullServiceRecruitment.tsx";
@@ -91,6 +94,9 @@ const AnimatedRoutes = () => {
           <Route path="/hoe-het-werkt" element={<HoeHetWerkt />} />
           <Route path="/groeistack" element={<Groeistack />} />
           <Route path="/admin/groeistack" element={<AdminGroeistack />} />
+          <Route path="/playbooks" element={<Playbooks />} />
+          <Route path="/playbooks/:slug" element={<PlaybookPost />} />
+          <Route path="/admin/playbooks" element={<AdminPlaybooks />} />
           <Route path="/b2b-leadgeneratie" element={<SeoLandingPage />} />
           <Route path="/leads-genereren-b2b" element={<SeoLandingPage />} />
           <Route path="/online-leadgeneratie" element={<SeoLandingPage />} />
