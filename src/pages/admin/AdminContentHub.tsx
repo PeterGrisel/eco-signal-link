@@ -5,6 +5,7 @@ import { BlogTabContent } from "./AdminBlog";
 import { AutopilotTabContent } from "./AdminAutopilot";
 import { CalendarTabContent } from "./AdminCalendar";
 import { TaxonomyTabContent } from "./AdminTaxonomy";
+import { JobsTabContent } from "./AdminJobs";
 import { FileText } from "lucide-react";
 
 const AdminContentHub = () => {
@@ -36,12 +37,16 @@ const AdminContentHub = () => {
           <TabsTrigger value="strategie" className="text-xs whitespace-nowrap data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
             Strategie
           </TabsTrigger>
+          <TabsTrigger value="jobs" className="text-xs whitespace-nowrap data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
+            Jobs
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="articles"><BlogTabContent /></TabsContent>
         <TabsContent value="autopilot"><AutopilotTabContent /></TabsContent>
         <TabsContent value="kalender"><CalendarTabContent /></TabsContent>
         <TabsContent value="strategie"><TaxonomyTabContent /></TabsContent>
+        <TabsContent value="jobs"><JobsTabContent /></TabsContent>
       </Tabs>
     </AdminLayout>
   );
