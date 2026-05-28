@@ -70,7 +70,7 @@ export default function LeftDock() {
     <>
       <TooltipProvider delayDuration={120}>
         <div
-          className={`hidden md:flex fixed bottom-4 left-1/2 -translate-x-1/2 z-40 flex-row items-center gap-1 rounded-full border border-border/50 bg-background/70 backdrop-blur-xl p-2 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.6)] transition-opacity duration-300 ${hidden ? "opacity-0 pointer-events-none" : "opacity-100"}`}
+          className={`hidden md:flex fixed left-4 top-1/2 -translate-y-1/2 z-40 flex-col items-center gap-2 rounded-full border border-border/50 bg-background/70 backdrop-blur-xl p-2 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.6)] transition-opacity duration-300 ${hidden ? "opacity-0 pointer-events-none" : "opacity-100"}`}
         >
           {items.map((item) => {
             const Icon = item.icon;
