@@ -36,19 +36,19 @@ const ClientLogo = ({ client, size = 56 }: { client: Client; size?: number }) =>
 
   return (
     <div
-      className="rounded-2xl bg-white border border-foreground/10 flex items-center justify-center overflow-hidden shrink-0"
+      className="flex items-center justify-center overflow-hidden shrink-0"
       style={{ width: size, height: size, padding: client.padding ?? 0 }}
     >
       {showFallback ? (
-        <span className="font-display font-bold text-neutral-700" style={{ fontSize: size * 0.35 }}>
+        <span className="font-display font-bold text-foreground/70" style={{ fontSize: size * 0.35 }}>
           {client.name[0]}
         </span>
       ) : (
         <img
           src={src}
           alt={client.name}
-          className="object-contain"
-          style={{ transform: `scale(${client.scale ?? 1})`, maxWidth: "85%", maxHeight: "85%" }}
+          className="object-contain brightness-0 invert opacity-80 hover:opacity-100 transition-opacity"
+          style={{ transform: `scale(${client.scale ?? 1})`, maxWidth: "100%", maxHeight: "100%" }}
           loading="lazy"
           onError={() => setErr(true)}
         />
