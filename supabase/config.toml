@@ -15,3 +15,5 @@ project_id = "snymrcialncxkcsibkjv"
     verify_jwt = true
   [functions.groeistack-refresh]
     verify_jwt = false
+  [functions.groeistack-scrape]
+    verify_jwt = false
