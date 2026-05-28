@@ -309,6 +309,33 @@ export type Database = {
         }
         Relationships: []
       }
+      content_entities: {
+        Row: {
+          confidence: number
+          created_at: string
+          entity_name: string
+          entity_type: string
+          id: string
+          slug: string
+        }
+        Insert: {
+          confidence?: number
+          created_at?: string
+          entity_name: string
+          entity_type: string
+          id?: string
+          slug: string
+        }
+        Update: {
+          confidence?: number
+          created_at?: string
+          entity_name?: string
+          entity_type?: string
+          id?: string
+          slug?: string
+        }
+        Relationships: []
+      }
       content_queue: {
         Row: {
           blog_post_id: string | null
@@ -368,6 +395,42 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      content_refresh_queue: {
+        Row: {
+          created_at: string
+          id: string
+          last_updated_at: string | null
+          priority: string
+          reason: string
+          signal_data: Json
+          slug: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          last_updated_at?: string | null
+          priority?: string
+          reason: string
+          signal_data?: Json
+          slug: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          last_updated_at?: string | null
+          priority?: string
+          reason?: string
+          signal_data?: Json
+          slug?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
       }
       content_topics: {
         Row: {
@@ -1306,41 +1369,107 @@ export type Database = {
       seo_action_items: {
         Row: {
           clicks: number | null
+          commercial_intent: string | null
           created_at: string
           id: string
           impressions: number | null
           notes: string | null
+          opportunity_score: number | null
           page: string | null
           position: number | null
           priority: string
           query: string
+          service_fit: string | null
           status: string
           updated_at: string
         }
         Insert: {
           clicks?: number | null
+          commercial_intent?: string | null
           created_at?: string
           id?: string
           impressions?: number | null
           notes?: string | null
+          opportunity_score?: number | null
           page?: string | null
           position?: number | null
           priority?: string
           query: string
+          service_fit?: string | null
           status?: string
           updated_at?: string
         }
         Update: {
           clicks?: number | null
+          commercial_intent?: string | null
           created_at?: string
           id?: string
           impressions?: number | null
           notes?: string | null
+          opportunity_score?: number | null
           page?: string | null
           position?: number | null
           priority?: string
           query?: string
+          service_fit?: string | null
           status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      seo_ai_readiness: {
+        Row: {
+          ai_readiness_score: number
+          created_at: string
+          has_answer_block: boolean
+          has_author_entity: boolean
+          has_concrete_examples: boolean
+          has_faq: boolean
+          has_recent_date: boolean
+          has_schema: boolean
+          html_crawlable: boolean
+          internal_links_count: number
+          last_refreshed_at: string | null
+          last_scanned_at: string | null
+          missing_factors: Json
+          page_type: string
+          slug: string
+          updated_at: string
+        }
+        Insert: {
+          ai_readiness_score?: number
+          created_at?: string
+          has_answer_block?: boolean
+          has_author_entity?: boolean
+          has_concrete_examples?: boolean
+          has_faq?: boolean
+          has_recent_date?: boolean
+          has_schema?: boolean
+          html_crawlable?: boolean
+          internal_links_count?: number
+          last_refreshed_at?: string | null
+          last_scanned_at?: string | null
+          missing_factors?: Json
+          page_type?: string
+          slug: string
+          updated_at?: string
+        }
+        Update: {
+          ai_readiness_score?: number
+          created_at?: string
+          has_answer_block?: boolean
+          has_author_entity?: boolean
+          has_concrete_examples?: boolean
+          has_faq?: boolean
+          has_recent_date?: boolean
+          has_schema?: boolean
+          html_crawlable?: boolean
+          internal_links_count?: number
+          last_refreshed_at?: string | null
+          last_scanned_at?: string | null
+          missing_factors?: Json
+          page_type?: string
+          slug?: string
           updated_at?: string
         }
         Relationships: []
@@ -1572,6 +1701,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      compute_ai_readiness_score: {
+        Args: { r: Database["public"]["Tables"]["seo_ai_readiness"]["Row"] }
+        Returns: number
+      }
       compute_anchor_diversity: {
         Args: never
         Returns: {

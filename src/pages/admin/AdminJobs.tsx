@@ -34,6 +34,7 @@ const JOBS: JobDef[] = [
   { key: "orphan-link-detector", label: "Weespagina detector", description: "Vindt slecht gelinkte pagina's", fn: "orphan-link-detector", schedule: "Wekelijks zondag 03:00", icon: Network },
   { key: "striking-distance-scan", label: "Striking distance scanner", description: "Vindt keywords op positie 8-20 met prioriteit", fn: "striking-distance-scan", schedule: "Wekelijks maandag 05:00", icon: Target },
   { key: "seo-health-monitor", label: "SEO health monitor", description: "Anker-diversiteit, over-linking en weespagina's", fn: "seo-health-monitor", schedule: "Wekelijks maandag 06:00", icon: ShieldCheck },
+  { key: "ai-readiness-scan", label: "AI Readiness scanner", description: "Scoort pagina's op AI-citeerbaarheid (answer block, FAQ, schema, links)", fn: "ai-readiness-scan", schedule: "Wekelijks maandag 07:00", icon: Sparkles },
 ];
 
 interface Run {

@@ -15,6 +15,8 @@ import RelatedSolutions from "@/components/blog/RelatedSolutions";
 import MidContentCta from "@/components/blog/MidContentCta";
 import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 import { trackCTA } from "@/lib/tracking";
+import AnswerBlock from "@/components/blog/AnswerBlock";
+import { parseAnswerBlock } from "@/lib/parseAnswerBlock";
 
 interface Post {
   id: string;
@@ -96,10 +98,12 @@ const BlogPost = () => {
 
   const publishDate = post.published_at || post.created_at;
   // Strip leading H1 from markdown to avoid duplicate title
-  const cleanContent = post.content
+  const rawCleanContent = post.content
     .replace(/^\s*#\s+.+\n*/m, "")
     .replace(/\\$/gm, "")
     .replace(/\\\n/g, "\n");
+  const { block: answerBlock, contentWithoutAnswer, faqs } = parseAnswerBlock(rawCleanContent);
+  const cleanContent = contentWithoutAnswer;
   const readTime = estimateReadTime(cleanContent);
   const isDraft = post.status === "draft";
 
@@ -187,6 +191,7 @@ const BlogPost = () => {
             prose-tr:transition-colors hover:prose-tr:bg-secondary/30
             prose-figure:my-8
           ">
+            {answerBlock && <AnswerBlock block={answerBlock} />}
             {(() => {
               const parts = splitContentWithInfographics(cleanContent);
               const variant: "signaal" = "signaal";
@@ -307,6 +312,24 @@ const BlogPost = () => {
           }),
         }}
       />
+
+      {/* FAQPage JSON-LD (alleen als artikel FAQ-sectie heeft) */}
+      {faqs.length > 0 && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              mainEntity: faqs.map((f) => ({
+                "@type": "Question",
+                name: f.question,
+                acceptedAnswer: { "@type": "Answer", text: f.answer },
+              })),
+            }),
+          }}
+        />
+      )}
     </div>
   );
 };
