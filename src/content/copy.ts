@@ -15,8 +15,8 @@ export const BOOKING_URL =
 export const CTA = {
   /** Hoofd-CTA: gebruikt in hero, navbar, sticky, sections */
   gratisScan: {
-    label: "Boek gratis scan →",
-    labelShort: "Boek gratis scan",
+    label: "Reserveer uw capaciteit",
+    labelShort: "Reserveer uw capaciteit",
     href: "#boek-gratis-scan",
     external: false,
   },
