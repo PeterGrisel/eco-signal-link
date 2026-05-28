@@ -57,7 +57,7 @@ const StickyHeroCta = forwardRef<HTMLDivElement>((_, ref) => {
               onClick={(e) => {
                 e.preventDefault();
                 import("@/components/booking/GlobalBookingModal").then((m) => m.openBookingModal());
-                trackCTA("Sticky Hero CTA — Reserveer uw capaciteit", CTA.gratisScan.href);
+                trackCTA("Sticky Hero CTA — Boek gratis scan", CTA.gratisScan.href);
               }}
               className="flex-1 flex items-center justify-center gap-2 bg-primary text-primary-foreground rounded-lg px-4 py-3 font-semibold text-sm hover:opacity-90 transition-opacity"
             >
