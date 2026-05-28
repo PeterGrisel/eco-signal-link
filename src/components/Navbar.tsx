@@ -27,7 +27,7 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import { MenuToggleIcon } from "@/components/ui/menu-toggle-icon";
-import CtaLink from "@/components/CtaLink";
+
 import { trackCTA } from "@/lib/tracking";
 import { cn } from "@/lib/utils";
 
