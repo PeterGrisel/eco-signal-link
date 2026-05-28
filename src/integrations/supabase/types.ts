@@ -908,6 +908,101 @@ export type Database = {
           },
         ]
       }
+      playbook_scenarios: {
+        Row: {
+          active: boolean
+          angle: string
+          audience: string
+          created_at: string
+          id: string
+          service_line: string
+          sort_order: number
+          title: string
+          used_at: string | null
+        }
+        Insert: {
+          active?: boolean
+          angle?: string
+          audience?: string
+          created_at?: string
+          id?: string
+          service_line?: string
+          sort_order?: number
+          title: string
+          used_at?: string | null
+        }
+        Update: {
+          active?: boolean
+          angle?: string
+          audience?: string
+          created_at?: string
+          id?: string
+          service_line?: string
+          sort_order?: number
+          title?: string
+          used_at?: string | null
+        }
+        Relationships: []
+      }
+      playbooks: {
+        Row: {
+          audience: string | null
+          content: string
+          created_at: string
+          excerpt: string | null
+          id: string
+          meta_description: string | null
+          published_at: string | null
+          scenario_id: string | null
+          service_line: string | null
+          slug: string
+          status: string
+          title: string
+          tools: string[]
+          updated_at: string
+        }
+        Insert: {
+          audience?: string | null
+          content?: string
+          created_at?: string
+          excerpt?: string | null
+          id?: string
+          meta_description?: string | null
+          published_at?: string | null
+          scenario_id?: string | null
+          service_line?: string | null
+          slug: string
+          status?: string
+          title: string
+          tools?: string[]
+          updated_at?: string
+        }
+        Update: {
+          audience?: string | null
+          content?: string
+          created_at?: string
+          excerpt?: string | null
+          id?: string
+          meta_description?: string | null
+          published_at?: string | null
+          scenario_id?: string | null
+          service_line?: string | null
+          slug?: string
+          status?: string
+          title?: string
+          tools?: string[]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "playbooks_scenario_id_fkey"
+            columns: ["scenario_id"]
+            isOneToOne: false
+            referencedRelation: "playbook_scenarios"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       seo_settings: {
         Row: {
           config: Json
