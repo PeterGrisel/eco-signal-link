@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { createPortal } from "react-dom";
 import {
   ArrowRight,
@@ -125,6 +125,18 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
   const scrolled = useScroll(10);
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const scrollToPricing = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (location.pathname === "/") {
+      const el = document.getElementById("pricing");
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    } else {
+      navigate("/#pricing");
+    }
+    trackCTA("Navbar — Pricing", "#pricing");
+  };
 
   // Close mobile sheet on route change
   useEffect(() => {
@@ -198,13 +210,13 @@ const Navbar = () => {
 
             <NavigationMenuItem>
               <NavigationMenuLink asChild>
-                <Link
-                  to="/pipeline-equation"
-                  onClick={() => trackCTA("Navbar — Pricing", "/pipeline-equation")}
+                <a
+                  href="/#pricing"
+                  onClick={scrollToPricing}
                   className="inline-flex h-11 items-center justify-center rounded-md bg-transparent px-4 text-base font-medium text-foreground/80 transition-colors hover:bg-accent/60 hover:text-foreground"
                 >
                   Pricing
-                </Link>
+                </a>
               </NavigationMenuLink>
             </NavigationMenuItem>
           </NavigationMenuList>
@@ -239,16 +251,16 @@ const Navbar = () => {
             items={[...bedrijf, ...bedrijf2]}
             onClick={() => setOpen(false)}
           />
-          <Link
-            to="/pipeline-equation"
-            onClick={() => {
-              trackCTA("Navbar (mobile) — Pricing", "/pipeline-equation");
+          <a
+            href="/#pricing"
+            onClick={(e) => {
+              scrollToPricing(e);
               setOpen(false);
             }}
             className="text-2xl font-display font-semibold text-foreground"
           >
             Pricing
-          </Link>
+          </a>
           <CtaLink
             intent="gratisScan"
             location="Navbar (mobile)"
