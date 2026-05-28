@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowUp, Layers, Tag, HelpCircle, Calendar } from "lucide-react";
+import { ArrowUp, Layers, Tag, HelpCircle, Phone } from "lucide-react";
 import { trackCTA } from "@/lib/tracking";
 
 /**
@@ -29,13 +29,6 @@ const MobileDock = () => {
   const scrollTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
     trackCTA("Mobile Dock — Top", "/");
-  };
-
-  const openBooking = () => {
-    import("@/components/booking/GlobalBookingModal").then((m) =>
-      m.openBookingModal()
-    );
-    trackCTA("Mobile Dock — Boek gratis scan", "#boek-gratis-scan");
   };
 
   return (
