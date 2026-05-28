@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowUp, Layers, Tag, HelpCircle, Calendar } from "lucide-react";
+import { ArrowUp, Layers, Tag, HelpCircle, Phone } from "lucide-react";
 import { trackCTA } from "@/lib/tracking";
 
 /**
@@ -31,13 +31,6 @@ const MobileDock = () => {
     trackCTA("Mobile Dock — Top", "/");
   };
 
-  const openBooking = () => {
-    import("@/components/booking/GlobalBookingModal").then((m) =>
-      m.openBookingModal()
-    );
-    trackCTA("Mobile Dock — Boek gratis scan", "#boek-gratis-scan");
-  };
-
   return (
     <AnimatePresence>
       {visible && (
@@ -62,13 +55,14 @@ const MobileDock = () => {
             <DockButton onClick={() => goTo("faq", "FAQ")} label="FAQ">
               <HelpCircle className="w-5 h-5" />
             </DockButton>
-            <button
-              onClick={openBooking}
+            <a
+              href="tel:+493075675721"
+              onClick={() => trackCTA("Mobile Dock — Bel AI Assistent", "tel:+493075675721")}
               className="flex items-center gap-2 bg-primary text-primary-foreground rounded-xl px-4 py-2.5 font-semibold text-sm hover:opacity-90 transition-opacity"
             >
-              <Calendar className="w-4 h-4" />
-              Boek scan
-            </button>
+              <Phone className="w-4 h-4" />
+              Bel AI Assistent
+            </a>
           </div>
         </motion.nav>
       )}
