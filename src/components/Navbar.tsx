@@ -251,16 +251,16 @@ const Navbar = () => {
             items={[...bedrijf, ...bedrijf2]}
             onClick={() => setOpen(false)}
           />
-          <Link
-            to="/pipeline-equation"
-            onClick={() => {
-              trackCTA("Navbar (mobile) — Pricing", "/pipeline-equation");
+          <a
+            href="/#pricing"
+            onClick={(e) => {
+              scrollToPricing(e);
               setOpen(false);
             }}
             className="text-2xl font-display font-semibold text-foreground"
           >
             Pricing
-          </Link>
+          </a>
           <CtaLink
             intent="gratisScan"
             location="Navbar (mobile)"
