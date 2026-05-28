@@ -29,6 +29,67 @@ async function loadExistingPosts() {
   return data || [];
 }
 
+async function loadGroeistackTools() {
+  const supabase = createClient(
+    Deno.env.get("SUPABASE_URL")!,
+    Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
+  );
+  const { data } = await supabase
+    .from("groeistack_tools")
+    .select("name, category, description, website, link_status")
+    .eq("published", true)
+    .order("category", { ascending: true })
+    .order("sort_order", { ascending: true });
+  // alleen tools met werkende link gebruiken in artikelen
+  return (data || []).filter(
+    (t: { website?: string | null; link_status?: string | null }) =>
+      !!t.website && t.link_status !== "broken"
+  );
+}
+
+const GROEISTACK_CATEGORY_LABELS: Record<string, string> = {
+  signalen: "Signalen & intent",
+  verrijking: "Data & verrijking",
+  outreach: "Outreach & sequencing",
+  crm: "CRM & routing",
+  ai: "AI & automation",
+  dashboard: "Dashboards & rapportage",
+};
+
+function buildGroeistackContext(
+  tools: Array<{ name: string; category: string; description: string; website: string }>
+) {
+  if (!tools.length) return "";
+  const grouped = new Map<string, typeof tools>();
+  for (const t of tools) {
+    const arr = grouped.get(t.category) || [];
+    arr.push(t);
+    grouped.set(t.category, arr);
+  }
+  const blocks: string[] = [];
+  for (const [category, items] of grouped) {
+    const label = GROEISTACK_CATEGORY_LABELS[category] || category;
+    const lines = items
+      .slice(0, 8) // beperk tot 8 per categorie om context niet te laten ontploffen
+      .map(
+        (t) =>
+          `- [${t.name}](${t.website}) — ${(t.description || "").slice(0, 140)}`
+      )
+      .join("\n");
+    blocks.push(`### ${label}\n${lines}`);
+  }
+  return `\nGROEISTACK (onze gecureerde tool-bibliotheek - gebruik alleen waar relevant):
+${blocks.join("\n\n")}
+
+GROEISTACK GEBRUIK:
+- Refereer aan tools uit deze lijst wanneer het onderwerp van de sectie overlapt met hun categorie
+- Gebruik ALTIJD de exacte markdown link uit de lijst hierboven: [Naam](website)
+- Verzin geen URLs en gebruik geen tools die niet in deze lijst staan
+- Blijf agnostisch: noem 2 tot 3 alternatieven naast elkaar, push geen enkele vendor
+- Verwerk ze natuurlijk in de tekst, niet als losse opsomming
+- Deze tool-links tellen mee als externe links voor de SEO check`;
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
@@ -36,8 +97,11 @@ serve(async (req) => {
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
 
-    const settings = await loadSettings();
-    const existingPosts = await loadExistingPosts();
+    const [settings, existingPosts, groeistackTools] = await Promise.all([
+      loadSettings(),
+      loadExistingPosts(),
+      loadGroeistackTools(),
+    ]);
     const { keyword, audience, length, headline, content_type } = await req.json();
     const topic = headline || keyword;
     if (!topic) throw new Error("keyword or headline is required");
@@ -66,6 +130,8 @@ Vaste pagina's:
 - [Full Service Recruitment](${siteUrl}/full-service-recruitment)
 - [Blog overzicht](${siteUrl}/blog)`
       : "";
+
+    const groeistackContext = buildGroeistackContext(groeistackTools);
 
     const systemPrompt = `Je bent een expert SEO content schrijver voor ${siteName}. Je schrijft in het ${lang} voor een professionele B2B doelgroep.
 
@@ -133,6 +199,7 @@ INTERNE LINKS (ABSOLUUT VERPLICHT - minimaal 2 per artikel):
 - Link NIET naar het artikel zelf
 - CONTROLEER: als je artikel minder dan 2 interne links bevat, voeg er meer toe
 ${internalLinksContext}
+${groeistackContext}
 
 QUOTES MET BRONVERMELDING (VERPLICHT - minimaal 2 per artikel):
 - Gebruik > blockquote syntax voor citaten
