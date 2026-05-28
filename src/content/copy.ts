@@ -155,7 +155,7 @@ export const COPY = {
   },
   ctaSection: {
     headingLine1: "Klaar voor uw",
-    headingAccent: "gratis scan?",
+    headingAccent: "capaciteit?",
     body:
       "60 minuten. Wij brengen uw proces in kaart en laten zien waar de winst zit. Geen verkoopgesprek.",
     speakWith: "Spreek direct met Peter",
