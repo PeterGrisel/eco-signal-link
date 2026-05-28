@@ -3,7 +3,7 @@ import AdminLayout from "@/components/admin/AdminLayout";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { BookA, Sparkles, Trash2, ExternalLink, CheckCircle2, XCircle, Plus } from "lucide-react";
+import { BookA, Sparkles, Trash2, ExternalLink, CheckCircle2, XCircle, Plus, Rocket } from "lucide-react";
 
 interface Term {
   id: string;
@@ -28,6 +28,8 @@ const AdminGlossary = () => {
   const [terms, setTerms] = useState<Term[]>([]);
   const [runs, setRuns] = useState<Run[]>([]);
   const [generating, setGenerating] = useState(false);
+  const [bulkRunning, setBulkRunning] = useState(false);
+  const [bulkCount, setBulkCount] = useState(25);
   const [customTerm, setCustomTerm] = useState("");
 
   const load = async () => {
@@ -62,6 +64,27 @@ const AdminGlossary = () => {
     load();
   };
 
+  const bulkGenerate = async () => {
+    setBulkRunning(true);
+    const { data, error } = await supabase.functions.invoke("generate-glossary", {
+      body: { count: bulkCount },
+    });
+    setBulkRunning(false);
+    if (error || (data && (data as any).ok === false)) {
+      return toast({
+        title: "Bulk run mislukt",
+        description: error?.message || (data as any)?.error,
+        variant: "destructive",
+      });
+    }
+    const queued = (data as any)?.queued || 0;
+    toast({
+      title: `Grote run gestart: ${queued} termen`,
+      description: "Verwerking draait op de achtergrond. Ververs over een paar minuten.",
+    });
+    setTimeout(load, 4000);
+  };
+
   const setStatus = async (t: Term, status: string) => {
     await sb.from("glossary_terms").update({ status }).eq("id", t.id);
     setTerms((r) => r.map((x) => (x.id === t.id ? { ...x, status } : x)));
@@ -74,7 +97,7 @@ const AdminGlossary = () => {
 
   return (
     <AdminLayout>
-      <div className="mb-6 flex items-center justify-between gap-4 flex-wrap">
+      <div className="mb-6 flex items-start justify-between gap-4 flex-wrap">
         <div>
           <h1 className="font-display text-2xl font-bold text-foreground flex items-center gap-2">
             <BookA className="w-6 h-6 text-primary" /> Woordenboek
@@ -83,10 +106,27 @@ const AdminGlossary = () => {
             Autopilot voegt elke dag een term toe op basis van bestaande content. Of stel zelf een term voor.
           </p>
         </div>
-        <Button onClick={() => generate()} disabled={generating} className="gap-2">
-          <Sparkles className={`w-4 h-4 ${generating ? "animate-pulse" : ""}`} />
-          {generating ? "Genereren..." : "Genereer term"}
-        </Button>
+        <div className="flex items-center gap-2 flex-wrap">
+          <Button onClick={() => generate()} disabled={generating || bulkRunning} variant="outline" className="gap-2">
+            <Sparkles className={`w-4 h-4 ${generating ? "animate-pulse" : ""}`} />
+            {generating ? "Genereren..." : "1 term"}
+          </Button>
+          <div className="flex items-center gap-1.5 rounded-md border border-border bg-card px-2 py-1">
+            <input
+              type="number"
+              min={2}
+              max={50}
+              value={bulkCount}
+              onChange={(e) => setBulkCount(Math.max(2, Math.min(50, Number(e.target.value) || 2)))}
+              className="w-14 bg-transparent text-sm text-foreground outline-none"
+            />
+            <span className="text-xs text-muted-foreground">termen</span>
+          </div>
+          <Button onClick={bulkGenerate} disabled={generating || bulkRunning} className="gap-2">
+            <Rocket className={`w-4 h-4 ${bulkRunning ? "animate-pulse" : ""}`} />
+            {bulkRunning ? "Starten..." : "Grote run"}
+          </Button>
+        </div>
       </div>
 
       {/* Custom term */}
