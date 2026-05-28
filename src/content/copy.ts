@@ -28,7 +28,7 @@ export const CTA = {
   },
   /** Tertiaire CTA: situatie bespreken (in body-tekst) */
   bespreekSituatie: {
-    label: "Boek gratis scan →",
+    label: "Reserveer uw capaciteit",
     href: "#boek-gratis-scan",
     external: false,
   },
