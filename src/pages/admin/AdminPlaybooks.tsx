@@ -3,7 +3,7 @@ import AdminLayout from "@/components/admin/AdminLayout";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { BookOpen, Sparkles, Trash2, ExternalLink } from "lucide-react";
+import { BookOpen, Sparkles, Trash2, ExternalLink, CheckCircle2, XCircle, Calendar } from "lucide-react";
 
 interface Scenario {
   id: string;
@@ -11,6 +11,7 @@ interface Scenario {
   service_line: string;
   active: boolean;
   used_at: string | null;
+  scheduled_date: string | null;
 }
 interface Playbook {
   id: string;
@@ -19,6 +20,14 @@ interface Playbook {
   status: string;
   published_at: string | null;
 }
+interface Run {
+  id: string;
+  created_at: string;
+  status: string;
+  message: string | null;
+  scenario_id: string | null;
+  playbook_id: string | null;
+}
 
 const sb = supabase as unknown as { from: (t: string) => any };
 
@@ -26,6 +35,7 @@ const AdminPlaybooks = () => {
   const { toast } = useToast();
   const [scenarios, setScenarios] = useState<Scenario[]>([]);
   const [playbooks, setPlaybooks] = useState<Playbook[]>([]);
+  const [runs, setRuns] = useState<Run[]>([]);
   const [generating, setGenerating] = useState(false);
 
   const load = async () => {
@@ -33,8 +43,11 @@ const AdminPlaybooks = () => {
       .from("playbook_scenarios").select("*").order("sort_order");
     const { data: pb } = await sb
       .from("playbooks").select("id, slug, title, status, published_at").order("published_at", { ascending: false });
+    const { data: rn } = await sb
+      .from("playbook_runs").select("*").order("created_at", { ascending: false }).limit(10);
     setScenarios((sc as Scenario[]) || []);
     setPlaybooks((pb as Playbook[]) || []);
+    setRuns((rn as Run[]) || []);
   };
 
   useEffect(() => { load(); }, []);
@@ -61,6 +74,12 @@ const AdminPlaybooks = () => {
     setScenarios((r) => r.map((x) => (x.id === s.id ? { ...x, active: !x.active } : x)));
   };
 
+  const setSchedule = async (s: Scenario, date: string) => {
+    const value = date || null;
+    await sb.from("playbook_scenarios").update({ scheduled_date: value }).eq("id", s.id);
+    setScenarios((r) => r.map((x) => (x.id === s.id ? { ...x, scheduled_date: value } : x)));
+  };
+
   const setStatus = async (p: Playbook, status: string) => {
     await sb.from("playbooks").update({ status }).eq("id", p.id);
     setPlaybooks((r) => r.map((x) => (x.id === p.id ? { ...x, status } : x)));
@@ -79,7 +98,7 @@ const AdminPlaybooks = () => {
             <BookOpen className="w-6 h-6 text-primary" /> Playbooks
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
-            Dagelijks automatisch gegenereerd uit de scenario's + De Groeistack.
+            Autopilot draait dagelijks om 06:00 UTC. Plan scenario's per datum of laat de rotatie kiezen.
           </p>
         </div>
         <Button onClick={() => generate()} disabled={generating} className="gap-2">
@@ -88,10 +107,36 @@ const AdminPlaybooks = () => {
         </Button>
       </div>
 
+      {/* Run log */}
+      <div className="rounded-xl border border-border bg-card p-4 mb-8">
+        <p className="text-[11px] font-display font-semibold tracking-[0.2em] uppercase text-primary/70 mb-3">
+          Autopilot runs (laatste 10)
+        </p>
+        {runs.length === 0 ? (
+          <p className="text-sm text-muted-foreground">Nog geen runs vastgelegd.</p>
+        ) : (
+          <div className="space-y-1.5">
+            {runs.map((r) => (
+              <div key={r.id} className="flex items-center gap-3 text-sm">
+                {r.status === "success" ? (
+                  <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
+                ) : (
+                  <XCircle className="w-4 h-4 text-destructive shrink-0" />
+                )}
+                <span className="text-xs text-muted-foreground tabular-nums shrink-0 w-36">
+                  {new Date(r.created_at).toLocaleString("nl-NL")}
+                </span>
+                <span className="flex-1 text-foreground/90 truncate">{r.message || "—"}</span>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
       {/* Scenario's */}
       <div className="rounded-xl border border-border bg-card p-4 mb-8">
         <p className="text-[11px] font-display font-semibold tracking-[0.2em] uppercase text-primary/70 mb-4">
-          Scenario's ({scenarios.filter((s) => s.active).length} actief)
+          Scenario's ({scenarios.filter((s) => s.active).length} actief) — vul een datum om in te plannen
         </p>
         <div className="space-y-2">
           {scenarios.map((s) => (
@@ -100,6 +145,15 @@ const AdminPlaybooks = () => {
                 <input type="checkbox" checked={s.active} onChange={() => toggleScenario(s)} />
               </label>
               <span className="flex-1 text-foreground/90">{s.title}</span>
+              <div className="flex items-center gap-1 shrink-0">
+                <Calendar className="w-3.5 h-3.5 text-muted-foreground" />
+                <input
+                  type="date"
+                  value={s.scheduled_date || ""}
+                  onChange={(e) => setSchedule(s, e.target.value)}
+                  className="bg-background border border-border rounded px-2 py-1 text-xs"
+                />
+              </div>
               <span className="text-xs text-muted-foreground hidden sm:block">{s.service_line}</span>
               <Button size="sm" variant="ghost" onClick={() => generate(s.id)} disabled={generating}>
                 Genereer
