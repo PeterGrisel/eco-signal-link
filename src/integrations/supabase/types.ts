@@ -566,6 +566,57 @@ export type Database = {
         }
         Relationships: []
       }
+      groeistack_tools: {
+        Row: {
+          category: string
+          created_at: string
+          description: string
+          id: string
+          last_checked_at: string | null
+          last_scraped_at: string | null
+          link_status: string | null
+          logo_url: string | null
+          name: string
+          published: boolean
+          sort_order: number
+          source_url: string | null
+          updated_at: string
+          website: string
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          description?: string
+          id?: string
+          last_checked_at?: string | null
+          last_scraped_at?: string | null
+          link_status?: string | null
+          logo_url?: string | null
+          name: string
+          published?: boolean
+          sort_order?: number
+          source_url?: string | null
+          updated_at?: string
+          website: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          description?: string
+          id?: string
+          last_checked_at?: string | null
+          last_scraped_at?: string | null
+          link_status?: string | null
+          logo_url?: string | null
+          name?: string
+          published?: boolean
+          sort_order?: number
+          source_url?: string | null
+          updated_at?: string
+          website?: string
+        }
+        Relationships: []
+      }
       gsc_snapshots: {
         Row: {
           clicks: number | null

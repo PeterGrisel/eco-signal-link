@@ -17,3 +17,5 @@ project_id = "snymrcialncxkcsibkjv"
     verify_jwt = false
   [functions.generate-playbook]
     verify_jwt = false
+  [functions.groeistack-scrape]
+    verify_jwt = false

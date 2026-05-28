@@ -6,6 +6,7 @@ import PageLoader from "@/components/PageLoader";
 import AmbientBackdrop from "@/components/homepage/AmbientBackdrop";
 import HomepageNarrative from "@/components/homepage/HomepageNarrative";
 import ActScrollProgress from "@/components/homepage/ActScrollProgress";
+import PlaybookShowcase from "@/components/PlaybookShowcase";
 import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 import CtaLink from "@/components/CtaLink";
 import { Button } from "@/components/ui/button";
@@ -63,6 +64,7 @@ const HoeHetWerkt = () => {
           </section>
 
           <HomepageNarrative />
+          <PlaybookShowcase />
           <Footer />
           <MobileDock />
           <ActScrollProgress

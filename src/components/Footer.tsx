@@ -189,16 +189,22 @@ const Footer = () => {
         </div>
 
         {/* Bottom bar */}
-        <div className="py-6 border-t border-border flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-          <div className="flex-shrink-0">
-            <Link to="/" className="font-display font-bold text-lg inline-block">
-              <span className="text-foreground">B2B</span>
-              <span className="text-primary">GroeiMachine</span>
-            </Link>
-            <p className="text-muted-foreground text-xs mt-0.5">Signal-Based Prospecting Systems</p>
+        <div className="py-6 border-t border-border flex flex-col gap-5">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
+            <div className="flex-shrink-0">
+              <Link to="/" className="font-display font-bold text-lg inline-block">
+                <span className="text-foreground">B2B</span>
+                <span className="text-primary">GroeiMachine</span>
+              </Link>
+              <p className="text-muted-foreground text-xs mt-0.5">Signal-Based Prospecting Systems</p>
+            </div>
+
+            <p className="text-muted-foreground text-xs md:text-right">
+              © {new Date().getFullYear()} B2BGroeiMachine · powered by Rebel Force™ · KVK 94347778 · BTW NL866743856B01
+            </p>
           </div>
 
-          <nav className="flex items-center gap-4 text-sm flex-wrap">
+          <nav className="flex items-center gap-x-4 gap-y-2 text-sm flex-wrap pt-4 border-t border-border/60">
             <a href="https://rebelforce.nl" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">
               rebelforce.nl
             </a>
@@ -221,10 +227,6 @@ const Footer = () => {
               <Rss className="w-4 h-4" />
             </a>
           </nav>
-
-          <p className="text-muted-foreground text-xs flex-shrink-0">
-            © {new Date().getFullYear()} B2BGroeiMachine · powered by Rebel Force™ · KVK 94347778 · BTW NL866743856B01
-          </p>
         </div>
       </div>
     </footer>

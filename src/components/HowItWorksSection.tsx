@@ -1,37 +1,31 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Search, Brain, Rocket, ArrowRight } from "lucide-react";
 import {
-  ContainerScroll,
-  ContainerSticky,
-  ProcessCard,
-  ProcessCardBody,
-  ProcessCardTitle,
-} from "@/components/ui/process-timeline";
+  Compass,
+  Brain,
+  Layers,
+  Calculator,
+  Filter,
+  Send,
+  Route,
+  LineChart,
+  ArrowRight,
+  BookOpenCheck,
+} from "lucide-react";
+import { COPY } from "@/content/copy";
 
-const steps = [
-  {
-    n: "01",
-    phase: "Dag 0 – 30",
-    icon: Search,
-    title: "Scan & blauwdruk",
-    desc: "Gratis scan, ICP en koopsignalen vastgelegd, het Commercieel Brein gebouwd op uw eigen tools.",
-  },
-  {
-    n: "02",
-    phase: "Dag 30 – 60",
-    icon: Brain,
-    title: "Eerste flows live",
-    desc: "Multichannel outreach draait, opvolging loopt, en de eerste gesprekken komen binnen.",
-  },
-  {
-    n: "03",
-    phase: "Dag 60 – 90",
-    icon: Rocket,
-    title: "Meetbare groei",
-    desc: "Voorspelbare pijplijn, routing naar sales, en elke cyclus stuurt het systeem zichzelf bij.",
-  },
-];
+const stepIcons = [Compass, Brain, Filter, Calculator, Layers, Send, Route, LineChart];
+
+const PHASES = ["Fundament", "Fundament", "Doelgroep", "Doelgroep", "Activatie", "Activatie", "Sales", "Optimalisatie"] as const;
+
+const steps = COPY.methode.layers.map((l, i) => ({
+  n: l.number,
+  phase: PHASES[i],
+  icon: stepIcons[i],
+  title: l.title,
+  desc: l.line,
+  output: l.output,
+}));
 
 const HowItWorksSection = () => {
   return (
@@ -45,95 +39,52 @@ const HowItWorksSection = () => {
           transition={{ duration: 0.6 }}
           className="mb-12 md:mb-16 max-w-2xl"
         >
-          <p className="text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4">
-            Zo werkt het
+          <p className="inline-flex items-center gap-2 text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4">
+            <BookOpenCheck className="w-4 h-4" strokeWidth={1.8} />
+            Het Playbook-systeem
           </p>
           <h2 className="font-display font-bold text-4xl md:text-5xl lg:text-6xl xl:text-7xl tracking-tight leading-tight">
-            In 90 dagen van scan
+            Acht playbooks.
             <br />
-            <span className="text-gradient">naar pijplijn.</span>
+            <span className="text-gradient">Eén werkend groeisysteem.</span>
           </h2>
           <p className="text-muted-foreground text-lg leading-relaxed mt-6">
-            Geen project van maanden voordat er iets beweegt. Eén fundament,
-            daarna elke maand meetbaar verder.
+            Elke fase is een playbook dat in uw eigen tools draait.
+            Samen vormen ze één werkend systeem dat blijft staan.
           </p>
         </motion.div>
 
-        {/* Horizontale pinned timeline (desktop) */}
-        <div className="hidden lg:block">
-          <ContainerScroll className="min-h-[160vh]">
-            <ContainerSticky className="h-[70vh]">
-              <div className="flex gap-16 pl-16 pr-16 items-stretch">
-                {steps.map((s, i) => (
-                  <ProcessCard
-                    key={s.n}
-                    index={i}
-                    itemsLength={steps.length}
-                    size="md"
-                    variant="brand"
-                    className="rounded-2xl h-[60vh]"
-                  >
-                    <ProcessCardTitle className="flex-col items-start justify-between">
-                      <div className="w-14 h-14 rounded-full border border-primary/30 bg-card flex items-center justify-center shadow-[0_0_30px_-10px_hsl(var(--primary)/0.5)]">
-                        <s.icon className="w-6 h-6 text-primary" strokeWidth={1.6} />
-                      </div>
-                      <span className="font-display font-bold text-7xl xl:text-8xl text-gradient leading-none">
-                        {s.n}
-                      </span>
-                    </ProcessCardTitle>
-                    <ProcessCardBody>
-                      <span className="text-[11px] font-display font-semibold tracking-[0.18em] uppercase text-primary/80 mb-3">
-                        {s.phase}
-                      </span>
-                      <h3 className="font-display font-bold text-2xl xl:text-3xl tracking-tight mb-4">
-                        {s.title}
-                      </h3>
-                      <p className="text-base text-muted-foreground leading-relaxed">
-                        {s.desc}
-                      </p>
-                    </ProcessCardBody>
-                  </ProcessCard>
-                ))}
-              </div>
-            </ContainerSticky>
-          </ContainerScroll>
-        </div>
-
-        {/* 3 stappen met verbindingslijn (mobile / tablet) */}
-        <div className="relative grid md:grid-cols-3 gap-6 md:gap-8 lg:hidden">
-          {/* Verbindingslijn (desktop) */}
-          <div
-            aria-hidden
-            className="hidden md:block absolute top-7 left-[16.6%] right-[16.6%] h-px bg-gradient-to-r from-primary/30 via-primary/40 to-primary/30"
-          />
-
+        {/* 8 playbooks in raster (zelfde stijl als Groeistack) */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
           {steps.map((s, i) => (
             <motion.div
               key={s.n}
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="relative text-center"
+              transition={{ duration: 0.4, delay: i * 0.05 }}
+              className="card-gradient border-glow rounded-2xl p-5 md:p-6 flex flex-col gap-3"
             >
-              <div className="mx-auto w-14 h-14 rounded-full border border-primary/30 bg-card flex items-center justify-center relative z-10 shadow-[0_0_30px_-10px_hsl(var(--primary)/0.5)]">
-                <s.icon className="w-6 h-6 text-primary" strokeWidth={1.6} />
+              <div className="flex items-center justify-between">
+                <span className="w-11 h-11 rounded-xl border border-primary/30 bg-card flex items-center justify-center">
+                  <s.icon className="w-5 h-5 text-primary" strokeWidth={1.6} />
+                </span>
+                <span className="font-display font-bold text-3xl text-gradient leading-none">
+                  {s.n}
+                </span>
               </div>
-
-              <div className="mt-5 card-gradient border-glow rounded-2xl p-6 md:p-7 h-full">
-                <div className="flex items-center justify-center gap-2 mb-3">
-                  <span className="text-[10px] font-display font-bold tabular-nums text-primary/70 tracking-[0.2em]">
-                    {s.n}
-                  </span>
-                  <span className="text-[10px] font-display font-semibold tracking-[0.18em] uppercase text-muted-foreground">
-                    {s.phase}
-                  </span>
-                </div>
-                <h3 className="font-display font-bold text-xl mb-3">{s.title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  {s.desc}
-                </p>
-              </div>
+              <span className="text-[10px] font-display font-semibold tracking-[0.18em] uppercase text-primary/80">
+                Playbook · {s.phase}
+              </span>
+              <h3 className="font-display font-bold text-lg leading-tight">
+                {s.title}
+              </h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                {s.desc}
+              </p>
+              <p className="text-xs text-primary/80 leading-relaxed border-t border-primary/15 pt-3 mt-auto">
+                {s.output}
+              </p>
             </motion.div>
           ))}
         </div>
@@ -150,7 +101,7 @@ const HowItWorksSection = () => {
             to="/hoe-het-werkt"
             className="inline-flex items-center gap-2 font-medium text-primary hover:gap-3 transition-all"
           >
-            Bekijk de volledige methode
+            Bekijk alle playbooks in detail
             <ArrowRight className="w-4 h-4" />
           </Link>
         </motion.div>
