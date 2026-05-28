@@ -254,6 +254,13 @@ const Navbar = () => {
 
       <MobileMenu open={open}>
         <div className="container mx-auto px-4 pt-24 pb-10 flex flex-col gap-8 overflow-y-auto h-full">
+          <Link
+            to="/"
+            onClick={() => setOpen(false)}
+            className="text-2xl font-display font-semibold text-foreground hover:text-primary transition-colors"
+          >
+            Home
+          </Link>
           <MobileSection title="Oplossingen" items={oplossingen} onClick={() => setOpen(false)} />
           <MobileSection
             title="Bedrijf"
