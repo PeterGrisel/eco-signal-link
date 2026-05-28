@@ -47,7 +47,7 @@ const ClientLogo = ({ client, size = 56 }: { client: Client; size?: number }) =>
         <img
           src={src}
           alt={client.name}
-          className="object-contain brightness-0 invert opacity-80 hover:opacity-100 transition-opacity"
+          className="object-contain"
           style={{ transform: `scale(${client.scale ?? 1})`, maxWidth: "100%", maxHeight: "100%" }}
           loading="lazy"
           onError={() => setErr(true)}
@@ -58,39 +58,66 @@ const ClientLogo = ({ client, size = 56 }: { client: Client; size?: number }) =>
 };
 
 const BrainRadial = ({ clients }: { clients: Client[] }) => {
-  // Inner ring: first 6 clients close to brein; outer ring: the rest.
+  // Two counter-rotating orbits.
   const inner = clients.slice(0, Math.min(6, Math.ceil(clients.length / 2)));
   const outer = clients.slice(inner.length);
 
-  const renderRing = (group: Client[], radiusPct: number, offset = 0) =>
-    group.map((c, i) => {
-      const angle = (i / group.length) * 2 * Math.PI - Math.PI / 2 + offset;
-      const x = 50 + radiusPct * Math.cos(angle);
-      const y = 50 + radiusPct * Math.sin(angle);
-      return (
-        <a
-          key={c.id}
-          href={`#klant-${c.id}`}
-          className="absolute -translate-x-1/2 -translate-y-1/2 flex items-center gap-1.5 rounded-md bg-background/80 border border-foreground/15 px-2.5 py-1.5 shadow-sm hover:border-primary/50 hover:bg-background transition-colors"
-          style={{ left: `${x}%`, top: `${y}%` }}
-        >
-          <ClientLogo client={c} size={18} />
-          <span className="text-[10px] uppercase tracking-wider text-foreground/85 whitespace-nowrap">
-            {c.name}
-          </span>
-        </a>
-      );
-    });
+  const Ring = ({
+    group,
+    radiusPct,
+    duration,
+    reverse,
+    offset = 0,
+  }: {
+    group: Client[];
+    radiusPct: number;
+    duration: number;
+    reverse?: boolean;
+    offset?: number;
+  }) => (
+    <div
+      className="absolute inset-0"
+      style={{
+        animation: `klanten-spin ${duration}s linear infinite`,
+        animationDirection: reverse ? "reverse" : "normal",
+      }}
+    >
+      {group.map((c, i) => {
+        const angle = (i / group.length) * 2 * Math.PI - Math.PI / 2 + offset;
+        const x = 50 + radiusPct * Math.cos(angle);
+        const y = 50 + radiusPct * Math.sin(angle);
+        return (
+          <a
+            key={c.id}
+            href={`#klant-${c.id}`}
+            className="absolute -translate-x-1/2 -translate-y-1/2 flex items-center gap-1.5 rounded-md bg-background/85 border border-foreground/15 px-2.5 py-1.5 shadow-sm hover:border-primary/50 hover:bg-background transition-colors"
+            style={{
+              left: `${x}%`,
+              top: `${y}%`,
+              // Counter-rotate so the pill stays upright while the ring spins.
+              animation: `klanten-spin ${duration}s linear infinite`,
+              animationDirection: reverse ? "normal" : "reverse",
+            }}
+          >
+            <ClientLogo client={c} size={18} />
+            <span className="text-[10px] uppercase tracking-wider text-foreground/85 whitespace-nowrap">
+              {c.name}
+            </span>
+          </a>
+        );
+      })}
+    </div>
+  );
 
   return (
     <div className="relative aspect-square w-full max-w-md mx-auto">
-      {/* Ring guides — exactly like Chapter05Brein */}
+      {/* Ring guides */}
       <div className="absolute inset-0 rounded-full border border-primary/20" />
       <div className="absolute inset-8 rounded-full border border-primary/15" />
       <div className="absolute inset-16 rounded-full border border-primary/10" />
 
       {/* Center brein */}
-      <div className="absolute inset-0 flex items-center justify-center">
+      <div className="absolute inset-0 flex items-center justify-center z-10">
         <div className="flex flex-col items-center justify-center h-28 w-28 rounded-full bg-primary/10 border border-primary/40">
           <Brain className="h-7 w-7 text-primary mb-1" strokeWidth={1.5} />
           <span className="text-[9px] uppercase tracking-[0.2em] text-foreground/90 text-center leading-tight">
@@ -101,10 +128,15 @@ const BrainRadial = ({ clients }: { clients: Client[] }) => {
         </div>
       </div>
 
-      {/* Inner orbit */}
-      {renderRing(inner, 30)}
-      {/* Outer orbit (offset to interleave) */}
-      {renderRing(outer, 46, Math.PI / outer.length)}
+      <Ring group={inner} radiusPct={30} duration={45} />
+      <Ring group={outer} radiusPct={46} duration={70} reverse offset={Math.PI / Math.max(outer.length, 1)} />
+
+      <style>{`
+        @keyframes klanten-spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+      `}</style>
     </div>
   );
 };
