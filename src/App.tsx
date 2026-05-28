@@ -116,6 +116,8 @@ const AnimatedRoutes = () => {
           <Route path="/brandstory" element={<Brandstory />} />
           <Route path="/brandbook" element={<Brandbook />} />
           <Route path="/pipeline-equation" element={<PipelineEquation />} />
+          <Route path="/tools" element={<Tools />} />
+          <Route path="/tools/funnel-calculator" element={<FunnelCalculatorPage />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/terms" element={<Terms />} />
