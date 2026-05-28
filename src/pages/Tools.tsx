@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Calculator, Sigma, Compass, ArrowRight } from "lucide-react";
+import { Calculator, Sigma, Wallet, ArrowRight } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PageLoader from "@/components/PageLoader";
@@ -15,18 +15,18 @@ const tools = [
     icon: Calculator,
   },
   {
+    title: "Pipeline Value Calculator",
+    description: "Van adresseerbare markt naar pipelinewaarde. Speel met markt, beslissers en dealwaarde.",
+    href: "/tools/pipeline-value",
+    tag: "Markt → Pipeline",
+    icon: Wallet,
+  },
+  {
     title: "Pipeline Score Calculator",
     description: "Scoor uw pipeline op 10 factoren. Krijg een score van 0 tot 100 met advies per onderdeel.",
     href: "/pipeline-equation#calculator",
     tag: "Pipeline Equation™",
     icon: Sigma,
-  },
-  {
-    title: "Signaal Blueprint",
-    description: "Bouw uw eigen signaal-blueprint. Output is een persoonlijk PDF-rapport met uw groeiplan.",
-    href: "/signaal/blueprint",
-    tag: "Learning journey",
-    icon: Compass,
   },
 ];
 
