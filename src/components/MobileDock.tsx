@@ -46,7 +46,7 @@ const MobileDock = () => {
 
   return (
     <AnimatePresence>
-      {visible && (
+      {visible && !footerVisible && (
         <motion.nav
           initial={{ y: 80, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
