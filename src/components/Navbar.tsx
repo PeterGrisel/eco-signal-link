@@ -16,6 +16,7 @@ import {
   BookOpen,
   Mail,
   Sparkles,
+  BookMarked,
   type LucideIcon,
 } from "lucide-react";
 import {
@@ -68,6 +69,12 @@ const oplossingen: LinkItem[] = [
     href: "/cheatsheets",
     icon: FileSpreadsheet,
     description: "Praktische templates en frameworks",
+  },
+  {
+    title: "Playbooks",
+    href: "/playbooks",
+    icon: BookMarked,
+    description: "Bewezen werkstromen uit het signaal-systeem",
   },
   {
     title: "Partners",
