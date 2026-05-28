@@ -7,42 +7,74 @@ const corsHeaders = {
 };
 
 const SOURCE_URL = "https://www.workflows.io/toolverse";
-const FIRECRAWL_V2 = "https://api.firecrawl.dev/v2";
 
-// Mapping van Workflows.io / Toolverse categorieën naar onze 6 Groeistack categorieën.
-const categoryMap: Record<string, string> = {
-  signal: "signalen",
-  signals: "signalen",
-  intent: "signalen",
-  data: "signalen",
-  enrich: "verrijking",
-  enrichment: "verrijking",
-  verify: "verrijking",
-  prospect: "verrijking",
-  outreach: "outreach",
-  email: "outreach",
-  linkedin: "outreach",
-  sequenc: "outreach",
-  crm: "crm",
-  pipeline: "crm",
-  sales: "crm",
-  ai: "ai",
-  content: "ai",
-  video: "ai",
-  writing: "ai",
-  dashboard: "dashboard",
-  analytics: "dashboard",
-  attribution: "dashboard",
-  report: "dashboard",
+// Mapping van Toolverse categorieën (exact label) naar onze 6 Groeistack buckets.
+const exactCategoryMap: Record<string, string> = {
+  // signalen
+  "Signal Tracking": "signalen",
+  "Website Visitor Identification": "signalen",
+  "ABM": "signalen",
+  "Inbound Orchestration": "signalen",
+  // verrijking
+  "CRM Enrichment": "verrijking",
+  "Email Finder": "verrijking",
+  "Phone Number Finder": "verrijking",
+  "General Databases": "verrijking",
+  "Lookalike Databases": "verrijking",
+  "Specialized Databases": "verrijking",
+  "Data Orchestration": "verrijking",
+  "Data Scraping": "verrijking",
+  "Search API": "verrijking",
+  // outreach
+  "Cold Email Sequencer": "outreach",
+  "LinkedIn Sequencer": "outreach",
+  "Multi-channel Sequencer": "outreach",
+  "Manual Sequencer": "outreach",
+  "Cold Call Dialer": "outreach",
+  "Email Deliverability": "outreach",
+  "AI SDR": "outreach",
+  "All-in-one Sales Prospecting": "outreach",
+  "Newsletter": "outreach",
+  // crm
+  "CRM": "crm",
+  "Meeting Scheduling": "crm",
+  "Sales Enablement": "crm",
+  "Sales Proposal Builder": "crm",
+  "Contract Management": "crm",
+  "Revenue Infrastructure": "crm",
+  "Customer Support": "crm",
+  "Form Builders": "crm",
+  // ai
+  "AI Agent Builder": "ai",
+  "AI Notetaker": "ai",
+  "Content Ideation": "ai",
+  "Copywriting": "ai",
+  "Content Design": "ai",
+  "Workflow Automation": "ai",
+  // dashboard
+  "Marketing Attribution": "dashboard",
+  "Marketing Automation": "dashboard",
+  "Product Analytics": "dashboard",
+  "SEO": "dashboard",
 };
 
-const normalizeCategory = (raw: string | undefined | null): string => {
-  if (!raw) return "ai";
+const fuzzyFallback = (raw: string): string => {
   const r = raw.toLowerCase();
-  for (const key of Object.keys(categoryMap)) {
-    if (r.includes(key)) return categoryMap[key];
-  }
+  if (/signal|intent|visitor|abm|inbound/.test(r)) return "signalen";
+  if (/enrich|database|finder|scrap|orchestrat|search api/.test(r)) return "verrijking";
+  if (/sequenc|email|linkedin|sdr|prospect|dial|newsletter/.test(r)) return "outreach";
+  if (/crm|meeting|sales|contract|support|form/.test(r)) return "crm";
+  if (/ai|content|copy|workflow|notetaker/.test(r)) return "ai";
+  if (/analyt|attribution|seo|report|dashboard/.test(r)) return "dashboard";
   return "ai";
+};
+
+const pickCategory = (cats: string[]): string => {
+  for (const c of cats) {
+    const m = exactCategoryMap[c];
+    if (m) return m;
+  }
+  return cats.length ? fuzzyFallback(cats[0]) : "ai";
 };
 
 const faviconFor = (website: string): string | null => {
@@ -56,7 +88,8 @@ const faviconFor = (website: string): string | null => {
 
 const cleanWebsite = (url: string): string | null => {
   try {
-    const u = new URL(url);
+    const withProto = /^https?:\/\//i.test(url) ? url : `https://${url}`;
+    const u = new URL(withProto);
     return `${u.protocol}//${u.hostname}`;
   } catch {
     return null;
@@ -65,75 +98,86 @@ const cleanWebsite = (url: string): string | null => {
 
 interface ScrapedTool {
   name: string;
-  category?: string;
+  categories: string[];
   description?: string;
   website: string;
+  logo?: string;
 }
 
-// Scrape Toolverse met Firecrawl's JSON extractie.
-async function scrapeToolverse(apiKey: string): Promise<ScrapedTool[]> {
-  const res = await fetch(`${FIRECRAWL_V2}/scrape`, {
-    method: "POST",
+// Toolverse is een Next.js SPA die crasht in headless browsers (Firecrawl).
+// Maar de SSR-streaming HTML bevat álle tools als JSON in __next_f.push chunks.
+// We fetchen de raw HTML met een normale User-Agent en parsen die direct.
+async function scrapeToolverse(): Promise<ScrapedTool[]> {
+  const res = await fetch(SOURCE_URL, {
     headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
+      "User-Agent":
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36",
+      "Accept": "text/html,application/xhtml+xml",
     },
-    body: JSON.stringify({
-      url: SOURCE_URL,
-      onlyMainContent: true,
-      formats: [
-        {
-          type: "json",
-          prompt:
-            "Extract every B2B GTM / sales / marketing tool listed on this page. For each tool return: name (string), category (short label string), description (one short sentence), website (the external homepage URL of the tool itself, not a workflows.io link).",
-          schema: {
-            type: "object",
-            properties: {
-              tools: {
-                type: "array",
-                items: {
-                  type: "object",
-                  properties: {
-                    name: { type: "string" },
-                    category: { type: "string" },
-                    description: { type: "string" },
-                    website: { type: "string" },
-                  },
-                  required: ["name", "website"],
-                },
-              },
-            },
-            required: ["tools"],
-          },
-        },
-      ],
-    }),
   });
+  if (!res.ok) throw new Error(`Toolverse fetch failed [${res.status}]`);
+  const html = await res.text();
 
-  const data = await res.json();
-  if (!res.ok) {
-    throw new Error(`Firecrawl scrape failed [${res.status}]: ${JSON.stringify(data).slice(0, 400)}`);
+  // Verzamel alle Next streaming chunks en decode ze als JSON-strings.
+  const chunkRe = /self\.__next_f\.push\(\[1,("(?:[^"\\]|\\.)*")\]\)/g;
+  let buf = "";
+  let m: RegExpExecArray | null;
+  while ((m = chunkRe.exec(html)) !== null) {
+    try {
+      buf += JSON.parse(m[1]);
+    } catch {
+      // skip malformed chunk
+    }
   }
 
-  // Firecrawl v2 returns { success, data: { json: {...}, metadata: ... } }
-  const json = data?.data?.json ?? data?.json ?? {};
-  const tools = Array.isArray(json?.tools) ? json.tools : [];
-  return tools as ScrapedTool[];
+  // Tool-objecten in de gestreamde RSC payload.
+  const toolRe =
+    /\{"id":"[^"]+","title":"([^"]+)","description":"((?:[^"\\]|\\.)*)","url":"([^"]+)","logo":"([^"]*)","pricingPlans":\[[^\]]*\],"categories":(\[[^\]]*\])\}/g;
+
+  const tools: ScrapedTool[] = [];
+  const seen = new Set<string>();
+  let t: RegExpExecArray | null;
+  while ((t = toolRe.exec(buf)) !== null) {
+    const name = t[1].trim();
+    let description = "";
+    try {
+      description = JSON.parse(`"${t[2]}"`);
+    } catch {
+      description = t[2];
+    }
+    const url = t[3];
+    const logo = t[4] || undefined;
+    let categories: string[] = [];
+    try {
+      const parsed = JSON.parse(t[5]);
+      if (Array.isArray(parsed)) {
+        categories = parsed
+          .map((c: { name?: string }) => (c && typeof c.name === "string" ? c.name : ""))
+          .filter(Boolean);
+      }
+    } catch {
+      // ignore
+    }
+    if (!name || !url) continue;
+    const key = url.toLowerCase();
+    if (seen.has(key)) continue;
+    seen.add(key);
+    tools.push({ name, description, website: url, logo, categories });
+  }
+
+  return tools;
 }
 
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
-    const apiKey = Deno.env.get("FIRECRAWL_API_KEY");
-    if (!apiKey) throw new Error("FIRECRAWL_API_KEY is not configured");
-
     const supabase = createClient(
       Deno.env.get("SUPABASE_URL")!,
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
     );
 
-    const tools = await scrapeToolverse(apiKey);
+    const tools = await scrapeToolverse();
 
     let upserted = 0;
     let skipped = 0;
@@ -154,10 +198,10 @@ serve(async (req) => {
 
       const payload = {
         name,
-        category: normalizeCategory(t.category),
+        category: pickCategory(t.categories || []),
         description: (t.description || "").trim().slice(0, 280),
         website,
-        logo_url: faviconFor(website),
+        logo_url: t.logo || faviconFor(website),
         link_status: "ok",
         source_url: SOURCE_URL,
         last_scraped_at: now,
