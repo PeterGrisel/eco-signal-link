@@ -17,6 +17,7 @@ type Fase = {
   features: string[];
   ctaIntent: "gratisScan" | "bespreekSituatie";
   ctaLocation: string;
+  ctaLabel?: string;
   highlight?: boolean;
   footnote?: string;
 };
@@ -77,6 +78,7 @@ const buildFases = (yearly: boolean): Fase[] => [
     ],
     ctaIntent: "bespreekSituatie",
     ctaLocation: "Pricing SDR",
+    ctaLabel: "Reserveer uw capaciteit",
   },
 ];
 
@@ -152,7 +154,9 @@ const PricingCard = ({ fase, index }: { fase: Fase; index: number }) => (
       asChild
       className="w-full"
     >
-      <CtaLink intent={fase.ctaIntent} location={fase.ctaLocation} />
+      <CtaLink intent={fase.ctaIntent} location={fase.ctaLocation}>
+        {fase.ctaLabel}
+      </CtaLink>
     </Button>
   </motion.div>
 );
