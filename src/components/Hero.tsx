@@ -159,13 +159,13 @@ const Hero = () => {
             ))}
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex flex-col items-center sm:items-start gap-3">
             <div className="flex -space-x-2">
               {trustClients.map((c) => (
                 <LogoCircle key={c.name} name={c.name} url={c.url} />
               ))}
             </div>
-            <div className="text-left">
+            <div className="text-center sm:text-left">
               <p className="text-sm font-medium text-foreground/90 leading-snug">
                 Vertrouwd door snelgroeiende B2B-teams
               </p>
