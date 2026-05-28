@@ -58,17 +58,34 @@ const ClientLogo = ({ client, size = 56 }: { client: Client; size?: number }) =>
 };
 
 const BrainRadial = ({ clients }: { clients: Client[] }) => {
-  const visible = clients.slice(0, 12);
+  const orbitCount = 3;
+  const perOrbit = Math.ceil(Math.max(clients.length, 6) / orbitCount);
+  const orbits = Array.from({ length: orbitCount }, (_, o) =>
+    clients.slice(o * perOrbit, o * perOrbit + perOrbit)
+  );
+  // Sizes in % of container width
+  const ringSizes = [44, 68, 92];
+  const durations = [28, 40, 55];
+
   return (
-    <div className="relative aspect-square w-full max-w-2xl mx-auto">
-      {/* Rings */}
-      <div className="absolute inset-0 rounded-full border border-primary/20" />
-      <div className="absolute inset-[12%] rounded-full border border-primary/15" />
-      <div className="absolute inset-[26%] rounded-full border border-primary/10" />
+    <div className="relative aspect-square w-full max-w-[640px] mx-auto">
+      {/* Faint ring guides */}
+      {ringSizes.map((s, i) => (
+        <div
+          key={i}
+          className="absolute rounded-full border border-primary/15"
+          style={{
+            width: `${s}%`,
+            height: `${s}%`,
+            top: `${(100 - s) / 2}%`,
+            left: `${(100 - s) / 2}%`,
+          }}
+        />
+      ))}
 
       {/* Center brain */}
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className="flex flex-col items-center justify-center h-36 w-36 md:h-40 md:w-40 rounded-full bg-primary/10 border border-primary/40 backdrop-blur-sm">
+      <div className="absolute inset-0 flex items-center justify-center z-10">
+        <div className="flex flex-col items-center justify-center h-32 w-32 md:h-40 md:w-40 rounded-full bg-primary/10 border border-primary/40 backdrop-blur-sm">
           <Brain className="h-9 w-9 text-primary mb-1.5" strokeWidth={1.5} />
           <span className="text-[10px] uppercase tracking-[0.2em] text-foreground/90 text-center leading-tight px-2">
             Commercieel
@@ -78,30 +95,58 @@ const BrainRadial = ({ clients }: { clients: Client[] }) => {
         </div>
       </div>
 
-      {/* Orbiting clients */}
-      {visible.map((c, i) => {
-        const angle = (i / visible.length) * 2 * Math.PI - Math.PI / 2;
-        const r = 44; // %
-        const x = 50 + r * Math.cos(angle);
-        const y = 50 + r * Math.sin(angle);
+      {/* Spinning orbits */}
+      {orbits.map((group, o) => {
+        const size = ringSizes[o];
+        const duration = durations[o];
+        const reverse = o % 2 === 1;
         return (
-          <motion.div
-            key={c.id}
-            initial={{ opacity: 0, scale: 0.6 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: i * 0.08 }}
-            className="absolute -translate-x-1/2 -translate-y-1/2 group"
-            style={{ left: `${x}%`, top: `${y}%` }}
+          <div
+            key={o}
+            className="absolute"
+            style={{
+              width: `${size}%`,
+              height: `${size}%`,
+              top: `${(100 - size) / 2}%`,
+              left: `${(100 - size) / 2}%`,
+              animation: `klanten-spin ${duration}s linear infinite`,
+              animationDirection: reverse ? "reverse" : "normal",
+            }}
           >
-            <a href={`#klant-${c.id}`} className="block">
-              <ClientLogo client={c} size={72} />
-              <span className="absolute left-1/2 -translate-x-1/2 mt-2 text-[10px] uppercase tracking-wider text-foreground/70 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
-                {c.name}
-              </span>
-            </a>
-          </motion.div>
+            {group.map((c, i) => {
+              const angle = (i / group.length) * 2 * Math.PI - Math.PI / 2;
+              const x = 50 + 50 * Math.cos(angle);
+              const y = 50 + 50 * Math.sin(angle);
+              return (
+                <div
+                  key={c.id}
+                  className="absolute -translate-x-1/2 -translate-y-1/2"
+                  style={{
+                    left: `${x}%`,
+                    top: `${y}%`,
+                    animation: `klanten-spin ${duration}s linear infinite`,
+                    animationDirection: reverse ? "normal" : "reverse",
+                  }}
+                >
+                  <a href={`#klant-${c.id}`} className="block group">
+                    <ClientLogo client={c} size={o === 0 ? 64 : 56} />
+                    <span className="block text-center mt-1.5 text-[10px] uppercase tracking-wider text-foreground/60 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
+                      {c.name}
+                    </span>
+                  </a>
+                </div>
+              );
+            })}
+          </div>
         );
       })}
+
+      <style>{`
+        @keyframes klanten-spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+      `}</style>
     </div>
   );
 };
