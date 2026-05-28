@@ -8,6 +8,7 @@ import { Globe, Save, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useSeoSettings } from "@/hooks/useSeoSettings";
 import { IntegrationsTab } from "@/components/admin/settings/AdvancedTabs";
+import AiReadinessPanel from "@/components/admin/AiReadinessPanel";
 
 const AnalyticsTabContent = () => {
   const { config, updateConfig, saveSettings, loading, saving } = useSeoSettings();
@@ -68,12 +69,16 @@ const AdminSeoHub = () => {
           <TabsTrigger value="analytics" className="text-xs data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
             Analytics
           </TabsTrigger>
+          <TabsTrigger value="ai-readiness" className="text-xs data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
+            AI Readiness
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="competitors"><CompetitorsTabContent /></TabsContent>
         <TabsContent value="listings"><ListingsTabContent /></TabsContent>
         <TabsContent value="indexing"><IndexingTabContent /></TabsContent>
         <TabsContent value="analytics"><AnalyticsTabContent /></TabsContent>
+        <TabsContent value="ai-readiness"><AiReadinessPanel /></TabsContent>
       </Tabs>
     </AdminLayout>
   );
