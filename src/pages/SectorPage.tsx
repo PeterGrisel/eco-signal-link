@@ -8,6 +8,7 @@ import Footer from "@/components/Footer";
 import PageLoader from "@/components/PageLoader";
 import CtaSection from "@/components/CtaSection";
 import FunnelCalculatorSection from "@/components/FunnelCalculatorSection";
+import SectorRelatedContent from "@/components/SectorRelatedContent";
 import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 import JsonLd from "@/components/JsonLd";
 import { getSectorBySlug, sectors } from "@/data/sectors";
@@ -348,6 +349,14 @@ const SectorPage = () => {
             </div>
           </div>
         </section>
+
+        <SectorRelatedContent
+          sectorTitle={sector.title}
+          keywords={[
+            ...(sector.signals ?? []).slice(0, 3),
+            ...(sector.beslissers ?? []).slice(0, 2),
+          ]}
+        />
 
         <CtaSection />
         <Footer />
