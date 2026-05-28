@@ -129,7 +129,7 @@ const BrainRadial = ({ clients }: { clients: Client[] }) => {
                   }}
                 >
                   <a href={`#klant-${c.id}`} className="block group">
-                    <ClientLogo client={c} size={o === 0 ? 64 : 56} />
+                    <ClientLogo client={c} size={o === 0 ? 44 : 36} />
                     <span className="block text-center mt-1.5 text-[10px] uppercase tracking-wider text-foreground/60 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
                       {c.name}
                     </span>
@@ -301,7 +301,7 @@ const Klanten = () => {
                   >
                     <div>
                       <div className="flex items-start justify-between gap-3 mb-4">
-                        <ClientLogo client={c} size={isLarge ? 72 : 52} />
+                        <ClientLogo client={c} size={isLarge ? 56 : 40} />
                         {c.sector && (
                           <span className="inline-flex items-center gap-1 text-[10px] uppercase tracking-[0.18em] text-primary/80 bg-primary/10 border border-primary/20 rounded-full px-2.5 py-1">
                             <Building2 className="w-3 h-3" />
