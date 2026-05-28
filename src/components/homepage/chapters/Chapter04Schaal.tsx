@@ -1,61 +1,7 @@
-import { useMemo, useState } from "react";
-import { motion } from "framer-motion";
-import { Building2, Users, Activity, Calendar, Wallet, TrendingUp, RotateCcw } from "lucide-react";
 import ChapterFrame from "../ChapterFrame";
-import { Slider } from "@/components/ui/slider";
-
-const DEFAULTS = {
-  markt: 2000,
-  beslissersPerAccount: 2,
-  engagementPct: 5, // % van beslissers in beweging
-  meetingPct: 10, // % van engaged → meeting
-  dealwaarde: 25000, // €
-};
-
-const fmtNum = (n: number) => new Intl.NumberFormat("nl-NL").format(Math.round(n));
-const fmtEur = (n: number) => {
-  if (n >= 1_000_000) return `€${(n / 1_000_000).toFixed(n >= 10_000_000 ? 0 : 1)}M`;
-  if (n >= 1000) return `€${Math.round(n / 1000)}k`;
-  return `€${Math.round(n)}`;
-};
-const fmtPct = (n: number) => (n < 10 ? n.toFixed(1) : n.toFixed(0)) + "%";
+import PipelineValueCalculator from "@/components/pipeline/PipelineValueCalculator";
 
 export default function Chapter07Schaal() {
-  const [markt, setMarkt] = useState(DEFAULTS.markt);
-  const [bpa, setBpa] = useState(DEFAULTS.beslissersPerAccount);
-  const [engPct, setEngPct] = useState(DEFAULTS.engagementPct);
-  const [mtgPct, setMtgPct] = useState(DEFAULTS.meetingPct);
-  const [deal, setDeal] = useState(DEFAULTS.dealwaarde);
-
-  const calc = useMemo(() => {
-    const beslissers = markt * bpa;
-    const engaged = beslissers * (engPct / 100);
-    const meetings = engaged * (mtgPct / 100);
-    const pipeline = meetings * deal;
-    const overallPct = markt > 0 ? (meetings / markt) * 100 : 0;
-    return { beslissers, engaged, meetings, pipeline, overallPct };
-  }, [markt, bpa, engPct, mtgPct, deal]);
-
-  const reset = () => {
-    setMarkt(DEFAULTS.markt);
-    setBpa(DEFAULTS.beslissersPerAccount);
-    setEngPct(DEFAULTS.engagementPct);
-    setMtgPct(DEFAULTS.meetingPct);
-    setDeal(DEFAULTS.dealwaarde);
-  };
-
-  const STEPS = [
-    { icon: Building2, label: "Markt", value: fmtNum(markt), unit: "bedrijven", count: markt },
-    { icon: Users, label: "Beslissers", value: fmtNum(calc.beslissers), unit: "contacten", count: calc.beslissers },
-    { icon: Activity, label: "Engaged", value: fmtNum(calc.engaged), unit: "in beweging", count: calc.engaged },
-    { icon: Calendar, label: "Meetings", value: fmtNum(calc.meetings), unit: "afspraken", count: calc.meetings },
-    { icon: Wallet, label: "Pipeline", value: fmtEur(calc.pipeline), unit: "waarde", count: calc.meetings },
-  ];
-
-  // Bar fills proportionally inside a full-width row so text never overlaps.
-  const maxCount = Math.max(...STEPS.map((s) => s.count), 1);
-  const fills = STEPS.map((s) => Math.max(4, (s.count / maxCount) * 100));
-
   return (
     <ChapterFrame
       id="chapter-07"
@@ -65,6 +11,10 @@ export default function Chapter07Schaal() {
       intro="Stel u richt zich op 2.000 bedrijven binnen uw ICP. Zo loopt het door uw funnel. Stap voor stap, niet gegokt."
       tone="warm"
     >
+      <PipelineValueCalculator />
+    </ChapterFrame>
+  );
+}
       {/* KPI strip */}
       <div className="grid md:grid-cols-3 gap-3 md:gap-4 mb-10">
         <motion.div
