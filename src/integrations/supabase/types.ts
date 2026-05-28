@@ -908,6 +908,36 @@ export type Database = {
           },
         ]
       }
+      playbook_runs: {
+        Row: {
+          created_at: string
+          id: string
+          log: Json | null
+          message: string | null
+          playbook_id: string | null
+          scenario_id: string | null
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          log?: Json | null
+          message?: string | null
+          playbook_id?: string | null
+          scenario_id?: string | null
+          status: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          log?: Json | null
+          message?: string | null
+          playbook_id?: string | null
+          scenario_id?: string | null
+          status?: string
+        }
+        Relationships: []
+      }
       playbook_scenarios: {
         Row: {
           active: boolean
@@ -915,6 +945,7 @@ export type Database = {
           audience: string
           created_at: string
           id: string
+          scheduled_date: string | null
           service_line: string
           sort_order: number
           title: string
@@ -926,6 +957,7 @@ export type Database = {
           audience?: string
           created_at?: string
           id?: string
+          scheduled_date?: string | null
           service_line?: string
           sort_order?: number
           title: string
@@ -937,6 +969,7 @@ export type Database = {
           audience?: string
           created_at?: string
           id?: string
+          scheduled_date?: string | null
           service_line?: string
           sort_order?: number
           title?: string

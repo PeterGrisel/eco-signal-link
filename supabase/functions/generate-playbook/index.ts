@@ -17,14 +17,19 @@ const lineToSlug: Record<string, string> = {
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
+  const supabase = createClient(
+    Deno.env.get("SUPABASE_URL")!,
+    Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
+  );
+  const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+  const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+  const log: string[] = [];
+  let scenarioForRun: any = null;
+  let playbookIdForRun: string | null = null;
+
   try {
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
-
-    const supabase = createClient(
-      Deno.env.get("SUPABASE_URL")!,
-      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
-    );
 
     // Optioneel: specifiek scenario meegeven (admin "Genereer nu")
     let body: { scenario_id?: string } = {};
@@ -42,13 +47,29 @@ serve(async (req) => {
       .select("name, category, description, website")
       .eq("published", true);
 
-    // Scenario kiezen: meegegeven id, anders minst recent gebruikte
+    // Scenario kiezen: meegegeven id → vandaag gepland → minst recent gebruikte
     let scenario: any = null;
     if (body.scenario_id) {
       const { data } = await supabase
         .from("playbook_scenarios").select("*").eq("id", body.scenario_id).single();
       scenario = data;
+      log.push(`Scenario via admin: "${scenario?.title}"`);
     } else {
+      // 1) Vandaag ingepland
+      const today = new Date().toISOString().split("T")[0];
+      const { data: scheduled } = await supabase
+        .from("playbook_scenarios")
+        .select("*")
+        .eq("active", true)
+        .eq("scheduled_date", today)
+        .limit(1);
+      if (scheduled?.[0]) {
+        scenario = scheduled[0];
+        log.push(`Scenario gepland voor vandaag: "${scenario.title}"`);
+      }
+    }
+    if (!scenario && !body.scenario_id) {
+      // 2) Fallback: minst recent gebruikt
       const { data } = await supabase
         .from("playbook_scenarios")
         .select("*")
@@ -57,8 +78,10 @@ serve(async (req) => {
         .order("sort_order", { ascending: true })
         .limit(1);
       scenario = data?.[0] ?? null;
+      if (scenario) log.push(`Fallback scenario (least-recent): "${scenario.title}"`);
     }
     if (!scenario) throw new Error("Geen actief scenario gevonden");
+    scenarioForRun = scenario;
 
     const { data: existing } = await supabase
       .from("playbooks")
@@ -172,20 +195,90 @@ Ongeveer 1400 woorden. Genereer alle metadata. Noem alleen tools die in De Groei
       scenario_id: scenario.id,
       status: "published",
       published_at: new Date().toISOString(),
-    });
+    }).select("id").single();
     if (insErr) throw insErr;
+    // Re-fetch to get id (insert above is single-row insert with select)
+    const { data: insertedRow } = await supabase
+      .from("playbooks").select("id").eq("slug", slug).single();
+    playbookIdForRun = insertedRow?.id ?? null;
+    log.push(`✓ Playbook gepubliceerd: "${pb.title}"`);
+
+    // Externe link-validatie (downgrade naar draft bij dode links)
+    try {
+      const validateRes = await fetch(`${supabaseUrl}/functions/v1/validate-external-links`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${serviceKey}`, "Content-Type": "application/json" },
+        body: JSON.stringify({ content: pb.content }),
+      });
+      if (validateRes.ok) {
+        const v = await validateRes.json();
+        const broken = v.broken || [];
+        if (broken.length > 0 && playbookIdForRun) {
+          await supabase.from("playbooks")
+            .update({ status: "draft", published_at: null })
+            .eq("id", playbookIdForRun);
+          log.push(`⚠ ${broken.length} dode link(s) → teruggezet naar draft`);
+        } else {
+          log.push(`✓ Externe links ok (${v.checked || 0} gecheckt)`);
+        }
+      }
+    } catch {
+      log.push("⚠ Link-validatie mislukt, doorgaan");
+    }
+
+    // Auto-indexing + prerender cache (alleen bij published)
+    const { data: finalRow } = await supabase
+      .from("playbooks").select("status").eq("id", playbookIdForRun!).single();
+    if (finalRow?.status === "published") {
+      const fullUrl = `${siteUrl}/playbooks/${slug}`;
+      try {
+        await supabase.from("indexing_requests").insert({ url: fullUrl, status: "pending" });
+        await fetch(`${supabaseUrl}/functions/v1/request-indexing`, {
+          method: "POST",
+          headers: { Authorization: `Bearer ${serviceKey}`, "Content-Type": "application/json" },
+          body: JSON.stringify({ urls: [fullUrl] }),
+        }).catch(() => {});
+        log.push(`✓ Indexering aangevraagd: ${fullUrl}`);
+      } catch {
+        log.push("⚠ Indexering aanvragen mislukt");
+      }
+      try {
+        await fetch(
+          `${supabaseUrl}/functions/v1/prerender?path=${encodeURIComponent(`/playbooks/${slug}`)}&nocache=1`,
+          { headers: { Authorization: `Bearer ${serviceKey}` } },
+        );
+        log.push(`✓ Prerender cache opgewarmd`);
+      } catch {}
+    }
 
     await supabase
       .from("playbook_scenarios")
       .update({ used_at: new Date().toISOString() })
       .eq("id", scenario.id);
 
+    await supabase.from("playbook_runs").insert({
+      scenario_id: scenario.id,
+      playbook_id: playbookIdForRun,
+      status: "success",
+      message: pb.title,
+      log,
+    });
+
     return new Response(
-      JSON.stringify({ ok: true, slug, title: pb.title, scenario: scenario.title }),
+      JSON.stringify({ ok: true, slug, title: pb.title, scenario: scenario.title, log }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   } catch (e) {
     console.error("generate-playbook error:", e);
+    try {
+      await supabase.from("playbook_runs").insert({
+        scenario_id: scenarioForRun?.id ?? null,
+        playbook_id: playbookIdForRun,
+        status: "failed",
+        message: e instanceof Error ? e.message : String(e),
+        log,
+      });
+    } catch {}
     return new Response(
       JSON.stringify({ ok: false, error: e instanceof Error ? e.message : String(e) }),
       { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } },
