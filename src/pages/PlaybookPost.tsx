@@ -115,6 +115,7 @@ const PlaybookPost = () => {
                     prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3
                     prose-p:text-muted-foreground prose-p:leading-relaxed prose-p:mb-5
                     prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-a:font-medium
+                    prose-code:text-primary prose-code:bg-primary/10 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:font-medium prose-code:before:content-none prose-code:after:content-none
                     prose-strong:text-foreground prose-strong:font-semibold
                     prose-li:text-muted-foreground prose-li:leading-relaxed
                     prose-ul:my-4 prose-ol:my-4"
