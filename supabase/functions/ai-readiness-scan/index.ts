@@ -130,20 +130,24 @@ serve(async (req) => {
         const reason = !has_recent_date
           ? "Artikel ouder dan 180 dagen"
           : `AI Readiness score ${score}/100 (mist: ${missing.join(", ")})`;
-        const { error: qErr } = await supabase
+        // Skip als er al een open queue-item bestaat voor deze slug
+        const { data: existing } = await supabase
           .from("content_refresh_queue")
-          .upsert(
-            {
-              slug: `/blog/${p.slug}`,
-              reason,
-              priority,
-              status: "open",
-              signal_data: { score, missing },
-              last_updated_at: refreshDate,
-            },
-            { onConflict: "slug", ignoreDuplicates: false },
-          );
-        if (!qErr) summary.refresh_added++;
+          .select("id")
+          .eq("slug", `/blog/${p.slug}`)
+          .eq("status", "open")
+          .limit(1);
+        if (!existing || existing.length === 0) {
+          const { error: qErr } = await supabase.from("content_refresh_queue").insert({
+            slug: `/blog/${p.slug}`,
+            reason,
+            priority,
+            status: "open",
+            signal_data: { score, missing },
+            last_updated_at: refreshDate,
+          });
+          if (!qErr) summary.refresh_added++;
+        }
       }
     }
 
