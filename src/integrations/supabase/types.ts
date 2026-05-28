@@ -770,6 +770,42 @@ export type Database = {
         }
         Relationships: []
       }
+      job_runs: {
+        Row: {
+          created_at: string
+          duration_ms: number | null
+          finished_at: string | null
+          id: string
+          job_key: string
+          message: string | null
+          metadata: Json | null
+          started_at: string
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          duration_ms?: number | null
+          finished_at?: string | null
+          id?: string
+          job_key: string
+          message?: string | null
+          metadata?: Json | null
+          started_at?: string
+          status?: string
+        }
+        Update: {
+          created_at?: string
+          duration_ms?: number | null
+          finished_at?: string | null
+          id?: string
+          job_key?: string
+          message?: string | null
+          metadata?: Json | null
+          started_at?: string
+          status?: string
+        }
+        Relationships: []
+      }
       journey_inputs: {
         Row: {
           field_key: string
@@ -849,6 +885,114 @@ export type Database = {
           },
         ]
       }
+      keyword_opportunities: {
+        Row: {
+          clicks: number | null
+          created_at: string
+          id: string
+          impressions: number | null
+          notes: string | null
+          page: string | null
+          position: number | null
+          query: string
+          status: string
+          suggested_action: string
+          updated_at: string
+        }
+        Insert: {
+          clicks?: number | null
+          created_at?: string
+          id?: string
+          impressions?: number | null
+          notes?: string | null
+          page?: string | null
+          position?: number | null
+          query: string
+          status?: string
+          suggested_action?: string
+          updated_at?: string
+        }
+        Update: {
+          clicks?: number | null
+          created_at?: string
+          id?: string
+          impressions?: number | null
+          notes?: string | null
+          page?: string | null
+          position?: number | null
+          query?: string
+          status?: string
+          suggested_action?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      link_suggestions: {
+        Row: {
+          created_at: string
+          id: string
+          reason: string | null
+          score: number
+          source_url: string
+          status: string
+          target_url: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          reason?: string | null
+          score?: number
+          source_url: string
+          status?: string
+          target_url: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          reason?: string | null
+          score?: number
+          source_url?: string
+          status?: string
+          target_url?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      link_targets: {
+        Row: {
+          active: boolean
+          created_at: string
+          id: string
+          keyword: string
+          priority: number
+          target_type: string
+          target_url: string
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          id?: string
+          keyword: string
+          priority?: number
+          target_type?: string
+          target_url: string
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          id?: string
+          keyword?: string
+          priority?: number
+          target_type?: string
+          target_url?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       mcp_api_keys: {
         Row: {
           api_key: string
@@ -924,6 +1068,39 @@ export type Database = {
           topic_performance?: Json | null
           total_clicks?: number | null
           total_impressions?: number | null
+        }
+        Relationships: []
+      }
+      page_embeddings: {
+        Row: {
+          content_hash: string | null
+          created_at: string
+          embedding: string | null
+          id: string
+          page_type: string
+          page_url: string
+          title: string | null
+          updated_at: string
+        }
+        Insert: {
+          content_hash?: string | null
+          created_at?: string
+          embedding?: string | null
+          id?: string
+          page_type?: string
+          page_url: string
+          title?: string | null
+          updated_at?: string
+        }
+        Update: {
+          content_hash?: string | null
+          created_at?: string
+          embedding?: string | null
+          id?: string
+          page_type?: string
+          page_url?: string
+          title?: string | null
+          updated_at?: string
         }
         Relationships: []
       }
