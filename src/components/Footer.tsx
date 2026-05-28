@@ -21,6 +21,7 @@ const diensten = [
 const bedrijf = [
   { href: "/over-ons", label: "Over Ons" },
   { href: "/ons-team", label: "Ons Team" },
+  { href: "/klanten", label: "Klanten" },
   { href: "/brandstory", label: "Brandstory" },
   { href: "/blog", label: "Blog" },
   { href: "/contact", label: "Contact" },
