@@ -265,16 +265,15 @@ const Navbar = () => {
           >
             Pricing
           </a>
-          <CtaLink
-            intent="gratisScan"
-            location="Navbar (mobile)"
+          <a
+            href="tel:+493075675721"
             className={cn(ctaClasses, "w-full justify-center mt-4")}
           >
             <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
-            <Rocket className="w-4 h-4 relative" />
-            <span className="relative">Start gratis scan</span>
-            <ArrowRight className="w-4 h-4 relative" />
-          </CtaLink>
+            <Phone className="w-4 h-4 relative" />
+            <span className="relative">Bel onze AI Assistent</span>
+            <span className="text-xs font-normal opacity-80">+49 30 75675721</span>
+          </a>
         </div>
       </MobileMenu>
     </header>
