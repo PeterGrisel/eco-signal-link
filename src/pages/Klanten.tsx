@@ -88,9 +88,8 @@ const BrainRadial = ({ clients }: { clients: Client[] }) => {
           <motion.div
             key={c.id}
             initial={{ opacity: 0, scale: 0.6 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: i * 0.05 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, delay: i * 0.08 }}
             className="absolute -translate-x-1/2 -translate-y-1/2 group"
             style={{ left: `${x}%`, top: `${y}%` }}
           >

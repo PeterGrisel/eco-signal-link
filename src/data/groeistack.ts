@@ -69,7 +69,8 @@ export const groeistackSeed: GroeistackToolSeed[] = [
 /** Favicon-URL als logo-fallback wanneer er geen logo_url is opgeslagen. */
 export const faviconFor = (website: string): string => {
   try {
-    const host = new URL(website).hostname;
+    const url = website.startsWith("http") ? website : `https://${website}`;
+    const host = new URL(url).hostname;
     return `https://www.google.com/s2/favicons?domain=${host}&sz=64`;
   } catch {
     return "";
