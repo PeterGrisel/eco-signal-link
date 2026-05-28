@@ -36,19 +36,19 @@ const ClientLogo = ({ client, size = 56 }: { client: Client; size?: number }) =>
 
   return (
     <div
-      className="rounded-2xl bg-white border border-foreground/10 flex items-center justify-center overflow-hidden shrink-0"
+      className="flex items-center justify-center overflow-hidden shrink-0"
       style={{ width: size, height: size, padding: client.padding ?? 0 }}
     >
       {showFallback ? (
-        <span className="font-display font-bold text-neutral-700" style={{ fontSize: size * 0.35 }}>
+        <span className="font-display font-bold text-foreground/70" style={{ fontSize: size * 0.35 }}>
           {client.name[0]}
         </span>
       ) : (
         <img
           src={src}
           alt={client.name}
-          className="object-contain"
-          style={{ transform: `scale(${client.scale ?? 1})`, maxWidth: "85%", maxHeight: "85%" }}
+          className="object-contain brightness-0 invert opacity-80 hover:opacity-100 transition-opacity"
+          style={{ transform: `scale(${client.scale ?? 1})`, maxWidth: "100%", maxHeight: "100%" }}
           loading="lazy"
           onError={() => setErr(true)}
         />
@@ -129,7 +129,7 @@ const BrainRadial = ({ clients }: { clients: Client[] }) => {
                   }}
                 >
                   <a href={`#klant-${c.id}`} className="block group">
-                    <ClientLogo client={c} size={o === 0 ? 64 : 56} />
+                    <ClientLogo client={c} size={o === 0 ? 44 : 36} />
                     <span className="block text-center mt-1.5 text-[10px] uppercase tracking-wider text-foreground/60 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
                       {c.name}
                     </span>
@@ -301,7 +301,7 @@ const Klanten = () => {
                   >
                     <div>
                       <div className="flex items-start justify-between gap-3 mb-4">
-                        <ClientLogo client={c} size={isLarge ? 72 : 52} />
+                        <ClientLogo client={c} size={isLarge ? 56 : 40} />
                         {c.sector && (
                           <span className="inline-flex items-center gap-1 text-[10px] uppercase tracking-[0.18em] text-primary/80 bg-primary/10 border border-primary/20 rounded-full px-2.5 py-1">
                             <Building2 className="w-3 h-3" />

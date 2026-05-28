@@ -439,6 +439,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://b2bgroeimachine.io/playbooks/outbound-playbook-mkb-dienstverlening</loc>
+    <lastmod>2026-05-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://b2bgroeimachine.io/playbooks/abm-playbook-b2b-saas</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>weekly</changefreq>
