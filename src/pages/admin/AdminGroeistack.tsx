@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { groeistackCategories } from "@/data/groeistack";
-import { Boxes, Plus, Trash2, RefreshCw, Save } from "lucide-react";
+import { Boxes, Plus, Trash2, RefreshCw, Save, Download } from "lucide-react";
 
 interface ToolRow {
   id?: string;
@@ -39,6 +39,7 @@ const AdminGroeistack = () => {
   const [draft, setDraft] = useState<ToolRow>(empty);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+  const [scraping, setScraping] = useState(false);
 
   const load = async () => {
     setLoading(true);
@@ -94,6 +95,19 @@ const AdminGroeistack = () => {
     setTimeout(load, 1500);
   };
 
+  const scrapeNow = async () => {
+    setScraping(true);
+    const { data, error } = await supabase.functions.invoke("groeistack-scrape");
+    setScraping(false);
+    if (error) return toast({ title: "Scrape mislukt", description: error.message, variant: "destructive" });
+    const d = data as { upserted?: number; scraped?: number } | null;
+    toast({
+      title: "Toolverse gescrapet",
+      description: `${d?.upserted ?? 0} tools bijgewerkt van ${d?.scraped ?? 0} gevonden.`,
+    });
+    setTimeout(load, 1000);
+  };
+
   return (
     <AdminLayout>
       <div className="mb-6 flex items-center justify-between gap-4 flex-wrap">
@@ -102,12 +116,17 @@ const AdminGroeistack = () => {
             <Boxes className="w-6 h-6 text-primary" /> Groeistack
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
-            Beheer de tools op /groeistack. Nachtelijke cron checkt links en ververst logo's.
+            Beheer de tools op /groeistack. Elke nacht (03:00 ET) scrapen we workflows.io/toolverse en verversen we links en logo's.
           </p>
         </div>
-        <Button variant="outline" size="sm" onClick={refreshNow} disabled={refreshing} className="gap-2">
-          <RefreshCw className={`w-4 h-4 ${refreshing ? "animate-spin" : ""}`} /> Ververs nu
-        </Button>
+        <div className="flex gap-2">
+          <Button variant="outline" size="sm" onClick={scrapeNow} disabled={scraping} className="gap-2">
+            <Download className={`w-4 h-4 ${scraping ? "animate-pulse" : ""}`} /> Scrape Toolverse
+          </Button>
+          <Button variant="outline" size="sm" onClick={refreshNow} disabled={refreshing} className="gap-2">
+            <RefreshCw className={`w-4 h-4 ${refreshing ? "animate-spin" : ""}`} /> Ververs links
+          </Button>
+        </div>
       </div>
 
       {/* Nieuw toevoegen */}
