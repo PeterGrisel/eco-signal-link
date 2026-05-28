@@ -1,5 +1,6 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { Check, ArrowRight, Handshake } from "lucide-react";
+import { Check, ArrowRight, Handshake, Infinity as InfinityIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import CtaLink from "@/components/CtaLink";
@@ -10,77 +11,72 @@ type Fase = {
   title: string;
   price: string;
   priceSuffix?: string;
+  priceStrike?: string;
   meta: string;
   description: string;
   features: string[];
   ctaIntent: "gratisScan" | "bespreekSituatie";
   ctaLocation: string;
   highlight?: boolean;
+  footnote?: string;
 };
 
-const fases: Fase[] = [
+const GROWTH_MONTHLY = 2250;
+const GROWTH_YEARLY = Math.round(GROWTH_MONTHLY * 0.8); // 20% korting
+const fmt = (n: number) => `€${n.toLocaleString("nl-NL")}`;
+
+const buildFases = (yearly: boolean): Fase[] => [
   {
-    step: "Stap 01",
-    badge: "Kennismaking",
-    title: "B2B Groeisysteem Scan",
-    price: "Gratis",
-    meta: "60 min · adviesgesprek",
-    description: "Diagnose, groeilekken en eerste systeemadvies. Voor u verder kijkt.",
-    features: [
-      "Diagnose en quick wins",
-      "Eerste blauwdruk",
-      "Helder advies, geen verkoop",
-    ],
-    ctaIntent: "gratisScan",
-    ctaLocation: "Pricing Fase 01",
-  },
-  {
-    step: "Stap 02",
-    badge: "Engagement",
-    title: "System + Engagement Service",
-    price: "€1.500",
+    step: "Plan A",
+    badge: "Groeisysteem",
+    title: "Growth System",
+    price: yearly ? fmt(GROWTH_YEARLY) : fmt(GROWTH_MONTHLY),
     priceSuffix: "/ maand",
-    meta: "3 maanden · geen lock-in",
-    description: "Actieve engagement, optimalisatie en routing. Wij draaien de machine.",
-    features: [
-      "Engagement en optimalisatie",
-      "Routing en reporting",
-      "Dedicated campagnemanager",
-    ],
-    ctaIntent: "gratisScan",
-    ctaLocation: "Pricing Fase 02",
-    highlight: true,
-  },
-  {
-    step: "Stap 03",
-    badge: "Fundament",
-    title: "Growth System Foundation",
-    price: "€2.250",
-    priceSuffix: "/ maand",
-    meta: "Maandelijks opzegbaar",
-    description: "Technische en commerciële setup van het systeem.",
+    priceStrike: yearly ? fmt(GROWTH_MONTHLY) : undefined,
+    meta: yearly ? "12 maanden · 20% korting" : "Maandelijks opzegbaar",
+    description: "Wij draaien uw groeisysteem. Signalen, routing en engagement.",
     features: [
       "ICP en signaal-scoring",
       "Routing en dashboard",
-      "Hergebruikbaar fundament",
+      "Engagement en optimalisatie",
+      "Dedicated campagnemanager",
     ],
     ctaIntent: "gratisScan",
-    ctaLocation: "Pricing Fase 03",
+    ctaLocation: "Pricing Growth System",
+    highlight: true,
+    footnote: "Doel: lifetime partnership.",
   },
   {
-    step: "Stap 04",
-    badge: "Schalen",
-    title: "Engagement Modules",
-    price: "Per module",
-    meta: "Naar behoefte",
-    description: "Cold Calling, Content Management en Video (AI).",
+    step: "Plan B",
+    badge: "Build Sprint",
+    title: "Sprint · 6 maanden",
+    price: "Op aanvraag",
+    meta: "Build & transfer · projectbasis",
+    description: "Wij bouwen uw systeem in 6 maanden. Ideaal voor start-ups en scale-ups.",
     features: [
-      "Cold Calling",
-      "Content Management",
-      "Video (AI)",
+      "Volledige setup en training",
+      "Overdracht aan uw team",
+      "Running fee voor licenties erna",
+      "Optioneel: doorlopend beheer",
     ],
     ctaIntent: "bespreekSituatie",
-    ctaLocation: "Pricing Fase 04",
+    ctaLocation: "Pricing Sprint",
+  },
+  {
+    step: "Plan C",
+    badge: "SDR Service",
+    title: "GTM capaciteit per uur",
+    price: "Op aanvraag",
+    meta: "Per uur · inhuren naar behoefte",
+    description: "Extra GTM-handen wanneer u ze nodig heeft. Geen vaste fee.",
+    features: [
+      "Sales development (SDR)",
+      "Outbound en follow-up",
+      "Op uur- of dagbasis",
+      "Naadloos op uw systeem",
+    ],
+    ctaIntent: "bespreekSituatie",
+    ctaLocation: "Pricing SDR",
   },
 ];
 
@@ -110,12 +106,15 @@ const PricingCard = ({ fase, index }: { fase: Fase; index: number }) => (
       {fase.title}
     </h3>
 
-    <div className="flex items-baseline gap-1 mb-1">
+    <div className="flex items-baseline gap-2 mb-1 flex-wrap">
       <span className="font-display font-bold text-4xl md:text-5xl tracking-tight">
         {fase.price}
       </span>
       {fase.priceSuffix && (
         <span className="text-muted-foreground text-sm">{fase.priceSuffix}</span>
+      )}
+      {fase.priceStrike && (
+        <span className="text-muted-foreground/60 text-sm line-through">{fase.priceStrike}</span>
       )}
     </div>
     <p className="text-xs text-muted-foreground mb-5">{fase.meta}</p>
@@ -139,6 +138,13 @@ const PricingCard = ({ fase, index }: { fase: Fase; index: number }) => (
         </li>
       ))}
     </ul>
+
+    {fase.footnote && (
+      <p className="flex items-center gap-1.5 text-[11px] text-primary/80 mb-3">
+        <InfinityIcon className="w-3.5 h-3.5" />
+        {fase.footnote}
+      </p>
+    )}
 
     <Button
       variant={fase.highlight ? "hero" : "outline"}
@@ -248,7 +254,49 @@ const PerformancePartnership = () => (
   </motion.div>
 );
 
+const BillingToggle = ({
+  yearly,
+  onChange,
+}: {
+  yearly: boolean;
+  onChange: (v: boolean) => void;
+}) => (
+  <div className="inline-flex items-center gap-1 rounded-full border border-border bg-card p-1">
+    <button
+      type="button"
+      onClick={() => onChange(false)}
+      className={cn(
+        "px-4 py-1.5 text-xs font-display font-semibold tracking-wide uppercase rounded-full transition-colors",
+        !yearly ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground",
+      )}
+    >
+      Maandelijks
+    </button>
+    <button
+      type="button"
+      onClick={() => onChange(true)}
+      className={cn(
+        "px-4 py-1.5 text-xs font-display font-semibold tracking-wide uppercase rounded-full transition-colors flex items-center gap-2",
+        yearly ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground",
+      )}
+    >
+      12 maanden
+      <span
+        className={cn(
+          "text-[10px] px-1.5 py-0.5 rounded-full",
+          yearly ? "bg-primary-foreground/20 text-primary-foreground" : "bg-primary/15 text-primary",
+        )}
+      >
+        −20%
+      </span>
+    </button>
+  </div>
+);
+
 const PricingSection = () => {
+  const [yearly, setYearly] = useState(false);
+  const fases = buildFases(yearly);
+
   return (
     <section id="pricing" className="py-16 md:py-32 relative">
       <div className="absolute inset-0 glow-bg pointer-events-none" />
@@ -270,12 +318,15 @@ const PricingSection = () => {
             <span className="text-gradient">Schaalbare waarde.</span>
           </h2>
           <p className="text-muted-foreground mt-4 text-lg leading-relaxed">
-            Begin met advies. Bouw het systeem. Voeg engagement toe. Schaal met modules.
+            Eén systeem. Drie manieren om ermee te starten. Wij denken in lifetime, niet in losse projecten.
           </p>
+          <div className="mt-8 flex justify-center">
+            <BillingToggle yearly={yearly} onChange={setYearly} />
+          </div>
         </motion.div>
 
         {/* Fase grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6 items-stretch mb-10 md:mb-14">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 items-stretch mb-10 md:mb-14">
           {fases.map((fase, i) => (
             <PricingCard key={fase.title} fase={fase} index={i} />
           ))}
