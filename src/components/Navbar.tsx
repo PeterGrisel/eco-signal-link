@@ -59,6 +59,12 @@ const oplossingen: LinkItem[] = [
     description: "Reken uw pipeline en pricing door",
   },
   {
+    title: "Tools",
+    href: "/tools",
+    icon: Calculator,
+    description: "Funnel-, pipeline- en blueprint calculators",
+  },
+  {
     title: "Trainingen",
     href: "/trainingen",
     icon: GraduationCap,
