@@ -3,8 +3,7 @@ import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { createPortal } from "react-dom";
 import {
-  ArrowRight,
-  Rocket,
+  Phone,
   Workflow,
   Layers,
   Calculator,
@@ -17,7 +16,6 @@ import {
   Mail,
   Sparkles,
   BookMarked,
-  Phone,
   type LucideIcon,
 } from "lucide-react";
 import {
