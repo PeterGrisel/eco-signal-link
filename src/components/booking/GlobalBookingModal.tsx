@@ -42,7 +42,7 @@ export function GlobalBookingModal({ open, onOpenChange, prefillData }: GlobalBo
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[750px] max-h-[90vh] p-0 overflow-hidden">
         <DialogHeader className="px-6 pt-6 pb-2">
-          <DialogTitle className="text-lg font-display">Reserveer uw capaciteit</DialogTitle>
+          <DialogTitle className="text-lg font-display">Boek uw gratis scan</DialogTitle>
           <DialogDescription className="text-sm text-muted-foreground">
             Kies een moment dat u uitkomt. Wij bevestigen per e-mail.
           </DialogDescription>

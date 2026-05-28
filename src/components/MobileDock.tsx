@@ -35,7 +35,7 @@ const MobileDock = () => {
     import("@/components/booking/GlobalBookingModal").then((m) =>
       m.openBookingModal()
     );
-    trackCTA("Mobile Dock — Reserveer uw capaciteit", "#boek-gratis-scan");
+    trackCTA("Mobile Dock — Boek gratis scan", "#boek-gratis-scan");
   };
 
   return (
@@ -67,7 +67,7 @@ const MobileDock = () => {
               className="flex items-center gap-2 bg-primary text-primary-foreground rounded-xl px-4 py-2.5 font-semibold text-sm hover:opacity-90 transition-opacity"
             >
               <Calendar className="w-4 h-4" />
-              Reserveer uw capaciteit
+              Boek scan
             </button>
           </div>
         </motion.nav>

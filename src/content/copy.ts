@@ -15,8 +15,8 @@ export const BOOKING_URL =
 export const CTA = {
   /** Hoofd-CTA: gebruikt in hero, navbar, sticky, sections */
   gratisScan: {
-    label: "Reserveer uw capaciteit",
-    labelShort: "Reserveer uw capaciteit",
+    label: "Boek gratis scan →",
+    labelShort: "Boek gratis scan",
     href: "#boek-gratis-scan",
     external: false,
   },
@@ -28,7 +28,7 @@ export const CTA = {
   },
   /** Tertiaire CTA: situatie bespreken (in body-tekst) */
   bespreekSituatie: {
-    label: "Reserveer uw capaciteit",
+    label: "Boek gratis scan →",
     href: "#boek-gratis-scan",
     external: false,
   },
@@ -155,7 +155,7 @@ export const COPY = {
   },
   ctaSection: {
     headingLine1: "Klaar voor uw",
-    headingAccent: "capaciteit?",
+    headingAccent: "gratis scan?",
     body:
       "60 minuten. Wij brengen uw proces in kaart en laten zien waar de winst zit. Geen verkoopgesprek.",
     speakWith: "Spreek direct met Peter",
