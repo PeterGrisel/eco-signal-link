@@ -16,6 +16,7 @@ import {
   Mail,
   Sparkles,
   BookMarked,
+  Building2,
   type LucideIcon,
 } from "lucide-react";
 import {
@@ -95,6 +96,12 @@ const bedrijf: LinkItem[] = [
     href: "/ons-team",
     icon: Users,
     description: "De mensen achter B2BGroeiMachine",
+  },
+  {
+    title: "Klanten",
+    href: "/klanten",
+    icon: Building2,
+    description: "Wie werkt met ons commerciële brein",
   },
   {
     title: "Brandstory",
