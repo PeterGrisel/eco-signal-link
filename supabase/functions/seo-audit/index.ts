@@ -7,7 +7,7 @@ const corsHeaders = {
 };
 
 interface AuditCheck {
-  category: "indexing" | "performance" | "mobile" | "content" | "structure";
+  category: "indexing" | "performance" | "mobile" | "content" | "structure" | "agentic";
   status: "pass" | "warning" | "fail";
   title: string;
   detail: string;
