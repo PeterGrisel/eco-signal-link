@@ -92,6 +92,54 @@ async function weeklyReindex(supabase: any) {
   return { count: urls.length, urls, results: json.results };
 }
 
+async function sitemapSync(supabase: any, dailyCap = 50) {
+  // Fetch sitemap and extract all URLs
+  let xml: string;
+  try {
+    const res = await fetch("https://b2bgroeimachine.io/sitemap.xml", {
+      headers: { "User-Agent": "B2BGM-IndexingSync/1.0" },
+    });
+    if (!res.ok) throw new Error(`sitemap fetch ${res.status}`);
+    xml = await res.text();
+  } catch (e) {
+    console.error("sitemap fetch failed:", e);
+    return { count: 0, urls: [] as string[], skipped: 0 };
+  }
+
+  const urls = Array.from(xml.matchAll(/<loc>([^<]+)<\/loc>/g)).map((m) => m[1].trim());
+  if (urls.length === 0) return { count: 0, urls: [], skipped: 0 };
+
+  // Find URLs not yet in indexing_requests
+  const { data: existing } = await supabase
+    .from("indexing_requests")
+    .select("url")
+    .in("url", urls);
+
+  const knownSet = new Set((existing || []).map((r: any) => r.url));
+  const missing = urls.filter((u) => !knownSet.has(u));
+  const toSubmit = missing.slice(0, dailyCap);
+
+  if (toSubmit.length === 0) {
+    return { count: 0, urls: [], skipped: missing.length };
+  }
+
+  const res = await fetch(`${SUPABASE_URL}/functions/v1/request-indexing`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
+    },
+    body: JSON.stringify({ urls: toSubmit }),
+  });
+  const json = await res.json().catch(() => ({}));
+  return {
+    count: toSubmit.length,
+    urls: toSubmit,
+    skipped: Math.max(0, missing.length - toSubmit.length),
+    results: json.results,
+  };
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
@@ -118,6 +166,14 @@ serve(async (req) => {
       } catch (e) {
         console.error("Weekly reindex failed:", e);
       }
+    }
+
+    // Daily sitemap-sync: submit any sitemap URL never seen by Google
+    let sitemapInfo: { count: number; urls: string[]; skipped: number } | null = null;
+    try {
+      sitemapInfo = await sitemapSync(supabase, 50);
+    } catch (e) {
+      console.error("Sitemap sync failed:", e);
     }
 
     const today = new Date().toLocaleDateString("nl-NL", {
@@ -151,6 +207,18 @@ serve(async (req) => {
       });
     }
 
+    if (sitemapInfo && sitemapInfo.count > 0) {
+      blocks.push({ type: "divider" });
+      const skippedTxt = sitemapInfo.skipped > 0 ? ` (${sitemapInfo.skipped} wachten op morgen)` : "";
+      blocks.push({
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: `*🆕 Sitemap-sync*\n${sitemapInfo.count} nieuwe URL${sitemapInfo.count === 1 ? "" : "s"} automatisch ingediend bij Google${skippedTxt}.`,
+        },
+      });
+    }
+
     blocks.push({
       type: "context",
       elements: [
@@ -164,6 +232,7 @@ serve(async (req) => {
       ok: true,
       sent: true,
       reindex: reindexInfo,
+      sitemap_sync: sitemapInfo,
       totals: curr,
     }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
   } catch (e) {
