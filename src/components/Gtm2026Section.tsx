@@ -3,15 +3,19 @@ import { ChevronRight, Check, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const problems = [
-  "Reactieve sales: u wacht op aanvragen in plaats van vraag te creëren.",
-  "Geen kennis of tijd om het groeisysteem zelf te bouwen.",
-  "Dure tools die uw team uiteindelijk niet gebruikt.",
+  "Uw account managers hebben geen tijd voor acquisitie.",
+  "Leads geven nu koopsignalen af. Niemand volgt ze op.",
+  "De founder doet alles. Opvolging blijft liggen.",
+  "Kanalen draaien los van elkaar. Niemand ziet de status.",
+  "Bestaande tools staan vol. Het team werkt eromheen.",
 ];
 
 const needs = [
-  "Een strategische partner die u volledig ontzorgt.",
-  "Bewezen systemen, gebouwd door GTM-experts.",
-  "Een AI-first aanpak, op uw eigen tools.",
+  "Slimme automatisering die signalen vangt en opvolgt.",
+  "Eén overzicht van status over al uw kanalen.",
+  "Slimmer werken met uw bestaande systemen. Geen nieuwe stack.",
+  "Trainingen die uw team de machine zelf laat draaien.",
+  "Een partner die u ontzorgt, mét en vóór AI.",
 ];
 
 type Cell = boolean | string;
@@ -84,10 +88,11 @@ const Gtm2026Section = () => {
             <span className="text-gradient">B2B-groei in 2026.</span>
           </h2>
           <p className="text-muted-foreground text-lg leading-relaxed mt-6">
-            Uw sales is reactief: u wacht op aanvragen. De kennis en tijd om het
-            anders te doen ontbreken. En de tools die u kocht, gebruikt uw team
-            niet. Wat u nodig heeft, is een strategische partner die u ontzorgt
-            en alles mét en vóór AI bouwt.
+            Uw account managers hebben geen tijd voor acquisitie. Leads sturen
+            signalen die niemand opvolgt. De founder doet alles erbij. Kanalen
+            draaien los. Niemand heeft één overzicht. Tools staan vol, maar het
+            team werkt eromheen. U heeft geen extra software nodig. U heeft
+            slimme automatisering nodig die alles aan elkaar knoopt.
           </p>
         </motion.div>
 
