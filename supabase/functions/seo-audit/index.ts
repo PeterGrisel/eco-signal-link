@@ -227,6 +227,148 @@ serve(async (req) => {
       }
     }
 
+    // ── 6b. Agentic browsing (Lighthouse-inspired) ──
+    // Inspired by Lighthouse's agentic-browsing category: signals that help
+    // AI agents (GPTBot, ClaudeBot, PerplexityBot, Google-Extended, etc.)
+    // discover, parse en interact with the site.
+    try {
+      const homeRes = await fetchWithTimeout(baseUrl);
+      const html = await homeRes.text();
+
+      // llms.txt — emerging standard for AI-readable site guidance
+      try {
+        const llmsRes = await fetchWithTimeout(`${baseUrl}/llms.txt`);
+        if (llmsRes.ok) {
+          const txt = (await llmsRes.text()).trim();
+          checks.push({
+            category: "agentic",
+            status: txt.length > 100 ? "pass" : "warning",
+            title: "llms.txt aanwezig",
+            detail: txt.length > 100
+              ? `llms.txt gevonden (${txt.length} tekens) — geeft AI-agents context over uw site`
+              : "llms.txt bestaat maar is erg kort — voeg meer context toe voor AI-agents",
+            impact: "medium",
+          });
+        } else {
+          checks.push({
+            category: "agentic",
+            status: "warning",
+            title: "llms.txt aanwezig",
+            detail: "Geen /llms.txt gevonden — AI-agents missen gestructureerde site-context",
+            impact: "medium",
+          });
+        }
+      } catch {
+        checks.push({
+          category: "agentic",
+          status: "warning",
+          title: "llms.txt aanwezig",
+          detail: "Kon /llms.txt niet ophalen",
+          impact: "low",
+        });
+      }
+
+      // AI bot allowlist in robots.txt
+      try {
+        const robotsRes = await fetchWithTimeout(`${baseUrl}/robots.txt`);
+        const robotsTxt = robotsRes.ok ? await robotsRes.text() : "";
+        const aiBots = ["GPTBot", "ClaudeBot", "PerplexityBot", "Google-Extended", "OAI-SearchBot"];
+        const blocked: string[] = [];
+        for (const bot of aiBots) {
+          const re = new RegExp(`User-agent:\\s*${bot}[\\s\\S]*?Disallow:\\s*/\\s*$`, "im");
+          if (re.test(robotsTxt)) blocked.push(bot);
+        }
+        checks.push({
+          category: "agentic",
+          status: blocked.length === 0 ? "pass" : "warning",
+          title: "AI-crawlers toegelaten",
+          detail: blocked.length === 0
+            ? "Geen AI-bots geblokkeerd in robots.txt — site is vindbaar voor LLM's"
+            : `Geblokkeerd: ${blocked.join(", ")} — overweeg of dit gewenst is voor AI-zichtbaarheid`,
+          impact: "medium",
+        });
+      } catch {
+        // skip silently
+      }
+
+      // Semantic landmarks — agents leunen op <main>, <nav>, <header>, <article>
+      const hasMain = /<main[\s>]/i.test(html);
+      const hasNav = /<nav[\s>]/i.test(html);
+      const hasHeader = /<header[\s>]/i.test(html);
+      const landmarkCount = [hasMain, hasNav, hasHeader].filter(Boolean).length;
+      checks.push({
+        category: "agentic",
+        status: landmarkCount === 3 ? "pass" : landmarkCount >= 2 ? "warning" : "fail",
+        title: "Semantische landmarks",
+        detail: `Gevonden: ${[hasMain && "<main>", hasNav && "<nav>", hasHeader && "<header>"].filter(Boolean).join(", ") || "geen"}. AI-agents gebruiken deze om content te scopen.`,
+        impact: "medium",
+      });
+
+      // Accessible names — buttons & links zonder zichtbare tekst of aria-label
+      const buttons = [...html.matchAll(/<button\b[^>]*>([\s\S]*?)<\/button>/gi)];
+      let unnamed = 0;
+      for (const b of buttons) {
+        const tag = b[0];
+        const inner = b[1].replace(/<[^>]+>/g, "").trim();
+        const hasAria = /aria-label\s*=\s*["'][^"']+["']/i.test(tag);
+        if (!inner && !hasAria) unnamed++;
+      }
+      if (buttons.length > 0) {
+        checks.push({
+          category: "agentic",
+          status: unnamed === 0 ? "pass" : unnamed <= 2 ? "warning" : "fail",
+          title: "Knoppen met toegankelijke naam",
+          detail: unnamed === 0
+            ? `Alle ${buttons.length} knoppen hebben tekst of aria-label`
+            : `${unnamed}/${buttons.length} knoppen missen tekst én aria-label — agents kunnen ze niet betrouwbaar bedienen`,
+          impact: unnamed > 2 ? "high" : "medium",
+        });
+      }
+
+      // Images zonder alt
+      const imgs = [...html.matchAll(/<img\b[^>]*>/gi)];
+      const noAlt = imgs.filter(m => !/alt\s*=\s*["']/i.test(m[0])).length;
+      if (imgs.length > 0) {
+        checks.push({
+          category: "agentic",
+          status: noAlt === 0 ? "pass" : noAlt <= 2 ? "warning" : "fail",
+          title: "Alt-teksten op afbeeldingen",
+          detail: noAlt === 0
+            ? `Alle ${imgs.length} afbeeldingen hebben een alt-attribuut`
+            : `${noAlt}/${imgs.length} afbeeldingen zonder alt — AI-agents missen visuele context`,
+          impact: "medium",
+        });
+      }
+
+      // JSON-LD breedte (Organization / Article / FAQPage signalen)
+      const jsonLdBlocks = [...html.matchAll(/<script[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)];
+      const types = new Set<string>();
+      for (const block of jsonLdBlocks) {
+        const m = block[1].match(/"@type"\s*:\s*"([^"]+)"/g) || [];
+        m.forEach(s => {
+          const t = s.match(/"@type"\s*:\s*"([^"]+)"/);
+          if (t) types.add(t[1]);
+        });
+      }
+      checks.push({
+        category: "agentic",
+        status: types.size >= 2 ? "pass" : types.size === 1 ? "warning" : "fail",
+        title: "Rijkdom structured data",
+        detail: types.size > 0
+          ? `${types.size} @type(s) gevonden: ${[...types].slice(0, 6).join(", ")}`
+          : "Geen JSON-LD types gevonden — agents missen entiteitsinformatie",
+        impact: "medium",
+      });
+    } catch (e: any) {
+      checks.push({
+        category: "agentic",
+        status: "warning",
+        title: "Agentic browsing scan",
+        detail: `Scan onvolledig: ${e.message}`,
+        impact: "low",
+      });
+    }
+
     // ── 7. Blog posts without meta ──
     const { data: posts } = await supabase
       .from("blog_posts")
