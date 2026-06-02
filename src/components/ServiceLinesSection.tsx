@@ -14,7 +14,6 @@ import CtaLink from "@/components/CtaLink";
 import { cn } from "@/lib/utils";
 import {
   serviceLines,
-  supportingServices,
   type ServiceIcon,
   type ServiceLine,
 } from "@/data/serviceLines";
