@@ -2,22 +2,6 @@ import { motion } from "framer-motion";
 import { Check, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const problems = [
-  "Uw account managers hebben geen tijd voor acquisitie.",
-  "Leads geven nu koopsignalen af. Niemand volgt ze op.",
-  "De founder doet alles. Opvolging blijft liggen.",
-  "Kanalen draaien los van elkaar. Niemand ziet de status.",
-  "Bestaande tools staan vol. Het team werkt eromheen.",
-];
-
-const needs = [
-  "Slimme automatisering die signalen vangt en opvolgt.",
-  "Eén overzicht van status over al uw kanalen.",
-  "Slimmer werken met uw bestaande systemen. Geen nieuwe stack.",
-  "Trainingen die uw team de machine zelf laat draaien.",
-  "Een partner die u ontzorgt, mét en vóór AI.",
-];
-
 type Cell = boolean | string;
 
 const columns = [
