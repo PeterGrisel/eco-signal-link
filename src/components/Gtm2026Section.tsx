@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ChevronRight, Check, X } from "lucide-react";
+import { Check, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const problems = [
