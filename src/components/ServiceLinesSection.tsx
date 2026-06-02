@@ -171,7 +171,7 @@ const ServiceLinesSection = () => {
           className="rounded-2xl border border-border/50 bg-card/40 p-5 md:p-7"
         >
           <p className="text-[10px] font-display font-semibold tracking-[0.22em] uppercase text-muted-foreground mb-5">
-            Bouwt voort op het fundament
+            Wilt u er nog een tandje bij? Stapel deze er bovenop.
           </p>
           <div className="grid sm:grid-cols-3 gap-3 md:gap-4">
             {supportingServices.map((s) => (

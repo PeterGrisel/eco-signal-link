@@ -321,17 +321,17 @@ export interface SupportingService {
 export const supportingServices: SupportingService[] = [
   {
     label: "Commercieel talent",
-    description: "Nieuwe salesmensen die op dag één omzet draaien.",
+    description: "Een A-speler op uw loonlijst. Voordat recruiters hem zien.",
     href: "/full-service-recruitment",
   },
   {
     label: "Full sales management",
-    description: "Wij draaien uw hele commerciële motor. U focust op product.",
+    description: "Wij runnen uw sales. U focust op product en marge.",
     href: "/full-sales-management",
   },
   {
     label: "Trainingen",
-    description: "Uw team bedient het systeem zelf. Geen afhankelijkheid van ons.",
+    description: "Uw team draait het systeem zelf. Wij worden overbodig.",
     href: "/trainingen",
   },
 ];
