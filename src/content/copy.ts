@@ -132,7 +132,7 @@ export const COPY = {
       },
       {
         q: "Wat als het niet werkt?",
-        a: "Drie maanden opzegbaar. U houdt alle data, draaiboeken en flows. Geen lock-in op onze tools.",
+        a: "Zes maanden opzegbaar. U houdt alle data, draaiboeken en flows. Geen lock-in op onze tools.",
       },
     ],
   },

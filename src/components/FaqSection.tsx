@@ -26,7 +26,7 @@ const faqs = [
   },
   {
     q: "Wat kost het?",
-    a: "Vast maandtarief, drie maanden opzegbaar. U betaalt voor uitvoering, niet voor uren of beloftes. Exacte investering hangt af van de scope die uit de scan komt.",
+    a: "Vast maandtarief, zes maanden opzegbaar. U betaalt voor uitvoering, niet voor uren of beloftes. Exacte investering hangt af van de scope die uit de scan komt.",
   },
   {
     q: "Zit ik vast aan jullie tools?",
