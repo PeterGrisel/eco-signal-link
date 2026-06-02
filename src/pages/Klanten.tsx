@@ -274,7 +274,7 @@ const Klanten = () => {
               </p>
             </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-6 auto-rows-[180px] gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-6 auto-rows-[minmax(180px,auto)] gap-4">
               {clients.map((c, i) => {
                 const span = bentoSpans[i % bentoSpans.length];
                 const blog = c.blog_slug ? blogs[c.blog_slug] : undefined;
