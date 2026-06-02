@@ -162,37 +162,6 @@ const ServiceLinesSection = () => {
           ))}
         </div>
 
-        {/* Aanvullende diensten */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-50px" }}
-          transition={{ duration: 0.5 }}
-          className="rounded-2xl border border-border/50 bg-card/40 p-5 md:p-7"
-        >
-          <p className="text-[10px] font-display font-semibold tracking-[0.22em] uppercase text-muted-foreground mb-5">
-            Wilt u er nog een tandje bij? Stapel deze er bovenop.
-          </p>
-          <div className="grid sm:grid-cols-3 gap-3 md:gap-4">
-            {supportingServices.map((s) => (
-              <Link
-                key={s.href}
-                to={s.href}
-                className="group rounded-xl border border-border/50 bg-background/40 p-4 hover:border-primary/30 transition-colors"
-              >
-                <div className="flex items-center justify-between mb-1.5">
-                  <span className="font-display font-bold text-foreground">
-                    {s.label}
-                  </span>
-                  <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
-                </div>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  {s.description}
-                </p>
-              </Link>
-            ))}
-          </div>
-        </motion.div>
       </div>
     </section>
   );
