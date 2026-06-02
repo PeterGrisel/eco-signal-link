@@ -9,7 +9,6 @@ import AmbientBackdrop from "@/components/homepage/AmbientBackdrop";
 import PricingSection from "@/components/PricingSection";
 import FaqSection from "@/components/FaqSection";
 import CtaSection from "@/components/CtaSection";
-import ServiceLinesSection from "@/components/ServiceLinesSection";
 import Gtm2026Section from "@/components/Gtm2026Section";
 import HowItWorksSection from "@/components/HowItWorksSection";
 import GroeistackSection from "@/components/GroeistackSection";
@@ -47,7 +46,6 @@ const Index = () => {
         <Hero />
       </div>
       {/* Offer-led: aanbod, hoe het werkt, en het bewijs */}
-      <ServiceLinesSection />
       <Gtm2026Section />
       <HowItWorksSection />
       <GroeistackSection />
