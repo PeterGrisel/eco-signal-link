@@ -96,55 +96,6 @@ const Gtm2026Section = () => {
           </p>
         </motion.div>
 
-        {/* Problemen vs Wat u nodig heeft */}
-        <div className="grid lg:grid-cols-2 gap-5 md:gap-6 mb-12 md:mb-16">
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.5 }}
-          >
-            <div className="rounded-2xl border border-border/50 bg-card/95 p-7 md:p-8 w-full h-full">
-              <div className="relative z-10">
-                <h3 className="font-display font-bold text-xl md:text-2xl mb-6">
-                  Wat u in de weg zit
-                </h3>
-                <ul className="space-y-4">
-                  {problems.map((p) => (
-                    <li key={p} className="flex items-start gap-3">
-                      <ChevronRight className="w-5 h-5 text-destructive mt-0.5 shrink-0" strokeWidth={2.5} />
-                      <span className="text-foreground/85 leading-relaxed">{p}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.5, delay: 0.08 }}
-          >
-            <div className="rounded-2xl border border-border/50 bg-card/95 p-7 md:p-8 w-full h-full">
-              <div className="relative z-10">
-                <h3 className="font-display font-bold text-xl md:text-2xl mb-6">
-                  Wat u nodig heeft
-                </h3>
-                <ul className="space-y-4">
-                  {needs.map((n) => (
-                    <li key={n} className="flex items-start gap-3">
-                      <ChevronRight className="w-5 h-5 text-primary mt-0.5 shrink-0" strokeWidth={2.5} />
-                      <span className="text-foreground/85 leading-relaxed">{n}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-
         {/* Vergelijkingstabel */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
