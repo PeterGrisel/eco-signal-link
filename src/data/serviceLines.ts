@@ -43,9 +43,9 @@ export const serviceLines: ServiceLine[] = [
   {
     slug: "outbound-engine",
     name: "Outbound Engine",
-    eyebrow: "Volume & snelheid",
+    eyebrow: "Pijplijn op de automaat",
     tagline:
-      "Geautomatiseerde outreach via e-mail, LinkedIn en telefoon, gestuurd door koopsignalen.",
+      "Elke dag nieuwe afspraken in uw agenda. Zonder dat sales hoeft te bellen of te schrijven.",
     criteria: [
       "Brede markt: meer dan 2.000 bedrijven in uw ICP",
       "Herhaalbare propositie met dealwaarde vanaf €5k",
@@ -57,7 +57,7 @@ export const serviceLines: ServiceLine[] = [
       "Automatische opvolging tot het gesprek",
       "Replies gerouteerd naar uw sales",
     ],
-    outcome: "Een voorspelbare stroom gekwalificeerde afspraken.",
+    outcome: "U voert gesprekken. Het systeem doet de rest.",
     icon: "outbound",
     highlight: true,
     bentoClassName: "md:col-span-2 lg:col-span-2 lg:row-span-2",
@@ -113,9 +113,9 @@ export const serviceLines: ServiceLine[] = [
   {
     slug: "abm-key-accounts",
     name: "ABM & Key Accounts",
-    eyebrow: "Precisie & dealwaarde",
+    eyebrow: "Win de deals die uw jaar maken",
     tagline:
-      "Account-based bewerking van een korte lijst hoogwaardige accounts.",
+      "Eén korte lijst droomklanten. Diep bewerkt op meerdere beslissers tegelijk.",
     criteria: [
       "Smalle markt: minder dan 2.000 doelaccounts",
       "Hoge dealwaarde, vanaf €50k per klant",
@@ -127,7 +127,7 @@ export const serviceLines: ServiceLine[] = [
       "Gepersonaliseerde multithreading",
       "Founder-led en signaal-getimed contact",
     ],
-    outcome: "Toegang tot de accounts die uw kwartaal maken.",
+    outcome: "Binnen bij accounts waar uw concurrent niet binnenkomt.",
     icon: "abm",
     bentoClassName: "lg:col-span-2",
     metaTitle:
@@ -181,9 +181,9 @@ export const serviceLines: ServiceLine[] = [
   {
     slug: "commercieel-brein",
     name: "Commercieel Brein",
-    eyebrow: "Fundament & data",
+    eyebrow: "Stop met sturen op gevoel",
     tagline:
-      "ICP, signaal-scoring, CRM-discipline en routing. Gebouwd op uw eigen tools.",
+      "Eén dashboard. Eén waarheid. Elke campagne wordt slimmer dan de vorige.",
     criteria: [
       "U heeft een salesteam, maar mist voorspelbaarheid",
       "Eigen CRM, zoals HubSpot of vergelijkbaar",
@@ -195,7 +195,7 @@ export const serviceLines: ServiceLine[] = [
       "Verrijking en één bron van waarheid",
       "Dashboard, attributie en lerende loops",
     ],
-    outcome: "Eén brein dat elke campagne slimmer maakt.",
+    outcome: "Sales prioriteert op signaal, niet op onderbuik.",
     icon: "brein",
     metaTitle:
       "Commercieel Brein — RevOps, data en CRM-discipline | B2BGroeiMachine",
@@ -247,9 +247,9 @@ export const serviceLines: ServiceLine[] = [
   {
     slug: "content-autoriteit",
     name: "Content & Autoriteit",
-    eyebrow: "Vraag creëren",
+    eyebrow: "Word gebeld in plaats van bellen",
     tagline:
-      "Founder-led LinkedIn-content en video die vraag opbouwt vóór de outreach.",
+      "LinkedIn-content en video die kopers naar u toe trekt. Voordat u belt.",
     criteria: [
       "Uw ICP is actief op LinkedIn",
       "De founder of experts willen zichtbaar zijn",
@@ -261,7 +261,7 @@ export const serviceLines: ServiceLine[] = [
       "Video (AI) en visuele assets",
       "Nurture die warme leads opvolgt",
     ],
-    outcome: "Een publiek dat u kent voordat u belt.",
+    outcome: "Uw naam valt al op voordat outreach landt.",
     icon: "content",
     bentoClassName: "md:col-span-2 lg:col-span-1",
     metaTitle:
@@ -321,17 +321,17 @@ export interface SupportingService {
 export const supportingServices: SupportingService[] = [
   {
     label: "Commercieel talent",
-    description: "Recruitment als systeem: sourcen, screenen en plaatsen.",
+    description: "Nieuwe salesmensen die op dag één omzet draaien.",
     href: "/full-service-recruitment",
   },
   {
     label: "Full sales management",
-    description: "Wij draaien uw complete commerciële operatie.",
+    description: "Wij draaien uw hele commerciële motor. U focust op product.",
     href: "/full-sales-management",
   },
   {
     label: "Trainingen",
-    description: "Uw team leert het systeem zelf te bedienen.",
+    description: "Uw team bedient het systeem zelf. Geen afhankelijkheid van ons.",
     href: "/trainingen",
   },
 ];

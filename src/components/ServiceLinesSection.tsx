@@ -140,16 +140,18 @@ const ServiceLinesSection = () => {
           className="mb-12 md:mb-16 max-w-2xl"
         >
           <p className="text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4">
-            Onze diensten
+            Bouw het één keer. Draai er vier lijnen op.
           </p>
           <h2 className="font-display font-bold text-4xl md:text-5xl lg:text-6xl xl:text-7xl tracking-tight leading-tight">
-            Eén fundament.
+            Stop met elk kwartaal opnieuw beginnen.
             <br />
-            <span className="text-gradient">Vier manieren om te groeien.</span>
+            <span className="text-gradient">Bouw de machine één keer.</span>
           </h2>
           <p className="text-muted-foreground text-lg leading-relaxed mt-6">
-            Elke lijn heeft een duidelijk profiel. Herkent u zich? Dan weet u
-            waar u staat. Twijfelt u? Dat bepalen we samen in de gratis scan.
+            De meeste bedrijven herbouwen hun pijplijn elk kwartaal. Lijsten
+            opnieuw kopen. Sequenties opnieuw schrijven. Sales opnieuw trainen.
+            Wij leggen één fundament. U draait er vier groeilijnen op. Voor
+            altijd. Twijfelt u welke lijn past? Dat bepalen we in de gratis scan.
           </p>
         </motion.div>
 
