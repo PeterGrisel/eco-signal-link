@@ -545,8 +545,13 @@ const AbmPage = () => {
       )}
 
       {/* Final CTA banner */}
-      <section className="py-14 text-white" style={{ backgroundColor: primary }}>
-        <div className="container mx-auto px-6 text-center">
+      <section className="relative py-14 text-white overflow-hidden" style={{ backgroundColor: primary }}>
+        {ctaImage && (
+          <div className="absolute inset-0 pointer-events-none opacity-15">
+            <img src={ctaImage} alt="" className="w-full h-full object-cover" />
+          </div>
+        )}
+        <div className="container mx-auto px-6 text-center relative">
           <h2 className="font-display text-2xl md:text-4xl mb-6 max-w-3xl mx-auto leading-tight">{ctaHeadline}</h2>
           <Button asChild size="lg" className="bg-white text-black hover:bg-white/90 border-white">
             <a href={ctaUrl}>{ctaLabel} <ArrowRight className="ml-2 h-4 w-4" /></a>
