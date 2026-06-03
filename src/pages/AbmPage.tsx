@@ -19,15 +19,18 @@ const sb = supabase as unknown as { from: (t: string) => any; rpc: (n: string, a
 const asList = (v: any): string[] =>
   Array.isArray(v) ? v.filter((x) => typeof x === "string" && x.trim()) : [];
 
-const asSteps = (v: any): { title: string; description?: string }[] => {
+type Step = { title: string; description?: string };
+const asSteps = (v: any): Step[] => {
   if (!Array.isArray(v)) return [];
-  return v
-    .map((x) => {
-      if (typeof x === "string") return { title: x };
-      if (x && typeof x === "object") return { title: x.title || x.name || "", description: x.description || x.desc || x.body };
-      return null;
-    })
-    .filter((x): x is { title: string; description?: string } => !!x && !!x.title);
+  const out: Step[] = [];
+  for (const x of v) {
+    if (typeof x === "string" && x.trim()) out.push({ title: x });
+    else if (x && typeof x === "object") {
+      const title = x.title || x.name || "";
+      if (title) out.push({ title, description: x.description || x.desc || x.body });
+    }
+  }
+  return out;
 };
 
 const STEP_ICONS = [Target, Map, Database, Megaphone, Route, BarChart3];
