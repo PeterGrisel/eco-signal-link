@@ -125,6 +125,7 @@ const AbmPage = () => {
   const assets = p.assets || branding.assets || {};
   const observationImage: string | undefined = assets.observations || assets.observation;
   const ctaImage: string | undefined = assets.cta;
+  const siteScreenshot: string | undefined = assets.siteScreenshot;
 
   // Inject Google Fonts dynamically when client overrides typography
   useEffect(() => {
@@ -239,54 +240,89 @@ const AbmPage = () => {
         .abm-skin .text-foreground { color: ${textColor} !important; }
         .abm-skin .font-display { ${headingFont ? `font-family: '${headingFont}', 'Space Grotesk', sans-serif !important;` : ""} }
         .abm-skin .rounded-xl, .abm-skin .rounded-2xl { border-radius: ${radius} !important; }
+        @keyframes abmFloat { 0%,100% { transform: translateY(0px); } 50% { transform: translateY(-12px); } }
+        @keyframes abmBeam { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes abmOrb { 0%,100% { transform: translate(0,0) scale(1); } 33% { transform: translate(40px,-30px) scale(1.1); } 66% { transform: translate(-30px,20px) scale(0.95); } }
+        .abm-orb { animation: abmOrb 18s ease-in-out infinite; will-change: transform; }
+        .abm-float { animation: abmFloat 8s ease-in-out infinite; }
+        .abm-dots { background-image: radial-gradient(${textColor}22 1px, transparent 1px); background-size: 24px 24px; }
+        .abm-beam::before { content:""; position:absolute; inset:-2px; border-radius: inherit; padding:2px; background: conic-gradient(from 0deg, transparent 0deg, ${primary} 60deg, transparent 120deg, transparent 240deg, ${accent} 300deg, transparent 360deg); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; animation: abmBeam 6s linear infinite; pointer-events:none; }
       `}</style>
-      {/* Top bar */}
-      <header className="border-b backdrop-blur sticky top-0 z-30" style={{ backgroundColor: `${surfaceColor}CC`, borderColor }}>
-        <div className="container mx-auto px-6 h-14 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            {logoUrl ? (
-              <img src={logoUrl} alt={row.company_name} className="h-7 w-auto" />
-            ) : (
-              <span className="font-display font-semibold" style={{ color: primary }}>{row.company_name}</span>
-            )}
-            <span className="text-xs text-muted-foreground hidden sm:inline">× B2BGroeiMachine</span>
-          </div>
+      {/* Top bar — B2BGroeiMachine identity, klantlogo als badge */}
+      <header className="border-b backdrop-blur-md sticky top-0 z-30" style={{ backgroundColor: `${bgColor}E6`, borderColor }}>
+        <div className="container mx-auto px-6 h-16 flex items-center justify-between gap-4">
+          <a href="https://b2bgroeimachine.io/" className="flex items-center gap-2 group">
+            <span className="inline-flex items-center justify-center h-7 w-7 rounded-md text-white font-bold text-xs" style={{ background: `linear-gradient(135deg, ${primary}, ${accent})` }}>B²</span>
+            <span className="font-display font-bold tracking-tight text-base" style={{ color: textColor }}>B2BGroeiMachine</span>
+          </a>
+          <nav className="hidden md:flex items-center gap-7 text-sm" style={{ color: mutedColor }}>
+            <a href="https://b2bgroeimachine.io/werkwijze" className="hover:opacity-100 transition">Werkwijze</a>
+            <a href="https://b2bgroeimachine.io/cases" className="hover:opacity-100 transition">Cases</a>
+            <a href="https://b2bgroeimachine.io/blog" className="hover:opacity-100 transition">Blog</a>
+            <a href="https://b2bgroeimachine.io/contact" className="hover:opacity-100 transition">Contact</a>
+          </nav>
           <Button asChild size="sm" style={brandBtn}>
             <a href={ctaUrl}>{ctaLabel}</a>
           </Button>
         </div>
       </header>
 
+      {/* Persoonlijke pagina ribbon met klantlogo */}
+      <div className="border-b" style={{ borderColor, backgroundColor: `${primary}0D` }}>
+        <div className="container mx-auto px-6 h-12 flex items-center justify-center gap-3 text-xs sm:text-sm">
+          <span style={{ color: mutedColor }}>Persoonlijke pagina voor</span>
+          {logoUrl ? (
+            <img src={logoUrl} alt={row.company_name} className="h-6 w-auto" />
+          ) : (
+            <span className="font-display font-semibold" style={{ color: primary }}>{row.company_name}</span>
+          )}
+        </div>
+      </div>
+
       {/* Hero */}
       <section className="relative overflow-hidden border-b border-border">
-        <div className="absolute inset-0 pointer-events-none" style={{ background: `radial-gradient(60% 60% at 0% 0%, ${primary}1A, transparent 70%)` }} />
-        {heroImage && (
-          <div className="absolute inset-0 pointer-events-none opacity-20 mix-blend-luminosity">
-            <img src={heroImage} alt="" className="w-full h-full object-cover" />
-          </div>
-        )}
-        <div className="container mx-auto px-6 py-16 md:py-24 relative grid lg:grid-cols-12 gap-10 items-center">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="lg:col-span-7">
-            <p className="text-xs font-semibold tracking-[0.2em] mb-4" style={{ color: primary }}>{eyebrow}</p>
-            <h1 className="font-display text-4xl md:text-6xl leading-[1.05] tracking-tight mb-5">
+        {/* Background layers: dot pattern + animated orbs */}
+        <div className="absolute inset-0 abm-dots opacity-60 pointer-events-none" />
+        <div className="absolute -top-32 -left-24 w-[480px] h-[480px] rounded-full blur-3xl opacity-40 abm-orb pointer-events-none" style={{ background: `radial-gradient(circle, ${primary} 0%, transparent 70%)` }} />
+        <div className="absolute -bottom-40 -right-24 w-[520px] h-[520px] rounded-full blur-3xl opacity-30 abm-orb pointer-events-none" style={{ background: `radial-gradient(circle, ${accent} 0%, transparent 70%)`, animationDelay: "-6s" }} />
+
+        <div className="container mx-auto px-6 py-16 md:py-28 relative grid lg:grid-cols-12 gap-10 items-center">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="lg:col-span-7">
+            <div className="inline-flex items-center gap-2 mb-6 px-3 py-1.5 rounded-full text-xs font-semibold" style={{ backgroundColor: `${primary}15`, color: primary, border: `1px solid ${primary}33` }}>
+              <span className="h-1.5 w-1.5 rounded-full animate-pulse" style={{ backgroundColor: primary }} />
+              {eyebrow || row.company_name.toUpperCase()} × B2BGROEIMACHINE
+            </div>
+            <h1 className="font-display text-4xl md:text-6xl lg:text-7xl leading-[1.02] tracking-tight mb-6" style={headingStyle}>
               {title}
             </h1>
             {subtitle && (
-              <p className="text-lg md:text-2xl mb-6" style={{ color: primary }}>{subtitle}</p>
+              <p className="text-lg md:text-2xl mb-6 font-medium" style={{ color: primary }}>{subtitle}</p>
             )}
             {intro && (
-              <p className="text-base md:text-lg text-muted-foreground leading-relaxed mb-8 max-w-2xl">{intro}</p>
+              <p className="text-base md:text-lg leading-relaxed mb-8 max-w-2xl" style={mutedStyle}>{intro}</p>
             )}
-            <div className="flex flex-wrap gap-3">
-              <Button asChild size="lg" style={brandBtn}>
+            <div className="flex flex-wrap gap-3 items-center">
+              <Button asChild size="lg" style={brandBtn} className="shadow-lg hover:shadow-xl transition-shadow">
                 <a href={ctaUrl}>{ctaLabel} <ArrowRight className="ml-2 h-4 w-4" /></a>
               </Button>
+              {siteScreenshot && (
+                <a href="#analyse" className="text-sm font-medium underline-offset-4 hover:underline" style={{ color: primary }}>
+                  Bekijk wat wij zien →
+                </a>
+              )}
             </div>
           </motion.div>
-          {highlights.length > 0 && (
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }} className="lg:col-span-5">
-              <div className="rounded-2xl border border-border bg-card p-6 md:p-7" style={{ borderColor: `${primary}33` }}>
-                <p className="text-xs uppercase tracking-wider text-muted-foreground mb-4">
+
+          {/* Right column: hero illustration in beam-bordered card, with highlights floating below */}
+          <motion.div initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.7, delay: 0.15 }} className="lg:col-span-5 relative">
+            {heroImage && (
+              <div className="relative abm-beam rounded-2xl overflow-hidden abm-float" style={{ backgroundColor: surfaceColor }}>
+                <img src={heroImage} alt="" className="w-full h-auto block relative z-[1]" />
+              </div>
+            )}
+            {highlights.length > 0 && (
+              <div className={`${heroImage ? "mt-5" : ""} rounded-2xl border bg-card p-5 md:p-6 backdrop-blur-sm`} style={{ borderColor: `${primary}33`, backgroundColor: `${surfaceColor}F2` }}>
+                <p className="text-[10px] uppercase tracking-[0.2em] mb-4" style={{ color: primary }}>
                   Waarom we dit voor {row.company_name} maakten
                 </p>
                 <ul className="space-y-3">
@@ -300,10 +336,49 @@ const AbmPage = () => {
                   ))}
                 </ul>
               </div>
-            </motion.div>
-          )}
+            )}
+          </motion.div>
         </div>
       </section>
+
+      {/* Site analyse / screenshot — proof we kennen de klant */}
+      {siteScreenshot && (
+        <section id="analyse" className="relative py-16 md:py-20 border-b border-border overflow-hidden">
+          <div className="container mx-auto px-6 grid lg:grid-cols-12 gap-10 items-center">
+            <div className="lg:col-span-5">
+              <p className="text-xs font-semibold tracking-[0.2em] mb-4" style={{ color: primary }}>WAT WIJ ZIEN</p>
+              <h2 className="font-display text-3xl md:text-4xl tracking-tight mb-4" style={headingStyle}>
+                We hebben uw site uit elkaar gehaald.
+              </h2>
+              <p className="text-base leading-relaxed" style={mutedStyle}>
+                {row.company_name} heeft een duidelijke propositie. Wij zien waar verkeer afhaakt, welke signalen onbenut blijven en hoe we uw pipeline voorspelbaar maken.
+              </p>
+            </div>
+            <div className="lg:col-span-7 relative">
+              <div className="absolute -inset-6 rounded-3xl blur-3xl opacity-30 pointer-events-none" style={{ background: `linear-gradient(135deg, ${primary}, ${accent})` }} />
+              <motion.div
+                initial={{ opacity: 0, rotateY: -8, rotateX: 4 }}
+                whileInView={{ opacity: 1, rotateY: -4, rotateX: 2 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.8 }}
+                className="relative rounded-xl overflow-hidden border shadow-2xl"
+                style={{ borderColor: `${primary}40`, transformPerspective: 1200 }}
+              >
+                {/* Browser chrome */}
+                <div className="flex items-center gap-1.5 px-3 py-2 border-b" style={{ backgroundColor: surfaceColor, borderColor }}>
+                  <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: "#ff5f57" }} />
+                  <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: "#febc2e" }} />
+                  <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: "#28c840" }} />
+                  <span className="ml-3 text-[10px] font-mono" style={{ color: mutedColor }}>
+                    {(p.sourceUrl || `https://${row.slug}.nl`).replace(/^https?:\/\//, "")}
+                  </span>
+                </div>
+                <img src={siteScreenshot} alt={`${row.company_name} website`} className="w-full h-auto block max-h-[520px] object-top object-cover" />
+              </motion.div>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Value bar */}
       {(summary || valueBar.length > 0) && (
