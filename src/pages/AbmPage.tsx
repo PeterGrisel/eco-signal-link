@@ -125,6 +125,7 @@ const AbmPage = () => {
   const assets = p.assets || branding.assets || {};
   const observationImage: string | undefined = assets.observations || assets.observation;
   const ctaImage: string | undefined = assets.cta;
+  const siteScreenshot: string | undefined = assets.siteScreenshot;
 
   // Inject Google Fonts dynamically when client overrides typography
   useEffect(() => {
