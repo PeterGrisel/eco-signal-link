@@ -153,12 +153,21 @@ SCHRIJFSTIJL:
 - Vermijd herhalende taalpatronen (begin niet meerdere punten met "Onthoud..." of "Vergeet niet...")
 - Vermijd overmatig gebruik van streepjes, gebruik komma's of dubbele punten
 
-ARTIKELSTRUCTUUR:
+ARTIKELSTRUCTUUR (STRICT VOLGORDE):
 1. Hook (1 zin): Bold statement, verrassend feit of key benefit
 2. Waarde-samenvatting (2 tot 3 zinnen): Belangrijkste bevindingen of inzichten
-3. Quick Overview: Bullet points of vergelijkingstabel
-4. Hoofdsecties (max 5 root secties, elk met 0 tot 3 subsecties)
-5. Conclusie: Samenvatting van essentiële punten
+3. ## Kernantwoord (VERPLICHT - dit is de EERSTE H2, direct na de intro):
+   - 2 tot 3 zinnen die het kernantwoord op de zoekvraag geven
+   - Geen bullet points, geen subkopjes - alleen een duidelijk, concreet antwoord
+   - Dit is wat Google Featured Snippets en AI-overzichten oppakken
+4. Quick Overview: Bullet points of vergelijkingstabel
+5. Hoofdsecties (max 5 root secties, elk met 0 tot 3 subsecties)
+6. Conclusie: Samenvatting van essentiële punten
+7. ## Veelgestelde vragen (VERPLICHT - laatste H2 voor de CTA):
+   - Minimaal 3 vragen en antwoorden
+   - Gebruik ### voor elke vraag, gevolgd door 1 tot 3 zinnen antwoord
+   - Formuleer vragen zoals iemand ze echt in Google zou typen
+   - Antwoorden moeten concreet en direct zijn, geen uitweidingen
 
 FORMATTING:
 - Gebruik ## voor H2, ### voor H3, #### voor H4 headers
@@ -262,6 +271,8 @@ ${briefBlock}
 Het artikel moet echte waarde en actionable inzichten bieden. Wees direct en concreet.
 
 LAATSTE CHECK VOOR JE INDIENT:
+- Bevat het artikel een ## Kernantwoord sectie als EERSTE H2? Zo niet, voeg deze toe.
+- Bevat het artikel een ## Veelgestelde vragen sectie als LAATSTE H2 met minimaal 3 ### vragen? Zo niet, voeg deze toe.
 - Tel het aantal [text](url) links in je content. Er moeten MINIMAAL 5 externe links en 2 interne links zijn.
 - Elke H2-sectie moet minstens 1 link bevatten.
 - Als er te weinig links zijn, voeg ze alsnog toe aan relevante zinnen.`;
