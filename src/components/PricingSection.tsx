@@ -354,7 +354,6 @@ const PricingSection = () => {
               location="Pricing Footer"
               className="text-primary hover:underline font-medium inline-flex items-center gap-1"
             />
-            <ArrowRight className="inline w-3 h-3 ml-1 text-primary" />
           </p>
         </motion.div>
       </div>
