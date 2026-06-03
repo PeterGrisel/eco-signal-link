@@ -308,6 +308,12 @@ export const AutopilotTabContent = () => {
                   key={item.id}
                   item={item}
                   onDecline={() => handleDecline(item.id)}
+                  onRegenerate={() => handleRegenerate(item)}
+                  expanded={expandedBrief === item.id}
+                  onToggleBrief={() =>
+                    setExpandedBrief(expandedBrief === item.id ? null : item.id)
+                  }
+                  isProcessing={processingId === item.id}
                 />
               ))}
             </Section>
