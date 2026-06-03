@@ -390,15 +390,29 @@ interface QueueCardProps {
   onApprovePublish?: () => void;
   onDecline?: () => void;
   onRetry?: () => void;
+  onRegenerate?: () => void;
+  expanded?: boolean;
+  onToggleBrief?: () => void;
   isProcessing?: boolean;
 }
 
-const QueueCard = ({ item, onApprovePublish, onDecline, onRetry, isProcessing }: QueueCardProps) => {
+const QueueCard = ({
+  item,
+  onApprovePublish,
+  onDecline,
+  onRetry,
+  onRegenerate,
+  expanded,
+  onToggleBrief,
+  isProcessing,
+}: QueueCardProps) => {
   const config = statusConfig[item.status];
+  const hasBrief = !!item.notes && item.notes.startsWith("# Content brief:");
 
   return (
-    <div className="flex items-center justify-between p-4 rounded-lg bg-card border border-border group">
-      <div className="flex items-center gap-3 flex-1 min-w-0">
+    <div className="rounded-lg bg-card border border-border group">
+      <div className="flex items-center justify-between p-4">
+        <div className="flex items-center gap-3 flex-1 min-w-0">
         <div className="flex-shrink-0 text-muted-foreground">
           {typeIcons[item.content_type]}
         </div>
@@ -408,6 +422,11 @@ const QueueCard = ({ item, onApprovePublish, onDecline, onRetry, isProcessing }:
             <Badge variant="outline" className={`text-xs ${config.color} gap-1`}>
               {config.icon} {config.label}
             </Badge>
+            {hasBrief && (
+              <Badge variant="outline" className="text-xs gap-1 bg-primary/10 text-primary border-primary/20">
+                <Target className="w-3 h-3" /> Gap-brief
+              </Badge>
+            )}
           </div>
           <div className="flex items-center gap-3 mt-0.5">
             {item.scheduled_date && (
@@ -424,8 +443,26 @@ const QueueCard = ({ item, onApprovePublish, onDecline, onRetry, isProcessing }:
             )}
           </div>
         </div>
-      </div>
-      <div className="flex items-center gap-2 ml-4 flex-shrink-0">
+        </div>
+        <div className="flex items-center gap-2 ml-4 flex-shrink-0">
+        {hasBrief && onToggleBrief && (
+          <Button variant="ghost" size="sm" onClick={onToggleBrief} className="gap-1">
+            {expanded ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
+            Brief
+          </Button>
+        )}
+        {onRegenerate && (
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={onRegenerate}
+            disabled={isProcessing}
+            className="text-muted-foreground hover:text-foreground"
+            title="Verwerp en genereer een nieuwe brief"
+          >
+            {isProcessing ? <Loader2 className="w-4 h-4 animate-spin" /> : <RefreshCw className="w-4 h-4" />}
+          </Button>
+        )}
         {onApprovePublish && (
           <Button variant="hero" size="sm" onClick={onApprovePublish} disabled={isProcessing} className="gap-1.5">
             {isProcessing ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
@@ -442,7 +479,15 @@ const QueueCard = ({ item, onApprovePublish, onDecline, onRetry, isProcessing }:
             <X className="w-4 h-4" />
           </Button>
         )}
+        </div>
       </div>
+      {expanded && hasBrief && (
+        <div className="px-4 pb-4 -mt-2">
+          <pre className="text-xs text-muted-foreground bg-background/50 border border-border rounded p-3 max-h-96 overflow-auto whitespace-pre-wrap font-mono">
+            {item.notes}
+          </pre>
+        </div>
+      )}
     </div>
   );
 };
