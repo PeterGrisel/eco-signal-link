@@ -105,7 +105,11 @@ const AdminAbmPages = () => {
   };
 
   return (
-    <AdminLayout title="ABM pagina's" description="Klantspecifieke pagina's op /voor/:slug">
+    <AdminLayout>
+      <div className="mb-6">
+        <h1 className="font-display text-3xl mb-1">ABM pagina's</h1>
+        <p className="text-sm text-muted-foreground">Klantspecifieke pagina's op /voor/:slug</p>
+      </div>
       <div className="flex items-center justify-between mb-6">
         <p className="text-sm text-muted-foreground">
           {rows.length} pagina{rows.length === 1 ? "" : "'s"} · gepubliceerd via ChatGPT/n8n of handmatig
