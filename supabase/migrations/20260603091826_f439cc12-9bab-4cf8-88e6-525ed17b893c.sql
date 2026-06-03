@@ -1,0 +1,1 @@
+INSERT INTO tracking_scripts (name, description, script_content, location, is_active, sort_order) VALUES ('Leadsy AI Tag', 'Leadsy.ai tracking pixel voor B2B intent signalen', '<script id="vtag-ai-js" async src="https://r2.leadsy.ai/tag.js" data-pid="1DkYioRrVXU7KKXsK" data-version="062024"></script>', 'body_end', true, 10)
