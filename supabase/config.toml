@@ -21,3 +21,5 @@ project_id = "snymrcialncxkcsibkjv"
     verify_jwt = false
   [functions.abm-page-publish]
     verify_jwt = false
+  [functions.abm-generate-visuals]
+    verify_jwt = false
