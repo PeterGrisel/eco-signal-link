@@ -1,100 +1,60 @@
-# Jobs overzicht + Smart Cross-References
+## Doel
+Elke werkdag automatisch 1 long-tail SEO-pagina (<300 zoekvolume/mnd) publiceren op basis van actuele concurrent-gaps, inclusief content brief in admin en interne links naar bestaande oplossingen.
 
-Twee samenhangende uitbreidingen onder `/admin/content`:
+## Aanpak
+Geen nieuwe tabellen. We breiden de bestaande autopilot uit met een gap-analyse stap die concurrent rapporten (`seo_settings.config.competitor_reports`) en GSC-snapshots combineert tot een dagelijkse keuze van long-tail keywords. De brief wordt opgeslagen in `content_queue.notes`, het artikel wordt geschreven door `generate-article`, interne links worden gezet via de bestaande `smart-internal-linker`.
 
-## Deel 1 — Jobs tab (nieuw)
+## Stappen
 
-Nieuwe tab `Jobs` naast Artikelen/Autopilot/Kalender/Strategie. Eén overzicht van álle automations met laatste + volgende run, status, en handmatige trigger.
+1. **Nieuwe edge function `gap-keyword-miner`**
+   - Leest concurrent reports + bestaande `keyword_opportunities` + GSC snapshots
+   - Vraagt Lovable AI (Gemini 2.5 Flash) om 10 long-tail keyword-kandidaten (<300/mnd, hoge service-fit, niet al gedekt door bestaande blog/sector/playbook slugs)
+   - Per kandidaat: `headline`, `keyword`, `search_intent`, `competitor_gap_source`, en een **content brief** (H2 outline, FAQ-vragen, te beantwoorden zoekvraag, suggested internal links, suggested external sources)
+   - Schrijft top-1 als rij in `content_queue` met `status='approved'`, `scheduled_date=morgen werkdag`, brief in `notes` (markdown)
 
-**Welke jobs tonen:**
-1. Blog autopilot (`autopilot-run`)
-2. Playbook autopilot (`generate-playbook`)
-3. Glossary autopilot (`generate-glossary`)
-4. GSC data sync (`fetch-gsc-data`)
-5. Maandelijkse evaluatie (`monthly-evaluation`)
-6. Link validation (`validate-external-links`)
-7. Content cleanup (`content-cleanup`)
-8. Daily SEO report (`daily-seo-report`)
-9. **NIEUW**: Smart link autopilot (zie deel 2)
-10. **NIEUW**: GSC keyword opportunity scanner (zie deel 2)
+2. **Autopilot uitbreiding**
+   - Voor de nightly run: als er geen geplande rij is voor vandaag, roep eerst `gap-keyword-miner` aan om er een te creëren, daarna gewoon `generate-article`
+   - `generate-article` krijgt de brief mee via een nieuwe `brief` parameter zodat de structuur 1-op-1 wordt gevolgd
 
-**Per job toont de kaart:**
-- Naam + icoon + korte beschrijving
-- Status badge (Actief / Gepauzeerd / Mislukt)
-- Cron-schema (mens-leesbaar: "Dagelijks 06:00")
-- Laatste run: tijd + success/fail
-- Volgende geplande run
-- Knop "Run now"
-- Expand → log van laatste 5 runs
+3. **Interne linking automatisch**
+   - Na publicatie roept autopilot reeds `smart-internal-linker` aan (controleren en zo nodig toevoegen) zodat de nieuwe pagina:
+     - 3-5 interne links krijgt naar relevante `/oplossingen/*`, `/sectoren/*`, glossary
+     - Wordt opgenomen in `link_suggestions` zodat oudere pagina's terug-linken (trigger `create_inverse_link_suggestion` doet dit al)
 
-**Gecombineerde kalender (bovenaan tab):**
-Toont in één kalenderweergave alle geplande items van alle jobs (blog, playbook, glossary) met kleurcode per type.
+4. **Cron**
+   - Bestaande dagelijkse autopilot cron (02:00) blijft. Toevoegen: extra cron 20:00 CET die `gap-keyword-miner` aanroept zodat morgen's brief al klaar staat voor admin-review.
 
-## Deel 2 — Smart Cross-References
+5. **Admin UI (`/admin/autopilot`)**
+   - Tab "Gap briefs" toont aankomende rijen uit `content_queue` met de brief uit `notes` (markdown-render)
+   - Knop "Verwerp & regenereer" → roept `gap-keyword-miner` met `exclude=[headline]`
+   - Knop "Publiceer nu" → roept `autopilot-run` mode `nightly` met `target_date=vandaag`
 
-Drie nieuwe automations die de site zichzelf laten verbeteren.
+6. **SEO Avalanche-guardrail**
+   - Miner filtert op `search_volume < 300` (op basis van GSC impressions <300/mnd of geen ranking) zoals vastgelegd in mem://features/content-autopilot/seo-avalanche-strategy
+   - Negeert healthcare/non-profit termen (target sector regel)
 
-### 2a. Auto-link keywords in blogs
-Bij publicatie (en nachtelijk voor bestaande posts) scant edge function `smart-internal-linker` blog markdown en injecteert links naar:
-- Sectorpagina's (`/sectoren/{slug}`)
-- Solutions (`/oplossingen/{slug}`)
-- Glossary termen (`/woordenboek/{slug}`)
-- Andere blogposts
-
-Match-logica: keyword-tabel `link_targets` met `keyword`, `target_url`, `priority`. Eerste 2 voorkomens per pagina worden gelinkt. Skip headings, code-blocks, bestaande links.
-
-### 2b. GSC-driven keyword opportunity scanner
-Nachtelijke job `gsc-opportunity-scan`:
-- Leest `gsc_snapshots` (laatste 28 dagen)
-- Vindt queries op positie 5-20 met >100 impressies
-- Matcht query → bestaande pagina
-- Schrijft suggesties naar nieuwe tabel `keyword_opportunities` met: query, page, position, impressions, suggested_action (`add_internal_link` | `expand_content` | `new_article`)
-- Toont in Strategie-tab als action items
-
-### 2c. Bidirectionele link suggesties
-Edge function `orphan-link-detector` (wekelijks):
-- Detecteert pagina's met <2 inbound links
-- Genereert suggesties voor bidirectionele links via embeddings (pgvector)
-- Output in tabel `link_suggestions`, reviewable in Jobs-tab
-
-### Embeddings infrastructuur
-- `pg_vector` extensie + tabel `page_embeddings` (page_url, embedding vector(1536), updated_at)
-- Edge function `generate-page-embeddings` (wekelijks) — embed alle blogs, sectorpagina's, solutions via Lovable AI Gateway (`openai/text-embedding-3-small`)
-- Similarity search voor "gerelateerd"-blokken en orphan detection
+7. **Slack rapport**
+   - `daily-seo-report` toont: vandaag gepubliceerde long-tail pagina, gekozen keyword, gap-bron (welke concurrent), aantal interne links toegevoegd
 
 ## Technisch
 
-**Nieuwe tabellen** (migratie):
-- `link_targets` (keyword, target_url, target_type, priority, active)
-- `keyword_opportunities` (query, page, position, impressions, suggested_action, status, created_at)
-- `link_suggestions` (source_url, target_url, score, reason, status, created_at)
-- `page_embeddings` (page_url, content_hash, embedding vector(1536), updated_at)
-- `job_runs` (job_key, status, message, started_at, finished_at, duration_ms) — uniform run-log voor Jobs-tab
+**Nieuwe files**
+- `supabase/functions/gap-keyword-miner/index.ts` (Lovable AI call, JSON output, insert in content_queue)
+- `src/pages/admin/autopilot/GapBriefs.tsx` (tab in bestaande autopilot admin)
 
-**Nieuwe edge functions:**
-- `smart-internal-linker`
-- `gsc-opportunity-scan`
-- `orphan-link-detector`
-- `generate-page-embeddings`
-- `jobs-overview` (aggregator: leest cron jobs + job_runs en geeft samengevoegd overzicht)
+**Aangepaste files**
+- `supabase/functions/autopilot-run/index.ts` — nightly fallback roept miner aan; geeft `brief` door aan generate-article
+- `supabase/functions/generate-article/index.ts` — accepteert optionele `brief` parameter en injecteert in system prompt
+- `supabase/functions/daily-seo-report/index.ts` — voegt long-tail sectie toe
+- Cron: nieuwe `pg_cron` job via insert-tool die om 20:00 CET miner triggert
 
-**Frontend:**
-- `src/components/admin/jobs/JobsOverview.tsx`
-- `src/components/admin/jobs/JobCard.tsx`
-- `src/components/admin/jobs/CombinedCalendar.tsx`
-- `src/components/admin/jobs/KeywordOpportunities.tsx`
-- Tab toevoegen in `AdminContentHub.tsx`
+**Geen schema-wijzigingen** — `content_queue.notes` (text) en `keyword` zijn al aanwezig; brief past daarin als markdown.
 
-**Cron** (via pg_cron `insert` tool, niet migratie — zoals voorgeschreven):
-- `smart-internal-linker`: dagelijks 04:00
-- `gsc-opportunity-scan`: dagelijks 05:00
-- `orphan-link-detector`: zondag 03:00
-- `generate-page-embeddings`: zondag 02:00
+## Validatie
+- Test miner standalone met `curl_edge_functions`, check 1 brief in `content_queue`
+- Trigger autopilot handmatig (`mode=nightly`, `target_date=morgen`), check blog_post in admin met juiste structuur + interne links
+- Controleer dat link validation gate (`validate-external-links`) groen blijft voor de output
 
-## Scope-afbakening
-
-In deze ronde: tabellen + edge functions + Jobs-tab UI + cron-schedules + first iteration van auto-linker (keyword tabel pre-fill met sectoren/solutions/top glossary).
-
-Niet in deze ronde: UI om `link_targets` handmatig te beheren (komt in tweede ronde), front-end "gerelateerd" blokken op blogposts (kan los).
-
-Groot werkstuk — bevestigt u de scope dan bouw ik in deze volgorde: 1) tabellen 2) embeddings function 3) smart-linker 4) GSC scanner 5) orphan detector 6) Jobs-tab UI 7) cron.
+## Buiten scope (apart traject indien gewenst)
+- Sector-landingpages (statisch, blijven hand-curated)
+- Geautomatiseerde concurrent re-scrape (gebruikt cached `competitor_reports`; refresh via bestaande `competitor-scan` blijft handmatig of via aparte weekly cron)

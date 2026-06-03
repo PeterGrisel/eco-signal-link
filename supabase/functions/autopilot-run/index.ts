@@ -189,7 +189,7 @@ serve(async (req) => {
       // Find today's scheduled + approved item (strict limit 1)
       const { data: todayItems } = await supabase
         .from("content_queue")
-        .select("id, headline, keyword, content_type, topic_id")
+        .select("id, headline, keyword, content_type, topic_id, notes")
         .eq("status", "approved")
         .eq("scheduled_date", today)
         .order("created_at", { ascending: true })
@@ -201,13 +201,44 @@ serve(async (req) => {
         // Fallback: pick oldest approved item without date
         const { data: fallback } = await supabase
           .from("content_queue")
-          .select("id, headline, keyword, content_type, topic_id")
+          .select("id, headline, keyword, content_type, topic_id, notes")
           .eq("status", "approved")
           .is("scheduled_date", null)
           .order("created_at", { ascending: true })
           .limit(1);
 
         item = fallback?.[0] || null;
+      }
+
+      // Last resort: ask the gap-keyword-miner to create one on-the-fly.
+      if (!item) {
+        log.push("🔎 Geen item gepland — gap-keyword-miner uitvoeren...");
+        try {
+          const minerRes = await fetch(`${supabaseUrl}/functions/v1/gap-keyword-miner`, {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${serviceKey}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ target_date: today, force: true }),
+          });
+          if (minerRes.ok) {
+            const minerData = await minerRes.json();
+            if (minerData.queue_id) {
+              const { data: fresh } = await supabase
+                .from("content_queue")
+                .select("id, headline, keyword, content_type, topic_id, notes")
+                .eq("id", minerData.queue_id)
+                .single();
+              item = fresh || null;
+              if (item) log.push(`✓ Brief gegenereerd: "${item.headline}"`);
+            }
+          } else {
+            log.push(`⚠ gap-keyword-miner faalde (${minerRes.status})`);
+          }
+        } catch (e) {
+          log.push(`⚠ gap-keyword-miner crashte: ${(e as Error).message}`);
+        }
       }
 
       if (!item) {
@@ -233,6 +264,7 @@ serve(async (req) => {
             keyword: item.keyword || item.headline,
             content_type: item.content_type,
             length: "lang",
+            brief: item.notes || undefined,
           }),
         });
 
