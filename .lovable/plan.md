@@ -1,60 +1,95 @@
-## Doel
-Elke werkdag automatisch 1 long-tail SEO-pagina (<300 zoekvolume/mnd) publiceren op basis van actuele concurrent-gaps, inclusief content brief in admin en interne links naar bestaande oplossingen.
+## Wat we bouwen
 
-## Aanpak
-Geen nieuwe tabellen. We breiden de bestaande autopilot uit met een gap-analyse stap die concurrent rapporten (`seo_settings.config.competitor_reports`) en GSC-snapshots combineert tot een dagelijkse keuze van long-tail keywords. De brief wordt opgeslagen in `content_queue.notes`, het artikel wordt geschreven door `generate-article`, interne links worden gezet via de bestaande `smart-internal-linker`.
+Een systeem om per engaged account een unieke landingspagina te publiceren op `/voor/[slug]` (bv. `/voor/coolmark`). De pagina volgt de structuur van de playbook-flyer, maar dan als webpagina, gebrand met de kleuren van de klant uit de JSON. Pagina's vervallen automatisch na 14 dagen.
 
-## Stappen
+## Hoe het werkt
 
-1. **Nieuwe edge function `gap-keyword-miner`**
-   - Leest concurrent reports + bestaande `keyword_opportunities` + GSC snapshots
-   - Vraagt Lovable AI (Gemini 2.5 Flash) om 10 long-tail keyword-kandidaten (<300/mnd, hoge service-fit, niet al gedekt door bestaande blog/sector/playbook slugs)
-   - Per kandidaat: `headline`, `keyword`, `search_intent`, `competitor_gap_source`, en een **content brief** (H2 outline, FAQ-vragen, te beantwoorden zoekvraag, suggested internal links, suggested external sources)
-   - Schrijft top-1 als rij in `content_queue` met `status='approved'`, `scheduled_date=morgen werkdag`, brief in `notes` (markdown)
+1. U laat ChatGPT een JSON-spec opleveren (zoals het Coolmark-voorbeeld).
+2. U publiceert via Admin UI **of** via API endpoint.
+3. Pagina staat live op `https://b2bgroeimachine.io/voor/[slug]` met `expires_at = now + 14 dagen`.
+4. Na 14 dagen → 404 (status `expired`).
 
-2. **Autopilot uitbreiding**
-   - Voor de nightly run: als er geen geplande rij is voor vandaag, roep eerst `gap-keyword-miner` aan om er een te creëren, daarna gewoon `generate-article`
-   - `generate-article` krijgt de brief mee via een nieuwe `brief` parameter zodat de structuur 1-op-1 wordt gevolgd
+## Pagina-layout (vast template)
 
-3. **Interne linking automatisch**
-   - Na publicatie roept autopilot reeds `smart-internal-linker` aan (controleren en zo nodig toevoegen) zodat de nieuwe pagina:
-     - 3-5 interne links krijgt naar relevante `/oplossingen/*`, `/sectoren/*`, glossary
-     - Wordt opgenomen in `link_suggestions` zodat oudere pagina's terug-linken (trigger `create_inverse_link_suggestion` doet dit al)
+Alle pagina's gebruiken hetzelfde frame, gevuld uit JSON:
 
-4. **Cron**
-   - Bestaande dagelijkse autopilot cron (02:00) blijft. Toevoegen: extra cron 20:00 CET die `gap-keyword-miner` aanroept zodat morgen's brief al klaar staat voor admin-review.
+```text
+┌─────────────────────────────────────────────┐
+│ Hero: companyName + recommendedVisualTitle  │  ← brandStyle.colors[0] als accent
+│ "Een tailored market activation plan voor…" │
+├─────────────────────────────────────────────┤
+│ Strip: 4 badges uit visualMotifs            │
+├─────────────────────────────────────────────┤
+│ Sectie 1: Waar wij de kans zien (4 cards)   │  ← vaste B2BGM-stappen
+│ Sectie 2: Wat dit voor [klant] kan doen     │  ← 6-stappen flow
+├─────────────────────────────────────────────┤
+│ Target audiences  │  Producten/diensten     │  ← targetAudiences + productsServices
+├─────────────────────────────────────────────┤
+│ Signal-based activatie + 3 tiers            │  ← vast B2BGM-frame
+│ Verwachte output   │   Onze expertise       │
+├─────────────────────────────────────────────┤
+│ Playbook-secties uit JSON (icon cards)      │  ← playbookSections
+├─────────────────────────────────────────────┤
+│ CTA-banner: cta-tekst uit JSON              │  ← brand color, link naar GlobalBookingModal
+│ Footer: B2BGroeiMachine + "geldig tot DD/MM"│
+└─────────────────────────────────────────────┘
+```
 
-5. **Admin UI (`/admin/autopilot`)**
-   - Tab "Gap briefs" toont aankomende rijen uit `content_queue` met de brief uit `notes` (markdown-render)
-   - Knop "Verwerp & regenereer" → roept `gap-keyword-miner` met `exclude=[headline]`
-   - Knop "Publiceer nu" → roept `autopilot-run` mode `nightly` met `target_date=vandaag`
+Branding: `brandStyle.colors[0]` → CSS-variable `--accent-page` op de root van de pagina. Alle accenten (hero-band, badges, CTA-knop) gebruiken deze. Fallback B2BGM-oranje als kleur ontbreekt.
 
-6. **SEO Avalanche-guardrail**
-   - Miner filtert op `search_volume < 300` (op basis van GSC impressions <300/mnd of geen ranking) zoals vastgelegd in mem://features/content-autopilot/seo-avalanche-strategy
-   - Negeert healthcare/non-profit termen (target sector regel)
+## Hoe u publiceert
 
-7. **Slack rapport**
-   - `daily-seo-report` toont: vandaag gepubliceerde long-tail pagina, gekozen keyword, gap-bron (welke concurrent), aantal interne links toegevoegd
+**Admin UI** — `/admin/voor-pagina's`
+- Lijst van alle pagina's: slug, klant, status (live/expired), vervaldatum, view count.
+- Nieuwe pagina: textarea om JSON te plakken + slug-veld (autosuggestie uit companyName). Knop "Publiceer 14 dagen". Optioneel veld voor handmatige verlengingen.
+- Acties per rij: bekijk, kopieer URL, verleng +14 dagen, archiveer nu.
 
-## Technisch
+**API endpoint** — `POST /functions/v1/abm-page-publish`
+- Body: `{ slug, json, expires_in_days? }` (default 14).
+- Header: `x-api-key` met secret `ABM_PUBLISH_KEY`.
+- Response: `{ url, expires_at }`.
+- Te koppelen aan uw ChatGPT/n8n workflow.
 
-**Nieuwe files**
-- `supabase/functions/gap-keyword-miner/index.ts` (Lovable AI call, JSON output, insert in content_queue)
-- `src/pages/admin/autopilot/GapBriefs.tsx` (tab in bestaande autopilot admin)
+## Cleanup
 
-**Aangepaste files**
-- `supabase/functions/autopilot-run/index.ts` — nightly fallback roept miner aan; geeft `brief` door aan generate-article
-- `supabase/functions/generate-article/index.ts` — accepteert optionele `brief` parameter en injecteert in system prompt
-- `supabase/functions/daily-seo-report/index.ts` — voegt long-tail sectie toe
-- Cron: nieuwe `pg_cron` job via insert-tool die om 20:00 CET miner triggert
+Cron job (dagelijks 03:00) zet status van pagina's met `expires_at < now()` op `expired`. De public route checkt status en levert 404 als niet `live`.
 
-**Geen schema-wijzigingen** — `content_queue.notes` (text) en `keyword` zijn al aanwezig; brief past daarin als markdown.
+## Tracking
 
-## Validatie
-- Test miner standalone met `curl_edge_functions`, check 1 brief in `content_queue`
-- Trigger autopilot handmatig (`mode=nightly`, `target_date=morgen`), check blog_post in admin met juiste structuur + interne links
-- Controleer dat link validation gate (`validate-external-links`) groen blijft voor de output
+Page view + CTA-klik geregistreerd in bestaande `pageviews`/`events` tabel met `account_slug` als label, zodat u per account ziet wie heeft gekeken en wie geklikt.
 
-## Buiten scope (apart traject indien gewenst)
-- Sector-landingpages (statisch, blijven hand-curated)
-- Geautomatiseerde concurrent re-scrape (gebruikt cached `competitor_reports`; refresh via bestaande `competitor-scan` blijft handmatig of via aparte weekly cron)
+---
+
+## Technische uitwerking
+
+**DB-migratie** — nieuwe tabel `abm_pages`:
+- `id`, `slug` (unique), `company_name`, `payload` (jsonb), `status` ('live'|'expired'|'archived'), `expires_at`, `view_count`, `created_at`, `updated_at`
+- GRANT SELECT aan `anon` (publieke pagina); INSERT/UPDATE/DELETE alleen via service_role
+- RLS: anon mag alleen `status='live' AND expires_at>now()` lezen; admin via has_role('admin') volledige toegang
+- Index op `slug`
+
+**Edge functions**:
+- `abm-page-publish` — auth via `x-api-key`, valideert JSON-shape met Zod, upsert in `abm_pages` met `expires_at = now() + N days`
+- `abm-page-expire` — cron-gedreven cleanup, zet `status='expired'`
+
+**Frontend**:
+- Route `/voor/:slug` → `src/pages/abm/AbmPage.tsx`
+  - Fetch `abm_pages` op slug, check `live` + niet verlopen, anders 404
+  - Render het vaste template, kleuren uit `payload.brandStyle.colors[0]`
+  - Increment view_count via RPC
+- Componenten in `src/components/abm/`: `AbmHero`, `AbmOpportunity`, `AbmSteps`, `AbmAudienceProducts`, `AbmSignals`, `AbmPlaybookSections`, `AbmCtaBanner`
+- Admin `src/pages/admin/AdminAbmPages.tsx` toegevoegd aan admin nav
+- Routing in `src/App.tsx` toevoegen
+
+**Copy/CTA**: CTA-knop gebruikt bestaande `GlobalBookingModal` (intent: gratisScan-variant met `account_slug` als tracking-label). Tekst komt uit `payload.cta`.
+
+**SEO**: `noindex, nofollow` op alle `/voor/*` pagina's (priv private outreach).
+
+**JSON-shape (Zod schema)** — verplicht: `companyName`, `recommendedVisualTitle`, `positioning`, `cta`, `targetAudiences[]`, `productsServices[]`, `playbookSections[]`. Optioneel: `brandStyle.colors[]`, `brandStyle.visualMotifs[]`, `confidence`, `reasoning`, `stepsTaken`.
+
+**Secret nodig**: `ABM_PUBLISH_KEY` (via add_secret tijdens build).
+
+## Out of scope (later)
+- AI-gegenereerde hero-afbeelding per pagina (nu: pure layout, geen flyer-image)
+- E-mail-gate of token-toegang
+- Versiebeheer / preview voor publish
