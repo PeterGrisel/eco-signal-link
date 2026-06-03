@@ -62,7 +62,6 @@ const AbmPage = () => {
     title: row ? `${row.company_name} × B2BGroeiMachine` : "B2BGroeiMachine",
     description: intro.slice(0, 155),
     canonical: row ? `https://b2bgroeimachine.io/voor/${row.slug}` : undefined,
-    noindex: true,
   });
 
   if (loading) return <div className="min-h-screen" />;
