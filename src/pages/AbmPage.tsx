@@ -72,8 +72,32 @@ const AbmPage = () => {
   const branding = p.branding || {};
   const primary: string = branding.primary || branding.primaryColor || p.primaryColor || "#0B3E91";
   const accent: string = branding.accent || branding.accentColor || p.accentColor || primary;
-  const logoUrl: string | undefined = branding.logo || branding.logoUrl;
+  const bgColor: string = branding.bg || "#0A0F1E";
+  const surfaceColor: string = branding.surface || "#101830";
+  const textColor: string = branding.text || "#F5F7FB";
+  const mutedColor: string = branding.muted || "#9AA5BD";
+  const borderColor: string = branding.border || `${textColor}1A`;
+  const headingFont: string | undefined = branding.headingFont;
+  const bodyFont: string | undefined = branding.bodyFont;
+  const radius: string = branding.radius === "sm" ? "0.375rem" : branding.radius === "md" ? "0.625rem" : branding.radius === "xl" ? "1.25rem" : "0.875rem";
+  const logoUrl: string | undefined = branding.logoLight || branding.logo || branding.logoUrl;
   const heroImage: string | undefined = hero.image || p.imageUrl || p.heroImage;
+  const assets = p.assets || branding.assets || {};
+  const observationImage: string | undefined = assets.observations || assets.observation;
+  const ctaImage: string | undefined = assets.cta;
+
+  // Inject Google Fonts dynamically when client overrides typography
+  useEffect(() => {
+    const families: string[] = [];
+    if (headingFont) families.push(`${headingFont.replace(/ /g, "+")}:wght@500;600;700;800`);
+    if (bodyFont && bodyFont !== headingFont) families.push(`${bodyFont.replace(/ /g, "+")}:wght@400;500;600`);
+    if (!families.length) return;
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = `https://fonts.googleapis.com/css2?${families.map((f) => `family=${f}`).join("&")}&display=swap`;
+    document.head.appendChild(link);
+    return () => { document.head.removeChild(link); };
+  }, [headingFont, bodyFont]);
 
   const title: string = hero.title || p.recommendedVisualTitle || p.title || (row ? `Zo bouwen wij de pipeline voor ${row.company_name}.` : "");
   const subtitle: string = hero.subtitle || p.subtitle || "";
@@ -134,9 +158,18 @@ const AbmPage = () => {
     );
   }
 
-  const brandStyle = { "--brand": primary, "--brand-accent": accent } as CSSProperties;
-  const brandBtn: CSSProperties = { backgroundColor: primary, color: "#fff", borderColor: primary };
-  const softBrand: CSSProperties = { backgroundColor: `${primary}10`, color: primary };
+  const brandStyle = {
+    "--brand": primary,
+    "--brand-accent": accent,
+    backgroundColor: bgColor,
+    color: textColor,
+    fontFamily: bodyFont ? `'${bodyFont}', Inter, system-ui, sans-serif` : undefined,
+  } as CSSProperties;
+  const headingStyle: CSSProperties = headingFont ? { fontFamily: `'${headingFont}', 'Space Grotesk', sans-serif` } : {};
+  const brandBtn: CSSProperties = { backgroundColor: primary, color: "#fff", borderColor: primary, borderRadius: radius };
+  const softBrand: CSSProperties = { backgroundColor: `${primary}1A`, color: primary };
+  const cardStyle: CSSProperties = { backgroundColor: surfaceColor, borderColor, color: textColor, borderRadius: radius };
+  const mutedStyle: CSSProperties = { color: mutedColor };
 
   const Section = ({ num, title, children, className = "" }: { num?: number | string; title: string; children: React.ReactNode; className?: string }) => (
     <section className={`py-14 ${className}`}>
@@ -147,7 +180,7 @@ const AbmPage = () => {
               {num}
             </span>
           )}
-          <h2 className="font-display text-2xl md:text-3xl tracking-tight">{title}</h2>
+          <h2 className="font-display text-2xl md:text-3xl tracking-tight" style={headingStyle}>{title}</h2>
         </div>
         {children}
       </div>
@@ -155,9 +188,20 @@ const AbmPage = () => {
   );
 
   return (
-    <div className="min-h-screen bg-background text-foreground" style={brandStyle}>
+    <div className="abm-skin min-h-screen" style={brandStyle}>
+      <style>{`
+        .abm-skin .bg-card { background-color: ${surfaceColor} !important; }
+        .abm-skin .bg-card\\/40 { background-color: ${surfaceColor}66 !important; }
+        .abm-skin .bg-card\\/50 { background-color: ${surfaceColor}80 !important; }
+        .abm-skin .bg-background { background-color: ${bgColor} !important; }
+        .abm-skin .border-border { border-color: ${borderColor} !important; }
+        .abm-skin .text-muted-foreground { color: ${mutedColor} !important; }
+        .abm-skin .text-foreground { color: ${textColor} !important; }
+        .abm-skin .font-display { ${headingFont ? `font-family: '${headingFont}', 'Space Grotesk', sans-serif !important;` : ""} }
+        .abm-skin .rounded-xl, .abm-skin .rounded-2xl { border-radius: ${radius} !important; }
+      `}</style>
       {/* Top bar */}
-      <header className="border-b border-border bg-card/50 backdrop-blur sticky top-0 z-30">
+      <header className="border-b backdrop-blur sticky top-0 z-30" style={{ backgroundColor: `${surfaceColor}CC`, borderColor }}>
         <div className="container mx-auto px-6 h-14 flex items-center justify-between">
           <div className="flex items-center gap-3">
             {logoUrl ? (
@@ -176,6 +220,11 @@ const AbmPage = () => {
       {/* Hero */}
       <section className="relative overflow-hidden border-b border-border">
         <div className="absolute inset-0 pointer-events-none" style={{ background: `radial-gradient(60% 60% at 0% 0%, ${primary}1A, transparent 70%)` }} />
+        {heroImage && (
+          <div className="absolute inset-0 pointer-events-none opacity-20 mix-blend-luminosity">
+            <img src={heroImage} alt="" className="w-full h-full object-cover" />
+          </div>
+        )}
         <div className="container mx-auto px-6 py-16 md:py-24 relative grid lg:grid-cols-12 gap-10 items-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="lg:col-span-7">
             <p className="text-xs font-semibold tracking-[0.2em] mb-4" style={{ color: primary }}>{eyebrow}</p>
@@ -211,11 +260,6 @@ const AbmPage = () => {
                   ))}
                 </ul>
               </div>
-              {heroImage && (
-                <div className="mt-4 rounded-2xl overflow-hidden border border-border">
-                  <img src={heroImage} alt={row.company_name} className="w-full h-auto block" />
-                </div>
-              )}
             </motion.div>
           )}
         </div>
@@ -242,6 +286,11 @@ const AbmPage = () => {
       {/* 0 — Client observations (deep personalisation) */}
       {clientObservations.length > 0 && (
         <Section title={`Wat wij van ${row.company_name} zien`}>
+          {observationImage && (
+            <div className="mb-6 rounded-2xl overflow-hidden border border-border max-w-3xl">
+              <img src={observationImage} alt="" className="w-full h-auto block" loading="lazy" />
+            </div>
+          )}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {clientObservations.map((s, i) => (
               <div key={i} className="p-5 rounded-xl border border-border bg-card">
@@ -496,8 +545,13 @@ const AbmPage = () => {
       )}
 
       {/* Final CTA banner */}
-      <section className="py-14 text-white" style={{ backgroundColor: primary }}>
-        <div className="container mx-auto px-6 text-center">
+      <section className="relative py-14 text-white overflow-hidden" style={{ backgroundColor: primary }}>
+        {ctaImage && (
+          <div className="absolute inset-0 pointer-events-none opacity-15">
+            <img src={ctaImage} alt="" className="w-full h-full object-cover" />
+          </div>
+        )}
+        <div className="container mx-auto px-6 text-center relative">
           <h2 className="font-display text-2xl md:text-4xl mb-6 max-w-3xl mx-auto leading-tight">{ctaHeadline}</h2>
           <Button asChild size="lg" className="bg-white text-black hover:bg-white/90 border-white">
             <a href={ctaUrl}>{ctaLabel} <ArrowRight className="ml-2 h-4 w-4" /></a>
