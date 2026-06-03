@@ -102,7 +102,7 @@ serve(async (req) => {
       loadExistingPosts(),
       loadGroeistackTools(),
     ]);
-    const { keyword, audience, length, headline, content_type } = await req.json();
+    const { keyword, audience, length, headline, content_type, brief } = await req.json();
     const topic = headline || keyword;
     if (!topic) throw new Error("keyword or headline is required");
 
