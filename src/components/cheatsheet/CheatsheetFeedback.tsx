@@ -27,56 +27,44 @@ const CheatsheetFeedback = ({ slug }: Props) => {
 
   const sessionId = getSessionId();
 
+  const applyAggregates = (data: any) => {
+    if (!data) return;
+    setTotalHelpful(data.totalHelpful ?? 0);
+    setTotalRatings(data.totalRatings ?? 0);
+    setAvgRating(data.avgRating ?? 0);
+    if (data.mine) {
+      setHelpful(data.mine.helpful ?? null);
+      setRating(data.mine.rating ?? null);
+      setSubmitted(true);
+    }
+  };
+
   useEffect(() => {
-    // Load existing feedback for this session
-    const loadExisting = async () => {
-      const { data } = await supabase
-        .from("cheatsheet_feedback")
-        .select("helpful, rating")
-        .eq("cheatsheet_slug", slug)
-        .eq("session_id", sessionId)
-        .maybeSingle();
-      if (data) {
-        setHelpful(data.helpful);
-        setRating(data.rating);
-        setSubmitted(true);
+    const load = async () => {
+      const { data } = await supabase.functions.invoke("cheatsheet-feedback", {
+        method: "GET" as any,
+        // pass via query string
+      });
+      // fallback: invoke doesn't support GET query strings well; use direct fetch
+      if (!data) {
+        try {
+          const url = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/cheatsheet-feedback?slug=${encodeURIComponent(slug)}&session_id=${encodeURIComponent(sessionId)}`;
+          const res = await fetch(url, {
+            headers: { apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY },
+          });
+          applyAggregates(await res.json());
+        } catch { /* ignore */ }
+      } else {
+        applyAggregates(data);
       }
     };
-
-    // Load aggregates
-    const loadAggregates = async () => {
-      const { data } = await supabase
-        .from("cheatsheet_feedback")
-        .select("helpful, rating")
-        .eq("cheatsheet_slug", slug);
-      if (data) {
-        setTotalHelpful(data.filter((d) => d.helpful).length);
-        const rated = data.filter((d) => d.rating != null);
-        setTotalRatings(rated.length);
-        if (rated.length > 0) {
-          setAvgRating(
-            rated.reduce((s, d) => s + (d.rating ?? 0), 0) / rated.length
-          );
-        }
-      }
-    };
-
-    loadExisting();
-    loadAggregates();
+    load();
   }, [slug, sessionId]);
 
   const upsert = async (h: boolean | null, r: number | null) => {
-    const payload: Record<string, unknown> = {
-      cheatsheet_slug: slug,
-      session_id: sessionId,
-    };
-    if (h !== null) payload.helpful = h;
-    if (r !== null) payload.rating = r;
-
-    const { error } = await supabase
-      .from("cheatsheet_feedback")
-      .upsert(payload as any, { onConflict: "cheatsheet_slug,session_id" });
-
+    const { data, error } = await supabase.functions.invoke("cheatsheet-feedback", {
+      body: { slug, session_id: sessionId, helpful: h, rating: r },
+    });
     if (error) {
       toast.error("Feedback opslaan mislukt");
       return;
@@ -84,21 +72,13 @@ const CheatsheetFeedback = ({ slug }: Props) => {
     setSubmitted(true);
     toast.success("Bedankt voor je feedback!");
 
-    // Refresh aggregates
-    const { data } = await supabase
-      .from("cheatsheet_feedback")
-      .select("helpful, rating")
-      .eq("cheatsheet_slug", slug);
-    if (data) {
-      setTotalHelpful(data.filter((d) => d.helpful).length);
-      const rated = data.filter((d) => d.rating != null);
-      setTotalRatings(rated.length);
-      if (rated.length > 0) {
-        setAvgRating(
-          rated.reduce((s, d) => s + (d.rating ?? 0), 0) / rated.length
-        );
-      }
-    }
+    try {
+      const url = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/cheatsheet-feedback?slug=${encodeURIComponent(slug)}&session_id=${encodeURIComponent(sessionId)}`;
+      const res = await fetch(url, {
+        headers: { apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY },
+      });
+      applyAggregates(await res.json());
+    } catch { /* ignore */ }
   };
 
   const handleHelpful = () => {
