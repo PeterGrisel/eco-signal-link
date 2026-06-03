@@ -55,7 +55,7 @@ const CheatsheetFeedback = ({ slug }: Props) => {
   }, [slug, sessionId]);
 
   const upsert = async (h: boolean | null, r: number | null) => {
-    const { data, error } = await supabase.functions.invoke("cheatsheet-feedback", {
+    const { error } = await supabase.functions.invoke("cheatsheet-feedback", {
       body: { slug, session_id: sessionId, helpful: h, rating: r },
     });
     if (error) {
