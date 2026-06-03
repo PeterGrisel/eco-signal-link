@@ -39,26 +39,19 @@ const CheatsheetFeedback = ({ slug }: Props) => {
     }
   };
 
-  useEffect(() => {
-    const load = async () => {
-      const { data } = await supabase.functions.invoke("cheatsheet-feedback", {
-        method: "GET" as any,
-        // pass via query string
+  const fetchAggregates = async () => {
+    try {
+      const url = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/cheatsheet-feedback?slug=${encodeURIComponent(slug)}&session_id=${encodeURIComponent(sessionId)}`;
+      const res = await fetch(url, {
+        headers: { apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY },
       });
-      // fallback: invoke doesn't support GET query strings well; use direct fetch
-      if (!data) {
-        try {
-          const url = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/cheatsheet-feedback?slug=${encodeURIComponent(slug)}&session_id=${encodeURIComponent(sessionId)}`;
-          const res = await fetch(url, {
-            headers: { apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY },
-          });
-          applyAggregates(await res.json());
-        } catch { /* ignore */ }
-      } else {
-        applyAggregates(data);
-      }
-    };
-    load();
+      applyAggregates(await res.json());
+    } catch { /* ignore */ }
+  };
+
+  useEffect(() => {
+    fetchAggregates();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slug, sessionId]);
 
   const upsert = async (h: boolean | null, r: number | null) => {
@@ -72,13 +65,7 @@ const CheatsheetFeedback = ({ slug }: Props) => {
     setSubmitted(true);
     toast.success("Bedankt voor je feedback!");
 
-    try {
-      const url = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/cheatsheet-feedback?slug=${encodeURIComponent(slug)}&session_id=${encodeURIComponent(sessionId)}`;
-      const res = await fetch(url, {
-        headers: { apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY },
-      });
-      applyAggregates(await res.json());
-    } catch { /* ignore */ }
+    await fetchAggregates();
   };
 
   const handleHelpful = () => {
