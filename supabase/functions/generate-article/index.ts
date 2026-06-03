@@ -246,6 +246,10 @@ ${ctaDescription ? `Beschrijving: "${ctaDescription}"` : ""}
 ${ctaButtonText ? `Button: "${ctaButtonText}"` : ""}
 ${ctaNote ? `Noot: "${ctaNote}"` : ""}`;
 
+    const briefBlock = brief
+      ? `\n\nCONTENT BRIEF (VERPLICHT VOLGEN):\n${typeof brief === "string" ? brief : JSON.stringify(brief, null, 2)}\n\nGebruik exact deze outline (H2's en key points), beantwoord de search question in de hook, neem alle FAQ-vragen op in een FAQ-sectie aan het einde, en gebruik de voorgestelde interne en externe links.\n`
+      : "";
+
     const userPrompt = `Schrijf een uitgebreid, SEO-geoptimaliseerd blogartikel over: "${topic}"
 
 Vereisten:
@@ -254,14 +258,13 @@ Vereisten:
 - Volg alle stijl-, structuur- en formatting-regels uit de system prompt
 - Genereer alle metadata (title, meta_description, excerpt, slug, keywords)
 - Schrijf in het ${lang}
-
+${briefBlock}
 Het artikel moet echte waarde en actionable inzichten bieden. Wees direct en concreet.
 
 LAATSTE CHECK VOOR JE INDIENT:
 - Tel het aantal [text](url) links in je content. Er moeten MINIMAAL 5 externe links en 2 interne links zijn.
 - Elke H2-sectie moet minstens 1 link bevatten.
 - Als er te weinig links zijn, voeg ze alsnog toe aan relevante zinnen.`;
-${""}
 
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
