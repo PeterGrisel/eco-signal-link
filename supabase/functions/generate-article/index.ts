@@ -271,6 +271,8 @@ ${briefBlock}
 Het artikel moet echte waarde en actionable inzichten bieden. Wees direct en concreet.
 
 LAATSTE CHECK VOOR JE INDIENT:
+- Bevat het artikel een ## Kernantwoord sectie als EERSTE H2? Zo niet, voeg deze toe.
+- Bevat het artikel een ## Veelgestelde vragen sectie als LAATSTE H2 met minimaal 3 ### vragen? Zo niet, voeg deze toe.
 - Tel het aantal [text](url) links in je content. Er moeten MINIMAAL 5 externe links en 2 interne links zijn.
 - Elke H2-sectie moet minstens 1 link bevatten.
 - Als er te weinig links zijn, voeg ze alsnog toe aan relevante zinnen.`;
