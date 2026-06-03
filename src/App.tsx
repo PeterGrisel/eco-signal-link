@@ -44,6 +44,8 @@ import AdminSystem from "./pages/admin/AdminSystem.tsx";
 import AdminBlogEditor from "./pages/admin/AdminBlogEditor.tsx";
 import AdminBlogGenerate from "./pages/admin/AdminBlogGenerate.tsx";
 import AdminSignaal from "./pages/admin/AdminSignaal.tsx";
+import AdminAbmPages from "./pages/admin/AdminAbmPages.tsx";
+import AbmPage from "./pages/AbmPage.tsx";
 import SignalCheatsheet from "./pages/SignalCheatsheet.tsx";
 import LinkedInOutreach from "./pages/LinkedInOutreach.tsx";
 import HubSpotPipeline from "./pages/HubSpotPipeline.tsx";
@@ -130,6 +132,8 @@ const AnimatedRoutes = () => {
           <Route path="/admin/seo" element={<AdminSeoHub />} />
           <Route path="/admin/system" element={<AdminSystem />} />
           <Route path="/admin/signaal" element={<AdminSignaal />} />
+          <Route path="/admin/abm" element={<AdminAbmPages />} />
+          <Route path="/voor/:slug" element={<AbmPage />} />
           <Route path="/admin/blog/new" element={<AdminBlogEditor />} />
           <Route path="/admin/blog/edit/:id" element={<AdminBlogEditor />} />
           <Route path="/admin/blog/generate" element={<AdminBlogGenerate />} />
