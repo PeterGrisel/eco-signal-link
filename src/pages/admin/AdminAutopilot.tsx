@@ -6,7 +6,7 @@ import { useToast } from "@/hooks/use-toast";
 import {
   Sparkles, Check, X, Loader2, Play, RefreshCw, Zap,
   FileText, Wrench, Video, Globe, Calendar, Rocket,
-  ArrowRight, Clock
+  ArrowRight, Clock, ChevronDown, ChevronRight, Target
 } from "lucide-react";
 import ContentCleanupSection from "@/components/admin/ContentCleanupSection";
 
@@ -48,6 +48,8 @@ export const AutopilotTabContent = () => {
   const [loading, setLoading] = useState(true);
   const [pipelineRunning, setPipelineRunning] = useState(false);
   const [processingId, setProcessingId] = useState<string | null>(null);
+  const [minerRunning, setMinerRunning] = useState(false);
+  const [expandedBrief, setExpandedBrief] = useState<string | null>(null);
   
   const { toast } = useToast();
 
@@ -86,6 +88,56 @@ export const AutopilotTabContent = () => {
       toast({ title: "Pipeline mislukt", description: e.message, variant: "destructive" });
     }
     setPipelineRunning(false);
+  };
+
+  // Trigger gap-keyword-miner for tomorrow (or next free workday)
+  const handleMineGapBrief = async () => {
+    setMinerRunning(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("gap-keyword-miner", {
+        body: { force: false },
+      });
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+      if (data?.skipped) {
+        toast({
+          title: "Datum al gevuld",
+          description: `"${data.existing?.headline}" staat al ingepland.`,
+        });
+      } else {
+        toast({
+          title: "✓ Gap-brief klaar",
+          description: `"${data.headline}" voor ${data.scheduled_date}`,
+        });
+      }
+      fetchQueue();
+    } catch (e: any) {
+      toast({ title: "Miner mislukt", description: e.message, variant: "destructive" });
+    }
+    setMinerRunning(false);
+  };
+
+  // Reject & regenerate a brief for the same scheduled date
+  const handleRegenerate = async (item: QueueItem) => {
+    if (!item.scheduled_date) return;
+    setProcessingId(item.id);
+    try {
+      await supabase.from("content_queue").update({ status: "declined" as any }).eq("id", item.id);
+      const { data, error } = await supabase.functions.invoke("gap-keyword-miner", {
+        body: {
+          target_date: item.scheduled_date,
+          force: true,
+          exclude: [item.headline],
+        },
+      });
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+      toast({ title: "✓ Nieuwe brief", description: data?.headline || "Vervangen" });
+      fetchQueue();
+    } catch (e: any) {
+      toast({ title: "Regenereren mislukt", description: e.message, variant: "destructive" });
+    }
+    setProcessingId(null);
   };
 
   // Approve & Publish (for items with generated draft)
