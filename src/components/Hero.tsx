@@ -96,8 +96,8 @@ const Hero = () => {
             transition={{ duration: 0.6, ease, delay: 0.12 }}
             className="text-muted-foreground text-lg md:text-2xl max-w-3xl mx-auto mb-10 leading-relaxed"
           >
-            Wij combineren AI-workflows met menselijke expertise. Van
-            koopsignalen tot geboekte gesprekken, op uw eigen tools.
+            Wij combineren AI-workflows met menselijke expertise. Slimmer
+            werken door te automatiseren.
           </motion.p>
 
           {/* CTA's */}
