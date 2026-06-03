@@ -9,7 +9,7 @@ const FloatingTrainingCta = () => {
   const location = useLocation();
 
   // Hide on signaal routes and admin routes
-  if (location.pathname.startsWith("/signaal") || location.pathname.startsWith("/admin")) return null;
+  if (location.pathname.startsWith("/signaal") || location.pathname.startsWith("/admin") || location.pathname.startsWith("/voor")) return null;
 
   return (
     <>
