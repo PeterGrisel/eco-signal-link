@@ -393,7 +393,7 @@ const AbmPage = () => {
 
       {/* 7 — Client expertise (Onze expertise — about client) */}
       {clientExpertise.length > 0 && (
-        <Section num={7} title={`Waarom ${row.company_name}`} className="bg-card/40 border-y border-border">
+        <Section num={7} title={`Sterktes van ${row.company_name}`} className="bg-card/40 border-y border-border">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {clientExpertise.map((e, i) => (
               <div key={i} className="p-5 rounded-xl border border-border bg-background">
@@ -456,8 +456,8 @@ const AbmPage = () => {
         <Section title="B2BGroeiMachine expertise">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {ourExpertise.map((e, i) => (
-              <div key={i} className="p-5 rounded-xl border-2" style={{ borderColor: `${primary}40` }}>
-                <h3 className="font-semibold text-sm mb-2" style={{ color: primary }}>{e.title}</h3>
+              <div key={i} className="p-5 rounded-xl border-2 bg-card" style={{ borderColor: `${primary}60` }}>
+                <h3 className="font-semibold text-sm mb-2 text-foreground">{e.title}</h3>
                 {e.description && <p className="text-xs text-muted-foreground leading-relaxed">{e.description}</p>}
               </div>
             ))}
