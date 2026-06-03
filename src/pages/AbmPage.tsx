@@ -239,18 +239,33 @@ const AbmPage = () => {
         </section>
       )}
 
+      {/* 0 — Client observations (deep personalisation) */}
+      {clientObservations.length > 0 && (
+        <Section title={`Wat wij van ${row.company_name} zien`}>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {clientObservations.map((s, i) => (
+              <div key={i} className="p-5 rounded-xl border border-border bg-card">
+                <p className="text-[10px] uppercase tracking-wider mb-2" style={{ color: primary }}>Observatie {i + 1}</p>
+                <h3 className="font-semibold text-sm mb-1">{s.title}</h3>
+                {s.description && <p className="text-xs text-muted-foreground leading-relaxed">{s.description}</p>}
+              </div>
+            ))}
+          </div>
+        </Section>
+      )}
+
       {/* 1 — Opportunity */}
       {opportunitySteps.length > 0 && (
         <Section num={1} title={opportunity.title || "Waar wij de kans zien"}>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {opportunitySteps.map((s, i) => (
-              <motion.div key={i} initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.3, delay: i * 0.05 }} className="p-5 rounded-xl border border-border bg-card">
+              <div key={i} className="p-5 rounded-xl border border-border bg-card">
                 <div className="h-9 w-9 rounded-lg flex items-center justify-center mb-3" style={softBrand}>
                   <span className="text-sm font-bold">{i + 1}</span>
                 </div>
                 <h3 className="font-medium mb-1 text-sm">{s.title}</h3>
                 {s.description && <p className="text-xs text-muted-foreground leading-relaxed">{s.description}</p>}
-              </motion.div>
+              </div>
             ))}
           </div>
         </Section>
@@ -263,7 +278,7 @@ const AbmPage = () => {
             {approachSteps.map((s, i) => {
               const Icon = STEP_ICONS[i % STEP_ICONS.length];
               return (
-                <motion.div key={i} initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.3, delay: i * 0.04 }} className="relative">
+                <div key={i} className="relative">
                   <div className="p-4 rounded-xl border border-border bg-background h-full">
                     <div className="flex items-center gap-2 mb-3">
                       <span className="inline-flex items-center justify-center h-6 w-6 rounded-full text-[10px] font-bold text-white" style={{ backgroundColor: primary }}>{i + 1}</span>
@@ -272,7 +287,7 @@ const AbmPage = () => {
                     <h3 className="font-semibold text-sm mb-1">{s.title}</h3>
                     {s.description && <p className="text-xs text-muted-foreground leading-snug">{s.description}</p>}
                   </div>
-                </motion.div>
+                </div>
               );
             })}
           </div>
