@@ -75,7 +75,7 @@ const AbmPage = () => {
   const logoUrl: string | undefined = branding.logo || branding.logoUrl;
   const heroImage: string | undefined = hero.image || p.imageUrl || p.heroImage;
 
-  const title: string = hero.title || p.recommendedVisualTitle || p.title || (row ? `Een tailored market activation plan voor ${row.company_name}.` : "");
+  const title: string = hero.title || p.recommendedVisualTitle || p.title || (row ? `Zo bouwen wij de pipeline voor ${row.company_name}.` : "");
   const subtitle: string = hero.subtitle || p.subtitle || "";
   const eyebrow: string = hero.eyebrow || (row ? row.company_name.toUpperCase() : "");
   const intro: string = hero.intro || p.intro || p.description || p.reasoning || "";
@@ -102,6 +102,9 @@ const AbmPage = () => {
     : [];
   const certifications = asList(p.certifications);
   const ourExpertise = asSteps(p.ourExpertise || p.b2bExpertise);
+  const clientObservations = asSteps(p.clientObservations);
+  const ourFit = asSteps(p.ourFit || p.whyUs);
+  const caseProof = asSteps(p.caseProof || p.cases);
 
   const ctaObj = (typeof p.cta === "object" && p.cta) ? p.cta : {};
   const ctaHeadline: string = ctaObj.headline || (typeof p.cta === "string" ? p.cta : "") ||
@@ -394,7 +397,7 @@ const AbmPage = () => {
       {routing.length > 0 && (
         <section className="py-14 border-b border-border">
           <div className="container mx-auto px-6">
-            <h2 className="font-display text-2xl md:text-3xl mb-6">Routing — signalen naar het juiste team</h2>
+          <h2 className="font-display text-2xl md:text-3xl mb-6">Routing: signalen naar het juiste team</h2>
             <div className="rounded-xl border border-border overflow-hidden">
               <table className="w-full text-sm">
                 <thead style={{ backgroundColor: `${primary}14` }}>
@@ -447,6 +450,36 @@ const AbmPage = () => {
         </Section>
       )}
 
+      {/* Why B2BGroeiMachine for this client */}
+      {(ourFit.length > 0 || caseProof.length > 0) && (
+        <Section title={`Waarom B2BGroeiMachine voor ${row.company_name}`} className="bg-card/40 border-y border-border">
+          {ourFit.length > 0 && (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+              {ourFit.map((e, i) => (
+                <div key={i} className="p-5 rounded-xl border border-border bg-background">
+                  <div className="h-9 w-9 rounded-lg mb-3 flex items-center justify-center" style={softBrand}>
+                    <Check className="h-4 w-4" />
+                  </div>
+                  <h3 className="font-semibold text-sm mb-1">{e.title}</h3>
+                  {e.description && <p className="text-xs text-muted-foreground leading-relaxed">{e.description}</p>}
+                </div>
+              ))}
+            </div>
+          )}
+          {caseProof.length > 0 && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {caseProof.map((e, i) => (
+                <div key={i} className="p-5 rounded-xl border-2" style={{ borderColor: `${primary}40` }}>
+                  <p className="text-[10px] uppercase tracking-wider mb-2" style={{ color: primary }}>Casevoorbeeld</p>
+                  <h3 className="font-semibold text-sm mb-1">{e.title}</h3>
+                  {e.description && <p className="text-xs text-muted-foreground leading-relaxed">{e.description}</p>}
+                </div>
+              ))}
+            </div>
+          )}
+        </Section>
+      )}
+
       {/* Final CTA banner */}
       <section className="py-14 text-white" style={{ backgroundColor: primary }}>
         <div className="container mx-auto px-6 text-center">
@@ -454,7 +487,7 @@ const AbmPage = () => {
           <Button asChild size="lg" className="bg-white text-black hover:bg-white/90 border-white">
             <a href={ctaUrl}>{ctaLabel} <ArrowRight className="ml-2 h-4 w-4" /></a>
           </Button>
-          <p className="text-xs mt-6 opacity-70">B2BGroeiMachine — your partner in scalable B2B growth</p>
+          <p className="text-xs mt-6 opacity-70">B2BGroeiMachine, uw partner in voorspelbare B2B groei.</p>
         </div>
       </section>
     </div>
