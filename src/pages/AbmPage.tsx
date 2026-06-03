@@ -74,8 +74,11 @@ const AbmPage = () => {
   const accent: string = branding.accent || branding.accentColor || p.accentColor || primary;
   const bgColor: string = branding.bg || "#0A0F1E";
   const surfaceColor: string = branding.surface || "#101830";
-  const textColor: string = branding.text || "#F5F7FB";
-  const mutedColor: string = branding.muted || "#9AA5BD";
+  const rawTextColor: string = branding.text || "#F5F7FB";
+  const rawMutedColor: string = branding.muted || "#9AA5BD";
+  // Readability guard: force text/muted to readable values vs bg+surface
+  const textColor: string = ensureReadable(rawTextColor, [bgColor, surfaceColor], 4.5);
+  const mutedColor: string = ensureReadable(rawMutedColor, [bgColor, surfaceColor], 3.2);
   const borderColor: string = branding.border || `${textColor}1A`;
   const headingFont: string | undefined = branding.headingFont;
   const bodyFont: string | undefined = branding.bodyFont;
