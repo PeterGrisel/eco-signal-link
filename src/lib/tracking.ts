@@ -24,9 +24,6 @@ const isAdminUser = async (): Promise<boolean> => {
 supabase.auth.onAuthStateChange(() => { _isAdmin = null; });
 
 // ── IP blocklist ──
-let _blockedIPs: Set<string> | null = null;
-let _myIP: string | null = null;
-
 let _blockedResult: boolean | null = null;
 const isBlockedIP = async (): Promise<boolean> => {
   if (_blockedResult !== null) return _blockedResult;
