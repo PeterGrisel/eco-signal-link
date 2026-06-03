@@ -64,6 +64,14 @@ const AbmPage = () => {
     canonical: row ? `https://b2bgroeimachine.io/voor/${row.slug}` : undefined,
   });
 
+  useEffect(() => {
+    const tag = document.createElement("meta");
+    tag.name = "robots";
+    tag.content = "noindex, nofollow";
+    document.head.appendChild(tag);
+    return () => { document.head.removeChild(tag); };
+  }, []);
+
   if (loading) return <div className="min-h-screen" />;
   if (notFound || !row) return <Navigate to="/404" replace />;
   if (row.status !== "live" || new Date(row.expires_at) < new Date()) {
