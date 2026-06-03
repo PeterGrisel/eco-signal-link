@@ -19,3 +19,5 @@ project_id = "snymrcialncxkcsibkjv"
     verify_jwt = false
   [functions.groeistack-scrape]
     verify_jwt = false
+  [functions.abm-page-publish]
+    verify_jwt = false
