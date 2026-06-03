@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUp, Layers, Tag, HelpCircle, Phone } from "lucide-react";
+import { useLocation } from "react-router-dom";
 import { trackCTA } from "@/lib/tracking";
 
 /**
@@ -10,6 +11,7 @@ import { trackCTA } from "@/lib/tracking";
  * Hides when the footer enters the viewport so it never overlaps.
  */
 const MobileDock = () => {
+  const location = useLocation();
   const [visible, setVisible] = useState(false);
   const [footerVisible, setFooterVisible] = useState(false);
 
@@ -45,6 +47,7 @@ const MobileDock = () => {
   };
 
   return (
+    location.pathname.startsWith("/voor") || location.pathname.startsWith("/signaal") || location.pathname.startsWith("/admin") ? null :
     <AnimatePresence>
       {visible && !footerVisible && (
         <motion.nav
