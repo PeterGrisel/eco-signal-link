@@ -23,7 +23,7 @@ export default function LeftDock() {
     return () => observer.disconnect();
   }, [location.pathname]);
 
-  if (location.pathname.startsWith("/signaal") || location.pathname.startsWith("/admin")) return null;
+  if (location.pathname.startsWith("/signaal") || location.pathname.startsWith("/admin") || location.pathname.startsWith("/voor")) return null;
 
   const items = [
     {
