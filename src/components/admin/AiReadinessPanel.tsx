@@ -128,14 +128,16 @@ const AiReadinessPanel = () => {
             Hoe goed scoort uw content voor citatie in AI-antwoorden (ChatGPT, Perplexity, Gemini, Copilot).
           </p>
         </div>
-        <Button onClick={runScan} disabled={scanning} variant="hero">
-          {scanning ? <Loader2 className="w-4 h-4 animate-spin" /> : <Play className="w-4 h-4" />}
-          {scanning ? "Scannen..." : "Scan nu"}
-        </Button>
-        <Button onClick={runEnrich} disabled={enriching} variant="outline">
-          {enriching ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
-          {enriching ? "Verrijken..." : "Bulk verrijken"}
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button onClick={runEnrich} disabled={enriching} variant="outline">
+            {enriching ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
+            {enriching ? "Verrijken..." : "Bulk verrijken"}
+          </Button>
+          <Button onClick={runScan} disabled={scanning} variant="hero">
+            {scanning ? <Loader2 className="w-4 h-4 animate-spin" /> : <Play className="w-4 h-4" />}
+            {scanning ? "Scannen..." : "Scan nu"}
+          </Button>
+        </div>
       </div>
 
       <div className="grid grid-cols-3 gap-4">
