@@ -286,6 +286,11 @@ const AbmPage = () => {
       {/* 0 — Client observations (deep personalisation) */}
       {clientObservations.length > 0 && (
         <Section title={`Wat wij van ${row.company_name} zien`}>
+          {observationImage && (
+            <div className="mb-6 rounded-2xl overflow-hidden border border-border max-w-3xl">
+              <img src={observationImage} alt="" className="w-full h-auto block" loading="lazy" />
+            </div>
+          )}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {clientObservations.map((s, i) => (
               <div key={i} className="p-5 rounded-xl border border-border bg-card">
