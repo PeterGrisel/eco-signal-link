@@ -14,6 +14,42 @@ export type Database = {
   }
   public: {
     Tables: {
+      abm_pages: {
+        Row: {
+          company_name: string
+          created_at: string
+          expires_at: string
+          id: string
+          payload: Json
+          slug: string
+          status: string
+          updated_at: string
+          view_count: number
+        }
+        Insert: {
+          company_name: string
+          created_at?: string
+          expires_at: string
+          id?: string
+          payload?: Json
+          slug: string
+          status?: string
+          updated_at?: string
+          view_count?: number
+        }
+        Update: {
+          company_name?: string
+          created_at?: string
+          expires_at?: string
+          id?: string
+          payload?: Json
+          slug?: string
+          status?: string
+          updated_at?: string
+          view_count?: number
+        }
+        Relationships: []
+      }
       agent_messages: {
         Row: {
           content: string
@@ -1738,6 +1774,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      increment_abm_view: { Args: { _slug: string }; Returns: undefined }
       match_related_pages: {
         Args: {
           match_count?: number
