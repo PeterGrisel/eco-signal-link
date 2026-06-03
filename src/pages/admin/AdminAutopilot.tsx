@@ -198,6 +198,18 @@ export const AutopilotTabContent = () => {
         </div>
         <div className="flex items-center gap-4 flex-wrap">
           <Button
+            variant="outline"
+            onClick={handleMineGapBrief}
+            disabled={minerRunning}
+            className="gap-2"
+          >
+            {minerRunning ? (
+              <><Loader2 className="w-4 h-4 animate-spin" /> Brief genereren...</>
+            ) : (
+              <><Target className="w-4 h-4" /> Gap-brief voor morgen</>
+            )}
+          </Button>
+          <Button
             variant="hero"
             onClick={handleFullPipeline}
             disabled={pipelineRunning}
