@@ -261,6 +261,7 @@ LAATSTE CHECK VOOR JE INDIENT:
 - Tel het aantal [text](url) links in je content. Er moeten MINIMAAL 5 externe links en 2 interne links zijn.
 - Elke H2-sectie moet minstens 1 link bevatten.
 - Als er te weinig links zijn, voeg ze alsnog toe aan relevante zinnen.`;
+${""}
 
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
