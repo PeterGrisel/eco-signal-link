@@ -35,6 +35,43 @@ const asSteps = (v: any): Step[] => {
 
 const STEP_ICONS = [Target, Map, Database, Megaphone, Route, BarChart3];
 
+// --- Readability helpers (WCAG contrast) ---------------------------------
+function hexToRgb(hex: string): [number, number, number] | null {
+  const m = hex.trim().replace("#", "");
+  const v = m.length === 3 ? m.split("").map((c) => c + c).join("") : m;
+  if (!/^[0-9a-fA-F]{6}$/.test(v)) return null;
+  return [parseInt(v.slice(0, 2), 16), parseInt(v.slice(2, 4), 16), parseInt(v.slice(4, 6), 16)];
+}
+function relLum([r, g, b]: [number, number, number]): number {
+  const f = (c: number) => {
+    const s = c / 255;
+    return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
+  };
+  return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b);
+}
+function contrast(a: string, b: string): number {
+  const ra = hexToRgb(a), rb = hexToRgb(b);
+  if (!ra || !rb) return 21;
+  const la = relLum(ra), lb = relLum(rb);
+  const [hi, lo] = la > lb ? [la, lb] : [lb, la];
+  return (hi + 0.05) / (lo + 0.05);
+}
+function ensureReadable(fg: string, bgs: string[], min: number): string {
+  const ok = bgs.every((bg) => contrast(fg, bg) >= min);
+  if (ok) return fg;
+  // pick best of white / near-black against the darkest bg
+  const darkBg = bgs.reduce((acc, c) => {
+    const rgb = hexToRgb(c);
+    return rgb && relLum(rgb) < relLum(hexToRgb(acc) || [255, 255, 255]) ? c : acc;
+  }, bgs[0]);
+  const bgRgb = hexToRgb(darkBg);
+  const isDark = bgRgb ? relLum(bgRgb) < 0.5 : true;
+  // for muted (min ~3.2) use a softer tone; for body (min 4.5) use full white/black
+  if (min < 4.5) return isDark ? "#C9D1E0" : "#4B5563";
+  return isDark ? "#F5F7FB" : "#0B1220";
+}
+// -------------------------------------------------------------------------
+
 const AbmPage = () => {
   const { slug } = useParams<{ slug: string }>();
   const [row, setRow] = useState<AbmRow | null>(null);
@@ -74,8 +111,11 @@ const AbmPage = () => {
   const accent: string = branding.accent || branding.accentColor || p.accentColor || primary;
   const bgColor: string = branding.bg || "#0A0F1E";
   const surfaceColor: string = branding.surface || "#101830";
-  const textColor: string = branding.text || "#F5F7FB";
-  const mutedColor: string = branding.muted || "#9AA5BD";
+  const rawTextColor: string = branding.text || "#F5F7FB";
+  const rawMutedColor: string = branding.muted || "#9AA5BD";
+  // Readability guard: force text/muted to readable values vs bg+surface
+  const textColor: string = ensureReadable(rawTextColor, [bgColor, surfaceColor], 4.5);
+  const mutedColor: string = ensureReadable(rawMutedColor, [bgColor, surfaceColor], 3.2);
   const borderColor: string = branding.border || `${textColor}1A`;
   const headingFont: string | undefined = branding.headingFont;
   const bodyFont: string | undefined = branding.bodyFont;
