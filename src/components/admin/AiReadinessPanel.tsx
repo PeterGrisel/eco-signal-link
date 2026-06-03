@@ -44,6 +44,7 @@ const AiReadinessPanel = () => {
   const [queue, setQueue] = useState<RefreshRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [scanning, setScanning] = useState(false);
+  const [enriching, setEnriching] = useState(false);
 
   const load = async () => {
     setLoading(true);
@@ -80,6 +81,25 @@ const AiReadinessPanel = () => {
     }
   };
 
+  const runEnrich = async () => {
+    if (!confirm("Bulk Kernantwoord + FAQ toevoegen aan alle pagina's die deze missen? Dit muteert content.")) return;
+    setEnriching(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("enrich-ai-readiness", { body: { limit: 50 } });
+      if (error) throw error;
+      const s = data?.summary || {};
+      toast({
+        title: "Enrichment klaar",
+        description: `${s.enriched || 0} verrijkt, ${s.skipped || 0} overgeslagen, ${s.failed || 0} mislukt`,
+      });
+      await load();
+    } catch (e: any) {
+      toast({ title: "Enrichment mislukt", description: e.message, variant: "destructive" });
+    } finally {
+      setEnriching(false);
+    }
+  };
+
   const dismissQueueItem = async (id: string) => {
     await sb.from("content_refresh_queue").update({ status: "dismissed" }).eq("id", id);
     setQueue((q) => q.filter((x) => x.id !== id));
@@ -108,10 +128,16 @@ const AiReadinessPanel = () => {
             Hoe goed scoort uw content voor citatie in AI-antwoorden (ChatGPT, Perplexity, Gemini, Copilot).
           </p>
         </div>
-        <Button onClick={runScan} disabled={scanning} variant="hero">
-          {scanning ? <Loader2 className="w-4 h-4 animate-spin" /> : <Play className="w-4 h-4" />}
-          {scanning ? "Scannen..." : "Scan nu"}
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button onClick={runEnrich} disabled={enriching} variant="outline">
+            {enriching ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
+            {enriching ? "Verrijken..." : "Bulk verrijken"}
+          </Button>
+          <Button onClick={runScan} disabled={scanning} variant="hero">
+            {scanning ? <Loader2 className="w-4 h-4 animate-spin" /> : <Play className="w-4 h-4" />}
+            {scanning ? "Scannen..." : "Scan nu"}
+          </Button>
+        </div>
       </div>
 
       <div className="grid grid-cols-3 gap-4">
