@@ -72,8 +72,32 @@ const AbmPage = () => {
   const branding = p.branding || {};
   const primary: string = branding.primary || branding.primaryColor || p.primaryColor || "#0B3E91";
   const accent: string = branding.accent || branding.accentColor || p.accentColor || primary;
-  const logoUrl: string | undefined = branding.logo || branding.logoUrl;
+  const bgColor: string = branding.bg || "#0A0F1E";
+  const surfaceColor: string = branding.surface || "#101830";
+  const textColor: string = branding.text || "#F5F7FB";
+  const mutedColor: string = branding.muted || "#9AA5BD";
+  const borderColor: string = branding.border || `${textColor}1A`;
+  const headingFont: string | undefined = branding.headingFont;
+  const bodyFont: string | undefined = branding.bodyFont;
+  const radius: string = branding.radius === "sm" ? "0.375rem" : branding.radius === "md" ? "0.625rem" : branding.radius === "xl" ? "1.25rem" : "0.875rem";
+  const logoUrl: string | undefined = branding.logoLight || branding.logo || branding.logoUrl;
   const heroImage: string | undefined = hero.image || p.imageUrl || p.heroImage;
+  const assets = p.assets || branding.assets || {};
+  const observationImage: string | undefined = assets.observations || assets.observation;
+  const ctaImage: string | undefined = assets.cta;
+
+  // Inject Google Fonts dynamically when client overrides typography
+  useEffect(() => {
+    const families: string[] = [];
+    if (headingFont) families.push(`${headingFont.replace(/ /g, "+")}:wght@500;600;700;800`);
+    if (bodyFont && bodyFont !== headingFont) families.push(`${bodyFont.replace(/ /g, "+")}:wght@400;500;600`);
+    if (!families.length) return;
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = `https://fonts.googleapis.com/css2?${families.map((f) => `family=${f}`).join("&")}&display=swap`;
+    document.head.appendChild(link);
+    return () => { document.head.removeChild(link); };
+  }, [headingFont, bodyFont]);
 
   const title: string = hero.title || p.recommendedVisualTitle || p.title || (row ? `Zo bouwen wij de pipeline voor ${row.company_name}.` : "");
   const subtitle: string = hero.subtitle || p.subtitle || "";
@@ -134,9 +158,18 @@ const AbmPage = () => {
     );
   }
 
-  const brandStyle = { "--brand": primary, "--brand-accent": accent } as CSSProperties;
-  const brandBtn: CSSProperties = { backgroundColor: primary, color: "#fff", borderColor: primary };
-  const softBrand: CSSProperties = { backgroundColor: `${primary}10`, color: primary };
+  const brandStyle = {
+    "--brand": primary,
+    "--brand-accent": accent,
+    backgroundColor: bgColor,
+    color: textColor,
+    fontFamily: bodyFont ? `'${bodyFont}', Inter, system-ui, sans-serif` : undefined,
+  } as CSSProperties;
+  const headingStyle: CSSProperties = headingFont ? { fontFamily: `'${headingFont}', 'Space Grotesk', sans-serif` } : {};
+  const brandBtn: CSSProperties = { backgroundColor: primary, color: "#fff", borderColor: primary, borderRadius: radius };
+  const softBrand: CSSProperties = { backgroundColor: `${primary}1A`, color: primary };
+  const cardStyle: CSSProperties = { backgroundColor: surfaceColor, borderColor, color: textColor, borderRadius: radius };
+  const mutedStyle: CSSProperties = { color: mutedColor };
 
   const Section = ({ num, title, children, className = "" }: { num?: number | string; title: string; children: React.ReactNode; className?: string }) => (
     <section className={`py-14 ${className}`}>
@@ -147,7 +180,7 @@ const AbmPage = () => {
               {num}
             </span>
           )}
-          <h2 className="font-display text-2xl md:text-3xl tracking-tight">{title}</h2>
+          <h2 className="font-display text-2xl md:text-3xl tracking-tight" style={headingStyle}>{title}</h2>
         </div>
         {children}
       </div>
@@ -155,9 +188,9 @@ const AbmPage = () => {
   );
 
   return (
-    <div className="min-h-screen bg-background text-foreground" style={brandStyle}>
+    <div className="min-h-screen" style={brandStyle}>
       {/* Top bar */}
-      <header className="border-b border-border bg-card/50 backdrop-blur sticky top-0 z-30">
+      <header className="border-b backdrop-blur sticky top-0 z-30" style={{ backgroundColor: `${surfaceColor}CC`, borderColor }}>
         <div className="container mx-auto px-6 h-14 flex items-center justify-between">
           <div className="flex items-center gap-3">
             {logoUrl ? (
