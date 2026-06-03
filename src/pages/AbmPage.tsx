@@ -188,7 +188,18 @@ const AbmPage = () => {
   );
 
   return (
-    <div className="min-h-screen" style={brandStyle}>
+    <div className="abm-skin min-h-screen" style={brandStyle}>
+      <style>{`
+        .abm-skin .bg-card { background-color: ${surfaceColor} !important; }
+        .abm-skin .bg-card\\/40 { background-color: ${surfaceColor}66 !important; }
+        .abm-skin .bg-card\\/50 { background-color: ${surfaceColor}80 !important; }
+        .abm-skin .bg-background { background-color: ${bgColor} !important; }
+        .abm-skin .border-border { border-color: ${borderColor} !important; }
+        .abm-skin .text-muted-foreground { color: ${mutedColor} !important; }
+        .abm-skin .text-foreground { color: ${textColor} !important; }
+        .abm-skin .font-display { ${headingFont ? `font-family: '${headingFont}', 'Space Grotesk', sans-serif !important;` : ""} }
+        .abm-skin .rounded-xl, .abm-skin .rounded-2xl { border-radius: ${radius} !important; }
+      `}</style>
       {/* Top bar */}
       <header className="border-b backdrop-blur sticky top-0 z-30" style={{ backgroundColor: `${surfaceColor}CC`, borderColor }}>
         <div className="container mx-auto px-6 h-14 flex items-center justify-between">
@@ -209,6 +220,11 @@ const AbmPage = () => {
       {/* Hero */}
       <section className="relative overflow-hidden border-b border-border">
         <div className="absolute inset-0 pointer-events-none" style={{ background: `radial-gradient(60% 60% at 0% 0%, ${primary}1A, transparent 70%)` }} />
+        {heroImage && (
+          <div className="absolute inset-0 pointer-events-none opacity-20 mix-blend-luminosity">
+            <img src={heroImage} alt="" className="w-full h-full object-cover" />
+          </div>
+        )}
         <div className="container mx-auto px-6 py-16 md:py-24 relative grid lg:grid-cols-12 gap-10 items-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="lg:col-span-7">
             <p className="text-xs font-semibold tracking-[0.2em] mb-4" style={{ color: primary }}>{eyebrow}</p>
@@ -244,11 +260,6 @@ const AbmPage = () => {
                   ))}
                 </ul>
               </div>
-              {heroImage && (
-                <div className="mt-4 rounded-2xl overflow-hidden border border-border">
-                  <img src={heroImage} alt={row.company_name} className="w-full h-auto block" />
-                </div>
-              )}
             </motion.div>
           )}
         </div>
