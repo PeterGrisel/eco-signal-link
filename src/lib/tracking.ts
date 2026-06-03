@@ -24,31 +24,17 @@ const isAdminUser = async (): Promise<boolean> => {
 supabase.auth.onAuthStateChange(() => { _isAdmin = null; });
 
 // ── IP blocklist ──
-let _blockedIPs: Set<string> | null = null;
-let _myIP: string | null = null;
-
-const fetchBlockedIPs = async (): Promise<Set<string>> => {
-  if (_blockedIPs) return _blockedIPs;
-  const { data } = await supabase.from("blocked_tracking_ips").select("ip_address");
-  _blockedIPs = new Set((data || []).map(r => r.ip_address));
-  // Refresh every 5 minutes
-  setTimeout(() => { _blockedIPs = null; }, 5 * 60 * 1000);
-  return _blockedIPs;
-};
-
-const getMyIP = async (): Promise<string> => {
-  if (_myIP) return _myIP;
-  try {
-    const res = await fetch("https://api.ipify.org?format=json");
-    const json = await res.json();
-    _myIP = json.ip;
-    return _myIP!;
-  } catch { return ""; }
-};
-
+let _blockedResult: boolean | null = null;
 const isBlockedIP = async (): Promise<boolean> => {
-  const [blocked, ip] = await Promise.all([fetchBlockedIPs(), getMyIP()]);
-  return ip ? blocked.has(ip) : false;
+  if (_blockedResult !== null) return _blockedResult;
+  try {
+    const { data } = await supabase.functions.invoke("check-ip-blocked");
+    _blockedResult = !!(data && (data as { blocked?: boolean }).blocked);
+  } catch {
+    _blockedResult = false;
+  }
+  setTimeout(() => { _blockedResult = null; }, 5 * 60 * 1000);
+  return _blockedResult;
 };
 
 const shouldSkipTracking = async (): Promise<boolean> => {

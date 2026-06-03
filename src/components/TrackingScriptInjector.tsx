@@ -61,11 +61,8 @@ const TrackingScriptInjector = () => {
     // Remove previously injected scripts before re-injecting
     removeInjectedScripts();
 
-    const { data: scripts } = await supabase
-      .from("tracking_scripts")
-      .select("script_content, location, name")
-      .eq("is_active", true)
-      .order("sort_order");
+    const { data } = await supabase.functions.invoke("get-tracking-scripts");
+    const scripts = (data as { scripts?: Array<{ script_content: string; location: string; name: string }> } | null)?.scripts;
 
     if (!scripts?.length) return;
 
