@@ -330,59 +330,8 @@ const HegoPage = () => {
         </div>
       </section>
 
-      {/* Playbook sections */}
-      <section className="py-16 md:py-24 border-b border-border">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="max-w-3xl mx-auto text-center mb-12">
-            <p className="font-display text-xs tracking-[0.2em] uppercase mb-3" style={{ color: HEGO.primaryGlow }}>
-              Wat staat erin
-            </p>
-            <h2 className="font-display font-bold text-3xl md:text-5xl tracking-tight mb-4">
-              Vijf hoofdstukken. Eén concrete route naar nieuwe offertes.
-            </h2>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-6xl mx-auto">
-            {playbookSections.map((s, i) => (
-              <motion.div
-                key={s.title}
-                initial={{ opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{ duration: 0.4, delay: i * 0.05 }}
-                className="rounded-xl border border-border bg-card/40 p-6 hover:border-foreground/20 transition"
-              >
-                <div
-                  className="inline-flex items-center justify-center h-9 w-9 rounded-lg text-white font-bold text-sm mb-4"
-                  style={{ background: `linear-gradient(135deg, ${HEGO.primary}, ${HEGO.primaryGlow})` }}
-                >
-                  {String(i + 1).padStart(2, "0")}
-                </div>
-                <h3 className="font-display font-semibold text-lg mb-2">{s.title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{s.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-
-          <div className="max-w-4xl mx-auto mt-14 rounded-2xl border border-border bg-card/40 p-6 md:p-8">
-            <p className="font-display text-xs tracking-[0.2em] uppercase mb-3" style={{ color: HEGO.primaryGlow }}>
-              Producten & diensten in scope
-            </p>
-            <div className="flex flex-wrap gap-2">
-              {productsServices.map((p) => (
-                <span
-                  key={p}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm border"
-                  style={{ borderColor: `${HEGO.primary}55`, color: "hsl(var(--foreground))", backgroundColor: `${HEGO.primary}10` }}
-                >
-                  <Check className="h-3.5 w-3.5" style={{ color: HEGO.primaryGlow }} />
-                  {p}
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* 8 playbooks van de homepage */}
+      <HowItWorksSection />
 
       {/* Client logos */}
       {clients.length > 0 && (
