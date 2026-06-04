@@ -13,6 +13,26 @@ function getSupabase() {
   );
 }
 
+/**
+ * Verwijder kapotte externe links uit markdown content.
+ * Houdt de anchor text (tussen [..]) over en gooit de link weg.
+ * Verwijdert ook bare <url> en bare http(s) URLs.
+ */
+function stripBrokenLinks(content: string, brokenUrls: string[]): string {
+  let out = content;
+  const esc = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  for (const url of brokenUrls) {
+    const u = esc(url);
+    // [anchor](url)  -> anchor
+    out = out.replace(new RegExp(`\\[([^\\]]+)\\]\\(${u}\\)`, "g"), "$1");
+    // <url> -> ""
+    out = out.replace(new RegExp(`<${u}>`, "g"), "");
+    // bare url -> ""
+    out = out.replace(new RegExp(u, "g"), "");
+  }
+  return out;
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
