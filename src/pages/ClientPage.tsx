@@ -149,7 +149,7 @@ const ClientPage = () => {
   const primaryHsl = row.brand_primary_hsl || "208 78% 26%";
   const glowHsl = row.brand_glow_hsl || "203 56% 46%";
   const brandClass = `client-brand-${row.slug}`;
-  const pdfUrl = row.pdf_url;
+  const pdfUrl = signedPdfUrl || row.pdf_url;
   const headline = row.hero_headline || "Slimmer werken door";
   const subline = row.hero_subline || "automatiseren van handmatige acties.";
   const introText = row.intro || `Persoonlijk Market Activation Playbook voor ${row.company_name}.`;
