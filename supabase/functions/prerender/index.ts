@@ -608,6 +608,14 @@ const CLIENT_PAGES: Record<string, {
     h1: "HEGO × B2BGroeiMachine — Market Activation Playbook",
     intro: "Persoonlijk playbook voor HEGO. Onze analyse, aanpak en eerste plan voor RVS, aluminium en maatwerk bewerkingen.",
   },
+  sealeco: {
+    clientName: "SealEco",
+    title: "SealEco × B2BGroeiMachine — Market Activation Playbook",
+    description: "Persoonlijk playbook voor SealEco: hoe wij installateurs, architecten, prefabricators en distributeurs activeren rond roofing, facade, lining en geo.",
+    ogImage: `${SITE_URL}/og/sealeco.jpg`,
+    h1: "SealEco × B2BGroeiMachine — Market Activation Playbook",
+    intro: "Persoonlijk playbook voor SealEco. Onze analyse, aanpak en eerste plan voor roofing, facade, lining en geo markten.",
+  },
 };
 
 // ── HTML builder ──
