@@ -391,7 +391,7 @@ const PricingSection = () => {
         {/* Aanvullende diensten */}
         <div className="mt-10 md:mt-14">
           <p className="text-center text-[11px] font-display font-semibold tracking-[0.2em] uppercase text-muted-foreground mb-5">
-            ONZE DIENSTEN
+            UW B2B GROEIPARTNER VOOR
           </p>
           <ServiceCards />
         </div>
