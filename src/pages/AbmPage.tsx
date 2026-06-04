@@ -1,7 +1,7 @@
 import { useEffect, useState, type CSSProperties } from "react";
 import { useParams, Navigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowRight, Check, Target, Map, Database, Megaphone, Route, BarChart3, Users, Radio, Award, Shield } from "lucide-react";
+import { ArrowRight, Check, Target, Map, Database, Megaphone, Route, BarChart3, Users, Radio, Award, Shield, Eye, MousePointerClick, Mail, Linkedin, Repeat, TrendingUp, Building2, Briefcase, Headphones, Globe2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { usePageMeta } from "@/hooks/usePageMeta";
