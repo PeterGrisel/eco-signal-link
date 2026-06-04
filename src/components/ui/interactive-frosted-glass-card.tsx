@@ -1,58 +1,85 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, CSSProperties } from "react";
+import { cn } from "@/lib/utils";
 
-export const FrostedGlassCard = () => {
-    const cardRef = useRef(null);
+interface FrostedGlassCardProps {
+  children: React.ReactNode;
+  className?: string;
+  glareColor?: string;
+  borderColor?: string;
+  background?: string;
+  style?: CSSProperties;
+}
 
-    useEffect(() => {
-        const card = cardRef.current;
-        if (!card) return;
+export const FrostedGlassCard: React.FC<FrostedGlassCardProps> = ({
+  children,
+  className,
+  glareColor = "rgba(255, 255, 255, 0.25)",
+  borderColor = "rgba(255, 255, 255, 0.18)",
+  background = "rgba(255, 255, 255, 0.08)",
+  style,
+}) => {
+  const cardRef = useRef<HTMLDivElement | null>(null);
 
-        const handleMouseMove = (e) => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
+  useEffect(() => {
+    const card = cardRef.current;
+    if (!card) return;
 
-            const rotateY = (x - centerX) / centerX * 10;
-            const rotateX = (y - centerY) / centerY * -10;
+    const handleMouseMove = (e: MouseEvent) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
 
-            card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-            card.style.setProperty('--mouse-x', `${x}px`);
-            card.style.setProperty('--mouse-y', `${y}px`);
-        };
+      const rotateY = ((x - centerX) / centerX) * 6;
+      const rotateX = ((y - centerY) / centerY) * -6;
 
-        const handleMouseLeave = () => {
-            card.style.transform = 'rotateX(0deg) rotateY(0deg)';
-        };
+      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+      card.style.setProperty("--mouse-x", `${x}px`);
+      card.style.setProperty("--mouse-y", `${y}px`);
+    };
 
-        card.addEventListener('mousemove', handleMouseMove);
-        card.addEventListener('mouseleave', handleMouseLeave);
+    const handleMouseLeave = () => {
+      card.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg)";
+    };
 
-        return () => {
-            card.removeEventListener('mousemove', handleMouseMove);
-            card.removeEventListener('mouseleave', handleMouseLeave);
-        };
-    }, []);
+    card.addEventListener("mousemove", handleMouseMove);
+    card.addEventListener("mouseleave", handleMouseLeave);
 
-    return (
-        <div className="card-container">
-            <div ref={cardRef} className="card w-full max-w-md rounded-3xl p-8 text-white shadow-2xl">
-                <div className="flex items-center gap-4 mb-6">
-                    <div className="w-16 h-16 bg-indigo-500 rounded-full flex items-center justify-center">
-                        <svg className="w-8 h-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
-                        </svg>
-                    </div>
-                    <div>
-                        <h2 className="text-2xl font-bold">Glassmorphism UI</h2>
-                        <p className="text-indigo-300">A New Design Trend</p>
-                    </div>
-                </div>
-                <p className="text-gray-300 leading-relaxed">
-                    This card uses the "glassmorphism" effect to create a sense of depth and transparency. The 3D tilt and dynamic glare are powered by JavaScript to create a futuristic and engaging user experience.
-                </p>
-            </div>
-        </div>
-    );
+    return () => {
+      card.removeEventListener("mousemove", handleMouseMove);
+      card.removeEventListener("mouseleave", handleMouseLeave);
+    };
+  }, []);
+
+  return (
+    <div style={{ perspective: "1000px" }} className="relative">
+      <div
+        ref={cardRef}
+        className={cn(
+          "relative rounded-3xl overflow-hidden transition-transform duration-200 ease-out will-change-transform",
+          className
+        )}
+        style={{
+          background,
+          backdropFilter: "blur(20px)",
+          WebkitBackdropFilter: "blur(20px)",
+          border: `1px solid ${borderColor}`,
+          boxShadow:
+            "0 25px 60px -20px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.15)",
+          ...style,
+        }}
+      >
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 rounded-3xl"
+          style={{
+            background: `radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), ${glareColor}, transparent 40%)`,
+            mixBlendMode: "overlay",
+          }}
+        />
+        <div className="relative">{children}</div>
+      </div>
+    </div>
+  );
 };

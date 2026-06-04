@@ -13,6 +13,7 @@ import { usePageMeta } from "@/hooks/usePageMeta";
 import CtaLink from "@/components/CtaLink";
 import pdfAsset from "@/assets/hego-playbook.pdf.asset.json";
 import hegoLogo from "@/assets/hego-logo.png.asset.json";
+import { FrostedGlassCard } from "@/components/ui/interactive-frosted-glass-card";
 
 // Configure pdf.js worker from CDN (matches installed pdfjs-dist version)
 pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
@@ -168,20 +169,19 @@ const HegoPage = () => {
             <h1 className="font-display font-bold text-4xl md:text-6xl lg:text-7xl tracking-tight leading-[1.05] mb-6">
               Slimmer werken door automatiseren van handmatige acties.
             </h1>
-            <div className="relative max-w-2xl mb-8">
-              <div
-                className="absolute inset-0 rounded-2xl backdrop-blur-xl border shadow-2xl"
-                style={{
-                  background: `linear-gradient(135deg, hsl(var(--foreground) / 0.08), hsl(var(--foreground) / 0.02))`,
-                  borderColor: `hsl(var(--foreground) / 0.12)`,
-                  boxShadow: `inset 0 1px 0 hsl(var(--foreground) / 0.15), 0 20px 60px -20px ${HEGO.primary}55`,
-                }}
-                aria-hidden
-              />
-              <p className="relative text-base md:text-lg text-foreground/90 leading-relaxed px-6 py-5">
+            <FrostedGlassCard
+              className="max-w-2xl mb-8"
+              background={`linear-gradient(135deg, hsl(var(--foreground) / 0.10), hsl(var(--foreground) / 0.02))`}
+              borderColor={`hsl(var(--foreground) / 0.18)`}
+              glareColor={`${HEGO.primaryGlow}66`}
+              style={{
+                boxShadow: `inset 0 1px 0 hsl(var(--foreground) / 0.15), 0 20px 60px -20px ${HEGO.primary}66`,
+              }}
+            >
+              <p className="text-base md:text-lg text-foreground/90 leading-relaxed px-6 py-5">
                 Persoonlijk Market Activation Playbook voor HEGO. Hoe wij groothandel, traders, fabrikanten en metaalbewerkers activeren rond uw voorraad en maatwerk capaciteit.
               </p>
-            </div>
+            </FrostedGlassCard>
             <a
               href="#playbook"
               className="inline-flex items-center gap-2 font-semibold text-sm md:text-base rounded-full px-6 py-3 text-white hover:opacity-90 transition"
