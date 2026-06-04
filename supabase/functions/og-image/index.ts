@@ -74,11 +74,11 @@ function buildSvg(opts: {
   <rect width="1200" height="630" fill="url(#bg)"/>
   <rect width="1200" height="630" fill="url(#g1)"/>
   <rect width="1200" height="630" fill="url(#g2)"/>
-  <text x="80" y="120" font-family="Helvetica, Arial, sans-serif" font-size="24" font-weight="600" fill="${glow}" letter-spacing="4">MARKET ACTIVATION PLAYBOOK</text>
-  <text x="80" y="280" font-family="Helvetica, Arial, sans-serif" font-size="84" font-weight="800" fill="#FFFFFF">${title}</text>
-  <text x="80" y="360" font-family="Helvetica, Arial, sans-serif" font-size="32" font-weight="400" fill="#FFFFFF" opacity="0.85">${sub}</text>
+  <text x="80" y="120" font-family="Inter" font-size="24" font-weight="700" fill="${glow}" letter-spacing="4">MARKET ACTIVATION PLAYBOOK</text>
+  <text x="80" y="280" font-family="Inter" font-size="84" font-weight="700" fill="#FFFFFF">${title}</text>
+  <text x="80" y="360" font-family="Inter" font-size="32" font-weight="400" fill="#FFFFFF" opacity="0.85">${sub}</text>
   <rect x="80" y="500" width="120" height="4" fill="${glow}"/>
-  <text x="80" y="560" font-family="Helvetica, Arial, sans-serif" font-size="22" font-weight="600" fill="#FFFFFF" opacity="0.7">b2bgroeimachine.io</text>
+  <text x="80" y="560" font-family="Inter" font-size="22" font-weight="700" fill="#FFFFFF" opacity="0.7">b2bgroeimachine.io</text>
 </svg>`;
 }
 
