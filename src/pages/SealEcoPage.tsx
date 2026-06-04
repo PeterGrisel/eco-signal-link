@@ -183,7 +183,7 @@ const SealEcoPage = () => {
               }}
             >
               <p className="text-base md:text-lg text-foreground/90 leading-relaxed px-6 py-5">
-                Persoonlijk Market Activation Playbook voor HEGO. Hoe wij groothandel, traders, fabrikanten en metaalbewerkers activeren rond uw voorraad en maatwerk capaciteit.
+                Persoonlijk Market Activation Playbook voor SealEco. Hoe wij installateurs, architecten, prefabricators en distributeurs activeren rond roofing, facade, lining en geo.
               </p>
             </FrostedGlassCard>
             <a
@@ -207,7 +207,7 @@ const SealEcoPage = () => {
             <h2 className="font-display font-bold text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl 3xl:text-9xl tracking-tight leading-[1.05] mb-4">
               Speciaal samengesteld
               <br />
-              <span style={{ color: HEGO.primaryGlow }}>voor HEGO.</span>
+              <span style={{ color: HEGO.primaryGlow }}>voor SealEco.</span>
             </h2>
             <FrostedGlassCard
               className="max-w-2xl 2xl:max-w-4xl 3xl:max-w-5xl mx-auto"
@@ -219,7 +219,7 @@ const SealEcoPage = () => {
               }}
             >
               <p className="text-base md:text-lg text-foreground/90 leading-relaxed px-6 py-5">
-                Het volledige playbook. Onze analyse, aanpak en eerste plan voor HEGO. Doorbladeren kan hieronder of download de PDF.
+                Het volledige playbook. Onze analyse, aanpak en eerste plan voor SealEco. Doorbladeren kan hieronder of download de PDF.
               </p>
             </FrostedGlassCard>
           </div>
@@ -233,12 +233,12 @@ const SealEcoPage = () => {
               <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-card/60">
                 <div className="flex items-center gap-2 text-sm font-medium">
                   <FileText className="h-4 w-4" style={{ color: HEGO.primaryGlow }} />
-                  HEGO_Market_Activation_Playbook.pdf
+                  SealEco_Market_Activation_Playbook.pdf
                 </div>
                 <a
                   href={pdfAsset.url}
                   download
-                  onClick={() => trackCTA("hego_playbook_download", pdfAsset.url)}
+                  onClick={() => trackCTA("sealeco_playbook_download", pdfAsset.url)}
                   className="text-xs font-semibold inline-flex items-center gap-1.5 hover:opacity-80"
                   style={{ color: HEGO.primaryGlow }}
                 >
@@ -331,7 +331,7 @@ const SealEcoPage = () => {
             <h2 className="font-display font-bold text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl 3xl:text-9xl tracking-tight leading-[1.05] mb-6">
               Acht playbooks.
               <br />
-              <span style={{ color: HEGO.primaryGlow }}>Eén werkend groeisysteem voor HEGO.</span>
+              <span style={{ color: HEGO.primaryGlow }}>Eén werkend groeisysteem voor SealEco.</span>
             </h2>
             <FrostedGlassCard
               className="max-w-2xl 2xl:max-w-4xl 3xl:max-w-5xl mx-auto"
@@ -374,11 +374,11 @@ const SealEcoPage = () => {
         </div>
       </section>
 
-      {/* Pricing — in HEGO brandkleur via CSS variable override */}
+      {/* Pricing — in SealEco brandkleur via CSS variable override */}
       <div
-        className="hego-brand"
+        className="sealeco-brand"
         style={{
-          ["--primary" as any]: "211 100% 25%",
+          ["--primary" as any]: "143 100% 26%",
           ["--primary-foreground" as any]: "0 0% 100%",
         }}
       >
