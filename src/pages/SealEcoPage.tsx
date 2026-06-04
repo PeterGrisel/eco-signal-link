@@ -161,8 +161,8 @@ const SealEcoPage = () => {
                 }}
               />
               <img
-                src={hegoLogo.url}
-                alt="HEGO logo"
+                src={sealecoLogo.url}
+                alt="SealEco logo"
                 className="relative h-16 md:h-20 w-auto object-contain drop-shadow-lg"
                 width={512}
                 height={512}
@@ -387,7 +387,7 @@ const SealEcoPage = () => {
 
       <div className="min-h-screen flex items-center">
         <div className="w-full">
-          <WaitlistHero logoSrc={hegoLogo.url} logoAlt="HEGO logo" />
+          <WaitlistHero logoSrc={sealecoLogo.url} logoAlt="SealEco logo" />
         </div>
       </div>
 
@@ -397,4 +397,4 @@ const SealEcoPage = () => {
   );
 };
 
-export default HegoPage;
+export default SealEcoPage;
