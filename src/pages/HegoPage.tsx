@@ -180,6 +180,16 @@ const HegoPage = () => {
         </div>
       </section>
 
+      {/* Alles na de hero — met zachte falling-pattern achtergrond in HEGO-blauw */}
+      <div className="relative">
+        <FallingPattern
+          color={HEGO.primaryGlow}
+          duration={180}
+          blurIntensity="1.2em"
+          className="opacity-20"
+        />
+        <div className="relative z-10">
+
       {/* PDF viewer */}
       <section id="playbook" className="py-16 md:py-24 bg-card/30 border-b border-border">
         <div className="container mx-auto px-4 md:px-6">
