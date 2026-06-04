@@ -27,6 +27,7 @@ export type Database = {
           hero_subline: string | null
           id: string
           intro: string | null
+          language: string
           logo_url: string | null
           og_image_url: string | null
           payload: Json
@@ -49,6 +50,7 @@ export type Database = {
           hero_subline?: string | null
           id?: string
           intro?: string | null
+          language?: string
           logo_url?: string | null
           og_image_url?: string | null
           payload?: Json
@@ -71,6 +73,7 @@ export type Database = {
           hero_subline?: string | null
           id?: string
           intro?: string | null
+          language?: string
           logo_url?: string | null
           og_image_url?: string | null
           payload?: Json
