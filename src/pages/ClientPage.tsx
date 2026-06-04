@@ -60,6 +60,7 @@ const ClientPage = () => {
   const [page, setPage] = useState(1);
   const [viewerWidth, setViewerWidth] = useState(900);
   const [zoom, setZoom] = useState(1);
+  const [signedPdfUrl, setSignedPdfUrl] = useState<string | null>(null);
   const viewerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -76,6 +77,17 @@ const ClientPage = () => {
       setRow(data as ClientRow);
       setLoading(false);
       sb.rpc("increment_abm_view", { _slug: slug }).then(() => {}, () => {});
+      // Generate signed URL for private bucket
+      const rawUrl: string | null = (data as ClientRow).pdf_url;
+      if (rawUrl) {
+        const marker = "/abm-assets/";
+        const idx = rawUrl.indexOf(marker);
+        const path = idx >= 0 ? rawUrl.substring(idx + marker.length) : rawUrl;
+        const { data: signed } = await supabase.storage
+          .from("abm-assets")
+          .createSignedUrl(path, 60 * 60 * 24);
+        if (!cancelled && signed?.signedUrl) setSignedPdfUrl(signed.signedUrl);
+      }
     })();
     return () => { cancelled = true; };
   }, [slug]);
@@ -137,7 +149,7 @@ const ClientPage = () => {
   const primaryHsl = row.brand_primary_hsl || "208 78% 26%";
   const glowHsl = row.brand_glow_hsl || "203 56% 46%";
   const brandClass = `client-brand-${row.slug}`;
-  const pdfUrl = row.pdf_url;
+  const pdfUrl = signedPdfUrl || row.pdf_url;
   const headline = row.hero_headline || "Slimmer werken door";
   const subline = row.hero_subline || "automatiseren van handmatige acties.";
   const introText = row.intro || `Persoonlijk Market Activation Playbook voor ${row.company_name}.`;
