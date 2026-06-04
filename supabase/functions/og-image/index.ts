@@ -28,13 +28,13 @@ let fontBuf: Uint8Array | null = null;
 let fontBoldBuf: Uint8Array | null = null;
 async function ensureFonts() {
   if (!fontBuf) {
-    const regUrl = "https://cdn.jsdelivr.net/gh/rsms/inter@v4.0/docs/font-files/Inter-Regular.otf";
-    const boldUrl = "https://cdn.jsdelivr.net/gh/rsms/inter@v4.0/docs/font-files/Inter-Bold.otf";
-    const [reg, bold] = await Promise.all([fetch(regUrl), fetch(boldUrl)]);
-    if (!reg.ok || !bold.ok) throw new Error(`font fetch failed ${reg.status}/${bold.status}`);
-    fontBuf = new Uint8Array(await reg.arrayBuffer());
-    fontBoldBuf = new Uint8Array(await bold.arrayBuffer());
-    console.log(`fonts loaded: reg=${fontBuf.length} bold=${fontBoldBuf.length}`);
+    // Inter variable font from google/fonts (covers regular + bold weights)
+    const url = "https://cdn.jsdelivr.net/gh/google/fonts@main/ofl/inter/Inter%5Bopsz,wght%5D.ttf";
+    const r = await fetch(url);
+    if (!r.ok) throw new Error(`font fetch failed ${r.status}`);
+    fontBuf = new Uint8Array(await r.arrayBuffer());
+    fontBoldBuf = fontBuf;
+    console.log(`font loaded: ${fontBuf.length}`);
   }
   return { regular: fontBuf!, bold: fontBoldBuf! };
 }
