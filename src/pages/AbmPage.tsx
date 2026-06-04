@@ -1,7 +1,7 @@
 import { useEffect, useState, type CSSProperties } from "react";
 import { useParams, Navigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowRight, Check, Target, Map, Database, Megaphone, Route, BarChart3, Users, Radio, Award, Shield, Eye, MousePointerClick, Mail, Linkedin, Repeat, TrendingUp, Building2, Briefcase, Headphones, Globe2 } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { usePageMeta } from "@/hooks/usePageMeta";
@@ -33,7 +33,12 @@ const asSteps = (v: any): Step[] => {
   return out;
 };
 
-const STEP_ICONS = [Target, Map, Database, Megaphone, Route, BarChart3];
+const fadeIn = {
+  initial: { opacity: 0, y: 16 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, margin: "-80px" },
+  transition: { duration: 0.7 },
+};
 
 // --- Readability helpers (WCAG contrast) ---------------------------------
 function hexToRgb(hex: string): [number, number, number] | null {
