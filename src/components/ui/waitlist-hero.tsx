@@ -55,7 +55,7 @@ const LogoRing = ({
               <img
                 src={src}
                 alt={c.name}
-                className="object-contain max-h-[60%] max-w-[60%] grayscale brightness-150"
+                className="object-contain max-h-[60%] max-w-[60%]"
                 loading="lazy"
               />
             )}
