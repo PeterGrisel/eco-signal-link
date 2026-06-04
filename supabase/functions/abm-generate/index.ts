@@ -53,6 +53,60 @@ function hexToHsl(hex: string): string {
   return `${Math.round(h)} ${Math.round(s * 100)}% ${Math.round(l * 100)}%`;
 }
 
+// Relative luminance per WCAG for contrast checks.
+function relLuminance(hex: string): number {
+  const v = hex.replace("#", "");
+  const ch = [v.slice(0, 2), v.slice(2, 4), v.slice(4, 6)].map((c) => {
+    const n = parseInt(c, 16) / 255;
+    return n <= 0.03928 ? n / 12.92 : Math.pow((n + 0.055) / 1.055, 2.4);
+  });
+  return 0.2126 * ch[0] + 0.7152 * ch[1] + 0.0722 * ch[2];
+}
+function contrastRatio(a: string, b: string): number {
+  const la = relLuminance(a), lb = relLuminance(b);
+  const [hi, lo] = la > lb ? [la, lb] : [lb, la];
+  return (hi + 0.05) / (lo + 0.05);
+}
+// Lighten a hex by adjusting HSL lightness to reach the target lightness.
+function lightenHex(hex: string, targetL: number): string {
+  const hsl = hexToHsl(hex); // "H S% L%"
+  const m = hsl.match(/^(\d+) (\d+)% (\d+)%$/);
+  if (!m) return hex;
+  const h = parseInt(m[1], 10);
+  const s = parseInt(m[2], 10);
+  const l = Math.min(95, Math.max(parseInt(m[3], 10), targetL));
+  // Convert HSL back to hex
+  const sN = s / 100, lN = l / 100;
+  const c = (1 - Math.abs(2 * lN - 1)) * sN;
+  const hh = h / 60;
+  const x = c * (1 - Math.abs((hh % 2) - 1));
+  let r = 0, g = 0, b = 0;
+  if (hh < 1) { r = c; g = x; }
+  else if (hh < 2) { r = x; g = c; }
+  else if (hh < 3) { g = c; b = x; }
+  else if (hh < 4) { g = x; b = c; }
+  else if (hh < 5) { r = x; b = c; }
+  else { r = c; b = x; }
+  const mm = lN - c / 2;
+  const toHex = (n: number) => Math.round((n + mm) * 255).toString(16).padStart(2, "0");
+  return ("#" + toHex(r) + toHex(g) + toHex(b)).toUpperCase();
+}
+// Ensure glow color has >=4.5:1 contrast on the dark app background (#0B0B0F).
+// If primary is brighter than glow, swap so the readable color becomes the accent.
+function ensureReadableOnDark(primary: string, glow: string): { primary: string; glow: string } {
+  const BG = "#0B0B0F";
+  let p = primary, g = glow;
+  if (contrastRatio(p, BG) > contrastRatio(g, BG)) {
+    [p, g] = [g, p];
+  }
+  let tries = 0;
+  while (contrastRatio(g, BG) < 4.5 && tries < 6) {
+    g = lightenHex(g, parseInt(hexToHsl(g).split(" ")[2], 10) + 10);
+    tries++;
+  }
+  return { primary: p, glow: g };
+}
+
 function isValidHex(x: unknown): x is string {
   return typeof x === "string" && /^#?[0-9a-fA-F]{6}$/.test(x.trim());
 }
