@@ -51,13 +51,17 @@ function buildSvg(opts: {
   subline: string;
   primary: string;
   glow: string;
+  logoDataUrl?: string | null;
 }): string {
-  const { company, headline, subline, primary, glow } = opts;
+  const { company, headline, subline, primary, glow, logoDataUrl } = opts;
   const rawTitle = `${company} × B2BGroeiMachine`;
   // Pick a title size that fits ~1040px width (heuristic: ~0.55em per char)
   const titleFs = rawTitle.length > 28 ? 56 : rawTitle.length > 20 ? 68 : 84;
   const title = escapeXml(rawTitle);
   const sub = escapeXml(`${headline} ${subline}`).slice(0, 110);
+  const logoBlock = logoDataUrl
+    ? `<image href="${logoDataUrl}" x="80" y="60" width="220" height="80" preserveAspectRatio="xMinYMid meet"/>`
+    : "";
   return `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
   <defs>
@@ -77,9 +81,10 @@ function buildSvg(opts: {
   <rect width="1200" height="630" fill="url(#bg)"/>
   <rect width="1200" height="630" fill="url(#g1)"/>
   <rect width="1200" height="630" fill="url(#g2)"/>
-  <text x="80" y="120" font-family="Inter" font-size="24" font-weight="700" fill="${glow}" letter-spacing="4">MARKET ACTIVATION PLAYBOOK</text>
-  <text x="80" y="280" font-family="Inter" font-size="${titleFs}" font-weight="700" fill="#FFFFFF">${title}</text>
-  <text x="80" y="350" font-family="Inter" font-size="30" font-weight="400" fill="#FFFFFF" opacity="0.85">${sub}</text>
+  ${logoBlock}
+  <text x="80" y="220" font-family="Inter" font-size="24" font-weight="700" fill="${glow}" letter-spacing="4">MARKET ACTIVATION PLAYBOOK</text>
+  <text x="80" y="340" font-family="Inter" font-size="${titleFs}" font-weight="700" fill="#FFFFFF">${title}</text>
+  <text x="80" y="410" font-family="Inter" font-size="30" font-weight="400" fill="#FFFFFF" opacity="0.85">${sub}</text>
   <rect x="80" y="500" width="120" height="4" fill="${glow}"/>
   <text x="80" y="560" font-family="Inter" font-size="22" font-weight="700" fill="#FFFFFF" opacity="0.7">b2bgroeimachine.io</text>
 </svg>`;
@@ -95,10 +100,32 @@ Deno.serve(async (req) => {
     const supa = createClient(SUPABASE_URL, SERVICE_ROLE);
     const { data, error } = await supa
       .from("abm_pages")
-      .select("company_name, hero_headline, hero_subline, brand_primary_hex, brand_glow_hex")
+      .select("company_name, hero_headline, hero_subline, brand_primary_hex, brand_glow_hex, logo_url")
       .eq("slug", slug)
       .maybeSingle();
     if (error || !data) return new Response("not found", { status: 404, headers: corsHeaders });
+
+    // Try to fetch the brand logo and embed it as base64. Best effort — never fail OG generation if this hops.
+    let logoDataUrl: string | null = null;
+    if (data.logo_url) {
+      try {
+        const logoAbs = data.logo_url.startsWith("http")
+          ? data.logo_url
+          : `https://b2bgroeimachine.io${data.logo_url}`;
+        const lr = await fetch(logoAbs);
+        if (lr.ok) {
+          const ct = lr.headers.get("content-type") || "image/png";
+          const buf = new Uint8Array(await lr.arrayBuffer());
+          let b64 = "";
+          for (let i = 0; i < buf.length; i += 0x8000) {
+            b64 += String.fromCharCode(...buf.subarray(i, i + 0x8000));
+          }
+          logoDataUrl = `data:${ct};base64,${btoa(b64)}`;
+        }
+      } catch (err) {
+        console.warn("logo fetch failed", err);
+      }
+    }
 
     const svg = buildSvg({
       company: data.company_name,
@@ -106,6 +133,7 @@ Deno.serve(async (req) => {
       subline: data.hero_subline || "automatiseren.",
       primary: data.brand_primary_hex || "#0F4C75",
       glow: data.brand_glow_hex || "#3282B8",
+      logoDataUrl,
     });
 
     await ensureWasm();
