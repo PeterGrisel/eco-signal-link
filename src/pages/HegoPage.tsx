@@ -14,6 +14,8 @@ import CtaLink from "@/components/CtaLink";
 import pdfAsset from "@/assets/hego-playbook.pdf.asset.json";
 import hegoLogo from "@/assets/hego-logo.png.asset.json";
 import { FrostedGlassCard } from "@/components/ui/interactive-frosted-glass-card";
+import { Gallery4 } from "@/components/ui/gallery4";
+import { COPY } from "@/content/copy";
 
 // Configure pdf.js worker from CDN (matches installed pdfjs-dist version)
 pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
@@ -317,7 +319,35 @@ const HegoPage = () => {
       {/* 8 playbooks van de homepage — in HEGO brandkleur */}
       <div className="min-h-screen flex items-center">
         <div className="w-full">
-          <HowItWorksSection accent={HEGO.primaryGlow} />
+          <Gallery4
+            accent={HEGO.primaryGlow}
+            title="Acht playbooks voor HEGO."
+            description="Elke fase is een playbook dat in uw eigen tools draait. Samen vormen ze één werkend groeisysteem dat blijft staan."
+            items={COPY.methode.layers.map((l) => ({
+              id: l.number,
+              title: `${l.number} · ${l.title}`,
+              description: l.line,
+              href: "/playbooks",
+              image: `data:image/svg+xml;utf8,${encodeURIComponent(
+                `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 600'>
+                  <defs>
+                    <linearGradient id='g' x1='0' y1='0' x2='1' y2='1'>
+                      <stop offset='0%' stop-color='${HEGO.surface}'/>
+                      <stop offset='60%' stop-color='${HEGO.primary}'/>
+                      <stop offset='100%' stop-color='${HEGO.primaryGlow}'/>
+                    </linearGradient>
+                    <pattern id='p' width='40' height='40' patternUnits='userSpaceOnUse'>
+                      <path d='M0 40 L40 0' stroke='${HEGO.primaryGlow}' stroke-opacity='0.15' stroke-width='1'/>
+                    </pattern>
+                  </defs>
+                  <rect width='800' height='600' fill='url(#g)'/>
+                  <rect width='800' height='600' fill='url(#p)'/>
+                  <text x='60' y='220' font-family='Space Grotesk, sans-serif' font-size='260' font-weight='800' fill='${HEGO.silver}' fill-opacity='0.95'>${l.number}</text>
+                  <text x='60' y='280' font-family='Space Grotesk, sans-serif' font-size='28' font-weight='600' fill='${HEGO.silver}' fill-opacity='0.7' letter-spacing='4'>PLAYBOOK</text>
+                </svg>`
+              )}`,
+            }))}
+          />
         </div>
       </div>
 
