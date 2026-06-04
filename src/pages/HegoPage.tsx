@@ -1,6 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Check, Download, FileText, Radar, Database, Send, Workflow, Sparkles, BarChart3 } from "lucide-react";
+import { ArrowRight, Check, Download, FileText, Radar, Database, Send, Workflow, Sparkles, BarChart3, ChevronLeft, ChevronRight } from "lucide-react";
+import { Document, Page, pdfjs } from "react-pdf";
+import "react-pdf/dist/Page/AnnotationLayer.css";
+import "react-pdf/dist/Page/TextLayer.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -9,6 +12,9 @@ import { supabase } from "@/integrations/supabase/client";
 import { faviconFor } from "@/data/groeistack";
 import CtaLink from "@/components/CtaLink";
 import pdfAsset from "@/assets/hego-playbook.pdf.asset.json";
+
+// Configure pdf.js worker from CDN (matches installed pdfjs-dist version)
+pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 // HEGO brand palette (from JSON: blue, grey, white, metallic silver)
 const HEGO = {
