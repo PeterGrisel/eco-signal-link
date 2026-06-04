@@ -290,7 +290,7 @@ const HegoPage = () => {
       {/* 8 playbooks van de homepage — in HEGO brandkleur */}
       <HowItWorksSection accent={HEGO.primaryGlow} />
 
-      <WaitlistHero />
+      <WaitlistHero logoSrc={hegoLogo.url} logoAlt="HEGO logo" />
 
       {/* Mini Groeistack */}
       <section className="py-16 md:py-24 border-b border-border">
