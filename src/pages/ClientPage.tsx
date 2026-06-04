@@ -105,9 +105,21 @@ const ClientPage = () => {
     return () => window.removeEventListener("resize", update);
   }, []);
 
+  const isEn = row ? (row.language || "nl") === "en" : false;
+  const metaTitle = row
+    ? isEn
+      ? `${row.company_name} × B2BGroeiMachine — B2B Wholesale Growth Engine`
+      : `${row.company_name} × B2BGroeiMachine — Market Activation Playbook`
+    : "B2BGroeiMachine";
+  const metaDescription = row
+    ? isEn
+      ? row.intro || `A predictable B2B growth system for ${row.company_name}.`
+      : row.intro || `Persoonlijk playbook voor ${row.company_name}.`
+    : undefined;
+
   usePageMeta({
-    title: row ? `${row.company_name} × B2BGroeiMachine — Market Activation Playbook` : "B2BGroeiMachine",
-    description: row?.intro || `Persoonlijk playbook voor ${row?.company_name || "uw bedrijf"}.`,
+    title: metaTitle,
+    description: metaDescription,
     canonical: row ? `https://b2bgroeimachine.io/voor/${row.slug}` : undefined,
     ogImage: row
       ? (row.og_image_url || `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/og-image?slug=${row.slug}`)
@@ -163,7 +175,6 @@ const ClientPage = () => {
   const headline = row.hero_headline || "Slimmer werken door";
   const subline = row.hero_subline || "automatiseren van handmatige acties.";
   const introText = row.intro || `Persoonlijk Market Activation Playbook voor ${row.company_name}.`;
-  const isEn = (row.language || "nl") === "en";
   const t = isEn
     ? {
         viewPlaybook: "View the playbook",
