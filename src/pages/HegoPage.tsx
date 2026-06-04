@@ -202,7 +202,7 @@ const HegoPage = () => {
             <p className="font-display text-xs tracking-[0.2em] uppercase mb-3" style={{ color: HEGO.primaryGlow }}>
               Market Activation Playbook
             </p>
-            <h2 className="font-display font-bold text-3xl md:text-5xl tracking-tight mb-4">
+            <h2 className="font-display font-bold text-4xl md:text-6xl lg:text-7xl tracking-tight leading-[1.05] mb-4">
               Speciaal samengesteld
               <br />
               <span style={{ color: HEGO.primaryGlow }}>voor HEGO.</span>
