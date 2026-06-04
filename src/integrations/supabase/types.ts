@@ -16,37 +16,70 @@ export type Database = {
     Tables: {
       abm_pages: {
         Row: {
+          brand_glow_hex: string | null
+          brand_glow_hsl: string | null
+          brand_primary_hex: string | null
+          brand_primary_hsl: string | null
           company_name: string
           created_at: string
           expires_at: string
+          hero_headline: string | null
+          hero_subline: string | null
           id: string
+          intro: string | null
+          logo_url: string | null
+          og_image_url: string | null
           payload: Json
+          pdf_url: string | null
           slug: string
           status: string
           updated_at: string
           view_count: number
+          website: string | null
         }
         Insert: {
+          brand_glow_hex?: string | null
+          brand_glow_hsl?: string | null
+          brand_primary_hex?: string | null
+          brand_primary_hsl?: string | null
           company_name: string
           created_at?: string
-          expires_at: string
+          expires_at?: string
+          hero_headline?: string | null
+          hero_subline?: string | null
           id?: string
+          intro?: string | null
+          logo_url?: string | null
+          og_image_url?: string | null
           payload?: Json
+          pdf_url?: string | null
           slug: string
           status?: string
           updated_at?: string
           view_count?: number
+          website?: string | null
         }
         Update: {
+          brand_glow_hex?: string | null
+          brand_glow_hsl?: string | null
+          brand_primary_hex?: string | null
+          brand_primary_hsl?: string | null
           company_name?: string
           created_at?: string
           expires_at?: string
+          hero_headline?: string | null
+          hero_subline?: string | null
           id?: string
+          intro?: string | null
+          logo_url?: string | null
+          og_image_url?: string | null
           payload?: Json
+          pdf_url?: string | null
           slug?: string
           status?: string
           updated_at?: string
           view_count?: number
+          website?: string | null
         }
         Relationships: []
       }
