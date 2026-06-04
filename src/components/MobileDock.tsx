@@ -12,6 +12,7 @@ import { trackCTA } from "@/lib/tracking";
  */
 const MobileDock = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [visible, setVisible] = useState(false);
   const [footerVisible, setFooterVisible] = useState(false);
 
@@ -38,6 +39,15 @@ const MobileDock = () => {
     if (el) {
       el.scrollIntoView({ behavior: "smooth", block: "start" });
       trackCTA(`Mobile Dock — ${label}`, `#${id}`);
+    }
+  };
+
+  const goToFaq = () => {
+    if (location.pathname === "/") {
+      goTo("faq", "FAQ");
+    } else {
+      navigate("/#faq");
+      trackCTA("Mobile Dock — FAQ", "/#faq");
     }
   };
 
