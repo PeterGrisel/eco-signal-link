@@ -173,6 +173,12 @@
       inset 0 1px 0 hsl(var(--foreground) / 0.15),
       0 0 50px -10px hsl(210 73% 55% / 0.45);
   }
+  /* Boost legibility of small HEGO-blue labels on dark glass */
+  .hego-brand #pricing .text-primary,
+  .hego-brand #pricing .text-primary\/80,
+  .hego-brand #pricing .text-primary\/90 {
+    color: hsl(210 95% 72%);
+  }
 
   .border-glow {
     border-color: hsl(24 75% 63% / 0.2);
