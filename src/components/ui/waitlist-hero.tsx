@@ -1,15 +1,89 @@
 "use client"
 
-import { useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import { BOOKING_URL } from "@/content/copy"
+import { supabase } from "@/integrations/supabase/client"
+import { faviconFor } from "@/data/groeistack"
 
 interface WaitlistHeroProps {
   logoSrc?: string
   logoAlt?: string
 }
 
+interface ClientLogo {
+  id: string
+  name: string
+  domain: string
+  logo_url: string | null
+  website: string | null
+}
+
+const LogoRing = ({
+  clients,
+  radius,
+  size,
+  opacity,
+}: {
+  clients: ClientLogo[]
+  radius: number
+  size: number
+  opacity: number
+}) => {
+  if (!clients.length) return null
+  return (
+    <div
+      className="absolute top-1/2 left-1/2"
+      style={{ width: radius * 2, height: radius * 2, transform: "translate(-50%, -50%)" }}
+    >
+      {clients.map((c, i) => {
+        const angle = (i / clients.length) * Math.PI * 2
+        const x = Math.cos(angle) * radius
+        const y = Math.sin(angle) * radius
+        const src = c.logo_url || faviconFor(c.website || c.domain)
+        return (
+          <div
+            key={c.id}
+            className="absolute top-1/2 left-1/2 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm flex items-center justify-center shadow-lg"
+            style={{
+              width: size,
+              height: size,
+              transform: `translate(calc(${x}px - 50%), calc(${y}px - 50%))`,
+              opacity,
+            }}
+          >
+            {src && (
+              <img
+                src={src}
+                alt={c.name}
+                className="object-contain max-h-[60%] max-w-[60%] grayscale brightness-150"
+                loading="lazy"
+              />
+            )}
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
 export const WaitlistHero = ({ logoSrc, logoAlt }: WaitlistHeroProps) => {
   const canvasRef = useRef(null)
+  const [clients, setClients] = useState<ClientLogo[]>([])
+
+  useEffect(() => {
+    supabase
+      .from("client_logos")
+      .select("id, name, domain, logo_url, website")
+      .eq("is_visible", true)
+      .order("sort_order")
+      .then(({ data }) => setClients((data as ClientLogo[]) ?? []))
+  }, [])
+
+  // Distribute over 3 rings
+  const third = Math.ceil(clients.length / 3) || 1
+  const inner = clients.slice(0, third)
+  const middle = clients.slice(third, third * 2)
+  const outer = clients.slice(third * 2)
 
   const handleClick = () => {
     fireConfetti()
@@ -167,61 +241,19 @@ export const WaitlistHero = ({ logoSrc, logoAlt }: WaitlistHeroProps) => {
             opacity: 1,
           }}
         >
-          {/* Image 3 (Back) - spins clockwise */}
+          {/* Outer ring - spins clockwise */}
           <div className="absolute inset-0 animate-spin-slow">
-            <div
-              className="absolute top-1/2 left-1/2"
-              style={{
-                width: "2000px",
-                height: "2000px",
-                transform: "translate(-50%, -50%) rotate(279.05deg)",
-                zIndex: 0,
-              }}
-            >
-              <img
-                src="https://framerusercontent.com/images/oqZEqzDEgSLygmUDuZAYNh2XQ9U.png?scale-down-to=2048"
-                alt=""
-                className="w-full h-full object-cover opacity-50"
-              />
-            </div>
+            <LogoRing clients={outer} radius={520} size={88} opacity={0.55} />
           </div>
 
-          {/* Image 2 (Middle) - spins counter-clockwise */}
+          {/* Middle ring - spins counter-clockwise */}
           <div className="absolute inset-0 animate-spin-slow-reverse">
-            <div
-              className="absolute top-1/2 left-1/2"
-              style={{
-                width: "1000px",
-                height: "1000px",
-                transform: "translate(-50%, -50%) rotate(304.42deg)",
-                zIndex: 1,
-              }}
-            >
-              <img
-                src="https://framerusercontent.com/images/UbucGYsHDAUHfaGZNjwyCzViw8.png?scale-down-to=1024"
-                alt=""
-                className="w-full h-full object-cover opacity-60"
-              />
-            </div>
+            <LogoRing clients={middle} radius={340} size={72} opacity={0.7} />
           </div>
 
-          {/* Image 1 (Front) - spins clockwise */}
+          {/* Inner ring - spins clockwise */}
           <div className="absolute inset-0 animate-spin-slow">
-            <div
-              className="absolute top-1/2 left-1/2"
-              style={{
-                width: "800px",
-                height: "800px",
-                transform: "translate(-50%, -50%) rotate(48.33deg)",
-                zIndex: 2,
-              }}
-            >
-              <img
-                src="https://framerusercontent.com/images/Ans5PAxtJfg3CwxlrPMSshx2Pqc.png"
-                alt="App Icon"
-                className="w-full h-full object-cover opacity-80"
-              />
-            </div>
+            <LogoRing clients={inner} radius={200} size={64} opacity={0.85} />
           </div>
         </div>
 
