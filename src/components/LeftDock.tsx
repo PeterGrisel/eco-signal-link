@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Mail, Linkedin, HelpCircle, MessageCircle, Euro, BookOpen } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
@@ -10,6 +10,7 @@ const WHATSAPP = "https://wa.me/31852502925";
 
 export default function LeftDock() {
   const location = useLocation();
+  const navigate = useNavigate();
   const [hidden, setHidden] = useState(false);
 
   useEffect(() => {
@@ -26,23 +27,36 @@ export default function LeftDock() {
   if (location.pathname.startsWith("/signaal") || location.pathname.startsWith("/admin")) return null;
   if (location.pathname.startsWith("/voor") && location.pathname !== "/voor/hego") return null;
 
+  const scrollToId = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  const goToAnchor = (path: string, id: string, label: string) => {
+    if (location.pathname === "/") {
+      scrollToId(id);
+    } else {
+      navigate(path);
+    }
+    trackCTA(`LeftDock — ${label}`, path);
+  };
+
   const items = [
     {
       icon: HelpCircle,
       label: "FAQ",
-      href: "/#faq",
-      onClick: () => trackCTA("LeftDock — FAQ", "/#faq"),
+      onClick: () => goToAnchor("/#faq", "faq", "FAQ"),
     },
     {
       icon: Euro,
       label: "Pricing",
-      href: "/#pricing",
-      onClick: () => trackCTA("LeftDock — Pricing", "/#pricing"),
+      onClick: () => goToAnchor("/#pricing", "pricing", "Pricing"),
     },
     {
       icon: Mail,
       label: "E-mail",
       href: `mailto:${EMAIL}`,
+      external: true,
       onClick: () => trackCTA("LeftDock — Email", `mailto:${EMAIL}`),
     },
     {
