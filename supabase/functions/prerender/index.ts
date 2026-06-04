@@ -590,6 +590,26 @@ const SOLUTIONS: Record<string, {
   },
 };
 
+// ── Client-specific landing pages (/voor/:slug) ──
+// Private pages, served as noindex but with rich per-client OG tags for social previews.
+const CLIENT_PAGES: Record<string, {
+  clientName: string;
+  title: string;
+  description: string;
+  ogImage: string;
+  h1: string;
+  intro: string;
+}> = {
+  hego: {
+    clientName: "HEGO",
+    title: "HEGO × B2BGroeiMachine — Market Activation Playbook",
+    description: "Persoonlijk playbook voor HEGO: hoe wij groothandel, traders en producenten activeren rond RVS, aluminium en maatwerk bewerkingen.",
+    ogImage: `${SITE_URL}/og/hego.jpg`,
+    h1: "HEGO × B2BGroeiMachine — Market Activation Playbook",
+    intro: "Persoonlijk playbook voor HEGO. Onze analyse, aanpak en eerste plan voor RVS, aluminium en maatwerk bewerkingen.",
+  },
+};
+
 // ── HTML builder ──
 
 function buildHtml(meta: {
@@ -600,6 +620,7 @@ function buildHtml(meta: {
   bodyContent: string;
   extraHead?: string;
   ogImage?: string;
+  noindex?: boolean;
 }): string {
   const ogImage = meta.ogImage || DEFAULT_OG_IMAGE;
   return `<!DOCTYPE html>
@@ -609,6 +630,7 @@ function buildHtml(meta: {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${escapeHtml(meta.title)}</title>
   <meta name="description" content="${escapeHtml(meta.description)}">
+  ${meta.noindex ? `<meta name="robots" content="noindex, nofollow">` : ""}
   <link rel="canonical" href="${escapeHtml(meta.url)}">
   <meta property="og:type" content="website">
   <meta property="og:title" content="${escapeHtml(meta.title)}">
@@ -888,6 +910,47 @@ Deno.serve(async (req) => {
       setCache(path, html);
       return new Response(html, {
         headers: { ...cacheHeaders, "X-Cache": "MISS" },
+      });
+    }
+
+    // 6. Client landing pages: /voor/:slug (noindex, per-client OG tags)
+    const clientMatch = path.match(/^\/voor\/([^/]+)$/);
+    if (clientMatch) {
+      const slug = clientMatch[1];
+      const client = CLIENT_PAGES[slug];
+      if (client) {
+        const body = `
+<section>
+  <h2>${escapeHtml(client.clientName)}</h2>
+  <p>${escapeHtml(client.intro)}</p>
+</section>
+<p><a href="${SITE_URL}/">Terug naar ${SITE_NAME}</a></p>`;
+        const html = buildHtml({
+          title: client.title,
+          description: client.description,
+          url: pageUrl,
+          h1: client.h1,
+          bodyContent: body,
+          ogImage: client.ogImage,
+          noindex: true,
+        });
+        setCache(path, html);
+        return new Response(html, {
+          headers: { ...cacheHeaders, "X-Cache": "MISS" },
+        });
+      }
+      // Unknown client slug: still serve noindex stub
+      const html = buildHtml({
+        title: `${SITE_NAME} — Persoonlijke pagina`,
+        description: "Persoonlijke pagina.",
+        url: pageUrl,
+        h1: "Persoonlijke pagina",
+        bodyContent: `<p><a href="${SITE_URL}/">Terug naar ${SITE_NAME}</a></p>`,
+        noindex: true,
+      });
+      return new Response(html, {
+        status: 404,
+        headers: { ...corsHeaders, "Content-Type": "text/html; charset=utf-8" },
       });
     }
 
