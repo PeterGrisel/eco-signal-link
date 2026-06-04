@@ -85,6 +85,21 @@ const ClientBadge = ({ c }: { c: ClientLogo }) => {
 
 const HegoPage = () => {
   const [clients, setClients] = useState<ClientLogo[]>([]);
+  const [numPages, setNumPages] = useState(0);
+  const [page, setPage] = useState(1);
+  const [viewerWidth, setViewerWidth] = useState(900);
+  const viewerRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const update = () => {
+      if (viewerRef.current) {
+        setViewerWidth(Math.min(viewerRef.current.clientWidth - 32, 1100));
+      }
+    };
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
 
   usePageMeta({
     title: "HEGO × B2BGroeiMachine — Market Activation Playbook",
@@ -203,12 +218,45 @@ const HegoPage = () => {
                   <Download className="h-3.5 w-3.5" /> Download
                 </a>
               </div>
-              <iframe
-                src={`${pdfAsset.url}#view=FitH`}
-                title="HEGO Market Activation Playbook"
-                className="w-full"
-                style={{ height: "min(85vh, 900px)" }}
-              />
+              <div ref={viewerRef} className="bg-[#1a1a1a] flex flex-col items-center p-4 md:p-6 min-h-[60vh]">
+                <Document
+                  file={pdfAsset.url}
+                  onLoadSuccess={({ numPages: n }) => setNumPages(n)}
+                  loading={<div className="text-muted-foreground py-20">Playbook laden…</div>}
+                  error={<div className="text-muted-foreground py-20">PDF kon niet geladen worden. <a href={pdfAsset.url} className="underline" style={{ color: HEGO.primaryGlow }}>Download hier</a>.</div>}
+                >
+                  <Page
+                    pageNumber={page}
+                    width={viewerWidth}
+                    renderAnnotationLayer={false}
+                    renderTextLayer={false}
+                    className="shadow-2xl rounded-md overflow-hidden"
+                  />
+                </Document>
+                {numPages > 0 && (
+                  <div className="flex items-center gap-4 mt-5">
+                    <button
+                      onClick={() => setPage((p) => Math.max(1, p - 1))}
+                      disabled={page <= 1}
+                      className="inline-flex items-center justify-center h-9 w-9 rounded-full border border-border disabled:opacity-30 hover:border-foreground/40 transition"
+                      aria-label="Vorige pagina"
+                    >
+                      <ChevronLeft className="h-4 w-4" />
+                    </button>
+                    <span className="text-sm font-medium tabular-nums">
+                      {page} / {numPages}
+                    </span>
+                    <button
+                      onClick={() => setPage((p) => Math.min(numPages, p + 1))}
+                      disabled={page >= numPages}
+                      className="inline-flex items-center justify-center h-9 w-9 rounded-full border border-border disabled:opacity-30 hover:border-foreground/40 transition"
+                      aria-label="Volgende pagina"
+                    >
+                      <ChevronRight className="h-4 w-4" />
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
