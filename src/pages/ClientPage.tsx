@@ -175,7 +175,6 @@ const ClientPage = () => {
   const headline = row.hero_headline || "Slimmer werken door";
   const subline = row.hero_subline || "automatiseren van handmatige acties.";
   const introText = row.intro || `Persoonlijk Market Activation Playbook voor ${row.company_name}.`;
-  const isEn = (row.language || "nl") === "en";
   const t = isEn
     ? {
         viewPlaybook: "View the playbook",
