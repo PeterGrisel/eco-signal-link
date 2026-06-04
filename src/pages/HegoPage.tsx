@@ -169,7 +169,7 @@ const HegoPage = () => {
                 height={512}
               />
             </div>
-            <h1 className="font-display font-bold text-4xl md:text-6xl lg:text-7xl 2xl:text-8xl 3xl:text-9xl tracking-tight leading-[1.05] mb-6">
+            <h1 className="font-display font-bold text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl 3xl:text-9xl tracking-tight leading-[1.05] mb-6">
               Slimmer werken door
               <br />
               <span style={{ color: HEGO.primaryGlow }}>automatiseren van handmatige acties.</span>
@@ -205,7 +205,7 @@ const HegoPage = () => {
             <p className="font-display text-xs tracking-[0.2em] uppercase mb-3" style={{ color: HEGO.primaryGlow }}>
               Market Activation Playbook
             </p>
-            <h2 className="font-display font-bold text-4xl md:text-6xl lg:text-7xl 2xl:text-8xl 3xl:text-9xl tracking-tight leading-[1.05] mb-4">
+            <h2 className="font-display font-bold text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl 3xl:text-9xl tracking-tight leading-[1.05] mb-4">
               Speciaal samengesteld
               <br />
               <span style={{ color: HEGO.primaryGlow }}>voor HEGO.</span>
@@ -328,7 +328,7 @@ const HegoPage = () => {
               <BookOpenCheck className="w-4 h-4" strokeWidth={1.8} />
               Het Playbook-systeem
             </p>
-            <h2 className="font-display font-bold text-4xl md:text-6xl lg:text-7xl 2xl:text-8xl 3xl:text-9xl tracking-tight leading-[1.05] mb-6">
+            <h2 className="font-display font-bold text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl 3xl:text-9xl tracking-tight leading-[1.05] mb-6">
               Acht playbooks.
               <br />
               <span style={{ color: HEGO.primaryGlow }}>Eén werkend groeisysteem voor HEGO.</span>
