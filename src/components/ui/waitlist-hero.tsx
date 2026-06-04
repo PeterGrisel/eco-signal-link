@@ -164,7 +164,7 @@ export const WaitlistHero = ({ logoSrc, logoAlt }: WaitlistHeroProps) => {
   }
 
   return (
-    <div className="w-full min-h-screen bg-black flex items-center justify-center">
+    <div className="w-full bg-black flex items-center justify-center">
       {/* Animation Styles */}
       <style>{`
         @keyframes spin-slow {
@@ -225,7 +225,7 @@ export const WaitlistHero = ({ logoSrc, logoAlt }: WaitlistHeroProps) => {
 
       {/* Main Container */}
       <div
-        className="relative w-full h-screen overflow-hidden shadow-2xl"
+        className="relative w-full h-[75vh] min-h-[640px] max-h-[820px] overflow-hidden shadow-2xl"
         style={{
           backgroundColor: colors.baseBg,
           fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
@@ -234,26 +234,21 @@ export const WaitlistHero = ({ logoSrc, logoAlt }: WaitlistHeroProps) => {
         {/* Background Decorative Layer */}
         <div
           className="absolute inset-0 w-full h-full pointer-events-none"
-          style={{
-            perspective: "1200px",
-            transform: "perspective(1200px) rotateX(15deg)",
-            transformOrigin: "center bottom",
-            opacity: 1,
-          }}
+          style={{ opacity: 1 }}
         >
           {/* Outer ring - spins clockwise */}
           <div className="absolute inset-0 animate-spin-slow">
-            <LogoRing clients={outer} radius={520} size={88} opacity={0.55} />
+            <LogoRing clients={outer} radius={440} size={80} opacity={0.85} />
           </div>
 
           {/* Middle ring - spins counter-clockwise */}
           <div className="absolute inset-0 animate-spin-slow-reverse">
-            <LogoRing clients={middle} radius={340} size={72} opacity={0.7} />
+            <LogoRing clients={middle} radius={300} size={72} opacity={0.95} />
           </div>
 
           {/* Inner ring - spins clockwise */}
           <div className="absolute inset-0 animate-spin-slow">
-            <LogoRing clients={inner} radius={200} size={64} opacity={0.85} />
+            <LogoRing clients={inner} radius={180} size={64} opacity={1} />
           </div>
         </div>
 
@@ -266,7 +261,7 @@ export const WaitlistHero = ({ logoSrc, logoAlt }: WaitlistHeroProps) => {
         />
 
         {/* Content Container */}
-        <div className="relative z-20 w-full h-full flex flex-col items-center justify-end pb-24 gap-6">
+        <div className="relative z-20 w-full h-full flex flex-col items-center justify-end pb-16 gap-5">
           <div className="w-16 h-16 rounded-2xl shadow-lg overflow-hidden mb-2 ring-1 ring-white/10 bg-white/5">
             <img src={logoSrc || "https://images.unsplash.com/photo-1684369175833-4b445ad6bfb5?q=80&w=1696&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"} alt={logoAlt || "App Icon"} className="w-full h-full object-cover" />
           </div>
