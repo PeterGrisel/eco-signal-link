@@ -13,6 +13,26 @@ function getSupabase() {
   );
 }
 
+/**
+ * Verwijder kapotte externe links uit markdown content.
+ * Houdt de anchor text (tussen [..]) over en gooit de link weg.
+ * Verwijdert ook bare <url> en bare http(s) URLs.
+ */
+function stripBrokenLinks(content: string, brokenUrls: string[]): string {
+  let out = content;
+  const esc = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  for (const url of brokenUrls) {
+    const u = esc(url);
+    // [anchor](url)  -> anchor
+    out = out.replace(new RegExp(`\\[([^\\]]+)\\]\\(${u}\\)`, "g"), "$1");
+    // <url> -> ""
+    out = out.replace(new RegExp(`<${u}>`, "g"), "");
+    // bare url -> ""
+    out = out.replace(new RegExp(u, "g"), "");
+  }
+  return out;
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
@@ -295,9 +315,11 @@ serve(async (req) => {
         }
 
         // Auto-publish: save as published immediately
-        // First validate external links — broken links → save as draft instead of published.
+        // First validate external links — broken links worden uit de content gestript zodat
+        // de post alsnog gepubliceerd wordt. Voorkomt dat één 404 de hele publish-flow blokkeert.
         let publishStatus: "published" | "draft" = "published";
         let brokenLinks: Array<{ url: string; status: number; reason?: string }> = [];
+        let cleanedContent = articleData.content as string;
         try {
           const validateRes = await fetch(`${supabaseUrl}/functions/v1/validate-external-links`, {
             method: "POST",
@@ -311,9 +333,9 @@ serve(async (req) => {
             const v = await validateRes.json();
             brokenLinks = v.broken || [];
             if (brokenLinks.length > 0) {
-              publishStatus = "draft";
+              cleanedContent = stripBrokenLinks(cleanedContent, brokenLinks.map((b) => b.url));
               log.push(
-                `⚠ ${brokenLinks.length} dode externe link(s) gevonden — opgeslagen als draft:`
+                `⚠ ${brokenLinks.length} dode externe link(s) gestript, post wordt alsnog gepubliceerd:`
               );
               for (const b of brokenLinks.slice(0, 5)) {
                 log.push(`   • [${b.reason ?? b.status}] ${b.url}`);
@@ -332,7 +354,7 @@ serve(async (req) => {
         const { data: post, error: postError } = await supabase.from("blog_posts").insert({
           title: articleData.title,
           slug: articleData.slug,
-          content: articleData.content,
+          content: cleanedContent,
           excerpt: articleData.excerpt,
           meta_description: articleData.meta_description,
           featured_image: featuredImage,

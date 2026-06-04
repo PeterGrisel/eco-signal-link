@@ -33,7 +33,7 @@ async function loadContext(supabase: any) {
 
   const internalLinks = [
     `- De Groeistack: ${siteUrl}/groeistack`,
-    `- Hoe het werkt: ${siteUrl}/hoe-het-werkt`,
+    `- Hoe het werkt: ${siteUrl}/`,
     `- Playbooks: ${siteUrl}/playbooks`,
     ...(existing || []).slice(0, 12).map((t: any) => `- ${t.term}: ${siteUrl}/woordenboek/${t.slug}`),
   ].join("\n");
