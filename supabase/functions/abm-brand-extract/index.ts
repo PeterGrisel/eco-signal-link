@@ -75,36 +75,67 @@ function harvestImagesFromMarkdown(md: string, baseUrl: string): string[] {
 
 function harvestTextFromMarkdown(md: string): { pitch?: string; bullets: string[]; tagline?: string } {
   if (!md) return { bullets: [] };
-  // Remove links syntax but keep text
-  const stripped = md.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1");
-  const lines = stripped.split("\n").map((l) => l.trim()).filter(Boolean);
+  const lines = md.split("\n").map((l) => l.trim()).filter(Boolean);
   const skip = /^(home|menu|cookies?|privacy|©|contact|inloggen|login|nieuws|blog|search|zoek)/i;
+  const hasResidue = (s: string) => /https?:\/\/|]\(|!\[|\\\\|\|/.test(s);
   // Pitch: first non-heading paragraph 60–260 chars
   let pitch: string | undefined;
   for (const l of lines) {
     if (l.startsWith("#") || l.startsWith("!") || l.startsWith("|") || l.startsWith("-")) continue;
-    if (skip.test(l)) continue;
-    if (l.length >= 60 && l.length <= 280) { pitch = l; break; }
+    const c = cleanInline(l);
+    if (!c || skip.test(c) || hasResidue(c)) continue;
+    if (c.length >= 60 && c.length <= 280) { pitch = c; break; }
   }
   // Bullets: short H2/H3 titles or list items 8–90 chars
   const bullets: string[] = [];
+  const seen = new Set<string>();
   for (const l of lines) {
     if (bullets.length >= 5) break;
     const h = l.match(/^#{2,3}\s+(.+)/);
     const bul = l.match(/^[-*]\s+(.+)/);
-    const txt = (h?.[1] || bul?.[1] || "").trim();
+    const raw = (h?.[1] || bul?.[1] || "").trim();
+    if (!raw) continue;
+    const txt = cleanInline(raw);
     if (!txt) continue;
     if (txt.length < 8 || txt.length > 90) continue;
-    if (skip.test(txt)) continue;
-    if (!bullets.includes(txt)) bullets.push(txt);
+    if (skip.test(txt) || hasResidue(txt)) continue;
+    const key = txt.toLowerCase();
+    if (seen.has(key)) continue;
+    seen.add(key);
+    bullets.push(txt);
   }
   // Tagline: first heading
   let tagline: string | undefined;
   for (const l of lines) {
     const h = l.match(/^#\s+(.+)/);
-    if (h && h[1].length <= 140) { tagline = h[1].trim(); break; }
+    if (!h) continue;
+    const c = cleanInline(h[1]);
+    if (c && c.length <= 140 && !hasResidue(c)) { tagline = c; break; }
   }
   return { pitch, bullets, tagline };
+}
+
+function cleanInline(s: string): string {
+  if (!s) return "";
+  let t = s;
+  // Remove image tags ![alt](url) (and stray ![alt or ![..\\)
+  t = t.replace(/!\[[^\]]*\]\([^)]*\)/g, "");
+  t = t.replace(/!\[[^\]]*\]?/g, "");
+  // Proper links [text](url) -> text
+  t = t.replace(/\[([^\]]+)\]\([^)]*\)/g, "$1");
+  // Stray closing link fragments like "text](https://...)"
+  t = t.replace(/\]\([^)]*\)/g, "");
+  // Drop remaining standalone URLs
+  t = t.replace(/https?:\/\/\S+/g, "");
+  // Bold/italic/code markers
+  t = t.replace(/\*\*|__|`+/g, "");
+  // Backslash escapes
+  t = t.replace(/\\+/g, "");
+  // Stray brackets
+  t = t.replace(/[\[\]]/g, "");
+  // Collapse whitespace
+  t = t.replace(/\s+/g, " ").trim();
+  return t;
 }
 
 async function uploadFromUrl(supabase: any, slug: string, name: string, sourceUrl: string): Promise<string | undefined> {
