@@ -50,10 +50,10 @@ const HowItWorksSection = ({ accent }: HowItWorksSectionProps = {}) => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6 }}
-          className="mb-12 md:mb-16 max-w-2xl"
+          className="mb-12 md:mb-16 max-w-2xl mx-auto text-center"
         >
           <p
-            className="inline-flex items-center gap-2 text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4"
+            className="inline-flex items-center justify-center gap-2 text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4 w-full"
             style={accentStyle}
           >
             <BookOpenCheck className="w-4 h-4" strokeWidth={1.8} />
@@ -66,7 +66,7 @@ const HowItWorksSection = ({ accent }: HowItWorksSectionProps = {}) => {
           </h2>
           <p className="text-muted-foreground text-lg leading-relaxed mt-6">
             Elke fase is een playbook dat in uw eigen tools draait.
-            Samen vormen ze één werkend systeem dat blijft staan.
+            Samen vormen ze één werkend groeisysteem dat blijft staan.
           </p>
         </motion.div>
 
