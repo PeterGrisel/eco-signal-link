@@ -1,7 +1,7 @@
 import { useEffect, useState, type CSSProperties } from "react";
 import { useParams, Navigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowRight, Check, Target, Map, Database, Megaphone, Route, BarChart3, Users, Radio, Award, Shield, Eye, MousePointerClick, Mail, Linkedin, Repeat, TrendingUp, Building2, Briefcase, Headphones, Globe2 } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { usePageMeta } from "@/hooks/usePageMeta";
@@ -33,7 +33,12 @@ const asSteps = (v: any): Step[] => {
   return out;
 };
 
-const STEP_ICONS = [Target, Map, Database, Megaphone, Route, BarChart3];
+const fadeIn = {
+  initial: { opacity: 0, y: 16 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, margin: "-80px" },
+  transition: { duration: 0.7 },
+};
 
 // --- Readability helpers (WCAG contrast) ---------------------------------
 function hexToRgb(hex: string): [number, number, number] | null {
@@ -218,650 +223,243 @@ const AbmPage = () => {
   } as CSSProperties;
   const headingStyle: CSSProperties = headingFont ? { fontFamily: `'${headingFont}', 'Space Grotesk', sans-serif` } : {};
   const brandBtn: CSSProperties = { backgroundColor: primary, color: "#fff", borderColor: primary, borderRadius: radius };
-  const softBrand: CSSProperties = { backgroundColor: `${primary}1A`, color: primary };
-  const cardStyle: CSSProperties = { backgroundColor: surfaceColor, borderColor, color: textColor, borderRadius: radius };
-  const mutedStyle: CSSProperties = { color: mutedColor };
 
-  const Section = ({ num, title, children, className = "" }: { num?: number | string; title: string; children: React.ReactNode; className?: string }) => (
-    <section className={`py-14 ${className}`}>
-      <div className="container mx-auto px-6">
-        <div className="flex items-center gap-3 mb-8">
-          {num !== undefined && (
-            <span className="inline-flex items-center justify-center h-7 w-7 rounded text-xs font-bold text-white" style={{ backgroundColor: primary }}>
-              {num}
-            </span>
-          )}
-          <h2 className="font-display text-2xl md:text-3xl tracking-tight" style={headingStyle}>{title}</h2>
-        </div>
+  // ── Personalisatie samengevoegd voor sectie 2 ─────────────────────────
+  const challengeBody: string =
+    personalPitch || summary || intro ||
+    `${row.company_name} groeit op talent en netwerk. Maar pipeline mag niet afhangen van één persoon. Een systeem dat signalen ziet, scoort en routeert maakt groei voorspelbaar.`;
+
+  const challengeBullets: string[] = (personalBullets.length > 0
+    ? personalBullets
+    : clientObservations.map((o) => o.title)
+  ).slice(0, 3);
+
+  const pillars = [
+    { num: "01", title: "Proces opzetten", desc: "ICP-mapping, signaalconfiguratie, kanaalopzet en outreach-flows. Het fundament van uw groei-systeem." },
+    { num: "02", title: "Data laten werken", desc: "Elk signaal, elke interactie, elk resultaat bouwt context op. De Datahub wordt uw commerciële geheugen." },
+    { num: "03", title: "Resultaat compoundt", desc: "Hoe langer het draait, hoe preciezer de targeting, hoe hoger de conversie." },
+  ];
+
+  const layers = [
+    { label: "Laag 1: Signaaldetectie", text: "Intent-data, websitebezoek, jobtriggers, funding en LinkedIn-activiteit. We zien wanneer prospects in-market zijn." },
+    { label: "Laag 2: Kwalificatie & scoring", text: "Elk signaal gescoord op relevantie, timing en fit. Alleen de sterkste signalen worden opgepakt." },
+    { label: "Laag 3: Omnichannel outreach", text: "6 tot 8 touchpoints via e-mail, LinkedIn, telefoon en video. Gepersonaliseerd op het signaal dat triggerde." },
+    { label: "Laag 4: Datahub & context", text: "Alle interacties stromen terug. Het systeem leert, optimaliseert en wordt elke maand sterker." },
+  ];
+
+  const contactName: string | undefined = p.contact?.name || p.contact?.fullName;
+  const contactPhone: string | undefined = p.contact?.phone || p.contact?.tel;
+  const contactEmail: string | undefined = p.contact?.email;
+
+  const SectionLabel = ({ children }: { children: React.ReactNode }) => (
+    <div className="flex items-center gap-3 mb-8">
+      <div className="w-5 h-px" style={{ backgroundColor: primary }} />
+      <span className="text-xs font-display font-semibold tracking-[0.14em] uppercase" style={{ color: primary, ...headingStyle }}>
         {children}
-      </div>
-    </section>
+      </span>
+    </div>
   );
 
   return (
-    <div className="abm-skin min-h-screen" style={brandStyle}>
+    <div className="min-h-screen" style={brandStyle}>
       <style>{`
-        .abm-skin .bg-card { background-color: ${surfaceColor} !important; }
-        .abm-skin .bg-card\\/40 { background-color: ${surfaceColor}66 !important; }
-        .abm-skin .bg-card\\/50 { background-color: ${surfaceColor}80 !important; }
-        .abm-skin .bg-background { background-color: ${bgColor} !important; }
-        .abm-skin .border-border { border-color: ${borderColor} !important; }
-        .abm-skin .text-muted-foreground { color: ${mutedColor} !important; }
-        .abm-skin .text-foreground { color: ${textColor} !important; }
-        .abm-skin .font-display { ${headingFont ? `font-family: '${headingFont}', 'Space Grotesk', sans-serif !important;` : ""} }
-        .abm-skin .rounded-xl, .abm-skin .rounded-2xl { border-radius: ${radius} !important; }
-        @keyframes abmFloat { 0%,100% { transform: translateY(0px); } 50% { transform: translateY(-12px); } }
-        @keyframes abmBeam { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        @keyframes abmOrb { 0%,100% { transform: translate(0,0) scale(1); } 33% { transform: translate(40px,-30px) scale(1.1); } 66% { transform: translate(-30px,20px) scale(0.95); } }
-        .abm-orb { animation: abmOrb 18s ease-in-out infinite; will-change: transform; }
-        .abm-float { animation: abmFloat 8s ease-in-out infinite; }
-        .abm-dots { background-image: radial-gradient(${textColor}22 1px, transparent 1px); background-size: 24px 24px; }
-        .abm-beam::before { content:""; position:absolute; inset:-2px; border-radius: inherit; padding:2px; background: conic-gradient(from 0deg, transparent 0deg, ${primary} 60deg, transparent 120deg, transparent 240deg, ${accent} 300deg, transparent 360deg); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; animation: abmBeam 6s linear infinite; pointer-events:none; }
+        .abm-flyer { color: ${textColor}; }
+        .abm-flyer .abm-muted { color: ${mutedColor}; }
+        .abm-flyer .abm-divider { border-color: ${borderColor}; }
+        .abm-flyer .abm-surface { background-color: ${surfaceColor}; border-color: ${borderColor}; }
+        .abm-flyer .abm-display { ${headingFont ? `font-family: '${headingFont}', 'Space Grotesk', sans-serif;` : ""} }
       `}</style>
-      {/* Top bar — B2BGroeiMachine identity, klantlogo als badge */}
-      <header className="border-b backdrop-blur-md sticky top-0 z-30" style={{ backgroundColor: `${bgColor}E6`, borderColor }}>
-        <div className="container mx-auto px-6 h-16 flex items-center justify-between gap-4">
-          <a href="https://b2bgroeimachine.io/" className="flex items-center gap-2 group">
-            <span className="inline-flex items-center justify-center h-7 w-7 rounded-md text-white font-bold text-xs" style={{ background: `linear-gradient(135deg, ${primary}, ${accent})` }}>B²</span>
-            <span className="font-display font-bold tracking-tight text-base" style={{ color: textColor }}>B2BGroeiMachine</span>
-          </a>
-          <nav className="hidden md:flex items-center gap-7 text-sm" style={{ color: mutedColor }}>
-            <a href="https://b2bgroeimachine.io/werkwijze" className="hover:opacity-100 transition">Werkwijze</a>
-            <a href="https://b2bgroeimachine.io/cases" className="hover:opacity-100 transition">Cases</a>
-            <a href="https://b2bgroeimachine.io/blog" className="hover:opacity-100 transition">Blog</a>
-            <a href="https://b2bgroeimachine.io/contact" className="hover:opacity-100 transition">Contact</a>
-          </nav>
-          <Button asChild size="sm" style={brandBtn}>
-            <a href={ctaUrl}>{ctaLabel}</a>
-          </Button>
-        </div>
-      </header>
 
-      {/* Persoonlijke pagina ribbon met klantlogo */}
-      <div className="border-b" style={{ borderColor, backgroundColor: `${primary}0D` }}>
-        <div className="container mx-auto px-6 py-2.5 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 text-xs sm:text-sm text-center">
-          <div className="flex items-center gap-3">
-            <span style={{ color: mutedColor }}>Persoonlijke pagina voor</span>
-            {logoUrl ? (
-              <img src={logoUrl} alt={row.company_name} className="h-6 w-auto" />
-            ) : (
-              <span className="font-display font-semibold" style={{ color: primary }}>{row.company_name}</span>
-            )}
+      <div className="abm-flyer">
+        {/* Slim top bar — B2BGroeiMachine identity only */}
+        <header className="border-b sticky top-0 z-30 backdrop-blur-md" style={{ backgroundColor: `${bgColor}E6`, borderColor }}>
+          <div className="px-6 md:px-16 lg:px-[72px] h-14 flex items-center justify-between">
+            <a href="https://b2bgroeimachine.io/" className="flex items-center gap-2">
+              <span className="inline-flex items-center justify-center h-6 w-6 rounded text-white font-bold text-[10px]" style={{ background: `linear-gradient(135deg, ${primary}, ${accent})` }}>B²</span>
+              <span className="abm-display font-semibold tracking-tight text-sm">B2BGroeiMachine</span>
+            </a>
+            <span className="text-[10px] font-display tracking-[0.18em] uppercase abm-muted hidden sm:inline">
+              Voor {row.company_name}
+            </span>
           </div>
-          {personalClaim && (
-            <span className="hidden sm:inline" style={{ color: mutedColor }}>·</span>
-          )}
-          {personalClaim && (
-            <span className="italic max-w-xl truncate" style={{ color: mutedColor }}>{personalClaim}</span>
-          )}
-        </div>
-      </div>
+        </header>
 
-      {/* Hero */}
-      <section className="relative overflow-hidden border-b border-border">
-        {/* Background layers: dot pattern + animated orbs */}
-        <div className="absolute inset-0 abm-dots opacity-60 pointer-events-none" />
-        <div className="absolute -top-32 -left-24 w-[480px] h-[480px] rounded-full blur-3xl opacity-40 abm-orb pointer-events-none" style={{ background: `radial-gradient(circle, ${primary} 0%, transparent 70%)` }} />
-        <div className="absolute -bottom-40 -right-24 w-[520px] h-[520px] rounded-full blur-3xl opacity-30 abm-orb pointer-events-none" style={{ background: `radial-gradient(circle, ${accent} 0%, transparent 70%)`, animationDelay: "-6s" }} />
+        {/* ── 1. COVER ── */}
+        <section className="min-h-[calc(100vh-3.5rem)] flex flex-col justify-between px-6 md:px-16 lg:px-[72px] pt-16 pb-12" style={{ backgroundColor: bgColor }}>
+          {/* Top: client logo for instant recognition */}
+          <div className="flex items-center justify-between">
+            {logoUrl ? (
+              <img
+                src={logoUrl}
+                alt={row.company_name}
+                className="h-10 md:h-12 w-auto opacity-90"
+                style={{ maxWidth: 200, objectFit: "contain" }}
+              />
+            ) : (
+              <span className="abm-display font-semibold text-lg" style={{ color: primary }}>{row.company_name}</span>
+            )}
+            <span className="text-[10px] font-display tracking-[0.12em] uppercase abm-muted">
+              Flyer · {new Date().getFullYear()}
+            </span>
+          </div>
 
-        <div className="container mx-auto px-6 py-16 md:py-28 relative grid lg:grid-cols-12 gap-10 items-center">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="lg:col-span-7">
-            <div className="inline-flex items-center gap-2 mb-6 px-3 py-1.5 rounded-full text-xs font-semibold" style={{ backgroundColor: `${primary}15`, color: primary, border: `1px solid ${primary}33` }}>
-              <span className="h-1.5 w-1.5 rounded-full animate-pulse" style={{ backgroundColor: primary }} />
-              {eyebrow || row.company_name.toUpperCase()} × B2BGROEIMACHINE
-            </div>
-            <h1 className="font-display text-4xl md:text-6xl lg:text-7xl leading-[1.02] tracking-tight mb-6" style={headingStyle}>
+          {/* Middle: claim */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.15 }}
+            className="flex-1 flex flex-col justify-center py-12"
+          >
+            <p className="text-xs font-display font-semibold tracking-[0.18em] uppercase mb-6" style={{ color: primary }}>
+              Voor {row.company_name}
+            </p>
+            <h1 className="abm-display font-bold text-[clamp(2.2rem,5.2vw,4.8rem)] leading-[1.06] tracking-tight max-w-[860px]">
               {title}
             </h1>
             {subtitle && (
-              <p className="text-lg md:text-2xl mb-6 font-medium" style={{ color: primary }}>{subtitle}</p>
-            )}
-            {heroIntro && (
-              <p className="text-base md:text-lg leading-relaxed mb-8 max-w-2xl" style={mutedStyle}>{heroIntro}</p>
-            )}
-            <div className="flex flex-wrap gap-3 items-center">
-              <Button asChild size="lg" style={brandBtn} className="shadow-lg hover:shadow-xl transition-shadow">
-                <a href={ctaUrl}>{ctaLabel} <ArrowRight className="ml-2 h-4 w-4" /></a>
-              </Button>
-              {siteScreenshot && (
-                <a href="#analyse" className="text-sm font-medium underline-offset-4 hover:underline" style={{ color: primary }}>
-                  Bekijk wat wij zien →
-                </a>
-              )}
-            </div>
-          </motion.div>
-
-          {/* Right column: hero illustration in beam-bordered card, with highlights floating below */}
-          <motion.div initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.7, delay: 0.15 }} className="lg:col-span-5 relative">
-            {heroImage && (
-              <div className="relative abm-beam rounded-2xl overflow-hidden abm-float" style={{ backgroundColor: surfaceColor }}>
-                <img src={heroImage} alt="" className="w-full h-auto block relative z-[1]" />
-              </div>
-            )}
-            {heroBullets.length > 0 && (
-              <div className={`${heroImage ? "mt-5" : ""} rounded-2xl border bg-card p-5 md:p-6 backdrop-blur-sm`} style={{ borderColor: `${primary}33`, backgroundColor: `${surfaceColor}F2` }}>
-                <p className="text-[10px] uppercase tracking-[0.2em] mb-4" style={{ color: primary }}>
-                  {personalBullets.length >= 2 ? `In uw eigen woorden` : `Waarom we dit voor ${row.company_name} maakten`}
-                </p>
-                <ul className="space-y-3">
-                  {heroBullets.map((h, i) => (
-                    <li key={i} className="flex items-start gap-3">
-                      <span className="mt-0.5 inline-flex h-5 w-5 items-center justify-center rounded-full flex-shrink-0" style={softBrand}>
-                        <Check className="h-3 w-3" />
-                      </span>
-                      <span className="text-sm leading-relaxed">{h}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Karakter van de klant — eigen beelden + eigen woorden */}
-      {(personalGallery.length > 0 || siteScreenshot) && (
-        <section id="analyse" className="relative py-16 md:py-24 border-b border-border overflow-hidden">
-          <div className="container mx-auto px-6 grid lg:grid-cols-12 gap-10 items-center">
-            <div className="lg:col-span-5">
-              <p className="text-xs font-semibold tracking-[0.2em] mb-4" style={{ color: primary }}>HET KARAKTER VAN {row.company_name.toUpperCase()}</p>
-              <h2 className="font-display text-3xl md:text-4xl tracking-tight mb-4" style={headingStyle}>
-                We hebben uw verhaal goed gelezen.
-              </h2>
-              <p className="text-base leading-relaxed mb-4" style={mutedStyle}>
-                {personalPitch || summary || `${row.company_name} heeft een sterke positie en een duidelijk verhaal. Daarom maakten we deze pagina in uw eigen stijl.`}
+              <p className="mt-6 text-base md:text-xl max-w-[640px] leading-relaxed abm-muted">
+                {subtitle}
               </p>
-              {(personalBullets.length > 0 || clientObservations.length > 0) && (
-                <ul className="space-y-2 mt-5">
-                  {(personalBullets.length > 0
-                    ? personalBullets.slice(0, 4).map((t) => ({ title: t }))
-                    : clientObservations.slice(0, 3)
-                  ).map((o, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm">
-                      <span className="mt-1 h-1.5 w-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: primary }} />
-                      <span style={{ color: textColor }}>{o.title}</span>
-                    </li>
-                  ))}
-                </ul>
-              )}
-              {personalTagline && (
-                <blockquote className="mt-6 pl-4 border-l-2 italic text-sm leading-relaxed" style={{ borderColor: primary, color: textColor }}>
-                  "{personalTagline}"
-                </blockquote>
-              )}
+            )}
+            <div className="mt-10 flex flex-wrap items-center gap-5">
+              <Button asChild size="lg" style={brandBtn} className="shadow-lg">
+                <a href={ctaUrl}>
+                  {ctaLabel}
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </a>
+              </Button>
+              <a href="#uitdaging" className="text-sm font-medium hover:underline" style={{ color: primary }}>
+                Lees verder ↓
+              </a>
             </div>
-            <div className="lg:col-span-7 relative">
-              <div className="absolute -inset-6 rounded-3xl blur-3xl opacity-30 pointer-events-none" style={{ background: `linear-gradient(135deg, ${primary}, ${accent})` }} />
-              {personalGallery.length > 0 ? (
-                <div className="relative grid grid-cols-6 grid-rows-2 gap-3 h-[460px]">
-                  {personalGallery.slice(0, 5).map((src, i) => {
-                    // Masonry layout: 1st big, then variety
-                    const positions = [
-                      "col-span-4 row-span-2",
-                      "col-span-2 row-span-1",
-                      "col-span-2 row-span-1",
-                      "col-span-3 row-span-1",
-                      "col-span-3 row-span-1",
-                    ];
-                    return (
-                      <motion.div
-                        key={i}
-                        initial={{ opacity: 0, y: 16 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, margin: "-50px" }}
-                        transition={{ duration: 0.5, delay: i * 0.08 }}
-                        className={`${positions[i] || "col-span-2 row-span-1"} relative overflow-hidden rounded-xl border shadow-lg`}
-                        style={{ borderColor: `${primary}40` }}
-                      >
-                        <img src={src} alt="" loading="lazy" className="w-full h-full object-cover" />
-                      </motion.div>
-                    );
-                  })}
-                </div>
-              ) : siteScreenshot ? (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.96 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true, margin: "-100px" }}
-                  transition={{ duration: 0.7 }}
-                  className="relative rounded-xl overflow-hidden border shadow-2xl"
-                  style={{ borderColor: `${primary}40` }}
-                >
-                  <img src={siteScreenshot} alt={`${row.company_name}`} className="w-full h-auto block max-h-[520px] object-top object-cover" />
-                </motion.div>
-              ) : null}
-            </div>
+          </motion.div>
+
+          {/* Bottom: meta line */}
+          <div className="flex justify-between items-end pt-6 border-t" style={{ borderColor }}>
+            <p className="text-xs abm-muted">b2bgroeimachine.io</p>
+            <p className="text-xs abm-muted text-right">
+              Signal-Based Prospecting Systems<br />
+              powered by Rebel Force
+            </p>
           </div>
         </section>
-      )}
 
-      {/* Manifest — Hormozi-stijl: signaalprobleem & bewegende markt */}
-      <section className="relative py-20 md:py-28 border-b overflow-hidden" style={{ borderColor, backgroundColor: bgColor }}>
-        <div className="absolute inset-0 abm-dots opacity-30 pointer-events-none" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full blur-3xl opacity-20 pointer-events-none" style={{ background: `radial-gradient(circle, ${primary} 0%, transparent 70%)` }} />
-        <div className="container mx-auto px-6 relative max-w-5xl">
-          <p className="text-xs font-semibold tracking-[0.25em] uppercase mb-6 text-center" style={{ color: primary }}>
-            Het echte probleem
-          </p>
-          <h2 className="font-display text-4xl md:text-6xl lg:text-7xl tracking-tight leading-[1.02] text-center mb-4" style={headingStyle}>
-            U heeft geen leadprobleem.
-          </h2>
-          <h2 className="font-display text-4xl md:text-6xl lg:text-7xl tracking-tight leading-[1.02] text-center mb-16" style={{ ...headingStyle, color: primary }}>
-            U heeft een signaalprobleem.
+        {/* ── 2. DE UITDAGING ── */}
+        <motion.section
+          id="uitdaging"
+          {...fadeIn}
+          className="px-6 md:px-16 lg:px-[72px] py-20 md:py-24 border-b"
+          style={{ borderColor, backgroundColor: bgColor }}
+        >
+          <SectionLabel>De uitdaging</SectionLabel>
+          <h2 className="abm-display font-bold text-[clamp(1.8rem,3.5vw,2.8rem)] leading-[1.18] tracking-tight max-w-[680px] mb-10">
+            Wat we bij {row.company_name} zien.
           </h2>
 
-          <p className="font-display text-2xl md:text-3xl text-center mb-10 leading-snug" style={headingStyle}>
-            Uw markt beweegt al.
-          </p>
+          <div className="max-w-[640px] space-y-5 leading-relaxed">
+            <p className="abm-muted text-base md:text-lg">{challengeBody}</p>
+          </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-12">
-            {[
-              { icon: Eye, t: "Mensen bezoeken uw site" },
-              { icon: Mail, t: "Ze openen uw mails" },
-              { icon: Linkedin, t: "Ze bekijken profielen" },
-              { icon: MousePointerClick, t: "Ze reageren op content" },
-              { icon: Repeat, t: "Ze wisselen van leverancier" },
-              { icon: TrendingUp, t: "Ze groeien, krimpen, huren" },
-            ].map(({ icon: Icon, t }, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.4, delay: i * 0.05 }}
-                className="flex items-center gap-3 p-4 rounded-xl border"
-                style={{ borderColor: `${primary}30`, backgroundColor: `${surfaceColor}80` }}
-              >
-                <span className="inline-flex h-9 w-9 rounded-lg items-center justify-center flex-shrink-0" style={softBrand}>
-                  <Icon className="h-4 w-4" />
+          {challengeBullets.length > 0 && (
+            <ul className="mt-10 grid gap-3 max-w-[640px]">
+              {challengeBullets.map((b, i) => (
+                <li key={i} className="flex items-start gap-3 text-sm md:text-base leading-relaxed">
+                  <span className="mt-2 h-1.5 w-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: primary }} />
+                  <span>{b}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </motion.section>
+
+        {/* ── 3. ONZE AANPAK ── */}
+        <motion.section
+          {...fadeIn}
+          className="px-6 md:px-16 lg:px-[72px] py-20 md:py-24 border-b"
+          style={{ borderColor, backgroundColor: surfaceColor }}
+        >
+          <SectionLabel>Onze aanpak</SectionLabel>
+          <h2 className="abm-display font-bold text-[clamp(1.8rem,3.5vw,2.8rem)] leading-[1.18] tracking-tight max-w-[680px] mb-12">
+            Wij bouwen systemen.{" "}
+            <span className="italic font-medium" style={{ color: primary }}>U plukt de vruchten.</span>
+          </h2>
+
+          <div className="grid md:grid-cols-3 gap-10 md:gap-12 max-w-[920px]">
+            {pillars.map((pillar) => (
+              <div key={pillar.num} className="pt-6 border-t" style={{ borderColor }}>
+                <span className="abm-display text-3xl font-light leading-none mb-4 block" style={{ color: `${textColor}40` }}>
+                  {pillar.num}
                 </span>
-                <span className="text-sm md:text-base font-medium">{t}</span>
-              </motion.div>
-            ))}
-          </div>
-
-          <div className="max-w-3xl mx-auto text-center space-y-6">
-            <p className="font-display text-2xl md:text-4xl leading-tight" style={headingStyle}>
-              Maar u ziet het pas als ze een formulier invullen.
-            </p>
-            <p className="font-display text-3xl md:text-5xl leading-tight" style={{ ...headingStyle, color: primary }}>
-              En dan bent u te laat.
-            </p>
-            <div className="h-px w-24 mx-auto my-8" style={{ backgroundColor: `${primary}80` }} />
-            <p className="text-lg md:text-xl leading-relaxed" style={mutedStyle}>
-              B2BGroeiMachine bouwt het systeem dat die signalen eerder herkent, weegt en omzet naar commerciële actie. Geen losse lijst. Geen eenmalige campagne. Een werkend brein dat blijft staan.
-            </p>
-            <div className="grid sm:grid-cols-3 gap-3 pt-6 text-left">
-              {[
-                "Context vastleggen",
-                "Markt mappen",
-                "Accounts verrijken",
-                "Signalen meten",
-                "Engagement activeren",
-                "Sales routeren",
-              ].map((s, i) => (
-                <div key={i} className="flex items-center gap-2 text-sm" style={{ color: textColor }}>
-                  <span className="font-mono text-xs" style={{ color: primary }}>0{i + 1}</span>
-                  <span>{s}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Value bar */}
-      {(summary || valueBar.length > 0) && (
-        <section className="border-b border-border" style={{ backgroundColor: primary }}>
-          <div className="container mx-auto px-6 py-6 grid md:grid-cols-12 gap-6 items-center text-white">
-            {summary && (
-              <p className="md:col-span-7 text-sm md:text-base leading-relaxed">{summary}</p>
-            )}
-            {valueBar.length > 0 && (
-              <ul className="md:col-span-5 grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
-                {valueBar.slice(0, 4).map((v, i) => (
-                  <li key={i} className="text-[10px] md:text-xs font-semibold tracking-wider uppercase">{v}</li>
-                ))}
-              </ul>
-            )}
-          </div>
-        </section>
-      )}
-
-      {/* 0 — Client observations (deep personalisation) */}
-      {clientObservations.length > 0 && (
-        <Section title={`Wat wij van ${row.company_name} zien`}>
-          {observationImage && (
-            <div className="mb-6 rounded-2xl overflow-hidden border border-border max-w-3xl">
-              <img src={observationImage} alt="" className="w-full h-auto block" loading="lazy" />
-            </div>
-          )}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {clientObservations.map((s, i) => (
-              <div key={i} className="p-5 rounded-xl border border-border bg-card">
-                <p className="text-[10px] uppercase tracking-wider mb-2" style={{ color: primary }}>Observatie {i + 1}</p>
-                <h3 className="font-semibold text-sm mb-1">{s.title}</h3>
-                {s.description && <p className="text-xs text-muted-foreground leading-relaxed">{s.description}</p>}
+                <h3 className="abm-display font-semibold text-sm mb-2">{pillar.title}</h3>
+                <p className="text-sm leading-relaxed abm-muted">{pillar.desc}</p>
               </div>
             ))}
           </div>
-        </Section>
-      )}
+        </motion.section>
 
-      {/* 1 — Opportunity */}
-      {opportunitySteps.length > 0 && (
-        <Section num={1} title={opportunity.title || "Waar wij de kans zien"}>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {opportunitySteps.map((s, i) => (
-              <div key={i} className="p-5 rounded-xl border border-border bg-card">
-                <div className="h-9 w-9 rounded-lg flex items-center justify-center mb-3" style={softBrand}>
-                  <span className="text-sm font-bold">{i + 1}</span>
-                </div>
-                <h3 className="font-medium mb-1 text-sm">{s.title}</h3>
-                {s.description && <p className="text-xs text-muted-foreground leading-relaxed">{s.description}</p>}
+        {/* ── 4. HET SYSTEEM ── */}
+        <motion.section
+          {...fadeIn}
+          className="px-6 md:px-16 lg:px-[72px] py-20 md:py-24 border-b"
+          style={{ borderColor, backgroundColor: bgColor }}
+        >
+          <SectionLabel>Het systeem</SectionLabel>
+          <h2 className="abm-display font-bold text-[clamp(1.8rem,3.5vw,2.8rem)] leading-[1.18] tracking-tight max-w-[680px] mb-12">
+            Vier lagen.{" "}
+            <span className="italic font-medium" style={{ color: primary }}>Eén systeem.</span>
+          </h2>
+
+          <div className="grid md:grid-cols-2 gap-5 max-w-[880px]">
+            {layers.map((layer) => (
+              <div key={layer.label} className="p-6 rounded-lg border abm-surface">
+                <h3 className="text-xs abm-display font-semibold tracking-[0.08em] uppercase mb-3" style={{ color: primary }}>
+                  {layer.label}
+                </h3>
+                <p className="text-sm leading-relaxed abm-muted">{layer.text}</p>
               </div>
             ))}
           </div>
-        </Section>
-      )}
+        </motion.section>
 
-      {/* 2 — Approach (numbered process arrow) */}
-      {approachSteps.length > 0 && (
-        <Section num={2} title={approach.title || `Wat dit voor ${row.company_name} kan betekenen`} className="bg-card/40 border-y border-border">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            {approachSteps.map((s, i) => {
-              const Icon = STEP_ICONS[i % STEP_ICONS.length];
-              return (
-                <div key={i} className="relative">
-                  <div className="p-4 rounded-xl border border-border bg-background h-full">
-                    <div className="flex items-center gap-2 mb-3">
-                      <span className="inline-flex items-center justify-center h-6 w-6 rounded-full text-[10px] font-bold text-white" style={{ backgroundColor: primary }}>{i + 1}</span>
-                      <Icon className="h-4 w-4" style={{ color: primary }} />
-                    </div>
-                    <h3 className="font-semibold text-sm mb-1">{s.title}</h3>
-                    {s.description && <p className="text-xs text-muted-foreground leading-snug">{s.description}</p>}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </Section>
-      )}
-
-      {/* 3 & 4 — Target accounts + Products */}
-      {(targetAccounts.length > 0 || products.length > 0) && (
-        <section className="py-14 border-b border-border">
-          <div className="container mx-auto px-6 grid lg:grid-cols-2 gap-10">
-            {targetAccounts.length > 0 && (
-              <div>
-                <div className="flex items-center gap-3 mb-6">
-                  <span className="inline-flex items-center justify-center h-7 w-7 rounded text-xs font-bold text-white" style={{ backgroundColor: primary }}>3</span>
-                  <h2 className="font-display text-2xl md:text-3xl">Target account universe</h2>
-                </div>
-                <div className="grid grid-cols-2 gap-3">
-                  {targetAccounts.map((a, i) => (
-                    <div key={i} className="p-4 rounded-xl border border-border bg-card flex items-center gap-3">
-                      <Users className="h-4 w-4 flex-shrink-0" style={{ color: primary }} />
-                      <span className="text-sm font-medium leading-tight">{a}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-            {products.length > 0 && (
-              <div>
-                <div className="flex items-center gap-3 mb-6">
-                  <span className="inline-flex items-center justify-center h-7 w-7 rounded text-xs font-bold text-white" style={{ backgroundColor: primary }}>4</span>
-                  <h2 className="font-display text-2xl md:text-3xl">Producten & proposities</h2>
-                </div>
-                <div className="grid grid-cols-2 gap-3">
-                  {products.map((pr, i) => (
-                    <div key={i} className="p-4 rounded-xl border border-border bg-card flex items-center gap-3">
-                      <Check className="h-4 w-4 flex-shrink-0" style={{ color: primary }} />
-                      <span className="text-sm font-medium leading-tight">{pr}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-        </section>
-      )}
-
-      {/* 5 — Signal-based activation */}
-      {(signals.length > 0 || tiers.length > 0) && (
-        <Section num={5} title="Signal-based activatie" className="bg-card/40 border-b border-border">
-          <div className="grid lg:grid-cols-12 gap-6 items-stretch">
-            {signals.length > 0 && (
-              <div className="lg:col-span-5">
-                <p className="text-xs uppercase tracking-wider text-muted-foreground mb-3">Signalen die we volgen</p>
-                <ul className="space-y-2">
-                  {signals.map((s, i) => (
-                    <li key={i} className="flex items-center gap-3 p-3 rounded-lg border border-border bg-background">
-                      <Radio className="h-4 w-4 flex-shrink-0" style={{ color: primary }} />
-                      <span className="text-sm">{s}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-            <div className="lg:col-span-2 flex items-center justify-center text-xs text-muted-foreground py-4">
-              <div className="text-center">
-                <div className="text-[10px] uppercase tracking-wider mb-1">scoring &amp; profilering</div>
-                <ArrowRight className="h-6 w-6 mx-auto lg:block hidden" style={{ color: primary }} />
-              </div>
-            </div>
-            {tiers.length > 0 && (
-              <div className="lg:col-span-5 space-y-3">
-                <p className="text-xs uppercase tracking-wider text-muted-foreground mb-3">Account tiering</p>
-                {tiers.map((t, i) => (
-                  <div key={i} className="p-4 rounded-xl border-2" style={{ borderColor: primary, backgroundColor: `${primary}0A` }}>
-                    <div className="flex items-center justify-between mb-1">
-                      <span className="font-display font-semibold text-sm" style={{ color: primary }}>Tier {i + 1}</span>
-                    </div>
-                    <p className="font-semibold text-sm">{t.title}</p>
-                    {t.description && <p className="text-xs text-muted-foreground mt-1">{t.description}</p>}
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        </Section>
-      )}
-
-      {/* 6 — Expected output */}
-      {expectedOutput.length > 0 && (
-        <Section num={6} title="Verwachte output">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
-            {expectedOutput.map((o, i) => (
-              <div key={i} className="p-4 rounded-xl border border-border bg-card text-center">
-                <div className="h-8 w-8 rounded-lg mx-auto mb-2 flex items-center justify-center" style={softBrand}>
-                  <BarChart3 className="h-4 w-4" />
-                </div>
-                <p className="text-xs font-medium leading-snug">{o}</p>
-              </div>
-            ))}
-          </div>
-        </Section>
-      )}
-
-      {/* 7 — Client expertise (Onze expertise — about client) */}
-      {clientExpertise.length > 0 && (
-        <Section num={7} title={`Sterktes van ${row.company_name}`} className="bg-card/40 border-y border-border">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {clientExpertise.map((e, i) => (
-              <div key={i} className="p-5 rounded-xl border border-border bg-background">
-                <div className="h-9 w-9 rounded-lg mb-3 flex items-center justify-center" style={softBrand}>
-                  <Award className="h-4 w-4" />
-                </div>
-                <h3 className="font-semibold text-sm mb-1">{e.title}</h3>
-                {e.description && <p className="text-xs text-muted-foreground leading-relaxed">{e.description}</p>}
-              </div>
-            ))}
-          </div>
-        </Section>
-      )}
-
-      {/* Routing table */}
-      {routing.length > 0 && (
-        <section className="py-14 border-b border-border">
-          <div className="container mx-auto px-6">
-          <h2 className="font-display text-2xl md:text-3xl mb-6">Routing: signalen naar het juiste team</h2>
-            <div className="rounded-xl border border-border overflow-hidden">
-              <table className="w-full text-sm">
-                <thead style={{ backgroundColor: `${primary}14` }}>
-                  <tr className="text-left">
-                    <th className="px-4 py-3 font-semibold">Signaal</th>
-                    <th className="px-4 py-3 font-semibold">Actie</th>
-                    <th className="px-4 py-3 font-semibold">Route naar</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {routing.map((r, i) => (
-                    <tr key={i} className="border-t border-border">
-                      <td className="px-4 py-3">{r.signal}</td>
-                      <td className="px-4 py-3 text-muted-foreground">{r.action}</td>
-                      <td className="px-4 py-3 font-medium" style={{ color: primary }}>{r.team}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Certifications strip */}
-      {certifications.length > 0 && (
-        <section className="py-8 border-b border-border bg-card/40">
-          <div className="container mx-auto px-6 flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
-            {certifications.map((c, i) => (
-              <div key={i} className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                <Shield className="h-4 w-4" style={{ color: primary }} />
-                {c}
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
-
-      {/* Our (B2BGroeiMachine) expertise */}
-      {ourExpertise.length > 0 && (
-        <Section title="B2BGroeiMachine expertise">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {ourExpertise.map((e, i) => (
-              <div key={i} className="p-5 rounded-xl border-2 bg-card" style={{ borderColor: `${primary}60` }}>
-                <h3 className="font-semibold text-sm mb-2 text-foreground">{e.title}</h3>
-                {e.description && <p className="text-xs text-muted-foreground leading-relaxed">{e.description}</p>}
-              </div>
-            ))}
-          </div>
-        </Section>
-      )}
-
-      {/* Why B2BGroeiMachine for this client */}
-      {(ourFit.length > 0 || caseProof.length > 0) && (
-        <Section title={`Waarom B2BGroeiMachine voor ${row.company_name}`} className="bg-card/40 border-y border-border">
-          {ourFit.length > 0 && (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-              {ourFit.map((e, i) => (
-                <div key={i} className="p-5 rounded-xl border border-border bg-background">
-                  <div className="h-9 w-9 rounded-lg mb-3 flex items-center justify-center" style={softBrand}>
-                    <Check className="h-4 w-4" />
-                  </div>
-                  <h3 className="font-semibold text-sm mb-1">{e.title}</h3>
-                  {e.description && <p className="text-xs text-muted-foreground leading-relaxed">{e.description}</p>}
-                </div>
-              ))}
-            </div>
-          )}
-          {caseProof.length > 0 && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {caseProof.map((e, i) => (
-                <div key={i} className="p-5 rounded-xl border-2" style={{ borderColor: `${primary}40` }}>
-                  <p className="text-[10px] uppercase tracking-wider mb-2" style={{ color: primary }}>Casevoorbeeld</p>
-                  <h3 className="font-semibold text-sm mb-1">{e.title}</h3>
-                  {e.description && <p className="text-xs text-muted-foreground leading-relaxed">{e.description}</p>}
-                </div>
-              ))}
-            </div>
-          )}
-        </Section>
-      )}
-
-      {/* Final CTA banner */}
-      {/* Rollen — wie we concreet helpen bij {row.company_name} */}
-      <section className="py-20 md:py-24 border-b" style={{ borderColor, backgroundColor: bgColor }}>
-        <div className="container mx-auto px-6">
-          <div className="max-w-3xl mb-12">
-            <p className="text-xs font-semibold tracking-[0.25em] uppercase mb-4" style={{ color: primary }}>
-              Wie we concreet helpen bij {row.company_name}
-            </p>
-            <h2 className="font-display text-3xl md:text-5xl tracking-tight leading-tight mb-4" style={headingStyle}>
-              Niet harder zoeken naar leads. <span style={{ color: primary }}>Slimmer zien wie al beweegt.</span>
+        {/* ── 5. CLOSING ── */}
+        <section className="px-6 md:px-16 lg:px-[72px] py-24 md:py-32" style={{ backgroundColor: bgColor }}>
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="flex flex-col gap-8 max-w-[720px]"
+          >
+            <SectionLabel>Tot slot</SectionLabel>
+            <h2 className="abm-display font-bold text-[clamp(1.8rem,3.6vw,2.8rem)] leading-[1.18] tracking-tight">
+              Klaar voor het gesprek,{" "}
+              <span className="italic font-medium" style={{ color: primary }}>{row.company_name}?</span>
             </h2>
-            <p className="text-base md:text-lg leading-relaxed" style={mutedStyle}>
-              We helpen niet "het bedrijf". We helpen de rollen die dagelijks commerciële kansen missen door versnipperde signalen.
+            <p className="text-base md:text-lg leading-relaxed abm-muted max-w-[560px]">
+              Wij bouwen niet voor leads. Wij bouwen een systeem dat elke maand sterker wordt. Geen losse campagne. Geen tool-stack. Een werkend brein dat blijft staan.
             </p>
-          </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {[
-              { icon: Building2, role: "Directie & founder", hook: "Van groei op toeval naar groei op systeem.", body: "Grip op welke markten beweging tonen en welke acties resultaat opleveren." },
-              { icon: Target, role: "Salesmanager", hook: "Weten wie nú aandacht verdient.", body: "Accounts gescoord, signalen zichtbaar, opvolging gerouteerd naar het juiste team." },
-              { icon: Briefcase, role: "Accountmanagers", hook: "Meer relevante klantmomenten.", body: "Salesalerts op heractivatie, cross-sell, dalende afname en warme signalen." },
-              { icon: Users, role: "Inside sales & SDR", hook: "Elke dag weten wie u belt en waarom.", body: "Gescoorde accounts, duidelijke flows, prioriteiten en scripts per segment." },
-              { icon: Megaphone, role: "Marketing", hook: "Van campagnecijfers naar commerciële actie.", body: "Signal-based engagement, lead scoring en routing met inzicht in wie écht beweegt." },
-              { icon: Headphones, role: "Service & operations", hook: "Service als bron van commerciële intelligentie.", body: "Servicehistorie, klachten en gebruik vertaald naar upsell en retentie." },
-            ].map(({ icon: Icon, role, hook, body }, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.4, delay: i * 0.05 }}
-                className="p-6 rounded-2xl border bg-card flex flex-col"
-                style={cardStyle}
-              >
-                <div className="flex items-center gap-3 mb-4">
-                  <span className="inline-flex h-10 w-10 rounded-lg items-center justify-center" style={softBrand}>
-                    <Icon className="h-5 w-5" />
-                  </span>
-                  <h3 className="font-display font-semibold text-base" style={headingStyle}>{role}</h3>
-                </div>
-                <p className="font-display text-lg leading-snug mb-3" style={{ ...headingStyle, color: primary }}>
-                  {hook}
-                </p>
-                <p className="text-sm leading-relaxed" style={mutedStyle}>{body}</p>
-              </motion.div>
-            ))}
-          </div>
-
-          <div className="mt-12 p-6 md:p-8 rounded-2xl border-2 max-w-4xl mx-auto text-center" style={{ borderColor: `${primary}40`, backgroundColor: `${primary}0D` }}>
-            <p className="font-display text-xl md:text-2xl leading-snug" style={headingStyle}>
-              Wij helpen commerciële teams om <span style={{ color: primary }}>niet harder te werken</span>, maar eerder te zien waar beweging zit en sneller de juiste actie te starten.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section className="relative py-14 text-white overflow-hidden" style={{ backgroundColor: primary }}>
-        {(personalOg || personalGallery[0] || ctaImage) && (
-          <>
-            <div className="absolute inset-0 pointer-events-none">
-              <img src={personalOg || personalGallery[0] || ctaImage} alt="" className="w-full h-full object-cover opacity-30" />
+            <div className="mt-2 flex flex-wrap items-center gap-5">
+              <Button asChild size="lg" style={brandBtn} className="shadow-lg">
+                <a href={ctaUrl}>
+                  {ctaLabel}
+                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </a>
+              </Button>
             </div>
-            <div className="absolute inset-0 pointer-events-none" style={{ background: `linear-gradient(135deg, ${primary}E6 0%, ${primary}CC 60%, ${accent}CC 100%)` }} />
-          </>
-        )}
-        <div className="container mx-auto px-6 text-center relative">
-          <h2 className="font-display text-2xl md:text-4xl mb-6 max-w-3xl mx-auto leading-tight">{ctaHeadline}</h2>
-          <Button asChild size="lg" className="bg-white text-black hover:bg-white/90 border-white">
-            <a href={ctaUrl}>{ctaLabel} <ArrowRight className="ml-2 h-4 w-4" /></a>
-          </Button>
-          <p className="text-xs mt-6 opacity-70">B2BGroeiMachine, uw partner in voorspelbare B2B groei.</p>
-        </div>
-      </section>
+
+            {(contactName || contactPhone || contactEmail) && (
+              <div className="mt-6 pt-6 border-t text-sm abm-muted" style={{ borderColor }}>
+                {contactName && <span className="block font-medium" style={{ color: textColor }}>{contactName}</span>}
+                <div className="flex flex-wrap gap-x-5 gap-y-1 mt-1">
+                  {contactPhone && <a href={`tel:${contactPhone.replace(/\s/g, "")}`} className="hover:underline">{contactPhone}</a>}
+                  {contactEmail && <a href={`mailto:${contactEmail}`} className="hover:underline">{contactEmail}</a>}
+                </div>
+              </div>
+            )}
+          </motion.div>
+        </section>
+      </div>
     </div>
   );
 };
