@@ -12,6 +12,7 @@ export interface BentoItem {
     cta?: string;
     colSpan?: number;
     hasPersistentHover?: boolean;
+    featured?: boolean;
 }
 
 interface BentoGridProps {
