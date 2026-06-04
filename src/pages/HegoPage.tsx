@@ -330,8 +330,8 @@ const HegoPage = () => {
         </div>
       </section>
 
-      {/* 8 playbooks van de homepage */}
-      <HowItWorksSection />
+      {/* 8 playbooks van de homepage — in HEGO brandkleur */}
+      <HowItWorksSection accent={HEGO.primaryGlow} />
 
       {/* Client logos */}
       {clients.length > 0 && (
