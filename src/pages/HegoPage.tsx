@@ -342,22 +342,34 @@ const HegoPage = () => {
           {(() => {
             const icons = [Compass, Brain, Filter, Calculator, Layers, SendIcon, Route, LineChart];
             const phases = ["Fundament", "Fundament", "Doelgroep", "Doelgroep", "Activatie", "Activatie", "Sales", "Optimalisatie"];
+            const baseItems = COPY.methode.layers.map((l, i) => {
+              const Icon = icons[i];
+              return {
+                title: `${l.number} · ${l.title}`,
+                description: l.line,
+                icon: <Icon className="w-5 h-5" strokeWidth={1.6} />,
+                status: `Playbook · ${phases[i]}`,
+                tags: [l.output.replace(/^U krijgt:\s*/i, "").replace(/\.$/, "")],
+                colSpan: i === 0 ? 2 : 1,
+                hasPersistentHover: i === 0,
+                featured: true,
+              };
+            });
+            const pricingItem = {
+              title: "Bekijk de pricing",
+              description: "Drie heldere plannen. Growth System, Build Sprint of GTM-uren. Eén klik.",
+              icon: <Tag className="w-5 h-5" strokeWidth={1.6} />,
+              status: "Pricing · HEGO",
+              tags: ["transparant", "schaalbaar"],
+              cta: "Open pricing →",
+              colSpan: 1,
+              featured: true,
+              onClick: () => setPricingOpen(true),
+            };
             return (
               <BentoGrid
                 accent={HEGO.primaryGlow}
-                items={COPY.methode.layers.map((l, i) => {
-                  const Icon = icons[i];
-                  return {
-                    title: `${l.number} · ${l.title}`,
-                    description: l.line,
-                    icon: <Icon className="w-5 h-5" strokeWidth={1.6} />,
-                    status: `Playbook · ${phases[i]}`,
-                    tags: [l.output.replace(/^U krijgt:\s*/i, "").replace(/\.$/, "")],
-                    colSpan: i === 0 || i === 7 ? 2 : 1,
-                    hasPersistentHover: i === 0,
-                    featured: i === 0,
-                  };
-                })}
+                items={[...baseItems, pricingItem]}
               />
             );
           })()}
