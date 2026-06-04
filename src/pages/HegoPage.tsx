@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import { ArrowRight, Check, Download, FileText, Radar, Database, Send, Workflow, Sparkles, BarChart3, ChevronLeft, ChevronRight } from "lucide-react";
 import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/Page/AnnotationLayer.css";
@@ -12,7 +12,6 @@ import { supabase } from "@/integrations/supabase/client";
 import { faviconFor } from "@/data/groeistack";
 import CtaLink from "@/components/CtaLink";
 import pdfAsset from "@/assets/hego-playbook.pdf.asset.json";
-import { GoogleGeminiEffect } from "@/components/ui/google-gemini-effect";
 
 // Configure pdf.js worker from CDN (matches installed pdfjs-dist version)
 pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
@@ -90,13 +89,6 @@ const HegoPage = () => {
   const [page, setPage] = useState(1);
   const [viewerWidth, setViewerWidth] = useState(900);
   const viewerRef = useRef<HTMLDivElement | null>(null);
-  const heroRef = useRef<HTMLDivElement | null>(null);
-  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
-  const p1 = useTransform(scrollYProgress, [0, 0.8], [0.2, 1.2]);
-  const p2 = useTransform(scrollYProgress, [0, 0.8], [0.15, 1.2]);
-  const p3 = useTransform(scrollYProgress, [0, 0.8], [0.1, 1.2]);
-  const p4 = useTransform(scrollYProgress, [0, 0.8], [0.05, 1.2]);
-  const p5 = useTransform(scrollYProgress, [0, 0.8], [0, 1.2]);
 
   useEffect(() => {
     const update = () => {
@@ -142,8 +134,7 @@ const HegoPage = () => {
 
       {/* Hero — Gemini-style scroll-driven flowlines */}
       <section
-        ref={heroRef}
-        className="relative h-[200vh] border-b border-border bg-background overflow-clip"
+        className="relative min-h-[88vh] flex items-center border-b border-border bg-background overflow-hidden"
       >
         <div
           className="absolute -top-32 -left-24 w-[520px] h-[520px] rounded-full blur-3xl opacity-30 pointer-events-none"
@@ -153,24 +144,60 @@ const HegoPage = () => {
           className="absolute -bottom-40 -right-24 w-[520px] h-[520px] rounded-full blur-3xl opacity-25 pointer-events-none"
           style={{ background: `radial-gradient(circle, ${HEGO.primaryGlow} 0%, transparent 70%)` }}
         />
-        <div className="container mx-auto px-4 md:px-6 relative">
-          <div className="pt-28 md:pt-32 flex justify-center">
+
+        {/* Gemini-style flowlines as background */}
+        <svg
+          width="1440"
+          height="890"
+          viewBox="0 0 1440 890"
+          xmlns="http://www.w3.org/2000/svg"
+          preserveAspectRatio="xMidYMid slice"
+          className="absolute inset-0 w-full h-full pointer-events-none opacity-70"
+          aria-hidden
+        >
+          {[
+            { d: "M0 663C145.5 663 191 666.5 269 626C347 585.5 408.5 562.5 506.5 542.5C604.5 522.5 658 540 716 547C774 554 803.5 543.5 859 522.5C914.5 501.5 943 490.5 1024.5 490.5C1106 490.5 1168 535 1232.5 543C1297 551 1361 547 1440 547", color: HEGO.primary, delay: 0 },
+            { d: "M0 587C147.5 587 145.5 587 224 587C302.5 587 351 591 419 571C487 551 543 521 615 521C687 521 729 543 791 561C853 579 893 593 977 575C1061 557 1099 511 1170 491C1241 471 1301 503 1440 503", color: HEGO.primaryGlow, delay: 0.15 },
+            { d: "M0 514C147.5 514 195.5 514 274 514C352.5 514 395 514 478 514C561 514 593 528 671 528C749 528 802 510 880 510C958 510 1011 528 1089 528C1167 528 1212 514 1290 514C1368 514 1364.5 514 1440 514", color: "#4FABFF", delay: 0.3 },
+            { d: "M0 438C147.5 438 145.5 438 224 438C302.5 438 351 438 419 458C487 478 543 508 615 508C687 508 729 486 791 468C853 450 893 436 977 454C1061 472 1099 518 1170 538C1241 558 1301 526 1440 526", color: HEGO.silver, delay: 0.45 },
+            { d: "M0 364C145.5 364 191 360.5 269 401C347 441.5 408.5 464.5 506.5 484.5C604.5 504.5 658 487 716 480C774 473 803.5 483.5 859 504.5C914.5 525.5 943 536.5 1024.5 536.5C1106 536.5 1168 492 1232.5 484C1297 476 1361 480 1440 480", color: "#8FB8FE", delay: 0.6 },
+          ].map((p, i) => (
+            <motion.path
+              key={i}
+              d={p.d}
+              stroke={p.color}
+              strokeWidth={2}
+              fill="none"
+              initial={{ pathLength: 0, opacity: 0 }}
+              animate={{ pathLength: 1, opacity: 0.9 }}
+              transition={{ duration: 2.6, delay: p.delay, ease: "easeInOut" }}
+            />
+          ))}
+        </svg>
+
+        <div className="container mx-auto px-4 md:px-6 relative z-10">
+          <div className="flex flex-col items-center text-center max-w-4xl mx-auto">
             <div
-              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold"
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold mb-8"
               style={{ backgroundColor: `${HEGO.primary}1F`, color: HEGO.primaryGlow, border: `1px solid ${HEGO.primary}55` }}
             >
               <span className="h-1.5 w-1.5 rounded-full animate-pulse" style={{ backgroundColor: HEGO.primaryGlow }} />
               HEGO × B2BGROEIMACHINE
             </div>
+            <h1 className="font-display font-bold text-4xl md:text-6xl lg:text-7xl tracking-tight leading-[1.05] mb-6">
+              Slimmer werken door automatiseren van handmatige acties.
+            </h1>
+            <p className="text-base md:text-lg text-muted-foreground max-w-2xl leading-relaxed mb-8">
+              Persoonlijk Market Activation Playbook voor HEGO. Hoe wij groothandel, traders, fabrikanten en metaalbewerkers activeren rond uw voorraad en maatwerk capaciteit.
+            </p>
+            <a
+              href="#playbook"
+              className="inline-flex items-center gap-2 font-semibold text-sm md:text-base rounded-full px-6 py-3 text-white hover:opacity-90 transition"
+              style={{ backgroundColor: HEGO.primary }}
+            >
+              Bekijk het playbook <ArrowRight className="h-4 w-4" />
+            </a>
           </div>
-          <GoogleGeminiEffect
-            pathLengths={[p1, p2, p3, p4, p5]}
-            title="Uw partner in RVS en aluminium. Snel geleverd, perfect op maat."
-            description="Persoonlijk Market Activation Playbook voor HEGO. Hoe wij groothandel, traders, fabrikanten en metaalbewerkers activeren rond uw voorraad en maatwerk capaciteit."
-            colors={[HEGO.primary, HEGO.primaryGlow, "#4FABFF", HEGO.silver, "#8FB8FE"]}
-            ctaLabel="Bekijk het playbook"
-            ctaHref="#playbook"
-          />
         </div>
       </section>
 
