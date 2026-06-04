@@ -735,6 +735,61 @@ const AbmPage = () => {
       )}
 
       {/* Final CTA banner */}
+      {/* Rollen — wie we concreet helpen bij {row.company_name} */}
+      <section className="py-20 md:py-24 border-b" style={{ borderColor, backgroundColor: bgColor }}>
+        <div className="container mx-auto px-6">
+          <div className="max-w-3xl mb-12">
+            <p className="text-xs font-semibold tracking-[0.25em] uppercase mb-4" style={{ color: primary }}>
+              Wie we concreet helpen bij {row.company_name}
+            </p>
+            <h2 className="font-display text-3xl md:text-5xl tracking-tight leading-tight mb-4" style={headingStyle}>
+              Niet harder zoeken naar leads. <span style={{ color: primary }}>Slimmer zien wie al beweegt.</span>
+            </h2>
+            <p className="text-base md:text-lg leading-relaxed" style={mutedStyle}>
+              We helpen niet "het bedrijf". We helpen de rollen die dagelijks commerciële kansen missen door versnipperde signalen.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {[
+              { icon: Building2, role: "Directie & founder", hook: "Van groei op toeval naar groei op systeem.", body: "Grip op welke markten beweging tonen en welke acties resultaat opleveren." },
+              { icon: Target, role: "Salesmanager", hook: "Weten wie nú aandacht verdient.", body: "Accounts gescoord, signalen zichtbaar, opvolging gerouteerd naar het juiste team." },
+              { icon: Briefcase, role: "Accountmanagers", hook: "Meer relevante klantmomenten.", body: "Salesalerts op heractivatie, cross-sell, dalende afname en warme signalen." },
+              { icon: Users, role: "Inside sales & SDR", hook: "Elke dag weten wie u belt en waarom.", body: "Gescoorde accounts, duidelijke flows, prioriteiten en scripts per segment." },
+              { icon: Megaphone, role: "Marketing", hook: "Van campagnecijfers naar commerciële actie.", body: "Signal-based engagement, lead scoring en routing met inzicht in wie écht beweegt." },
+              { icon: Headphones, role: "Service & operations", hook: "Service als bron van commerciële intelligentie.", body: "Servicehistorie, klachten en gebruik vertaald naar upsell en retentie." },
+            ].map(({ icon: Icon, role, hook, body }, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.4, delay: i * 0.05 }}
+                className="p-6 rounded-2xl border bg-card flex flex-col"
+                style={cardStyle}
+              >
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="inline-flex h-10 w-10 rounded-lg items-center justify-center" style={softBrand}>
+                    <Icon className="h-5 w-5" />
+                  </span>
+                  <h3 className="font-display font-semibold text-base" style={headingStyle}>{role}</h3>
+                </div>
+                <p className="font-display text-lg leading-snug mb-3" style={{ ...headingStyle, color: primary }}>
+                  {hook}
+                </p>
+                <p className="text-sm leading-relaxed" style={mutedStyle}>{body}</p>
+              </motion.div>
+            ))}
+          </div>
+
+          <div className="mt-12 p-6 md:p-8 rounded-2xl border-2 max-w-4xl mx-auto text-center" style={{ borderColor: `${primary}40`, backgroundColor: `${primary}0D` }}>
+            <p className="font-display text-xl md:text-2xl leading-snug" style={headingStyle}>
+              Wij helpen commerciële teams om <span style={{ color: primary }}>niet harder te werken</span>, maar eerder te zien waar beweging zit en sneller de juiste actie te starten.
+            </p>
+          </div>
+        </div>
+      </section>
+
       <section className="relative py-14 text-white overflow-hidden" style={{ backgroundColor: primary }}>
         {ctaImage && (
           <div className="absolute inset-0 pointer-events-none opacity-15">
