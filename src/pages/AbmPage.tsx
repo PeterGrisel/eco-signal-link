@@ -127,6 +127,15 @@ const AbmPage = () => {
   const ctaImage: string | undefined = assets.cta;
   const siteScreenshot: string | undefined = assets.siteScreenshot;
 
+  // Persoonlijke elementen uit Firecrawl (eigen woorden + beelden)
+  const personal = (p.personal && typeof p.personal === "object") ? p.personal : {};
+  const personalPitch: string | undefined = personal.pitch;
+  const personalTagline: string | undefined = personal.tagline;
+  const personalClaim: string | undefined = personal.siteClaim;
+  const personalBullets: string[] = Array.isArray(personal.bullets) ? personal.bullets.filter((x: any) => typeof x === "string" && x.trim()) : [];
+  const personalGallery: string[] = Array.isArray(personal.gallery) ? personal.gallery.filter((x: any) => typeof x === "string" && x.trim()) : [];
+  const personalOg: string | undefined = personal.ogImage;
+
   // Inject Google Fonts dynamically when client overrides typography
   useEffect(() => {
     const families: string[] = [];
