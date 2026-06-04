@@ -388,6 +388,14 @@ const PricingSection = () => {
         {/* Performance Partnership */}
         <PerformancePartnership />
 
+        {/* Aanvullende diensten */}
+        <div className="mt-10 md:mt-14">
+          <p className="text-center text-[11px] font-display font-semibold tracking-[0.2em] uppercase text-muted-foreground mb-5">
+            Aanvullende diensten
+          </p>
+          <ServiceCards />
+        </div>
+
         {/* Bottom note */}
         <motion.div
           initial={{ opacity: 0 }}
