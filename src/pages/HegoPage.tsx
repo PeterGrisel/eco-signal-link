@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, Check, Download, FileText, Radar, Database, Send, Workflow, Sparkles, BarChart3, ChevronLeft, ChevronRight } from "lucide-react";
 import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/Page/AnnotationLayer.css";
@@ -12,6 +12,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { faviconFor } from "@/data/groeistack";
 import CtaLink from "@/components/CtaLink";
 import pdfAsset from "@/assets/hego-playbook.pdf.asset.json";
+import { GoogleGeminiEffect } from "@/components/ui/google-gemini-effect";
 
 // Configure pdf.js worker from CDN (matches installed pdfjs-dist version)
 pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
@@ -89,6 +90,13 @@ const HegoPage = () => {
   const [page, setPage] = useState(1);
   const [viewerWidth, setViewerWidth] = useState(900);
   const viewerRef = useRef<HTMLDivElement | null>(null);
+  const heroRef = useRef<HTMLDivElement | null>(null);
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
+  const p1 = useTransform(scrollYProgress, [0, 0.8], [0.2, 1.2]);
+  const p2 = useTransform(scrollYProgress, [0, 0.8], [0.15, 1.2]);
+  const p3 = useTransform(scrollYProgress, [0, 0.8], [0.1, 1.2]);
+  const p4 = useTransform(scrollYProgress, [0, 0.8], [0.05, 1.2]);
+  const p5 = useTransform(scrollYProgress, [0, 0.8], [0, 1.2]);
 
   useEffect(() => {
     const update = () => {
@@ -132,8 +140,11 @@ const HegoPage = () => {
     <div className="min-h-screen bg-background text-foreground">
       <Navbar />
 
-      {/* Hero */}
-      <section className="relative overflow-hidden border-b border-border">
+      {/* Hero — Gemini-style scroll-driven flowlines */}
+      <section
+        ref={heroRef}
+        className="relative h-[200vh] border-b border-border bg-background overflow-clip"
+      >
         <div
           className="absolute -top-32 -left-24 w-[520px] h-[520px] rounded-full blur-3xl opacity-30 pointer-events-none"
           style={{ background: `radial-gradient(circle, ${HEGO.primary} 0%, transparent 70%)` }}
@@ -142,43 +153,24 @@ const HegoPage = () => {
           className="absolute -bottom-40 -right-24 w-[520px] h-[520px] rounded-full blur-3xl opacity-25 pointer-events-none"
           style={{ background: `radial-gradient(circle, ${HEGO.primaryGlow} 0%, transparent 70%)` }}
         />
-        <div className="container mx-auto px-4 md:px-6 pt-28 md:pt-36 pb-16 md:pb-24 relative">
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="max-w-3xl mx-auto text-center"
-          >
+        <div className="container mx-auto px-4 md:px-6 relative">
+          <div className="pt-28 md:pt-32 flex justify-center">
             <div
-              className="inline-flex items-center gap-2 mb-6 px-3 py-1.5 rounded-full text-xs font-semibold"
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold"
               style={{ backgroundColor: `${HEGO.primary}1F`, color: HEGO.primaryGlow, border: `1px solid ${HEGO.primary}55` }}
             >
               <span className="h-1.5 w-1.5 rounded-full animate-pulse" style={{ backgroundColor: HEGO.primaryGlow }} />
               HEGO × B2BGROEIMACHINE
             </div>
-            <h1 className="font-display font-bold text-4xl md:text-6xl lg:text-7xl tracking-tight leading-[1.04] mb-6">
-              Uw partner in RVS en aluminium:
-              <br />
-              <span style={{ color: HEGO.primaryGlow }}>snel geleverd, perfect op maat.</span>
-            </h1>
-            <p className="text-base md:text-lg text-muted-foreground leading-relaxed mb-8 max-w-2xl mx-auto">
-              Persoonlijk Market Activation Playbook voor HEGO. Hoe wij groothandel, traders, fabrikanten en metaalbewerkers
-              activeren rond uw voorraad en maatwerk capaciteit.
-            </p>
-            <div className="flex flex-wrap gap-3 justify-center">
-              <Button asChild size="lg" style={{ backgroundColor: HEGO.primary }} className="text-white hover:opacity-90">
-                <a href="#playbook">
-                  Bekijk het playbook <ArrowRight className="ml-2 h-4 w-4" />
-                </a>
-              </Button>
-              <Button asChild size="lg" variant="outline">
-                <a href={pdfAsset.url} download>
-                  <Download className="mr-2 h-4 w-4" />
-                  Download PDF
-                </a>
-              </Button>
-            </div>
-          </motion.div>
+          </div>
+          <GoogleGeminiEffect
+            pathLengths={[p1, p2, p3, p4, p5]}
+            title="Uw partner in RVS en aluminium. Snel geleverd, perfect op maat."
+            description="Persoonlijk Market Activation Playbook voor HEGO. Hoe wij groothandel, traders, fabrikanten en metaalbewerkers activeren rond uw voorraad en maatwerk capaciteit."
+            colors={[HEGO.primary, HEGO.primaryGlow, "#4FABFF", HEGO.silver, "#8FB8FE"]}
+            ctaLabel="Bekijk het playbook"
+            ctaHref="#playbook"
+          />
         </div>
       </section>
 
