@@ -24,6 +24,18 @@ interface BentoGridProps {
 function BentoGrid({ items, accent }: BentoGridProps) {
     const accentStyle = accent ? { color: accent } : undefined;
     const accentBorder = accent ? { borderColor: `${accent}33` } : undefined;
+    // Pick a readable foreground for filled accent chips (e.g. yellow needs dark text).
+    const accentForeground = (() => {
+        if (!accent) return "#ffffff";
+        const hex = accent.replace("#", "");
+        if (hex.length !== 6) return "#ffffff";
+        const r = parseInt(hex.slice(0, 2), 16);
+        const g = parseInt(hex.slice(2, 4), 16);
+        const b = parseInt(hex.slice(4, 6), 16);
+        // Perceived luminance
+        const lum = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+        return lum > 0.6 ? "#0A0A0F" : "#ffffff";
+    })();
     return (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3 p-4 max-w-7xl mx-auto">
             {items.map((item, index) => (
@@ -75,10 +87,10 @@ function BentoGrid({ items, accent }: BentoGridProps) {
                                     className={cn(
                                         "text-[10px] font-display font-semibold tracking-[0.18em] uppercase px-2.5 py-1 rounded-md",
                                         item.featured
-                                            ? "text-white border-0"
+                                            ? "border-0"
                                             : "bg-foreground/5 border border-border text-muted-foreground"
                                     )}
-                                    style={item.featured ? { backgroundColor: accent } : accentBorder}
+                                    style={item.featured ? { backgroundColor: accent, color: accentForeground } : accentBorder}
                                 >
                                     {item.status}
                                 </span>
