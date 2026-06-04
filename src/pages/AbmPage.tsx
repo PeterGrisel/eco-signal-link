@@ -127,6 +127,15 @@ const AbmPage = () => {
   const ctaImage: string | undefined = assets.cta;
   const siteScreenshot: string | undefined = assets.siteScreenshot;
 
+  // Persoonlijke elementen uit Firecrawl (eigen woorden + beelden)
+  const personal = (p.personal && typeof p.personal === "object") ? p.personal : {};
+  const personalPitch: string | undefined = personal.pitch;
+  const personalTagline: string | undefined = personal.tagline;
+  const personalClaim: string | undefined = personal.siteClaim;
+  const personalBullets: string[] = Array.isArray(personal.bullets) ? personal.bullets.filter((x: any) => typeof x === "string" && x.trim()) : [];
+  const personalGallery: string[] = Array.isArray(personal.gallery) ? personal.gallery.filter((x: any) => typeof x === "string" && x.trim()) : [];
+  const personalOg: string | undefined = personal.ogImage;
+
   // Inject Google Fonts dynamically when client overrides typography
   useEffect(() => {
     const families: string[] = [];
@@ -144,7 +153,8 @@ const AbmPage = () => {
   const subtitle: string = hero.subtitle || p.subtitle || "";
   const eyebrow: string = hero.eyebrow || (row ? row.company_name.toUpperCase() : "");
   const intro: string = hero.intro || p.intro || p.description || p.reasoning || "";
-  const highlights = asList(hero.highlights || p.highlights);
+  const heroBullets: string[] = personalBullets.length >= 2 ? personalBullets : asList(hero.highlights || p.highlights);
+  const heroIntro: string = personalPitch || intro;
 
   const valueBar = asList(p.valueBar);
   const summary: string = p.summary || "";
@@ -269,12 +279,20 @@ const AbmPage = () => {
 
       {/* Persoonlijke pagina ribbon met klantlogo */}
       <div className="border-b" style={{ borderColor, backgroundColor: `${primary}0D` }}>
-        <div className="container mx-auto px-6 h-12 flex items-center justify-center gap-3 text-xs sm:text-sm">
-          <span style={{ color: mutedColor }}>Persoonlijke pagina voor</span>
-          {logoUrl ? (
-            <img src={logoUrl} alt={row.company_name} className="h-6 w-auto" />
-          ) : (
-            <span className="font-display font-semibold" style={{ color: primary }}>{row.company_name}</span>
+        <div className="container mx-auto px-6 py-2.5 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 text-xs sm:text-sm text-center">
+          <div className="flex items-center gap-3">
+            <span style={{ color: mutedColor }}>Persoonlijke pagina voor</span>
+            {logoUrl ? (
+              <img src={logoUrl} alt={row.company_name} className="h-6 w-auto" />
+            ) : (
+              <span className="font-display font-semibold" style={{ color: primary }}>{row.company_name}</span>
+            )}
+          </div>
+          {personalClaim && (
+            <span className="hidden sm:inline" style={{ color: mutedColor }}>·</span>
+          )}
+          {personalClaim && (
+            <span className="italic max-w-xl truncate" style={{ color: mutedColor }}>{personalClaim}</span>
           )}
         </div>
       </div>
@@ -298,8 +316,8 @@ const AbmPage = () => {
             {subtitle && (
               <p className="text-lg md:text-2xl mb-6 font-medium" style={{ color: primary }}>{subtitle}</p>
             )}
-            {intro && (
-              <p className="text-base md:text-lg leading-relaxed mb-8 max-w-2xl" style={mutedStyle}>{intro}</p>
+            {heroIntro && (
+              <p className="text-base md:text-lg leading-relaxed mb-8 max-w-2xl" style={mutedStyle}>{heroIntro}</p>
             )}
             <div className="flex flex-wrap gap-3 items-center">
               <Button asChild size="lg" style={brandBtn} className="shadow-lg hover:shadow-xl transition-shadow">
@@ -320,13 +338,13 @@ const AbmPage = () => {
                 <img src={heroImage} alt="" className="w-full h-auto block relative z-[1]" />
               </div>
             )}
-            {highlights.length > 0 && (
+            {heroBullets.length > 0 && (
               <div className={`${heroImage ? "mt-5" : ""} rounded-2xl border bg-card p-5 md:p-6 backdrop-blur-sm`} style={{ borderColor: `${primary}33`, backgroundColor: `${surfaceColor}F2` }}>
                 <p className="text-[10px] uppercase tracking-[0.2em] mb-4" style={{ color: primary }}>
-                  Waarom we dit voor {row.company_name} maakten
+                  {personalBullets.length >= 2 ? `In uw eigen woorden` : `Waarom we dit voor ${row.company_name} maakten`}
                 </p>
                 <ul className="space-y-3">
-                  {highlights.map((h, i) => (
+                  {heroBullets.map((h, i) => (
                     <li key={i} className="flex items-start gap-3">
                       <span className="mt-0.5 inline-flex h-5 w-5 items-center justify-center rounded-full flex-shrink-0" style={softBrand}>
                         <Check className="h-3 w-3" />
@@ -341,21 +359,24 @@ const AbmPage = () => {
         </div>
       </section>
 
-      {/* Site analyse / screenshot — proof we kennen de klant */}
-      {siteScreenshot && (
-        <section id="analyse" className="relative py-16 md:py-20 border-b border-border overflow-hidden">
+      {/* Karakter van de klant — eigen beelden + eigen woorden */}
+      {(personalGallery.length > 0 || siteScreenshot) && (
+        <section id="analyse" className="relative py-16 md:py-24 border-b border-border overflow-hidden">
           <div className="container mx-auto px-6 grid lg:grid-cols-12 gap-10 items-center">
             <div className="lg:col-span-5">
-              <p className="text-xs font-semibold tracking-[0.2em] mb-4" style={{ color: primary }}>WAT ONS OPVALT</p>
+              <p className="text-xs font-semibold tracking-[0.2em] mb-4" style={{ color: primary }}>HET KARAKTER VAN {row.company_name.toUpperCase()}</p>
               <h2 className="font-display text-3xl md:text-4xl tracking-tight mb-4" style={headingStyle}>
-                We zijn onder de indruk van {row.company_name}.
+                We hebben uw verhaal goed gelezen.
               </h2>
               <p className="text-base leading-relaxed mb-4" style={mutedStyle}>
-                {summary || `${row.company_name} heeft een sterke positie en een duidelijk verhaal. Het karakter, de expertise en de toon spreken meteen. Daarom maakten we deze pagina speciaal voor u.`}
+                {personalPitch || summary || `${row.company_name} heeft een sterke positie en een duidelijk verhaal. Daarom maakten we deze pagina in uw eigen stijl.`}
               </p>
-              {clientObservations.length > 0 && (
+              {(personalBullets.length > 0 || clientObservations.length > 0) && (
                 <ul className="space-y-2 mt-5">
-                  {clientObservations.slice(0, 3).map((o, i) => (
+                  {(personalBullets.length > 0
+                    ? personalBullets.slice(0, 4).map((t) => ({ title: t }))
+                    : clientObservations.slice(0, 3)
+                  ).map((o, i) => (
                     <li key={i} className="flex items-start gap-2 text-sm">
                       <span className="mt-1 h-1.5 w-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: primary }} />
                       <span style={{ color: textColor }}>{o.title}</span>
@@ -363,31 +384,52 @@ const AbmPage = () => {
                   ))}
                 </ul>
               )}
+              {personalTagline && (
+                <blockquote className="mt-6 pl-4 border-l-2 italic text-sm leading-relaxed" style={{ borderColor: primary, color: textColor }}>
+                  "{personalTagline}"
+                </blockquote>
+              )}
             </div>
             <div className="lg:col-span-7 relative">
               <div className="absolute -inset-6 rounded-3xl blur-3xl opacity-30 pointer-events-none" style={{ background: `linear-gradient(135deg, ${primary}, ${accent})` }} />
-              <motion.div
-                initial={{ opacity: 0, rotateY: -8, rotateX: 4 }}
-                whileInView={{ opacity: 1, rotateY: -4, rotateX: 2 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.8 }}
-                className="relative rounded-xl overflow-hidden border shadow-2xl"
-                style={{ borderColor: `${primary}40`, transformPerspective: 1200 }}
-              >
-                {/* Browser chrome */}
-                <div className="flex items-center gap-1.5 px-3 py-2 border-b" style={{ backgroundColor: surfaceColor, borderColor }}>
-                  <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: "#ff5f57" }} />
-                  <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: "#febc2e" }} />
-                  <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: "#28c840" }} />
-                  <span className="ml-3 text-[10px] font-mono" style={{ color: mutedColor }}>
-                    {(p.sourceUrl || `https://${row.slug}.nl`).replace(/^https?:\/\//, "")}
-                  </span>
+              {personalGallery.length > 0 ? (
+                <div className="relative grid grid-cols-6 grid-rows-2 gap-3 h-[460px]">
+                  {personalGallery.slice(0, 5).map((src, i) => {
+                    // Masonry layout: 1st big, then variety
+                    const positions = [
+                      "col-span-4 row-span-2",
+                      "col-span-2 row-span-1",
+                      "col-span-2 row-span-1",
+                      "col-span-3 row-span-1",
+                      "col-span-3 row-span-1",
+                    ];
+                    return (
+                      <motion.div
+                        key={i}
+                        initial={{ opacity: 0, y: 16 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-50px" }}
+                        transition={{ duration: 0.5, delay: i * 0.08 }}
+                        className={`${positions[i] || "col-span-2 row-span-1"} relative overflow-hidden rounded-xl border shadow-lg`}
+                        style={{ borderColor: `${primary}40` }}
+                      >
+                        <img src={src} alt="" loading="lazy" className="w-full h-full object-cover" />
+                      </motion.div>
+                    );
+                  })}
                 </div>
-                <img src={siteScreenshot} alt={`${row.company_name} website`} className="w-full h-auto block max-h-[520px] object-top object-cover" />
-              </motion.div>
-              <p className="text-xs mt-4 text-center" style={mutedStyle}>
-                Uw verhaal, zoals wij het hebben gelezen.
-              </p>
+              ) : siteScreenshot ? (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.96 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  transition={{ duration: 0.7 }}
+                  className="relative rounded-xl overflow-hidden border shadow-2xl"
+                  style={{ borderColor: `${primary}40` }}
+                >
+                  <img src={siteScreenshot} alt={`${row.company_name}`} className="w-full h-auto block max-h-[520px] object-top object-cover" />
+                </motion.div>
+              ) : null}
             </div>
           </div>
         </section>
@@ -804,10 +846,13 @@ const AbmPage = () => {
       </section>
 
       <section className="relative py-14 text-white overflow-hidden" style={{ backgroundColor: primary }}>
-        {ctaImage && (
-          <div className="absolute inset-0 pointer-events-none opacity-15">
-            <img src={ctaImage} alt="" className="w-full h-full object-cover" />
-          </div>
+        {(personalOg || personalGallery[0] || ctaImage) && (
+          <>
+            <div className="absolute inset-0 pointer-events-none">
+              <img src={personalOg || personalGallery[0] || ctaImage} alt="" className="w-full h-full object-cover opacity-30" />
+            </div>
+            <div className="absolute inset-0 pointer-events-none" style={{ background: `linear-gradient(135deg, ${primary}E6 0%, ${primary}CC 60%, ${accent}CC 100%)` }} />
+          </>
         )}
         <div className="container mx-auto px-6 text-center relative">
           <h2 className="font-display text-2xl md:text-4xl mb-6 max-w-3xl mx-auto leading-tight">{ctaHeadline}</h2>
