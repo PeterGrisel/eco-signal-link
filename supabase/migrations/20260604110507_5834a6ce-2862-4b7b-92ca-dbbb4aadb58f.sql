@@ -1,0 +1,1 @@
+UPDATE public.abm_pages SET brand_primary_hex='#0B2540', brand_primary_hsl='213 71% 14%', brand_glow_hex='#F5A623', brand_glow_hsl='36 91% 55%', logo_url='https://beequip.com/marktplaats/logos/beequip-logo.svg', website='https://beequip.com' WHERE slug='beequip';
