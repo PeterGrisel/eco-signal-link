@@ -254,8 +254,9 @@ Deno.serve(async (req) => {
 
     // 3. Brand colors (AI)
     const brand = await generateBrand(companyName, website);
-    const primaryHex = brand.primary;
-    const glowHex = brand.glow;
+    const readable = ensureReadableOnDark(brand.primary, brand.glow);
+    const primaryHex = readable.primary;
+    const glowHex = readable.glow;
 
     // 4. Hero copy
     const copy = await generateCopy(companyName, website);
