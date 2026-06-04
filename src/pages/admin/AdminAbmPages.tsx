@@ -118,6 +118,30 @@ const AdminAbmPages = () => {
     load();
   };
 
+  const setExpiresAt = async (row: AbmRow, iso: string) => {
+    const { error } = await sb.from("abm_pages").update({ expires_at: iso }).eq("id", row.id);
+    if (error) return toast({ title: "Update mislukt", description: error.message, variant: "destructive" });
+    toast({ title: "Vervaldatum bijgewerkt" });
+    load();
+  };
+
+  const extendDays = (row: AbmRow, days: number) => {
+    const base = new Date(row.expires_at) < new Date() ? new Date() : new Date(row.expires_at);
+    base.setDate(base.getDate() + days);
+    setExpiresAt(row, base.toISOString());
+  };
+
+  const daysLeft = (iso: string) => {
+    const ms = new Date(iso).getTime() - Date.now();
+    return Math.ceil(ms / 86400000);
+  };
+
+  const toDateInput = (iso: string) => {
+    const d = new Date(iso);
+    const tz = d.getTimezoneOffset() * 60000;
+    return new Date(d.getTime() - tz).toISOString().slice(0, 10);
+  };
+
   return (
     <AdminLayout>
       <div className="mb-6">
@@ -235,6 +259,22 @@ const AdminAbmPages = () => {
                   </div>
                   <div className="text-xs text-muted-foreground">
                     /voor/{row.slug} · {row.view_count} views{row.pdf_url ? " · PDF aanwezig" : ""}
+                  </div>
+                  <div className="mt-2 flex flex-wrap items-center gap-2">
+                    <span className={`text-xs ${expired ? "text-destructive" : "text-muted-foreground"}`}>
+                      {expired ? "Verlopen" : `Nog ${daysLeft(row.expires_at)} dagen`}
+                    </span>
+                    <Input
+                      type="date"
+                      value={toDateInput(row.expires_at)}
+                      onChange={(e) => {
+                        if (e.target.value) setExpiresAt(row, new Date(e.target.value + "T23:59:59").toISOString());
+                      }}
+                      className="h-7 w-[140px] text-xs"
+                    />
+                    <Button size="sm" variant="ghost" className="h-7 px-2 text-xs" onClick={() => extendDays(row, 7)}>+7d</Button>
+                    <Button size="sm" variant="ghost" className="h-7 px-2 text-xs" onClick={() => extendDays(row, 14)}>+14d</Button>
+                    <Button size="sm" variant="ghost" className="h-7 px-2 text-xs" onClick={() => extendDays(row, 30)}>+30d</Button>
                   </div>
                 </div>
                 <Button asChild size="sm" variant="outline">
