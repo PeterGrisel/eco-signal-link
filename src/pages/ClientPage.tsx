@@ -276,7 +276,7 @@ const ClientPage = () => {
 
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="flex flex-col items-center text-center max-w-4xl 2xl:max-w-6xl 3xl:max-w-7xl mx-auto">
-            {row.logo_url && (
+            {row.logo_url && row.slug !== "super-usa" && (
               <div className="relative mb-6 inline-flex items-center justify-center -mt-16 md:-mt-24">
                 <div aria-hidden className="absolute inset-0 -mx-8 -my-6 rounded-3xl backdrop-blur-2xl border"
                   style={{
@@ -290,6 +290,41 @@ const ClientPage = () => {
                 />
                 <img src={row.logo_url} alt={`${row.company_name} logo`}
                   className="relative h-16 md:h-20 w-auto object-contain drop-shadow-lg" />
+              </div>
+            )}
+            {row.slug === "super-usa" && (
+              <div className="relative mb-6 inline-flex items-center justify-center -mt-16 md:-mt-24">
+                <div aria-hidden className="absolute inset-0 -mx-8 -my-6 rounded-3xl backdrop-blur-2xl border"
+                  style={{
+                    background: `radial-gradient(130% 130% at 30% 20%, hsl(var(--foreground) / 0.95) 0%, hsl(var(--foreground) / 0.85) 45%, hsl(var(--foreground) / 0.7) 100%)`,
+                    borderColor: `hsl(var(--foreground) / 0.6)`,
+                    boxShadow: `inset 0 1px 0 hsl(0 0% 100% / 0.6), inset 0 -1px 0 hsl(var(--foreground) / 0.2), 0 30px 80px -20px ${primaryHex}99`,
+                  }}
+                />
+                <div aria-hidden className="absolute inset-0 -mx-8 -my-6 rounded-3xl pointer-events-none"
+                  style={{ background: `linear-gradient(135deg, hsl(0 0% 100% / 0.5) 0%, transparent 40%, transparent 60%, hsl(0 0% 100% / 0.2) 100%)`, mixBlendMode: "overlay" }}
+                />
+                <svg viewBox="0 0 190 100" className="relative h-16 md:h-20 w-auto drop-shadow-lg" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="190" height="100" fill="#fff" />
+                  {[0, 2, 4, 6, 8, 10, 12].map((i) => (
+                    <rect key={i} y={i * 7.69} width="190" height="7.69" fill="#B22234" />
+                  ))}
+                  <rect width="76" height="53.85" fill="#3C3B6E" />
+                  {Array.from({ length: 50 }).map((_, i) => {
+                    const row = Math.floor(i / 10);
+                    const col = i % 10;
+                    const offsetX = row % 2 === 0 ? 0 : 3.8;
+                    const x = 3.8 + col * 7.6 + offsetX;
+                    const y = 3.8 + row * 5.38;
+                    return (
+                      <polygon
+                        key={i}
+                        points={`${x},${y - 1.5} ${x + 0.45},${y - 0.45} ${x + 1.5},${y - 0.45} ${x + 0.7},${y + 0.2} ${x + 1},${y + 1.5} ${x},${y + 0.8} ${x - 1},${y + 1.5} ${x - 0.7},${y + 0.2} ${x - 1.5},${y - 0.45} ${x - 0.45},${y - 0.45}`}
+                        fill="#fff"
+                      />
+                    );
+                  })}
+                </svg>
               </div>
             )}
             <h1 className="font-display font-bold text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl 3xl:text-9xl tracking-tight leading-[1.05] mb-6">
