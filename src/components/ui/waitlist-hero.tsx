@@ -273,8 +273,10 @@ export const WaitlistHero = ({ logoSrc, logoAlt }: WaitlistHeroProps) => {
 
         {/* Content Container */}
         <div className="relative z-20 w-full h-full flex flex-col items-center justify-end pb-16 gap-5">
-          <h1 className="text-5xl md:text-6xl font-bold text-center tracking-tight px-4" style={{ color: colors.textMain }}>
-            Deze klanten werken al slimmer
+          <h1 className="font-display text-5xl md:text-6xl font-bold text-center tracking-tight px-4" style={{ color: colors.textMain }}>
+            Deze klanten
+            <br />
+            <span style={{ color: colors.bluePrimary }}>werken al slimmer</span>
           </h1>
 
           <p className="text-lg font-medium text-center px-4" style={{ color: colors.textSecondary }}>

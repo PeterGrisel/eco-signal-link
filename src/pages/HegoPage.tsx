@@ -167,7 +167,9 @@ const HegoPage = () => {
               />
             </div>
             <h1 className="font-display font-bold text-4xl md:text-6xl lg:text-7xl tracking-tight leading-[1.05] mb-6">
-              Slimmer werken door automatiseren van handmatige acties.
+              Slimmer werken door
+              <br />
+              <span style={{ color: HEGO.primaryGlow }}>automatiseren van handmatige acties.</span>
             </h1>
             <FrostedGlassCard
               className="max-w-2xl mb-8"
@@ -201,7 +203,9 @@ const HegoPage = () => {
               Market Activation Playbook
             </p>
             <h2 className="font-display font-bold text-3xl md:text-5xl tracking-tight mb-4">
-              Speciaal samengesteld voor HEGO.
+              Speciaal samengesteld
+              <br />
+              <span style={{ color: HEGO.primaryGlow }}>voor HEGO.</span>
             </h2>
             <FrostedGlassCard
               className="max-w-2xl mx-auto"
