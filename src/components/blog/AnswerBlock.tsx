@@ -5,6 +5,32 @@ interface Props {
   block: AnswerBlockData;
 }
 
+// Render inline markdown links [text](url) as anchor tags. Other text is plain.
+const renderInline = (text: string) => {
+  const parts: (string | JSX.Element)[] = [];
+  const re = /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g;
+  let last = 0;
+  let m: RegExpExecArray | null;
+  let i = 0;
+  while ((m = re.exec(text)) !== null) {
+    if (m.index > last) parts.push(text.slice(last, m.index));
+    const isInternal = /b2bgroeimachine\.io/.test(m[2]);
+    parts.push(
+      <a
+        key={i++}
+        href={m[2]}
+        className="text-primary underline decoration-primary/40 hover:decoration-primary underline-offset-2"
+        {...(isInternal ? {} : { target: "_blank", rel: "noopener noreferrer" })}
+      >
+        {m[1]}
+      </a>
+    );
+    last = m.index + m[0].length;
+  }
+  if (last < text.length) parts.push(text.slice(last));
+  return parts.length ? parts : [text];
+};
+
 const AnswerBlock = ({ block }: Props) => {
   return (
     <aside
@@ -18,7 +44,7 @@ const AnswerBlock = ({ block }: Props) => {
         </span>
       </div>
       <p className="text-foreground text-base md:text-lg leading-relaxed font-medium">
-        {block.answer}
+        {renderInline(block.answer)}
       </p>
 
       {(block.audience || block.when) && (
@@ -28,7 +54,7 @@ const AnswerBlock = ({ block }: Props) => {
               <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1">
                 Voor wie
               </div>
-              <p className="text-sm text-foreground/90">{block.audience}</p>
+              <p className="text-sm text-foreground/90">{renderInline(block.audience)}</p>
             </div>
           )}
           {block.when && (
@@ -36,7 +62,7 @@ const AnswerBlock = ({ block }: Props) => {
               <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1">
                 Wanneer
               </div>
-              <p className="text-sm text-foreground/90">{block.when}</p>
+              <p className="text-sm text-foreground/90">{renderInline(block.when)}</p>
             </div>
           )}
         </div>
@@ -51,7 +77,7 @@ const AnswerBlock = ({ block }: Props) => {
             {block.mistakes.map((m, i) => (
               <li key={i} className="text-sm text-foreground/90 flex gap-2">
                 <span className="text-primary mt-0.5">×</span>
-                <span>{m}</span>
+                <span>{renderInline(m)}</span>
               </li>
             ))}
           </ul>
@@ -65,7 +91,7 @@ const AnswerBlock = ({ block }: Props) => {
           </div>
           <ol className="space-y-1.5 list-decimal list-inside marker:text-primary marker:font-semibold">
             {block.steps.map((s, i) => (
-              <li key={i} className="text-sm text-foreground/90">{s}</li>
+              <li key={i} className="text-sm text-foreground/90">{renderInline(s)}</li>
             ))}
           </ol>
         </div>
