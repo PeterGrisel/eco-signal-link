@@ -250,12 +250,12 @@ export const WaitlistHero = ({ logoSrc, logoAlt }: WaitlistHeroProps) => {
             <img src={logoSrc || "https://images.unsplash.com/photo-1684369175833-4b445ad6bfb5?q=80&w=1696&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"} alt={logoAlt || "App Icon"} className="w-full h-full object-cover" />
           </div>
 
-          <h1 className="text-5xl md:text-6xl font-bold text-center tracking-tight" style={{ color: colors.textMain }}>
-            Take a screenshot.
+          <h1 className="text-5xl md:text-6xl font-bold text-center tracking-tight px-4" style={{ color: colors.textMain }}>
+            Deze klanten werken al slimmer
           </h1>
 
-          <p className="text-lg font-medium" style={{ color: colors.textSecondary }}>
-            Save anything with a screenshot.
+          <p className="text-lg font-medium text-center px-4" style={{ color: colors.textSecondary }}>
+            Boek een gratis meeting om je playbook te bespreken
           </p>
 
           {/* Form / Success Container */}
