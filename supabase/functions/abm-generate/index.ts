@@ -1,6 +1,19 @@
 // abm-generate: one-shot client page generator.
-// Input (JSON): { pdfBase64, filename, companyName, slug?, website?, brandPrimaryHex?, brandGlowHex? }
-// Steps: upload PDF -> derive logo (Clearbit) -> AI brand colors -> AI hero copy -> upsert abm_pages.
+// Input (JSON): { pdfBase64, filename }
+// Steps: derive companyName from filename -> upload PDF -> AI brand colors -> AI hero copy -> upsert abm_pages.
+function companyFromFilename(filename: string): string {
+  const base = (filename || "").replace(/\.pdf$/i, "");
+  // Strip common suffixes like "playbook", "flyer", "abm", "voor", separators
+  const cleaned = base
+    .replace(/[_\-]+/g, " ")
+    .replace(/\b(playbook|flyer|abm|voor|deck|presentation|presentatie|brochure|onepager|one[- ]?pager)\b/gi, "")
+    .replace(/\s+/g, " ")
+    .trim();
+  if (!cleaned) return base.trim() || "Klant";
+  // Capitalize first letter of each word
+  return cleaned.split(" ").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+}
+
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 
 const corsHeaders = {
@@ -150,24 +163,25 @@ Deno.serve(async (req) => {
 
   try {
     const body = await req.json();
-    const companyName = (body.companyName || "").toString().trim();
-    if (!companyName) {
-      return new Response(JSON.stringify({ error: "companyName is verplicht" }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
-    }
     if (!body.pdfBase64) {
       return new Response(JSON.stringify({ error: "pdfBase64 is verplicht" }),
         { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
+    const filename = (body.filename || "").toString();
+    const companyName = companyFromFilename(filename);
+    if (!companyName) {
+      return new Response(JSON.stringify({ error: "Kon bedrijfsnaam niet afleiden uit bestandsnaam" }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
 
-    const slug = slugify(body.slug || companyName);
+    const slug = slugify(companyName);
     if (!slug) {
       return new Response(JSON.stringify({ error: "Kon geen geldige slug afleiden" }),
         { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
-    const website = body.website ? String(body.website).trim() : null;
-    const domain = extractDomain(website || undefined);
+    const website: string | null = null;
+    const domain: string | null = null;
 
     const supa = createClient(SUPABASE_URL, SERVICE_ROLE);
 
@@ -184,17 +198,10 @@ Deno.serve(async (req) => {
     // 2. Logo
     const logoUrl = domain ? await tryLogo(domain) : null;
 
-    // 3. Brand colors (allow user override)
-    let primaryHex: string;
-    let glowHex: string;
-    if (isValidHex(body.brandPrimaryHex) && isValidHex(body.brandGlowHex)) {
-      primaryHex = normHex(body.brandPrimaryHex);
-      glowHex = normHex(body.brandGlowHex);
-    } else {
-      const brand = await generateBrand(companyName, website);
-      primaryHex = brand.primary;
-      glowHex = brand.glow;
-    }
+    // 3. Brand colors (AI)
+    const brand = await generateBrand(companyName, website);
+    const primaryHex = brand.primary;
+    const glowHex = brand.glow;
 
     // 4. Hero copy
     const copy = await generateCopy(companyName, website);
