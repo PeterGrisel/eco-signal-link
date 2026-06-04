@@ -250,6 +250,17 @@ export const WaitlistHero = ({ logoSrc, logoAlt }: WaitlistHeroProps) => {
           <div className="absolute inset-0 animate-spin-slow">
             <LogoRing clients={inner} radius={180} size={64} opacity={1} />
           </div>
+
+          {/* Klant-logo groot in het midden */}
+          {logoSrc && (
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 md:w-56 md:h-56 rounded-3xl bg-white/5 ring-1 ring-white/10 backdrop-blur-md shadow-2xl flex items-center justify-center p-6">
+              <img
+                src={logoSrc}
+                alt={logoAlt || "Klant logo"}
+                className="w-full h-full object-contain"
+              />
+            </div>
+          )}
         </div>
 
         {/* Gradient Overlay */}
@@ -262,10 +273,6 @@ export const WaitlistHero = ({ logoSrc, logoAlt }: WaitlistHeroProps) => {
 
         {/* Content Container */}
         <div className="relative z-20 w-full h-full flex flex-col items-center justify-end pb-16 gap-5">
-          <div className="w-16 h-16 rounded-2xl shadow-lg overflow-hidden mb-2 ring-1 ring-white/10 bg-white/5">
-            <img src={logoSrc || "https://images.unsplash.com/photo-1684369175833-4b445ad6bfb5?q=80&w=1696&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"} alt={logoAlt || "App Icon"} className="w-full h-full object-cover" />
-          </div>
-
           <h1 className="text-5xl md:text-6xl font-bold text-center tracking-tight px-4" style={{ color: colors.textMain }}>
             Deze klanten werken al slimmer
           </h1>
