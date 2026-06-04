@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUp, Layers, Tag, HelpCircle, Phone } from "lucide-react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { trackCTA } from "@/lib/tracking";
 
 /**
