@@ -20,12 +20,6 @@ export const CTA = {
     href: "#boek-gratis-scan",
     external: false,
   },
-  /** Soft CTA: hoe het werkt anker */
-  hoeHetWerkt: {
-    label: "Hoe het werkt",
-    href: "#hoe-het-werkt",
-    external: false,
-  },
   /** Tertiaire CTA: situatie bespreken (in body-tekst) */
   bespreekSituatie: {
     label: "Boek gratis scan →",

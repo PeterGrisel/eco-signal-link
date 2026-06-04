@@ -11,7 +11,6 @@ interface RecentPost {
 }
 
 const diensten = [
-  { href: "/hoe-het-werkt", label: "Hoe het werkt" },
   { href: "/groeistack", label: "De Groeistack" },
   { href: "/full-sales-management", label: "Full Sales Management" },
   { href: "/full-service-recruitment", label: "Full Service Recruitment" },
