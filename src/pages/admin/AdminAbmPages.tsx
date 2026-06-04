@@ -222,9 +222,22 @@ const AdminAbmPages = () => {
                     </span>
                     <Input
                       type="date"
-                      value={toDateInput(row.expires_at)}
-                      onChange={(e) => {
-                        if (e.target.value) setExpiresAt(row, new Date(e.target.value + "T23:59:59").toISOString());
+                      defaultValue={toDateInput(row.expires_at)}
+                      min={toDateInput(new Date().toISOString())}
+                      max="2099-12-31"
+                      key={row.expires_at}
+                      onBlur={(e) => {
+                        const v = e.target.value;
+                        if (!v) return;
+                        const d = new Date(v + "T23:59:59");
+                        const year = d.getFullYear();
+                        if (isNaN(d.getTime()) || year < new Date().getFullYear() || year > 2099) {
+                          toast({ title: "Ongeldige datum", description: "Kies een datum tussen vandaag en 2099.", variant: "destructive" });
+                          e.target.value = toDateInput(row.expires_at);
+                          return;
+                        }
+                        if (d.toISOString() === new Date(row.expires_at).toISOString()) return;
+                        setExpiresAt(row, d.toISOString());
                       }}
                       className="h-7 w-[140px] text-xs"
                     />
