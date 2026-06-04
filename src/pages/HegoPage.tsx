@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Check, Download, FileText, Radar, Database, Send, Workflow, Sparkles, BarChart3, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowRight, Check, Download, FileText, Radar, Database, Send, Workflow, Sparkles, BarChart3, ChevronLeft, ChevronRight, ZoomIn, ZoomOut, RotateCcw } from "lucide-react";
 import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
@@ -89,6 +89,7 @@ const HegoPage = () => {
   const [numPages, setNumPages] = useState(0);
   const [page, setPage] = useState(1);
   const [viewerWidth, setViewerWidth] = useState(900);
+  const [zoom, setZoom] = useState(1);
   const viewerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -256,7 +257,7 @@ const HegoPage = () => {
                   <Download className="h-3.5 w-3.5" /> Download
                 </a>
               </div>
-              <div ref={viewerRef} className="bg-[#1a1a1a] flex flex-col items-center p-4 md:p-6 min-h-[60vh]">
+              <div ref={viewerRef} className="bg-[#1a1a1a] flex flex-col items-center p-4 md:p-6 min-h-[60vh] overflow-auto">
                 <Document
                   file={pdfAsset.url}
                   onLoadSuccess={({ numPages: n }) => setNumPages(n)}
@@ -265,14 +266,14 @@ const HegoPage = () => {
                 >
                   <Page
                     pageNumber={page}
-                    width={viewerWidth}
+                    width={viewerWidth * zoom}
                     renderAnnotationLayer={false}
                     renderTextLayer={false}
                     className="shadow-2xl rounded-md overflow-hidden"
                   />
                 </Document>
                 {numPages > 0 && (
-                  <div className="flex items-center gap-4 mt-5">
+                  <div className="flex items-center gap-3 mt-5 flex-wrap justify-center">
                     <button
                       onClick={() => setPage((p) => Math.max(1, p - 1))}
                       disabled={page <= 1}
@@ -291,6 +292,34 @@ const HegoPage = () => {
                       aria-label="Volgende pagina"
                     >
                       <ChevronRight className="h-4 w-4" />
+                    </button>
+                    <div className="w-px h-6 bg-border mx-1" />
+                    <button
+                      onClick={() => setZoom((z) => Math.max(0.5, +(z - 0.25).toFixed(2)))}
+                      disabled={zoom <= 0.5}
+                      className="inline-flex items-center justify-center h-9 w-9 rounded-full border border-border disabled:opacity-30 hover:border-foreground/40 transition"
+                      aria-label="Uitzoomen"
+                    >
+                      <ZoomOut className="h-4 w-4" />
+                    </button>
+                    <span className="text-sm font-medium tabular-nums w-12 text-center">
+                      {Math.round(zoom * 100)}%
+                    </span>
+                    <button
+                      onClick={() => setZoom((z) => Math.min(3, +(z + 0.25).toFixed(2)))}
+                      disabled={zoom >= 3}
+                      className="inline-flex items-center justify-center h-9 w-9 rounded-full border border-border disabled:opacity-30 hover:border-foreground/40 transition"
+                      aria-label="Inzoomen"
+                    >
+                      <ZoomIn className="h-4 w-4" />
+                    </button>
+                    <button
+                      onClick={() => setZoom(1)}
+                      disabled={zoom === 1}
+                      className="inline-flex items-center justify-center h-9 w-9 rounded-full border border-border disabled:opacity-30 hover:border-foreground/40 transition"
+                      aria-label="Reset zoom"
+                    >
+                      <RotateCcw className="h-4 w-4" />
                     </button>
                   </div>
                 )}
