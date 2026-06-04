@@ -10,8 +10,6 @@ import HowItWorksSection from "@/components/HowItWorksSection";
 import OrbitingClients from "@/components/OrbitingClients";
 import { Button } from "@/components/ui/button";
 import { usePageMeta } from "@/hooks/usePageMeta";
-import { supabase } from "@/integrations/supabase/client";
-import { faviconFor } from "@/data/groeistack";
 import CtaLink from "@/components/CtaLink";
 import pdfAsset from "@/assets/hego-playbook.pdf.asset.json";
 import hegoLogo from "@/assets/hego-logo.png.asset.json";
@@ -55,39 +53,7 @@ const groeistackLayers = [
   { icon: BarChart3, title: "Dashboard", desc: "Eén bron van waarheid met lerende loops." },
 ];
 
-interface ClientLogo {
-  id: string;
-  name: string;
-  domain: string;
-  logo_url: string | null;
-  scale: number;
-  padding: number;
-  website: string | null;
-}
-
-const ClientBadge = ({ c }: { c: ClientLogo }) => {
-  const [err, setErr] = useState(false);
-  const src = c.logo_url || faviconFor(c.website || c.domain);
-  return (
-    <div className="flex items-center justify-center h-16 w-32 grayscale opacity-70 hover:opacity-100 hover:grayscale-0 transition">
-      {err || !src ? (
-        <span className="font-display font-bold text-foreground/60">{c.name}</span>
-      ) : (
-        <img
-          src={src}
-          alt={c.name}
-          className="object-contain max-h-12 max-w-full"
-          style={{ transform: `scale(${c.scale ?? 1})`, padding: c.padding ?? 0 }}
-          loading="lazy"
-          onError={() => setErr(true)}
-        />
-      )}
-    </div>
-  );
-};
-
 const HegoPage = () => {
-  const [clients, setClients] = useState<ClientLogo[]>([]);
   const [numPages, setNumPages] = useState(0);
   const [page, setPage] = useState(1);
   const [viewerWidth, setViewerWidth] = useState(900);
@@ -120,16 +86,6 @@ const HegoPage = () => {
     return () => {
       document.head.removeChild(tag);
     };
-  }, []);
-
-  useEffect(() => {
-    supabase
-      .from("client_logos")
-      .select("id, name, domain, logo_url, scale, padding, website")
-      .eq("is_visible", true)
-      .order("sort_order")
-      .limit(12)
-      .then(({ data }) => setClients((data as ClientLogo[]) ?? []));
   }, []);
 
   return (
