@@ -28,13 +28,13 @@ let fontBuf: Uint8Array | null = null;
 let fontBoldBuf: Uint8Array | null = null;
 async function ensureFonts() {
   if (!fontBuf) {
-    const r = await fetch("https://fonts.gstatic.com/s/inter/v13/UcC73FwrK3iLTeHuS_fvQtMwCp50KnMa1ZL7.woff2");
-    // resvg accepts TTF/OTF; fetch a TTF instead
-    const ttf = await fetch("https://github.com/rsms/inter/raw/master/docs/font-files/Inter-Regular.otf");
-    fontBuf = new Uint8Array(await ttf.arrayBuffer());
-    const ttfB = await fetch("https://github.com/rsms/inter/raw/master/docs/font-files/Inter-Bold.otf");
-    fontBoldBuf = new Uint8Array(await ttfB.arrayBuffer());
-    void r; // unused
+    const regUrl = "https://cdn.jsdelivr.net/gh/rsms/inter@v4.0/docs/font-files/Inter-Regular.otf";
+    const boldUrl = "https://cdn.jsdelivr.net/gh/rsms/inter@v4.0/docs/font-files/Inter-Bold.otf";
+    const [reg, bold] = await Promise.all([fetch(regUrl), fetch(boldUrl)]);
+    if (!reg.ok || !bold.ok) throw new Error(`font fetch failed ${reg.status}/${bold.status}`);
+    fontBuf = new Uint8Array(await reg.arrayBuffer());
+    fontBoldBuf = new Uint8Array(await bold.arrayBuffer());
+    console.log(`fonts loaded: reg=${fontBuf.length} bold=${fontBoldBuf.length}`);
   }
   return { regular: fontBuf!, bold: fontBoldBuf! };
 }
