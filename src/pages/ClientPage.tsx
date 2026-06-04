@@ -259,8 +259,8 @@ const ClientPage = () => {
               <p className="text-base md:text-lg text-foreground/90 leading-relaxed px-6 py-5">{introText}</p>
             </FrostedGlassCard>
             {pdfUrl && (
-              <a href="#playbook" className="inline-flex items-center gap-2 font-semibold text-sm md:text-base rounded-full px-6 py-3 text-white hover:opacity-90 transition"
-                style={{ backgroundColor: primaryHex }}>
+              <a href="#playbook" className="inline-flex items-center gap-2 font-semibold text-sm md:text-base rounded-full px-6 py-3 hover:opacity-90 transition"
+                style={{ backgroundColor: glowHex, color: primaryHex }}>
                 Bekijk het playbook <ArrowRight className="h-4 w-4" />
               </a>
             )}
@@ -405,8 +405,8 @@ const ClientPage = () => {
       <div
         className={brandClass}
         style={{
-          ["--primary" as any]: primaryHsl,
-          ["--primary-foreground" as any]: "0 0% 100%",
+          ["--primary" as any]: glowHsl,
+          ["--primary-foreground" as any]: primaryHsl,
         }}
       >
         <PricingSection />
@@ -417,7 +417,7 @@ const ClientPage = () => {
           <WaitlistHero
             logoSrc={row.logo_url || undefined}
             logoAlt={`${row.company_name} logo`}
-            accentColor={primaryHex}
+            accentColor={glowHex}
           />
         </div>
       </div>
