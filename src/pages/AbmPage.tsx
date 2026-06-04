@@ -153,7 +153,8 @@ const AbmPage = () => {
   const subtitle: string = hero.subtitle || p.subtitle || "";
   const eyebrow: string = hero.eyebrow || (row ? row.company_name.toUpperCase() : "");
   const intro: string = hero.intro || p.intro || p.description || p.reasoning || "";
-  const highlights = asList(hero.highlights || p.highlights);
+  const heroBullets: string[] = personalBullets.length >= 2 ? personalBullets : asList(hero.highlights || p.highlights);
+  const heroIntro: string = personalPitch || intro;
 
   const valueBar = asList(p.valueBar);
   const summary: string = p.summary || "";
