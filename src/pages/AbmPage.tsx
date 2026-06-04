@@ -846,10 +846,13 @@ const AbmPage = () => {
       </section>
 
       <section className="relative py-14 text-white overflow-hidden" style={{ backgroundColor: primary }}>
-        {ctaImage && (
-          <div className="absolute inset-0 pointer-events-none opacity-15">
-            <img src={ctaImage} alt="" className="w-full h-full object-cover" />
-          </div>
+        {(personalOg || personalGallery[0] || ctaImage) && (
+          <>
+            <div className="absolute inset-0 pointer-events-none">
+              <img src={personalOg || personalGallery[0] || ctaImage} alt="" className="w-full h-full object-cover opacity-30" />
+            </div>
+            <div className="absolute inset-0 pointer-events-none" style={{ background: `linear-gradient(135deg, ${primary}E6 0%, ${primary}CC 60%, ${accent}CC 100%)` }} />
+          </>
         )}
         <div className="container mx-auto px-6 text-center relative">
           <h2 className="font-display text-2xl md:text-4xl mb-6 max-w-3xl mx-auto leading-tight">{ctaHeadline}</h2>
