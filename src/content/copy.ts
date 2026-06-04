@@ -9,7 +9,7 @@
  */
 
 export const BOOKING_URL =
-  "https://app.usemotion.com/meet/Rebel-Force/meeting";
+  "https://meetings-eu1.hubspot.com/peter-grisel";
 
 /** CTA-labels en hun bijbehorende doel-URL */
 export const CTA = {

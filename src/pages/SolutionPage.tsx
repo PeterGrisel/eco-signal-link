@@ -90,7 +90,7 @@ const SolutionPage = () => {
                 {solution.heroDescription}
               </p>
               <Button variant="hero" size="lg" asChild>
-                <a href="https://app.usemotion.com/meet/Rebel-Force/meeting" target="_blank" rel="noopener noreferrer">
+                <a href="https://meetings-eu1.hubspot.com/peter-grisel" target="_blank" rel="noopener noreferrer">
                   Bespreek uw situatie →
                 </a>
               </Button>
@@ -210,7 +210,7 @@ const SolutionPage = () => {
                 Plan een vrijblijvend gesprek en ontdek hoe wij dit voor uw bedrijf oplossen.
               </p>
               <Button variant="hero" size="lg" asChild>
-                <a href="https://app.usemotion.com/meet/Rebel-Force/meeting" target="_blank" rel="noopener noreferrer">
+                <a href="https://meetings-eu1.hubspot.com/peter-grisel" target="_blank" rel="noopener noreferrer">
                   Plan een gesprek →
                 </a>
               </Button>
