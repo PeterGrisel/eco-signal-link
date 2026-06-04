@@ -12,6 +12,8 @@ import { usePageMeta } from "@/hooks/usePageMeta";
 import CtaLink from "@/components/CtaLink";
 import pdfAsset from "@/assets/hego-playbook.pdf.asset.json";
 import hegoLogo from "@/assets/hego-logo.png.asset.json";
+import hegoOgImage from "@/assets/hego-og.jpg";
+import { trackEvent, trackCTA, trackScrollDepth, stopScrollDepth, startTimeOnPage, flushTimeOnPage } from "@/lib/tracking";
 import { FrostedGlassCard } from "@/components/ui/interactive-frosted-glass-card";
 import { BentoGrid } from "@/components/ui/bento-grid";
 import { COPY } from "@/content/copy";
@@ -80,6 +82,7 @@ const HegoPage = () => {
     description:
       "Persoonlijk playbook voor HEGO: hoe wij groothandel, traders en producenten activeren rond RVS, aluminium en maatwerk bewerkingen.",
     canonical: "https://b2bgroeimachine.io/voor/hego",
+    ogImage: `https://b2bgroeimachine.io${hegoOgImage}`,
   });
 
   useEffect(() => {
@@ -91,6 +94,31 @@ const HegoPage = () => {
       document.head.removeChild(tag);
     };
   }, []);
+
+  // Client-specific tracking (client_slug: "hego")
+  useEffect(() => {
+    const clientSlug = "hego";
+    trackEvent("client_page_view", "client_page", clientSlug, {
+      client_slug: clientSlug,
+      path: "/voor/hego",
+    });
+    startTimeOnPage("/voor/hego");
+    trackScrollDepth();
+    return () => {
+      flushTimeOnPage();
+      stopScrollDepth();
+    };
+  }, []);
+
+  // Track PDF page navigation per client
+  useEffect(() => {
+    if (page > 1) {
+      trackEvent("client_pdf_page_view", "client_page", "hego", {
+        client_slug: "hego",
+        pdf_page: page,
+      });
+    }
+  }, [page]);
 
   return (
     <div className="min-h-screen bg-background text-foreground">
