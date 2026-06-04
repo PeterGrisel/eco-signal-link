@@ -121,6 +121,7 @@ const ClientPage = () => {
     title: metaTitle,
     description: metaDescription,
     canonical: row ? `https://b2bgroeimachine.io/voor/${row.slug}` : undefined,
+    ogType: isEn ? "website" : "website",
     ogImage: row
       ? (row.og_image_url || `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/og-image?slug=${row.slug}`)
       : undefined,
