@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Check, Download, FileText, Radar, Database, Send, Workflow, Sparkles, BarChart3, ChevronLeft, ChevronRight, ZoomIn, ZoomOut, RotateCcw } from "lucide-react";
+import { ArrowRight, Check, Download, FileText, Radar, Database, Send, Workflow, Sparkles, BarChart3, ChevronLeft, ChevronRight, ZoomIn, ZoomOut, RotateCcw, Tag, Rocket, Handshake, Infinity as InfinityIcon } from "lucide-react";
 import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
@@ -16,6 +16,7 @@ import { FrostedGlassCard } from "@/components/ui/interactive-frosted-glass-card
 import { BentoGrid } from "@/components/ui/bento-grid";
 import { COPY } from "@/content/copy";
 import { Compass, Brain, Filter, Calculator, Layers, Send as SendIcon, Route, LineChart, BookOpenCheck } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 
 // Configure pdf.js worker from CDN (matches installed pdfjs-dist version)
 pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
@@ -61,6 +62,7 @@ const HegoPage = () => {
   const [page, setPage] = useState(1);
   const [viewerWidth, setViewerWidth] = useState(900);
   const [zoom, setZoom] = useState(1);
+  const [pricingOpen, setPricingOpen] = useState(false);
   const viewerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
