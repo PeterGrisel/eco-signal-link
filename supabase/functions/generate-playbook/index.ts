@@ -96,7 +96,7 @@ serve(async (req) => {
       .join("\n");
     const internalLinks = [
       `- De Groeistack: ${siteUrl}/groeistack`,
-      `- Hoe het werkt: ${siteUrl}/hoe-het-werkt`,
+      `- Hoe het werkt: ${siteUrl}/`,
       dienstSlug ? `- Dienstlijn: ${siteUrl}/diensten/${dienstSlug}` : "",
       ...(existing || []).map((p: any) => `- ${p.title}: ${siteUrl}/playbooks/${p.slug}`),
     ].filter(Boolean).join("\n");
