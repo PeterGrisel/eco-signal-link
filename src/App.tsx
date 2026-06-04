@@ -114,7 +114,8 @@ const AnimatedRoutes = () => {
           <Route path="/ons-team" element={<OnsTeam />} />
           <Route path="/sectoren/:slug" element={<SectorPage />} />
           <Route path="/solutions/:slug" element={<SolutionPage />} />
-          <Route path="/hoe-het-werkt" element={<HoeHetWerkt />} />
+          {/* /hoe-het-werkt is verwijderd — redirect naar homepage */}
+          <Route path="/hoe-het-werkt" element={<Navigate to="/" replace />} />
           <Route path="/groeistack" element={<Groeistack />} />
           <Route path="/admin/groeistack" element={<AdminGroeistack />} />
           <Route path="/playbooks" element={<Playbooks />} />
