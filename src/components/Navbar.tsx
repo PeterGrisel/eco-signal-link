@@ -158,10 +158,10 @@ const Navbar = () => {
   return (
     <header
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+        "fixed top-0 left-0 right-0 z-50 transition-transform duration-500 ease-out",
         scrolled
-          ? "bg-background/85 backdrop-blur-xl border-b border-border/80 shadow-[0_4px_24px_-12px_rgba(0,0,0,0.4)]"
-          : "bg-background/60 backdrop-blur-md border-b border-transparent",
+          ? "translate-y-0 bg-background/85 backdrop-blur-xl border-b border-border/80 shadow-[0_4px_24px_-12px_rgba(0,0,0,0.4)]"
+          : "-translate-y-full bg-transparent border-b border-transparent",
       )}
     >
       <div className="container mx-auto flex items-center justify-between h-20 md:h-24 px-4 md:px-6">
