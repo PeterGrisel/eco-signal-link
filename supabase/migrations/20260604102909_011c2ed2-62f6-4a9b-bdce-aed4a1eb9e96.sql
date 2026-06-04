@@ -1,0 +1,1 @@
+UPDATE public.abm_pages SET brand_primary_hex='#002B5B', brand_primary_hsl='213 100% 18%', brand_glow_hex='#E11D2A', brand_glow_hsl='355 76% 50%', logo_url='https://dtcelektro.nl/wp-content/uploads/2024/05/DTC-logo-web-01.svg', website=COALESCE(NULLIF(website,''),'https://dtcelektro.nl') WHERE slug='dtc-elektro';
