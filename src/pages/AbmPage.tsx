@@ -330,13 +330,13 @@ const AbmPage = () => {
                 <img src={heroImage} alt="" className="w-full h-auto block relative z-[1]" />
               </div>
             )}
-            {highlights.length > 0 && (
+            {heroBullets.length > 0 && (
               <div className={`${heroImage ? "mt-5" : ""} rounded-2xl border bg-card p-5 md:p-6 backdrop-blur-sm`} style={{ borderColor: `${primary}33`, backgroundColor: `${surfaceColor}F2` }}>
                 <p className="text-[10px] uppercase tracking-[0.2em] mb-4" style={{ color: primary }}>
-                  Waarom we dit voor {row.company_name} maakten
+                  {personalBullets.length >= 2 ? `In uw eigen woorden` : `Waarom we dit voor ${row.company_name} maakten`}
                 </p>
                 <ul className="space-y-3">
-                  {highlights.map((h, i) => (
+                  {heroBullets.map((h, i) => (
                     <li key={i} className="flex items-start gap-3">
                       <span className="mt-0.5 inline-flex h-5 w-5 items-center justify-center rounded-full flex-shrink-0" style={softBrand}>
                         <Check className="h-3 w-3" />
