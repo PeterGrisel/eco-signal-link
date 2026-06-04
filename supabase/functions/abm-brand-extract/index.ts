@@ -213,7 +213,7 @@ serve(async (req) => {
   const meta = scraped.metadata || {};
   const baseUrl = meta.sourceURL || url;
   const summary: string | undefined = typeof scraped.summary === "string" ? scraped.summary : undefined;
-  const text = harvestTextFromMarkdown(md);
+  const harvested = harvestTextFromMarkdown(md);
 
   const rawImages = harvestImagesFromMarkdown(md, baseUrl);
   // Add OG image from metadata if present
@@ -238,9 +238,9 @@ serve(async (req) => {
   const personal: Record<string, any> = {
     siteName: meta.title || page.company_name,
     siteClaim: (meta.description || "").slice(0, 160) || undefined,
-    tagline: text.tagline,
-    pitch: text.pitch || summary,
-    bullets: text.bullets,
+    tagline: harvested.tagline,
+    pitch: harvested.pitch || summary,
+    bullets: harvested.bullets,
     gallery,
     ogImage: ogUploaded || gallery[0],
   };
