@@ -32,6 +32,7 @@ const STATIC_EXTENSIONS = /\.(js|css|png|jpg|jpeg|gif|svg|ico|woff2?|ttf|eot|map
 const REDIRECTS_301 = {
   '/datahub': '/pipeline-equation',
   '/pricing': '/pipeline-equation',
+  '/hoe-het-werkt': '/',
 };
 
 function isBot(userAgent) {
