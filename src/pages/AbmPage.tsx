@@ -346,13 +346,23 @@ const AbmPage = () => {
         <section id="analyse" className="relative py-16 md:py-20 border-b border-border overflow-hidden">
           <div className="container mx-auto px-6 grid lg:grid-cols-12 gap-10 items-center">
             <div className="lg:col-span-5">
-              <p className="text-xs font-semibold tracking-[0.2em] mb-4" style={{ color: primary }}>WAT WIJ ZIEN</p>
+              <p className="text-xs font-semibold tracking-[0.2em] mb-4" style={{ color: primary }}>WAT ONS OPVALT</p>
               <h2 className="font-display text-3xl md:text-4xl tracking-tight mb-4" style={headingStyle}>
-                We hebben uw site uit elkaar gehaald.
+                We zijn onder de indruk van {row.company_name}.
               </h2>
-              <p className="text-base leading-relaxed" style={mutedStyle}>
-                {row.company_name} heeft een duidelijke propositie. Wij zien waar verkeer afhaakt, welke signalen onbenut blijven en hoe we uw pipeline voorspelbaar maken.
+              <p className="text-base leading-relaxed mb-4" style={mutedStyle}>
+                {summary || `${row.company_name} heeft een sterke positie en een duidelijk verhaal. Het karakter, de expertise en de toon spreken meteen. Daarom maakten we deze pagina speciaal voor u.`}
               </p>
+              {clientObservations.length > 0 && (
+                <ul className="space-y-2 mt-5">
+                  {clientObservations.slice(0, 3).map((o, i) => (
+                    <li key={i} className="flex items-start gap-2 text-sm">
+                      <span className="mt-1 h-1.5 w-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: primary }} />
+                      <span style={{ color: textColor }}>{o.title}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
             <div className="lg:col-span-7 relative">
               <div className="absolute -inset-6 rounded-3xl blur-3xl opacity-30 pointer-events-none" style={{ background: `linear-gradient(135deg, ${primary}, ${accent})` }} />
@@ -375,6 +385,9 @@ const AbmPage = () => {
                 </div>
                 <img src={siteScreenshot} alt={`${row.company_name} website`} className="w-full h-auto block max-h-[520px] object-top object-cover" />
               </motion.div>
+              <p className="text-xs mt-4 text-center" style={mutedStyle}>
+                Uw verhaal, zoals wij het hebben gelezen.
+              </p>
             </div>
           </div>
         </section>
