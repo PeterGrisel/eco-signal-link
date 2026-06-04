@@ -8,6 +8,7 @@ import { faviconFor } from "@/data/groeistack"
 interface WaitlistHeroProps {
   logoSrc?: string
   logoAlt?: string
+  accentColor?: string
 }
 
 interface ClientLogo {
@@ -66,7 +67,7 @@ const LogoRing = ({
   )
 }
 
-export const WaitlistHero = ({ logoSrc, logoAlt }: WaitlistHeroProps) => {
+export const WaitlistHero = ({ logoSrc, logoAlt, accentColor }: WaitlistHeroProps) => {
   const canvasRef = useRef(null)
   const [clients, setClients] = useState<ClientLogo[]>([])
 
@@ -156,7 +157,7 @@ export const WaitlistHero = ({ logoSrc, logoAlt }: WaitlistHeroProps) => {
   const colors = {
     textMain: "#ffffff",
     textSecondary: "#94a3b8",
-    bluePrimary: "#0079da",
+    bluePrimary: accentColor || "#0079da",
     success: "#10b981", // emerald-500
     inputBg: "#27272a",
     baseBg: "#09090b",
