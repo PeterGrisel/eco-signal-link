@@ -105,6 +105,7 @@ const ClientPage = () => {
     return () => window.removeEventListener("resize", update);
   }, []);
 
+  const isEn = row ? (row.language || "nl") === "en" : false;
   const metaTitle = row
     ? isEn
       ? `${row.company_name} × B2BGroeiMachine — B2B Wholesale Growth Engine`
