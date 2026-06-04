@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Check, Download, FileText, Radar, Database, Send, Workflow, Sparkles, BarChart3, ChevronLeft, ChevronRight, ZoomIn, ZoomOut, RotateCcw, Tag, Rocket, Handshake, Infinity as InfinityIcon } from "lucide-react";
+import { ArrowRight, Check, Download, FileText, Radar, Database, Send, Workflow, Sparkles, BarChart3, ChevronLeft, ChevronRight, ZoomIn, ZoomOut, RotateCcw } from "lucide-react";
 import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
@@ -16,7 +16,6 @@ import { FrostedGlassCard } from "@/components/ui/interactive-frosted-glass-card
 import { BentoGrid } from "@/components/ui/bento-grid";
 import { COPY } from "@/content/copy";
 import { Compass, Brain, Filter, Calculator, Layers, Send as SendIcon, Route, LineChart, BookOpenCheck } from "lucide-react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 
 // Configure pdf.js worker from CDN (matches installed pdfjs-dist version)
 pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
@@ -62,7 +61,6 @@ const HegoPage = () => {
   const [page, setPage] = useState(1);
   const [viewerWidth, setViewerWidth] = useState(900);
   const [zoom, setZoom] = useState(1);
-  const [pricingOpen, setPricingOpen] = useState(false);
   const viewerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -355,21 +353,10 @@ const HegoPage = () => {
                 featured: true,
               };
             });
-            const pricingItem = {
-              title: "Bekijk de pricing",
-              description: "Drie heldere plannen. Growth System, Build Sprint of GTM-uren. Eén klik.",
-              icon: <Tag className="w-5 h-5" strokeWidth={1.6} />,
-              status: "Pricing · HEGO",
-              tags: ["transparant", "schaalbaar"],
-              cta: "Open pricing →",
-              colSpan: 1,
-              featured: true,
-              onClick: () => setPricingOpen(true),
-            };
             return (
               <BentoGrid
                 accent={HEGO.primaryGlow}
-                items={[...baseItems, pricingItem]}
+                items={baseItems}
               />
             );
           })()}
@@ -384,76 +371,6 @@ const HegoPage = () => {
 
       <Footer />
 
-      <Dialog open={pricingOpen} onOpenChange={setPricingOpen}>
-        <DialogContent className="max-w-5xl border-border bg-background p-0 overflow-hidden">
-          <div
-            className="absolute inset-0 pointer-events-none opacity-30"
-            style={{ background: `radial-gradient(circle at 20% 0%, ${HEGO.primary}66 0%, transparent 60%), radial-gradient(circle at 100% 100%, ${HEGO.primaryGlow}55 0%, transparent 55%)` }}
-          />
-          <div className="relative p-6 md:p-8">
-            <DialogHeader className="mb-6 text-left">
-              <p className="font-display text-xs tracking-[0.2em] uppercase mb-2" style={{ color: HEGO.primaryGlow }}>
-                Pricing voor HEGO
-              </p>
-              <DialogTitle className="font-display font-bold text-3xl md:text-4xl tracking-tight leading-tight">
-                Drie plannen. <span style={{ color: HEGO.primaryGlow }}>Eén werkend systeem.</span>
-              </DialogTitle>
-              <DialogDescription className="text-muted-foreground text-base">
-                Kies hoe wij samenwerken. Wij draaien het systeem, bouwen het, of leveren GTM-capaciteit per uur.
-              </DialogDescription>
-            </DialogHeader>
-
-            <BentoGrid
-              accent={HEGO.primaryGlow}
-              items={[
-                {
-                  title: "Growth System",
-                  description: "Wij draaien uw groeisysteem. Signalen, routing en engagement, dedicated campagnemanager.",
-                  icon: <Rocket className="w-5 h-5" strokeWidth={1.6} />,
-                  status: "Plan A · Vanaf €1.800 / mnd",
-                  tags: ["maandelijks opzegbaar", "dedicated team"],
-                  cta: "Meest gekozen →",
-                  colSpan: 2,
-                  hasPersistentHover: true,
-                  featured: true,
-                },
-                {
-                  title: "Build Sprint",
-                  description: "Wij bouwen uw systeem in 6 maanden en dragen over. Build & transfer op projectbasis.",
-                  icon: <Handshake className="w-5 h-5" strokeWidth={1.6} />,
-                  status: "Plan B · Op aanvraag",
-                  tags: ["6 maanden", "overdracht aan uw team"],
-                  colSpan: 1,
-                  featured: true,
-                },
-                {
-                  title: "GTM-capaciteit per uur",
-                  description: "Extra SDR- en GTM-handen wanneer u ze nodig heeft. Geen vaste fee, naadloos op uw systeem.",
-                  icon: <InfinityIcon className="w-5 h-5" strokeWidth={1.6} />,
-                  status: "Plan C · Per uur",
-                  tags: ["flexibel", "inhuren naar behoefte"],
-                  colSpan: 2,
-                  featured: true,
-                },
-              ]}
-            />
-
-            <div className="flex flex-wrap items-center justify-between gap-3 mt-6 px-4">
-              <p className="text-sm text-muted-foreground">
-                Wilt u een offerte op maat voor HEGO?
-              </p>
-              <CtaLink
-                intent="bespreekSituatie"
-                location="HEGO Pricing Modal"
-                className="inline-flex items-center gap-2 font-semibold text-sm rounded-full px-5 py-2.5 text-white hover:opacity-90 transition"
-                style={{ backgroundColor: HEGO.primary }}
-              >
-                Bespreek uw situatie <ArrowRight className="h-4 w-4" />
-              </CtaLink>
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 };
