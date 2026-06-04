@@ -81,6 +81,21 @@ const AnimatedRoutes = () => {
     return () => { stopScrollDepth(); };
   }, [location.pathname]);
 
+  // Smooth scroll to hash after route transition animation completes
+  useEffect(() => {
+    const hash = location.hash.replace("#", "");
+    if (!hash) return;
+
+    const timer = setTimeout(() => {
+      const el = document.getElementById(hash);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }, 350); // slightly longer than AnimatePresence duration (300ms)
+
+    return () => clearTimeout(timer);
+  }, [location.hash, location.pathname]);
+
   return (
     <AnimatePresence mode="wait">
       <motion.div
