@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Check, ArrowRight, Handshake, Infinity as InfinityIcon, Lightbulb, MessagesSquare, Plug, Wrench } from "lucide-react";
+import { Check, ArrowRight, Handshake, Infinity as InfinityIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import CtaLink from "@/components/CtaLink";
@@ -330,37 +330,6 @@ const PricingSection = () => {
         </motion.div>
 
         {/* Fase grid */}
-        {/* Diensten */}
-        <motion.div
-          initial={{ opacity: 0, y: 8 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-50px" }}
-          transition={{ duration: 0.5 }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-8 md:mb-10 max-w-4xl mx-auto"
-        >
-          {[
-            { icon: Lightbulb, label: "Advies" },
-            { icon: MessagesSquare, label: "Consultancy" },
-            { icon: Plug, label: "Integratie" },
-            { icon: Wrench, label: "Service" },
-          ].map((d) => (
-            <div
-              key={d.label}
-              className="rounded-xl border border-primary/20 bg-card/40 backdrop-blur-sm px-4 py-3 flex items-center gap-3 hover:border-primary/40 transition-colors"
-            >
-              <span className="w-9 h-9 rounded-lg border border-primary/30 bg-card flex items-center justify-center shrink-0">
-                <d.icon className="w-4 h-4 text-primary" strokeWidth={1.8} />
-              </span>
-              <div className="flex flex-col leading-tight">
-                <span className="text-[10px] font-display font-semibold tracking-[0.18em] uppercase text-primary/80">
-                  Onze dienst
-                </span>
-                <span className="font-display font-bold text-base">{d.label}</span>
-              </div>
-            </div>
-          ))}
-        </motion.div>
-
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 items-stretch mb-10 md:mb-14">
           {fases.map((fase, i) => (
             <PricingCard key={fase.title} fase={fase} index={i} />
