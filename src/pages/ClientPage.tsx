@@ -260,7 +260,7 @@ const ClientPage = () => {
             </FrostedGlassCard>
             {pdfUrl && (
               <a href="#playbook" className="inline-flex items-center gap-2 font-semibold text-sm md:text-base rounded-full px-6 py-3 hover:opacity-90 transition"
-                style={{ backgroundColor: glowHex, color: primaryHex }}>
+                style={{ backgroundColor: glowHex, color: "#ffffff" }}>
                 Bekijk het playbook <ArrowRight className="h-4 w-4" />
               </a>
             )}
