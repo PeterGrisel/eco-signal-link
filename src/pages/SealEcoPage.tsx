@@ -387,7 +387,7 @@ const SealEcoPage = () => {
 
       <div className="min-h-screen flex items-center">
         <div className="w-full">
-          <WaitlistHero logoSrc={sealecoLogo.url} logoAlt="SealEco logo" />
+          <WaitlistHero logoSrc={sealecoLogo.url} logoAlt="SealEco logo" accentColor={HEGO.primary} />
         </div>
       </div>
 

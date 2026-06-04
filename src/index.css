@@ -180,6 +180,43 @@
     color: hsl(210 95% 72%);
   }
 
+  /* SealEco-branded pricing override (scoped to wrapper) */
+  .sealeco-brand .text-gradient {
+    background-image: linear-gradient(135deg, hsl(143 100% 26%), hsl(122 49% 56%));
+  }
+  .sealeco-brand .glow-bg {
+    background:
+      radial-gradient(ellipse 800px 500px at 50% 0%, hsl(143 100% 26% / 0.10), transparent 70%),
+      radial-gradient(ellipse 800px 500px at 50% 100%, hsl(122 49% 56% / 0.08), transparent 70%);
+  }
+  .sealeco-brand #pricing .rounded-2xl,
+  .sealeco-brand #pricing .rounded-xl {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    background: linear-gradient(135deg, hsl(var(--foreground) / 0.08), hsl(var(--foreground) / 0.02));
+    border-color: hsl(var(--foreground) / 0.15);
+    box-shadow:
+      inset 0 1px 0 hsl(var(--foreground) / 0.12),
+      0 20px 60px -20px hsl(143 100% 20% / 0.45);
+  }
+  .sealeco-brand #pricing .rounded-2xl:hover,
+  .sealeco-brand #pricing .rounded-xl:hover {
+    border-color: hsl(122 49% 56% / 0.5);
+  }
+  .sealeco-brand #pricing .border-primary\/40.bg-primary\/5,
+  .sealeco-brand #pricing .border-primary\/40.bg-primary\/10 {
+    background: linear-gradient(135deg, hsl(143 100% 26% / 0.18), hsl(122 49% 56% / 0.06));
+    border-color: hsl(122 49% 56% / 0.5);
+    box-shadow:
+      inset 0 1px 0 hsl(var(--foreground) / 0.15),
+      0 0 50px -10px hsl(122 49% 56% / 0.45);
+  }
+  .sealeco-brand #pricing .text-primary,
+  .sealeco-brand #pricing .text-primary\/80,
+  .sealeco-brand #pricing .text-primary\/90 {
+    color: hsl(122 60% 65%);
+  }
+
   .border-glow {
     border-color: hsl(24 75% 63% / 0.2);
   }
