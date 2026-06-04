@@ -53,7 +53,10 @@ function buildSvg(opts: {
   glow: string;
 }): string {
   const { company, headline, subline, primary, glow } = opts;
-  const title = escapeXml(`${company} × B2BGroeiMachine`);
+  const rawTitle = `${company} × B2BGroeiMachine`;
+  // Pick a title size that fits ~1040px width (heuristic: ~0.55em per char)
+  const titleFs = rawTitle.length > 28 ? 56 : rawTitle.length > 20 ? 68 : 84;
+  const title = escapeXml(rawTitle);
   const sub = escapeXml(`${headline} ${subline}`).slice(0, 110);
   return `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
@@ -75,8 +78,8 @@ function buildSvg(opts: {
   <rect width="1200" height="630" fill="url(#g1)"/>
   <rect width="1200" height="630" fill="url(#g2)"/>
   <text x="80" y="120" font-family="Inter" font-size="24" font-weight="700" fill="${glow}" letter-spacing="4">MARKET ACTIVATION PLAYBOOK</text>
-  <text x="80" y="280" font-family="Inter" font-size="84" font-weight="700" fill="#FFFFFF">${title}</text>
-  <text x="80" y="360" font-family="Inter" font-size="32" font-weight="400" fill="#FFFFFF" opacity="0.85">${sub}</text>
+  <text x="80" y="280" font-family="Inter" font-size="${titleFs}" font-weight="700" fill="#FFFFFF">${title}</text>
+  <text x="80" y="350" font-family="Inter" font-size="30" font-weight="400" fill="#FFFFFF" opacity="0.85">${sub}</text>
   <rect x="80" y="500" width="120" height="4" fill="${glow}"/>
   <text x="80" y="560" font-family="Inter" font-size="22" font-weight="700" fill="#FFFFFF" opacity="0.7">b2bgroeimachine.io</text>
 </svg>`;
