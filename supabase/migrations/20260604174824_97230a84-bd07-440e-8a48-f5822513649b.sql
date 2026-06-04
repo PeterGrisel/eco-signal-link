@@ -1,0 +1,1 @@
+UPDATE public.abm_pages SET website='https://www.klingele24.nl', logo_url='https://logo.clearbit.com/klingele24.nl' WHERE slug='klingele24';
