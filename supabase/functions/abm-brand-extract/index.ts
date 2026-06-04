@@ -127,18 +127,34 @@ serve(async (req) => {
     return new Response(JSON.stringify({ error: "Method not allowed" }), { status: 405, headers: { ...cors, "Content-Type": "application/json" } });
   }
 
-  const expected = Deno.env.get("ABM_PUBLISH_KEY");
-  const auth = req.headers.get("authorization") || "";
-  const provided = auth.toLowerCase().startsWith("bearer ") ? auth.slice(7).trim() : (req.headers.get("x-publish-key") || "");
-  if (!expected || provided !== expected) {
-    return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401, headers: { ...cors, "Content-Type": "application/json" } });
-  }
-
   const fcKey = Deno.env.get("FIRECRAWL_API_KEY");
   const supabaseUrl = Deno.env.get("SUPABASE_URL");
   const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
   if (!fcKey || !supabaseUrl || !serviceKey) {
     return new Response(JSON.stringify({ error: "Server missing env (FIRECRAWL_API_KEY / SUPABASE_*)" }), { status: 500, headers: { ...cors, "Content-Type": "application/json" } });
+  }
+
+  // Auth: accept ABM_PUBLISH_KEY OR an admin JWT
+  const expected = Deno.env.get("ABM_PUBLISH_KEY");
+  const authHeader = req.headers.get("authorization") || "";
+  const bearer = authHeader.toLowerCase().startsWith("bearer ") ? authHeader.slice(7).trim() : "";
+  const xKey = req.headers.get("x-publish-key") || "";
+  let authorized = !!expected && (bearer === expected || xKey === expected);
+  if (!authorized && bearer) {
+    try {
+      const userClient = createClient(supabaseUrl, Deno.env.get("SUPABASE_ANON_KEY") || serviceKey, {
+        global: { headers: { Authorization: `Bearer ${bearer}` } },
+      });
+      const { data: u } = await userClient.auth.getUser();
+      if (u?.user?.id) {
+        const admin = createClient(supabaseUrl, serviceKey);
+        const { data: isAdmin } = await admin.rpc("has_role", { _user_id: u.user.id, _role: "admin" });
+        if (isAdmin === true) authorized = true;
+      }
+    } catch { /* ignore */ }
+  }
+  if (!authorized) {
+    return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401, headers: { ...cors, "Content-Type": "application/json" } });
   }
 
   let body: any;
