@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
   ArrowUpRight,
@@ -9,7 +8,77 @@ import {
   Inbox,
   LineChart,
   BookOpenCheck,
+  Sparkles,
+  Users,
 } from "lucide-react";
+import { FeatureCard } from "@/components/blocks/grid-feature-cards";
+
+const PLAYBOOKS = [
+  {
+    slug: "signaal",
+    phase: "Doelgroep",
+    title: "Signaal-playbook",
+    description:
+      "Vang koopintent uit jobchanges, funding en tech-stack. Scoor en route automatisch.",
+    icon: Radar,
+  },
+  {
+    slug: "icp-tam",
+    phase: "Fundament",
+    title: "ICP & TAM-playbook",
+    description:
+      "Maak uw markt zichtbaar. Van totale markt naar tier-1, tier-2 en tier-3 accounts.",
+    icon: Crosshair,
+  },
+  {
+    slug: "outbound",
+    phase: "Activatie",
+    title: "Outbound-playbook",
+    description:
+      "Multi-channel sequenties via e-mail, LinkedIn en telefoon in één pipeline.",
+    icon: Send,
+  },
+  {
+    slug: "crm-routing",
+    phase: "Activatie",
+    title: "CRM Routing-playbook",
+    description:
+      "Elke lead verrijkt, gescoord en automatisch toegewezen aan de juiste owner.",
+    icon: Network,
+  },
+  {
+    slug: "inbound",
+    phase: "Sales",
+    title: "Inbound Orchestratie-playbook",
+    description:
+      "Van form-fill tot geboekte meeting in minuten, zonder handmatige tussenstap.",
+    icon: Inbox,
+  },
+  {
+    slug: "pipeline",
+    phase: "Optimalisatie",
+    title: "Pipeline Rapportage-playbook",
+    description:
+      "Eén dashboard met attributie die klopt. Stuur op de cijfers die er echt toe doen.",
+    icon: LineChart,
+  },
+  {
+    slug: "abm",
+    phase: "Strategie",
+    title: "ABM-playbook",
+    description:
+      "Account-based campagnes op uw tier-1 lijst. Persoonlijk, gecoördineerd en meetbaar.",
+    icon: Users,
+  },
+  {
+    slug: "ai-personalisatie",
+    phase: "Optimalisatie",
+    title: "AI-personalisatie-playbook",
+    description:
+      "Genereer relevante openers en context per account. Zonder ruis, met hogere replyrate.",
+    icon: Sparkles,
+  },
+];
 
 /**
  * Agnostische playbook showcase — geïnspireerd op workflows.io/workflows,
@@ -291,13 +360,7 @@ const PlaybookShowcase = () => {
     <section id="playbooks" className="py-16 md:py-32 relative">
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6 }}
-          className="mb-12 md:mb-16 text-center max-w-2xl mx-auto"
-        >
+        <div className="mb-12 md:mb-16 text-center max-w-2xl mx-auto">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/30 bg-primary/10 mb-6">
             <BookOpenCheck className="w-3.5 h-3.5 text-primary" />
             <span className="text-primary font-display font-semibold text-xs tracking-[0.2em] uppercase">
@@ -312,60 +375,34 @@ const PlaybookShowcase = () => {
             Elk playbook is een bewezen werkstroom. Klaar om in te zetten,
             volledig aan te passen aan uw markt.
           </p>
-        </motion.div>
+        </div>
 
-        {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-border/40 rounded-2xl overflow-hidden border border-border/40">
-          {PLAYBOOKS.map((pb, i) => {
-            const Icon = pb.icon;
-            return (
-              <motion.article
-                key={pb.slug}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.5, delay: i * 0.05 }}
-                className="group relative bg-card/60 backdrop-blur-sm p-6 md:p-7 flex flex-col gap-5 hover:bg-card/90 transition-colors"
-              >
-                {/* Visual */}
-                <div className="relative aspect-[19/10] rounded-lg border border-border/60 bg-background/60 overflow-hidden">
-                  <div className="absolute inset-0 opacity-90 group-hover:opacity-100 transition-opacity">
-                    {pb.diagram}
-                  </div>
-                  <div className="absolute top-3 left-3 flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-background/80 border border-border/60 backdrop-blur">
-                    <Icon className="w-3 h-3 text-primary" />
-                    <span className="text-[10px] font-display font-semibold tracking-[0.15em] uppercase text-muted-foreground">
-                      Playbook · {pb.phase}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Body */}
-                <div className="flex-1">
-                  <h3 className="font-display font-bold text-xl md:text-2xl tracking-tight mb-2 group-hover:text-primary transition-colors">
-                    {pb.title}
-                  </h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed">
-                    {pb.desc}
-                  </p>
-                </div>
-
-                {/* Footer */}
-                <div className="flex items-center justify-between pt-4 border-t border-border/40">
-                  <span className="text-xs text-muted-foreground font-mono">
-                    {pb.steps} stappen
-                  </span>
-                  <Link
-                    to="/playbooks"
-                    className="inline-flex items-center gap-1 text-xs font-display font-semibold text-foreground hover:text-primary transition-colors"
-                  >
-                    Bekijk playbook
-                    <ArrowUpRight className="w-3.5 h-3.5" />
-                  </Link>
-                </div>
-              </motion.article>
-            );
-          })}
+        {/* Grid — geïnspireerd op grid-feature-cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 rounded-2xl overflow-hidden border border-border/60 bg-card/30 divide-x divide-y divide-border/60 [&>*:nth-child(-n+4)]:border-t-0 [&>*:nth-child(4n+1)]:border-l-0">
+          {PLAYBOOKS.map((pb) => (
+            <Link
+              key={pb.slug}
+              to="/playbooks"
+              className="group block hover:bg-card/60 transition-colors"
+            >
+              <FeatureCard
+                feature={{
+                  title: pb.title,
+                  description: pb.description,
+                  icon: pb.icon,
+                }}
+              />
+              <div className="px-6 pb-6 -mt-2 flex items-center justify-between">
+                <span className="text-[10px] font-display font-semibold tracking-[0.18em] uppercase text-primary/80">
+                  {pb.phase}
+                </span>
+                <span className="inline-flex items-center gap-1 text-xs font-display font-semibold text-foreground group-hover:text-primary transition-colors">
+                  Bekijk
+                  <ArrowUpRight className="w-3.5 h-3.5" />
+                </span>
+              </div>
+            </Link>
+          ))}
         </div>
 
         <div className="mt-10 text-center">
