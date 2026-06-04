@@ -947,6 +947,37 @@ Deno.serve(async (req) => {
           headers: { ...cacheHeaders, "X-Cache": "MISS" },
         });
       }
+      // Unknown slug: look up dynamic abm_pages
+      try {
+        const supabaseUrl = Deno.env.get("SUPABASE_URL");
+        const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") || Deno.env.get("SUPABASE_ANON_KEY");
+        if (supabaseUrl && supabaseKey) {
+          const supa = createClient(supabaseUrl, supabaseKey);
+          const { data: dyn } = await supa
+            .from("abm_pages")
+            .select("company_name, intro, hero_headline, hero_subline, status, expires_at")
+            .eq("slug", slug)
+            .maybeSingle();
+          if (dyn && dyn.status === "live" && new Date(dyn.expires_at) > new Date()) {
+            const title = `${dyn.company_name} × ${SITE_NAME} — Market Activation Playbook`;
+            const description = (dyn.intro || `Persoonlijk playbook voor ${dyn.company_name}.`).slice(0, 155);
+            const h1 = `${dyn.hero_headline || "Slimmer werken door"} ${dyn.hero_subline || ""}`.trim();
+            const body = `
+<section>
+  <h2>${escapeHtml(dyn.company_name)}</h2>
+  <p>${escapeHtml(dyn.intro || "")}</p>
+</section>
+<p><a href="${SITE_URL}/">Terug naar ${SITE_NAME}</a></p>`;
+            const html = buildHtml({
+              title, description, url: pageUrl, h1, bodyContent: body, noindex: true,
+            });
+            setCache(path, html);
+            return new Response(html, { headers: { ...cacheHeaders, "X-Cache": "MISS" } });
+          }
+        }
+      } catch (e) {
+        console.error("Dynamic client lookup failed:", e);
+      }
       // Unknown client slug: still serve noindex stub
       const html = buildHtml({
         title: `${SITE_NAME} — Persoonlijke pagina`,
