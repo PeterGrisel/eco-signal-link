@@ -4,9 +4,15 @@ import Footer from "@/components/Footer";
 import MobileDock from "@/components/MobileDock";
 import PageLoader from "@/components/PageLoader";
 import AmbientBackdrop from "@/components/homepage/AmbientBackdrop";
-import HomepageNarrative from "@/components/homepage/HomepageNarrative";
-import ActScrollProgress from "@/components/homepage/ActScrollProgress";
-import PlaybookShowcase from "@/components/PlaybookShowcase";
+import Chapter03TwoWays from "@/components/homepage/chapters/Chapter03TwoWays";
+import Chapter04Methode from "@/components/homepage/chapters/Chapter04Methode";
+import Chapter05Brein from "@/components/homepage/chapters/Chapter05Brein";
+import Chapter06Blauwdruk from "@/components/homepage/chapters/Chapter06Blauwdruk";
+import Chapter07Schaal from "@/components/homepage/chapters/Chapter04Schaal";
+import Chapter08Funnel from "@/components/homepage/chapters/Chapter08Funnel";
+import Chapter09Modules from "@/components/homepage/chapters/Chapter09Modules";
+import Chapter10Levering from "@/components/homepage/chapters/Chapter10Levering";
+import ScenarioSideScroller from "@/components/homepage/ScenarioSideScroller";
 import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 import CtaLink from "@/components/CtaLink";
 import { Button } from "@/components/ui/button";
@@ -63,26 +69,21 @@ const HoeHetWerkt = () => {
             </div>
           </section>
 
-          <HomepageNarrative />
-          <PlaybookShowcase />
+          <main className="cinematic-home relative">
+            <Chapter03TwoWays />
+            <div id="section-smederij">
+              <ScenarioSideScroller />
+            </div>
+            <Chapter07Schaal />
+            <Chapter04Methode />
+            <Chapter05Brein />
+            <Chapter06Blauwdruk />
+            <Chapter08Funnel />
+            <Chapter09Modules />
+            <Chapter10Levering />
+          </main>
           <Footer />
           <MobileDock />
-          <ActScrollProgress
-            acts={[
-              { id: "hhw-intro", label: "Intro" },
-              { id: "chapter-03", label: "Twee kanten" },
-              { id: "section-smederij", label: "Smederij" },
-              { id: "chapter-07", label: "Cijfers" },
-              { id: "chapter-04", label: "8 stappen" },
-              { id: "chapter-05", label: "Commercieel brein" },
-              { id: "chapter-06", label: "Blauwdruk" },
-              { id: "chapter-08", label: "Impressies → deal" },
-              { id: "chapter-09", label: "Modules" },
-              { id: "chapter-10", label: "Levering" },
-              { id: "section-flipcards", label: "3 voordelen" },
-              { id: "act-finale", label: "Finale" },
-            ]}
-          />
         </div>
       </div>
     </PageLoader>
