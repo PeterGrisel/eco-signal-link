@@ -22,65 +22,164 @@ type Fase = {
   footnote?: string;
 };
 
-const GROWTH_MONTHLY = 2250;
-const GROWTH_YEARLY = Math.round(GROWTH_MONTHLY * 0.8); // 20% korting
-const fmt = (n: number) => `€${n.toLocaleString("nl-NL")}`;
+type Lang = "nl" | "en";
+type Currency = "EUR" | "USD";
 
-const buildFases = (yearly: boolean): Fase[] => [
+const PRICES: Record<Currency, { monthly: number; locale: string; symbol: string }> = {
+  EUR: { monthly: 2250, locale: "nl-NL", symbol: "€" },
+  USD: { monthly: 2500, locale: "en-US", symbol: "$" },
+};
+
+const makeFmt = (currency: Currency) => {
+  const { locale, symbol } = PRICES[currency];
+  return (n: number) => `${symbol}${n.toLocaleString(locale)}`;
+};
+
+const T = {
+  nl: {
+    eyebrow: "Commercieel model",
+    headLine1: "Lage drempel.",
+    headLine2: "Schaalbare waarde.",
+    headSub: "Eén systeem. Drie manieren om ermee te starten. Wij denken in lifetime, niet in losse projecten.",
+    monthly: "Maandelijks",
+    yearly12: "12 maanden",
+    perMonth: "/ maand",
+    yearlyMeta: "12 maanden · 20% korting",
+    monthlyMeta: "Maandelijks opzegbaar",
+    onRequest: "Op aanvraag",
+    sprintMeta: "Build & transfer · projectbasis",
+    sdrMeta: "Per uur · inhuren naar behoefte",
+    growthBadge: "Groeisysteem",
+    growthTitle: "Growth System",
+    growthDesc: "Wij draaien uw groeisysteem. Signalen, routing en engagement.",
+    growthFeatures: ["ICP en signaal-scoring", "Routing en dashboard", "Engagement en optimalisatie", "Dedicated campagnemanager"],
+    growthFootnote: "Doel: lifetime partnership.",
+    sprintBadge: "Build Sprint",
+    sprintTitle: "Sprint · 6 maanden",
+    sprintDesc: "Wij bouwen uw systeem in 6 maanden. Ideaal voor start-ups en scale-ups.",
+    sprintFeatures: ["Volledige setup en training", "Overdracht aan uw team", "Running fee voor licenties erna", "Optioneel: doorlopend beheer"],
+    sdrBadge: "SDR Service",
+    sdrTitle: "GTM capaciteit per uur",
+    sdrDesc: "Extra GTM-handen wanneer u ze nodig heeft. Geen vaste fee.",
+    sdrFeatures: ["Sales development (SDR)", "Outbound en follow-up", "Op uur- of dagbasis", "Naadloos op uw systeem"],
+    sdrCta: "Reserveer uw capaciteit",
+    planA: "Plan A", planB: "Plan B", planC: "Plan C",
+    ppEyebrow: "Voor gekwalificeerde klanten",
+    ppTitleA: "Performance Partnership.",
+    ppTitleB: "Lage techkosten. Gedeelde upside.",
+    ppBody: "Voor wie al omzet draait, maar het systeem mist. Wij bouwen en draaien de groeimachine. U deelt mee in de upside die het systeem oplevert.",
+    ppAdmit: "Toelating",
+    ppAdmitList: ["Bewezen B2B-propositie met klanten", "Gezonde marges en dealwaarde", "Transparante CRM- en salesdata", "Heldere attributie-afspraken vooraf"],
+    ppTechLabel: "Min. techkosten",
+    ppTechValue: "€500 — 1.000",
+    ppTechSuffix: "/ maand",
+    ppShareLabel: "Revenue share",
+    ppShareValue: "5 — 15%",
+    ppShareSuffix: "van toegeschreven omzet",
+    ppFine1: "Alleen op duidelijk afgebakende, door het systeem gegenereerde of beïnvloede omzet. Attributie wordt vooraf vastgelegd.",
+    ppFine2a: "Wij investeren regelmatig in start-ups met een barter-constructie.",
+    ppFine2link: "Bekijk de voorwaarden",
+    ppFine2b: "en join onze hub.",
+    servicesEyebrow: "UW B2B GROEIPARTNER VOOR",
+    services: ["Advies", "Consultancy", "Tool integraties (AI)", "Service & Beheer"],
+    footerLine: "Wilt u weten wat dit voor uw situatie betekent?",
+  },
+  en: {
+    eyebrow: "Commercial model",
+    headLine1: "Low threshold.",
+    headLine2: "Scalable value.",
+    headSub: "One system. Three ways to start. We think in lifetime, not in one-off projects.",
+    monthly: "Monthly",
+    yearly12: "12 months",
+    perMonth: "/ month",
+    yearlyMeta: "12 months · 20% off",
+    monthlyMeta: "Cancel any time",
+    onRequest: "On request",
+    sprintMeta: "Build & transfer · project basis",
+    sdrMeta: "Per hour · hire as needed",
+    growthBadge: "Growth System",
+    growthTitle: "Growth System",
+    growthDesc: "We run your growth system. Signals, routing and engagement.",
+    growthFeatures: ["ICP and signal scoring", "Routing and dashboard", "Engagement and optimization", "Dedicated campaign manager"],
+    growthFootnote: "Goal: lifetime partnership.",
+    sprintBadge: "Build Sprint",
+    sprintTitle: "Sprint · 6 months",
+    sprintDesc: "We build your system in 6 months. Ideal for start-ups and scale-ups.",
+    sprintFeatures: ["Full setup and training", "Handover to your team", "Running fee for licenses after", "Optional: ongoing management"],
+    sdrBadge: "SDR Service",
+    sdrTitle: "GTM capacity per hour",
+    sdrDesc: "Extra GTM hands when you need them. No fixed fee.",
+    sdrFeatures: ["Sales development (SDR)", "Outbound and follow-up", "Hourly or daily basis", "Seamless on your system"],
+    sdrCta: "Reserve your capacity",
+    planA: "Plan A", planB: "Plan B", planC: "Plan C",
+    ppEyebrow: "For qualified clients",
+    ppTitleA: "Performance Partnership.",
+    ppTitleB: "Low tech cost. Shared upside.",
+    ppBody: "For brands already generating revenue, but missing the system. We build and run the growth machine. You share in the upside the system delivers.",
+    ppAdmit: "Admission",
+    ppAdmitList: ["Proven B2B proposition with customers", "Healthy margins and deal value", "Transparent CRM and sales data", "Clear attribution agreements upfront"],
+    ppTechLabel: "Min. tech cost",
+    ppTechValue: "$550 — 1,100",
+    ppTechSuffix: "/ month",
+    ppShareLabel: "Revenue share",
+    ppShareValue: "5 — 15%",
+    ppShareSuffix: "of attributed revenue",
+    ppFine1: "Only on clearly scoped revenue generated or influenced by the system. Attribution is agreed upfront.",
+    ppFine2a: "We regularly invest in start-ups with a barter structure.",
+    ppFine2link: "See the terms",
+    ppFine2b: "and join our hub.",
+    servicesEyebrow: "YOUR B2B GROWTH PARTNER FOR",
+    services: ["Advisory", "Consultancy", "Tool integrations (AI)", "Service & Support"],
+    footerLine: "Want to know what this means for your situation?",
+  },
+} as const;
+
+const buildFases = (yearly: boolean, lang: Lang, currency: Currency): Fase[] => {
+  const t = T[lang];
+  const fmt = makeFmt(currency);
+  const monthly = PRICES[currency].monthly;
+  const yearlyPrice = Math.round(monthly * 0.8);
+  return [
   {
-    step: "Plan A",
-    badge: "Groeisysteem",
-    title: "Growth System",
-    price: yearly ? fmt(GROWTH_YEARLY) : fmt(GROWTH_MONTHLY),
-    priceSuffix: "/ maand",
-    priceStrike: yearly ? fmt(GROWTH_MONTHLY) : undefined,
-    meta: yearly ? "12 maanden · 20% korting" : "Maandelijks opzegbaar",
-    description: "Wij draaien uw groeisysteem. Signalen, routing en engagement.",
-    features: [
-      "ICP en signaal-scoring",
-      "Routing en dashboard",
-      "Engagement en optimalisatie",
-      "Dedicated campagnemanager",
-    ],
+    step: t.planA,
+    badge: t.growthBadge,
+    title: t.growthTitle,
+    price: yearly ? fmt(yearlyPrice) : fmt(monthly),
+    priceSuffix: t.perMonth,
+    priceStrike: yearly ? fmt(monthly) : undefined,
+    meta: yearly ? t.yearlyMeta : t.monthlyMeta,
+    description: t.growthDesc,
+    features: [...t.growthFeatures],
     ctaIntent: "gratisScan",
     ctaLocation: "Pricing Growth System",
     highlight: true,
-    footnote: "Doel: lifetime partnership.",
+    footnote: t.growthFootnote,
   },
   {
-    step: "Plan B",
-    badge: "Build Sprint",
-    title: "Sprint · 6 maanden",
-    price: "Op aanvraag",
-    meta: "Build & transfer · projectbasis",
-    description: "Wij bouwen uw systeem in 6 maanden. Ideaal voor start-ups en scale-ups.",
-    features: [
-      "Volledige setup en training",
-      "Overdracht aan uw team",
-      "Running fee voor licenties erna",
-      "Optioneel: doorlopend beheer",
-    ],
+    step: t.planB,
+    badge: t.sprintBadge,
+    title: t.sprintTitle,
+    price: t.onRequest,
+    meta: t.sprintMeta,
+    description: t.sprintDesc,
+    features: [...t.sprintFeatures],
     ctaIntent: "bespreekSituatie",
     ctaLocation: "Pricing Sprint",
   },
   {
-    step: "Plan C",
-    badge: "SDR Service",
-    title: "GTM capaciteit per uur",
-    price: "Op aanvraag",
-    meta: "Per uur · inhuren naar behoefte",
-    description: "Extra GTM-handen wanneer u ze nodig heeft. Geen vaste fee.",
-    features: [
-      "Sales development (SDR)",
-      "Outbound en follow-up",
-      "Op uur- of dagbasis",
-      "Naadloos op uw systeem",
-    ],
+    step: t.planC,
+    badge: t.sdrBadge,
+    title: t.sdrTitle,
+    price: t.onRequest,
+    meta: t.sdrMeta,
+    description: t.sdrDesc,
+    features: [...t.sdrFeatures],
     ctaIntent: "bespreekSituatie",
     ctaLocation: "Pricing SDR",
-    ctaLabel: "Reserveer uw capaciteit",
+    ctaLabel: t.sdrCta,
   },
 ];
+};
 
 const PricingCard = ({ fase, index }: { fase: Fase; index: number }) => (
   <motion.div
