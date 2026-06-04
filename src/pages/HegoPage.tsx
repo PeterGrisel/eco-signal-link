@@ -353,6 +353,7 @@ const HegoPage = () => {
                     tags: [l.output.replace(/^U krijgt:\s*/i, "").replace(/\.$/, "")],
                     colSpan: i === 0 || i === 7 ? 2 : 1,
                     hasPersistentHover: i === 0,
+                    featured: i === 0,
                   };
                 })}
               />
