@@ -137,7 +137,7 @@ const HegoPage = () => {
 
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="flex flex-col items-center text-center max-w-4xl mx-auto">
-            <div className="relative mb-6 inline-flex items-center justify-center">
+            <div className="relative mb-6 inline-flex items-center justify-center -mt-16 md:-mt-24">
               {/* Liquid glass backdrop - brighter for contrast */}
               <div
                 aria-hidden
