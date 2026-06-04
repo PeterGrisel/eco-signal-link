@@ -140,7 +140,7 @@ const HegoPage = () => {
         </svg>
 
         <div className="container mx-auto px-4 md:px-6 relative z-10">
-          <div className="flex flex-col items-center text-center max-w-4xl mx-auto">
+          <div className="flex flex-col items-center text-center max-w-4xl 2xl:max-w-6xl 3xl:max-w-7xl mx-auto">
             <div className="relative mb-6 inline-flex items-center justify-center -mt-16 md:-mt-24">
               {/* Liquid glass backdrop - brighter for contrast */}
               <div
@@ -169,13 +169,13 @@ const HegoPage = () => {
                 height={512}
               />
             </div>
-            <h1 className="font-display font-bold text-4xl md:text-6xl lg:text-7xl tracking-tight leading-[1.05] mb-6">
+            <h1 className="font-display font-bold text-4xl md:text-6xl lg:text-7xl 2xl:text-8xl 3xl:text-9xl tracking-tight leading-[1.05] mb-6">
               Slimmer werken door
               <br />
               <span style={{ color: HEGO.primaryGlow }}>automatiseren van handmatige acties.</span>
             </h1>
             <FrostedGlassCard
-              className="max-w-2xl mb-8"
+              className="max-w-2xl 2xl:max-w-4xl 3xl:max-w-5xl mb-8"
               background={`linear-gradient(135deg, hsl(var(--foreground) / 0.10), hsl(var(--foreground) / 0.02))`}
               borderColor={`hsl(var(--foreground) / 0.18)`}
               glareColor={`${HEGO.primaryGlow}66`}
@@ -201,17 +201,17 @@ const HegoPage = () => {
       {/* PDF viewer */}
       <section id="playbook" className="min-h-screen flex items-center py-16 md:py-24 bg-card/30 border-b border-border">
         <div className="container mx-auto px-4 md:px-6 w-full">
-          <div className="max-w-3xl mx-auto text-center mb-10">
+          <div className="max-w-3xl 2xl:max-w-5xl 3xl:max-w-6xl mx-auto text-center mb-10">
             <p className="font-display text-xs tracking-[0.2em] uppercase mb-3" style={{ color: HEGO.primaryGlow }}>
               Market Activation Playbook
             </p>
-            <h2 className="font-display font-bold text-4xl md:text-6xl lg:text-7xl tracking-tight leading-[1.05] mb-4">
+            <h2 className="font-display font-bold text-4xl md:text-6xl lg:text-7xl 2xl:text-8xl 3xl:text-9xl tracking-tight leading-[1.05] mb-4">
               Speciaal samengesteld
               <br />
               <span style={{ color: HEGO.primaryGlow }}>voor HEGO.</span>
             </h2>
             <FrostedGlassCard
-              className="max-w-2xl mx-auto"
+              className="max-w-2xl 2xl:max-w-4xl 3xl:max-w-5xl mx-auto"
               background={`linear-gradient(135deg, hsl(var(--foreground) / 0.10), hsl(var(--foreground) / 0.02))`}
               borderColor={`hsl(var(--foreground) / 0.18)`}
               glareColor={`${HEGO.primaryGlow}66`}
@@ -225,7 +225,7 @@ const HegoPage = () => {
             </FrostedGlassCard>
           </div>
 
-          <div className="relative max-w-5xl mx-auto">
+          <div className="relative max-w-5xl 2xl:max-w-7xl 3xl:max-w-[1600px] mx-auto">
             <div
               className="absolute -inset-4 rounded-3xl blur-2xl opacity-30 pointer-events-none"
               style={{ background: `linear-gradient(135deg, ${HEGO.primary}, ${HEGO.primaryGlow})` }}
@@ -320,7 +320,7 @@ const HegoPage = () => {
       {/* 8 playbooks — bento grid in HEGO brandkleur */}
       <section className="min-h-screen flex items-center py-16 md:py-24">
         <div className="container mx-auto px-4 md:px-6 w-full">
-          <div className="max-w-3xl mx-auto text-center mb-12">
+          <div className="max-w-3xl 2xl:max-w-5xl 3xl:max-w-6xl mx-auto text-center mb-12">
             <p
               className="inline-flex items-center justify-center gap-2 font-display font-semibold text-xs tracking-[0.2em] uppercase mb-4"
               style={{ color: HEGO.primaryGlow }}
@@ -328,13 +328,13 @@ const HegoPage = () => {
               <BookOpenCheck className="w-4 h-4" strokeWidth={1.8} />
               Het Playbook-systeem
             </p>
-            <h2 className="font-display font-bold text-4xl md:text-6xl lg:text-7xl tracking-tight leading-[1.05] mb-6">
+            <h2 className="font-display font-bold text-4xl md:text-6xl lg:text-7xl 2xl:text-8xl 3xl:text-9xl tracking-tight leading-[1.05] mb-6">
               Acht playbooks.
               <br />
               <span style={{ color: HEGO.primaryGlow }}>Eén werkend groeisysteem voor HEGO.</span>
             </h2>
             <FrostedGlassCard
-              className="max-w-2xl mx-auto"
+              className="max-w-2xl 2xl:max-w-4xl 3xl:max-w-5xl mx-auto"
               background={`linear-gradient(135deg, hsl(var(--foreground) / 0.10), hsl(var(--foreground) / 0.02))`}
               borderColor={`hsl(var(--foreground) / 0.18)`}
               glareColor={`${HEGO.primaryGlow}66`}
