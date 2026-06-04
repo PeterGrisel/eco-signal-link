@@ -161,6 +161,55 @@ const PricingCard = ({ fase, index }: { fase: Fase; index: number }) => (
   </motion.div>
 );
 
+const SERVICES: { icon: typeof Lightbulb; title: string; desc: string }[] = [
+  {
+    icon: Lightbulb,
+    title: "Advies",
+    desc: "Strategie en signaal-scan voor uw groei.",
+  },
+  {
+    icon: Users,
+    title: "Consultancy",
+    desc: "Hands-on begeleiding bij uw GTM-team.",
+  },
+  {
+    icon: Plug,
+    title: "Integratie",
+    desc: "Koppelingen tussen uw tools en CRM.",
+  },
+  {
+    icon: LifeBuoy,
+    title: "Service",
+    desc: "Doorlopend beheer en optimalisatie.",
+  },
+];
+
+const ServiceCards = () => (
+  <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-10 md:mb-14">
+    {SERVICES.map((s, i) => {
+      const Icon = s.icon;
+      return (
+        <motion.div
+          key={s.title}
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.4, delay: i * 0.05 }}
+          className="rounded-xl border border-border bg-card hover:border-primary/40 transition-colors p-4 md:p-5"
+        >
+          <div className="flex items-center gap-2.5 mb-2">
+            <span className="w-8 h-8 rounded-lg bg-primary/15 text-primary flex items-center justify-center shrink-0">
+              <Icon className="w-4 h-4" />
+            </span>
+            <h4 className="font-display font-semibold text-sm tracking-wide">{s.title}</h4>
+          </div>
+          <p className="text-xs text-muted-foreground leading-relaxed">{s.desc}</p>
+        </motion.div>
+      );
+    })}
+  </div>
+);
+
 const PerformancePartnership = () => (
   <motion.div
     initial={{ opacity: 0, y: 16 }}
