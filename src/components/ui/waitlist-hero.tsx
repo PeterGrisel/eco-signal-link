@@ -2,7 +2,12 @@
 
 import { useState, useRef } from "react"
 
-export const WaitlistHero = () => {
+interface WaitlistHeroProps {
+  logoSrc?: string
+  logoAlt?: string
+}
+
+export const WaitlistHero = ({ logoSrc, logoAlt }: WaitlistHeroProps) => {
   const [email, setEmail] = useState("")
   const [status, setStatus] = useState("idle") // 'idle' | 'loading' | 'success'
   const canvasRef = useRef(null)
