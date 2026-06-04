@@ -241,61 +241,19 @@ export const WaitlistHero = ({ logoSrc, logoAlt }: WaitlistHeroProps) => {
             opacity: 1,
           }}
         >
-          {/* Image 3 (Back) - spins clockwise */}
+          {/* Outer ring - spins clockwise */}
           <div className="absolute inset-0 animate-spin-slow">
-            <div
-              className="absolute top-1/2 left-1/2"
-              style={{
-                width: "2000px",
-                height: "2000px",
-                transform: "translate(-50%, -50%) rotate(279.05deg)",
-                zIndex: 0,
-              }}
-            >
-              <img
-                src="https://framerusercontent.com/images/oqZEqzDEgSLygmUDuZAYNh2XQ9U.png?scale-down-to=2048"
-                alt=""
-                className="w-full h-full object-cover opacity-50"
-              />
-            </div>
+            <LogoRing clients={outer} radius={520} size={88} opacity={0.55} />
           </div>
 
-          {/* Image 2 (Middle) - spins counter-clockwise */}
+          {/* Middle ring - spins counter-clockwise */}
           <div className="absolute inset-0 animate-spin-slow-reverse">
-            <div
-              className="absolute top-1/2 left-1/2"
-              style={{
-                width: "1000px",
-                height: "1000px",
-                transform: "translate(-50%, -50%) rotate(304.42deg)",
-                zIndex: 1,
-              }}
-            >
-              <img
-                src="https://framerusercontent.com/images/UbucGYsHDAUHfaGZNjwyCzViw8.png?scale-down-to=1024"
-                alt=""
-                className="w-full h-full object-cover opacity-60"
-              />
-            </div>
+            <LogoRing clients={middle} radius={340} size={72} opacity={0.7} />
           </div>
 
-          {/* Image 1 (Front) - spins clockwise */}
+          {/* Inner ring - spins clockwise */}
           <div className="absolute inset-0 animate-spin-slow">
-            <div
-              className="absolute top-1/2 left-1/2"
-              style={{
-                width: "800px",
-                height: "800px",
-                transform: "translate(-50%, -50%) rotate(48.33deg)",
-                zIndex: 2,
-              }}
-            >
-              <img
-                src="https://framerusercontent.com/images/Ans5PAxtJfg3CwxlrPMSshx2Pqc.png"
-                alt="App Icon"
-                className="w-full h-full object-cover opacity-80"
-              />
-            </div>
+            <LogoRing clients={inner} radius={200} size={64} opacity={0.85} />
           </div>
         </div>
 
