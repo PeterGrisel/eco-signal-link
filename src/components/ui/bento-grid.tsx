@@ -12,6 +12,7 @@ export interface BentoItem {
     cta?: string;
     colSpan?: number;
     hasPersistentHover?: boolean;
+    featured?: boolean;
 }
 
 interface BentoGridProps {
@@ -62,9 +63,11 @@ function BentoGrid({ items, accent }: BentoGridProps) {
                                 <span
                                     className={cn(
                                         "text-[10px] font-display font-semibold tracking-[0.18em] uppercase px-2.5 py-1 rounded-md",
-                                        "bg-foreground/5 border border-border text-muted-foreground"
+                                        item.featured
+                                            ? "text-white border-0"
+                                            : "bg-foreground/5 border border-border text-muted-foreground"
                                     )}
-                                    style={accentBorder}
+                                    style={item.featured ? { backgroundColor: accent } : accentBorder}
                                 >
                                     {item.status}
                                 </span>
