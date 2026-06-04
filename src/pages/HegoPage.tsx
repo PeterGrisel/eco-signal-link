@@ -8,6 +8,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import HowItWorksSection from "@/components/HowItWorksSection";
 import OrbitingClients from "@/components/OrbitingClients";
+import { WaitlistHero } from "@/components/ui/waitlist-hero";
 import { Button } from "@/components/ui/button";
 import { usePageMeta } from "@/hooks/usePageMeta";
 import CtaLink from "@/components/CtaLink";
@@ -296,6 +297,8 @@ const HegoPage = () => {
         title="B2B-merken die met ons werken"
         subtitle="Industrieel, technisch en zakelijk. Eén werkend groeisysteem onder de motorkap."
       />
+
+      <WaitlistHero />
 
       {/* Mini Groeistack */}
       <section className="py-16 md:py-24 border-b border-border">
