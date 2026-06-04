@@ -47,7 +47,7 @@ const MobileDock = () => {
   };
 
   return (
-    location.pathname.startsWith("/voor") || location.pathname.startsWith("/signaal") || location.pathname.startsWith("/admin") ? null :
+    ((location.pathname.startsWith("/voor") && location.pathname !== "/voor/hego") || location.pathname.startsWith("/signaal") || location.pathname.startsWith("/admin")) ? null :
     <AnimatePresence>
       {visible && !footerVisible && (
         <motion.nav
