@@ -78,7 +78,7 @@ const MobileDock = () => {
             <DockButton onClick={() => goTo("pricing", "Pricing")} label="Prijzen">
               <Tag className="w-5 h-5" />
             </DockButton>
-            <DockButton onClick={() => goTo("faq", "FAQ")} label="FAQ">
+            <DockButton onClick={goToFaq} label="FAQ">
               <HelpCircle className="w-5 h-5" />
             </DockButton>
             <a
