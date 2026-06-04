@@ -913,6 +913,47 @@ Deno.serve(async (req) => {
       });
     }
 
+    // 6. Client landing pages: /voor/:slug (noindex, per-client OG tags)
+    const clientMatch = path.match(/^\/voor\/([^/]+)$/);
+    if (clientMatch) {
+      const slug = clientMatch[1];
+      const client = CLIENT_PAGES[slug];
+      if (client) {
+        const body = `
+<section>
+  <h2>${escapeHtml(client.clientName)}</h2>
+  <p>${escapeHtml(client.intro)}</p>
+</section>
+<p><a href="${SITE_URL}/">Terug naar ${SITE_NAME}</a></p>`;
+        const html = buildHtml({
+          title: client.title,
+          description: client.description,
+          url: pageUrl,
+          h1: client.h1,
+          bodyContent: body,
+          ogImage: client.ogImage,
+          noindex: true,
+        });
+        setCache(path, html);
+        return new Response(html, {
+          headers: { ...cacheHeaders, "X-Cache": "MISS" },
+        });
+      }
+      // Unknown client slug: still serve noindex stub
+      const html = buildHtml({
+        title: `${SITE_NAME} — Persoonlijke pagina`,
+        description: "Persoonlijke pagina.",
+        url: pageUrl,
+        h1: "Persoonlijke pagina",
+        bodyContent: `<p><a href="${SITE_URL}/">Terug naar ${SITE_NAME}</a></p>`,
+        noindex: true,
+      });
+      return new Response(html, {
+        status: 404,
+        headers: { ...corsHeaders, "Content-Type": "text/html; charset=utf-8" },
+      });
+    }
+
     // Fallback: 404
     return new Response(
       buildHtml({
