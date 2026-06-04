@@ -21,6 +21,39 @@ interface OrbitingClientsProps {
 const Logo = ({ c }: { c: ClientLogo }) => {
   const [err, setErr] = useState(false);
   const src = c.logo_url || faviconFor(c.website || c.domain);
+  const isHego = c.name.toLowerCase().includes("hego");
+
+  if (isHego && src && !err) {
+    return (
+      <div className="h-14 w-14 md:h-16 md:w-16 rounded-full flex items-center justify-center relative">
+        <div
+          aria-hidden
+          className="absolute inset-0 rounded-full backdrop-blur-2xl border"
+          style={{
+            background: `radial-gradient(130% 130% at 30% 20%, hsl(var(--foreground) / 0.95) 0%, hsl(var(--foreground) / 0.85) 45%, hsl(var(--foreground) / 0.7) 100%)`,
+            borderColor: `hsl(var(--foreground) / 0.6)`,
+            boxShadow: `inset 0 1px 0 hsl(0 0% 100% / 0.6), inset 0 -1px 0 hsl(var(--foreground) / 0.2), 0 10px 30px -10px #003E7E99`,
+          }}
+        />
+        <div
+          aria-hidden
+          className="absolute inset-0 rounded-full pointer-events-none"
+          style={{
+            background: `linear-gradient(135deg, hsl(0 0% 100% / 0.5) 0%, transparent 40%, transparent 60%, hsl(0 0% 100% / 0.2) 100%)`,
+            mixBlendMode: "overlay",
+          }}
+        />
+        <img
+          src={src}
+          alt={c.name}
+          className="relative object-contain max-h-9 max-w-9 drop-shadow-lg"
+          loading="lazy"
+          onError={() => setErr(true)}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="h-14 w-14 md:h-16 md:w-16 rounded-full bg-card/80 border border-border backdrop-blur-sm flex items-center justify-center shadow-lg">
       {err || !src ? (
