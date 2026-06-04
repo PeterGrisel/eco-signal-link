@@ -7,6 +7,7 @@ import "react-pdf/dist/Page/TextLayer.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import HowItWorksSection from "@/components/HowItWorksSection";
+import OrbitingClients from "@/components/OrbitingClients";
 import { Button } from "@/components/ui/button";
 import { usePageMeta } from "@/hooks/usePageMeta";
 import { supabase } from "@/integrations/supabase/client";
@@ -333,21 +334,12 @@ const HegoPage = () => {
       {/* 8 playbooks van de homepage — in HEGO brandkleur */}
       <HowItWorksSection accent={HEGO.primaryGlow} />
 
-      {/* Client logos */}
-      {clients.length > 0 && (
-        <section className="py-14 border-b border-border bg-card/20">
-          <div className="container mx-auto px-4 md:px-6">
-            <p className="text-center font-display text-xs tracking-[0.25em] uppercase text-muted-foreground mb-8">
-              Vertrouwd door industriële B2B-spelers
-            </p>
-            <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-6">
-              {clients.map((c) => (
-                <ClientBadge key={c.id} c={c} />
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
+      {/* Klantenlogos in orbit */}
+      <OrbitingClients
+        accent={HEGO.primaryGlow}
+        title="B2B-merken die met ons werken"
+        subtitle="Industrieel, technisch en zakelijk. Eén werkend groeisysteem onder de motorkap."
+      />
 
       {/* Mini Groeistack */}
       <section className="py-16 md:py-24 border-b border-border">
@@ -391,6 +383,11 @@ const HegoPage = () => {
         />
         <div className="container mx-auto px-4 md:px-6 relative">
           <div className="max-w-3xl mx-auto text-center">
+            <img
+              src={hegoLogo.url}
+              alt="HEGO logo"
+              className="h-14 md:h-16 w-auto mx-auto mb-6 object-contain"
+            />
             <h2 className="font-display font-bold text-3xl md:text-5xl lg:text-6xl tracking-tight leading-tight mb-6">
               Klaar om dit voor HEGO
               <br />
