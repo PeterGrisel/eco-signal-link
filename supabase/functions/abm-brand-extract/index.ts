@@ -45,7 +45,7 @@ async function firecrawlBranding(url: string, key: string) {
     headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
     body: JSON.stringify({
       url,
-      formats: ["branding", "screenshot"],
+      formats: ["branding", "screenshot", "markdown", "summary", "links"],
       onlyMainContent: true,
     }),
   });
@@ -53,6 +53,58 @@ async function firecrawlBranding(url: string, key: string) {
   if (!res.ok) throw new Error(`Firecrawl ${res.status}: ${JSON.stringify(json).slice(0, 300)}`);
   // v2 may wrap in { data: { ... } }
   return json.data || json;
+}
+
+function absUrl(src: string, base: string): string | undefined {
+  try { return new URL(src, base).toString(); } catch { return undefined; }
+}
+
+function harvestImagesFromMarkdown(md: string, baseUrl: string): string[] {
+  if (!md) return [];
+  const out = new Set<string>();
+  const re = /!\[[^\]]*\]\(([^)\s]+)(?:\s+"[^"]*")?\)/g;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(md))) {
+    const u = absUrl(m[1], baseUrl);
+    if (u && /\.(jpe?g|png|webp|avif)(\?|$)/i.test(u) && !/(icon|favicon|logo|sprite|pixel|tracking|1x1)/i.test(u)) {
+      out.add(u);
+    }
+  }
+  return [...out].slice(0, 8);
+}
+
+function harvestTextFromMarkdown(md: string): { pitch?: string; bullets: string[]; tagline?: string } {
+  if (!md) return { bullets: [] };
+  // Remove links syntax but keep text
+  const stripped = md.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1");
+  const lines = stripped.split("\n").map((l) => l.trim()).filter(Boolean);
+  const skip = /^(home|menu|cookies?|privacy|©|contact|inloggen|login|nieuws|blog|search|zoek)/i;
+  // Pitch: first non-heading paragraph 60–260 chars
+  let pitch: string | undefined;
+  for (const l of lines) {
+    if (l.startsWith("#") || l.startsWith("!") || l.startsWith("|") || l.startsWith("-")) continue;
+    if (skip.test(l)) continue;
+    if (l.length >= 60 && l.length <= 280) { pitch = l; break; }
+  }
+  // Bullets: short H2/H3 titles or list items 8–90 chars
+  const bullets: string[] = [];
+  for (const l of lines) {
+    if (bullets.length >= 5) break;
+    const h = l.match(/^#{2,3}\s+(.+)/);
+    const bul = l.match(/^[-*]\s+(.+)/);
+    const txt = (h?.[1] || bul?.[1] || "").trim();
+    if (!txt) continue;
+    if (txt.length < 8 || txt.length > 90) continue;
+    if (skip.test(txt)) continue;
+    if (!bullets.includes(txt)) bullets.push(txt);
+  }
+  // Tagline: first heading
+  let tagline: string | undefined;
+  for (const l of lines) {
+    const h = l.match(/^#\s+(.+)/);
+    if (h && h[1].length <= 140) { tagline = h[1].trim(); break; }
+  }
+  return { pitch, bullets, tagline };
 }
 
 async function uploadFromUrl(supabase: any, slug: string, name: string, sourceUrl: string): Promise<string | undefined> {
@@ -156,10 +208,48 @@ serve(async (req) => {
     newBranding.muted = isDark(newBranding.bg) ? "#C9D1E0" : "#4B5563";
   }
 
+  // ---- Persoonlijke content + galerij ----
+  const md: string = scraped.markdown || scraped.content || "";
+  const meta = scraped.metadata || {};
+  const baseUrl = meta.sourceURL || url;
+  const summary: string | undefined = typeof scraped.summary === "string" ? scraped.summary : undefined;
+  const text = harvestTextFromMarkdown(md);
+
+  const rawImages = harvestImagesFromMarkdown(md, baseUrl);
+  // Add OG image from metadata if present
+  const ogSrc: string | undefined = meta.ogImage || meta["og:image"] || meta.image;
+  const galleryQueue = [...rawImages];
+  if (ogSrc) {
+    const abs = absUrl(ogSrc, baseUrl);
+    if (abs && !galleryQueue.includes(abs)) galleryQueue.unshift(abs);
+  }
+
+  const gallery: string[] = [];
+  let ogUploaded: string | undefined;
+  for (let i = 0; i < galleryQueue.length && gallery.length < 6; i++) {
+    const src = galleryQueue[i];
+    const up = await uploadFromUrl(supabase, slug, `g${i}`, src);
+    if (up) {
+      gallery.push(up);
+      if (src === absUrl(ogSrc || "", baseUrl)) ogUploaded = up;
+    }
+  }
+
+  const personal: Record<string, any> = {
+    siteName: meta.title || page.company_name,
+    siteClaim: (meta.description || "").slice(0, 160) || undefined,
+    tagline: text.tagline,
+    pitch: text.pitch || summary,
+    bullets: text.bullets,
+    gallery,
+    ogImage: ogUploaded || gallery[0],
+  };
+
   const newPayload = {
     ...(page.payload || {}),
     branding: newBranding,
     assets: { ...((page.payload || {}).assets || {}), ...(shotUploaded ? { siteScreenshot: shotUploaded } : {}) },
+    personal: { ...((page.payload || {}).personal || {}), ...personal },
     sourceUrl: url,
   };
 
@@ -168,7 +258,7 @@ serve(async (req) => {
     return new Response(JSON.stringify({ error: updErr.message, branding: newBranding }), { status: 500, headers: { ...cors, "Content-Type": "application/json" } });
   }
 
-  return new Response(JSON.stringify({ ok: true, slug, branding: newBranding, assets: newPayload.assets }), {
+  return new Response(JSON.stringify({ ok: true, slug, branding: newBranding, assets: newPayload.assets, personal }), {
     status: 200, headers: { ...cors, "Content-Type": "application/json" },
   });
 });
