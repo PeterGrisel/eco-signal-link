@@ -363,7 +363,7 @@ export const WaitlistHero = ({ logoSrc, logoAlt }: WaitlistHeroProps) => {
                       ></path>
                     </svg>
                   ) : (
-                    "Join waitlist"
+                    "Plan een meeting"
                   )}
                 </button>
               </div>
