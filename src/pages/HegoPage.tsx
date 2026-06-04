@@ -353,21 +353,10 @@ const HegoPage = () => {
                 featured: true,
               };
             });
-            const pricingItem = {
-              title: "Bekijk de pricing",
-              description: "Drie heldere plannen. Growth System, Build Sprint of GTM-uren. Eén klik.",
-              icon: <Tag className="w-5 h-5" strokeWidth={1.6} />,
-              status: "Pricing · HEGO",
-              tags: ["transparant", "schaalbaar"],
-              cta: "Open pricing →",
-              colSpan: 1,
-              featured: true,
-              onClick: () => setPricingOpen(true),
-            };
             return (
               <BentoGrid
                 accent={HEGO.primaryGlow}
-                items={[...baseItems, pricingItem]}
+                items={baseItems}
               />
             );
           })()}
