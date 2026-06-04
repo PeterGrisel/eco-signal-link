@@ -165,13 +165,6 @@ const HegoPage = () => {
                 height={512}
               />
             </div>
-            <div
-              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold mb-8"
-              style={{ backgroundColor: `${HEGO.primary}1F`, color: HEGO.primaryGlow, border: `1px solid ${HEGO.primary}55` }}
-            >
-              <span className="h-1.5 w-1.5 rounded-full animate-pulse" style={{ backgroundColor: HEGO.primaryGlow }} />
-              HEGO × B2BGROEIMACHINE
-            </div>
             <h1 className="font-display font-bold text-4xl md:text-6xl lg:text-7xl tracking-tight leading-[1.05] mb-6">
               Slimmer werken door automatiseren van handmatige acties.
             </h1>
