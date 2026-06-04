@@ -1,7 +1,7 @@
 import { useEffect, useState, type CSSProperties } from "react";
 import { useParams, Navigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowRight, Check, Target, Map, Database, Megaphone, Route, BarChart3, Users, Radio, Award, Shield } from "lucide-react";
+import { ArrowRight, Check, Target, Map, Database, Megaphone, Route, BarChart3, Users, Radio, Award, Shield, Eye, MousePointerClick, Mail, Linkedin, Repeat, TrendingUp, Building2, Briefcase, Headphones, Globe2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { usePageMeta } from "@/hooks/usePageMeta";
@@ -380,6 +380,81 @@ const AbmPage = () => {
         </section>
       )}
 
+      {/* Manifest — Hormozi-stijl: signaalprobleem & bewegende markt */}
+      <section className="relative py-20 md:py-28 border-b overflow-hidden" style={{ borderColor, backgroundColor: bgColor }}>
+        <div className="absolute inset-0 abm-dots opacity-30 pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full blur-3xl opacity-20 pointer-events-none" style={{ background: `radial-gradient(circle, ${primary} 0%, transparent 70%)` }} />
+        <div className="container mx-auto px-6 relative max-w-5xl">
+          <p className="text-xs font-semibold tracking-[0.25em] uppercase mb-6 text-center" style={{ color: primary }}>
+            Het echte probleem
+          </p>
+          <h2 className="font-display text-4xl md:text-6xl lg:text-7xl tracking-tight leading-[1.02] text-center mb-4" style={headingStyle}>
+            U heeft geen leadprobleem.
+          </h2>
+          <h2 className="font-display text-4xl md:text-6xl lg:text-7xl tracking-tight leading-[1.02] text-center mb-16" style={{ ...headingStyle, color: primary }}>
+            U heeft een signaalprobleem.
+          </h2>
+
+          <p className="font-display text-2xl md:text-3xl text-center mb-10 leading-snug" style={headingStyle}>
+            Uw markt beweegt al.
+          </p>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-12">
+            {[
+              { icon: Eye, t: "Mensen bezoeken uw site" },
+              { icon: Mail, t: "Ze openen uw mails" },
+              { icon: Linkedin, t: "Ze bekijken profielen" },
+              { icon: MousePointerClick, t: "Ze reageren op content" },
+              { icon: Repeat, t: "Ze wisselen van leverancier" },
+              { icon: TrendingUp, t: "Ze groeien, krimpen, huren" },
+            ].map(({ icon: Icon, t }, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.4, delay: i * 0.05 }}
+                className="flex items-center gap-3 p-4 rounded-xl border"
+                style={{ borderColor: `${primary}30`, backgroundColor: `${surfaceColor}80` }}
+              >
+                <span className="inline-flex h-9 w-9 rounded-lg items-center justify-center flex-shrink-0" style={softBrand}>
+                  <Icon className="h-4 w-4" />
+                </span>
+                <span className="text-sm md:text-base font-medium">{t}</span>
+              </motion.div>
+            ))}
+          </div>
+
+          <div className="max-w-3xl mx-auto text-center space-y-6">
+            <p className="font-display text-2xl md:text-4xl leading-tight" style={headingStyle}>
+              Maar u ziet het pas als ze een formulier invullen.
+            </p>
+            <p className="font-display text-3xl md:text-5xl leading-tight" style={{ ...headingStyle, color: primary }}>
+              En dan bent u te laat.
+            </p>
+            <div className="h-px w-24 mx-auto my-8" style={{ backgroundColor: `${primary}80` }} />
+            <p className="text-lg md:text-xl leading-relaxed" style={mutedStyle}>
+              B2BGroeiMachine bouwt het systeem dat die signalen eerder herkent, weegt en omzet naar commerciële actie. Geen losse lijst. Geen eenmalige campagne. Een werkend brein dat blijft staan.
+            </p>
+            <div className="grid sm:grid-cols-3 gap-3 pt-6 text-left">
+              {[
+                "Context vastleggen",
+                "Markt mappen",
+                "Accounts verrijken",
+                "Signalen meten",
+                "Engagement activeren",
+                "Sales routeren",
+              ].map((s, i) => (
+                <div key={i} className="flex items-center gap-2 text-sm" style={{ color: textColor }}>
+                  <span className="font-mono text-xs" style={{ color: primary }}>0{i + 1}</span>
+                  <span>{s}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Value bar */}
       {(summary || valueBar.length > 0) && (
         <section className="border-b border-border" style={{ backgroundColor: primary }}>
@@ -660,6 +735,61 @@ const AbmPage = () => {
       )}
 
       {/* Final CTA banner */}
+      {/* Rollen — wie we concreet helpen bij {row.company_name} */}
+      <section className="py-20 md:py-24 border-b" style={{ borderColor, backgroundColor: bgColor }}>
+        <div className="container mx-auto px-6">
+          <div className="max-w-3xl mb-12">
+            <p className="text-xs font-semibold tracking-[0.25em] uppercase mb-4" style={{ color: primary }}>
+              Wie we concreet helpen bij {row.company_name}
+            </p>
+            <h2 className="font-display text-3xl md:text-5xl tracking-tight leading-tight mb-4" style={headingStyle}>
+              Niet harder zoeken naar leads. <span style={{ color: primary }}>Slimmer zien wie al beweegt.</span>
+            </h2>
+            <p className="text-base md:text-lg leading-relaxed" style={mutedStyle}>
+              We helpen niet "het bedrijf". We helpen de rollen die dagelijks commerciële kansen missen door versnipperde signalen.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {[
+              { icon: Building2, role: "Directie & founder", hook: "Van groei op toeval naar groei op systeem.", body: "Grip op welke markten beweging tonen en welke acties resultaat opleveren." },
+              { icon: Target, role: "Salesmanager", hook: "Weten wie nú aandacht verdient.", body: "Accounts gescoord, signalen zichtbaar, opvolging gerouteerd naar het juiste team." },
+              { icon: Briefcase, role: "Accountmanagers", hook: "Meer relevante klantmomenten.", body: "Salesalerts op heractivatie, cross-sell, dalende afname en warme signalen." },
+              { icon: Users, role: "Inside sales & SDR", hook: "Elke dag weten wie u belt en waarom.", body: "Gescoorde accounts, duidelijke flows, prioriteiten en scripts per segment." },
+              { icon: Megaphone, role: "Marketing", hook: "Van campagnecijfers naar commerciële actie.", body: "Signal-based engagement, lead scoring en routing met inzicht in wie écht beweegt." },
+              { icon: Headphones, role: "Service & operations", hook: "Service als bron van commerciële intelligentie.", body: "Servicehistorie, klachten en gebruik vertaald naar upsell en retentie." },
+            ].map(({ icon: Icon, role, hook, body }, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.4, delay: i * 0.05 }}
+                className="p-6 rounded-2xl border bg-card flex flex-col"
+                style={cardStyle}
+              >
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="inline-flex h-10 w-10 rounded-lg items-center justify-center" style={softBrand}>
+                    <Icon className="h-5 w-5" />
+                  </span>
+                  <h3 className="font-display font-semibold text-base" style={headingStyle}>{role}</h3>
+                </div>
+                <p className="font-display text-lg leading-snug mb-3" style={{ ...headingStyle, color: primary }}>
+                  {hook}
+                </p>
+                <p className="text-sm leading-relaxed" style={mutedStyle}>{body}</p>
+              </motion.div>
+            ))}
+          </div>
+
+          <div className="mt-12 p-6 md:p-8 rounded-2xl border-2 max-w-4xl mx-auto text-center" style={{ borderColor: `${primary}40`, backgroundColor: `${primary}0D` }}>
+            <p className="font-display text-xl md:text-2xl leading-snug" style={headingStyle}>
+              Wij helpen commerciële teams om <span style={{ color: primary }}>niet harder te werken</span>, maar eerder te zien waar beweging zit en sneller de juiste actie te starten.
+            </p>
+          </div>
+        </div>
+      </section>
+
       <section className="relative py-14 text-white overflow-hidden" style={{ backgroundColor: primary }}>
         {ctaImage && (
           <div className="absolute inset-0 pointer-events-none opacity-15">
