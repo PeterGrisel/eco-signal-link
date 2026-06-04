@@ -41,12 +41,6 @@ type LinkItem = {
 
 const oplossingen: LinkItem[] = [
   {
-    title: "Hoe het werkt",
-    href: "/hoe-het-werkt",
-    icon: Workflow,
-    description: "Het signaal-gedreven proces in 7 stappen",
-  },
-  {
     title: "Groeistack",
     href: "/groeistack",
     icon: Layers,
