@@ -316,8 +316,8 @@ const AbmPage = () => {
             {subtitle && (
               <p className="text-lg md:text-2xl mb-6 font-medium" style={{ color: primary }}>{subtitle}</p>
             )}
-            {intro && (
-              <p className="text-base md:text-lg leading-relaxed mb-8 max-w-2xl" style={mutedStyle}>{intro}</p>
+            {heroIntro && (
+              <p className="text-base md:text-lg leading-relaxed mb-8 max-w-2xl" style={mutedStyle}>{heroIntro}</p>
             )}
             <div className="flex flex-wrap gap-3 items-center">
               <Button asChild size="lg" style={brandBtn} className="shadow-lg hover:shadow-xl transition-shadow">
