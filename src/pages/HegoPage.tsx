@@ -376,6 +376,7 @@ const HegoPage = () => {
 
       {/* Pricing — in HEGO brandkleur via CSS variable override */}
       <div
+        className="hego-brand"
         style={{
           ["--primary" as any]: "211 100% 25%",
           ["--primary-foreground" as any]: "0 0% 100%",
