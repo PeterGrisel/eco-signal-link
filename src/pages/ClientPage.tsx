@@ -405,8 +405,8 @@ const ClientPage = () => {
       <div
         className={brandClass}
         style={{
-          ["--primary" as any]: primaryHsl,
-          ["--primary-foreground" as any]: "0 0% 100%",
+          ["--primary" as any]: glowHsl,
+          ["--primary-foreground" as any]: primaryHsl,
         }}
       >
         <PricingSection />
