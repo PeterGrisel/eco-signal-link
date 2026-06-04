@@ -16,6 +16,7 @@ import { FrostedGlassCard } from "@/components/ui/interactive-frosted-glass-card
 import { BentoGrid } from "@/components/ui/bento-grid";
 import { COPY } from "@/content/copy";
 import { Compass, Brain, Filter, Calculator, Layers, Send as SendIcon, Route, LineChart, BookOpenCheck } from "lucide-react";
+import PricingSection from "@/components/PricingSection";
 
 // Configure pdf.js worker from CDN (matches installed pdfjs-dist version)
 pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
@@ -372,6 +373,16 @@ const HegoPage = () => {
           })()}
         </div>
       </section>
+
+      {/* Pricing — in HEGO brandkleur via CSS variable override */}
+      <div
+        style={{
+          ["--primary" as any]: "211 100% 25%",
+          ["--primary-foreground" as any]: "0 0% 100%",
+        }}
+      >
+        <PricingSection />
+      </div>
 
       <div className="min-h-screen flex items-center">
         <div className="w-full">
