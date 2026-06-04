@@ -24,6 +24,21 @@ async function ensureWasm() {
   return wasmReady;
 }
 
+let fontBuf: Uint8Array | null = null;
+let fontBoldBuf: Uint8Array | null = null;
+async function ensureFonts() {
+  if (!fontBuf) {
+    const r = await fetch("https://fonts.gstatic.com/s/inter/v13/UcC73FwrK3iLTeHuS_fvQtMwCp50KnMa1ZL7.woff2");
+    // resvg accepts TTF/OTF; fetch a TTF instead
+    const ttf = await fetch("https://github.com/rsms/inter/raw/master/docs/font-files/Inter-Regular.otf");
+    fontBuf = new Uint8Array(await ttf.arrayBuffer());
+    const ttfB = await fetch("https://github.com/rsms/inter/raw/master/docs/font-files/Inter-Bold.otf");
+    fontBoldBuf = new Uint8Array(await ttfB.arrayBuffer());
+    void r; // unused
+  }
+  return { regular: fontBuf!, bold: fontBoldBuf! };
+}
+
 function escapeXml(s: string): string {
   return s.replace(/[<>&'"]/g, (c) => ({
     "<": "&lt;", ">": "&gt;", "&": "&amp;", "'": "&apos;", '"': "&quot;",
@@ -91,7 +106,15 @@ Deno.serve(async (req) => {
     });
 
     await ensureWasm();
-    const resvg = new Resvg(svg, { fitTo: { mode: "width", value: 1200 } });
+    const fonts = await ensureFonts();
+    const resvg = new Resvg(svg, {
+      fitTo: { mode: "width", value: 1200 },
+      font: {
+        fontBuffers: [fonts.regular, fonts.bold],
+        loadSystemFonts: false,
+        defaultFontFamily: "Inter",
+      },
+    });
     const png = resvg.render().asPng();
 
     return new Response(png, {
