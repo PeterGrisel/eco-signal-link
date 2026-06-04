@@ -303,6 +303,9 @@ const HegoPage = () => {
 
       <WaitlistHero logoSrc={hegoLogo.url} logoAlt="HEGO logo" />
 
+        </div>
+      </div>
+
       <Footer />
     </div>
   );
