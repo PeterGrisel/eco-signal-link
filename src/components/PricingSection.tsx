@@ -174,7 +174,7 @@ const SERVICES: { icon: typeof Lightbulb; title: string; desc: string }[] = [
   },
   {
     icon: Plug,
-    title: "Integratie Partner",
+    title: "Tool integraties (AI)",
     desc: "\n",
   },
   {
