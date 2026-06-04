@@ -374,12 +374,6 @@ const HegoPage = () => {
         </div>
       </section>
 
-      <div className="min-h-screen flex items-center">
-        <div className="w-full">
-          <WaitlistHero logoSrc={hegoLogo.url} logoAlt="HEGO logo" />
-        </div>
-      </div>
-
       {/* Pricing — in HEGO brandkleur via CSS variable override */}
       <div
         style={{
@@ -388,6 +382,12 @@ const HegoPage = () => {
         }}
       >
         <PricingSection />
+      </div>
+
+      <div className="min-h-screen flex items-center">
+        <div className="w-full">
+          <WaitlistHero logoSrc={hegoLogo.url} logoAlt="HEGO logo" />
+        </div>
       </div>
 
       <Footer />
