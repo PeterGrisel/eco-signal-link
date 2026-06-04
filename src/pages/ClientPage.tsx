@@ -34,6 +34,7 @@ interface ClientRow {
   hero_headline: string | null;
   hero_subline: string | null;
   intro: string | null;
+  og_image_url: string | null;
   status: string;
   expires_at: string;
 }
@@ -69,7 +70,7 @@ const ClientPage = () => {
     (async () => {
       const { data, error } = await sb
         .from("abm_pages")
-        .select("slug, company_name, pdf_url, logo_url, brand_primary_hex, brand_glow_hex, brand_primary_hsl, brand_glow_hsl, hero_headline, hero_subline, intro, status, expires_at")
+        .select("slug, company_name, pdf_url, logo_url, brand_primary_hex, brand_glow_hex, brand_primary_hsl, brand_glow_hsl, hero_headline, hero_subline, intro, og_image_url, status, expires_at")
         .eq("slug", slug)
         .maybeSingle();
       if (cancelled) return;
@@ -107,6 +108,9 @@ const ClientPage = () => {
     title: row ? `${row.company_name} × B2BGroeiMachine — Market Activation Playbook` : "B2BGroeiMachine",
     description: row?.intro || `Persoonlijk playbook voor ${row?.company_name || "uw bedrijf"}.`,
     canonical: row ? `https://b2bgroeimachine.io/voor/${row.slug}` : undefined,
+    ogImage: row
+      ? (row.og_image_url || `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/og-image?slug=${row.slug}`)
+      : undefined,
   });
 
   useEffect(() => {

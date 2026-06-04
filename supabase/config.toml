@@ -25,3 +25,5 @@ project_id = "snymrcialncxkcsibkjv"
     verify_jwt = false
   [functions.abm-brand-extract]
     verify_jwt = false
+  [functions.og-image]
+    verify_jwt = false
