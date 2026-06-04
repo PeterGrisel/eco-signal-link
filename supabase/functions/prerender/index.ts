@@ -590,6 +590,26 @@ const SOLUTIONS: Record<string, {
   },
 };
 
+// ── Client-specific landing pages (/voor/:slug) ──
+// Private pages, served as noindex but with rich per-client OG tags for social previews.
+const CLIENT_PAGES: Record<string, {
+  clientName: string;
+  title: string;
+  description: string;
+  ogImage: string;
+  h1: string;
+  intro: string;
+}> = {
+  hego: {
+    clientName: "HEGO",
+    title: "HEGO × B2BGroeiMachine — Market Activation Playbook",
+    description: "Persoonlijk playbook voor HEGO: hoe wij groothandel, traders en producenten activeren rond RVS, aluminium en maatwerk bewerkingen.",
+    ogImage: `${SITE_URL}/og/hego.jpg`,
+    h1: "HEGO × B2BGroeiMachine — Market Activation Playbook",
+    intro: "Persoonlijk playbook voor HEGO. Onze analyse, aanpak en eerste plan voor RVS, aluminium en maatwerk bewerkingen.",
+  },
+};
+
 // ── HTML builder ──
 
 function buildHtml(meta: {
