@@ -1,0 +1,1 @@
+UPDATE public.abm_pages SET logo_url = 'https://snymrcialncxkcsibkjv.supabase.co/storage/v1/object/public/abm-assets/super-usa/logo.png' WHERE slug = 'super-usa';
