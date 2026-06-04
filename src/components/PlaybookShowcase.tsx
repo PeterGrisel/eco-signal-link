@@ -80,24 +80,6 @@ const PLAYBOOKS = [
   },
 ];
 
-/**
- * Agnostische playbook showcase — geïnspireerd op workflows.io/workflows,
- * maar zonder tool-logos. Elke card heeft een eigen geabstraheerd SVG-diagram
- * dat de structuur van het playbook laat zien.
- */
-
-type Playbook = {
-  slug: string;
-  phase: string;
-  title: string;
-  desc: string;
-  steps: number;
-  icon: typeof Radar;
-  diagram: React.ReactNode;
-};
-
-// Herbruikbare diagram-primitives (alles agnostisch — geen merknamen)
-const Node = ({
   x,
   y,
   label,
@@ -293,68 +275,6 @@ const PipelineDiagram = () => (
     >
       €
     </text>
-  </Frame>
-);
-
-// ────────── Data ──────────
-
-const PLAYBOOKS: Playbook[] = [
-  {
-    slug: "signaal",
-    phase: "Doelgroep",
-    title: "Signaal-playbook",
-    desc: "Vang koopintent uit jobchanges, funding en tech-stack. Scoor en route automatisch.",
-    steps: 7,
-    icon: Radar,
-    diagram: <SignaalDiagram />,
-  },
-  {
-    slug: "icp-tam",
-    phase: "Fundament",
-    title: "ICP & TAM-playbook",
-    desc: "Maak uw markt zichtbaar. Van totale markt naar tier-1, tier-2, tier-3 accounts.",
-    steps: 5,
-    icon: Crosshair,
-    diagram: <ICPDiagram />,
-  },
-  {
-    slug: "outbound",
-    phase: "Activatie",
-    title: "Outbound-playbook",
-    desc: "Multi-channel sequenties via e-mail, LinkedIn en telefoon die in één pipeline landen.",
-    steps: 8,
-    icon: Send,
-    diagram: <OutboundDiagram />,
-  },
-  {
-    slug: "crm-routing",
-    phase: "Activatie",
-    title: "CRM Routing-playbook",
-    desc: "Elke lead verrijkt, gescoord en automatisch toegewezen aan de juiste owner.",
-    steps: 6,
-    icon: Network,
-    diagram: <CRMDiagram />,
-  },
-  {
-    slug: "inbound",
-    phase: "Sales",
-    title: "Inbound Orchestratie-playbook",
-    desc: "Van form-fill tot geboekte meeting in minuten, zonder handmatige tussenstap.",
-    steps: 6,
-    icon: Inbox,
-    diagram: <InboundDiagram />,
-  },
-  {
-    slug: "pipeline",
-    phase: "Optimalisatie",
-    title: "Pipeline Rapportage-playbook",
-    desc: "Eén dashboard met attributie die klopt. Stuur op de cijfers die er echt toe doen.",
-    steps: 5,
-    icon: LineChart,
-    diagram: <PipelineDiagram />,
-  },
-];
-
 const PlaybookShowcase = () => {
   return (
     <section id="playbooks" className="py-16 md:py-32 relative">
