@@ -25,7 +25,7 @@ const Logo = ({ c }: { c: ClientLogo }) => {
 
   if (isHego && src && !err) {
     return (
-      <div className="h-14 w-14 md:h-16 md:w-16 rounded-full flex items-center justify-center relative">
+      <div className="h-20 w-20 md:h-24 md:w-24 rounded-full flex items-center justify-center relative">
         <div
           aria-hidden
           className="absolute inset-0 rounded-full backdrop-blur-2xl border"
@@ -46,7 +46,7 @@ const Logo = ({ c }: { c: ClientLogo }) => {
         <img
           src={src}
           alt={c.name}
-          className="relative object-contain max-h-9 max-w-9 drop-shadow-lg"
+          className="relative object-contain max-h-14 max-w-14 drop-shadow-lg"
           loading="lazy"
           onError={() => setErr(true)}
         />
@@ -55,16 +55,16 @@ const Logo = ({ c }: { c: ClientLogo }) => {
   }
 
   return (
-    <div className="h-14 w-14 md:h-16 md:w-16 rounded-full bg-card/80 border border-border backdrop-blur-sm flex items-center justify-center shadow-lg">
+    <div className="h-20 w-20 md:h-24 md:w-24 rounded-full bg-card/80 border border-border backdrop-blur-sm flex items-center justify-center shadow-lg">
       {err || !src ? (
-        <span className="text-[10px] font-display font-bold text-foreground/70 px-1 text-center leading-tight">
+        <span className="text-xs font-display font-bold text-foreground/70 px-1 text-center leading-tight">
           {c.name.slice(0, 6)}
         </span>
       ) : (
         <img
           src={src}
           alt={c.name}
-          className="object-contain max-h-9 max-w-9 grayscale opacity-80"
+          className="object-contain max-h-14 max-w-14 grayscale opacity-80"
           loading="lazy"
           onError={() => setErr(true)}
         />
@@ -152,11 +152,11 @@ const OrbitingClients = ({
       />
 
       <div className="container mx-auto px-4 md:px-6 relative">
-        <div className="relative mx-auto" style={{ maxWidth: 760, height: 560 }}>
+        <div className="relative mx-auto" style={{ maxWidth: 860, height: 640 }}>
           {/* Orbiting rings */}
-          <Ring clients={outer} radius={260} duration={80} />
-          <Ring clients={middle} radius={190} duration={60} reverse />
-          <Ring clients={inner} radius={120} duration={45} />
+          <Ring clients={outer} radius={300} duration={80} />
+          <Ring clients={middle} radius={220} duration={60} reverse />
+          <Ring clients={inner} radius={140} duration={45} />
 
           {/* Fade overlay so logos at edges soften */}
           <div
