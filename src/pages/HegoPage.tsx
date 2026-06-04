@@ -309,9 +309,17 @@ const HegoPage = () => {
       </section>
 
       {/* 8 playbooks van de homepage — in HEGO brandkleur */}
-      <HowItWorksSection accent={HEGO.primaryGlow} />
+      <div className="min-h-screen flex items-center">
+        <div className="w-full">
+          <HowItWorksSection accent={HEGO.primaryGlow} />
+        </div>
+      </div>
 
-      <WaitlistHero logoSrc={hegoLogo.url} logoAlt="HEGO logo" />
+      <div className="min-h-screen flex items-center">
+        <div className="w-full">
+          <WaitlistHero logoSrc={hegoLogo.url} logoAlt="HEGO logo" />
+        </div>
+      </div>
 
       <Footer />
     </div>
