@@ -13,8 +13,9 @@ import CtaLink from "@/components/CtaLink";
 import pdfAsset from "@/assets/hego-playbook.pdf.asset.json";
 import hegoLogo from "@/assets/hego-logo.png.asset.json";
 import { FrostedGlassCard } from "@/components/ui/interactive-frosted-glass-card";
-import { Gallery4 } from "@/components/ui/gallery4";
+import { BentoGrid } from "@/components/ui/bento-grid";
 import { COPY } from "@/content/copy";
+import { Compass, Brain, Filter, Calculator, Layers, Send as SendIcon, Route, LineChart, BookOpenCheck } from "lucide-react";
 
 // Configure pdf.js worker from CDN (matches installed pdfjs-dist version)
 pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
@@ -315,40 +316,50 @@ const HegoPage = () => {
         </div>
       </section>
 
-      {/* 8 playbooks van de homepage — in HEGO brandkleur */}
-      <div className="min-h-screen flex items-center">
-        <div className="w-full">
-          <Gallery4
-            accent={HEGO.primaryGlow}
-            title="Acht playbooks voor HEGO."
-            description="Elke fase is een playbook dat in uw eigen tools draait. Samen vormen ze één werkend groeisysteem dat blijft staan."
-            items={COPY.methode.layers.map((l) => ({
-              id: l.number,
-              title: `${l.number} · ${l.title}`,
-              description: l.line,
-              href: "/playbooks",
-              image: `data:image/svg+xml;utf8,${encodeURIComponent(
-                `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 600'>
-                  <defs>
-                    <linearGradient id='g' x1='0' y1='0' x2='1' y2='1'>
-                      <stop offset='0%' stop-color='${HEGO.surface}'/>
-                      <stop offset='60%' stop-color='${HEGO.primary}'/>
-                      <stop offset='100%' stop-color='${HEGO.primaryGlow}'/>
-                    </linearGradient>
-                    <pattern id='p' width='40' height='40' patternUnits='userSpaceOnUse'>
-                      <path d='M0 40 L40 0' stroke='${HEGO.primaryGlow}' stroke-opacity='0.15' stroke-width='1'/>
-                    </pattern>
-                  </defs>
-                  <rect width='800' height='600' fill='url(#g)'/>
-                  <rect width='800' height='600' fill='url(#p)'/>
-                  <text x='60' y='220' font-family='Space Grotesk, sans-serif' font-size='260' font-weight='800' fill='${HEGO.silver}' fill-opacity='0.95'>${l.number}</text>
-                  <text x='60' y='280' font-family='Space Grotesk, sans-serif' font-size='28' font-weight='600' fill='${HEGO.silver}' fill-opacity='0.7' letter-spacing='4'>PLAYBOOK</text>
-                </svg>`
-              )}`,
-            }))}
-          />
+      {/* 8 playbooks — bento grid in HEGO brandkleur */}
+      <section className="min-h-screen flex items-center py-16 md:py-24">
+        <div className="container mx-auto px-4 md:px-6 w-full">
+          <div className="max-w-3xl mx-auto text-center mb-12">
+            <p
+              className="inline-flex items-center justify-center gap-2 font-display font-semibold text-xs tracking-[0.2em] uppercase mb-4"
+              style={{ color: HEGO.primaryGlow }}
+            >
+              <BookOpenCheck className="w-4 h-4" strokeWidth={1.8} />
+              Het Playbook-systeem
+            </p>
+            <h2 className="font-display font-bold text-4xl md:text-6xl lg:text-7xl tracking-tight leading-[1.05] mb-6">
+              Acht playbooks.
+              <br />
+              <span style={{ color: HEGO.primaryGlow }}>Eén werkend groeisysteem voor HEGO.</span>
+            </h2>
+            <p className="text-muted-foreground text-base md:text-lg leading-relaxed">
+              Elke fase is een playbook dat in uw eigen tools draait. Samen vormen ze één werkend groeisysteem dat blijft staan.
+            </p>
+          </div>
+
+          {(() => {
+            const icons = [Compass, Brain, Filter, Calculator, Layers, SendIcon, Route, LineChart];
+            const phases = ["Fundament", "Fundament", "Doelgroep", "Doelgroep", "Activatie", "Activatie", "Sales", "Optimalisatie"];
+            return (
+              <BentoGrid
+                accent={HEGO.primaryGlow}
+                items={COPY.methode.layers.map((l, i) => {
+                  const Icon = icons[i];
+                  return {
+                    title: `${l.number} · ${l.title}`,
+                    description: l.line,
+                    icon: <Icon className="w-5 h-5" strokeWidth={1.6} />,
+                    status: `Playbook · ${phases[i]}`,
+                    tags: [l.output.replace(/^U krijgt:\s*/i, "").replace(/\.$/, "")],
+                    colSpan: i === 0 || i === 7 ? 2 : 1,
+                    hasPersistentHover: i === 0,
+                  };
+                })}
+              />
+            );
+          })()}
         </div>
-      </div>
+      </section>
 
       <div className="min-h-screen flex items-center">
         <div className="w-full">
