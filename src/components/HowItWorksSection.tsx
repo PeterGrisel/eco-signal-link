@@ -126,7 +126,7 @@ const HowItWorksSection = ({ accent }: HowItWorksSectionProps = {}) => {
           className="mt-10 text-center"
         >
           <Link
-            to="/hoe-het-werkt"
+            to="/playbooks"
             className="inline-flex items-center gap-2 font-medium text-primary hover:gap-3 transition-all"
             style={accentStyle}
           >
