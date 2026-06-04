@@ -457,7 +457,7 @@ const ClientPage = () => {
           ["--primary-foreground" as any]: primaryHsl,
         }}
       >
-        <PricingSection />
+        <PricingSection language={isEn ? "en" : "nl"} />
       </div>
 
       <div className="min-h-screen flex items-center">
@@ -466,6 +466,7 @@ const ClientPage = () => {
             logoSrc={row.logo_url || undefined}
             logoAlt={`${row.company_name} logo`}
             accentColor={glowHex}
+            language={isEn ? "en" : "nl"}
           />
         </div>
       </div>

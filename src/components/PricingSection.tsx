@@ -22,65 +22,164 @@ type Fase = {
   footnote?: string;
 };
 
-const GROWTH_MONTHLY = 2250;
-const GROWTH_YEARLY = Math.round(GROWTH_MONTHLY * 0.8); // 20% korting
-const fmt = (n: number) => `€${n.toLocaleString("nl-NL")}`;
+type Lang = "nl" | "en";
+type Currency = "EUR" | "USD";
 
-const buildFases = (yearly: boolean): Fase[] => [
+const PRICES: Record<Currency, { monthly: number; locale: string; symbol: string }> = {
+  EUR: { monthly: 2250, locale: "nl-NL", symbol: "€" },
+  USD: { monthly: 2500, locale: "en-US", symbol: "$" },
+};
+
+const makeFmt = (currency: Currency) => {
+  const { locale, symbol } = PRICES[currency];
+  return (n: number) => `${symbol}${n.toLocaleString(locale)}`;
+};
+
+const T = {
+  nl: {
+    eyebrow: "Commercieel model",
+    headLine1: "Lage drempel.",
+    headLine2: "Schaalbare waarde.",
+    headSub: "Eén systeem. Drie manieren om ermee te starten. Wij denken in lifetime, niet in losse projecten.",
+    monthly: "Maandelijks",
+    yearly12: "12 maanden",
+    perMonth: "/ maand",
+    yearlyMeta: "12 maanden · 20% korting",
+    monthlyMeta: "Maandelijks opzegbaar",
+    onRequest: "Op aanvraag",
+    sprintMeta: "Build & transfer · projectbasis",
+    sdrMeta: "Per uur · inhuren naar behoefte",
+    growthBadge: "Groeisysteem",
+    growthTitle: "Growth System",
+    growthDesc: "Wij draaien uw groeisysteem. Signalen, routing en engagement.",
+    growthFeatures: ["ICP en signaal-scoring", "Routing en dashboard", "Engagement en optimalisatie", "Dedicated campagnemanager"],
+    growthFootnote: "Doel: lifetime partnership.",
+    sprintBadge: "Build Sprint",
+    sprintTitle: "Sprint · 6 maanden",
+    sprintDesc: "Wij bouwen uw systeem in 6 maanden. Ideaal voor start-ups en scale-ups.",
+    sprintFeatures: ["Volledige setup en training", "Overdracht aan uw team", "Running fee voor licenties erna", "Optioneel: doorlopend beheer"],
+    sdrBadge: "SDR Service",
+    sdrTitle: "GTM capaciteit per uur",
+    sdrDesc: "Extra GTM-handen wanneer u ze nodig heeft. Geen vaste fee.",
+    sdrFeatures: ["Sales development (SDR)", "Outbound en follow-up", "Op uur- of dagbasis", "Naadloos op uw systeem"],
+    sdrCta: "Reserveer uw capaciteit",
+    planA: "Plan A", planB: "Plan B", planC: "Plan C",
+    ppEyebrow: "Voor gekwalificeerde klanten",
+    ppTitleA: "Performance Partnership.",
+    ppTitleB: "Lage techkosten. Gedeelde upside.",
+    ppBody: "Voor wie al omzet draait, maar het systeem mist. Wij bouwen en draaien de groeimachine. U deelt mee in de upside die het systeem oplevert.",
+    ppAdmit: "Toelating",
+    ppAdmitList: ["Bewezen B2B-propositie met klanten", "Gezonde marges en dealwaarde", "Transparante CRM- en salesdata", "Heldere attributie-afspraken vooraf"],
+    ppTechLabel: "Min. techkosten",
+    ppTechValue: "€500 — 1.000",
+    ppTechSuffix: "/ maand",
+    ppShareLabel: "Revenue share",
+    ppShareValue: "5 — 15%",
+    ppShareSuffix: "van toegeschreven omzet",
+    ppFine1: "Alleen op duidelijk afgebakende, door het systeem gegenereerde of beïnvloede omzet. Attributie wordt vooraf vastgelegd.",
+    ppFine2a: "Wij investeren regelmatig in start-ups met een barter-constructie.",
+    ppFine2link: "Bekijk de voorwaarden",
+    ppFine2b: "en join onze hub.",
+    servicesEyebrow: "UW B2B GROEIPARTNER VOOR",
+    services: ["Advies", "Consultancy", "Tool integraties (AI)", "Service & Beheer"],
+    footerLine: "Wilt u weten wat dit voor uw situatie betekent?",
+  },
+  en: {
+    eyebrow: "Commercial model",
+    headLine1: "Low threshold.",
+    headLine2: "Scalable value.",
+    headSub: "One system. Three ways to start. We think in lifetime, not in one-off projects.",
+    monthly: "Monthly",
+    yearly12: "12 months",
+    perMonth: "/ month",
+    yearlyMeta: "12 months · 20% off",
+    monthlyMeta: "Cancel any time",
+    onRequest: "On request",
+    sprintMeta: "Build & transfer · project basis",
+    sdrMeta: "Per hour · hire as needed",
+    growthBadge: "Growth System",
+    growthTitle: "Growth System",
+    growthDesc: "We run your growth system. Signals, routing and engagement.",
+    growthFeatures: ["ICP and signal scoring", "Routing and dashboard", "Engagement and optimization", "Dedicated campaign manager"],
+    growthFootnote: "Goal: lifetime partnership.",
+    sprintBadge: "Build Sprint",
+    sprintTitle: "Sprint · 6 months",
+    sprintDesc: "We build your system in 6 months. Ideal for start-ups and scale-ups.",
+    sprintFeatures: ["Full setup and training", "Handover to your team", "Running fee for licenses after", "Optional: ongoing management"],
+    sdrBadge: "SDR Service",
+    sdrTitle: "GTM capacity per hour",
+    sdrDesc: "Extra GTM hands when you need them. No fixed fee.",
+    sdrFeatures: ["Sales development (SDR)", "Outbound and follow-up", "Hourly or daily basis", "Seamless on your system"],
+    sdrCta: "Reserve your capacity",
+    planA: "Plan A", planB: "Plan B", planC: "Plan C",
+    ppEyebrow: "For qualified clients",
+    ppTitleA: "Performance Partnership.",
+    ppTitleB: "Low tech cost. Shared upside.",
+    ppBody: "For brands already generating revenue, but missing the system. We build and run the growth machine. You share in the upside the system delivers.",
+    ppAdmit: "Admission",
+    ppAdmitList: ["Proven B2B proposition with customers", "Healthy margins and deal value", "Transparent CRM and sales data", "Clear attribution agreements upfront"],
+    ppTechLabel: "Min. tech cost",
+    ppTechValue: "$550 — 1,100",
+    ppTechSuffix: "/ month",
+    ppShareLabel: "Revenue share",
+    ppShareValue: "5 — 15%",
+    ppShareSuffix: "of attributed revenue",
+    ppFine1: "Only on clearly scoped revenue generated or influenced by the system. Attribution is agreed upfront.",
+    ppFine2a: "We regularly invest in start-ups with a barter structure.",
+    ppFine2link: "See the terms",
+    ppFine2b: "and join our hub.",
+    servicesEyebrow: "YOUR B2B GROWTH PARTNER FOR",
+    services: ["Advisory", "Consultancy", "Tool integrations (AI)", "Service & Support"],
+    footerLine: "Want to know what this means for your situation?",
+  },
+} as const;
+
+const buildFases = (yearly: boolean, lang: Lang, currency: Currency): Fase[] => {
+  const t = T[lang];
+  const fmt = makeFmt(currency);
+  const monthly = PRICES[currency].monthly;
+  const yearlyPrice = Math.round(monthly * 0.8);
+  return [
   {
-    step: "Plan A",
-    badge: "Groeisysteem",
-    title: "Growth System",
-    price: yearly ? fmt(GROWTH_YEARLY) : fmt(GROWTH_MONTHLY),
-    priceSuffix: "/ maand",
-    priceStrike: yearly ? fmt(GROWTH_MONTHLY) : undefined,
-    meta: yearly ? "12 maanden · 20% korting" : "Maandelijks opzegbaar",
-    description: "Wij draaien uw groeisysteem. Signalen, routing en engagement.",
-    features: [
-      "ICP en signaal-scoring",
-      "Routing en dashboard",
-      "Engagement en optimalisatie",
-      "Dedicated campagnemanager",
-    ],
+    step: t.planA,
+    badge: t.growthBadge,
+    title: t.growthTitle,
+    price: yearly ? fmt(yearlyPrice) : fmt(monthly),
+    priceSuffix: t.perMonth,
+    priceStrike: yearly ? fmt(monthly) : undefined,
+    meta: yearly ? t.yearlyMeta : t.monthlyMeta,
+    description: t.growthDesc,
+    features: [...t.growthFeatures],
     ctaIntent: "gratisScan",
     ctaLocation: "Pricing Growth System",
     highlight: true,
-    footnote: "Doel: lifetime partnership.",
+    footnote: t.growthFootnote,
   },
   {
-    step: "Plan B",
-    badge: "Build Sprint",
-    title: "Sprint · 6 maanden",
-    price: "Op aanvraag",
-    meta: "Build & transfer · projectbasis",
-    description: "Wij bouwen uw systeem in 6 maanden. Ideaal voor start-ups en scale-ups.",
-    features: [
-      "Volledige setup en training",
-      "Overdracht aan uw team",
-      "Running fee voor licenties erna",
-      "Optioneel: doorlopend beheer",
-    ],
+    step: t.planB,
+    badge: t.sprintBadge,
+    title: t.sprintTitle,
+    price: t.onRequest,
+    meta: t.sprintMeta,
+    description: t.sprintDesc,
+    features: [...t.sprintFeatures],
     ctaIntent: "bespreekSituatie",
     ctaLocation: "Pricing Sprint",
   },
   {
-    step: "Plan C",
-    badge: "SDR Service",
-    title: "GTM capaciteit per uur",
-    price: "Op aanvraag",
-    meta: "Per uur · inhuren naar behoefte",
-    description: "Extra GTM-handen wanneer u ze nodig heeft. Geen vaste fee.",
-    features: [
-      "Sales development (SDR)",
-      "Outbound en follow-up",
-      "Op uur- of dagbasis",
-      "Naadloos op uw systeem",
-    ],
+    step: t.planC,
+    badge: t.sdrBadge,
+    title: t.sdrTitle,
+    price: t.onRequest,
+    meta: t.sdrMeta,
+    description: t.sdrDesc,
+    features: [...t.sdrFeatures],
     ctaIntent: "bespreekSituatie",
     ctaLocation: "Pricing SDR",
-    ctaLabel: "Reserveer uw capaciteit",
+    ctaLabel: t.sdrCta,
   },
 ];
+};
 
 const PricingCard = ({ fase, index }: { fase: Fase; index: number }) => (
   <motion.div
@@ -161,36 +260,15 @@ const PricingCard = ({ fase, index }: { fase: Fase; index: number }) => (
   </motion.div>
 );
 
-const SERVICES: { icon: typeof Lightbulb; title: string; desc: string }[] = [
-  {
-    icon: Lightbulb,
-    title: "Advies",
-    desc: "\n",
-  },
-  {
-    icon: Users,
-    title: "Consultancy",
-    desc: "\n",
-  },
-  {
-    icon: Plug,
-    title: "Tool integraties (AI)",
-    desc: "\n",
-  },
-  {
-    icon: LifeBuoy,
-    title: "Service & Beheer",
-    desc: "\n",
-  },
-];
+const SERVICE_ICONS = [Lightbulb, Users, Plug, LifeBuoy] as const;
 
-const ServiceCards = () => (
+const ServiceCards = ({ lang }: { lang: Lang }) => (
   <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-10 md:mb-14">
-    {SERVICES.map((s, i) => {
-      const Icon = s.icon;
+    {T[lang].services.map((title, i) => {
+      const Icon = SERVICE_ICONS[i];
       return (
         <motion.div
-          key={s.title}
+          key={title}
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-50px" }}
@@ -201,16 +279,17 @@ const ServiceCards = () => (
             <span className="w-8 h-8 rounded-lg bg-primary/15 text-primary flex items-center justify-center shrink-0">
               <Icon className="w-4 h-4" />
             </span>
-            <h4 className="font-display font-semibold text-sm tracking-wide">{s.title}</h4>
+            <h4 className="font-display font-semibold text-sm tracking-wide">{title}</h4>
           </div>
-          <p className="text-xs text-muted-foreground leading-relaxed">{s.desc}</p>
         </motion.div>
       );
     })}
   </div>
 );
 
-const PerformancePartnership = () => (
+const PerformancePartnership = ({ lang }: { lang: Lang }) => {
+  const tt = T[lang];
+  return (
   <motion.div
     initial={{ opacity: 0, y: 16 }}
     whileInView={{ opacity: 1, y: 0 }}
@@ -225,34 +304,28 @@ const PerformancePartnership = () => (
         <div className="flex items-center gap-2 mb-4">
           <Handshake className="w-4 h-4 text-primary" />
           <span className="text-[10px] font-display font-semibold tracking-[0.22em] uppercase text-primary/90">
-            Voor gekwalificeerde klanten
+            {tt.ppEyebrow}
           </span>
         </div>
         <h3 className="font-display font-bold text-2xl md:text-4xl leading-tight tracking-tight mb-4">
-          Performance Partnership.
+          {tt.ppTitleA}
           <br />
           <span className="text-muted-foreground font-normal text-xl md:text-2xl">
-            Lage techkosten. Gedeelde upside.
+            {tt.ppTitleB}
           </span>
         </h3>
         <p className="text-muted-foreground text-base leading-relaxed max-w-xl mb-6">
-          Voor wie al omzet draait, maar het systeem mist. Wij bouwen en draaien de
-          groeimachine. U deelt mee in de upside die het systeem oplevert.
+          {tt.ppBody}
         </p>
 
         <p className="text-[11px] font-display font-semibold tracking-[0.18em] uppercase text-primary/80 mb-3">
-          Toelating
+          {tt.ppAdmit}
         </p>
         <ul className="space-y-2 text-sm">
-          {[
-            "Bewezen B2B-propositie met klanten",
-            "Gezonde marges en dealwaarde",
-            "Transparante CRM- en salesdata",
-            "Heldere attributie-afspraken vooraf",
-          ].map((t) => (
-            <li key={t} className="flex items-start gap-2.5">
+          {tt.ppAdmitList.map((item) => (
+            <li key={item} className="flex items-start gap-2.5">
               <Check className="w-4 h-4 text-primary mt-0.5 shrink-0" />
-              <span className="text-foreground/90">{t}</span>
+              <span className="text-foreground/90">{item}</span>
             </li>
           ))}
         </ul>
@@ -261,40 +334,39 @@ const PerformancePartnership = () => (
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-5">
         <div className="rounded-xl border border-border bg-background/40 backdrop-blur p-5">
           <p className="text-[10px] font-display font-semibold tracking-[0.2em] uppercase text-muted-foreground mb-3">
-            Min. techkosten
+            {tt.ppTechLabel}
           </p>
           <div className="flex items-baseline gap-1 mb-1">
-            <span className="font-display font-bold text-3xl tracking-tight">€500 — 1.000</span>
+            <span className="font-display font-bold text-3xl tracking-tight">{tt.ppTechValue}</span>
           </div>
-          <p className="text-xs text-muted-foreground">/ maand</p>
+          <p className="text-xs text-muted-foreground">{tt.ppTechSuffix}</p>
         </div>
         <div className="rounded-xl border border-primary/40 bg-primary/10 p-5">
           <p className="text-[10px] font-display font-semibold tracking-[0.2em] uppercase text-primary/90 mb-3">
-            Revenue share
+            {tt.ppShareLabel}
           </p>
           <div className="flex items-baseline gap-1 mb-1">
-            <span className="font-display font-bold text-3xl tracking-tight">5 — 15%</span>
+            <span className="font-display font-bold text-3xl tracking-tight">{tt.ppShareValue}</span>
           </div>
-          <p className="text-xs text-muted-foreground">van toegeschreven omzet</p>
+          <p className="text-xs text-muted-foreground">{tt.ppShareSuffix}</p>
         </div>
         <div className="sm:col-span-2 rounded-xl border border-dashed border-primary/25 bg-background/30 p-5">
           <p className="text-xs text-muted-foreground leading-relaxed">
-            Alleen op duidelijk afgebakende, door het systeem gegenereerde of
-            beïnvloede omzet. Attributie wordt vooraf vastgelegd.
+            {tt.ppFine1}
           </p>
         </div>
         <div className="sm:col-span-2 rounded-xl border border-dashed border-primary/25 bg-background/30 p-5">
           <p className="text-xs text-muted-foreground leading-relaxed">
-            Wij investeren regelmatig in start-ups met een barter-constructie.{" "}
+            {tt.ppFine2a}{" "}
             <a
               href="https://rebelforce-hubs.com/rebel-force"
               target="_blank"
               rel="noopener noreferrer"
               className="text-primary underline underline-offset-2 hover:text-primary/80"
             >
-              Bekijk de voorwaarden
+              {tt.ppFine2link}
             </a>{" "}
-            en join onze hub.
+            {tt.ppFine2b}
           </p>
         </div>
         <div className="sm:col-span-2">
@@ -305,14 +377,17 @@ const PerformancePartnership = () => (
       </div>
     </div>
   </motion.div>
-);
+  );
+};
 
 const BillingToggle = ({
   yearly,
   onChange,
+  lang,
 }: {
   yearly: boolean;
   onChange: (v: boolean) => void;
+  lang: Lang;
 }) => (
   <div className="inline-flex items-center gap-1 rounded-full border border-border bg-card p-1">
     <button
@@ -323,7 +398,7 @@ const BillingToggle = ({
         !yearly ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground",
       )}
     >
-      Maandelijks
+      {T[lang].monthly}
     </button>
     <button
       type="button"
@@ -333,7 +408,7 @@ const BillingToggle = ({
         yearly ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground",
       )}
     >
-      12 maanden
+      {T[lang].yearly12}
       <span
         className={cn(
           "text-[10px] px-1.5 py-0.5 rounded-full",
@@ -346,9 +421,17 @@ const BillingToggle = ({
   </div>
 );
 
-const PricingSection = () => {
+interface PricingSectionProps {
+  language?: Lang;
+  currency?: Currency;
+}
+
+const PricingSection = ({ language = "nl", currency }: PricingSectionProps = {}) => {
   const [yearly, setYearly] = useState(false);
-  const fases = buildFases(yearly);
+  const lang: Lang = language;
+  const cur: Currency = currency ?? (lang === "en" ? "USD" : "EUR");
+  const fases = buildFases(yearly, lang, cur);
+  const tt = T[lang];
 
   return (
     <section id="pricing" className="py-16 md:py-32 relative">
@@ -363,18 +446,18 @@ const PricingSection = () => {
           className="mb-12 md:mb-16 text-center max-w-2xl mx-auto"
         >
           <p className="text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4">
-            Commercieel model
+            {tt.eyebrow}
           </p>
           <h2 className="font-display font-bold text-4xl md:text-5xl lg:text-6xl xl:text-7xl tracking-tight leading-tight">
-            Lage drempel.
+            {tt.headLine1}
             <br />
-            <span className="text-gradient">Schaalbare waarde.</span>
+            <span className="text-gradient">{tt.headLine2}</span>
           </h2>
           <p className="text-muted-foreground mt-4 text-lg leading-relaxed">
-            Eén systeem. Drie manieren om ermee te starten. Wij denken in lifetime, niet in losse projecten.
+            {tt.headSub}
           </p>
           <div className="mt-8 flex justify-center">
-            <BillingToggle yearly={yearly} onChange={setYearly} />
+            <BillingToggle yearly={yearly} onChange={setYearly} lang={lang} />
           </div>
         </motion.div>
 
@@ -386,14 +469,14 @@ const PricingSection = () => {
         </div>
 
         {/* Performance Partnership */}
-        <PerformancePartnership />
+        <PerformancePartnership lang={lang} />
 
         {/* Aanvullende diensten */}
         <div className="mt-10 md:mt-14">
           <p className="text-center text-[11px] font-display font-semibold tracking-[0.2em] uppercase text-muted-foreground mb-5">
-            UW B2B GROEIPARTNER VOOR
+            {tt.servicesEyebrow}
           </p>
-          <ServiceCards />
+          <ServiceCards lang={lang} />
         </div>
 
         {/* Bottom note */}
@@ -405,7 +488,7 @@ const PricingSection = () => {
           className="mt-10 text-center"
         >
           <p className="text-muted-foreground text-sm">
-            Wilt u weten wat dit voor uw situatie betekent?{" "}
+            {tt.footerLine}{" "}
             <CtaLink
               intent="bespreekSituatie"
               location="Pricing Footer"

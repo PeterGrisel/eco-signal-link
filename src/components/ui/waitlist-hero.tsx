@@ -9,6 +9,7 @@ interface WaitlistHeroProps {
   logoSrc?: string
   logoAlt?: string
   accentColor?: string
+  language?: "nl" | "en"
 }
 
 interface ClientLogo {
@@ -67,7 +68,8 @@ const LogoRing = ({
   )
 }
 
-export const WaitlistHero = ({ logoSrc, logoAlt, accentColor }: WaitlistHeroProps) => {
+export const WaitlistHero = ({ logoSrc, logoAlt, accentColor, language = "nl" }: WaitlistHeroProps) => {
+  const isEn = language === "en"
   const canvasRef = useRef(null)
   const [clients, setClients] = useState<ClientLogo[]>([])
 
@@ -275,13 +277,13 @@ export const WaitlistHero = ({ logoSrc, logoAlt, accentColor }: WaitlistHeroProp
         {/* Content Container */}
         <div className="relative z-20 w-full h-full flex flex-col items-center justify-end pb-16 gap-5">
           <h1 className="font-display text-5xl md:text-6xl font-bold text-center tracking-tight px-4" style={{ color: colors.textMain }}>
-            Deze klanten
+            {isEn ? "These clients" : "Deze klanten"}
             <br />
-            <span style={{ color: colors.bluePrimary }}>werken al slimmer</span>
+            <span style={{ color: colors.bluePrimary }}>{isEn ? "are already working smarter" : "werken al slimmer"}</span>
           </h1>
 
           <p className="text-lg font-medium text-center px-4" style={{ color: colors.textSecondary }}>
-            Boek een gratis meeting om je playbook te bespreken
+            {isEn ? "Book a free meeting to discuss your playbook" : "Boek een gratis meeting om je playbook te bespreken"}
           </p>
 
           {/* Form / Success Container */}
@@ -300,7 +302,7 @@ export const WaitlistHero = ({ logoSrc, logoAlt, accentColor }: WaitlistHeroProp
               className="relative w-full h-full flex items-center justify-center rounded-full font-medium text-white transition-all active:scale-95 hover:brightness-110 text-lg"
               style={{ backgroundColor: colors.bluePrimary }}
             >
-              Plan een meeting
+              {isEn ? "Book a meeting" : "Plan een meeting"}
             </a>
           </div>
         </div>
