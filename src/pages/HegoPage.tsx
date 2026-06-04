@@ -332,9 +332,19 @@ const HegoPage = () => {
               <br />
               <span style={{ color: HEGO.primaryGlow }}>Eén werkend groeisysteem voor HEGO.</span>
             </h2>
-            <p className="text-muted-foreground text-base md:text-lg leading-relaxed">
-              Elke fase is een playbook dat in uw eigen tools draait. Samen vormen ze één werkend groeisysteem dat blijft staan.
-            </p>
+            <FrostedGlassCard
+              className="max-w-2xl mx-auto"
+              background={`linear-gradient(135deg, hsl(var(--foreground) / 0.10), hsl(var(--foreground) / 0.02))`}
+              borderColor={`hsl(var(--foreground) / 0.18)`}
+              glareColor={`${HEGO.primaryGlow}66`}
+              style={{
+                boxShadow: `inset 0 1px 0 hsl(var(--foreground) / 0.15), 0 20px 60px -20px ${HEGO.primary}66`,
+              }}
+            >
+              <p className="text-base md:text-lg text-foreground/90 leading-relaxed px-6 py-5">
+                Elke fase is een playbook dat in uw eigen tools draait. Samen vormen ze één werkend groeisysteem dat blijft staan.
+              </p>
+            </FrostedGlassCard>
           </div>
 
           {(() => {
