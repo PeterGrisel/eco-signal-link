@@ -8,6 +8,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import HowItWorksSection from "@/components/HowItWorksSection";
 import { WaitlistHero } from "@/components/ui/waitlist-hero";
+import { FallingPattern } from "@/components/ui/falling-pattern";
 import { Button } from "@/components/ui/button";
 import { usePageMeta } from "@/hooks/usePageMeta";
 import CtaLink from "@/components/CtaLink";
