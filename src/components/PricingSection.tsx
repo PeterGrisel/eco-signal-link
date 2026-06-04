@@ -165,22 +165,22 @@ const SERVICES: { icon: typeof Lightbulb; title: string; desc: string }[] = [
   {
     icon: Lightbulb,
     title: "Advies",
-    desc: "Strategie en signaal-scan voor uw groei.",
+    desc: "\n",
   },
   {
     icon: Users,
     title: "Consultancy",
-    desc: "Hands-on begeleiding bij uw GTM-team.",
+    desc: "\n",
   },
   {
     icon: Plug,
-    title: "Integratie",
-    desc: "Koppelingen tussen uw tools en CRM.",
+    title: "Integratie Partner",
+    desc: "\n",
   },
   {
     icon: LifeBuoy,
-    title: "Service",
-    desc: "Doorlopend beheer en optimalisatie.",
+    title: "Service & Beheer",
+    desc: "\n",
   },
 ];
 
@@ -391,7 +391,7 @@ const PricingSection = () => {
         {/* Aanvullende diensten */}
         <div className="mt-10 md:mt-14">
           <p className="text-center text-[11px] font-display font-semibold tracking-[0.2em] uppercase text-muted-foreground mb-5">
-            Aanvullende diensten
+            ONZE DIENSTEN
           </p>
           <ServiceCards />
         </div>
