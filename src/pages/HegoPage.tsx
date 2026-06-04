@@ -12,6 +12,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { faviconFor } from "@/data/groeistack";
 import CtaLink from "@/components/CtaLink";
 import pdfAsset from "@/assets/hego-playbook.pdf.asset.json";
+import hegoLogo from "@/assets/hego-logo.png.asset.json";
 
 // Configure pdf.js worker from CDN (matches installed pdfjs-dist version)
 pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
@@ -177,6 +178,13 @@ const HegoPage = () => {
 
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="flex flex-col items-center text-center max-w-4xl mx-auto">
+            <img
+              src={hegoLogo.url}
+              alt="HEGO logo"
+              className="h-16 md:h-20 w-auto mb-6 object-contain"
+              width={512}
+              height={512}
+            />
             <div
               className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold mb-8"
               style={{ backgroundColor: `${HEGO.primary}1F`, color: HEGO.primaryGlow, border: `1px solid ${HEGO.primary}55` }}
