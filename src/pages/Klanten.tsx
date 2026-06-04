@@ -33,6 +33,42 @@ const ClientLogo = ({ client, size = 56 }: { client: Client; size?: number }) =>
   const [err, setErr] = useState(false);
   const src = client.logo_url || faviconFor(client.website || client.domain);
   const showFallback = err || !src;
+  const isHego = client.name.toLowerCase().includes("hego");
+
+  if (isHego && !showFallback) {
+    return (
+      <div
+        className="flex items-center justify-center overflow-hidden shrink-0 relative"
+        style={{ width: size, height: size }}
+      >
+        <div
+          aria-hidden
+          className="absolute inset-0 rounded-xl backdrop-blur-2xl border"
+          style={{
+            background: `radial-gradient(130% 130% at 30% 20%, hsl(var(--foreground) / 0.95) 0%, hsl(var(--foreground) / 0.85) 45%, hsl(var(--foreground) / 0.7) 100%)`,
+            borderColor: `hsl(var(--foreground) / 0.6)`,
+            boxShadow: `inset 0 1px 0 hsl(0 0% 100% / 0.6), inset 0 -1px 0 hsl(var(--foreground) / 0.2), 0 10px 30px -10px #003E7E99`,
+          }}
+        />
+        <div
+          aria-hidden
+          className="absolute inset-0 rounded-xl pointer-events-none"
+          style={{
+            background: `linear-gradient(135deg, hsl(0 0% 100% / 0.5) 0%, transparent 40%, transparent 60%, hsl(0 0% 100% / 0.2) 100%)`,
+            mixBlendMode: "overlay",
+          }}
+        />
+        <img
+          src={src}
+          alt={client.name}
+          className="relative object-contain drop-shadow-md"
+          style={{ transform: `scale(${client.scale ?? 1})`, maxWidth: "80%", maxHeight: "80%" }}
+          loading="lazy"
+          onError={() => setErr(true)}
+        />
+      </div>
+    );
+  }
 
   return (
     <div
