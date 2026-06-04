@@ -187,9 +187,20 @@ const HegoPage = () => {
             <h1 className="font-display font-bold text-4xl md:text-6xl lg:text-7xl tracking-tight leading-[1.05] mb-6">
               Slimmer werken door automatiseren van handmatige acties.
             </h1>
-            <p className="text-base md:text-lg text-muted-foreground max-w-2xl leading-relaxed mb-8">
-              Persoonlijk Market Activation Playbook voor HEGO. Hoe wij groothandel, traders, fabrikanten en metaalbewerkers activeren rond uw voorraad en maatwerk capaciteit.
-            </p>
+            <div className="relative max-w-2xl mb-8">
+              <div
+                className="absolute inset-0 rounded-2xl backdrop-blur-xl border shadow-2xl"
+                style={{
+                  background: `linear-gradient(135deg, hsl(var(--foreground) / 0.08), hsl(var(--foreground) / 0.02))`,
+                  borderColor: `hsl(var(--foreground) / 0.12)`,
+                  boxShadow: `inset 0 1px 0 hsl(var(--foreground) / 0.15), 0 20px 60px -20px ${HEGO.primary}55`,
+                }}
+                aria-hidden
+              />
+              <p className="relative text-base md:text-lg text-foreground/90 leading-relaxed px-6 py-5">
+                Persoonlijk Market Activation Playbook voor HEGO. Hoe wij groothandel, traders, fabrikanten en metaalbewerkers activeren rond uw voorraad en maatwerk capaciteit.
+              </p>
+            </div>
             <a
               href="#playbook"
               className="inline-flex items-center gap-2 font-semibold text-sm md:text-base rounded-full px-6 py-3 text-white hover:opacity-90 transition"
