@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Check, ArrowRight, Handshake, Infinity as InfinityIcon } from "lucide-react";
+import { Check, ArrowRight, Handshake, Infinity as InfinityIcon, Lightbulb, Users, Plug, LifeBuoy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import CtaLink from "@/components/CtaLink";
