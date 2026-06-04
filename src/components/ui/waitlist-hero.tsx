@@ -225,7 +225,7 @@ export const WaitlistHero = ({ logoSrc, logoAlt }: WaitlistHeroProps) => {
 
       {/* Main Container */}
       <div
-        className="relative w-full h-[75vh] min-h-[640px] max-h-[820px] overflow-hidden shadow-2xl"
+        className="relative w-full h-screen min-h-screen overflow-hidden shadow-2xl"
         style={{
           backgroundColor: colors.baseBg,
           fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
