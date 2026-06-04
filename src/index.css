@@ -149,6 +149,31 @@
       radial-gradient(ellipse 800px 500px at 50% 100%, hsl(210 73% 55% / 0.08), transparent 70%);
   }
 
+  /* HEGO pricing — liquid glass cards */
+  .hego-brand #pricing .rounded-2xl,
+  .hego-brand #pricing .rounded-xl {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    background: linear-gradient(135deg, hsl(var(--foreground) / 0.08), hsl(var(--foreground) / 0.02));
+    border-color: hsl(var(--foreground) / 0.15);
+    box-shadow:
+      inset 0 1px 0 hsl(var(--foreground) / 0.12),
+      0 20px 60px -20px hsl(211 100% 25% / 0.45);
+  }
+  .hego-brand #pricing .rounded-2xl:hover,
+  .hego-brand #pricing .rounded-xl:hover {
+    border-color: hsl(210 73% 55% / 0.5);
+  }
+  /* Highlight (primary) card glow */
+  .hego-brand #pricing .border-primary\/40.bg-primary\/5,
+  .hego-brand #pricing .border-primary\/40.bg-primary\/10 {
+    background: linear-gradient(135deg, hsl(211 100% 35% / 0.18), hsl(210 73% 55% / 0.06));
+    border-color: hsl(210 73% 55% / 0.5);
+    box-shadow:
+      inset 0 1px 0 hsl(var(--foreground) / 0.15),
+      0 0 50px -10px hsl(210 73% 55% / 0.45);
+  }
+
   .border-glow {
     border-color: hsl(24 75% 63% / 0.2);
   }
