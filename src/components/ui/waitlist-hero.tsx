@@ -1,6 +1,7 @@
 "use client"
 
-import { useState, useRef } from "react"
+import { useRef } from "react"
+import { BOOKING_URL } from "@/content/copy"
 
 interface WaitlistHeroProps {
   logoSrc?: string
@@ -8,22 +9,10 @@ interface WaitlistHeroProps {
 }
 
 export const WaitlistHero = ({ logoSrc, logoAlt }: WaitlistHeroProps) => {
-  const [email, setEmail] = useState("")
-  const [status, setStatus] = useState("idle") // 'idle' | 'loading' | 'success'
   const canvasRef = useRef(null)
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    if (!email) return
-
-    setStatus("loading")
-
-    // Simulate API delay
-    setTimeout(() => {
-      setStatus("success")
-      setEmail("")
-      fireConfetti()
-    }, 1500)
+  const handleClick = () => {
+    fireConfetti()
   }
 
   // --- Confetti Logic ---
@@ -266,108 +255,16 @@ export const WaitlistHero = ({ logoSrc, logoAlt }: WaitlistHeroProps) => {
               className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] pointer-events-none z-50"
             />
 
-            {/* SUCCESS STATE */}
-            <div
-              className={`absolute inset-0 flex items-center justify-center rounded-full transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] ${
-                status === "success"
-                  ? "opacity-100 scale-100 rotate-x-0 animate-success-pulse animate-success-glow"
-                  : "opacity-0 scale-95 -rotate-x-90 pointer-events-none"
-              }`}
-              style={{ backgroundColor: colors.success }}
+            <a
+              href={BOOKING_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={handleClick}
+              className="relative w-full h-full flex items-center justify-center rounded-full font-medium text-white transition-all active:scale-95 hover:brightness-110 text-lg"
+              style={{ backgroundColor: colors.bluePrimary }}
             >
-              {/* Celebration rings */}
-              {status === "success" && (
-                <>
-                  <div
-                    className="absolute top-1/2 left-1/2 w-full h-full rounded-full border-2 border-emerald-400 animate-ring"
-                    style={{ animationDelay: "0s" }}
-                  />
-                  <div
-                    className="absolute top-1/2 left-1/2 w-full h-full rounded-full border-2 border-emerald-300 animate-ring"
-                    style={{ animationDelay: "0.15s" }}
-                  />
-                  <div
-                    className="absolute top-1/2 left-1/2 w-full h-full rounded-full border-2 border-emerald-200 animate-ring"
-                    style={{ animationDelay: "0.3s" }}
-                  />
-                </>
-              )}
-              <div
-                className={`flex items-center gap-2 text-white font-semibold text-lg ${status === "success" ? "animate-bounce-in" : ""}`}
-              >
-                <div className="bg-white/20 p-1 rounded-full">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path
-                      className={status === "success" ? "animate-checkmark" : ""}
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={3}
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
-                </div>
-                <span>You're on the list!</span>
-              </div>
-            </div>
-
-            {/* FORM STATE */}
-            <form
-              onSubmit={handleSubmit}
-              className={`relative w-full h-full group transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] ${
-                status === "success"
-                  ? "opacity-0 scale-95 rotate-x-90 pointer-events-none"
-                  : "opacity-100 scale-100 rotate-x-0"
-              }`}
-            >
-              <input
-                type="email"
-                required
-                placeholder="name@email.com"
-                value={email}
-                disabled={status === "loading"}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full h-[60px] pl-6 pr-[150px] rounded-full outline-none transition-all duration-200 placeholder-zinc-500 disabled:opacity-70 disabled:cursor-not-allowed"
-                style={{
-                  backgroundColor: colors.inputBg,
-                  color: colors.textMain,
-                  boxShadow: `inset 0 0 0 1px ${colors.inputShadow}`,
-                }}
-              />
-
-              <div className="absolute top-[6px] right-[6px] bottom-[6px]">
-                <button
-                  type="submit"
-                  disabled={status === "loading"}
-                  className="h-full px-6 rounded-full font-medium text-white transition-all active:scale-95 hover:brightness-110 disabled:hover:brightness-100 disabled:active:scale-100 disabled:cursor-wait flex items-center justify-center min-w-[130px]"
-                  style={{ backgroundColor: colors.bluePrimary }}
-                >
-                  {status === "loading" ? (
-                    <svg
-                      className="animate-spin h-5 w-5 text-white"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <circle
-                        className="opacity-25"
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        strokeWidth="4"
-                      ></circle>
-                      <path
-                        className="opacity-75"
-                        fill="currentColor"
-                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                      ></path>
-                    </svg>
-                  ) : (
-                    "Plan een meeting"
-                  )}
-                </button>
-              </div>
-            </form>
+              Plan een meeting
+            </a>
           </div>
         </div>
       </div>
