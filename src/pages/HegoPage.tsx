@@ -137,13 +137,33 @@ const HegoPage = () => {
 
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="flex flex-col items-center text-center max-w-4xl mx-auto">
-            <img
-              src={hegoLogo.url}
-              alt="HEGO logo"
-              className="h-16 md:h-20 w-auto mb-6 object-contain"
-              width={512}
-              height={512}
-            />
+            <div className="relative mb-6 inline-flex items-center justify-center">
+              {/* Liquid glass backdrop */}
+              <div
+                aria-hidden
+                className="absolute inset-0 -m-5 rounded-3xl backdrop-blur-2xl border"
+                style={{
+                  background: `radial-gradient(120% 120% at 30% 20%, ${HEGO.primary}33 0%, ${HEGO.primary}11 40%, hsl(var(--foreground) / 0.04) 70%, transparent 100%)`,
+                  borderColor: `hsl(var(--foreground) / 0.14)`,
+                  boxShadow: `inset 0 1px 0 hsl(var(--foreground) / 0.18), inset 0 -1px 0 hsl(var(--foreground) / 0.06), 0 30px 80px -20px ${HEGO.primary}66`,
+                }}
+              />
+              <div
+                aria-hidden
+                className="absolute inset-0 -m-5 rounded-3xl pointer-events-none"
+                style={{
+                  background: `linear-gradient(135deg, hsl(var(--foreground) / 0.18) 0%, transparent 35%, transparent 65%, hsl(var(--foreground) / 0.08) 100%)`,
+                  mixBlendMode: "overlay",
+                }}
+              />
+              <img
+                src={hegoLogo.url}
+                alt="HEGO logo"
+                className="relative h-16 md:h-20 w-auto object-contain"
+                width={512}
+                height={512}
+              />
+            </div>
             <div
               className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold mb-8"
               style={{ backgroundColor: `${HEGO.primary}1F`, color: HEGO.primaryGlow, border: `1px solid ${HEGO.primary}55` }}
