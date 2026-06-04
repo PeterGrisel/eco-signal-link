@@ -15,7 +15,7 @@ import hegoLogo from "@/assets/hego-logo.png.asset.json";
 import { FrostedGlassCard } from "@/components/ui/interactive-frosted-glass-card";
 import { BentoGrid } from "@/components/ui/bento-grid";
 import { COPY } from "@/content/copy";
-import { Compass, Brain, Filter, Calculator, Layers, Send, Route, LineChart, BookOpenCheck } from "lucide-react";
+import { Compass, Brain, Filter, Calculator, Layers, Send as SendIcon, Route, LineChart, BookOpenCheck } from "lucide-react";
 
 // Configure pdf.js worker from CDN (matches installed pdfjs-dist version)
 pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
@@ -338,7 +338,7 @@ const HegoPage = () => {
           </div>
 
           {(() => {
-            const icons = [Compass, Brain, Filter, Calculator, Layers, Send, Route, LineChart];
+            const icons = [Compass, Brain, Filter, Calculator, Layers, SendIcon, Route, LineChart];
             const phases = ["Fundament", "Fundament", "Doelgroep", "Doelgroep", "Activatie", "Activatie", "Sales", "Optimalisatie"];
             return (
               <BentoGrid
