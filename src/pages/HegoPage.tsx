@@ -7,7 +7,6 @@ import "react-pdf/dist/Page/TextLayer.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import HowItWorksSection from "@/components/HowItWorksSection";
-import OrbitingClients from "@/components/OrbitingClients";
 import { WaitlistHero } from "@/components/ui/waitlist-hero";
 import { Button } from "@/components/ui/button";
 import { usePageMeta } from "@/hooks/usePageMeta";
@@ -290,13 +289,6 @@ const HegoPage = () => {
 
       {/* 8 playbooks van de homepage — in HEGO brandkleur */}
       <HowItWorksSection accent={HEGO.primaryGlow} />
-
-      {/* Klantenlogos in orbit */}
-      <OrbitingClients
-        accent={HEGO.primaryGlow}
-        title="B2B-merken die met ons werken"
-        subtitle="Industrieel, technisch en zakelijk. Eén werkend groeisysteem onder de motorkap."
-      />
 
       <WaitlistHero />
 
