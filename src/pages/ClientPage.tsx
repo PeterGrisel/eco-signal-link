@@ -37,6 +37,7 @@ interface ClientRow {
   og_image_url: string | null;
   status: string;
   expires_at: string;
+  language: string | null;
 }
 
 const sb = supabase as unknown as { from: (t: string) => any; rpc: (n: string, a?: any) => any };
@@ -70,7 +71,7 @@ const ClientPage = () => {
     (async () => {
       const { data, error } = await sb
         .from("abm_pages")
-        .select("slug, company_name, pdf_url, logo_url, brand_primary_hex, brand_glow_hex, brand_primary_hsl, brand_glow_hsl, hero_headline, hero_subline, intro, og_image_url, status, expires_at")
+        .select("slug, company_name, pdf_url, logo_url, brand_primary_hex, brand_glow_hex, brand_primary_hsl, brand_glow_hsl, hero_headline, hero_subline, intro, og_image_url, status, expires_at, language")
         .eq("slug", slug)
         .maybeSingle();
       if (cancelled) return;
@@ -137,12 +138,17 @@ const ClientPage = () => {
   if (loading) return <div className="min-h-screen bg-background" />;
   if (notFound || !row) return <Navigate to="/404" replace />;
   if (row.status !== "live" || new Date(row.expires_at) < new Date()) {
+    const isEn = (row.language || "nl") === "en";
     return (
       <div className="min-h-screen flex items-center justify-center px-6 bg-background">
         <div className="text-center max-w-md">
-          <h1 className="text-3xl font-display mb-3">Deze pagina is verlopen</h1>
-          <p className="text-muted-foreground mb-6">De pagina voor {row.company_name} is niet meer actief.</p>
-          <a href="/contact" className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground">Neem contact op</a>
+          <h1 className="text-3xl font-display mb-3">{isEn ? "This page has expired" : "Deze pagina is verlopen"}</h1>
+          <p className="text-muted-foreground mb-6">
+            {isEn ? `The page for ${row.company_name} is no longer active.` : `De pagina voor ${row.company_name} is niet meer actief.`}
+          </p>
+          <a href="/contact" className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground">
+            {isEn ? "Get in touch" : "Neem contact op"}
+          </a>
         </div>
       </div>
     );
@@ -157,6 +163,44 @@ const ClientPage = () => {
   const headline = row.hero_headline || "Slimmer werken door";
   const subline = row.hero_subline || "automatiseren van handmatige acties.";
   const introText = row.intro || `Persoonlijk Market Activation Playbook voor ${row.company_name}.`;
+  const isEn = (row.language || "nl") === "en";
+  const t = isEn
+    ? {
+        viewPlaybook: "View the playbook",
+        playbookEyebrow: "Market Activation Playbook",
+        playbookH2a: "Curated",
+        playbookH2b: `for ${row.company_name}.`,
+        playbookIntro: `The full playbook. Our analysis, approach and first plan for ${row.company_name}. Browse below or download the PDF.`,
+        loading: "Loading playbook…",
+        pdfError: "PDF could not be loaded.",
+        downloadHere: "Download here",
+        prev: "Previous page",
+        next: "Next page",
+        zoomOut: "Zoom out",
+        zoomIn: "Zoom in",
+        bentoEyebrow: "The Playbook system",
+        bentoH2a: "Eight playbooks.",
+        bentoH2b: `One working growth system for ${row.company_name}.`,
+        bentoIntro: "Each phase is a playbook that runs in your own tools. Together they form one working growth system that stays in place.",
+      }
+    : {
+        viewPlaybook: "Bekijk het playbook",
+        playbookEyebrow: "Market Activation Playbook",
+        playbookH2a: "Speciaal samengesteld",
+        playbookH2b: `voor ${row.company_name}.`,
+        playbookIntro: `Het volledige playbook. Onze analyse, aanpak en eerste plan voor ${row.company_name}. Doorbladeren kan hieronder of download de PDF.`,
+        loading: "Playbook laden…",
+        pdfError: "PDF kon niet geladen worden.",
+        downloadHere: "Download hier",
+        prev: "Vorige pagina",
+        next: "Volgende pagina",
+        zoomOut: "Uitzoomen",
+        zoomIn: "Inzoomen",
+        bentoEyebrow: "Het Playbook-systeem",
+        bentoH2a: "Acht playbooks.",
+        bentoH2b: `Eén werkend groeisysteem voor ${row.company_name}.`,
+        bentoIntro: "Elke fase is een playbook dat in uw eigen tools draait. Samen vormen ze één werkend groeisysteem dat blijft staan.",
+      };
 
   // Dynamic per-client CSS — mirrors the .hego-brand / .sealeco-brand pattern in index.css.
   const brandCss = `
@@ -265,7 +309,7 @@ const ClientPage = () => {
             {pdfUrl && (
               <a href="#playbook" className="inline-flex items-center gap-2 font-semibold text-sm md:text-base rounded-full px-6 py-3 hover:opacity-90 transition"
                 style={{ backgroundColor: glowHex, color: "#ffffff" }}>
-                Bekijk het playbook <ArrowRight className="h-4 w-4" />
+                {t.viewPlaybook} <ArrowRight className="h-4 w-4" />
               </a>
             )}
           </div>
@@ -278,12 +322,12 @@ const ClientPage = () => {
           <div className="container mx-auto px-4 md:px-6 w-full">
             <div className="max-w-3xl 2xl:max-w-5xl 3xl:max-w-6xl mx-auto text-center mb-10">
               <p className="font-display text-xs tracking-[0.2em] uppercase mb-3" style={{ color: glowHex }}>
-                Market Activation Playbook
+                {t.playbookEyebrow}
               </p>
               <h2 className="font-display font-bold text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl 3xl:text-9xl tracking-tight leading-[1.05] mb-4">
-                Speciaal samengesteld
+                {t.playbookH2a}
                 <br />
-                <span style={{ color: glowHex }}>voor {row.company_name}.</span>
+                <span style={{ color: glowHex }}>{t.playbookH2b}</span>
               </h2>
               <FrostedGlassCard
                 className="max-w-2xl 2xl:max-w-4xl 3xl:max-w-5xl mx-auto"
@@ -293,7 +337,7 @@ const ClientPage = () => {
                 style={{ boxShadow: `inset 0 1px 0 hsl(var(--foreground) / 0.15), 0 20px 60px -20px ${primaryHex}66` }}
               >
                 <p className="text-base md:text-lg text-foreground/90 leading-relaxed px-6 py-5">
-                  Het volledige playbook. Onze analyse, aanpak en eerste plan voor {row.company_name}. Doorbladeren kan hieronder of download de PDF.
+                  {t.playbookIntro}
                 </p>
               </FrostedGlassCard>
             </div>
@@ -317,8 +361,8 @@ const ClientPage = () => {
                 <div ref={viewerRef} className="bg-[#1a1a1a] flex flex-col items-center p-4 md:p-6 min-h-[60vh] overflow-auto">
                   <Document file={pdfUrl}
                     onLoadSuccess={({ numPages: n }) => setNumPages(n)}
-                    loading={<div className="text-muted-foreground py-20">Playbook laden…</div>}
-                    error={<div className="text-muted-foreground py-20">PDF kon niet geladen worden. <a href={pdfUrl} className="underline" style={{ color: glowHex }}>Download hier</a>.</div>}
+                    loading={<div className="text-muted-foreground py-20">{t.loading}</div>}
+                    error={<div className="text-muted-foreground py-20">{t.pdfError} <a href={pdfUrl} className="underline" style={{ color: glowHex }}>{t.downloadHere}</a>.</div>}
                   >
                     <Page pageNumber={page} width={viewerWidth * zoom}
                       renderAnnotationLayer={false} renderTextLayer={false}
@@ -327,22 +371,22 @@ const ClientPage = () => {
                   {numPages > 0 && (
                     <div className="flex items-center gap-3 mt-5 flex-wrap justify-center">
                       <button onClick={() => setPage((p) => Math.max(1, p - 1))} disabled={page <= 1}
-                        className="inline-flex items-center justify-center h-9 w-9 rounded-full border border-border disabled:opacity-30 hover:border-foreground/40 transition" aria-label="Vorige pagina">
+                        className="inline-flex items-center justify-center h-9 w-9 rounded-full border border-border disabled:opacity-30 hover:border-foreground/40 transition" aria-label={t.prev}>
                         <ChevronLeft className="h-4 w-4" />
                       </button>
                       <span className="text-sm font-medium tabular-nums">{page} / {numPages}</span>
                       <button onClick={() => setPage((p) => Math.min(numPages, p + 1))} disabled={page >= numPages}
-                        className="inline-flex items-center justify-center h-9 w-9 rounded-full border border-border disabled:opacity-30 hover:border-foreground/40 transition" aria-label="Volgende pagina">
+                        className="inline-flex items-center justify-center h-9 w-9 rounded-full border border-border disabled:opacity-30 hover:border-foreground/40 transition" aria-label={t.next}>
                         <ChevronRight className="h-4 w-4" />
                       </button>
                       <div className="w-px h-6 bg-border mx-1" />
                       <button onClick={() => setZoom((z) => Math.max(0.5, +(z - 0.25).toFixed(2)))} disabled={zoom <= 0.5}
-                        className="inline-flex items-center justify-center h-9 w-9 rounded-full border border-border disabled:opacity-30 hover:border-foreground/40 transition" aria-label="Uitzoomen">
+                        className="inline-flex items-center justify-center h-9 w-9 rounded-full border border-border disabled:opacity-30 hover:border-foreground/40 transition" aria-label={t.zoomOut}>
                         <ZoomOut className="h-4 w-4" />
                       </button>
                       <span className="text-sm font-medium tabular-nums w-12 text-center">{Math.round(zoom * 100)}%</span>
                       <button onClick={() => setZoom((z) => Math.min(3, +(z + 0.25).toFixed(2)))} disabled={zoom >= 3}
-                        className="inline-flex items-center justify-center h-9 w-9 rounded-full border border-border disabled:opacity-30 hover:border-foreground/40 transition" aria-label="Inzoomen">
+                        className="inline-flex items-center justify-center h-9 w-9 rounded-full border border-border disabled:opacity-30 hover:border-foreground/40 transition" aria-label={t.zoomIn}>
                         <ZoomIn className="h-4 w-4" />
                       </button>
                       <button onClick={() => setZoom(1)} disabled={zoom === 1}
@@ -364,12 +408,12 @@ const ClientPage = () => {
           <div className="max-w-3xl 2xl:max-w-5xl 3xl:max-w-6xl mx-auto text-center mb-12">
             <p className="inline-flex items-center justify-center gap-2 font-display font-semibold text-xs tracking-[0.2em] uppercase mb-4" style={{ color: glowHex }}>
               <BookOpenCheck className="w-4 h-4" strokeWidth={1.8} />
-              Het Playbook-systeem
+              {t.bentoEyebrow}
             </p>
             <h2 className="font-display font-bold text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl 3xl:text-9xl tracking-tight leading-[1.05] mb-6">
-              Acht playbooks.
+              {t.bentoH2a}
               <br />
-              <span style={{ color: glowHex }}>Eén werkend groeisysteem voor {row.company_name}.</span>
+              <span style={{ color: glowHex }}>{t.bentoH2b}</span>
             </h2>
             <FrostedGlassCard
               className="max-w-2xl 2xl:max-w-4xl 3xl:max-w-5xl mx-auto"
@@ -379,7 +423,7 @@ const ClientPage = () => {
               style={{ boxShadow: `inset 0 1px 0 hsl(var(--foreground) / 0.15), 0 20px 60px -20px ${primaryHex}66` }}
             >
               <p className="text-base md:text-lg text-foreground/90 leading-relaxed px-6 py-5">
-                Elke fase is een playbook dat in uw eigen tools draait. Samen vormen ze één werkend groeisysteem dat blijft staan.
+                {t.bentoIntro}
               </p>
             </FrostedGlassCard>
           </div>
