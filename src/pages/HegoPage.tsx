@@ -61,7 +61,6 @@ const HegoPage = () => {
   const [page, setPage] = useState(1);
   const [viewerWidth, setViewerWidth] = useState(900);
   const [zoom, setZoom] = useState(1);
-  const [pricingOpen, setPricingOpen] = useState(false);
   const viewerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
