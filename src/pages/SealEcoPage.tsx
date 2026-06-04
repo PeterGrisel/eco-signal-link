@@ -10,8 +10,8 @@ import { WaitlistHero } from "@/components/ui/waitlist-hero";
 import { Button } from "@/components/ui/button";
 import { usePageMeta } from "@/hooks/usePageMeta";
 import CtaLink from "@/components/CtaLink";
-import pdfAsset from "@/assets/hego-playbook.pdf.asset.json";
-import hegoLogo from "@/assets/hego-logo.png.asset.json";
+import pdfAsset from "@/assets/sealeco-playbook.pdf.asset.json";
+import sealecoLogo from "@/assets/sealeco-logo.png.asset.json";
 import { trackEvent, trackCTA, trackScrollDepth, stopScrollDepth, startTimeOnPage, flushTimeOnPage } from "@/lib/tracking";
 import { FrostedGlassCard } from "@/components/ui/interactive-frosted-glass-card";
 import { BentoGrid } from "@/components/ui/bento-grid";
@@ -22,43 +22,15 @@ import PricingSection from "@/components/PricingSection";
 // Configure pdf.js worker from CDN (matches installed pdfjs-dist version)
 pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
-// HEGO brand palette (from JSON: blue, grey, white, metallic silver)
+// SealEco brand palette: eco green, lime accent, dark surface
 const HEGO = {
-  primary: "#003E7E", // industrial HEGO blue
-  primaryGlow: "#1E6FBF",
-  silver: "#B8C2CC",
-  surface: "#0B1B33",
+  primary: "#00833E", // SealEco green
+  primaryGlow: "#5BC15D", // lime accent
+  silver: "#B8C7BC",
+  surface: "#0B1F1A",
 };
 
-const playbookSections = [
-  { title: "Onze Expertise", desc: "Hoe we RVS- en aluminiumkopers vinden voordat ze actief zoeken." },
-  { title: "Maatwerk Bewerkingen", desc: "Signalen rond lasersnijden, ponsen, slijpen en borstelen." },
-  { title: "Direct uit Voorraad", desc: "Inzicht in voorraadbehoefte van groothandel en producenten." },
-  { title: "Waarom HEGO", desc: "Positionering ten opzichte van wederverkopers en service centers." },
-  { title: "Vraag een Offerte aan", desc: "Conversiepaden naar snelle offerte en eerste levering." },
-];
-
-const productsServices = [
-  "RVS platen & coils",
-  "Aluminium platen & coils",
-  "Buizen & kokers",
-  "Stafmateriaal",
-  "Slijpen en borstelen",
-  "Lasersnijden",
-  "Ponsen en knippen",
-  "Foxinox RVS Service Center",
-];
-
-const groeistackLayers = [
-  { icon: Radar, title: "Signalen & data", desc: "Intent rond RVS, aluminium en metaalbewerking." },
-  { icon: Database, title: "Verrijking", desc: "Inkopers, technici en eigenaren verrijkt en geverifieerd." },
-  { icon: Send, title: "Outreach", desc: "E-mail, LinkedIn en telefoon in één flow." },
-  { icon: Workflow, title: "CRM & pijplijn", desc: "Strak CRM met heldere offertestromen." },
-  { icon: Sparkles, title: "AI & content", desc: "Persoonlijke content per segment en sector." },
-  { icon: BarChart3, title: "Dashboard", desc: "Eén bron van waarheid met lerende loops." },
-];
-
-const HegoPage = () => {
+const SealEcoPage = () => {
   const [numPages, setNumPages] = useState(0);
   const [page, setPage] = useState(1);
   const [viewerWidth, setViewerWidth] = useState(900);
@@ -77,11 +49,11 @@ const HegoPage = () => {
   }, []);
 
   usePageMeta({
-    title: "HEGO × B2BGroeiMachine — Market Activation Playbook",
+    title: "SealEco × B2BGroeiMachine — Market Activation Playbook",
     description:
-      "Persoonlijk playbook voor HEGO: hoe wij groothandel, traders en producenten activeren rond RVS, aluminium en maatwerk bewerkingen.",
-    canonical: "https://b2bgroeimachine.io/voor/hego",
-    ogImage: "https://b2bgroeimachine.io/og/hego.jpg",
+      "Persoonlijk playbook voor SealEco: hoe wij installateurs, architecten, prefabricators en distributeurs activeren rond roofing, facade, lining en geo.",
+    canonical: "https://b2bgroeimachine.io/voor/sealeco",
+    ogImage: "https://b2bgroeimachine.io/og/sealeco.jpg",
   });
 
   useEffect(() => {
@@ -94,14 +66,14 @@ const HegoPage = () => {
     };
   }, []);
 
-  // Client-specific tracking (client_slug: "hego")
+  // Client-specific tracking (client_slug: "sealeco")
   useEffect(() => {
-    const clientSlug = "hego";
+    const clientSlug = "sealeco";
     trackEvent("client_page_view", "client_page", clientSlug, {
       client_slug: clientSlug,
-      path: "/voor/hego",
+      path: "/voor/sealeco",
     });
-    startTimeOnPage("/voor/hego");
+    startTimeOnPage("/voor/sealeco");
     trackScrollDepth();
     return () => {
       flushTimeOnPage();
@@ -112,8 +84,8 @@ const HegoPage = () => {
   // Track PDF page navigation per client
   useEffect(() => {
     if (page > 1) {
-      trackEvent("client_pdf_page_view", "client_page", "hego", {
-        client_slug: "hego",
+      trackEvent("client_pdf_page_view", "client_page", "sealeco", {
+        client_slug: "sealeco",
         pdf_page: page,
       });
     }
