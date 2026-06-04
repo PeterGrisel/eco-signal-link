@@ -48,12 +48,6 @@ const AdminAbmPages = () => {
   const [loading, setLoading] = useState(true);
   const [creating, setCreating] = useState(false);
 
-  // form state
-  const [company, setCompany] = useState("");
-  const [slug, setSlug] = useState("");
-  const [website, setWebsite] = useState("");
-  const [primaryHex, setPrimaryHex] = useState("");
-  const [glowHex, setGlowHex] = useState("");
   const [pdfFile, setPdfFile] = useState<File | null>(null);
   const [generating, setGenerating] = useState(false);
 
@@ -66,11 +60,10 @@ const AdminAbmPages = () => {
   useEffect(() => { load(); }, []);
 
   const resetForm = () => {
-    setCompany(""); setSlug(""); setWebsite(""); setPrimaryHex(""); setGlowHex(""); setPdfFile(null);
+    setPdfFile(null);
   };
 
   const generate = async () => {
-    if (!company.trim()) return toast({ title: "Bedrijfsnaam is verplicht", variant: "destructive" });
     if (!pdfFile) return toast({ title: "Upload eerst de flyer (PDF)", variant: "destructive" });
     if (pdfFile.type !== "application/pdf") return toast({ title: "Alleen PDF-bestanden toegestaan", variant: "destructive" });
     if (pdfFile.size > 20 * 1024 * 1024) return toast({ title: "PDF is groter dan 20MB", variant: "destructive" });
@@ -78,19 +71,9 @@ const AdminAbmPages = () => {
     setGenerating(true);
     try {
       const pdfBase64 = await fileToBase64(pdfFile);
-      const finalSlug = slug.trim() ? slugify(slug) : slugify(company);
-      const body: any = {
-        companyName: company.trim(),
-        slug: finalSlug,
-        website: website.trim() || undefined,
-        pdfBase64,
-        filename: pdfFile.name,
-      };
-      if (primaryHex && glowHex) {
-        body.brandPrimaryHex = primaryHex;
-        body.brandGlowHex = glowHex;
-      }
-      const { data, error } = await supabase.functions.invoke("abm-generate", { body });
+      const { data, error } = await supabase.functions.invoke("abm-generate", {
+        body: { pdfBase64, filename: pdfFile.name },
+      });
       if (error) throw error;
       if (data?.error) throw new Error(data.error);
       toast({ title: "Pagina gegenereerd", description: `/voor/${data.slug}` });
@@ -164,35 +147,13 @@ const AdminAbmPages = () => {
           <div>
             <h3 className="font-display text-lg mb-1">Nieuwe clientpagina genereren</h3>
             <p className="text-xs text-muted-foreground">
-              We uploaden de PDF, halen het logo op (via website), bepalen brandkleuren met AI en schrijven hero-copy in NL.
+              Upload de flyer (PDF). De bedrijfsnaam komt uit de bestandsnaam. Brandkleuren en hero-copy worden automatisch gegenereerd.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            <div>
-              <Label className="text-xs">Bedrijfsnaam *</Label>
-              <Input value={company} onChange={(e) => setCompany(e.target.value)} placeholder="bv. Coolmark" />
-            </div>
-            <div>
-              <Label className="text-xs">Slug (optioneel)</Label>
-              <Input value={slug} onChange={(e) => setSlug(e.target.value)} placeholder={company ? slugify(company) : "auto"} />
-            </div>
-            <div className="md:col-span-2">
-              <Label className="text-xs">Website (optioneel — voor logo + brandkleuren)</Label>
-              <Input value={website} onChange={(e) => setWebsite(e.target.value)} placeholder="https://www.coolmark.nl" />
-            </div>
-            <div>
-              <Label className="text-xs">Brand primary hex (optioneel — overschrijft AI)</Label>
-              <Input value={primaryHex} onChange={(e) => setPrimaryHex(e.target.value)} placeholder="#00833E" />
-            </div>
-            <div>
-              <Label className="text-xs">Brand glow hex (optioneel)</Label>
-              <Input value={glowHex} onChange={(e) => setGlowHex(e.target.value)} placeholder="#5BC15D" />
-            </div>
-          </div>
-
           <div>
-            <Label className="text-xs">Flyer / Playbook PDF *</Label>
+            <Label className="text-xs">Flyer / Playbook PDF</Label>
+            <p className="text-xs text-muted-foreground mb-2">Tip: noem het bestand naar de klant (bv. <code>Coolmark.pdf</code>).</p>
             <div className="mt-1 flex items-center gap-3">
               <label className="inline-flex items-center gap-2 px-4 py-2 rounded-md border border-border bg-background hover:bg-card cursor-pointer text-sm">
                 <Upload className="h-4 w-4" />
