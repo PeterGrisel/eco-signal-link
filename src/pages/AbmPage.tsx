@@ -359,21 +359,24 @@ const AbmPage = () => {
         </div>
       </section>
 
-      {/* Site analyse / screenshot — proof we kennen de klant */}
-      {siteScreenshot && (
-        <section id="analyse" className="relative py-16 md:py-20 border-b border-border overflow-hidden">
+      {/* Karakter van de klant — eigen beelden + eigen woorden */}
+      {(personalGallery.length > 0 || siteScreenshot) && (
+        <section id="analyse" className="relative py-16 md:py-24 border-b border-border overflow-hidden">
           <div className="container mx-auto px-6 grid lg:grid-cols-12 gap-10 items-center">
             <div className="lg:col-span-5">
-              <p className="text-xs font-semibold tracking-[0.2em] mb-4" style={{ color: primary }}>WAT ONS OPVALT</p>
+              <p className="text-xs font-semibold tracking-[0.2em] mb-4" style={{ color: primary }}>HET KARAKTER VAN {row.company_name.toUpperCase()}</p>
               <h2 className="font-display text-3xl md:text-4xl tracking-tight mb-4" style={headingStyle}>
-                We zijn onder de indruk van {row.company_name}.
+                We hebben uw verhaal goed gelezen.
               </h2>
               <p className="text-base leading-relaxed mb-4" style={mutedStyle}>
-                {summary || `${row.company_name} heeft een sterke positie en een duidelijk verhaal. Het karakter, de expertise en de toon spreken meteen. Daarom maakten we deze pagina speciaal voor u.`}
+                {personalPitch || summary || `${row.company_name} heeft een sterke positie en een duidelijk verhaal. Daarom maakten we deze pagina in uw eigen stijl.`}
               </p>
-              {clientObservations.length > 0 && (
+              {(personalBullets.length > 0 || clientObservations.length > 0) && (
                 <ul className="space-y-2 mt-5">
-                  {clientObservations.slice(0, 3).map((o, i) => (
+                  {(personalBullets.length > 0
+                    ? personalBullets.slice(0, 4).map((t) => ({ title: t }))
+                    : clientObservations.slice(0, 3)
+                  ).map((o, i) => (
                     <li key={i} className="flex items-start gap-2 text-sm">
                       <span className="mt-1 h-1.5 w-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: primary }} />
                       <span style={{ color: textColor }}>{o.title}</span>
@@ -381,31 +384,52 @@ const AbmPage = () => {
                   ))}
                 </ul>
               )}
+              {personalTagline && (
+                <blockquote className="mt-6 pl-4 border-l-2 italic text-sm leading-relaxed" style={{ borderColor: primary, color: textColor }}>
+                  "{personalTagline}"
+                </blockquote>
+              )}
             </div>
             <div className="lg:col-span-7 relative">
               <div className="absolute -inset-6 rounded-3xl blur-3xl opacity-30 pointer-events-none" style={{ background: `linear-gradient(135deg, ${primary}, ${accent})` }} />
-              <motion.div
-                initial={{ opacity: 0, rotateY: -8, rotateX: 4 }}
-                whileInView={{ opacity: 1, rotateY: -4, rotateX: 2 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.8 }}
-                className="relative rounded-xl overflow-hidden border shadow-2xl"
-                style={{ borderColor: `${primary}40`, transformPerspective: 1200 }}
-              >
-                {/* Browser chrome */}
-                <div className="flex items-center gap-1.5 px-3 py-2 border-b" style={{ backgroundColor: surfaceColor, borderColor }}>
-                  <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: "#ff5f57" }} />
-                  <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: "#febc2e" }} />
-                  <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: "#28c840" }} />
-                  <span className="ml-3 text-[10px] font-mono" style={{ color: mutedColor }}>
-                    {(p.sourceUrl || `https://${row.slug}.nl`).replace(/^https?:\/\//, "")}
-                  </span>
+              {personalGallery.length > 0 ? (
+                <div className="relative grid grid-cols-6 grid-rows-2 gap-3 h-[460px]">
+                  {personalGallery.slice(0, 5).map((src, i) => {
+                    // Masonry layout: 1st big, then variety
+                    const positions = [
+                      "col-span-4 row-span-2",
+                      "col-span-2 row-span-1",
+                      "col-span-2 row-span-1",
+                      "col-span-3 row-span-1",
+                      "col-span-3 row-span-1",
+                    ];
+                    return (
+                      <motion.div
+                        key={i}
+                        initial={{ opacity: 0, y: 16 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-50px" }}
+                        transition={{ duration: 0.5, delay: i * 0.08 }}
+                        className={`${positions[i] || "col-span-2 row-span-1"} relative overflow-hidden rounded-xl border shadow-lg`}
+                        style={{ borderColor: `${primary}40` }}
+                      >
+                        <img src={src} alt="" loading="lazy" className="w-full h-full object-cover" />
+                      </motion.div>
+                    );
+                  })}
                 </div>
-                <img src={siteScreenshot} alt={`${row.company_name} website`} className="w-full h-auto block max-h-[520px] object-top object-cover" />
-              </motion.div>
-              <p className="text-xs mt-4 text-center" style={mutedStyle}>
-                Uw verhaal, zoals wij het hebben gelezen.
-              </p>
+              ) : siteScreenshot ? (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.96 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  transition={{ duration: 0.7 }}
+                  className="relative rounded-xl overflow-hidden border shadow-2xl"
+                  style={{ borderColor: `${primary}40` }}
+                >
+                  <img src={siteScreenshot} alt={`${row.company_name}`} className="w-full h-auto block max-h-[520px] object-top object-cover" />
+                </motion.div>
+              ) : null}
             </div>
           </div>
         </section>
