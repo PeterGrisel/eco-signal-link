@@ -292,68 +292,6 @@ const HegoPage = () => {
 
       <WaitlistHero logoSrc={hegoLogo.url} logoAlt="HEGO logo" />
 
-      {/* Mini Groeistack */}
-      <section className="py-16 md:py-24 border-b border-border">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="max-w-3xl mx-auto text-center mb-12">
-            <p className="font-display text-xs tracking-[0.2em] uppercase mb-3" style={{ color: HEGO.primaryGlow }}>
-              De Groeistack
-            </p>
-            <h2 className="font-display font-bold text-3xl md:text-5xl tracking-tight mb-4">
-              Het systeem achter het playbook.
-            </h2>
-            <p className="text-muted-foreground text-base md:text-lg leading-relaxed">
-              Zes lagen. Geen losse tools. Eén machine die signalen omzet in offertes voor HEGO.
-            </p>
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl mx-auto">
-            {groeistackLayers.map((l) => {
-              const Icon = l.icon;
-              return (
-                <div key={l.title} className="rounded-xl border border-border bg-card/40 p-5">
-                  <div
-                    className="inline-flex items-center justify-center h-10 w-10 rounded-lg mb-3"
-                    style={{ backgroundColor: `${HEGO.primary}1F`, color: HEGO.primaryGlow }}
-                  >
-                    <Icon className="h-5 w-5" />
-                  </div>
-                  <h3 className="font-display font-semibold text-base mb-1">{l.title}</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{l.desc}</p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="py-20 md:py-28 relative overflow-hidden">
-        <div
-          className="absolute inset-0 opacity-30 pointer-events-none"
-          style={{ background: `radial-gradient(ellipse at center, ${HEGO.primary}40 0%, transparent 70%)` }}
-        />
-        <div className="container mx-auto px-4 md:px-6 relative">
-          <div className="max-w-3xl mx-auto text-center">
-            <img
-              src={hegoLogo.url}
-              alt="HEGO logo"
-              className="h-14 md:h-16 w-auto mx-auto mb-6 object-contain"
-            />
-            <h2 className="font-display font-bold text-3xl md:text-5xl lg:text-6xl tracking-tight leading-tight mb-6">
-              Klaar om dit voor HEGO
-              <br />
-              <span style={{ color: HEGO.primaryGlow }}>in te richten?</span>
-            </h2>
-            <p className="text-muted-foreground text-base md:text-lg mb-10 max-w-xl mx-auto leading-relaxed">
-              We lopen het playbook samen door. U bepaalt wat er als eerste live gaat.
-            </p>
-            <Button asChild size="lg" style={{ backgroundColor: HEGO.primary }} className="text-white hover:opacity-90">
-              <CtaLink intent="gratisScan" location="HEGO Page CTA" />
-            </Button>
-          </div>
-        </div>
-      </section>
-
       <Footer />
     </div>
   );
