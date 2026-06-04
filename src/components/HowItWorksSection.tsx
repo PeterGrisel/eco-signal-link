@@ -27,7 +27,20 @@ const steps = COPY.methode.layers.map((l, i) => ({
   output: l.output,
 }));
 
-const HowItWorksSection = () => {
+interface HowItWorksSectionProps {
+  accent?: string; // custom brand accent (hex). When set, overrides primary tokens.
+}
+
+const HowItWorksSection = ({ accent }: HowItWorksSectionProps = {}) => {
+  const accentStyle = accent ? { color: accent } : undefined;
+  const accentBorder = accent ? { borderColor: `${accent}55` } : undefined;
+  const accentNumberStyle = accent
+    ? { color: accent, WebkitTextFillColor: accent, backgroundImage: "none" }
+    : undefined;
+  const accentPhaseStyle = accent ? { color: `${accent}CC` } : undefined;
+  const accentOutputStyle = accent
+    ? { color: `${accent}CC`, borderColor: `${accent}33` }
+    : undefined;
   return (
     <section id="proces" className="py-16 md:py-32 relative">
       <div className="container mx-auto px-4 md:px-6 relative z-10">
@@ -39,14 +52,17 @@ const HowItWorksSection = () => {
           transition={{ duration: 0.6 }}
           className="mb-12 md:mb-16 max-w-2xl"
         >
-          <p className="inline-flex items-center gap-2 text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4">
+          <p
+            className="inline-flex items-center gap-2 text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4"
+            style={accentStyle}
+          >
             <BookOpenCheck className="w-4 h-4" strokeWidth={1.8} />
             Het Playbook-systeem
           </p>
           <h2 className="font-display font-bold text-4xl md:text-5xl lg:text-6xl xl:text-7xl tracking-tight leading-tight">
             Acht playbooks.
             <br />
-            <span className="text-gradient">Eén werkend groeisysteem.</span>
+            <span className="text-gradient" style={accent ? { backgroundImage: "none", WebkitTextFillColor: accent, color: accent } : undefined}>Eén werkend groeisysteem.</span>
           </h2>
           <p className="text-muted-foreground text-lg leading-relaxed mt-6">
             Elke fase is een playbook dat in uw eigen tools draait.
@@ -66,14 +82,23 @@ const HowItWorksSection = () => {
               className="card-gradient border-glow rounded-2xl p-5 md:p-6 flex flex-col gap-3"
             >
               <div className="flex items-center justify-between">
-                <span className="w-11 h-11 rounded-xl border border-primary/30 bg-card flex items-center justify-center">
-                  <s.icon className="w-5 h-5 text-primary" strokeWidth={1.6} />
+                <span
+                  className="w-11 h-11 rounded-xl border border-primary/30 bg-card flex items-center justify-center"
+                  style={accentBorder}
+                >
+                  <s.icon className="w-5 h-5 text-primary" strokeWidth={1.6} style={accentStyle} />
                 </span>
-                <span className="font-display font-bold text-3xl text-gradient leading-none">
+                <span
+                  className="font-display font-bold text-3xl text-gradient leading-none"
+                  style={accentNumberStyle}
+                >
                   {s.n}
                 </span>
               </div>
-              <span className="text-[10px] font-display font-semibold tracking-[0.18em] uppercase text-primary/80">
+              <span
+                className="text-[10px] font-display font-semibold tracking-[0.18em] uppercase text-primary/80"
+                style={accentPhaseStyle}
+              >
                 Playbook · {s.phase}
               </span>
               <h3 className="font-display font-bold text-lg leading-tight">
@@ -82,7 +107,10 @@ const HowItWorksSection = () => {
               <p className="text-sm text-muted-foreground leading-relaxed">
                 {s.desc}
               </p>
-              <p className="text-xs text-primary/80 leading-relaxed border-t border-primary/15 pt-3 mt-auto">
+              <p
+                className="text-xs text-primary/80 leading-relaxed border-t border-primary/15 pt-3 mt-auto"
+                style={accentOutputStyle}
+              >
                 {s.output}
               </p>
             </motion.div>
@@ -100,6 +128,7 @@ const HowItWorksSection = () => {
           <Link
             to="/hoe-het-werkt"
             className="inline-flex items-center gap-2 font-medium text-primary hover:gap-3 transition-all"
+            style={accentStyle}
           >
             Bekijk alle playbooks in detail
             <ArrowRight className="w-4 h-4" />

@@ -132,20 +132,19 @@ const HegoPage = () => {
   }, []);
 
   return (
-    <div className="min-h-screen text-white" style={{ backgroundColor: HEGO.surface }}>
+    <div className="min-h-screen bg-background text-foreground">
       <Navbar />
 
       {/* Hero — Gemini-style scroll-driven flowlines */}
       <section
-        className="relative min-h-[88vh] flex items-center border-b overflow-hidden"
-        style={{ borderColor: `${HEGO.primary}55`, background: `linear-gradient(180deg, ${HEGO.surface} 0%, ${HEGO.primary}22 100%)` }}
+        className="relative min-h-[88vh] flex items-center border-b border-border bg-background overflow-hidden"
       >
         <div
-          className="absolute -top-32 -left-24 w-[520px] h-[520px] rounded-full blur-3xl opacity-50 pointer-events-none"
+          className="absolute -top-32 -left-24 w-[520px] h-[520px] rounded-full blur-3xl opacity-30 pointer-events-none"
           style={{ background: `radial-gradient(circle, ${HEGO.primary} 0%, transparent 70%)` }}
         />
         <div
-          className="absolute -bottom-40 -right-24 w-[520px] h-[520px] rounded-full blur-3xl opacity-40 pointer-events-none"
+          className="absolute -bottom-40 -right-24 w-[520px] h-[520px] rounded-full blur-3xl opacity-25 pointer-events-none"
           style={{ background: `radial-gradient(circle, ${HEGO.primaryGlow} 0%, transparent 70%)` }}
         />
 
@@ -190,32 +189,32 @@ const HegoPage = () => {
             />
             <div
               className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold mb-8"
-              style={{ backgroundColor: `${HEGO.primary}40`, color: "#fff", border: `1px solid ${HEGO.primaryGlow}88` }}
+              style={{ backgroundColor: `${HEGO.primary}1F`, color: HEGO.primaryGlow, border: `1px solid ${HEGO.primary}55` }}
             >
-              <span className="h-1.5 w-1.5 rounded-full animate-pulse" style={{ backgroundColor: "#4FABFF" }} />
+              <span className="h-1.5 w-1.5 rounded-full animate-pulse" style={{ backgroundColor: HEGO.primaryGlow }} />
               HEGO × B2BGROEIMACHINE
             </div>
-            <h1 className="font-display font-bold text-4xl md:text-6xl lg:text-7xl tracking-tight leading-[1.05] mb-6 text-white">
+            <h1 className="font-display font-bold text-4xl md:text-6xl lg:text-7xl tracking-tight leading-[1.05] mb-6">
               Slimmer werken door automatiseren van handmatige acties.
             </h1>
             <div className="relative max-w-2xl mb-8">
               <div
                 className="absolute inset-0 rounded-2xl backdrop-blur-xl border shadow-2xl"
                 style={{
-                  background: `linear-gradient(135deg, ${HEGO.primary}30, ${HEGO.surface}60)`,
-                  borderColor: `${HEGO.primaryGlow}55`,
-                  boxShadow: `inset 0 1px 0 ${HEGO.primaryGlow}44, 0 20px 60px -20px ${HEGO.primary}88`,
+                  background: `linear-gradient(135deg, hsl(var(--foreground) / 0.08), hsl(var(--foreground) / 0.02))`,
+                  borderColor: `hsl(var(--foreground) / 0.12)`,
+                  boxShadow: `inset 0 1px 0 hsl(var(--foreground) / 0.15), 0 20px 60px -20px ${HEGO.primary}55`,
                 }}
                 aria-hidden
               />
-              <p className="relative text-base md:text-lg text-white/90 leading-relaxed px-6 py-5">
+              <p className="relative text-base md:text-lg text-foreground/90 leading-relaxed px-6 py-5">
                 Persoonlijk Market Activation Playbook voor HEGO. Hoe wij groothandel, traders, fabrikanten en metaalbewerkers activeren rond uw voorraad en maatwerk capaciteit.
               </p>
             </div>
             <a
               href="#playbook"
               className="inline-flex items-center gap-2 font-semibold text-sm md:text-base rounded-full px-6 py-3 text-white hover:opacity-90 transition"
-              style={{ backgroundColor: HEGO.primary, boxShadow: `0 8px 32px -8px ${HEGO.primary}88` }}
+              style={{ backgroundColor: HEGO.primary }}
             >
               Bekijk het playbook <ArrowRight className="h-4 w-4" />
             </a>
@@ -331,8 +330,8 @@ const HegoPage = () => {
         </div>
       </section>
 
-      {/* 8 playbooks van de homepage */}
-      <HowItWorksSection />
+      {/* 8 playbooks van de homepage — in HEGO brandkleur */}
+      <HowItWorksSection accent={HEGO.primaryGlow} />
 
       {/* Client logos */}
       {clients.length > 0 && (
