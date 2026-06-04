@@ -279,12 +279,20 @@ const AbmPage = () => {
 
       {/* Persoonlijke pagina ribbon met klantlogo */}
       <div className="border-b" style={{ borderColor, backgroundColor: `${primary}0D` }}>
-        <div className="container mx-auto px-6 h-12 flex items-center justify-center gap-3 text-xs sm:text-sm">
-          <span style={{ color: mutedColor }}>Persoonlijke pagina voor</span>
-          {logoUrl ? (
-            <img src={logoUrl} alt={row.company_name} className="h-6 w-auto" />
-          ) : (
-            <span className="font-display font-semibold" style={{ color: primary }}>{row.company_name}</span>
+        <div className="container mx-auto px-6 py-2.5 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 text-xs sm:text-sm text-center">
+          <div className="flex items-center gap-3">
+            <span style={{ color: mutedColor }}>Persoonlijke pagina voor</span>
+            {logoUrl ? (
+              <img src={logoUrl} alt={row.company_name} className="h-6 w-auto" />
+            ) : (
+              <span className="font-display font-semibold" style={{ color: primary }}>{row.company_name}</span>
+            )}
+          </div>
+          {personalClaim && (
+            <span className="hidden sm:inline" style={{ color: mutedColor }}>·</span>
+          )}
+          {personalClaim && (
+            <span className="italic max-w-xl truncate" style={{ color: mutedColor }}>{personalClaim}</span>
           )}
         </div>
       </div>
