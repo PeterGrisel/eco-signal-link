@@ -6,7 +6,6 @@ import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import HowItWorksSection from "@/components/HowItWorksSection";
 import { WaitlistHero } from "@/components/ui/waitlist-hero";
 import { Button } from "@/components/ui/button";
 import { usePageMeta } from "@/hooks/usePageMeta";
