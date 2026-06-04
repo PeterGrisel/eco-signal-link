@@ -53,7 +53,7 @@ const PipelineEquation = () => {
                 </Button>
                 <Button variant="outline" size="lg" asChild>
                   <a
-                    href="https://app.usemotion.com/meet/Rebel-Force/meeting"
+                    href="https://meetings-eu1.hubspot.com/peter-grisel"
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={() => trackCTA("Pipeline Equation Hero — Demo", "/pipeline-equation")}
@@ -298,7 +298,7 @@ const PipelineEquation = () => {
             </p>
             <Button variant="hero" size="lg" asChild>
               <a
-                href="https://app.usemotion.com/meet/Rebel-Force/meeting"
+                href="https://meetings-eu1.hubspot.com/peter-grisel"
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => trackCTA("Pipeline Equation CTA — Demo", "/pipeline-equation")}

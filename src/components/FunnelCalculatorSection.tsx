@@ -273,7 +273,7 @@ const FunnelCalculatorSection = ({ defaults }: { defaults?: FunnelDefaults }) =>
             Benieuwd wat deze cijfers voor uw organisatie betekenen?
           </p>
           <a
-            href="https://app.usemotion.com/meet/Rebel-Force/meeting"
+            href="https://meetings-eu1.hubspot.com/peter-grisel"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-8 py-4 rounded-lg bg-primary text-primary-foreground font-display font-bold text-base hover:opacity-90 transition-opacity shadow-lg shadow-primary/20"

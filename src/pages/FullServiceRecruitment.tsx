@@ -111,7 +111,7 @@ const FullServiceRecruitment = () => {
               </p>
               <Button variant="hero" size="lg" asChild>
                 <a
-                  href="https://app.usemotion.com/meet/Rebel-Force/meeting"
+                  href="https://meetings-eu1.hubspot.com/peter-grisel"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -236,7 +236,7 @@ const FullServiceRecruitment = () => {
               </p>
               <Button variant="hero" size="lg" asChild>
                 <a
-                  href="https://app.usemotion.com/meet/Rebel-Force/meeting"
+                  href="https://meetings-eu1.hubspot.com/peter-grisel"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
