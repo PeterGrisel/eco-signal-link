@@ -45,7 +45,7 @@ import AdminBlogEditor from "./pages/admin/AdminBlogEditor.tsx";
 import AdminBlogGenerate from "./pages/admin/AdminBlogGenerate.tsx";
 import AdminSignaal from "./pages/admin/AdminSignaal.tsx";
 import AdminAbmPages from "./pages/admin/AdminAbmPages.tsx";
-import AbmPage from "./pages/AbmPage.tsx";
+import ClientPage from "./pages/ClientPage.tsx";
 import HegoPage from "./pages/HegoPage.tsx";
 import SealEcoPage from "./pages/SealEcoPage.tsx";
 import SignalCheatsheet from "./pages/SignalCheatsheet.tsx";
@@ -153,7 +153,7 @@ const AnimatedRoutes = () => {
           <Route path="/admin/abm" element={<AdminAbmPages />} />
           <Route path="/voor/hego" element={<HegoPage />} />
           <Route path="/voor/sealeco" element={<SealEcoPage />} />
-          <Route path="/voor/:slug" element={<AbmPage />} />
+          <Route path="/voor/:slug" element={<ClientPage />} />
           <Route path="/admin/blog/new" element={<AdminBlogEditor />} />
           <Route path="/admin/blog/edit/:id" element={<AdminBlogEditor />} />
           <Route path="/admin/blog/generate" element={<AdminBlogGenerate />} />

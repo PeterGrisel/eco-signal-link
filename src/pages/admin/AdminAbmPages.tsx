@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import AdminLayout from "@/components/admin/AdminLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { ExternalLink, Trash2, Archive, RefreshCw, Plus } from "lucide-react";
+import { ExternalLink, Trash2, Archive, RefreshCw, Plus, Upload, Loader2, Sparkles } from "lucide-react";
 
 interface AbmRow {
   id: string;
@@ -16,33 +16,93 @@ interface AbmRow {
   expires_at: string;
   created_at: string;
   updated_at: string;
-  payload: any;
+  website: string | null;
+  logo_url: string | null;
+  pdf_url: string | null;
+  brand_primary_hex: string | null;
+  brand_glow_hex: string | null;
 }
 
 const sb = supabase as unknown as { from: (t: string) => any };
+
+function slugify(s: string): string {
+  return s.toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 60);
+}
+
+async function fileToBase64(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = reader.result as string;
+      resolve(result.replace(/^data:[^,]+,/, ""));
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
 
 const AdminAbmPages = () => {
   const { toast } = useToast();
   const [rows, setRows] = useState<AbmRow[]>([]);
   const [loading, setLoading] = useState(true);
-  const [editing, setEditing] = useState<AbmRow | null>(null);
-  const [jsonText, setJsonText] = useState("");
   const [creating, setCreating] = useState(false);
-  const [newSlug, setNewSlug] = useState("");
-  const [newCompany, setNewCompany] = useState("");
-  const [newJson, setNewJson] = useState('{\n  "cta": "",\n  "services": [],\n  "recommendedVisualTitle": ""\n}');
+
+  // form state
+  const [company, setCompany] = useState("");
+  const [slug, setSlug] = useState("");
+  const [website, setWebsite] = useState("");
+  const [primaryHex, setPrimaryHex] = useState("");
+  const [glowHex, setGlowHex] = useState("");
+  const [pdfFile, setPdfFile] = useState<File | null>(null);
+  const [generating, setGenerating] = useState(false);
 
   const load = async () => {
     setLoading(true);
-    const { data } = await sb
-      .from("abm_pages")
-      .select("*")
-      .order("updated_at", { ascending: false });
+    const { data } = await sb.from("abm_pages").select("*").order("updated_at", { ascending: false });
     setRows((data as AbmRow[]) || []);
     setLoading(false);
   };
-
   useEffect(() => { load(); }, []);
+
+  const resetForm = () => {
+    setCompany(""); setSlug(""); setWebsite(""); setPrimaryHex(""); setGlowHex(""); setPdfFile(null);
+  };
+
+  const generate = async () => {
+    if (!company.trim()) return toast({ title: "Bedrijfsnaam is verplicht", variant: "destructive" });
+    if (!pdfFile) return toast({ title: "Upload eerst de flyer (PDF)", variant: "destructive" });
+    if (pdfFile.type !== "application/pdf") return toast({ title: "Alleen PDF-bestanden toegestaan", variant: "destructive" });
+    if (pdfFile.size > 20 * 1024 * 1024) return toast({ title: "PDF is groter dan 20MB", variant: "destructive" });
+
+    setGenerating(true);
+    try {
+      const pdfBase64 = await fileToBase64(pdfFile);
+      const finalSlug = slug.trim() ? slugify(slug) : slugify(company);
+      const body: any = {
+        companyName: company.trim(),
+        slug: finalSlug,
+        website: website.trim() || undefined,
+        pdfBase64,
+        filename: pdfFile.name,
+      };
+      if (primaryHex && glowHex) {
+        body.brandPrimaryHex = primaryHex;
+        body.brandGlowHex = glowHex;
+      }
+      const { data, error } = await supabase.functions.invoke("abm-generate", { body });
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+      toast({ title: "Pagina gegenereerd", description: `/voor/${data.slug}` });
+      setCreating(false);
+      resetForm();
+      load();
+    } catch (e: any) {
+      toast({ title: "Genereren mislukt", description: e.message || String(e), variant: "destructive" });
+    } finally {
+      setGenerating(false);
+    }
+  };
 
   const remove = async (row: AbmRow) => {
     if (!confirm(`Pagina voor ${row.company_name} verwijderen?`)) return;
@@ -58,84 +118,83 @@ const AdminAbmPages = () => {
     load();
   };
 
-  const extend = async (row: AbmRow, days = 90) => {
-    const expires = new Date(Date.now() + days * 24 * 60 * 60 * 1000).toISOString();
-    const { error } = await sb.from("abm_pages").update({ expires_at: expires, status: "live" }).eq("id", row.id);
-    if (error) return toast({ title: "Verlengen mislukt", description: error.message, variant: "destructive" });
-    toast({ title: `Verlengd met ${days} dagen` });
-    load();
-  };
-
-  const openEdit = (row: AbmRow) => {
-    setEditing(row);
-    setJsonText(JSON.stringify(row.payload, null, 2));
-  };
-
-  const savePayload = async () => {
-    if (!editing) return;
-    let parsed: any;
-    try { parsed = JSON.parse(jsonText); } catch (e: any) {
-      return toast({ title: "Ongeldige JSON", description: e.message, variant: "destructive" });
-    }
-    const { error } = await sb.from("abm_pages").update({ payload: parsed }).eq("id", editing.id);
-    if (error) return toast({ title: "Opslaan mislukt", description: error.message, variant: "destructive" });
-    toast({ title: "Opgeslagen" });
-    setEditing(null);
-    load();
-  };
-
-  const createPage = async () => {
-    if (!newCompany || !newSlug) return toast({ title: "Bedrijfsnaam en slug verplicht", variant: "destructive" });
-    let parsed: any;
-    try { parsed = JSON.parse(newJson); } catch (e: any) {
-      return toast({ title: "Ongeldige JSON", description: e.message, variant: "destructive" });
-    }
-    const slug = newSlug.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
-    const { error } = await sb.from("abm_pages").upsert({
-      slug,
-      company_name: newCompany,
-      payload: parsed,
-      status: "live",
-      expires_at: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString(),
-    }, { onConflict: "slug" });
-    if (error) return toast({ title: "Aanmaken mislukt", description: error.message, variant: "destructive" });
-    toast({ title: "Aangemaakt", description: `/voor/${slug}` });
-    setCreating(false); setNewSlug(""); setNewCompany("");
-    load();
-  };
-
   return (
     <AdminLayout>
       <div className="mb-6">
-        <h1 className="font-display text-3xl mb-1">ABM pagina's</h1>
-        <p className="text-sm text-muted-foreground">Klantspecifieke pagina's op /voor/:slug</p>
-      </div>
-      <div className="flex items-center justify-between mb-6">
+        <h1 className="font-display text-3xl mb-1">Clientpagina's</h1>
         <p className="text-sm text-muted-foreground">
-          {rows.length} pagina{rows.length === 1 ? "" : "'s"} · gepubliceerd via ChatGPT/n8n of handmatig
+          Upload een flyer (PDF) en genereer automatisch een persoonlijke pagina op <code>/voor/&lt;slug&gt;</code>.
         </p>
+      </div>
+
+      <div className="flex items-center justify-between mb-6">
+        <p className="text-sm text-muted-foreground">{rows.length} pagina{rows.length === 1 ? "" : "'s"}</p>
         <div className="flex gap-2">
           <Button variant="outline" size="sm" onClick={load}><RefreshCw className="h-4 w-4 mr-2" />Vernieuwen</Button>
-          <Button size="sm" onClick={() => setCreating(true)}><Plus className="h-4 w-4 mr-2" />Nieuw</Button>
+          <Button size="sm" onClick={() => setCreating(true)}><Plus className="h-4 w-4 mr-2" />Nieuwe pagina</Button>
         </div>
       </div>
 
       {creating && (
-        <div className="mb-6 p-5 rounded-xl border border-border bg-card">
-          <h3 className="font-display text-lg mb-4">Nieuwe ABM pagina</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
-            <Input placeholder="Bedrijfsnaam (bv. Coolmark)" value={newCompany} onChange={(e) => setNewCompany(e.target.value)} />
-            <Input placeholder="Slug (bv. coolmark)" value={newSlug} onChange={(e) => setNewSlug(e.target.value)} />
+        <div className="mb-6 p-6 rounded-xl border border-border bg-card space-y-4">
+          <div>
+            <h3 className="font-display text-lg mb-1">Nieuwe clientpagina genereren</h3>
+            <p className="text-xs text-muted-foreground">
+              We uploaden de PDF, halen het logo op (via website), bepalen brandkleuren met AI en schrijven hero-copy in NL.
+            </p>
           </div>
-          <Textarea
-            rows={10}
-            className="font-mono text-xs"
-            value={newJson}
-            onChange={(e) => setNewJson(e.target.value)}
-          />
-          <div className="flex gap-2 mt-3">
-            <Button size="sm" onClick={createPage}>Aanmaken</Button>
-            <Button size="sm" variant="ghost" onClick={() => setCreating(false)}>Annuleer</Button>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div>
+              <Label className="text-xs">Bedrijfsnaam *</Label>
+              <Input value={company} onChange={(e) => setCompany(e.target.value)} placeholder="bv. Coolmark" />
+            </div>
+            <div>
+              <Label className="text-xs">Slug (optioneel)</Label>
+              <Input value={slug} onChange={(e) => setSlug(e.target.value)} placeholder={company ? slugify(company) : "auto"} />
+            </div>
+            <div className="md:col-span-2">
+              <Label className="text-xs">Website (optioneel — voor logo + brandkleuren)</Label>
+              <Input value={website} onChange={(e) => setWebsite(e.target.value)} placeholder="https://www.coolmark.nl" />
+            </div>
+            <div>
+              <Label className="text-xs">Brand primary hex (optioneel — overschrijft AI)</Label>
+              <Input value={primaryHex} onChange={(e) => setPrimaryHex(e.target.value)} placeholder="#00833E" />
+            </div>
+            <div>
+              <Label className="text-xs">Brand glow hex (optioneel)</Label>
+              <Input value={glowHex} onChange={(e) => setGlowHex(e.target.value)} placeholder="#5BC15D" />
+            </div>
+          </div>
+
+          <div>
+            <Label className="text-xs">Flyer / Playbook PDF *</Label>
+            <div className="mt-1 flex items-center gap-3">
+              <label className="inline-flex items-center gap-2 px-4 py-2 rounded-md border border-border bg-background hover:bg-card cursor-pointer text-sm">
+                <Upload className="h-4 w-4" />
+                {pdfFile ? "Andere PDF kiezen" : "Kies PDF"}
+                <input type="file" accept="application/pdf" className="hidden"
+                  onChange={(e) => setPdfFile(e.target.files?.[0] || null)} />
+              </label>
+              {pdfFile && (
+                <span className="text-xs text-muted-foreground">
+                  {pdfFile.name} ({(pdfFile.size / 1024 / 1024).toFixed(2)} MB)
+                </span>
+              )}
+            </div>
+          </div>
+
+          <div className="flex gap-2 pt-2">
+            <Button size="sm" onClick={generate} disabled={generating}>
+              {generating ? (
+                <><Loader2 className="h-4 w-4 mr-2 animate-spin" />Bezig met genereren…</>
+              ) : (
+                <><Sparkles className="h-4 w-4 mr-2" />Genereer pagina</>
+              )}
+            </Button>
+            <Button size="sm" variant="ghost" disabled={generating} onClick={() => { setCreating(false); resetForm(); }}>
+              Annuleer
+            </Button>
           </div>
         </div>
       )}
@@ -148,6 +207,21 @@ const AdminAbmPages = () => {
             const expired = new Date(row.expires_at) < new Date();
             return (
               <div key={row.id} className="p-4 rounded-xl border border-border bg-card flex flex-wrap items-center gap-3">
+                {row.logo_url ? (
+                  <img src={row.logo_url} alt="" className="h-10 w-10 rounded bg-background object-contain p-1 border border-border" />
+                ) : (
+                  <div className="h-10 w-10 rounded bg-background border border-border flex items-center justify-center text-xs font-semibold">
+                    {row.company_name.slice(0, 2).toUpperCase()}
+                  </div>
+                )}
+                {row.brand_primary_hex && (
+                  <div className="flex items-center gap-1">
+                    <span className="h-6 w-6 rounded-full border border-border" style={{ backgroundColor: row.brand_primary_hex }} title={row.brand_primary_hex} />
+                    {row.brand_glow_hex && (
+                      <span className="h-6 w-6 rounded-full border border-border" style={{ backgroundColor: row.brand_glow_hex }} title={row.brand_glow_hex} />
+                    )}
+                  </div>
+                )}
                 <div className="flex-1 min-w-[200px]">
                   <div className="flex items-center gap-2 mb-1">
                     <span className="font-medium">{row.company_name}</span>
@@ -160,7 +234,7 @@ const AdminAbmPages = () => {
                     </span>
                   </div>
                   <div className="text-xs text-muted-foreground">
-                    /voor/{row.slug} · {row.view_count} views · verloopt {new Date(row.expires_at).toLocaleDateString("nl-NL")}
+                    /voor/{row.slug} · {row.view_count} views{row.pdf_url ? " · PDF aanwezig" : ""}
                   </div>
                 </div>
                 <Button asChild size="sm" variant="outline">
@@ -168,8 +242,6 @@ const AdminAbmPages = () => {
                     <ExternalLink className="h-3 w-3 mr-1" />Open
                   </a>
                 </Button>
-                <Button size="sm" variant="ghost" onClick={() => openEdit(row)}>Bewerk JSON</Button>
-                <Button size="sm" variant="ghost" onClick={() => extend(row, 90)}>+90d</Button>
                 <Button size="sm" variant="ghost" onClick={() => setStatus(row, row.status === "archived" ? "live" : "archived")}>
                   <Archive className="h-3 w-3 mr-1" />{row.status === "archived" ? "Activeer" : "Archiveer"}
                 </Button>
@@ -180,27 +252,8 @@ const AdminAbmPages = () => {
             );
           })}
           {rows.length === 0 && (
-            <p className="text-muted-foreground text-sm">Nog geen ABM pagina's. Publiceer er één via ChatGPT/n8n of klik op "Nieuw".</p>
+            <p className="text-muted-foreground text-sm">Nog geen pagina's. Klik op "Nieuwe pagina" en upload een flyer.</p>
           )}
-        </div>
-      )}
-
-      {editing && (
-        <div className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-card border border-border rounded-xl p-6 w-full max-w-2xl max-h-[90vh] flex flex-col">
-            <h3 className="font-display text-lg mb-1">Payload bewerken</h3>
-            <p className="text-xs text-muted-foreground mb-4">{editing.company_name} · /voor/{editing.slug}</p>
-            <Textarea
-              rows={20}
-              className="font-mono text-xs flex-1"
-              value={jsonText}
-              onChange={(e) => setJsonText(e.target.value)}
-            />
-            <div className="flex gap-2 mt-4 justify-end">
-              <Button variant="ghost" onClick={() => setEditing(null)}>Annuleer</Button>
-              <Button onClick={savePayload}>Opslaan</Button>
-            </div>
-          </div>
         </div>
       )}
     </AdminLayout>
