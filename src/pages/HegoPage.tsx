@@ -203,10 +203,19 @@ const HegoPage = () => {
             <h2 className="font-display font-bold text-3xl md:text-5xl tracking-tight mb-4">
               Speciaal samengesteld voor HEGO.
             </h2>
-            <p className="text-muted-foreground text-base md:text-lg leading-relaxed">
-              Het volledige playbook. Onze analyse, aanpak en eerste plan voor HEGO. Doorbladeren kan hieronder of download
-              de PDF.
-            </p>
+            <FrostedGlassCard
+              className="max-w-2xl mx-auto"
+              background={`linear-gradient(135deg, hsl(var(--foreground) / 0.10), hsl(var(--foreground) / 0.02))`}
+              borderColor={`hsl(var(--foreground) / 0.18)`}
+              glareColor={`${HEGO.primaryGlow}66`}
+              style={{
+                boxShadow: `inset 0 1px 0 hsl(var(--foreground) / 0.15), 0 20px 60px -20px ${HEGO.primary}66`,
+              }}
+            >
+              <p className="text-base md:text-lg text-foreground/90 leading-relaxed px-6 py-5">
+                Het volledige playbook. Onze analyse, aanpak en eerste plan voor HEGO. Doorbladeren kan hieronder of download de PDF.
+              </p>
+            </FrostedGlassCard>
           </div>
 
           <div className="relative max-w-5xl mx-auto">
