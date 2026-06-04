@@ -600,6 +600,7 @@ function buildHtml(meta: {
   bodyContent: string;
   extraHead?: string;
   ogImage?: string;
+  noindex?: boolean;
 }): string {
   const ogImage = meta.ogImage || DEFAULT_OG_IMAGE;
   return `<!DOCTYPE html>
@@ -609,6 +610,7 @@ function buildHtml(meta: {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${escapeHtml(meta.title)}</title>
   <meta name="description" content="${escapeHtml(meta.description)}">
+  ${meta.noindex ? `<meta name="robots" content="noindex, nofollow">` : ""}
   <link rel="canonical" href="${escapeHtml(meta.url)}">
   <meta property="og:type" content="website">
   <meta property="og:title" content="${escapeHtml(meta.title)}">
