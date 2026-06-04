@@ -267,6 +267,7 @@ const HegoPage = () => {
                 <a
                   href={pdfAsset.url}
                   download
+                  onClick={() => trackCTA("hego_playbook_download", pdfAsset.url)}
                   className="text-xs font-semibold inline-flex items-center gap-1.5 hover:opacity-80"
                   style={{ color: HEGO.primaryGlow }}
                 >
