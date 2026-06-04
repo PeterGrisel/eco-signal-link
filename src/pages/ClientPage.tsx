@@ -105,9 +105,20 @@ const ClientPage = () => {
     return () => window.removeEventListener("resize", update);
   }, []);
 
+  const metaTitle = row
+    ? isEn
+      ? `${row.company_name} × B2BGroeiMachine — B2B Wholesale Growth Engine`
+      : `${row.company_name} × B2BGroeiMachine — Market Activation Playbook`
+    : "B2BGroeiMachine";
+  const metaDescription = row
+    ? isEn
+      ? row.intro || `A predictable B2B growth system for ${row.company_name}.`
+      : row.intro || `Persoonlijk playbook voor ${row.company_name}.`
+    : undefined;
+
   usePageMeta({
-    title: row ? `${row.company_name} × B2BGroeiMachine — Market Activation Playbook` : "B2BGroeiMachine",
-    description: row?.intro || `Persoonlijk playbook voor ${row?.company_name || "uw bedrijf"}.`,
+    title: metaTitle,
+    description: metaDescription,
     canonical: row ? `https://b2bgroeimachine.io/voor/${row.slug}` : undefined,
     ogImage: row
       ? (row.og_image_url || `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/og-image?slug=${row.slug}`)
