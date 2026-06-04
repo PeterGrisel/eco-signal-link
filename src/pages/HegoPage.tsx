@@ -94,7 +94,7 @@ const HegoPage = () => {
 
       {/* Hero — Gemini-style scroll-driven flowlines */}
       <section
-        className="relative min-h-[88vh] flex items-center border-b border-border bg-background overflow-hidden"
+        className="relative min-h-screen flex items-center border-b border-border bg-background overflow-hidden"
       >
         <div
           className="absolute -top-32 -left-24 w-[520px] h-[520px] rounded-full blur-3xl opacity-30 pointer-events-none"
@@ -201,8 +201,8 @@ const HegoPage = () => {
       </section>
 
       {/* PDF viewer */}
-      <section id="playbook" className="py-16 md:py-24 bg-card/30 border-b border-border">
-        <div className="container mx-auto px-4 md:px-6">
+      <section id="playbook" className="min-h-screen flex items-center py-16 md:py-24 bg-card/30 border-b border-border">
+        <div className="container mx-auto px-4 md:px-6 w-full">
           <div className="max-w-3xl mx-auto text-center mb-10">
             <p className="font-display text-xs tracking-[0.2em] uppercase mb-3" style={{ color: HEGO.primaryGlow }}>
               Market Activation Playbook
@@ -309,9 +309,17 @@ const HegoPage = () => {
       </section>
 
       {/* 8 playbooks van de homepage — in HEGO brandkleur */}
-      <HowItWorksSection accent={HEGO.primaryGlow} />
+      <div className="min-h-screen flex items-center">
+        <div className="w-full">
+          <HowItWorksSection accent={HEGO.primaryGlow} />
+        </div>
+      </div>
 
-      <WaitlistHero logoSrc={hegoLogo.url} logoAlt="HEGO logo" />
+      <div className="min-h-screen flex items-center">
+        <div className="w-full">
+          <WaitlistHero logoSrc={hegoLogo.url} logoAlt="HEGO logo" />
+        </div>
+      </div>
 
       <Footer />
     </div>
