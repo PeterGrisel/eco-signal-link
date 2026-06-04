@@ -13,6 +13,7 @@ export interface BentoItem {
     colSpan?: number;
     hasPersistentHover?: boolean;
     featured?: boolean;
+    onClick?: () => void;
 }
 
 interface BentoGridProps {
@@ -29,12 +30,22 @@ function BentoGrid({ items, accent }: BentoGridProps) {
                 <div
                     key={index}
                     style={accentBorder}
+                    onClick={item.onClick}
+                    role={item.onClick ? "button" : undefined}
+                    tabIndex={item.onClick ? 0 : undefined}
+                    onKeyDown={(e) => {
+                        if (item.onClick && (e.key === "Enter" || e.key === " ")) {
+                            e.preventDefault();
+                            item.onClick();
+                        }
+                    }}
                     className={cn(
                         "group relative p-5 rounded-2xl overflow-hidden transition-all duration-300",
                         "border border-border bg-card",
                         "hover:shadow-[0_2px_24px_rgba(0,0,0,0.25)]",
                         "hover:-translate-y-0.5 will-change-transform",
                         item.colSpan === 2 ? "md:col-span-2" : "col-span-1",
+                        item.onClick && "cursor-pointer",
                         {
                             "shadow-[0_2px_24px_rgba(0,0,0,0.25)] -translate-y-0.5":
                                 item.hasPersistentHover,
