@@ -7,10 +7,9 @@ import "react-pdf/dist/Page/TextLayer.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import HowItWorksSection from "@/components/HowItWorksSection";
+import OrbitingClients from "@/components/OrbitingClients";
 import { Button } from "@/components/ui/button";
 import { usePageMeta } from "@/hooks/usePageMeta";
-import { supabase } from "@/integrations/supabase/client";
-import { faviconFor } from "@/data/groeistack";
 import CtaLink from "@/components/CtaLink";
 import pdfAsset from "@/assets/hego-playbook.pdf.asset.json";
 import hegoLogo from "@/assets/hego-logo.png.asset.json";
@@ -54,39 +53,7 @@ const groeistackLayers = [
   { icon: BarChart3, title: "Dashboard", desc: "Eén bron van waarheid met lerende loops." },
 ];
 
-interface ClientLogo {
-  id: string;
-  name: string;
-  domain: string;
-  logo_url: string | null;
-  scale: number;
-  padding: number;
-  website: string | null;
-}
-
-const ClientBadge = ({ c }: { c: ClientLogo }) => {
-  const [err, setErr] = useState(false);
-  const src = c.logo_url || faviconFor(c.website || c.domain);
-  return (
-    <div className="flex items-center justify-center h-16 w-32 grayscale opacity-70 hover:opacity-100 hover:grayscale-0 transition">
-      {err || !src ? (
-        <span className="font-display font-bold text-foreground/60">{c.name}</span>
-      ) : (
-        <img
-          src={src}
-          alt={c.name}
-          className="object-contain max-h-12 max-w-full"
-          style={{ transform: `scale(${c.scale ?? 1})`, padding: c.padding ?? 0 }}
-          loading="lazy"
-          onError={() => setErr(true)}
-        />
-      )}
-    </div>
-  );
-};
-
 const HegoPage = () => {
-  const [clients, setClients] = useState<ClientLogo[]>([]);
   const [numPages, setNumPages] = useState(0);
   const [page, setPage] = useState(1);
   const [viewerWidth, setViewerWidth] = useState(900);
@@ -119,16 +86,6 @@ const HegoPage = () => {
     return () => {
       document.head.removeChild(tag);
     };
-  }, []);
-
-  useEffect(() => {
-    supabase
-      .from("client_logos")
-      .select("id, name, domain, logo_url, scale, padding, website")
-      .eq("is_visible", true)
-      .order("sort_order")
-      .limit(12)
-      .then(({ data }) => setClients((data as ClientLogo[]) ?? []));
   }, []);
 
   return (
@@ -333,21 +290,12 @@ const HegoPage = () => {
       {/* 8 playbooks van de homepage — in HEGO brandkleur */}
       <HowItWorksSection accent={HEGO.primaryGlow} />
 
-      {/* Client logos */}
-      {clients.length > 0 && (
-        <section className="py-14 border-b border-border bg-card/20">
-          <div className="container mx-auto px-4 md:px-6">
-            <p className="text-center font-display text-xs tracking-[0.25em] uppercase text-muted-foreground mb-8">
-              Vertrouwd door industriële B2B-spelers
-            </p>
-            <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-6">
-              {clients.map((c) => (
-                <ClientBadge key={c.id} c={c} />
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
+      {/* Klantenlogos in orbit */}
+      <OrbitingClients
+        accent={HEGO.primaryGlow}
+        title="B2B-merken die met ons werken"
+        subtitle="Industrieel, technisch en zakelijk. Eén werkend groeisysteem onder de motorkap."
+      />
 
       {/* Mini Groeistack */}
       <section className="py-16 md:py-24 border-b border-border">
@@ -391,6 +339,11 @@ const HegoPage = () => {
         />
         <div className="container mx-auto px-4 md:px-6 relative">
           <div className="max-w-3xl mx-auto text-center">
+            <img
+              src={hegoLogo.url}
+              alt="HEGO logo"
+              className="h-14 md:h-16 w-auto mx-auto mb-6 object-contain"
+            />
             <h2 className="font-display font-bold text-3xl md:text-5xl lg:text-6xl tracking-tight leading-tight mb-6">
               Klaar om dit voor HEGO
               <br />
