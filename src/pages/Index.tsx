@@ -50,6 +50,7 @@ const Index = () => {
       <Gtm2026Section />
       <HowItWorksSection />
       <GroeistackSection />
+      <Chapter11Bewegingen />
       <CaseStudiesSection />
       <PricingSection />
       <FaqSection />
