@@ -13,6 +13,7 @@ import Gtm2026Section from "@/components/Gtm2026Section";
 import HowItWorksSection from "@/components/HowItWorksSection";
 import GroeistackSection from "@/components/GroeistackSection";
 import CaseStudiesSection from "@/components/CaseStudiesSection";
+import Chapter11Bewegingen from "@/components/homepage/chapters/Chapter11Bewegingen";
 
 const Index = () => {
   // Scroll to hash after entrance animation completes (300ms fade)
