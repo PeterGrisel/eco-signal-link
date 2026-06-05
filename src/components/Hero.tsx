@@ -94,10 +94,10 @@ const Hero = () => {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease, delay: 0.12 }}
-            className="text-muted-foreground text-lg md:text-2xl max-w-3xl mx-auto mb-10 leading-relaxed"
+            className="text-muted-foreground text-lg md:text-2xl max-w-4xl mx-auto mb-10 leading-relaxed"
           >
-            Wij combineren AI-workflows met menselijke expertise. Slimmer
-            werken door te automatiseren.
+            B2BGroeimachine brengt ICP, accountdata, engagement en opvolging
+            samen in één methode voor schaalbare B2B-groei.
           </motion.p>
 
           {/* CTA's */}
