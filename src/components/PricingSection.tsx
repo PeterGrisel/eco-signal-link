@@ -83,6 +83,9 @@ const T = {
     servicesEyebrow: "UW B2B GROEIPARTNER VOOR",
     services: ["Advies", "Consultancy", "Tool integraties (AI)", "Service & Beheer"],
     footerLine: "Wilt u weten wat dit voor uw situatie betekent?",
+    ctaScan: "Boek gratis scan →",
+    ctaTalk: "Boek gratis scan →",
+    ctaFooter: "Boek gratis scan →",
   },
   en: {
     eyebrow: "Commercial model",
@@ -131,6 +134,9 @@ const T = {
     servicesEyebrow: "YOUR B2B GROWTH PARTNER FOR",
     services: ["Advisory", "Consultancy", "Tool integrations (AI)", "Service & Support"],
     footerLine: "Want to know what this means for your situation?",
+    ctaScan: "Book free scan →",
+    ctaTalk: "Book a call →",
+    ctaFooter: "Book a call →",
   },
 } as const;
 
