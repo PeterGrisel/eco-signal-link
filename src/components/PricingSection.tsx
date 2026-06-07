@@ -158,6 +158,7 @@ const buildFases = (yearly: boolean, lang: Lang, currency: Currency): Fase[] => 
     features: [...t.growthFeatures],
     ctaIntent: "gratisScan",
     ctaLocation: "Pricing Growth System",
+    ctaLabel: t.ctaScan,
     highlight: true,
     footnote: t.growthFootnote,
   },
@@ -171,6 +172,7 @@ const buildFases = (yearly: boolean, lang: Lang, currency: Currency): Fase[] => 
     features: [...t.sprintFeatures],
     ctaIntent: "bespreekSituatie",
     ctaLocation: "Pricing Sprint",
+    ctaLabel: t.ctaTalk,
   },
   {
     step: t.planC,
