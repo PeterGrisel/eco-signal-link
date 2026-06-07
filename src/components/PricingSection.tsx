@@ -379,7 +379,9 @@ const PerformancePartnership = ({ lang }: { lang: Lang }) => {
         </div>
         <div className="sm:col-span-2">
           <Button variant="hero" size="lg" asChild className="w-full group">
-            <CtaLink intent="bespreekSituatie" location="Pricing Performance Partnership" />
+            <CtaLink intent="bespreekSituatie" location="Pricing Performance Partnership">
+              {tt.ctaTalk}
+            </CtaLink>
           </Button>
         </div>
       </div>
@@ -501,7 +503,9 @@ const PricingSection = ({ language = "nl", currency }: PricingSectionProps = {})
               intent="bespreekSituatie"
               location="Pricing Footer"
               className="text-primary hover:underline font-medium inline-flex items-center gap-1"
-            />
+            >
+              {tt.ctaFooter}
+            </CtaLink>
           </p>
         </motion.div>
       </div>
