@@ -195,6 +195,9 @@ const ClientPage = () => {
   const glowHsl = row.brand_glow_hsl || "203 56% 46%";
   const brandClass = `client-brand-${row.slug}`;
   const pdfUrl = signedPdfUrl || row.pdf_url;
+  const logoSrc = row.logo_url
+    ? signedLogoUrl || (abmAssetPath(row.logo_url) ? null : row.logo_url)
+    : null;
   const headline = row.hero_headline || "Slimmer werken door";
   const subline = row.hero_subline || "automatiseren van handmatige acties.";
   const introText = row.intro || `Persoonlijk Market Activation Playbook voor ${row.company_name}.`;
@@ -310,7 +313,7 @@ const ClientPage = () => {
 
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="flex flex-col items-center text-center max-w-4xl 2xl:max-w-6xl 3xl:max-w-7xl mx-auto">
-            {row.logo_url && (
+            {logoSrc && (
               <div className="relative mb-6 inline-flex items-center justify-center -mt-16 md:-mt-24">
                 <div aria-hidden className="absolute inset-0 -mx-8 -my-6 rounded-3xl backdrop-blur-2xl border"
                   style={{
@@ -322,7 +325,7 @@ const ClientPage = () => {
                 <div aria-hidden className="absolute inset-0 -mx-8 -my-6 rounded-3xl pointer-events-none"
                   style={{ background: `linear-gradient(135deg, hsl(0 0% 100% / 0.5) 0%, transparent 40%, transparent 60%, hsl(0 0% 100% / 0.2) 100%)`, mixBlendMode: "overlay" }}
                 />
-                <img src={row.logo_url} alt={`${row.company_name} logo`}
+                <img src={logoSrc} alt={`${row.company_name} logo`}
                   className="relative h-16 md:h-20 w-auto object-contain drop-shadow-lg" />
               </div>
             )}
@@ -497,7 +500,7 @@ const ClientPage = () => {
       <div className="min-h-screen flex items-center">
         <div className="w-full">
           <WaitlistHero
-            logoSrc={row.logo_url || undefined}
+            logoSrc={logoSrc || undefined}
             logoAlt={`${row.company_name} logo`}
             accentColor={glowHex}
             language={isEn ? "en" : "nl"}
