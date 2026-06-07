@@ -56,6 +56,13 @@ function hslColor(hsl: string, deltaL = 0, satMul = 1): string {
   return `hsl(${hslWith(hsl, deltaL, satMul)})`;
 }
 
+function abmAssetPath(rawUrl: string | null): string | null {
+  if (!rawUrl) return null;
+  const marker = "/abm-assets/";
+  const idx = rawUrl.indexOf(marker);
+  return idx >= 0 ? rawUrl.substring(idx + marker.length) : null;
+}
+
 const ClientPage = () => {
   const { slug } = useParams<{ slug: string }>();
   const [row, setRow] = useState<ClientRow | null>(null);
@@ -67,6 +74,7 @@ const ClientPage = () => {
   const [viewerWidth, setViewerWidth] = useState(900);
   const [zoom, setZoom] = useState(1);
   const [signedPdfUrl, setSignedPdfUrl] = useState<string | null>(null);
+  const [signedLogoUrl, setSignedLogoUrl] = useState<string | null>(null);
   const viewerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -85,14 +93,20 @@ const ClientPage = () => {
       sb.rpc("increment_abm_view", { _slug: slug }).then(() => {}, () => {});
       // Generate signed URL for private bucket
       const rawUrl: string | null = (data as ClientRow).pdf_url;
-      if (rawUrl) {
-        const marker = "/abm-assets/";
-        const idx = rawUrl.indexOf(marker);
-        const path = idx >= 0 ? rawUrl.substring(idx + marker.length) : rawUrl;
+      const logoUrl: string | null = (data as ClientRow).logo_url;
+      const pdfPath = abmAssetPath(rawUrl);
+      const logoPath = abmAssetPath(logoUrl);
+      if (pdfPath) {
         const { data: signed } = await supabase.storage
           .from("abm-assets")
-          .createSignedUrl(path, 60 * 60 * 24);
+          .createSignedUrl(pdfPath, 60 * 60 * 24);
         if (!cancelled && signed?.signedUrl) setSignedPdfUrl(signed.signedUrl);
+      }
+      if (logoPath) {
+        const { data: signed } = await supabase.storage
+          .from("abm-assets")
+          .createSignedUrl(logoPath, 60 * 60 * 24);
+        if (!cancelled && signed?.signedUrl) setSignedLogoUrl(signed.signedUrl);
       }
     })();
     return () => { cancelled = true; };
