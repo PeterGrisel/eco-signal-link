@@ -83,6 +83,9 @@ const T = {
     servicesEyebrow: "UW B2B GROEIPARTNER VOOR",
     services: ["Advies", "Consultancy", "Tool integraties (AI)", "Service & Beheer"],
     footerLine: "Wilt u weten wat dit voor uw situatie betekent?",
+    ctaScan: "Boek gratis scan →",
+    ctaTalk: "Boek gratis scan →",
+    ctaFooter: "Boek gratis scan →",
   },
   en: {
     eyebrow: "Commercial model",
@@ -131,6 +134,9 @@ const T = {
     servicesEyebrow: "YOUR B2B GROWTH PARTNER FOR",
     services: ["Advisory", "Consultancy", "Tool integrations (AI)", "Service & Support"],
     footerLine: "Want to know what this means for your situation?",
+    ctaScan: "Book free scan →",
+    ctaTalk: "Book a call →",
+    ctaFooter: "Book a call →",
   },
 } as const;
 
@@ -152,6 +158,7 @@ const buildFases = (yearly: boolean, lang: Lang, currency: Currency): Fase[] => 
     features: [...t.growthFeatures],
     ctaIntent: "gratisScan",
     ctaLocation: "Pricing Growth System",
+    ctaLabel: t.ctaScan,
     highlight: true,
     footnote: t.growthFootnote,
   },
@@ -165,6 +172,7 @@ const buildFases = (yearly: boolean, lang: Lang, currency: Currency): Fase[] => 
     features: [...t.sprintFeatures],
     ctaIntent: "bespreekSituatie",
     ctaLocation: "Pricing Sprint",
+    ctaLabel: t.ctaTalk,
   },
   {
     step: t.planC,
@@ -371,7 +379,9 @@ const PerformancePartnership = ({ lang }: { lang: Lang }) => {
         </div>
         <div className="sm:col-span-2">
           <Button variant="hero" size="lg" asChild className="w-full group">
-            <CtaLink intent="bespreekSituatie" location="Pricing Performance Partnership" />
+            <CtaLink intent="bespreekSituatie" location="Pricing Performance Partnership">
+              {tt.ctaTalk}
+            </CtaLink>
           </Button>
         </div>
       </div>
@@ -493,7 +503,9 @@ const PricingSection = ({ language = "nl", currency }: PricingSectionProps = {})
               intent="bespreekSituatie"
               location="Pricing Footer"
               className="text-primary hover:underline font-medium inline-flex items-center gap-1"
-            />
+            >
+              {tt.ctaFooter}
+            </CtaLink>
           </p>
         </motion.div>
       </div>
