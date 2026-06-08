@@ -58,6 +58,33 @@ type UtmKey = typeof UTM_KEYS[number];
 type UtmData = Partial<Record<UtmKey | "landing_page" | "referrer" | "captured_at", string>>;
 
 const UTM_STORAGE_KEY = "b2b_utm_attribution";
+const UTM_COOKIE_NAME = "b2b_utm_attribution";
+const UTM_COOKIE_MAX_AGE_DAYS = 90;
+
+const readUtmCookie = (): UtmData | null => {
+  if (typeof document === "undefined") return null;
+  const match = document.cookie
+    .split("; ")
+    .find((row) => row.startsWith(`${UTM_COOKIE_NAME}=`));
+  if (!match) return null;
+  try {
+    const raw = decodeURIComponent(match.split("=").slice(1).join("="));
+    return JSON.parse(raw) as UtmData;
+  } catch {
+    return null;
+  }
+};
+
+const writeUtmCookie = (data: UtmData) => {
+  if (typeof document === "undefined") return;
+  const maxAge = UTM_COOKIE_MAX_AGE_DAYS * 24 * 60 * 60;
+  const value = encodeURIComponent(JSON.stringify(data));
+  const secure = window.location.protocol === "https:" ? "; Secure" : "";
+  const domain = window.location.hostname;
+  // Set on root path; rely on host-only cookie (no Domain attr) to avoid leaking to unrelated subdomains.
+  document.cookie = `${UTM_COOKIE_NAME}=${value}; Max-Age=${maxAge}; Path=/; SameSite=Lax${secure}`;
+  void domain;
+};
 
 /** Normaliseer en valideer UTM-waarden. Alleen alfanumeriek, streepje, underscore en punt toegestaan. */
 const normalizeUtmValue = (raw: string): string | null => {
@@ -83,41 +110,48 @@ const normalizeUtmValue = (raw: string): string | null => {
 const captureUtmParams = (): UtmData => {
   if (typeof window === "undefined") return {};
 
-  // Already captured this session → return stored
-  const existing = sessionStorage.getItem(UTM_STORAGE_KEY);
-  if (existing) {
-    try { return JSON.parse(existing) as UtmData; } catch { /* fall through */ }
-  }
-
   const params = new URLSearchParams(window.location.search);
-  const captured: UtmData = {};
-  let hasAny = false;
-
+  // Read fresh UTM from current URL (if any)
+  const fromUrl: UtmData = {};
+  let hasUrlUtm = false;
   for (const key of UTM_KEYS) {
     const raw = params.get(key);
     if (!raw) continue;
     const normalized = normalizeUtmValue(raw);
     if (normalized) {
-      captured[key] = normalized;
-      hasAny = true;
+      fromUrl[key] = normalized;
+      hasUrlUtm = true;
     }
   }
 
-  if (!hasAny) {
-    // No UTM on first visit → still record landing page + referrer once (best-effort attribution)
-    const empty: UtmData = {
-      landing_page: window.location.pathname,
-      referrer: document.referrer || "",
-      captured_at: new Date().toISOString(),
-    };
-    sessionStorage.setItem(UTM_STORAGE_KEY, JSON.stringify(empty));
-    return empty;
+  // First-touch attribution: prefer cookie (persists ~90 days across sessions),
+  // fall back to sessionStorage (legacy), then capture fresh.
+  const cookieData = readUtmCookie();
+  const sessionRaw = sessionStorage.getItem(UTM_STORAGE_KEY);
+  const sessionData: UtmData | null = sessionRaw
+    ? (() => { try { return JSON.parse(sessionRaw) as UtmData; } catch { return null; } })()
+    : null;
+
+  // If we already have first-touch UTM stored, keep it (first-touch wins).
+  const stored = cookieData ?? sessionData;
+  const storedHasUtm = stored && UTM_KEYS.some((k) => stored[k]);
+
+  if (storedHasUtm) {
+    // Make sure cookie mirrors stored data (e.g. migrated from sessionStorage).
+    if (!cookieData) writeUtmCookie(stored!);
+    sessionStorage.setItem(UTM_STORAGE_KEY, JSON.stringify(stored));
+    return stored!;
   }
 
+  // No prior first-touch UTM → record current visit (with or without UTM)
+  const captured: UtmData = hasUrlUtm ? fromUrl : {};
   captured.landing_page = window.location.pathname;
   captured.referrer = document.referrer || "";
   captured.captured_at = new Date().toISOString();
+
   sessionStorage.setItem(UTM_STORAGE_KEY, JSON.stringify(captured));
+  // Only persist to cookie when we actually captured UTM params (avoid locking in an empty record).
+  if (hasUrlUtm) writeUtmCookie(captured);
   return captured;
 };
 
