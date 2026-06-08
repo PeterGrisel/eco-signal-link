@@ -59,6 +59,27 @@ type UtmData = Partial<Record<UtmKey | "landing_page" | "referrer" | "captured_a
 
 const UTM_STORAGE_KEY = "b2b_utm_attribution";
 
+/** Normaliseer en valideer UTM-waarden. Alleen alfanumeriek, streepje, underscore en punt toegestaan. */
+const normalizeUtmValue = (raw: string): string | null => {
+  const trimmed = raw.trim();
+  if (!trimmed) return null;
+
+  // Max 100 tekens per UTM-waarde (Google Analytics limiet is ruimer, dit is conservatief)
+  const clamped = trimmed.slice(0, 100);
+
+  // Alleen toegestane tekens: a-z, A-Z, 0-9, -, _, ., spatie
+  // Whitespace wordt getrimmed, overige ongeldige tekens worden verwijderd
+  const cleaned = clamped
+    .replace(/[^\w\s\-.]/gi, "")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  if (!cleaned) return null;
+
+  // lowercase voor consistentie
+  return cleaned.toLowerCase();
+};
+
 const captureUtmParams = (): UtmData => {
   if (typeof window === "undefined") return {};
 
@@ -71,10 +92,13 @@ const captureUtmParams = (): UtmData => {
   const params = new URLSearchParams(window.location.search);
   const captured: UtmData = {};
   let hasAny = false;
+
   for (const key of UTM_KEYS) {
-    const val = params.get(key);
-    if (val) {
-      captured[key] = val;
+    const raw = params.get(key);
+    if (!raw) continue;
+    const normalized = normalizeUtmValue(raw);
+    if (normalized) {
+      captured[key] = normalized;
       hasAny = true;
     }
   }
