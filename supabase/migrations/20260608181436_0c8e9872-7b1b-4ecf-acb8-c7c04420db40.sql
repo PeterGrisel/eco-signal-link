@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX IF NOT EXISTS playbooks_unique_published_title_idx ON public.playbooks (lower(title)) WHERE status = 'published';
