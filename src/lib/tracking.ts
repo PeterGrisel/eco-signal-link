@@ -52,6 +52,60 @@ const getSessionId = (): string => {
   return sid;
 };
 
+// ── UTM capture (persist first-touch attribution per session) ──
+const UTM_KEYS = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content"] as const;
+type UtmKey = typeof UTM_KEYS[number];
+type UtmData = Partial<Record<UtmKey | "landing_page" | "referrer" | "captured_at", string>>;
+
+const UTM_STORAGE_KEY = "b2b_utm_attribution";
+
+const captureUtmParams = (): UtmData => {
+  if (typeof window === "undefined") return {};
+
+  // Already captured this session → return stored
+  const existing = sessionStorage.getItem(UTM_STORAGE_KEY);
+  if (existing) {
+    try { return JSON.parse(existing) as UtmData; } catch { /* fall through */ }
+  }
+
+  const params = new URLSearchParams(window.location.search);
+  const captured: UtmData = {};
+  let hasAny = false;
+  for (const key of UTM_KEYS) {
+    const val = params.get(key);
+    if (val) {
+      captured[key] = val;
+      hasAny = true;
+    }
+  }
+
+  if (!hasAny) {
+    // No UTM on first visit → still record landing page + referrer once (best-effort attribution)
+    const empty: UtmData = {
+      landing_page: window.location.pathname,
+      referrer: document.referrer || "",
+      captured_at: new Date().toISOString(),
+    };
+    sessionStorage.setItem(UTM_STORAGE_KEY, JSON.stringify(empty));
+    return empty;
+  }
+
+  captured.landing_page = window.location.pathname;
+  captured.referrer = document.referrer || "";
+  captured.captured_at = new Date().toISOString();
+  sessionStorage.setItem(UTM_STORAGE_KEY, JSON.stringify(captured));
+  return captured;
+};
+
+/** Get the stored UTM attribution for the current session (captures on first call). */
+export const getUtmAttribution = (): UtmData => captureUtmParams();
+
+// Capture immediately on module load so first-visit URL params are saved
+// even if the user navigates away before any event fires.
+if (typeof window !== "undefined") {
+  captureUtmParams();
+}
+
 // ── GA4 helper ──
 declare global {
   interface Window {
@@ -78,6 +132,9 @@ const sendInternalEvent = async (
 ) => {
   if (await shouldSkipTracking()) return;
 
+  const utm = captureUtmParams();
+  const enrichedMetadata = { ...(metadata || {}), utm };
+
   supabase
     .from("site_events")
     .insert([{
@@ -87,7 +144,7 @@ const sendInternalEvent = async (
       page_path: window.location.pathname,
       referrer: document.referrer || null,
       session_id: getSessionId(),
-      metadata: (metadata || {}) as Json,
+      metadata: enrichedMetadata as Json,
     }])
     .then(({ error }) => {
       if (error) console.warn("[tracking] insert error:", error.message);
