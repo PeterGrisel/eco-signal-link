@@ -176,6 +176,28 @@ Ongeveer 1400 woorden. Genereer alle metadata. Noem alleen tools die in De Groei
     if (!toolCall) throw new Error("Geen playbook gegenereerd");
     const pb = JSON.parse(toolCall.function.arguments);
 
+    // Title-based dedup: skip if a published playbook with the same title already exists
+    const { data: titleClash } = await supabase
+      .from("playbooks")
+      .select("id, slug")
+      .eq("status", "published")
+      .ilike("title", pb.title)
+      .maybeSingle();
+    if (titleClash) {
+      log.push(`✗ Duplicate skipped: "${pb.title}" already exists (slug: ${titleClash.slug})`);
+      await supabase.from("playbook_runs").insert({
+        scenario_id: scenario.id,
+        playbook_id: titleClash.id,
+        status: "skipped",
+        error_message: `Duplicate title: ${pb.title}`,
+        log: log.join("\n"),
+      });
+      return new Response(
+        JSON.stringify({ ok: true, skipped: true, reason: "duplicate_title", slug: titleClash.slug, log }),
+        { headers: { ...corsHeaders, "Content-Type": "application/json" } },
+      );
+    }
+
     // Slug uniek maken
     let slug = String(pb.slug || "")
       .toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || `playbook-${Date.now()}`;
