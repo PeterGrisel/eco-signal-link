@@ -1438,6 +1438,129 @@ export type Database = {
           },
         ]
       }
+      semrush_backlinks: {
+        Row: {
+          anchor: string | null
+          created_at: string
+          first_seen: string
+          id: string
+          last_seen: string
+          nofollow: boolean | null
+          page_ascore: number | null
+          source_domain: string | null
+          source_url: string
+          status: string
+          target_url: string
+          updated_at: string
+        }
+        Insert: {
+          anchor?: string | null
+          created_at?: string
+          first_seen?: string
+          id?: string
+          last_seen?: string
+          nofollow?: boolean | null
+          page_ascore?: number | null
+          source_domain?: string | null
+          source_url: string
+          status?: string
+          target_url: string
+          updated_at?: string
+        }
+        Update: {
+          anchor?: string | null
+          created_at?: string
+          first_seen?: string
+          id?: string
+          last_seen?: string
+          nofollow?: boolean | null
+          page_ascore?: number | null
+          source_domain?: string | null
+          source_url?: string
+          status?: string
+          target_url?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      semrush_kw_positions: {
+        Row: {
+          captured_at: string
+          database_code: string | null
+          id: string
+          keyword: string
+          position: number
+          traffic_pct: number | null
+          url: string
+          volume: number | null
+        }
+        Insert: {
+          captured_at?: string
+          database_code?: string | null
+          id?: string
+          keyword: string
+          position: number
+          traffic_pct?: number | null
+          url: string
+          volume?: number | null
+        }
+        Update: {
+          captured_at?: string
+          database_code?: string | null
+          id?: string
+          keyword?: string
+          position?: number
+          traffic_pct?: number | null
+          url?: string
+          volume?: number | null
+        }
+        Relationships: []
+      }
+      semrush_sync_runs: {
+        Row: {
+          authority_score: number | null
+          error: string | null
+          finished_at: string | null
+          id: string
+          lost_backlinks: number | null
+          new_backlinks: number | null
+          rising_pages: number | null
+          started_at: string
+          status: string
+          target_domain: string
+          total_backlinks: number | null
+          total_refdomains: number | null
+        }
+        Insert: {
+          authority_score?: number | null
+          error?: string | null
+          finished_at?: string | null
+          id?: string
+          lost_backlinks?: number | null
+          new_backlinks?: number | null
+          rising_pages?: number | null
+          started_at?: string
+          status?: string
+          target_domain: string
+          total_backlinks?: number | null
+          total_refdomains?: number | null
+        }
+        Update: {
+          authority_score?: number | null
+          error?: string | null
+          finished_at?: string | null
+          id?: string
+          lost_backlinks?: number | null
+          new_backlinks?: number | null
+          rising_pages?: number | null
+          started_at?: string
+          status?: string
+          target_domain?: string
+          total_backlinks?: number | null
+          total_refdomains?: number | null
+        }
+        Relationships: []
+      }
       seo_action_items: {
         Row: {
           clicks: number | null
