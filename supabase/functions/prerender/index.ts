@@ -993,18 +993,39 @@ Deno.serve(async (req) => {
       });
     }
 
-    // Fallback: 404
+    // Fallback: proxy live SPA HTML from Lovable origin so bots get a
+    // crawlable 200 instead of a 404. The Cloudflare Worker treats any
+    // non-OK response as "prerender failed" and serves a 503+noindex
+    // fallback, which Google reports as "Serverfout (5xx)".
+    try {
+      const originUrl = `https://eco-signal-link.lovable.app${path}`;
+      const originRes = await fetch(originUrl, {
+        headers: { "Accept": "text/html", "User-Agent": "PrerenderProxy/1.0" },
+      });
+      if (originRes.ok) {
+        const originHtml = await originRes.text();
+        if (originHtml && originHtml.length > 100) {
+          setCache(path, originHtml);
+          return new Response(originHtml, {
+            headers: { ...cacheHeaders, "X-Cache": "ORIGIN", "X-Prerendered": "origin-fallback" },
+          });
+        }
+      }
+    } catch (e) {
+      console.warn(`[prerender] origin fallback failed for ${path}:`, (e as Error).message);
+    }
+
+    // Last-resort generic 200 stub (still 200 to avoid Worker 503 fallback)
     return new Response(
       buildHtml({
-        title: `Pagina niet gevonden — ${SITE_NAME}`,
-        description: "Deze pagina bestaat niet.",
+        title: `${SITE_NAME} — Schaalbare B2B sales automation`,
+        description: "B2BGroeiMachine bouwt schaalbare sales engines voor groeiende B2B-bedrijven.",
         url: pageUrl,
-        h1: "Pagina niet gevonden",
-        bodyContent: `<p>De pagina die je zoekt bestaat niet. <a href="${SITE_URL}/">Ga terug naar de homepage</a>.</p>`,
+        h1: SITE_NAME,
+        bodyContent: `<p>Ontdek hoe B2BGroeiMachine ambitieuze B2B-bedrijven helpt groeien. <a href="${SITE_URL}/">Bekijk de homepage</a>.</p>`,
       }),
       {
-        status: 404,
-        headers: { ...corsHeaders, "Content-Type": "text/html; charset=utf-8" },
+        headers: { ...cacheHeaders, "X-Prerendered": "stub" },
       }
     );
   } catch (error) {
