@@ -1122,6 +1122,12 @@ Deno.serve(async (req) => {
       if (originRes.ok) {
         const originHtml = await originRes.text();
         if (originHtml && originHtml.length > 100) {
+          // Surface missing STATIC_PAGES entries: any path die hier landt
+          // krijgt de generieke SPA-meta. Voeg de route toe aan STATIC_PAGES
+          // hierboven zodra deze waarschuwing in de logs verschijnt.
+          console.warn(
+            `[prerender] origin-fallback voor ${path} — voeg een unieke title/description toe aan STATIC_PAGES.`,
+          );
           setCache(path, originHtml);
           return new Response(originHtml, {
             headers: { ...cacheHeaders, "X-Cache": "ORIGIN", "X-Prerendered": "origin-fallback" },
