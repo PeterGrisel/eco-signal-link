@@ -1,120 +1,110 @@
-## Doel
+# SEO Authority Agent — MVP plan
 
-Het oude ABM-systeem (lege `abm_pages` records, generieke `AbmPage.tsx`, brand-extract/visuals/publish functies) vervangen door een nieuwe workflow:
+Context-aware backlink & authority discovery engine. Geïntegreerd als nieuwe tab **Authority** in `/admin/seo`, naast bestaande Backlinks Monitor. Multi-website (jij beheert b2bgroeimachine.io plus eventuele client-domeinen). Discovery via Firecrawl search + scrape. AI scoring via Lovable AI Gateway (Gemini Flash).
 
-> **U levert een flyer (PDF) → systeem genereert automatisch een /voor/&lt;slug&gt; pagina op maat in de stijl van HEGO/SealEco.**
+## 1. Database (1 migration, 9 tabellen)
 
-De HegoPage / SealEcoPage worden de blauwdruk. Alles wat we voor die twee handmatig gebouwd hebben (hero, PDF-viewer, bento playbooks, gebrande PricingSection, branded WaitlistHero, prerender meta, route, `.<slug>-brand` CSS) wordt herhaalbaar via één admin-flow.
+Alle in `public`, met GRANTs naar `authenticated` + `service_role`, RLS on, policies `has_role(auth.uid(),'admin')`.
 
----
+- `authority_websites` — naam, domein, propositie, status
+- `authority_context_profiles` — JSONB met propositie, ICP, core/secondary topics, sectors, differentiators, money_pages, recommended_pages, linkable_assets, negative_keywords, raw_summary, context_version
+- `authority_target_pages` — url, title, page_type, topic, sector, priority
+- `authority_queries` — query, cluster, intent, priority
+- `authority_runs` — run_type, status, counts, started/completed_at
+- `authority_crawled_pages` — full crawl metadata (zoals doc §10.6)
+- `authority_opportunities` — alle scoring-velden + status (zoals doc §10.7)
+- `authority_assets` — asset-ideeën met status idea→published
+- `authority_placements` — placement_url, target_url, anchors, verification
 
-## Workflow voor u
+Prefix `authority_` om naast bestaande `semrush_backlinks` te leven.
 
-1. Naar **/admin/abm** → "Nieuwe clientpagina"
-2. U upload één PDF (de flyer / playbook van de klant)
-3. U vult in: **bedrijfsnaam**, **slug** (optioneel autogenereerd), **website** (optioneel — voor logo + kleur)
-4. U klikt **Genereer**
-5. Systeem doet automatisch:
-   - PDF naar Lovable Asset → CDN URL voor de viewer
-   - Logo ophalen via favicon / Clearbit van website-domein
-   - Brandkleur extractie via Lovable AI uit de PDF eerste pagina + logo (primary, primaryGlow als HSL)
-   - OG-image genereren (1200×630, brandkleur + bedrijfsnaam)
-   - Hero copy + intro genereren via Lovable AI in B1 NL (max 12 woorden per zin, "u/uw")
-   - Database record opslaan in `abm_pages` met alle assets + brand tokens
-6. U krijgt directe link → **/voor/&lt;slug&gt;**
+## 2. Edge functions (8)
 
----
+Alle in `supabase/functions/`, geregistreerd in `config.toml` (`verify_jwt = true` voor admin-acties; `false` voor cron-trigger met CRON_SECRET header).
 
-## Wat u krijgt (per pagina)
+| Function | Doel |
+|---|---|
+| `authority-analyze-context` | Crawlt homepage + 5–10 interne pagina's via Firecrawl, stuurt naar Gemini Flash met prompt §11.1, slaat profiel op |
+| `authority-generate-queries` | Neemt context, genereert 25–60 queries (prompt §11.2), inserts in `authority_queries` |
+| `authority-discover` | Loopt queries af via Firecrawl `/v2/search`, dedupes, slaat URLs op als `crawled_pages` stubs |
+| `authority-crawl-url` | Firecrawl `/v2/scrape` voor één URL → vult `crawled_pages` (title, h1/h2, text, outbound links, emails, robots) |
+| `authority-score-opportunity` | Pakt crawled page + context → Gemini prompt §11.3 → insert/update `authority_opportunities` met scoring + target match + anchor |
+| `authority-generate-outreach` | Per opportunity → Gemini prompt §11.4 → returnt subject/body (niet opgeslagen tenzij user "Save draft") |
+| `authority-verify-placement` | Firecrawl scrape placement_url, check link aanwezig + anchor + rel + statuscode + robots |
+| `authority-daily-cron` | Triggert verify van alle `placed` placements + nieuwe discovery batch (10 queries) + rescore pending. Cron via pg_cron + CRON_SECRET |
 
-Identiek aan HEGO/SealEco, dynamisch ingevuld uit één record:
-- Hero met flowlines, glassmorphic logo-card, brandkleur gradients
-- PDF-viewer sectie met zoom/paginatie
-- Bento grid met de 8 playbooks (statisch, uit COPY)
-- PricingSection met **`.&lt;slug&gt;-brand`** wrapper (gebrande gradients, glow, highlight-card)
-- WaitlistHero met `accentColor` op brandkleur
-- Per-route SEO meta + prerender + noindex
-- Tracking events met `client_slug`
+Risk filter en scoring (sectie §8.6/§8.7) draaien server-side in `authority-score-opportunity`. Negative keywords komen uit het context profile.
 
----
+## 3. Frontend
 
-## Implementatie
+Nieuwe tab in `src/pages/admin/AdminSeoHub.tsx`:
 
-### 1. Database (migratie)
-Uitbreiden van bestaande `abm_pages`:
-- `pdf_url` text — CDN URL naar geüploade flyer
-- `logo_url` text — klant logo
-- `brand_primary_hsl` text — bv. `"143 100% 26%"`
-- `brand_glow_hsl` text — bv. `"122 49% 56%"`
-- `brand_primary_hex` text — bv. `"#00833E"` (voor WaitlistHero accent)
-- `og_image_url` text
-- `hero_headline` text, `hero_subline` text, `intro` text
-- `website` text (optioneel)
+```
+<TabsTrigger value="authority">Authority</TabsTrigger>
+<TabsContent value="authority"><AuthorityHub /></TabsContent>
+```
 
-Bestaande `payload jsonb` blijft als fallback / extra config.
-RLS blijft hetzelfde (admin write, public read live + niet verlopen).
+Nieuwe map `src/pages/admin/authority/` met sub-router (sub-tabs i.p.v. losse routes, blijft binnen `/admin/seo?tab=authority`):
 
-### 2. Storage bucket
-Nieuwe public bucket `abm-assets` voor PDF + OG image uploads.
+- `AuthorityDashboard.tsx` — KPI-cards (websites, new/high-priority/needs-asset/ready/placed/lost), laatste run
+- `AuthorityWebsites.tsx` — lijst + "Add website" dialog (domain + name). "Run context scan" knop triggert `authority-analyze-context`
+- `AuthorityContextBrain.tsx` — toont/edits JSON-velden uit profile, "Refresh" + "Generate queries" buttons
+- `AuthorityRuns.tsx` — runs-tabel met status + counts
+- `AuthorityOpportunities.tsx` — gefilterde lijst (status/type/priority/sector), inline approve/reject, klik → detail drawer
+- `AuthorityOpportunityDetail.tsx` (drawer/sheet) — alle scoring-cijfers, reden, target/anchor suggesties, action-buttons (Approve, Reject, Generate Outreach, Mark Contacted, Mark Placed, Create Asset Task)
+- `AuthorityAssets.tsx` — assets-tabel met statussen
+- `AuthorityPlacements.tsx` — placements + "Verify Now"
+- `AuthoritySettings.tsx` — thresholds, crawl depth, max URLs/run, default negative keywords
 
-### 3. Edge functions
+Hooks in `src/hooks/`:
+- `useAuthorityWebsites`, `useAuthorityOpportunities`, `useAuthorityRuns` — react-query wrappers rond Supabase + edge function invokes
 
-**Vervangen / verwijderen:**
-- `abm-brand-extract` → vervangen
-- `abm-generate-visuals` → vervangen
-- `abm-page-publish` → vervangen
+UI: shadcn componenten zoals bestaande admin (`Card`, `Table`, `Badge`, `Sheet`, `Tabs`). Status badges met semantic tokens (geen hardcoded colors). Score badges met 3 tiers (≥80 groen, 65–79 amber, <65 muted).
 
-**Nieuw: `abm-generate`** (één entrypoint)
-- Input: `{ pdfBase64, filename, companyName, slug, website? }`
-- Stappen:
-  1. Upload PDF naar `abm-assets/<slug>/playbook.pdf` → publieke URL
-  2. Render eerste pagina van PDF naar PNG (via pdf.js in Deno of fallback: skip en laat AI uit metadata werken)
-  3. Logo: probeer `https://logo.clearbit.com/<domain>` of favicon, anders Lovable AI image gen op basis van bedrijfsnaam
-  4. Brandkleur: Lovable AI Gateway met `google/gemini-2.5-flash` — input: logo + bedrijfsnaam → output JSON `{ primary_hex, primary_hsl, glow_hsl }`
-  5. OG image: Lovable AI Gateway `google/gemini-2.5-flash-image` — 1200×630 met brandkleur + naam
-  6. Hero copy: `google/gemini-2.5-flash` — B1 NL, max 12 woorden, "u/uw", JSON output `{ headline, subline, intro }`
-  7. Upsert in `abm_pages`
-- Returns: `{ slug, url: "/voor/<slug>" }`
+## 4. Integraties / secrets
 
-### 4. Frontend
+Alles al aanwezig:
+- `FIRECRAWL_API_KEY` (connector) — search + scrape
+- `LOVABLE_API_KEY` — Gemini Flash scoring/outreach/context
+- `CRON_SECRET` — cron-trigger guard
+- `SUPABASE_SERVICE_ROLE_KEY` — edge functions
 
-**Nieuw: `src/pages/ClientPage.tsx`** (vervangt direct gebruik van HegoPage/SealEcoPage als template)
-- Dynamische versie van HegoPage/SealEcoPage
-- Leest `abm_pages` op slug uit URL param
-- Injecteert `--primary` CSS var via inline `<style>` met `.<slug>-brand` class
-- Alle UI identiek aan HEGO/SealEco, kleuren komen uit DB record
-- HegoPage.tsx en SealEcoPage.tsx blijven bestaan (handmatig gebouwd, custom assets) — nieuwe gegenereerde pagina's draaien op ClientPage via route `/voor/:slug`
+Geen nieuwe secrets nodig.
 
-**App.tsx routing:**
-- `/voor/hego` → HegoPage (statisch, blijft)
-- `/voor/sealeco` → SealEcoPage (statisch, blijft)
-- `/voor/:slug` → ClientPage (lookup uit DB)
+## 5. Cron (pg_cron)
 
-**`src/pages/admin/AdminAbmPages.tsx`** herschrijven:
-- Nieuw form: PDF upload, bedrijfsnaam, slug, website
-- "Genereer" knop roept `abm-generate` edge function aan met progress states
-- Lijst toont: logo thumbnail, naam, slug, brand color swatch, view count, status, link
-- Acties: bekijken, archiveren, verwijderen, opnieuw genereren
+Eén dagelijkse job die `authority-daily-cron` aanroept (verify + discover-batch). Geen wekelijkse/maandelijkse jobs in MVP — die knoppen worden handmatige buttons in Settings ("Refresh context", "Regenerate queries").
 
-### 5. Prerender
-`supabase/functions/prerender/index.ts` aanpassen: voor `/voor/<slug>` die niet in de hardcoded `CLIENT_PAGES` map zit, lookup in `abm_pages` voor title/description/og image.
+## 6. Veiligheidsregels
 
-### 6. CSS
-`.<slug>-brand` wordt **niet** statisch in index.css gezet — ClientPage injecteert het runtime via een `<style>` tag op basis van DB tokens.
+- Edge functions valideren input met zod
+- Discovery cap: max 50 URLs per run, max 100 queries per website
+- Outreach wordt **nooit** verzonden — alleen tekst-output in UI
+- Risk-score ≥ 60 → automatisch `rejected`
+- Negative-keyword match → automatisch `rejected` voor scoring AI wordt aangeroepen (bespaart credits)
 
----
+## 7. Seed data
 
-## Wat opgeruimd wordt
+Migration zet b2bgroeimachine.io als eerste website + voorbeeld context profile uit doc §16 zodat je direct kan testen zonder eerst de context-scan te draaien.
 
-- `AbmPage.tsx` (oude generieke template) → verwijderen
-- `abm-brand-extract`, `abm-generate-visuals`, `abm-page-publish` edge functions → verwijderen
-- HEGO en SealEco blijven onaangetast (handmatig, custom assets)
+## 8. Niet in MVP (later)
 
----
+- Ahrefs/Semrush CSV import (apart van bestaande Semrush-tab)
+- GSC integratie voor unlinked mentions
+- Multi-user rollen (alleen admin)
+- Bulk outreach send
+- White-label rapportage
 
-## Open vragen
+## 9. Volgorde van implementatie
 
-1. **Logo bron**: liever automatisch via Clearbit/favicon (snel, soms lelijk) of liever AI-generated logo als fallback?
-2. **Brand kleur**: extractie uit PDF/logo door AI — wilt u dit kunnen overschrijven in admin (handmatige color picker)?
-3. **Bento playbooks copy**: nu identiek aan HEGO/SealEco (uit `COPY.methode.layers`). Per-klant aanpassen of altijd hetzelfde?
-4. **Hardcoded HEGO + SealEco**: laten staan of ook migreren naar het nieuwe systeem (één bron van waarheid)?
+1. Migration met 9 tabellen + seed b2bgroeimachine context
+2. Edge functions `authority-analyze-context` + `authority-generate-queries` (basisflow)
+3. `AuthorityHub` shell + Websites + Context Brain pagina's
+4. Edge functions `authority-discover` + `authority-crawl-url` + `authority-score-opportunity`
+5. Opportunities lijst + detail drawer
+6. Outreach + Assets pagina's
+7. Placements + `authority-verify-placement`
+8. Daily cron + Settings pagina
+9. Dashboard met KPI's
+
+Na approve van dit plan: stap 1 (migration) eerst, dan ga ik de rest in 2–3 iteraties bouwen omdat het te groot is voor één edit-ronde.

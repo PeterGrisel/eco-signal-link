@@ -121,6 +121,596 @@ export type Database = {
           },
         ]
       }
+      authority_assets: {
+        Row: {
+          asset_type: string | null
+          backlink_pitch: string | null
+          created_at: string
+          id: string
+          internal_links: Json
+          sector: string | null
+          status: string
+          suggested_slug: string | null
+          target_url: string | null
+          title: string
+          topic: string | null
+          updated_at: string
+          website_id: string
+        }
+        Insert: {
+          asset_type?: string | null
+          backlink_pitch?: string | null
+          created_at?: string
+          id?: string
+          internal_links?: Json
+          sector?: string | null
+          status?: string
+          suggested_slug?: string | null
+          target_url?: string | null
+          title: string
+          topic?: string | null
+          updated_at?: string
+          website_id: string
+        }
+        Update: {
+          asset_type?: string | null
+          backlink_pitch?: string | null
+          created_at?: string
+          id?: string
+          internal_links?: Json
+          sector?: string | null
+          status?: string
+          suggested_slug?: string | null
+          target_url?: string | null
+          title?: string
+          topic?: string | null
+          updated_at?: string
+          website_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "authority_assets_website_id_fkey"
+            columns: ["website_id"]
+            isOneToOne: false
+            referencedRelation: "authority_websites"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      authority_context_profiles: {
+        Row: {
+          context_version: number
+          core_topics: Json
+          created_at: string
+          differentiators: Json
+          icp: Json
+          id: string
+          linkable_assets: Json
+          money_pages: Json
+          negative_keywords: Json
+          proposition: string | null
+          raw_summary: string | null
+          recommended_pages: Json
+          secondary_topics: Json
+          sectors: Json
+          updated_at: string
+          website_id: string
+        }
+        Insert: {
+          context_version?: number
+          core_topics?: Json
+          created_at?: string
+          differentiators?: Json
+          icp?: Json
+          id?: string
+          linkable_assets?: Json
+          money_pages?: Json
+          negative_keywords?: Json
+          proposition?: string | null
+          raw_summary?: string | null
+          recommended_pages?: Json
+          secondary_topics?: Json
+          sectors?: Json
+          updated_at?: string
+          website_id: string
+        }
+        Update: {
+          context_version?: number
+          core_topics?: Json
+          created_at?: string
+          differentiators?: Json
+          icp?: Json
+          id?: string
+          linkable_assets?: Json
+          money_pages?: Json
+          negative_keywords?: Json
+          proposition?: string | null
+          raw_summary?: string | null
+          recommended_pages?: Json
+          secondary_topics?: Json
+          sectors?: Json
+          updated_at?: string
+          website_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "authority_context_profiles_website_id_fkey"
+            columns: ["website_id"]
+            isOneToOne: false
+            referencedRelation: "authority_websites"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      authority_crawled_pages: {
+        Row: {
+          canonical_url: string | null
+          contact_urls: Json
+          created_at: string
+          discovery_run_id: string | null
+          domain: string | null
+          emails: Json
+          h1: string | null
+          h2: Json
+          html_hash: string | null
+          id: string
+          indexable: boolean | null
+          internal_link_count: number
+          last_crawled_at: string | null
+          meta_description: string | null
+          outbound_link_count: number
+          robots_allowed: boolean | null
+          status_code: number | null
+          text_excerpt: string | null
+          title: string | null
+          url: string
+          website_id: string
+        }
+        Insert: {
+          canonical_url?: string | null
+          contact_urls?: Json
+          created_at?: string
+          discovery_run_id?: string | null
+          domain?: string | null
+          emails?: Json
+          h1?: string | null
+          h2?: Json
+          html_hash?: string | null
+          id?: string
+          indexable?: boolean | null
+          internal_link_count?: number
+          last_crawled_at?: string | null
+          meta_description?: string | null
+          outbound_link_count?: number
+          robots_allowed?: boolean | null
+          status_code?: number | null
+          text_excerpt?: string | null
+          title?: string | null
+          url: string
+          website_id: string
+        }
+        Update: {
+          canonical_url?: string | null
+          contact_urls?: Json
+          created_at?: string
+          discovery_run_id?: string | null
+          domain?: string | null
+          emails?: Json
+          h1?: string | null
+          h2?: Json
+          html_hash?: string | null
+          id?: string
+          indexable?: boolean | null
+          internal_link_count?: number
+          last_crawled_at?: string | null
+          meta_description?: string | null
+          outbound_link_count?: number
+          robots_allowed?: boolean | null
+          status_code?: number | null
+          text_excerpt?: string | null
+          title?: string | null
+          url?: string
+          website_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "authority_crawled_pages_discovery_run_id_fkey"
+            columns: ["discovery_run_id"]
+            isOneToOne: false
+            referencedRelation: "authority_runs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "authority_crawled_pages_website_id_fkey"
+            columns: ["website_id"]
+            isOneToOne: false
+            referencedRelation: "authority_websites"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      authority_opportunities: {
+        Row: {
+          anchor_type: string | null
+          asset_needed: boolean
+          asset_suggestion: string | null
+          authority_score: number
+          commercial_value: number
+          context_fit: number
+          crawled_page_id: string | null
+          created_at: string
+          discovery_run_id: string | null
+          id: string
+          opportunity_type: string | null
+          outreach_body: string | null
+          outreach_subject: string | null
+          page_type: string | null
+          page_type_fit: number
+          placement_probability: number
+          priority_score: number
+          recommended_action: string | null
+          relevance_reason: string | null
+          risk_score: number
+          sector: string | null
+          sector_fit: number
+          source_domain: string | null
+          source_title: string | null
+          source_url: string
+          status: string
+          suggested_anchor: string | null
+          suggested_target_url: string | null
+          topic: string | null
+          updated_at: string
+          website_id: string
+        }
+        Insert: {
+          anchor_type?: string | null
+          asset_needed?: boolean
+          asset_suggestion?: string | null
+          authority_score?: number
+          commercial_value?: number
+          context_fit?: number
+          crawled_page_id?: string | null
+          created_at?: string
+          discovery_run_id?: string | null
+          id?: string
+          opportunity_type?: string | null
+          outreach_body?: string | null
+          outreach_subject?: string | null
+          page_type?: string | null
+          page_type_fit?: number
+          placement_probability?: number
+          priority_score?: number
+          recommended_action?: string | null
+          relevance_reason?: string | null
+          risk_score?: number
+          sector?: string | null
+          sector_fit?: number
+          source_domain?: string | null
+          source_title?: string | null
+          source_url: string
+          status?: string
+          suggested_anchor?: string | null
+          suggested_target_url?: string | null
+          topic?: string | null
+          updated_at?: string
+          website_id: string
+        }
+        Update: {
+          anchor_type?: string | null
+          asset_needed?: boolean
+          asset_suggestion?: string | null
+          authority_score?: number
+          commercial_value?: number
+          context_fit?: number
+          crawled_page_id?: string | null
+          created_at?: string
+          discovery_run_id?: string | null
+          id?: string
+          opportunity_type?: string | null
+          outreach_body?: string | null
+          outreach_subject?: string | null
+          page_type?: string | null
+          page_type_fit?: number
+          placement_probability?: number
+          priority_score?: number
+          recommended_action?: string | null
+          relevance_reason?: string | null
+          risk_score?: number
+          sector?: string | null
+          sector_fit?: number
+          source_domain?: string | null
+          source_title?: string | null
+          source_url?: string
+          status?: string
+          suggested_anchor?: string | null
+          suggested_target_url?: string | null
+          topic?: string | null
+          updated_at?: string
+          website_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "authority_opportunities_crawled_page_id_fkey"
+            columns: ["crawled_page_id"]
+            isOneToOne: false
+            referencedRelation: "authority_crawled_pages"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "authority_opportunities_discovery_run_id_fkey"
+            columns: ["discovery_run_id"]
+            isOneToOne: false
+            referencedRelation: "authority_runs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "authority_opportunities_website_id_fkey"
+            columns: ["website_id"]
+            isOneToOne: false
+            referencedRelation: "authority_websites"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      authority_placements: {
+        Row: {
+          actual_anchor: string | null
+          canonical_url: string | null
+          created_at: string
+          expected_anchor: string | null
+          first_seen_at: string | null
+          id: string
+          indexable: boolean | null
+          last_checked_at: string | null
+          link_found: boolean
+          notes: string | null
+          opportunity_id: string | null
+          placement_url: string
+          rel_attribute: string | null
+          status: string
+          status_code: number | null
+          target_url: string
+          updated_at: string
+          website_id: string
+        }
+        Insert: {
+          actual_anchor?: string | null
+          canonical_url?: string | null
+          created_at?: string
+          expected_anchor?: string | null
+          first_seen_at?: string | null
+          id?: string
+          indexable?: boolean | null
+          last_checked_at?: string | null
+          link_found?: boolean
+          notes?: string | null
+          opportunity_id?: string | null
+          placement_url: string
+          rel_attribute?: string | null
+          status?: string
+          status_code?: number | null
+          target_url: string
+          updated_at?: string
+          website_id: string
+        }
+        Update: {
+          actual_anchor?: string | null
+          canonical_url?: string | null
+          created_at?: string
+          expected_anchor?: string | null
+          first_seen_at?: string | null
+          id?: string
+          indexable?: boolean | null
+          last_checked_at?: string | null
+          link_found?: boolean
+          notes?: string | null
+          opportunity_id?: string | null
+          placement_url?: string
+          rel_attribute?: string | null
+          status?: string
+          status_code?: number | null
+          target_url?: string
+          updated_at?: string
+          website_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "authority_placements_opportunity_id_fkey"
+            columns: ["opportunity_id"]
+            isOneToOne: false
+            referencedRelation: "authority_opportunities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "authority_placements_website_id_fkey"
+            columns: ["website_id"]
+            isOneToOne: false
+            referencedRelation: "authority_websites"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      authority_queries: {
+        Row: {
+          cluster: string | null
+          created_at: string
+          id: string
+          intent: string | null
+          last_run_at: string | null
+          priority: number
+          query: string
+          status: string
+          website_id: string
+        }
+        Insert: {
+          cluster?: string | null
+          created_at?: string
+          id?: string
+          intent?: string | null
+          last_run_at?: string | null
+          priority?: number
+          query: string
+          status?: string
+          website_id: string
+        }
+        Update: {
+          cluster?: string | null
+          created_at?: string
+          id?: string
+          intent?: string | null
+          last_run_at?: string | null
+          priority?: number
+          query?: string
+          status?: string
+          website_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "authority_queries_website_id_fkey"
+            columns: ["website_id"]
+            isOneToOne: false
+            referencedRelation: "authority_websites"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      authority_runs: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          error: string | null
+          high_priority_count: number
+          id: string
+          opportunities_created: number
+          opportunities_rejected: number
+          queries_count: number
+          run_type: string
+          started_at: string | null
+          status: string
+          urls_discovered: number
+          website_id: string
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          error?: string | null
+          high_priority_count?: number
+          id?: string
+          opportunities_created?: number
+          opportunities_rejected?: number
+          queries_count?: number
+          run_type: string
+          started_at?: string | null
+          status?: string
+          urls_discovered?: number
+          website_id: string
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          error?: string | null
+          high_priority_count?: number
+          id?: string
+          opportunities_created?: number
+          opportunities_rejected?: number
+          queries_count?: number
+          run_type?: string
+          started_at?: string | null
+          status?: string
+          urls_discovered?: number
+          website_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "authority_runs_website_id_fkey"
+            columns: ["website_id"]
+            isOneToOne: false
+            referencedRelation: "authority_websites"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      authority_target_pages: {
+        Row: {
+          created_at: string
+          id: string
+          page_type: string | null
+          priority: number
+          sector: string | null
+          status: string
+          title: string | null
+          topic: string | null
+          url: string
+          website_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          page_type?: string | null
+          priority?: number
+          sector?: string | null
+          status?: string
+          title?: string | null
+          topic?: string | null
+          url: string
+          website_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          page_type?: string | null
+          priority?: number
+          sector?: string | null
+          status?: string
+          title?: string | null
+          topic?: string | null
+          url?: string
+          website_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "authority_target_pages_website_id_fkey"
+            columns: ["website_id"]
+            isOneToOne: false
+            referencedRelation: "authority_websites"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      authority_websites: {
+        Row: {
+          created_at: string
+          description: string | null
+          domain: string
+          id: string
+          main_proposition: string | null
+          name: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          domain: string
+          id?: string
+          main_proposition?: string | null
+          name: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          domain?: string
+          id?: string
+          main_proposition?: string | null
+          name?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       blocked_tracking_ips: {
         Row: {
           created_at: string
