@@ -81,12 +81,12 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease, delay: 0.05 }}
-            className="font-display text-[2.75rem] md:text-[4.75rem] lg:text-[6rem] xl:text-[7rem] leading-[0.98] tracking-tighter mb-6 [text-wrap:balance] [text-shadow:0_2px_24px_hsl(var(--background))]"
+            className="font-display text-[2.5rem] md:text-[4.25rem] lg:text-[5.5rem] xl:text-[6.5rem] leading-[0.98] tracking-tighter mb-6 [text-wrap:balance] [text-shadow:0_2px_24px_hsl(var(--background))]"
           >
-            <span className="font-bold text-foreground">Eén systeem</span>{" "}
+            <span className="font-bold text-foreground">Go-to-market systeem</span>{" "}
             <span className="font-normal text-muted-foreground">voor</span>
             <br />
-            <span className="font-bold text-gradient">voorspelbare groei.</span>
+            <span className="font-bold text-gradient">B2B-teams die willen groeien.</span>
           </motion.h1>
 
           {/* Subkop */}
@@ -96,8 +96,8 @@ const Hero = () => {
             transition={{ duration: 0.6, ease, delay: 0.12 }}
             className="text-muted-foreground text-lg md:text-2xl max-w-4xl mx-auto mb-10 leading-relaxed"
           >
-            B2BGroeimachine brengt ICP, accountdata, engagement en opvolging
-            samen in één methode voor schaalbare B2B-groei.
+            Wij brengen prospecting, opvolging en data samen in één systeem.
+            Uw team weet elke week wat de volgende stap is.
           </motion.p>
 
           {/* CTA's */}
