@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import { supabase } from "@/integrations/supabase/client";
+const sb = supabase as any;
 
 type Website = { id: string; name: string; domain: string; status: string };
 type Ctx = {
@@ -19,7 +20,7 @@ export const AuthorityProvider = ({ children }: { children: ReactNode }) => {
 
   const refresh = async () => {
     setLoading(true);
-    const { data } = await supabase.from("authority_websites").select("id, name, domain, status").order("created_at");
+    const { data } = await sb.from("authority_websites").select("id, name, domain, status").order("created_at");
     setWebsites(data || []);
     if (!selectedId && data?.length) setSelectedId(data[0].id);
     setLoading(false);
