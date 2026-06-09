@@ -14,34 +14,53 @@ export default function LeftDock() {
   const [hidden, setHidden] = useState(false);
 
   useEffect(() => {
-    // Verberg de dock zodra hij visueel over tekst of UI-elementen valt.
-    // We checken op elke scroll/resize of het midden van de dock overlapt
-    // met tekst/knoppen/links/inputs/headings.
-    const SELECTOR = "h1,h2,h3,h4,h5,h6,p,a,button,input,textarea,label,li,span";
+    // Verberg de dock zodra hij visueel over tekst, kaarten of interactieve
+    // elementen valt. We vergelijken de bbox van de dock met die van zichtbare
+    // content-elementen en verbergen bij overlap.
+    const SELECTOR =
+      "h1,h2,h3,h4,h5,h6,p,a,button,input,textarea,label,li,blockquote,img,svg,[role='button'],[data-card],.card,article,figure";
 
     const check = () => {
-      // Linker-marge waarin de dock zit (left-4 + ~56px breed) => ~80px
-      const x = 40;
-      const y = window.innerHeight / 2;
-      const elements = document.elementsFromPoint(x, y);
-      const overlap = elements.some((el) => {
-        if (!(el instanceof HTMLElement)) return false;
-        if (el.closest("[data-left-dock]")) return false;
-        if (!el.matches(SELECTOR) && !el.closest(SELECTOR)) return false;
-        // Negeer lege containers
-        const text = el.textContent?.trim() ?? "";
-        return text.length > 0 || el.matches("input,textarea,button,a");
-      });
+      const dock = document.querySelector<HTMLElement>("[data-left-dock]");
+      if (!dock) return;
+      const r = dock.getBoundingClientRect();
+      // Iets ruimere zone zodat de dock al verdwijnt vóór hij raakt
+      const dockBox = {
+        left: r.left - 12,
+        right: r.right + 12,
+        top: r.top - 8,
+        bottom: r.bottom + 8,
+      };
+
+      const nodes = document.querySelectorAll<HTMLElement>(SELECTOR);
+      let overlap = false;
+      for (const el of nodes) {
+        if (el.closest("[data-left-dock]")) continue;
+        // Skip onzichtbare elementen
+        if (!el.offsetParent && getComputedStyle(el).position !== "fixed") continue;
+        const b = el.getBoundingClientRect();
+        if (b.width === 0 || b.height === 0) continue;
+        if (b.bottom < dockBox.top || b.top > dockBox.bottom) continue;
+        if (b.right < dockBox.left || b.left > dockBox.right) continue;
+        overlap = true;
+        break;
+      }
       setHidden(overlap);
     };
 
-    check();
-    window.addEventListener("scroll", check, { passive: true });
-    window.addEventListener("resize", check);
-    const interval = window.setInterval(check, 500);
+    let raf = 0;
+    const schedule = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(check);
+    };
+    schedule();
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    const interval = window.setInterval(schedule, 600);
     return () => {
-      window.removeEventListener("scroll", check);
-      window.removeEventListener("resize", check);
+      cancelAnimationFrame(raf);
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
       window.clearInterval(interval);
     };
   }, [location.pathname]);
