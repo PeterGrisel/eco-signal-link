@@ -29,7 +29,14 @@ serve(async (req) => {
       return json({ ok: true, rejected: true });
     }
 
-    const sys = `Je bent een SEO Authority Analyst. Beoordeel of de kandidaatpagina een relevante en veilige authority opportunity is voor de website. Wijs af bij irrelevantie, spam, casino, betting, crypto, adult, fake directories of pagina's zonder contextfit.`;
+    const sys = `Je bent een SEO Authority Analyst. Beoordeel of de kandidaatpagina een relevante en veilige authority opportunity is voor de website. Wijs af bij irrelevantie, spam, casino, betting, crypto, adult, fake directories of pagina's zonder contextfit.
+
+BELANGRIJK — SCORING SCHAAL:
+- Alle score-velden (context_fit, sector_fit, page_type_fit, authority_score, placement_probability, commercial_value, risk_score) zijn GEHELE GETALLEN op een schaal van 0 tot 100.
+- 0 = totaal niet, 50 = gemiddeld, 80 = sterk, 100 = perfect.
+- Gebruik NOOIT een 0-10 schaal. Een matige fit is 40-60, niet 4-6.
+- risk_score: 0 = veilig, 100 = spam/gevaarlijk. Een normale B2B SaaS-pagina is 10-30.
+- Wees genereus bij thematisch relevante B2B/sales/CRM/automation pagina's: context_fit 60-90.`;
     const user = `Site propositie: ${profile.proposition}
 Core topics: ${(profile.core_topics || []).join(", ")}
 Sectoren: ${(profile.sectors || []).join(", ")}
@@ -75,21 +82,26 @@ ${(page.text_excerpt || "").slice(0, 3000)}`;
       },
     });
 
-    const priority = calcPriority({
-      context_fit: ai.context_fit || 0,
-      sector_fit: ai.sector_fit || 0,
-      page_type_fit: ai.page_type_fit || 0,
-      authority_score: ai.authority_score || 0,
-      placement_probability: ai.placement_probability || 0,
-      commercial_value: ai.commercial_value || 0,
-      risk_score: ai.risk_score || 0,
-    });
+    // Safety net: if model returned 0-10 scale, multiply by 10.
+    const scale = (n: number) => {
+      const v = Number(n) || 0;
+      return v > 0 && v <= 10 ? v * 10 : v;
+    };
+    const s = {
+      context_fit: scale(ai.context_fit),
+      sector_fit: scale(ai.sector_fit),
+      page_type_fit: scale(ai.page_type_fit),
+      authority_score: scale(ai.authority_score),
+      placement_probability: scale(ai.placement_probability),
+      commercial_value: scale(ai.commercial_value),
+      risk_score: scale(ai.risk_score),
+    };
+    const priority = calcPriority(s);
 
     let status = "discovered";
-    if (!ai.is_relevant || ai.risk_score >= 60) status = "rejected";
-    else if (priority >= 80) status = "qualified";
+    if (!ai.is_relevant || s.risk_score >= 60) status = "rejected";
     else if (priority >= 65) status = "qualified";
-    else if (priority >= 45) status = "discovered";
+    else if (priority >= 30) status = "discovered";
     else status = "rejected";
     if (ai.asset_needed && status !== "rejected") status = "needs_asset";
 
@@ -111,13 +123,13 @@ ${(page.text_excerpt || "").slice(0, 3000)}`;
       recommended_action: ai.recommended_action || null,
       asset_needed: !!ai.asset_needed,
       asset_suggestion: ai.asset_suggestion || null,
-      context_fit: Math.round(ai.context_fit || 0),
-      sector_fit: Math.round(ai.sector_fit || 0),
-      page_type_fit: Math.round(ai.page_type_fit || 0),
-      authority_score: Math.round(ai.authority_score || 0),
-      placement_probability: Math.round(ai.placement_probability || 0),
-      commercial_value: Math.round(ai.commercial_value || 0),
-      risk_score: Math.round(ai.risk_score || 0),
+      context_fit: Math.round(s.context_fit),
+      sector_fit: Math.round(s.sector_fit),
+      page_type_fit: Math.round(s.page_type_fit),
+      authority_score: Math.round(s.authority_score),
+      placement_probability: Math.round(s.placement_probability),
+      commercial_value: Math.round(s.commercial_value),
+      risk_score: Math.round(s.risk_score),
       priority_score: priority,
       status,
     }, { onConflict: "website_id,source_url" });
