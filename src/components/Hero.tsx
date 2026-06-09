@@ -81,7 +81,7 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease, delay: 0.05 }}
-            className="font-display text-[2.5rem] md:text-[4.25rem] lg:text-[5.5rem] xl:text-[6.5rem] leading-[0.98] tracking-tighter mb-6 [text-wrap:balance] [text-shadow:0_2px_24px_hsl(var(--background))]"
+            className="font-display text-[2.25rem] md:text-[3.75rem] lg:text-[4.75rem] xl:text-[5.75rem] leading-[0.98] tracking-tighter mb-6 [text-wrap:balance] [text-shadow:0_2px_24px_hsl(var(--background))]"
           >
             <span className="font-bold text-foreground">Go-to-market systeem</span>{" "}
             <span className="font-normal text-muted-foreground">voor</span>
