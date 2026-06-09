@@ -337,6 +337,123 @@ const STATIC_PAGES: Record<string, {
     bodyContent: `<p>Schaalbare recruitment via signal-based prospecting. Wij vinden en benaderen de juiste kandidaten proactief. Sourcing, selectie, AI-kwalificatie en begeleiding tot aanname. 15% bruto jaarsalaris, alleen bij succes.</p>
 <p><a href="https://app.usemotion.com/meet/Rebel-Force/meeting">Bespreek uw situatie</a></p>`,
   },
+  // ── SEO landing pages ──
+  // NOTE: Elke nieuwe publieke, indexeerbare route MOET hier een entry krijgen
+  // (unieke title + meta description). Routes zonder entry vallen terug op de
+  // origin-fallback en delen dan de generieke SPA-meta, waardoor Search Console
+  // dubbele snippet-data ziet. Houd dit synchroon met src/App.tsx.
+  "/b2b-leadgeneratie": {
+    title: "B2B Leadgeneratie — Voorspelbare pipeline opbouwen | B2BGroeiMachine",
+    description: "B2B leadgeneratie die werkt: signal-based prospecting, multichannel outreach en geboekte afspraken. Vanaf €1.500/maand, operationeel in 4 weken.",
+    h1: "B2B Leadgeneratie zonder gokken",
+    bodyContent: `<p>Wij bouwen een meetbaar leadgeneratiesysteem voor uw B2B bedrijf: signalen detecteren, prospects benaderen via e-mail en LinkedIn en alleen serieuze gesprekken doorzetten naar uw agenda.</p>
+<p><a href="https://app.usemotion.com/meet/Rebel-Force/meeting">Plan een vrijblijvend gesprek</a></p>`,
+  },
+  "/leads-genereren-b2b": {
+    title: "Leads genereren B2B — Slim prospecten op koopsignalen | B2BGroeiMachine",
+    description: "Leads genereren in B2B vraagt om data, timing en opvolging. Wij combineren signalen, e-mail en LinkedIn tot een structurele instroom van afspraken.",
+    h1: "Leads genereren in B2B, structureel",
+    bodyContent: `<p>Stop met losse campagnes. Wij richten een systeem in dat dagelijks nieuwe B2B leads identificeert, kwalificeert en opvolgt tot er een gesprek staat.</p>
+<p><a href="https://app.usemotion.com/meet/Rebel-Force/meeting">Bespreek uw situatie</a></p>`,
+  },
+  "/online-leadgeneratie": {
+    title: "Online Leadgeneratie B2B — Outbound + signalen | B2BGroeiMachine",
+    description: "Online leadgeneratie voor B2B: bereik beslissers via e-mail en LinkedIn op het moment dat zij koopsignalen afgeven. Meetbaar, schaalbaar, voorspelbaar.",
+    h1: "Online leadgeneratie die converteert",
+    bodyContent: `<p>Online leadgeneratie is meer dan advertenties. Wij bouwen outbound systemen die continu nieuwe B2B prospects benaderen op basis van signalen en intent data.</p>
+<p><a href="https://app.usemotion.com/meet/Rebel-Force/meeting">Plan een demo</a></p>`,
+  },
+  "/zakelijke-leads": {
+    title: "Zakelijke leads kopen of bouwen? Bouw een systeem | B2BGroeiMachine",
+    description: "Zakelijke leads die wél converteren komen uit een eigen systeem. Wij bouwen prospecting, outreach en opvolging op uw eigen tools. Geen lock-in.",
+    h1: "Zakelijke leads uit een eigen systeem",
+    bodyContent: `<p>Gekochte lijsten leveren zelden klanten op. Wij bouwen een zakelijke leadmotor op uw eigen CRM, e-mail en LinkedIn, met signalen en multichannel outreach.</p>
+<p><a href="https://app.usemotion.com/meet/Rebel-Force/meeting">Bespreek uw situatie</a></p>`,
+  },
+  "/partners": {
+    title: "Partners — Signal Certified ecosysteem | B2BGroeiMachine",
+    description: "Ons partner-ecosysteem voor signal-based prospecting: tools, bureaus en specialisten die samen schaalbare B2B groei realiseren. Geen vendor lock-in.",
+    h1: "Partners van B2BGroeiMachine",
+    bodyContent: `<p>Wij werken samen met geselecteerde tools, bureaus en specialisten in het signal-based prospecting ecosysteem. Modulair, transparant en zonder vendor lock-in.</p>`,
+  },
+  "/klanten": {
+    title: "Klanten — Cases en resultaten | B2BGroeiMachine",
+    description: "Bekijk hoe wij B2B bedrijven helpen aan voorspelbare pipeline, kortere salescycli en structurele instroom van gekwalificeerde afspraken.",
+    h1: "Onze klanten en resultaten",
+    bodyContent: `<p>Van profvoetbal tot engineering: ontdek hoe wij B2B bedrijven helpen een schaalbare salesmotor te bouwen op hun eigen tools.</p>`,
+  },
+  "/brandbook": {
+    title: "Brandbook — Visuele identiteit | B2BGroeiMachine",
+    description: "Het brandbook van B2BGroeiMachine: kleurpalet, typografie, toon en visuele richtlijnen voor consistente communicatie binnen ons RF×AI ecosysteem.",
+    h1: "Brandbook",
+    bodyContent: `<p>Het brandbook beschrijft onze visuele identiteit: kleuren, typografie, iconografie en toon. Bedoeld voor partners, klanten en intern gebruik.</p>`,
+  },
+  "/brandstory": {
+    title: "Brandstory — Waarom B2BGroeiMachine bestaat",
+    description: "Het verhaal achter B2BGroeiMachine: hoe wij signaal-gedreven prospecting en AI combineren tot een schaalbare B2B groeimotor zonder vendor lock-in.",
+    h1: "Onze brandstory",
+    bodyContent: `<p>Wij geloven dat B2B groei voorspelbaar wordt zodra proces, data en menselijk gesprek samenkomen. Lees hoe en waarom wij B2BGroeiMachine bouwen.</p>`,
+  },
+  "/pipeline-equation": {
+    title: "Pipeline Equation — Bereken uw voorspelbare pipeline | B2BGroeiMachine",
+    description: "De Pipeline Equation rekent uit hoeveel signalen, gesprekken en deals u nodig heeft om uw omzetdoel te halen. Gratis tool met live AI-toelichting.",
+    h1: "De Pipeline Equation",
+    bodyContent: `<p>Bouw een voorspelbare pipeline op basis van data: hoeveel prospects, gesprekken en proposals heeft u nodig om uw target te halen? Reken het live uit.</p>`,
+  },
+  "/groeistack": {
+    title: "Groeistack — Onze tools en methodes | B2BGroeiMachine",
+    description: "Bekijk de complete groeistack: tools, integraties en methodes die wij inzetten voor signal-based prospecting en multichannel outreach. Agnostisch en modulair.",
+    h1: "Onze Groeistack",
+    bodyContent: `<p>De groeistack laat zien welke categorieën tools en integraties wij inzetten voor een schaalbare B2B salesmotor. Wij blijven leverancier-agnostisch.</p>`,
+  },
+  "/playbooks": {
+    title: "Playbooks — Praktische B2B groei-recepten | B2BGroeiMachine",
+    description: "Concrete playbooks voor B2B leadgeneratie, signal prospecting en multichannel outreach. Stap voor stap, gebaseerd op echte klantcases.",
+    h1: "Playbooks",
+    bodyContent: `<p>Onze playbooks beschrijven stap voor stap hoe u zelf signaal-gedreven outreach, ICP-definitie en pipeline opbouw aanpakt. Praktisch en herhaalbaar.</p>`,
+  },
+  "/woordenboek": {
+    title: "Sales & Growth Woordenboek — Begrippen uitgelegd | B2BGroeiMachine",
+    description: "Heldere definities van B2B sales, leadgeneratie, signal prospecting en RevOps begrippen. In begrijpelijk Nederlands, met voorbeelden uit de praktijk.",
+    h1: "Sales & Growth Woordenboek",
+    bodyContent: `<p>Van ICP tot intent data: het woordenboek legt B2B sales en growth begrippen helder uit, met voorbeelden uit Nederlandse en Belgische praktijk.</p>`,
+  },
+  "/cheatsheets": {
+    title: "Cheatsheets — Snelle naslag voor B2B groei | B2BGroeiMachine",
+    description: "Compacte cheatsheets voor signal prospecting, LinkedIn outreach, HubSpot pipeline en multichannel sequencing. Direct toepasbaar in uw eigen team.",
+    h1: "Cheatsheets",
+    bodyContent: `<p>Eén pagina, direct toepasbaar. Onze cheatsheets vatten de belangrijkste B2B sales workflows samen, van ICP tot multichannel sequencing.</p>`,
+  },
+  "/trainingen": {
+    title: "Trainingen — Signal-based prospecting leren | B2BGroeiMachine",
+    description: "Trainingen voor sales- en marketingteams in signal-based prospecting, multichannel outreach en AI-gestuurde personalisatie. Incompany of online.",
+    h1: "Trainingen",
+    bodyContent: `<p>Wij trainen sales- en marketingteams in signaal-gedreven prospecting, AI personalisatie en multichannel outreach. Incompany of remote.</p>`,
+  },
+  "/ons-team": {
+    title: "Ons Team — De mensen achter B2BGroeiMachine",
+    description: "Maak kennis met het team van B2BGroeiMachine: specialisten in B2B sales automation, signal prospecting, data en AI-gestuurde groei.",
+    h1: "Ons team",
+    bodyContent: `<p>Een compact team van sales-, data- en AI-specialisten die dagelijks bouwen aan schaalbare B2B salesmotoren voor onze klanten.</p>`,
+  },
+  "/tools": {
+    title: "Tools — Gratis B2B groei rekentools | B2BGroeiMachine",
+    description: "Gratis rekentools voor uw B2B groei: funnel calculator, pipeline value en de Pipeline Equation. Bereken targets, conversies en benodigde activiteit.",
+    h1: "Tools",
+    bodyContent: `<p>Onze gratis tools helpen u rekenen aan funnel, pipeline en targets. Geen registratie nodig, direct bruikbaar.</p>`,
+  },
+  "/tools/funnel-calculator": {
+    title: "Funnel Calculator — Reken terug van omzet naar leads | B2BGroeiMachine",
+    description: "Met de Funnel Calculator rekent u in seconden uit hoeveel leads, gesprekken en proposals u nodig heeft om uw omzetdoel te halen. Gratis te gebruiken.",
+    h1: "Funnel Calculator",
+    bodyContent: `<p>Vul uw target, deal size en conversieratio's in en zie direct hoeveel leads en gesprekken u per maand nodig heeft.</p>`,
+  },
+  "/tools/pipeline-value": {
+    title: "Pipeline Value Calculator — Bereken uw pipelinewaarde | B2BGroeiMachine",
+    description: "Bereken de gewogen waarde van uw B2B sales pipeline op basis van stage, deal size en winkans. Gratis tool van B2BGroeiMachine.",
+    h1: "Pipeline Value Calculator",
+    bodyContent: `<p>Krijg in één oogopslag de gewogen waarde van uw pipeline. Voer deals, stages en winkansen in en zie wat realistisch binnen handbereik ligt.</p>`,
+  },
 };
 
 // ── Sector data for prerendering ──
@@ -1005,6 +1122,12 @@ Deno.serve(async (req) => {
       if (originRes.ok) {
         const originHtml = await originRes.text();
         if (originHtml && originHtml.length > 100) {
+          // Surface missing STATIC_PAGES entries: any path die hier landt
+          // krijgt de generieke SPA-meta. Voeg de route toe aan STATIC_PAGES
+          // hierboven zodra deze waarschuwing in de logs verschijnt.
+          console.warn(
+            `[prerender] origin-fallback voor ${path} — voeg een unieke title/description toe aan STATIC_PAGES.`,
+          );
           setCache(path, originHtml);
           return new Response(originHtml, {
             headers: { ...cacheHeaders, "X-Cache": "ORIGIN", "X-Prerendered": "origin-fallback" },
