@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
+const sb = supabase as any;
 import { useAuthority } from "./AuthorityProvider";
 import { Loader2 } from "lucide-react";
 
@@ -14,16 +15,16 @@ export const AuthorityDashboard = () => {
     (async () => {
       setLoading(true);
       const countQ = (col: string, val: string) =>
-        supabase.from("authority_opportunities").select("id", { count: "exact", head: true }).eq("website_id", selectedId).eq(col, val);
+        sb.from("authority_opportunities").select("id", { count: "exact", head: true }).eq("website_id", selectedId).eq(col, val);
       const [total, qualified, needsAsset, ready, placed, lost, assets, runs] = await Promise.all([
-        supabase.from("authority_opportunities").select("id", { count: "exact", head: true }).eq("website_id", selectedId),
+        sb.from("authority_opportunities").select("id", { count: "exact", head: true }).eq("website_id", selectedId),
         countQ("status", "qualified"),
         countQ("status", "needs_asset"),
         countQ("status", "ready_for_outreach"),
-        supabase.from("authority_placements").select("id", { count: "exact", head: true }).eq("website_id", selectedId).in("status", ["verified", "placed"]),
-        supabase.from("authority_placements").select("id", { count: "exact", head: true }).eq("website_id", selectedId).eq("status", "lost"),
-        supabase.from("authority_assets").select("id", { count: "exact", head: true }).eq("website_id", selectedId),
-        supabase.from("authority_runs").select("id", { count: "exact", head: true }).eq("website_id", selectedId),
+        sb.from("authority_placements").select("id", { count: "exact", head: true }).eq("website_id", selectedId).in("status", ["verified", "placed"]),
+        sb.from("authority_placements").select("id", { count: "exact", head: true }).eq("website_id", selectedId).eq("status", "lost"),
+        sb.from("authority_assets").select("id", { count: "exact", head: true }).eq("website_id", selectedId),
+        sb.from("authority_runs").select("id", { count: "exact", head: true }).eq("website_id", selectedId),
       ]);
       setStats({
         Opportunities: total.count || 0,
