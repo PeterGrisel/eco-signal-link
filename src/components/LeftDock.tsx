@@ -14,14 +14,36 @@ export default function LeftDock() {
   const [hidden, setHidden] = useState(false);
 
   useEffect(() => {
-    const target = document.getElementById("section-smederij");
-    if (!target) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => setHidden(entry.isIntersecting),
-      { threshold: 0, rootMargin: "-20% 0px -20% 0px" }
-    );
-    observer.observe(target);
-    return () => observer.disconnect();
+    // Verberg de dock zodra hij visueel over tekst of UI-elementen valt.
+    // We checken op elke scroll/resize of het midden van de dock overlapt
+    // met tekst/knoppen/links/inputs/headings.
+    const SELECTOR = "h1,h2,h3,h4,h5,h6,p,a,button,input,textarea,label,li,span";
+
+    const check = () => {
+      // Linker-marge waarin de dock zit (left-4 + ~56px breed) => ~80px
+      const x = 40;
+      const y = window.innerHeight / 2;
+      const elements = document.elementsFromPoint(x, y);
+      const overlap = elements.some((el) => {
+        if (!(el instanceof HTMLElement)) return false;
+        if (el.closest("[data-left-dock]")) return false;
+        if (!el.matches(SELECTOR) && !el.closest(SELECTOR)) return false;
+        // Negeer lege containers
+        const text = el.textContent?.trim() ?? "";
+        return text.length > 0 || el.matches("input,textarea,button,a");
+      });
+      setHidden(overlap);
+    };
+
+    check();
+    window.addEventListener("scroll", check, { passive: true });
+    window.addEventListener("resize", check);
+    const interval = window.setInterval(check, 500);
+    return () => {
+      window.removeEventListener("scroll", check);
+      window.removeEventListener("resize", check);
+      window.clearInterval(interval);
+    };
   }, [location.pathname]);
 
   if (location.pathname.startsWith("/signaal") || location.pathname.startsWith("/admin")) return null;
@@ -79,6 +101,7 @@ export default function LeftDock() {
     <>
       <TooltipProvider delayDuration={120}>
         <div
+          data-left-dock
           className={`hidden md:flex fixed left-4 top-1/2 -translate-y-1/2 z-40 flex-col items-center gap-2 rounded-full border border-border/50 bg-background/70 backdrop-blur-xl p-2 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.6)] transition-opacity duration-300 ${hidden ? "opacity-0 pointer-events-none" : "opacity-100"}`}
         >
           {items.map((item) => {
