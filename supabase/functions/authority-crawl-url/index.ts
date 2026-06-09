@@ -10,7 +10,21 @@ serve(async (req) => {
     const { data: page } = await sb.from("authority_crawled_pages").select("*").eq("id", crawled_page_id).single();
     if (!page) return errJson("page not found", 404);
 
-    const scraped = await firecrawlScrape(page.url, ["markdown", "links", "html"]);
+    let scraped: any;
+    try {
+      scraped = await firecrawlScrape(page.url, ["markdown", "links", "html"]);
+    } catch (err) {
+      const msg = (err as Error).message || "scrape failed";
+      const unsupported = /do not support this site|forbidden|403|blocked/i.test(msg);
+      await sb.from("authority_crawled_pages").update({
+        status_code: unsupported ? 451 : 0,
+        text_excerpt: `[crawl failed] ${msg.slice(0, 500)}`,
+        last_crawled_at: new Date().toISOString(),
+        robots_allowed: false,
+        indexable: false,
+      }).eq("id", crawled_page_id);
+      return json({ ok: false, skipped: true, reason: unsupported ? "unsupported_site" : "scrape_error", message: msg.slice(0, 200) });
+    }
     const md: string = scraped?.markdown || "";
     const html: string = scraped?.html || "";
     const links: string[] = scraped?.links || [];
