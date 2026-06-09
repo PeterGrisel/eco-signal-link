@@ -10,13 +10,68 @@ serve(async (req) => {
     const { data: site, error: e1 } = await sb.from("authority_websites").select("*").eq("id", website_id).single();
     if (e1 || !site) return errJson("website not found", 404);
 
-    const url = site.domain.startsWith("http") ? site.domain : `https://${site.domain}`;
-    const scraped = await firecrawlScrape(url, ["markdown", "links"]);
-    const md = (scraped?.markdown || "").slice(0, 12000);
-    const links: string[] = (scraped?.links || []).slice(0, 50);
+    const rootUrl = site.domain.startsWith("http") ? site.domain : `https://${site.domain}`;
+    const host = new URL(rootUrl).hostname.replace(/^www\./, "");
 
-    const sys = `Je bent een SEO Context Analyst. Analyseer de websitecontent en geef een gestructureerd contextprofiel terug. Gebruik korte, concrete Nederlandse termen.`;
-    const user = `Website: ${site.domain}\nBeschrijving: ${site.description || "(geen)"}\n\nHomepage content (markdown):\n${md}\n\nInterne links (sample):\n${links.slice(0, 30).join("\n")}`;
+    const home = await firecrawlScrape(rootUrl, ["markdown", "links"]);
+    const homeMd = (home?.markdown || "").slice(0, 8000);
+    const allLinks: string[] = Array.isArray(home?.links) ? home.links : [];
+
+    // Pick up to 6 internal pages (same host, not anchors/assets, not homepage)
+    const seen = new Set<string>([rootUrl.replace(/\/$/, "")]);
+    const internal: string[] = [];
+    const skipExt = /\.(pdf|jpg|jpeg|png|svg|gif|webp|zip|mp4|mp3|css|js)(\?|$)/i;
+    const skipPath = /\/(wp-admin|wp-content|cdn-cgi|tag|author|category|page\/\d)/i;
+    for (const raw of allLinks) {
+      try {
+        const u = new URL(raw, rootUrl);
+        if (u.hostname.replace(/^www\./, "") !== host) continue;
+        if (skipExt.test(u.pathname)) continue;
+        if (skipPath.test(u.pathname)) continue;
+        const clean = `${u.origin}${u.pathname}`.replace(/\/$/, "");
+        if (seen.has(clean)) continue;
+        seen.add(clean);
+        internal.push(clean);
+        if (internal.length >= 6) break;
+      } catch { /* ignore */ }
+    }
+
+    const pageScrapes = await Promise.allSettled(
+      internal.map((u) => firecrawlScrape(u, ["markdown"]))
+    );
+    const pages: { url: string; md: string }[] = [];
+    pageScrapes.forEach((r, i) => {
+      if (r.status === "fulfilled") {
+        const md = (r.value?.markdown || "").slice(0, 4000);
+        if (md) pages.push({ url: internal[i], md });
+      }
+    });
+
+    const pagesBlock = pages.map((p) => `--- PAGE: ${p.url} ---\n${p.md}`).join("\n\n");
+    const linksSample = allLinks.slice(0, 60).join("\n");
+
+    const sys = `Je bent een senior SEO Context Analyst voor B2B websites. Lees de aangeleverde pagina's grondig en bouw een rijk, concreet contextprofiel.
+
+Regels:
+- Schrijf in helder Nederlands, korte termen (1-4 woorden per tag).
+- Vul ALLE velden in. Lever minimaal: 3 ICP-segmenten, 5 core topics, 5 secondary topics, 3 sectoren, 3 differentiators, 3 money pages (volledige URLs of slugs), 3 recommended pages, 3 linkable assets, 3 negative keywords.
+- Money pages = commerciële conversiepagina's (diensten, pricing, demo, contact).
+- Recommended pages = inhoudelijke hub-pagina's geschikt als linktarget.
+- Linkable assets = unieke content/tools/calculators/whitepapers waar anderen naar willen linken.
+- Negative keywords = thema's/sectoren waar je expliciet NIET mee geassocieerd wilt worden.
+- raw_summary = 3-5 zinnen samenvatting van het bedrijf en aanbod.`;
+
+    const user = `Website: ${site.domain}
+Beschrijving (door gebruiker): ${site.description || "(geen)"}
+
+# Homepage
+${homeMd}
+
+# Interne pagina's (${pages.length})
+${pagesBlock}
+
+# Interne links sample
+${linksSample}`;
 
     const profile = await callGemini(sys, user, {
       tool: {
