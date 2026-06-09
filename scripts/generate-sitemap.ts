@@ -23,6 +23,12 @@ const staticEntries: SitemapEntry[] = [
   { path: "/pipeline-equation", changefreq: "monthly", priority: "0.7" },
   { path: "/blog", changefreq: "daily", priority: "0.8" },
   { path: "/playbooks", changefreq: "daily", priority: "0.8" },
+  { path: "/woordenboek", changefreq: "weekly", priority: "0.7" },
+  { path: "/groeistack", changefreq: "monthly", priority: "0.7" },
+  { path: "/klanten", changefreq: "monthly", priority: "0.6" },
+  { path: "/tools", changefreq: "monthly", priority: "0.6" },
+  { path: "/tools/funnel-calculator", changefreq: "monthly", priority: "0.7" },
+  { path: "/tools/pipeline-value", changefreq: "monthly", priority: "0.7" },
   { path: "/cheatsheets", changefreq: "weekly", priority: "0.7" },
   { path: "/trainingen", changefreq: "monthly", priority: "0.7" },
   { path: "/partners", changefreq: "monthly", priority: "0.6" },
@@ -130,6 +136,29 @@ async function generateSitemap() {
       }
     } catch (err) {
       console.warn("Failed to fetch playbooks for sitemap:", err);
+    }
+
+    // Fetch glossary terms
+    try {
+      const { data: terms } = await supabase
+        .from("glossary_terms")
+        .select("slug, updated_at")
+        .eq("status", "published")
+        .order("updated_at", { ascending: false })
+        .limit(2000);
+
+      if (terms && terms.length > 0) {
+        for (const t of terms) {
+          entries.push({
+            path: `/woordenboek/${t.slug}`,
+            lastmod: formatDate(t.updated_at),
+            changefreq: "monthly",
+            priority: "0.6",
+          });
+        }
+      }
+    } catch (err) {
+      console.warn("Failed to fetch glossary terms for sitemap:", err);
     }
   } else {
     console.warn("Supabase credentials not found, generating sitemap with static entries only.");
