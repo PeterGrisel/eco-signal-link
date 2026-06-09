@@ -27,3 +27,19 @@ project_id = "snymrcialncxkcsibkjv"
     verify_jwt = false
   [functions.og-image]
     verify_jwt = false
+  [functions.authority-analyze-context]
+    verify_jwt = true
+  [functions.authority-generate-queries]
+    verify_jwt = true
+  [functions.authority-discover]
+    verify_jwt = true
+  [functions.authority-crawl-url]
+    verify_jwt = true
+  [functions.authority-score-opportunity]
+    verify_jwt = true
+  [functions.authority-generate-outreach]
+    verify_jwt = true
+  [functions.authority-verify-placement]
+    verify_jwt = true
+  [functions.authority-daily-cron]
+    verify_jwt = false
