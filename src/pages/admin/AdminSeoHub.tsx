@@ -5,6 +5,7 @@ import { CompetitorsTabContent } from "./AdminCompetitors";
 import { ListingsTabContent } from "./AdminListings";
 import { IndexingTabContent } from "./AdminIndexing";
 import { BacklinksTabContent } from "./AdminBacklinks";
+import { AuthorityHub } from "./authority/AuthorityHub";
 import { Globe, Save, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useSeoSettings } from "@/hooks/useSeoSettings";
@@ -76,6 +77,9 @@ const AdminSeoHub = () => {
           <TabsTrigger value="backlinks" className="text-xs data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
             Backlinks
           </TabsTrigger>
+          <TabsTrigger value="authority" className="text-xs data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
+            Authority
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="competitors"><CompetitorsTabContent /></TabsContent>
@@ -84,6 +88,7 @@ const AdminSeoHub = () => {
         <TabsContent value="analytics"><AnalyticsTabContent /></TabsContent>
         <TabsContent value="ai-readiness"><AiReadinessPanel /></TabsContent>
         <TabsContent value="backlinks"><BacklinksTabContent /></TabsContent>
+        <TabsContent value="authority"><AuthorityHub /></TabsContent>
       </Tabs>
     </AdminLayout>
   );
