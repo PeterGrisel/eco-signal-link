@@ -72,7 +72,7 @@ const Hero = () => {
         <div className="absolute bottom-3 right-3 w-44 h-12 bg-background rounded-md" />
       </div>
 
-      <div className="container mx-auto px-4 md:px-6 relative z-10 flex-1 flex flex-col">
+      <div className="container mx-auto px-4 md:px-6 relative z-10 flex-1 flex flex-col pointer-events-none [&_a]:pointer-events-auto [&_button]:pointer-events-auto">
         {/* Hoofdcontent, verticaal gecentreerd */}
         <div className="flex-1 flex flex-col justify-center text-center pt-28 md:pt-32 pb-10">
           {/* Pill */}
