@@ -13,13 +13,14 @@ const columns = [
 ];
 
 const rows: { feature: string; values: Cell[] }[] = [
-  { feature: "AI-workflows + menselijke expertise", values: [true, false, false, false, false] },
-  { feature: "Gebouwd op uw eigen tools", values: [true, true, true, false, true] },
-  { feature: "Signaal-gedreven en proactief", values: [true, "Soms", false, false, false] },
-  { feature: "Strategie, uitvoering én data", values: [true, false, true, "Mist strategie", "Alleen advies"] },
-  { feature: "Snel live (binnen 30 dagen)", values: [true, "Setup varieert", "Inwerktijd", true, true] },
-  { feature: "Geen lock-in", values: [true, false, "—", false, true] },
-  { feature: "Betaald op resultaat", values: ["Bij Performance Partnership", false, false, false, false] },
+  { feature: "Lost het gebrek aan commercieel ritme op", values: [true, false, "Soms", false, false] },
+  { feature: "Combineert strategie, data en uitvoering", values: [true, false, "Soms", "Soms", "Alleen advies"] },
+  { feature: "Signaleert nieuwe kansen proactief", values: [true, "Soms", false, false, false] },
+  { feature: "Maakt opvolging concreet voor sales", values: [true, false, true, "Soms", false] },
+  { feature: "Werkt op uw bestaande tools en CRM", values: [true, "Soms", true, false, true] },
+  { feature: "Binnen 30 dagen operationeel", values: [true, "Setup varieert", "Inwerktijd", "Soms", true] },
+  { feature: "Uit te breiden met telefonische opvolging", values: [true, false, true, "Soms", false] },
+  { feature: "Geen vendor lock-in", values: [true, false, "—", false, true] },
 ];
 
 const CompareCell = ({ value, highlight }: { value: Cell; highlight: boolean }) => {
@@ -64,19 +65,15 @@ const Gtm2026Section = () => {
           className="mb-12 md:mb-16 max-w-3xl"
         >
           <p className="text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4">
-            Even stilstaan
+            De echte groeiblokkade
           </p>
           <h2 className="font-display font-bold text-4xl md:text-5xl lg:text-6xl xl:text-7xl tracking-tight leading-tight">
-            Het probleem met
+            Uw team wil wel groeien.
             <br />
-            <span className="text-gradient">B2B-groei in 2026.</span>
+            <span className="text-gradient">Maar het systeem ontbreekt.</span>
           </h2>
           <p className="text-muted-foreground text-lg leading-relaxed mt-6">
-            Uw account managers hebben geen tijd voor acquisitie. Leads sturen
-            signalen die niemand opvolgt. De founder doet alles erbij. Kanalen
-            draaien los. Niemand heeft één overzicht. Tools staan vol, maar het
-            team werkt eromheen. U heeft geen extra software nodig. U heeft
-            slimme automatisering nodig die alles aan elkaar knoopt.
+            De groeidoelstelling is duidelijk. Maar het bestaande team is ingericht op klanten bedienen. Niet op structureel nieuwe markt ontwikkelen. Accountmanagers zijn druk met lopende klanten. Marketing levert losse acties. CRM is vooral administratie. Leads en signalen worden te laat opgevolgd. Daardoor blijft groei afhankelijk van toeval en netwerk.
           </p>
         </motion.div>
 
@@ -88,8 +85,7 @@ const Gtm2026Section = () => {
           transition={{ duration: 0.5 }}
         >
           <p className="text-center text-muted-foreground mb-6 max-w-2xl mx-auto">
-            Geen tool, geen losse hire, geen klassiek bureau. Een AI-first
-            groeipartner die strategie, uitvoering en data combineert.
+            Meer software, een losse campagne of een extra hire lost dit meestal niet op. U heeft een commercieel systeem nodig dat strategie, data, campagnes en opvolging aan elkaar knoopt.
           </p>
 
           <div className="overflow-x-auto -mx-4 px-4 md:mx-0 md:px-0">

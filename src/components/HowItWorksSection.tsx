@@ -12,11 +12,11 @@ const STEPS = [
   {
     n: "01",
     title: "Awareness",
-    subtitle: "Van onbekende markt naar dynamische targetlijsten.",
+    subtitle: "We maken zichtbaar waar de commerciële kansen zitten.",
     icon: Eye,
     colSpan: 2 as const,
     summary:
-      "Zichtbaar maken wie relevant is. Op basis van data, signalen en commerciële context.",
+      "We vertalen uw groeidoel naar concrete doelgroepen, accounts, contactpersonen en signalen.",
     labels: [
       "Targetlijsten",
       "Data-verrijking",
@@ -31,11 +31,11 @@ const STEPS = [
   {
     n: "02",
     title: "Engagement",
-    subtitle: "Van relevante accounts naar warme commerciële interactie.",
+    subtitle: "We activeren de markt met gerichte campagnes.",
     icon: MessageSquare,
     colSpan: 1 as const,
     summary:
-      "Doelgroepen activeren met gerichte campagnes. Benaderen, voeden, opvolgen.",
+      "We brengen uw doelgroep in beweging via e-mail, LinkedIn, content en nurture flows.",
     labels: [
       "E-mail campagnes",
       "LinkedIn outreach",
@@ -51,12 +51,12 @@ const STEPS = [
   {
     n: "03",
     title: "Activities",
-    subtitle: "Van engagement naar concrete salesactie.",
+    subtitle: "We zetten signalen om in concrete salesactie.",
     icon: PhoneCall,
     colSpan: 3 as const,
     featured: true,
     summary:
-      "Signalen omzetten in echte acties voor sales, accountmanagement en directie.",
+      "We zorgen dat sales, accountmanagement of directie weet wie moet worden opgevolgd, waarom en met welke boodschap.",
     labels: [
       "Activatiegesprekken",
       "Telefonische opvolging",
@@ -101,10 +101,10 @@ const HowItWorksSection = ({ accent }: HowItWorksSectionProps = {}) => {
             style={accentStyle}
           >
             <BookOpenCheck className="w-4 h-4" strokeWidth={1.8} />
-            Het systeem in 3 stappen
+            Zo lossen we het op
           </p>
           <h2 className="font-display font-bold text-4xl md:text-5xl lg:text-6xl tracking-tight leading-tight">
-            De B2BGroeiMachine.
+            Van groeidoel naar
             <br />
             <span
               className="text-gradient"
@@ -118,12 +118,11 @@ const HowItWorksSection = ({ accent }: HowItWorksSectionProps = {}) => {
                   : undefined
               }
             >
-              Van zichtbaarheid naar omzet.
+              commerciële uitvoering.
             </span>
           </h2>
           <p className="text-muted-foreground text-lg leading-relaxed mt-6">
-            Awareness maakt zichtbaar wie relevant is. Engagement maakt de markt
-            warm. Activities zetten signalen om naar omzetgerichte actie.
+            Wij bouwen een B2B Engine die uw markt zichtbaar maakt, doelgroepen activeert en signalen omzet in concrete opvolging. Niet als losse campagne, maar als doorlopend groeisysteem.
           </p>
         </motion.div>
 

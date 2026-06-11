@@ -8,11 +8,11 @@ import { Compass, ArrowRight, ArrowDown, UserPlus, MapPin, Globe, Handshake, Bri
 
 const heroMotions = [
   { icon: UserPlus, title: "Klanten werven" },
-  { icon: MapPin, title: "Lokaal uitbreiden" },
+  { icon: RotateCcw, title: "Slapende relaties activeren" },
   { icon: Globe, title: "Nieuwe markten openen" },
   { icon: Handshake, title: "Partners vinden" },
-  { icon: Briefcase, title: "Talent werven" },
-  { icon: RotateCcw, title: "Relaties reactiveren" },
+  { icon: MapPin, title: "Lokale groei versnellen" },
+  { icon: Briefcase, title: "Salescapaciteit vergroten" },
 ];
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -71,7 +71,7 @@ const Hero = () => {
                 <Compass className="w-3 h-3 text-primary" strokeWidth={2} />
               </span>
               <span className="text-[10px] font-display font-semibold uppercase tracking-[0.22em] text-foreground/80">
-                Voor ambitieuze B2B-bedrijven
+                Voor directies met commerciële groeidoelen
               </span>
             </span>
           </motion.div>
@@ -83,10 +83,11 @@ const Hero = () => {
             transition={{ duration: 0.6, ease, delay: 0.05 }}
             className="font-display text-[2.25rem] md:text-[3.75rem] lg:text-[4.75rem] xl:text-[5.75rem] leading-[0.98] tracking-tighter mb-6 [text-wrap:balance] [text-shadow:0_2px_24px_hsl(var(--background))]"
           >
-            <span className="font-bold text-foreground">Go-to-market systeem</span>{" "}
-            <span className="font-normal text-muted-foreground">voor</span>
+            <span className="font-bold text-foreground">Uw groeidoel is helder.</span>
             <br />
-            <span className="font-bold text-gradient">B2B-teams die willen groeien.</span>
+            <span className="font-normal text-muted-foreground">Nu nog</span>
+            <br />
+            <span className="font-bold text-gradient">de commerciële machine die het waarmaakt.</span>
           </motion.h1>
 
           {/* Subkop */}
@@ -96,8 +97,7 @@ const Hero = () => {
             transition={{ duration: 0.6, ease, delay: 0.12 }}
             className="text-muted-foreground text-lg md:text-2xl max-w-4xl mx-auto mb-10 leading-relaxed"
           >
-            Wij brengen prospecting, opvolging en data samen in één systeem.
-            Uw team weet elke week wat de volgende stap is.
+            Veel B2B-bedrijven willen groeien. Maar het bestaande team komt niet toe aan structurele acquisitie en opvolging. Wij bouwen en draaien de commerciële engine die nieuwe kansen signaleert, activeert en opvolgbaar maakt.
           </motion.p>
 
           {/* CTA's */}
@@ -124,8 +124,8 @@ const Hero = () => {
               className="group h-12 rounded-full px-6 text-base"
               asChild
             >
-            <a href="#diensten">
-                Bekijk onze diensten
+            <a href="#proces">
+                Bekijk hoe we dit oplossen
                 <ArrowDown className="w-4 h-4 transition-transform group-hover:translate-y-0.5" />
               </a>
             </Button>
@@ -167,7 +167,7 @@ const Hero = () => {
             </div>
             <div className="text-center sm:text-left">
               <p className="text-sm font-medium text-foreground/90 leading-snug">
-                Vertrouwd door snelgroeiende B2B-teams
+                Vertrouwd door ambitieuze B2B-teams
               </p>
               <p className="text-xs text-muted-foreground">
                 Yaskawa, Leister, Excelsior Rotterdam e.a.
