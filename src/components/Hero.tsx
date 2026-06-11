@@ -57,11 +57,11 @@ const LogoCircle = ({ name, url }: { name: string; url: string }) => {
 
 const Hero = () => {
   return (
-    <section className="relative min-h-screen flex flex-col overflow-hidden bg-background">
+    <section className="relative isolate min-h-screen flex flex-col overflow-hidden bg-background">
       {/* Spline 3D achtergrond */}
       <div className="absolute inset-0 z-0 overflow-hidden bg-[radial-gradient(ellipse_70%_55%_at_50%_42%,hsl(var(--primary)/0.18),transparent_62%),radial-gradient(ellipse_45%_35%_at_50%_74%,hsl(var(--accent)/0.10),transparent_70%),hsl(var(--background))]">
         <Suspense fallback={null}>
-          <div className="absolute inset-0 opacity-90 [&_canvas]:!w-full [&_canvas]:!h-full [&_canvas]:!bg-transparent">
+          <div className="absolute inset-0 mix-blend-screen opacity-90 [&_canvas]:!w-full [&_canvas]:!h-full [&_canvas]:!bg-transparent">
             <Spline scene="https://prod.spline.design/2yAx0NG9R46ffIu9/scene.splinecode" />
           </div>
         </Suspense>
