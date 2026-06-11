@@ -1,6 +1,18 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { BookOpen, ArrowUpRight, BookOpenCheck } from "lucide-react";
+import {
+  BookOpen,
+  ArrowUpRight,
+  BookOpenCheck,
+  Radar,
+  Crosshair,
+  Send,
+  Network,
+  Inbox,
+  LineChart,
+  Sparkles,
+  Users,
+} from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PageLoader from "@/components/PageLoader";
@@ -22,6 +34,17 @@ interface PlaybookRow {
 }
 
 const sb = supabase as unknown as { from: (t: string) => any };
+
+const CORE_PLAYBOOKS = [
+  { phase: "Fundament", title: "ICP & TAM", description: "Van totale markt naar tier-1, tier-2 en tier-3 accounts.", icon: Crosshair },
+  { phase: "Doelgroep", title: "Signaal", description: "Vang koopintent uit jobchanges, funding en tech-stack.", icon: Radar },
+  { phase: "Strategie", title: "ABM", description: "Account-based campagnes op uw tier-1 lijst.", icon: Users },
+  { phase: "Activatie", title: "Outbound", description: "Multi-channel sequenties: e-mail, LinkedIn en telefoon.", icon: Send },
+  { phase: "Activatie", title: "CRM Routing", description: "Elke lead verrijkt, gescoord en automatisch toegewezen.", icon: Network },
+  { phase: "Sales", title: "Inbound Orchestratie", description: "Van form-fill tot geboekte meeting in minuten.", icon: Inbox },
+  { phase: "Optimalisatie", title: "AI-personalisatie", description: "Relevante openers en context per account, zonder ruis.", icon: Sparkles },
+  { phase: "Optimalisatie", title: "Pipeline Rapportage", description: "Eén dashboard met attributie die klopt.", icon: LineChart },
+];
 
 const Playbooks = () => {
   const [items, setItems] = useState<PlaybookRow[]>([]);
@@ -78,6 +101,46 @@ const Playbooks = () => {
                   Groeistack en onze methode. Elke dag een nieuwe.
                 </p>
               </div>
+            </div>
+          </section>
+
+          {/* Kern-playbooks — compacte index, andere look dan de grid */}
+          <section className="container mx-auto px-4 md:px-6 pb-12 md:pb-16">
+            <div className="max-w-5xl mx-auto rounded-2xl border border-border/60 bg-card/20 backdrop-blur-sm overflow-hidden">
+              <div className="flex items-center justify-between gap-4 px-5 md:px-6 py-4 border-b border-border/60 bg-card/30">
+                <p className="text-[11px] font-display font-semibold tracking-[0.22em] uppercase text-primary/80">
+                  Kern-playbooks uit het systeem
+                </p>
+                <span className="text-xs text-muted-foreground tabular-nums">
+                  {CORE_PLAYBOOKS.length} stromen
+                </span>
+              </div>
+              <ul className="divide-y divide-border/40">
+                {CORE_PLAYBOOKS.map((pb) => (
+                  <li key={pb.title}>
+                    <Link
+                      to="/playbooks"
+                      className="group flex items-center gap-4 px-5 md:px-6 py-3.5 hover:bg-card/40 transition-colors"
+                    >
+                      <span className="shrink-0 w-9 h-9 rounded-lg border border-border/60 bg-background/40 flex items-center justify-center text-primary/90 group-hover:border-primary/50 group-hover:text-primary transition-colors">
+                        <pb.icon className="w-4 h-4" />
+                      </span>
+                      <span className="hidden sm:inline-block w-28 shrink-0 text-[10px] font-display font-semibold tracking-[0.18em] uppercase text-primary/70">
+                        {pb.phase}
+                      </span>
+                      <span className="flex-1 min-w-0">
+                        <span className="block font-display font-semibold text-sm md:text-base text-foreground leading-tight">
+                          {pb.title}
+                        </span>
+                        <span className="block text-xs md:text-sm text-muted-foreground leading-snug truncate">
+                          {pb.description}
+                        </span>
+                      </span>
+                      <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all shrink-0" />
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             </div>
           </section>
 
