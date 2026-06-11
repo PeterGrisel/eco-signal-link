@@ -1,10 +1,12 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { Suspense, lazy, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import CtaLink from "@/components/CtaLink";
 import { CTA } from "@/content/copy";
 import { Compass, ArrowRight, ArrowDown, UserPlus, MapPin, Globe, Handshake, Briefcase, RotateCcw } from "lucide-react";
+
+const Spline = lazy(() => import("@splinetool/react-spline"));
 
 const heroMotions = [
   { icon: UserPlus, title: "Klanten werven" },
@@ -58,14 +60,11 @@ const Hero = () => {
     <section className="relative min-h-screen flex flex-col overflow-hidden">
       {/* Spline 3D achtergrond */}
       <div className="absolute inset-0 z-0 pointer-events-none">
-        <iframe
-          src="https://my.spline.design/boxeshover-g8dfBTivcdXuOFsC7f8TeVWr/"
-          title="3D hero scene"
-          frameBorder={0}
-          loading="lazy"
-          className="absolute inset-0 w-full h-full pointer-events-auto"
-          allow="autoplay; fullscreen"
-        />
+        <Suspense fallback={null}>
+          <div className="absolute inset-0 pointer-events-auto">
+            <Spline scene="https://prod.spline.design/2yAx0NG9R46ffIu9/scene.splinecode" />
+          </div>
+        </Suspense>
         {/* Leesbaarheidslagen */}
         <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/40 to-background pointer-events-none" />
         <div className="absolute inset-0 bg-gradient-to-r from-background/60 via-transparent to-background/60 pointer-events-none" />
