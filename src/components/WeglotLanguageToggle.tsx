@@ -43,9 +43,13 @@ export function WeglotLanguageToggle() {
   }, []);
 
   const toggle = useCallback(() => {
-    if (!window.Weglot) return;
     const next = lang === "nl" ? "en" : "nl";
-    window.Weglot.switchTo(next);
+    const path = window.location.pathname;
+    const stripped = path.replace(/^\/en(\/|$)/, "/");
+    const target = next === "en"
+      ? `/en${stripped === "/" ? "" : stripped}`
+      : stripped;
+    window.location.assign(target + window.location.search + window.location.hash);
   }, [lang]);
 
   if (!ready) return <div className="w-[58px] h-[28px]" aria-hidden />;
