@@ -10,6 +10,7 @@ import PricingSection from "@/components/PricingSection";
 import FaqSection from "@/components/FaqSection";
 import CtaSection from "@/components/CtaSection";
 import Gtm2026Section from "@/components/Gtm2026Section";
+import ServiceLinesSection from "@/components/ServiceLinesSection";
 import HowItWorksSection from "@/components/HowItWorksSection";
 import GroeistackSection from "@/components/GroeistackSection";
 import CaseStudiesSection from "@/components/CaseStudiesSection";
@@ -64,7 +65,8 @@ const Index = () => {
       <div id="section-hero">
         <Hero />
       </div>
-      {/* Offer-led: aanbod, hoe het werkt, en het bewijs */}
+      {/* Offer-led: service-lijnen leiden, dan het probleem, hoe het werkt en het bewijs */}
+      <ServiceLinesSection />
       <Gtm2026Section />
       <HowItWorksSection />
       <GroeistackSection />
