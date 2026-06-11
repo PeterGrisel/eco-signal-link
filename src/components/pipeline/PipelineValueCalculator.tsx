@@ -2,6 +2,8 @@ import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { Building2, Users, Activity, Calendar, Wallet, TrendingUp, RotateCcw } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
+import { useCurrency } from "@/contexts/CurrencyContext";
+import { CurrencySwitcher } from "@/components/CurrencySwitcher";
 
 const DEFAULTS = {
   markt: 2000,
@@ -11,15 +13,16 @@ const DEFAULTS = {
   dealwaarde: 25000,
 };
 
-const fmtNum = (n: number) => new Intl.NumberFormat("nl-NL").format(Math.round(n));
-const fmtEur = (n: number) => {
-  if (n >= 1_000_000) return `€${(n / 1_000_000).toFixed(n >= 10_000_000 ? 0 : 1)}M`;
-  if (n >= 1000) return `€${Math.round(n / 1000)}k`;
-  return `€${Math.round(n)}`;
-};
 const fmtPct = (n: number) => (n < 10 ? n.toFixed(1) : n.toFixed(0)) + "%";
 
 export default function PipelineValueCalculator() {
+  const { symbol, locale } = useCurrency();
+  const fmtNum = (n: number) => new Intl.NumberFormat(locale).format(Math.round(n));
+  const fmtEur = (n: number) => {
+    if (n >= 1_000_000) return `${symbol}${(n / 1_000_000).toFixed(n >= 10_000_000 ? 0 : 1)}M`;
+    if (n >= 1000) return `${symbol}${Math.round(n / 1000)}k`;
+    return `${symbol}${Math.round(n)}`;
+  };
   const [markt, setMarkt] = useState(DEFAULTS.markt);
   const [bpa, setBpa] = useState(DEFAULTS.beslissersPerAccount);
   const [engPct, setEngPct] = useState(DEFAULTS.engagementPct);
