@@ -83,7 +83,7 @@ const Hero = () => {
             transition={{ duration: 0.6, ease, delay: 0.05 }}
             className="font-display text-[2.25rem] md:text-[3.75rem] lg:text-[4.75rem] xl:text-[5.75rem] leading-[0.98] tracking-tighter mb-6 [text-wrap:balance] [text-shadow:0_2px_24px_hsl(var(--background))]"
           >
-            <span className="font-bold text-foreground">Go-to-market systems for revenue growth</span>
+            <span className="font-bold text-foreground">Systemen die uw omzet doen groeien</span>
           </motion.h1>
 
           {/* Subkop */}
@@ -93,7 +93,7 @@ const Hero = () => {
             transition={{ duration: 0.6, ease, delay: 0.12 }}
             className="text-muted-foreground text-lg md:text-2xl max-w-4xl mx-auto mb-10 leading-relaxed"
           >
-            GTM services combining AI workflows with human expertise
+            GTM-diensten die AI-workflows combineren met menselijke expertise
           </motion.p>
 
           {/* CTA's */}
