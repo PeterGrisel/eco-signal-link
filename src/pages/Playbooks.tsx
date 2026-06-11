@@ -6,7 +6,6 @@ import Footer from "@/components/Footer";
 import PageLoader from "@/components/PageLoader";
 import AmbientBackdrop from "@/components/homepage/AmbientBackdrop";
 import CtaSection from "@/components/CtaSection";
-import PlaybookShowcase from "@/components/PlaybookShowcase";
 import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 import { FeatureCard } from "@/components/blocks/grid-feature-cards";
 import { usePageMeta } from "@/hooks/usePageMeta";
@@ -81,8 +80,6 @@ const Playbooks = () => {
               </div>
             </div>
           </section>
-
-          <PlaybookShowcase />
 
           {/* Grid */}
           <div className="container mx-auto px-4 md:px-6 pb-12 md:pb-20">
