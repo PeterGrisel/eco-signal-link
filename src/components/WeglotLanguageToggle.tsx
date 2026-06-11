@@ -1,4 +1,11 @@
 import { useState, useEffect, useCallback } from "react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Check, ChevronDown } from "lucide-react";
 
 declare global {
   interface Window {
@@ -14,6 +21,8 @@ const FLAGS: Record<string, { emoji: string; label: string }> = {
   nl: { emoji: "🇳🇱", label: "NL" },
   en: { emoji: "🇬🇧", label: "EN" },
 };
+
+const ORDER: Array<"nl" | "en"> = ["nl", "en"];
 
 export function WeglotLanguageToggle() {
   const [lang, setLang] = useState("nl");
@@ -42,8 +51,8 @@ export function WeglotLanguageToggle() {
     }
   }, []);
 
-  const toggle = useCallback(() => {
-    const next = lang === "nl" ? "en" : "nl";
+  const switchTo = useCallback((next: "nl" | "en") => {
+    if (next === lang) return;
     const path = window.location.pathname;
     const stripped = path.replace(/^\/en(\/|$)/, "/");
     const target = next === "en"
@@ -55,24 +64,38 @@ export function WeglotLanguageToggle() {
   if (!ready) return <div className="w-[58px] h-[28px]" aria-hidden />;
 
   const current = FLAGS[lang] || FLAGS.nl;
-  const other = lang === "nl" ? FLAGS.en : FLAGS.nl;
 
   return (
-    <button
-      type="button"
-      onClick={toggle}
-      onTouchEnd={(e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        toggle();
-      }}
-      className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-foreground/10 hover:bg-foreground/15 active:bg-foreground/20 transition-colors text-foreground text-xs font-medium touch-manipulation select-none cursor-pointer"
-      style={{ WebkitTapHighlightColor: "transparent" }}
-      title={`Switch to ${other.label}`}
-      aria-label={`Switch language to ${other.label}`}
-    >
-      <span className="text-sm leading-none">{current.emoji}</span>
-      <span className="font-display">{current.label}</span>
-    </button>
+    <DropdownMenu>
+      <DropdownMenuTrigger
+        className="flex items-center gap-1 px-2.5 py-1.5 rounded-full bg-foreground/10 hover:bg-foreground/15 active:bg-foreground/20 transition-colors text-foreground text-xs font-medium touch-manipulation select-none cursor-pointer outline-none"
+        aria-label={`Language: ${current.label}`}
+        data-no-translate
+      >
+        <span className="text-sm leading-none">{current.emoji}</span>
+        <span className="font-display">{current.label}</span>
+        <ChevronDown className="w-3 h-3 opacity-70" />
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="min-w-[140px]">
+        {ORDER.map((code) => {
+          const m = FLAGS[code];
+          const active = code === lang;
+          return (
+            <DropdownMenuItem
+              key={code}
+              onClick={() => switchTo(code)}
+              className="flex items-center justify-between gap-2 cursor-pointer"
+              data-no-translate
+            >
+              <span className="flex items-center gap-2">
+                <span className="text-base leading-none">{m.emoji}</span>
+                <span className="font-medium">{m.label}</span>
+              </span>
+              {active && <Check className="w-3.5 h-3.5 opacity-80" />}
+            </DropdownMenuItem>
+          );
+        })}
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }
