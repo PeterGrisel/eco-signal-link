@@ -32,6 +32,7 @@ import { MenuToggleIcon } from "@/components/ui/menu-toggle-icon";
 import { trackCTA } from "@/lib/tracking";
 import { cn } from "@/lib/utils";
 import { WeglotLanguageToggle } from "@/components/WeglotLanguageToggle";
+import { CurrencySwitcher } from "@/components/CurrencySwitcher";
 
 type LinkItem = {
   title: string;
