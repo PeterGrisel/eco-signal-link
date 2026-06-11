@@ -3,9 +3,9 @@ import { motion } from "framer-motion";
 import { Calculator, ArrowDown, TrendingUp, Target, BarChart3, Info } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import type { FunnelDefaults } from "@/data/sectors";
+import { useCurrency } from "@/contexts/CurrencyContext";
+import { CurrencySwitcher } from "@/components/CurrencySwitcher";
 
-const fmt = (n: number) => n >= 1000 ? `€${n.toLocaleString("nl-NL", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : `€${n.toFixed(2)}`;
-const fmtN = (n: number) => Math.round(n).toLocaleString("nl-NL");
 const fmtPct = (n: number) => `${n.toFixed(2)}%`;
 
 const tooltips: Record<string, string> = {
