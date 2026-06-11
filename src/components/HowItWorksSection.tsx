@@ -16,14 +16,14 @@ const STEPS = [
     icon: Eye,
     colSpan: 2 as const,
     summary:
-      "We starten met het zichtbaar maken van relevante accounts, prospects en bestaande klantkansen. Niet op basis van statische lijsten, maar op basis van data, signalen en commerciële context.",
-    doen: [
-      "opbouwen van dynamische prospect- en leadlijsten",
-      "analyseren van bestaande klantdata en CRM-informatie",
-      "herkennen van commerciële signalen zoals websitebezoek, branche, gedrag, orderhistorie, marktfit of engagement",
-      "verrijken van accounts en contactpersonen",
-      "toekennen van relevantiescores voor kwalificatie en prioriteit",
-      "segmenteren op markt, regio, productgroep, use case of klantwaarde",
+      "Zichtbaar maken wie relevant is. Op basis van data, signalen en commerciële context.",
+    labels: [
+      "Targetlijsten",
+      "Data-verrijking",
+      "Signaal-detectie",
+      "ICP & segmentatie",
+      "Lead scoring",
+      "CRM-analyse",
     ],
     resultaat:
       "Een levende targetlijst met accounts die relevant zijn, verrijkt zijn en commercieel geprioriteerd kunnen worden.",
@@ -35,15 +35,15 @@ const STEPS = [
     icon: MessageSquare,
     colSpan: 1 as const,
     summary:
-      "Daarna activeren we de juiste doelgroepen met gerichte campagnes. We zorgen dat prospects, leads en bestaande klanten niet alleen in een lijst staan, maar structureel worden benaderd, gevoed en opgevolgd.",
-    doen: [
-      "omzetten van dynamische lijsten naar actieve campagnes",
-      "uitvoeren van campagnes via e-mail, LinkedIn en eventueel telefoon",
-      "categoriseren van leads en prospects op engagementniveau",
-      "ontwikkelen van tekstuele campagnes, LinkedIn-berichten en nurture flows",
-      "maken en inzetten van contentcampagnes, eventueel met video",
-      "uitvoeren of ondersteunen van LinkedIn-advertenties",
-      "opvolgen op basis van gedrag, interactie en relevantie",
+      "Doelgroepen activeren met gerichte campagnes. Benaderen, voeden, opvolgen.",
+    labels: [
+      "E-mail campagnes",
+      "LinkedIn outreach",
+      "Nurture flows",
+      "Contentmanagement",
+      "Video campagnes",
+      "LinkedIn ads",
+      "Engagement scoring",
     ],
     resultaat:
       "Meer interactie met de juiste accounts en duidelijk inzicht in wie interesse toont, warm wordt of opvolging nodig heeft.",
@@ -56,16 +56,16 @@ const STEPS = [
     colSpan: 3 as const,
     featured: true,
     summary:
-      "De laatste stap is zorgen dat commerciële signalen niet blijven hangen in dashboards of campagnes, maar worden omgezet naar echte acties voor sales, accountmanagement, binnendienst of directie.",
-    doen: [
-      "overnemen of ondersteunen van activatiegesprekken",
-      "telefonisch opvolgen van warme leads of campagnesignalen",
-      "verwerken van signalen, statussen en opvolging in CRM",
-      "aanmaken van salesactiviteiten, taken en follow-ups",
-      "routeren van kansen naar de juiste persoon of afdeling",
-      "ondersteunen bij offerte-opvolging",
-      "waar mogelijk automatiseren van delen van het offerteproces",
-      "rapporteren op gesprekken, kansen, pipeline en conversie",
+      "Signalen omzetten in echte acties voor sales, accountmanagement en directie.",
+    labels: [
+      "Activatiegesprekken",
+      "Telefonische opvolging",
+      "CRM-inrichting",
+      "Sales taken & follow-ups",
+      "Lead routering",
+      "Offerte-opvolging",
+      "Offerte-automatisering",
+      "Pipeline rapportage",
     ],
     resultaat:
       "Commerciële signalen worden omgezet naar gesprekken, afspraken, offertes en concrete pipeline.",
@@ -207,30 +207,32 @@ const HowItWorksSection = ({ accent }: HowItWorksSectionProps = {}) => {
                 {s.summary}
               </p>
 
-              {/* Wat we doen */}
+              {/* Diensten — labels */}
               <div className="mb-6">
                 <p
                   className="text-[10px] font-display font-semibold tracking-[0.18em] uppercase mb-3"
                   style={accentPhaseStyle}
                 >
-                  Wat we doen
+                  Diensten
                 </p>
-                <ul className={`space-y-2 ${s.colSpan === 3 ? "lg:columns-2 lg:gap-6 space-y-0 lg:[&>li]:mb-2" : ""}`}>
-                  {s.doen.map((item, idx) => (
-                    <li
+                <div className="flex flex-wrap gap-2">
+                  {s.labels.map((item, idx) => (
+                    <span
                       key={idx}
-                      className={`flex items-start gap-2 text-sm text-muted-foreground leading-relaxed ${
-                        s.colSpan === 3 ? "lg:break-inside-avoid" : ""
-                      }`}
+                      className="inline-flex items-center px-2.5 py-1 rounded-md border border-primary/25 bg-primary/5 text-xs font-medium text-foreground/85"
+                      style={
+                        accent
+                          ? {
+                              borderColor: `${accent}40`,
+                              backgroundColor: `${accent}10`,
+                            }
+                          : undefined
+                      }
                     >
-                      <span
-                        className="mt-1.5 w-1 h-1 rounded-full bg-primary flex-shrink-0"
-                        style={accent ? { backgroundColor: accent } : undefined}
-                      />
                       {item}
-                    </li>
+                    </span>
                   ))}
-                </ul>
+                </div>
               </div>
 
               {/* Resultaat */}
