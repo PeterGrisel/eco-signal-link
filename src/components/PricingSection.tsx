@@ -64,7 +64,6 @@ const T = {
     growthHours: "8 uur GTM-service p/m",
     growthDesc: "Actieve campagnes met continue optimalisatie.",
     growthFeatures: ["2 doelgroepen / ICP's", "2 campagneflows", "Signaal-gedreven leadlijsten", "E-mail en LinkedIn-activatie", "Engagement scoring", "Basis CRM-verwerking"],
-    growthFootnote: "Doel: lifetime partnership.",
     scaleBadge: "Managed groei",
     scaleTitle: "Scale Engine",
     scaleFor: "Bedrijven die meerdere doelgroepen en kanalen draaien.",
@@ -135,7 +134,6 @@ const T = {
     growthHours: "8 hours GTM service / month",
     growthDesc: "Active campaigns with continuous optimization.",
     growthFeatures: ["2 target audiences / ICPs", "2 campaign flows", "Signal-based lead lists", "Email and LinkedIn activation", "Engagement scoring", "Base CRM handling"],
-    growthFootnote: "Goal: lifetime partnership.",
     scaleBadge: "Managed growth",
     scaleTitle: "Scale Engine",
     scaleFor: "Companies running multiple audiences and channels.",
@@ -222,7 +220,6 @@ const buildFases = (yearly: boolean, lang: Lang, currency: Currency): Fase[] => 
     ctaLocation: "Pricing Growth Engine",
     ctaLabel: t.ctaScan,
     highlight: true,
-    footnote: t.growthFootnote,
   },
   {
     step: t.scaleBadge,
