@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Check, Minus, Handshake, Infinity as InfinityIcon, Phone, Clock, Target, Linkedin, Database, FileText, TrendingUp } from "lucide-react";
+import { Check, Minus, Handshake, Infinity as InfinityIcon, Phone, Clock, Target, Database, FileText, Rocket } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import CtaLink from "@/components/CtaLink";
@@ -94,9 +94,14 @@ const T = {
     ppFine2a: "Wij investeren regelmatig in start-ups met een barter-constructie.",
     ppFine2link: "Bekijk de voorwaarden",
     ppFine2b: "en join onze hub.",
-    addOnsEyebrow: "OPTIONELE ADD-ONS",
-    addOnsTitle: "Bouw uw engine verder uit.",
-    addOnsSub: "Schaal capaciteit, doelgroepen en kanalen los van uw basispakket.",
+    addOnsEyebrow: "BOOST-PAKKETTEN",
+    addOnsTitle: "Bouw uw B2B Engine verder uit.",
+    addOnsSub: "Breid uw basispakket uit met extra capaciteit, bereik, CRM-inrichting of content. Zo groeit de engine mee met uw commerciële ambitie, zonder direct een groter sales- of marketingteam op te bouwen.",
+    callEyebrow: "LIEVER OOK TELEFONISCHE OPVOLGING?",
+    callTitle: "Call Boost",
+    callPrice: "apart te bespreken",
+    callBody: "Voor persoonlijke opvolging, kwalificatie en afspraakactivatie via commerciële salespartners. Denk aan telefonische opvolging van warme leads en prospects die engagement tonen.",
+    callCta: "Bespreek Call Boost →",
     footerLine: "Wilt u weten wat dit voor uw situatie betekent?",
     ctaScan: "Boek gratis scan →",
     ctaTalk: "Boek gratis scan →",
@@ -160,9 +165,14 @@ const T = {
     ppFine2a: "We regularly invest in start-ups with a barter structure.",
     ppFine2link: "See the terms",
     ppFine2b: "and join our hub.",
-    addOnsEyebrow: "OPTIONAL ADD-ONS",
-    addOnsTitle: "Extend your engine further.",
-    addOnsSub: "Scale capacity, audiences and channels separately from your base package.",
+    addOnsEyebrow: "BOOST PACKAGES",
+    addOnsTitle: "Extend your B2B Engine.",
+    addOnsSub: "Expand your base package with extra capacity, reach, CRM setup or content. Your engine grows with your commercial ambition, without hiring a bigger team.",
+    callEyebrow: "WANT PHONE FOLLOW-UP TOO?",
+    callTitle: "Call Boost",
+    callPrice: "discussed separately",
+    callBody: "For personal follow-up, qualification and meeting activation via commercial sales partners. Think phone follow-up of warm leads and prospects showing engagement.",
+    callCta: "Discuss Call Boost →",
     footerLine: "Want to know what this means for your situation?",
     ctaScan: "Book free scan →",
     ctaTalk: "Book a call →",
@@ -412,39 +422,137 @@ const ComparisonTable = ({ lang }: { lang: Lang }) => {
   );
 };
 
-const ADDONS_NL = [
-  { icon: Phone, title: "Telefonische opvolging", price: "vanaf €500 p/m", desc: "Persoonlijke opvolging via partner." },
-  { icon: Clock, title: "Extra GTM-uren", price: "€125 p/u", desc: "Strategie, campagnes en optimalisatie." },
-  { icon: Target, title: "Extra doelgroep", price: "€350 p/m", desc: "Nieuwe ICP of campagnelijn toevoegen." },
-  { icon: Linkedin, title: "Extra LinkedIn-account", price: "€250 p/m", desc: "Extra salesprofiel actief." },
-  { icon: Database, title: "HubSpot inrichting", price: "vanaf €1.500 eenmalig", desc: "Pipeline, velden en lifecycle stages." },
-  { icon: FileText, title: "Content engine", price: "vanaf €750 p/m", desc: "LinkedIn-posts, mailcopy en cases." },
-  { icon: TrendingUp, title: "Performance model", price: "maatwerk", desc: "Lage basis plus succesfee." },
+const BOOSTS_NL = [
+  {
+    icon: Rocket,
+    title: "GTM Boost",
+    price: "vanaf €575 p/m",
+    desc: "Extra commerciële capaciteit voor strategie, campagnes en optimalisatie.",
+    items: [
+      "5 extra GTM-service uren per maand",
+      "Campagne-optimalisatie",
+      "Propositie-aanscherping",
+      "Nieuwe berichtvarianten",
+      "Analyse van campagnes en conversie",
+    ],
+    footer: "Losse uitbreiding: €125 per extra GTM-uur.",
+  },
+  {
+    icon: Target,
+    title: "Reach Boost",
+    price: "vanaf €750 p/m",
+    desc: "Activeer extra doelgroepen, campagneflows en LinkedIn-accounts.",
+    items: [
+      "Extra doelgroep / ICP",
+      "Extra campagneflow",
+      "Extra LinkedIn-account",
+      "Extra datalijst en verrijking",
+      "Extra engagementlaag",
+    ],
+    footer: "Staffel: €500 / €750 / €950 p/m.",
+  },
+  {
+    icon: Database,
+    title: "CRM Boost",
+    price: "HubSpot/Pipedrive vanaf €2.500",
+    desc: "Richt uw commerciële opvolging goed in met pipelines, velden, stages en rapportage.",
+    items: [
+      "Pipeline-inrichting",
+      "Deal stages en leadstatussen",
+      "Velden en segmentatie",
+      "Basisautomatisering",
+      "Dashboard en rapportage",
+    ],
+    footer: "Optioneel beheer: vanaf €500 p/m.",
+  },
+  {
+    icon: FileText,
+    title: "Content Boost",
+    price: "vanaf €950 p/m",
+    desc: "Vergroot engagement met LinkedIn-content, mailcopy, nurture en klantcases.",
+    items: [
+      "LinkedIn-posts",
+      "Campagnecopy en e-mailvarianten",
+      "Klantcases",
+      "Nurture-content",
+      "Content op basis van signalen",
+    ],
+    footer: "Staffel: Lite €750 / Boost €950 / Engine vanaf €1.500 p/m.",
+  },
 ];
 
-const ADDONS_EN = [
-  { icon: Phone, title: "Phone follow-up", price: "from €500 / mo", desc: "Personal follow-up via partner." },
-  { icon: Clock, title: "Extra GTM hours", price: "€125 / hr", desc: "Strategy, campaigns and optimization." },
-  { icon: Target, title: "Extra audience", price: "€350 / mo", desc: "Add a new ICP or campaign line." },
-  { icon: Linkedin, title: "Extra LinkedIn seat", price: "€250 / mo", desc: "Additional active sales profile." },
-  { icon: Database, title: "HubSpot setup", price: "from €1,500 one-off", desc: "Pipeline, fields and lifecycle stages." },
-  { icon: FileText, title: "Content engine", price: "from €750 / mo", desc: "LinkedIn posts, email copy and cases." },
-  { icon: TrendingUp, title: "Performance model", price: "custom", desc: "Low base plus success fee." },
+const BOOSTS_EN = [
+  {
+    icon: Rocket,
+    title: "GTM Boost",
+    price: "from €575 / mo",
+    desc: "Extra commercial capacity for strategy, campaigns and optimization.",
+    items: [
+      "5 extra GTM service hours per month",
+      "Campaign optimization",
+      "Proposition sharpening",
+      "New message variants",
+      "Campaign and conversion analysis",
+    ],
+    footer: "Add-on: €125 per extra GTM hour.",
+  },
+  {
+    icon: Target,
+    title: "Reach Boost",
+    price: "from €750 / mo",
+    desc: "Activate extra audiences, campaign flows and LinkedIn seats.",
+    items: [
+      "Extra audience / ICP",
+      "Extra campaign flow",
+      "Extra LinkedIn seat",
+      "Extra data list and enrichment",
+      "Extra engagement layer",
+    ],
+    footer: "Tiered: €500 / €750 / €950 / mo.",
+  },
+  {
+    icon: Database,
+    title: "CRM Boost",
+    price: "HubSpot/Pipedrive from €2,500",
+    desc: "Set up commercial follow-up properly with pipelines, fields, stages and reporting.",
+    items: [
+      "Pipeline setup",
+      "Deal stages and lead statuses",
+      "Fields and segmentation",
+      "Base automation",
+      "Dashboard and reporting",
+    ],
+    footer: "Optional management: from €500 / mo.",
+  },
+  {
+    icon: FileText,
+    title: "Content Boost",
+    price: "from €950 / mo",
+    desc: "Grow engagement with LinkedIn content, email copy, nurture and customer cases.",
+    items: [
+      "LinkedIn posts",
+      "Campaign and email copy",
+      "Customer cases",
+      "Nurture content",
+      "Signal-based content",
+    ],
+    footer: "Tiered: Lite €750 / Boost €950 / Engine from €1,500 / mo.",
+  },
 ];
 
-const AddOnsGrid = ({ lang }: { lang: Lang }) => {
+const BoostsGrid = ({ lang }: { lang: Lang }) => {
   const tt = T[lang];
-  const items = lang === "nl" ? ADDONS_NL : ADDONS_EN;
+  const items = lang === "nl" ? BOOSTS_NL : BOOSTS_EN;
   return (
     <div className="mt-12 md:mt-16">
-      <div className="text-center mb-8">
+      <div className="text-center mb-8 max-w-2xl mx-auto">
         <p className="text-[11px] font-display font-semibold tracking-[0.2em] uppercase text-primary/80 mb-3">
           {tt.addOnsEyebrow}
         </p>
         <h3 className="font-display font-bold text-2xl md:text-3xl tracking-tight">{tt.addOnsTitle}</h3>
-        <p className="text-sm text-muted-foreground mt-2 max-w-xl mx-auto">{tt.addOnsSub}</p>
+        <p className="text-sm text-muted-foreground mt-3 leading-relaxed">{tt.addOnsSub}</p>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">
         {items.map((item, i) => {
           const Icon = item.icon;
           return (
@@ -453,26 +561,68 @@ const AddOnsGrid = ({ lang }: { lang: Lang }) => {
               initial={{ opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.4, delay: i * 0.04 }}
-              className="rounded-xl border border-border bg-card hover:border-primary/40 transition-colors p-4 md:p-5"
+              transition={{ duration: 0.4, delay: i * 0.05 }}
+              className="rounded-2xl border border-border bg-card hover:border-primary/40 transition-colors p-5 md:p-6 flex flex-col"
             >
-              <div className="flex items-start gap-3">
-                <span className="w-9 h-9 rounded-lg bg-primary/15 text-primary flex items-center justify-center shrink-0">
-                  <Icon className="w-4 h-4" />
+              <div className="flex items-start gap-3 mb-4">
+                <span className="w-10 h-10 rounded-lg bg-primary/15 text-primary flex items-center justify-center shrink-0">
+                  <Icon className="w-5 h-5" />
                 </span>
                 <div className="min-w-0 flex-1">
-                  <div className="flex items-baseline justify-between gap-2 mb-1">
-                    <h4 className="font-display font-semibold text-sm">{item.title}</h4>
-                  </div>
-                  <p className="text-xs text-primary/90 font-medium mb-1">{item.price}</p>
-                  <p className="text-xs text-muted-foreground leading-relaxed">{item.desc}</p>
+                  <h4 className="font-display font-bold text-lg leading-tight">{item.title}</h4>
+                  <p className="text-sm text-primary/90 font-medium mt-0.5">{item.price}</p>
                 </div>
               </div>
+              <p className="text-sm text-foreground/80 leading-relaxed mb-4">{item.desc}</p>
+              <ul className="space-y-2 mb-4 flex-1">
+                {item.items.map((it) => (
+                  <li key={it} className="flex items-start gap-2 text-sm">
+                    <span className="mt-0.5 w-4 h-4 rounded-full bg-primary/15 text-primary flex items-center justify-center shrink-0">
+                      <Check className="w-2.5 h-2.5" strokeWidth={3} />
+                    </span>
+                    <span className="text-foreground/90">{it}</span>
+                  </li>
+                ))}
+              </ul>
+              <p className="text-[11px] text-muted-foreground border-t border-border/60 pt-3">{item.footer}</p>
             </motion.div>
           );
         })}
       </div>
     </div>
+  );
+};
+
+const CallBoostSection = ({ lang }: { lang: Lang }) => {
+  const tt = T[lang];
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.45 }}
+      className="mt-8 md:mt-10 rounded-2xl border border-dashed border-primary/30 bg-card/40 p-5 md:p-7 flex flex-col md:flex-row gap-5 md:items-center md:justify-between"
+    >
+      <div className="flex items-start gap-4 flex-1">
+        <span className="w-10 h-10 rounded-lg bg-primary/15 text-primary flex items-center justify-center shrink-0">
+          <Phone className="w-5 h-5" />
+        </span>
+        <div>
+          <p className="text-[10px] font-display font-semibold tracking-[0.2em] uppercase text-primary/80 mb-1">
+            {tt.callEyebrow}
+          </p>
+          <h4 className="font-display font-bold text-lg md:text-xl">
+            {tt.callTitle} <span className="text-muted-foreground font-normal text-sm">· {tt.callPrice}</span>
+          </h4>
+          <p className="text-sm text-muted-foreground leading-relaxed mt-1 max-w-2xl">{tt.callBody}</p>
+        </div>
+      </div>
+      <Button variant="outline" size="sm" asChild className="md:shrink-0">
+        <CtaLink intent="bespreekSituatie" location="Pricing Call Boost">
+          {tt.callCta}
+        </CtaLink>
+      </Button>
+    </motion.div>
   );
 };
 
@@ -662,8 +812,11 @@ const PricingSection = ({ language = "nl", currency }: PricingSectionProps = {})
         {/* Comparison table */}
         <ComparisonTable lang={lang} />
 
-        {/* Add-ons */}
-        <AddOnsGrid lang={lang} />
+        {/* Boost packages */}
+        <BoostsGrid lang={lang} />
+
+        {/* Call Boost */}
+        <CallBoostSection lang={lang} />
 
         {/* Performance Partnership */}
         <div className="mt-12 md:mt-16">
