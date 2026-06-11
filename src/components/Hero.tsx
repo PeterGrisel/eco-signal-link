@@ -59,7 +59,7 @@ const Hero = () => {
   return (
     <section className="relative isolate min-h-screen flex flex-col overflow-hidden bg-background">
       {/* Spline 3D achtergrond */}
-      <div className="absolute inset-0 z-0 overflow-hidden bg-[radial-gradient(ellipse_70%_55%_at_50%_42%,hsl(var(--primary)/0.18),transparent_62%),radial-gradient(ellipse_45%_35%_at_50%_74%,hsl(var(--accent)/0.10),transparent_70%),hsl(var(--background))]">
+      <div className="absolute inset-0 z-0 overflow-hidden bg-[radial-gradient(ellipse_85%_60%_at_50%_40%,hsl(var(--primary)/0.28),transparent_64%),radial-gradient(ellipse_70%_50%_at_18%_80%,hsl(190_80%_42%/0.14),transparent_68%),radial-gradient(ellipse_60%_45%_at_82%_76%,hsl(var(--accent)/0.18),transparent_70%),linear-gradient(135deg,hsl(0_0%_10%),hsl(24_34%_13%)_48%,hsl(0_0%_8%))]">
         <Suspense fallback={null}>
           <div className="absolute inset-0 mix-blend-screen opacity-90 [&_canvas]:!w-full [&_canvas]:!h-full [&_canvas]:!bg-transparent">
             <Spline scene="https://prod.spline.design/2yAx0NG9R46ffIu9/scene.splinecode" />
