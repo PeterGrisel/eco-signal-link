@@ -198,13 +198,13 @@ const T = {
   },
 } as const;
 
-const buildFases = (yearly: boolean, lang: Lang, currency: Currency): Fase[] => {
+const buildFases = (yearly: boolean, lang: Lang, currency: Currency, rate: number): Fase[] => {
   const t = T[lang];
-  const fmt = makeFmt(currency);
-  const p = PRICES[currency];
-  const yr = (n: number) => Math.round(n * 0.8);
-  const priceFor = (n: number) => yearly ? fmt(yr(n)) : fmt(n);
-  const strikeFor = (n: number) => (yearly ? fmt(n) : undefined);
+  const fmt = makeFmt(currency, rate);
+  const p = BASE_PRICES_EUR;
+  const yr = (eur: number) => eur * 0.8;
+  const priceFor = (eur: number) => (yearly ? fmt(yr(eur)) : fmt(eur));
+  const strikeFor = (eur: number) => (yearly ? fmt(eur) : undefined);
   return [
   {
     step: t.startBadge,
