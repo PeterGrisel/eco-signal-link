@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useCurrency } from "@/contexts/CurrencyContext";
 import { motion } from "framer-motion";
 import { Check, Minus, Handshake, Infinity as InfinityIcon, Phone, Clock, Target, Database, FileText, Rocket } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -784,9 +785,11 @@ interface PricingSectionProps {
 
 const PricingSection = ({ language = "nl", currency }: PricingSectionProps = {}) => {
   const [yearly, setYearly] = useState(false);
+  const { currency: ctxCurrency, rates } = useCurrency();
   const lang: Lang = language;
-  const cur: Currency = currency ?? (lang === "en" ? "USD" : "EUR");
-  const fases = buildFases(yearly, lang, cur);
+  const cur: Currency = currency ?? (ctxCurrency as Currency);
+  const rate = rates[cur] ?? 1;
+  const fases = buildFases(yearly, lang, cur, rate);
   const tt = T[lang];
 
   return (
