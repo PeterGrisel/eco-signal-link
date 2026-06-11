@@ -61,6 +61,13 @@ const InfoTip = ({ label }: { label: string }) => {
 const FunnelCalculatorSection = ({ defaults }: { defaults?: FunnelDefaults }) => {
   const d = defaults || { monthlyRevenue: 83333, expenseRate: 30, marketingRate: 5, avgDealSize: 7000, optInRate: 3, optInToSqlRate: 19.76, sqlToCallRate: 60, salesConversionRate: 30, ltv: 12 };
 
+  const { symbol, locale } = useCurrency();
+  const fmt = (n: number) =>
+    n >= 1000
+      ? `${symbol}${n.toLocaleString(locale, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+      : `${symbol}${n.toFixed(2)}`;
+  const fmtN = (n: number) => Math.round(n).toLocaleString(locale);
+
   const [monthlyRevenue, setMonthlyRevenue] = useState(d.monthlyRevenue);
   const [expenseRate, setExpenseRate] = useState(d.expenseRate);
   const [marketingRate, setMarketingRate] = useState(d.marketingRate);
