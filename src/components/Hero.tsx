@@ -71,7 +71,7 @@ const Hero = () => {
                 <Compass className="w-3 h-3 text-primary" strokeWidth={2} />
               </span>
               <span className="text-[10px] font-display font-semibold uppercase tracking-[0.22em] text-foreground/80">
-                Voor directies met commerciële groeidoelen
+                For B2B companies
               </span>
             </span>
           </motion.div>
