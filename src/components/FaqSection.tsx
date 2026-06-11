@@ -26,7 +26,7 @@ const faqs = [
   },
   {
     q: "Wat kost het?",
-    a: "Vast maandtarief, maandelijks opzegbaar. U betaalt voor uitvoering, niet voor uren of beloftes. Exacte investering hangt af van de scope die uit de scan komt.",
+    a: "Vier B2B Engine-tiers: Start (€1.500), Growth (€2.250), Scale (€3.500) en Partner (vanaf €5.000) per maand. Minimum 3 maanden, daarna maandelijks opzegbaar. Boost-pakketten voor extra capaciteit, bereik, CRM of content.",
   },
   {
     q: "Zit ik vast aan jullie tools?",
