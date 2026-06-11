@@ -12,18 +12,22 @@ export interface BentoItem {
   cta?: string;
   colSpan?: number;
   hasPersistentHover?: boolean;
+  featured?: boolean;
 }
 
 interface BentoGridProps {
   items: BentoItem[];
+  accent?: string;
 }
 
-function BentoGrid({ items }: BentoGridProps) {
+function BentoGrid({ items, accent }: BentoGridProps) {
+  const accentBorder = accent ? { borderColor: `${accent}55` } : undefined;
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-3 p-4 max-w-7xl mx-auto">
       {items.map((item, index) => (
         <div
           key={index}
+          style={item.featured ? accentBorder : undefined}
           className={cn(
             "group relative p-4 rounded-xl overflow-hidden transition-all duration-300",
             "border border-gray-100/80 dark:border-white/10 bg-white dark:bg-black",
