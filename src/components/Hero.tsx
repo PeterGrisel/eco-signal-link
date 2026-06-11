@@ -84,8 +84,6 @@ const Hero = () => {
             className="font-display text-[2.25rem] md:text-[3.75rem] lg:text-[4.75rem] xl:text-[5.75rem] leading-[0.98] tracking-tighter mb-6 [text-wrap:balance] [text-shadow:0_2px_24px_hsl(var(--background))]"
           >
             <span className="font-bold text-foreground">Go-to-market systems for revenue growth</span>
-            <br />
-            <span className="font-bold text-gradient">GTM services combining AI workflows with human expertise</span>
           </motion.h1>
 
           {/* Subkop */}
