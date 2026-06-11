@@ -187,10 +187,18 @@ const Groeistack = () => {
               );
             })}
 
-            <p className="text-center text-xs text-muted-foreground">
-              Onze gecureerde selectie. Geen lock-in: wij bouwen het in uw eigen
-              stack en u blijft eigenaar van uw data.
-            </p>
+            <div className="text-center pt-8 max-w-lg mx-auto space-y-4">
+              <p className="font-display font-bold text-xl md:text-2xl text-foreground">
+                Ziet u door de tools de omzet niet meer? 😉
+              </p>
+              <p className="text-muted-foreground">
+                Wij adviseren u graag persoonlijk over wat echt werkt voor uw pijplijn.
+              </p>
+              <p className="text-[11px] text-muted-foreground/60 pt-4">
+                Onze gecureerde selectie. Geen lock-in: wij bouwen het in uw eigen
+                stack en u blijft eigenaar van uw data.
+              </p>
+            </div>
           </div>
 
           <CtaSection />
