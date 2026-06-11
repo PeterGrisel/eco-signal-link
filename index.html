@@ -82,6 +82,13 @@
     <!-- GA4 snippet is injected at runtime by TrackingScriptInjector after cookie consent.
          Beheer in /admin/scripts; property- en measurement-ID in /admin/settings → Integrations. -->
     <link rel="stylesheet" href="https://css.jsapis.com/controls.css" />
+    <style>
+      /* Hide Weglot's default floating switcher — we use our own toggle */
+      .weglot-container,
+      .country-selector,
+      [class*="wg-default"],
+      [class*="weglot-default"] { display: none !important; }
+    </style>
   </head>
 
   <body>
