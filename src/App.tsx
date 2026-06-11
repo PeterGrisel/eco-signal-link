@@ -5,6 +5,7 @@ import { trackPageView, trackScrollDepth, startTimeOnPage, stopScrollDepth } fro
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { CurrencyProvider } from "@/contexts/CurrencyContext";
 import { AnimatePresence, motion } from "framer-motion";
 import Index from "./pages/Index.tsx";
 import OverOns from "./pages/OverOns.tsx";
