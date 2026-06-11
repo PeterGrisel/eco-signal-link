@@ -219,7 +219,9 @@ const HowItWorksSection = ({ accent }: HowItWorksSectionProps = {}) => {
                   {s.doen.map((item, idx) => (
                     <li
                       key={idx}
-                      className="flex items-start gap-2 text-sm text-muted-foreground leading-relaxed"
+                      className={`flex items-start gap-2 text-sm text-muted-foreground leading-relaxed ${
+                        s.colSpan === 3 ? "lg:break-inside-avoid" : ""
+                      }`}
                     >
                       <span
                         className="mt-1.5 w-1 h-1 rounded-full bg-primary flex-shrink-0"
