@@ -215,7 +215,7 @@ const HowItWorksSection = ({ accent }: HowItWorksSectionProps = {}) => {
                 >
                   Wat we doen
                 </p>
-                <ul className="space-y-2">
+                <ul className={`space-y-2 ${s.colSpan === 3 ? "lg:columns-2 lg:gap-6 space-y-0 lg:[&>li]:mb-2" : ""}`}>
                   {s.doen.map((item, idx) => (
                     <li
                       key={idx}
