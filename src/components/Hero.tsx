@@ -57,18 +57,18 @@ const LogoCircle = ({ name, url }: { name: string; url: string }) => {
 
 const Hero = () => {
   return (
-    <section className="relative min-h-screen flex flex-col overflow-hidden">
+    <section className="relative isolate min-h-screen flex flex-col overflow-hidden bg-background">
       {/* Spline 3D achtergrond */}
-      <div className="absolute inset-0 z-0 overflow-hidden bg-background">
+      <div className="absolute inset-0 z-0 overflow-hidden bg-[radial-gradient(ellipse_85%_60%_at_50%_40%,hsl(var(--primary)/0.28),transparent_64%),radial-gradient(ellipse_70%_50%_at_18%_80%,hsl(190_80%_42%/0.14),transparent_68%),radial-gradient(ellipse_60%_45%_at_82%_76%,hsl(var(--accent)/0.18),transparent_70%),linear-gradient(135deg,hsl(0_0%_10%),hsl(24_34%_13%)_48%,hsl(0_0%_8%))]">
         <Suspense fallback={null}>
-          <div className="absolute inset-0 [&_canvas]:!w-full [&_canvas]:!h-full">
+          <div className="absolute inset-0 mix-blend-screen opacity-90 [&_canvas]:!w-full [&_canvas]:!h-full [&_canvas]:!bg-transparent">
             <Spline scene="https://prod.spline.design/2yAx0NG9R46ffIu9/scene.splinecode" />
           </div>
         </Suspense>
         {/* Subtiele leesbaarheid alleen onderaan voor de onderbalk */}
-        <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-background/70 to-transparent pointer-events-none" />
+        <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-background/35 to-transparent pointer-events-none" />
         {/* Spline-watermerk afdekken (rechtsonder) */}
-        <div className="absolute bottom-3 right-3 w-44 h-12 bg-background rounded-md" />
+        <div className="absolute bottom-3 right-3 w-44 h-12 rounded-md bg-background/25 backdrop-blur-md" />
       </div>
 
       <div className="container mx-auto px-4 md:px-6 relative z-10 flex-1 flex flex-col pointer-events-none [&_a]:pointer-events-auto [&_button]:pointer-events-auto">
