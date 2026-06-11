@@ -65,9 +65,8 @@ const Hero = () => {
             <Spline scene="https://prod.spline.design/2yAx0NG9R46ffIu9/scene.splinecode" />
           </div>
         </Suspense>
-        {/* Leesbaarheidslagen */}
-        <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/40 to-background pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-to-r from-background/70 via-transparent to-background/70 pointer-events-none" />
+        {/* Subtiele leesbaarheid alleen onderaan voor de onderbalk */}
+        <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-background/70 to-transparent pointer-events-none" />
         {/* Spline-watermerk afdekken (rechtsonder) */}
         <div className="absolute bottom-3 right-3 w-44 h-12 bg-background rounded-md" />
       </div>
