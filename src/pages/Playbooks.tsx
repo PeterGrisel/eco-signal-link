@@ -157,30 +157,50 @@ const Playbooks = () => {
                 </p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 rounded-2xl overflow-hidden border border-border/60 bg-card/30 divide-x divide-y divide-border/60">
-                {items.map((p) => (
-                  <Link
-                    key={p.slug}
-                    to={`/playbooks/${p.slug}`}
-                    className="group block hover:bg-card/60 transition-colors"
-                  >
-                    <FeatureCard
-                      feature={{
-                        title: p.title,
-                        description: p.excerpt || "",
-                        icon: BookOpen,
-                      }}
-                    />
-                    <div className="px-6 pb-6 -mt-2 flex items-center justify-between">
-                      <span className="text-[10px] font-display font-semibold tracking-[0.18em] uppercase text-primary/80">
-                        {p.service_line || "Playbook"}
-                      </span>
-                      <span className="inline-flex items-center gap-1 text-xs font-display font-semibold text-foreground group-hover:text-primary transition-colors">
-                        Bekijk
-                        <ArrowUpRight className="w-3.5 h-3.5" />
+              <div className="space-y-12">
+                {Object.entries(
+                  items.reduce<Record<string, PlaybookRow[]>>((acc, p) => {
+                    const label = p.service_line || "Overig";
+                    (acc[label] ||= []).push(p);
+                    return acc;
+                  }, {})
+                ).map(([label, group]) => (
+                  <div key={label}>
+                    <div className="flex items-baseline justify-between gap-4 mb-4 px-1">
+                      <h2 className="font-display font-semibold text-xs tracking-[0.22em] uppercase text-primary/80">
+                        {label}
+                      </h2>
+                      <span className="text-[11px] text-muted-foreground tabular-nums">
+                        {group.length} {group.length === 1 ? "playbook" : "playbooks"}
                       </span>
                     </div>
-                  </Link>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 rounded-2xl overflow-hidden border border-border/60 bg-card/30 divide-x divide-y divide-border/60">
+                      {group.map((p) => (
+                        <Link
+                          key={p.slug}
+                          to={`/playbooks/${p.slug}`}
+                          className="group block hover:bg-card/60 transition-colors"
+                        >
+                          <FeatureCard
+                            feature={{
+                              title: p.title,
+                              description: p.excerpt || "",
+                              icon: BookOpen,
+                            }}
+                          />
+                          <div className="px-6 pb-6 -mt-2 flex items-center justify-between">
+                            <span className="text-[10px] font-display font-semibold tracking-[0.18em] uppercase text-primary/80">
+                              {p.service_line || "Playbook"}
+                            </span>
+                            <span className="inline-flex items-center gap-1 text-xs font-display font-semibold text-foreground group-hover:text-primary transition-colors">
+                              Bekijk
+                              <ArrowUpRight className="w-3.5 h-3.5" />
+                            </span>
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
                 ))}
               </div>
             )}
