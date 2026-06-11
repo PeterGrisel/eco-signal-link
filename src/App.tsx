@@ -185,17 +185,19 @@ const AnimatedRoutes = () => {
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <BrowserRouter>
-        <Toaster />
-        <Sonner />
-        <TrackingScriptInjector />
-        <CookieConsent />
-        <BookingModalHost />
-        <LeftDock />
-        <AnimatedRoutes />
-      </BrowserRouter>
-    </TooltipProvider>
+    <CurrencyProvider>
+      <TooltipProvider>
+        <BrowserRouter>
+          <Toaster />
+          <Sonner />
+          <TrackingScriptInjector />
+          <CookieConsent />
+          <BookingModalHost />
+          <LeftDock />
+          <AnimatedRoutes />
+        </BrowserRouter>
+      </TooltipProvider>
+    </CurrencyProvider>
   </QueryClientProvider>
 );
 
