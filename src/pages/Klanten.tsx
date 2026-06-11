@@ -278,12 +278,42 @@ const Klanten = () => {
         </section>
 
         {/* Brain Radial */}
-        <section className="py-16 md:py-20">
+        <section className="py-12 md:py-20">
           <div className="container mx-auto px-6">
             {loading ? (
               <div className="h-[500px] animate-pulse rounded-full bg-card/30 max-w-2xl mx-auto" />
             ) : (
-              <BrainRadial clients={clients} />
+              <>
+                {/* Desktop: roterende orbit */}
+                <div className="hidden md:block">
+                  <BrainRadial clients={clients} />
+                </div>
+                {/* Mobile: compacte chip grid */}
+                <div className="md:hidden">
+                  <div className="flex flex-col items-center mb-6">
+                    <div className="flex flex-col items-center justify-center h-24 w-24 rounded-full bg-primary/10 border border-primary/40">
+                      <Brain className="h-6 w-6 text-primary mb-1" strokeWidth={1.5} />
+                      <span className="text-[9px] uppercase tracking-[0.2em] text-foreground/90 text-center leading-tight">
+                        Commercieel<br />Brein
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex flex-wrap justify-center gap-2">
+                    {clients.map((c) => (
+                      <a
+                        key={c.id}
+                        href={`#klant-${c.id}`}
+                        className="flex items-center gap-1.5 rounded-md bg-background/85 border border-foreground/15 px-2.5 py-1.5 shadow-sm hover:border-primary/50 transition-colors"
+                      >
+                        <ClientLogo client={c} size={16} />
+                        <span className="text-[10px] uppercase tracking-wider text-foreground/85 whitespace-nowrap">
+                          {c.name}
+                        </span>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              </>
             )}
           </div>
         </section>
