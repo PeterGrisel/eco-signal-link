@@ -3,142 +3,111 @@
 import { cn } from "@/lib/utils";
 
 export interface BentoItem {
-    title: string;
-    description: string;
-    icon: React.ReactNode;
-    status?: string;
-    tags?: string[];
-    meta?: string;
-    cta?: string;
-    colSpan?: number;
-    hasPersistentHover?: boolean;
-    featured?: boolean;
-    onClick?: () => void;
+  title: string;
+  description: string;
+  icon: React.ReactNode;
+  status?: string;
+  tags?: string[];
+  meta?: string;
+  cta?: string;
+  colSpan?: number;
+  hasPersistentHover?: boolean;
+  featured?: boolean;
 }
 
 interface BentoGridProps {
-    items: BentoItem[];
-    accent?: string;
+  items: BentoItem[];
+  accent?: string;
 }
 
 function BentoGrid({ items, accent }: BentoGridProps) {
-    const accentStyle = accent ? { color: accent } : undefined;
-    const accentBorder = accent ? { borderColor: `${accent}33` } : undefined;
-    // Pick a readable foreground for filled accent chips (e.g. yellow needs dark text).
-    const accentForeground = (() => {
-        if (!accent) return "#ffffff";
-        const hex = accent.replace("#", "");
-        if (hex.length !== 6) return "#ffffff";
-        const r = parseInt(hex.slice(0, 2), 16);
-        const g = parseInt(hex.slice(2, 4), 16);
-        const b = parseInt(hex.slice(4, 6), 16);
-        // Perceived luminance
-        const lum = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
-        return lum > 0.6 ? "#0A0A0F" : "#ffffff";
-    })();
-    return (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 p-4 max-w-7xl mx-auto">
-            {items.map((item, index) => (
-                <div
-                    key={index}
-                    style={accentBorder}
-                    onClick={item.onClick}
-                    role={item.onClick ? "button" : undefined}
-                    tabIndex={item.onClick ? 0 : undefined}
-                    onKeyDown={(e) => {
-                        if (item.onClick && (e.key === "Enter" || e.key === " ")) {
-                            e.preventDefault();
-                            item.onClick();
-                        }
-                    }}
-                    className={cn(
-                        "group relative p-5 rounded-2xl overflow-hidden transition-all duration-300",
-                        "border border-border bg-card",
-                        "hover:shadow-[0_2px_24px_rgba(0,0,0,0.25)]",
-                        "hover:-translate-y-0.5 will-change-transform",
-                        item.colSpan === 2 ? "md:col-span-2" : "col-span-1",
-                        item.onClick && "cursor-pointer",
-                        {
-                            "shadow-[0_2px_24px_rgba(0,0,0,0.25)] -translate-y-0.5":
-                                item.hasPersistentHover,
-                        }
-                    )}
-                >
-                    <div
-                        className={`absolute inset-0 ${
-                            item.hasPersistentHover
-                                ? "opacity-100"
-                                : "opacity-0 group-hover:opacity-100"
-                        } transition-opacity duration-300`}
-                    >
-                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,hsl(var(--foreground)/0.04)_1px,transparent_1px)] bg-[length:4px_4px]" />
-                    </div>
+  const accentBorder = accent ? { borderColor: `${accent}55` } : undefined;
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-3 p-4 max-w-7xl mx-auto">
+      {items.map((item, index) => (
+        <div
+          key={index}
+          style={item.featured ? accentBorder : undefined}
+          className={cn(
+            "group relative p-4 rounded-xl overflow-hidden transition-all duration-300",
+            "border border-gray-100/80 dark:border-white/10 bg-white dark:bg-black",
+            "hover:shadow-[0_2px_12px_rgba(0,0,0,0.03)] dark:hover:shadow-[0_2px_12px_rgba(255,255,255,0.03)]",
+            "hover:-translate-y-0.5 will-change-transform",
+            item.colSpan === 2 ? "md:col-span-2" : "col-span-1",
+            {
+              "shadow-[0_2px_12px_rgba(0,0,0,0.03)] -translate-y-0.5":
+                item.hasPersistentHover,
+              "dark:shadow-[0_2px_12px_rgba(255,255,255,0.03)]":
+                item.hasPersistentHover,
+            }
+          )}
+        >
+          <div
+            className={`absolute inset-0 ${
+              item.hasPersistentHover
+                ? "opacity-100"
+                : "opacity-0 group-hover:opacity-100"
+            } transition-opacity duration-300`}
+          >
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.02)_1px,transparent_1px)] dark:bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[length:4px_4px]" />
+          </div>
 
-                    <div className="relative flex flex-col space-y-3">
-                        <div className="flex items-center justify-between">
-                            <div
-                                className="w-10 h-10 rounded-xl flex items-center justify-center bg-foreground/5 border border-border"
-                                style={accentBorder}
-                            >
-                                <span style={accentStyle}>{item.icon}</span>
-                            </div>
-                            {item.status && (
-                                <span
-                                    className={cn(
-                                        "text-[10px] font-display font-semibold tracking-[0.18em] uppercase px-2.5 py-1 rounded-md",
-                                        item.featured
-                                            ? "border-0"
-                                            : "bg-foreground/5 border border-border text-muted-foreground"
-                                    )}
-                                    style={item.featured ? { backgroundColor: accent, color: accentForeground } : accentBorder}
-                                >
-                                    {item.status}
-                                </span>
-                            )}
-                        </div>
+          <div className="relative flex flex-col space-y-3">
+            <div className="flex items-center justify-between">
+              <div className="w-8 h-8 rounded-lg flex items-center justify-center bg-black/5 dark:bg-white/10 group-hover:bg-gradient-to-br transition-all duration-300">
+                {item.icon}
+              </div>
+              <span
+                className={cn(
+                  "text-xs font-medium px-2 py-1 rounded-lg backdrop-blur-sm",
+                  "bg-black/5 dark:bg-white/10 text-gray-600 dark:text-gray-300",
+                  "transition-colors duration-300 group-hover:bg-black/10 dark:group-hover:bg-white/20"
+                )}
+              >
+                {item.status || "Active"}
+              </span>
+            </div>
 
-                        <div className="space-y-2">
-                            <h3 className="font-display font-bold text-foreground tracking-tight text-lg leading-tight">
-                                {item.title}
-                                {item.meta && (
-                                    <span className="ml-2 text-xs text-muted-foreground font-normal">
-                                        {item.meta}
-                                    </span>
-                                )}
-                            </h3>
-                            <p className="text-sm text-muted-foreground leading-relaxed">
-                                {item.description}
-                            </p>
-                        </div>
+            <div className="space-y-2">
+              <h3 className="font-medium text-gray-900 dark:text-gray-100 tracking-tight text-[15px]">
+                {item.title}
+                <span className="ml-2 text-xs text-gray-500 dark:text-gray-400 font-normal">
+                  {item.meta}
+                </span>
+              </h3>
+              <p className="text-sm text-gray-600 dark:text-gray-300 leading-snug font-[425]">
+                {item.description}
+              </p>
+            </div>
 
-                        {(item.tags || item.cta) && (
-                            <div className="flex items-center justify-between mt-2 pt-3 border-t border-border">
-                                <div className="flex items-center gap-2 text-xs text-muted-foreground flex-wrap">
-                                    {item.tags?.map((tag, i) => (
-                                        <span
-                                            key={i}
-                                            className="px-2 py-0.5 rounded-md bg-foreground/5 border border-border"
-                                            style={accentBorder}
-                                        >
-                                            #{tag}
-                                        </span>
-                                    ))}
-                                </div>
-                                {item.cta && (
-                                    <span
-                                        className="text-xs opacity-0 group-hover:opacity-100 transition-opacity"
-                                        style={accentStyle}
-                                    >
-                                        {item.cta}
-                                    </span>
-                                )}
-                            </div>
-                        )}
-                    </div>
-                </div>
-            ))}
+            <div className="flex items-center justify-between mt-2">
+              <div className="flex items-center space-x-2 text-xs text-gray-500 dark:text-gray-400">
+                {item.tags?.map((tag, i) => (
+                  <span
+                    key={i}
+                    className="px-2 py-1 rounded-md bg-black/5 dark:bg-white/10 backdrop-blur-sm transition-all duration-200 hover:bg-black/10 dark:hover:bg-white/20"
+                  >
+                    #{tag}
+                  </span>
+                ))}
+              </div>
+              <span className="text-xs text-gray-500 dark:text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                {item.cta || "Explore →"}
+              </span>
+            </div>
+          </div>
+
+          <div
+            className={`absolute inset-0 -z-10 rounded-xl p-px bg-gradient-to-br from-transparent via-gray-100/50 to-transparent dark:via-white/10 ${
+              item.hasPersistentHover
+                ? "opacity-100"
+                : "opacity-0 group-hover:opacity-100"
+            } transition-opacity duration-300`}
+          />
         </div>
-    );
+      ))}
+    </div>
+  );
 }
 
 export { BentoGrid };

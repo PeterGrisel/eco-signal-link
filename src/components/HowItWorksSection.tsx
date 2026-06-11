@@ -1,14 +1,11 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
-  Target,
-  Send,
   PhoneCall,
   ArrowRight,
   BookOpenCheck,
   Eye,
   MessageSquare,
-  ClipboardCheck,
 } from "lucide-react";
 
 const STEPS = [
@@ -17,6 +14,7 @@ const STEPS = [
     title: "Awareness",
     subtitle: "Van onbekende markt naar dynamische targetlijsten.",
     icon: Eye,
+    colSpan: 2 as const,
     summary:
       "We starten met het zichtbaar maken van relevante accounts, prospects en bestaande klantkansen. Niet op basis van statische lijsten, maar op basis van data, signalen en commerciële context.",
     doen: [
@@ -35,6 +33,7 @@ const STEPS = [
     title: "Engagement",
     subtitle: "Van relevante accounts naar warme commerciële interactie.",
     icon: MessageSquare,
+    colSpan: 1 as const,
     summary:
       "Daarna activeren we de juiste doelgroepen met gerichte campagnes. We zorgen dat prospects, leads en bestaande klanten niet alleen in een lijst staan, maar structureel worden benaderd, gevoed en opgevolgd.",
     doen: [
@@ -54,6 +53,8 @@ const STEPS = [
     title: "Activities",
     subtitle: "Van engagement naar concrete salesactie.",
     icon: PhoneCall,
+    colSpan: 3 as const,
+    featured: true,
     summary:
       "De laatste stap is zorgen dat commerciële signalen niet blijven hangen in dashboards of campagnes, maar worden omgezet naar echte acties voor sales, accountmanagement, binnendienst of directie.",
     doen: [
@@ -126,8 +127,8 @@ const HowItWorksSection = ({ accent }: HowItWorksSectionProps = {}) => {
           </p>
         </motion.div>
 
-        {/* 3 Steps */}
-        <div className="grid lg:grid-cols-3 gap-6 md:gap-8">
+        {/* 3 Steps — bento layout: 2 / 1 op rij 1, full-width conversie op rij 2 */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6 auto-rows-fr">
           {STEPS.map((s, i) => (
             <motion.div
               key={s.n}
@@ -135,8 +136,25 @@ const HowItWorksSection = ({ accent }: HowItWorksSectionProps = {}) => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="card-gradient border-glow rounded-2xl p-6 md:p-8 flex flex-col"
+              className={`group relative card-gradient border-glow rounded-2xl p-6 md:p-8 flex flex-col overflow-hidden transition-all duration-300 hover:-translate-y-0.5 will-change-transform ${
+                s.colSpan === 3
+                  ? "lg:col-span-3"
+                  : s.colSpan === 2
+                  ? "lg:col-span-2"
+                  : "lg:col-span-1"
+              } ${s.featured ? "ring-1 ring-primary/40" : ""}`}
+              style={
+                s.featured && accent
+                  ? { boxShadow: `0 0 0 1px ${accent}55` }
+                  : undefined
+              }
             >
+              {/* Dot pattern overlay on hover */}
+              <div className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,hsl(var(--primary)/0.08)_1px,transparent_1px)] bg-[length:6px_6px]" />
+              </div>
+
+              <div className="relative flex flex-col h-full">
               {/* Top bar: icon + number */}
               <div className="flex items-center justify-between mb-5">
                 <span
@@ -149,8 +167,17 @@ const HowItWorksSection = ({ accent }: HowItWorksSectionProps = {}) => {
                     style={accentStyle}
                   />
                 </span>
-                <span
-                  className="font-display font-bold text-3xl text-gradient leading-none"
+                <div className="flex items-center gap-3">
+                  {s.featured && (
+                    <span
+                      className="text-[10px] font-display font-semibold tracking-[0.18em] uppercase px-2 py-1 rounded-md border border-primary/30 text-primary"
+                      style={accentStyle}
+                    >
+                      Conversie
+                    </span>
+                  )}
+                  <span
+                  className="font-display font-bold text-3xl md:text-4xl text-gradient leading-none"
                   style={
                     accent
                       ? {
@@ -163,6 +190,7 @@ const HowItWorksSection = ({ accent }: HowItWorksSectionProps = {}) => {
                 >
                   {s.n}
                 </span>
+                </div>
               </div>
 
               {/* Title + subtitle */}
@@ -187,11 +215,13 @@ const HowItWorksSection = ({ accent }: HowItWorksSectionProps = {}) => {
                 >
                   Wat we doen
                 </p>
-                <ul className="space-y-2">
+                <ul className={`space-y-2 ${s.colSpan === 3 ? "lg:columns-2 lg:gap-6 space-y-0 lg:[&>li]:mb-2" : ""}`}>
                   {s.doen.map((item, idx) => (
                     <li
                       key={idx}
-                      className="flex items-start gap-2 text-sm text-muted-foreground leading-relaxed"
+                      className={`flex items-start gap-2 text-sm text-muted-foreground leading-relaxed ${
+                        s.colSpan === 3 ? "lg:break-inside-avoid" : ""
+                      }`}
                     >
                       <span
                         className="mt-1.5 w-1 h-1 rounded-full bg-primary flex-shrink-0"
@@ -217,6 +247,7 @@ const HowItWorksSection = ({ accent }: HowItWorksSectionProps = {}) => {
                 <p className="text-sm text-primary/90 leading-relaxed font-medium">
                   {s.resultaat}
                 </p>
+              </div>
               </div>
             </motion.div>
           ))}
