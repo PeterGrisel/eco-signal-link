@@ -1,12 +1,13 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Mail, Linkedin, HelpCircle, MessageCircle, Euro, BookOpen } from "lucide-react";
+import { Mail, Linkedin, HelpCircle, MessageCircle, Euro, BookOpen, Phone } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { trackCTA } from "@/lib/tracking";
 
 const EMAIL = "info@rebelforce.nl";
 const LINKEDIN = "https://www.linkedin.com/company/b2bgroeimachine/";
 const WHATSAPP = "https://wa.me/31852502925";
+const PHONE = "tel:+493075675721";
 
 export default function LeftDock() {
   const location = useLocation();
@@ -92,6 +93,13 @@ export default function LeftDock() {
       icon: Euro,
       label: "Pricing",
       onClick: () => goToAnchor("/#pricing", "pricing", "Pricing"),
+    },
+    {
+      icon: Phone,
+      label: "Bel AI Assistent (+49 30 75675721)",
+      href: PHONE,
+      external: true,
+      onClick: () => trackCTA("LeftDock — Phone", PHONE),
     },
     {
       icon: Mail,
