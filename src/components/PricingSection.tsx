@@ -604,7 +604,7 @@ const CallBoostSection = ({ lang }: { lang: Lang }) => {
 const PerformancePartnership = ({ lang, currency, rate }: { lang: Lang; currency: Currency; rate: number }) => {
   const tt = T[lang];
   const fmt = makeFmt(currency, rate);
-  const ppTechValue = `${fmt(500)} — ${fmt(1000).replace(CURRENCY_META[currency].symbol, "")}`;
+  const ppTechValue = `${fmt(500)} — ${fmt(1000)}`;
   return (
   <motion.div
     initial={{ opacity: 0, y: 16 }}
