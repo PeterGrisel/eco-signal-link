@@ -33,6 +33,7 @@ const STEPS = [
     title: "Engagement",
     subtitle: "Van relevante accounts naar warme commerciële interactie.",
     icon: MessageSquare,
+    colSpan: 1 as const,
     summary:
       "Daarna activeren we de juiste doelgroepen met gerichte campagnes. We zorgen dat prospects, leads en bestaande klanten niet alleen in een lijst staan, maar structureel worden benaderd, gevoed en opgevolgd.",
     doen: [
@@ -52,6 +53,8 @@ const STEPS = [
     title: "Activities",
     subtitle: "Van engagement naar concrete salesactie.",
     icon: PhoneCall,
+    colSpan: 3 as const,
+    featured: true,
     summary:
       "De laatste stap is zorgen dat commerciële signalen niet blijven hangen in dashboards of campagnes, maar worden omgezet naar echte acties voor sales, accountmanagement, binnendienst of directie.",
     doen: [
