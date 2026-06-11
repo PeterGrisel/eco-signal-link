@@ -5,7 +5,8 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { groeistackCategories } from "@/data/groeistack";
-import { Boxes, Plus, Trash2, RefreshCw, Save, Download } from "lucide-react";
+import { Boxes, Plus, Trash2, RefreshCw, Save, Download, Users } from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface ToolRow {
   id?: string;
@@ -120,6 +121,11 @@ const AdminGroeistack = () => {
           </p>
         </div>
         <div className="flex gap-2">
+          <Button asChild variant="outline" size="sm" className="gap-2">
+            <Link to="/admin/groeistack/leads">
+              <Users className="w-4 h-4" /> Leads
+            </Link>
+          </Button>
           <Button variant="outline" size="sm" onClick={scrapeNow} disabled={scraping} className="gap-2">
             <Download className={`w-4 h-4 ${scraping ? "animate-pulse" : ""}`} /> Scrape Toolverse
           </Button>

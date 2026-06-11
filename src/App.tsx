@@ -15,6 +15,7 @@ import SolutionPage from "./pages/SolutionPage.tsx";
 import HoeHetWerkt from "./pages/HoeHetWerkt.tsx";
 import Groeistack from "./pages/Groeistack.tsx";
 import AdminGroeistack from "./pages/admin/AdminGroeistack.tsx";
+import AdminGroeistackLeads from "./pages/admin/AdminGroeistackLeads.tsx";
 import Playbooks from "./pages/Playbooks.tsx";
 import PlaybookPost from "./pages/PlaybookPost.tsx";
 import AdminPlaybooks from "./pages/admin/AdminPlaybooks.tsx";
@@ -120,6 +121,7 @@ const AnimatedRoutes = () => {
           <Route path="/hoe-het-werkt" element={<Navigate to="/" replace />} />
           <Route path="/groeistack" element={<Groeistack />} />
           <Route path="/admin/groeistack" element={<AdminGroeistack />} />
+          <Route path="/admin/groeistack/leads" element={<AdminGroeistackLeads />} />
           <Route path="/playbooks" element={<Playbooks />} />
           <Route path="/playbooks/:slug" element={<PlaybookPost />} />
           <Route path="/admin/playbooks" element={<AdminPlaybooks />} />
