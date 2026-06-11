@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Check, ArrowRight, Handshake, Infinity as InfinityIcon, Lightbulb, Users, Plug, LifeBuoy } from "lucide-react";
+import { Check, Minus, Handshake, Infinity as InfinityIcon, Phone, Clock, Target, Linkedin, Database, FileText, TrendingUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import CtaLink from "@/components/CtaLink";
@@ -13,6 +13,8 @@ type Fase = {
   priceSuffix?: string;
   priceStrike?: string;
   meta: string;
+  forWho: string;
+  gtmHours: string;
   description: string;
   features: string[];
   ctaIntent: "gratisScan" | "bespreekSituatie";
@@ -25,9 +27,9 @@ type Fase = {
 type Lang = "nl" | "en";
 type Currency = "EUR" | "USD";
 
-const PRICES: Record<Currency, { monthly: number; locale: string; symbol: string }> = {
-  EUR: { monthly: 2250, locale: "nl-NL", symbol: "€" },
-  USD: { monthly: 2500, locale: "en-US", symbol: "$" },
+const PRICES: Record<Currency, { start: number; growth: number; scale: number; partner: number; locale: string; symbol: string }> = {
+  EUR: { start: 1500, growth: 2250, scale: 3500, partner: 5000, locale: "nl-NL", symbol: "€" },
+  USD: { start: 1650, growth: 2500, scale: 3850, partner: 5500, locale: "en-US", symbol: "$" },
 };
 
 const makeFmt = (currency: Currency) => {
@@ -38,32 +40,44 @@ const makeFmt = (currency: Currency) => {
 const T = {
   nl: {
     eyebrow: "Commercieel model",
-    headLine1: "Lage drempel.",
-    headLine2: "Schaalbare waarde.",
-    headSub: "Eén systeem. Drie manieren om ermee te starten. Wij denken in lifetime, niet in losse projecten.",
+    headLine1: "Kies de B2B Engine",
+    headLine2: "die past bij uw groeifase.",
+    headSub: "Geen losse campagnes. Een commerciële machine die elke maand kansen signaleert, activeert en opvolgbaar maakt.",
     monthly: "Maandelijks",
     yearly12: "12 maanden",
     perMonth: "/ maand",
     yearlyMeta: "12 maanden · 20% korting",
-    monthlyMeta: "Maandelijks opzegbaar",
+    monthlyMeta: "Min. 3 maanden · daarna maandelijks opzegbaar",
     onRequest: "Op aanvraag",
-    sprintMeta: "Build & transfer · projectbasis",
-    sdrMeta: "Per uur · inhuren naar behoefte",
-    growthBadge: "Groeisysteem",
-    growthTitle: "Growth System",
-    growthDesc: "Wij draaien uw groeisysteem. Signalen, routing en engagement.",
-    growthFeatures: ["ICP en signaal-scoring", "Routing en dashboard", "Engagement en optimalisatie", "Dedicated campagnemanager"],
+    partnerMeta: "Vanaf · maatwerk",
+    fromPrice: "Vanaf",
+    mostChosen: "Meest gekozen",
+    startBadge: "Instap",
+    startTitle: "Start Engine",
+    startFor: "Bedrijven die hun outbound basis willen neerzetten.",
+    startHours: "4 uur GTM-service p/m",
+    startDesc: "Systeem live, basislijsten en eerste campagnes.",
+    startFeatures: ["1 doelgroep / ICP", "1 outbound campagneflow", "Basis prospectlijst", "E-mailactivatie", "Lichte LinkedIn-activatie", "Maandelijkse rapportage"],
+    growthBadge: "Hoofdaanbod",
+    growthTitle: "Growth Engine",
+    growthFor: "Bedrijven die structureel nieuwe kansen willen creëren.",
+    growthHours: "8 uur GTM-service p/m",
+    growthDesc: "Actieve campagnes met continue optimalisatie.",
+    growthFeatures: ["2 doelgroepen / ICP's", "2 campagneflows", "Signaal-gedreven leadlijsten", "E-mail en LinkedIn-activatie", "Engagement scoring", "Basis CRM-verwerking"],
     growthFootnote: "Doel: lifetime partnership.",
-    sprintBadge: "Build Sprint",
-    sprintTitle: "Sprint · 6 maanden",
-    sprintDesc: "Wij bouwen uw systeem in 6 maanden. Ideaal voor start-ups en scale-ups.",
-    sprintFeatures: ["Volledige setup en training", "Overdracht aan uw team", "Running fee voor licenties erna", "Optioneel: doorlopend beheer"],
-    sdrBadge: "SDR Service",
-    sdrTitle: "GTM capaciteit per uur",
-    sdrDesc: "Extra GTM-handen wanneer u ze nodig heeft. Geen vaste fee.",
-    sdrFeatures: ["Sales development (SDR)", "Outbound en follow-up", "Op uur- of dagbasis", "Naadloos op uw systeem"],
-    sdrCta: "Reserveer uw capaciteit",
-    planA: "Plan A", planB: "Plan B", planC: "Plan C",
+    scaleBadge: "Managed groei",
+    scaleTitle: "Scale Engine",
+    scaleFor: "Bedrijven die meerdere doelgroepen en kanalen draaien.",
+    scaleHours: "16 uur GTM-service p/m",
+    scaleDesc: "Volledig managed GTM-machine met regie.",
+    scaleFeatures: ["3-4 doelgroepen", "Meerdere campagneflows", "Dataverrijking en lead scoring", "E-mail, LinkedIn en signalen", "CRM-sync en pipeline", "Tweewekelijkse rapportage"],
+    partnerBadge: "Enterprise",
+    partnerTitle: "Partner Engine",
+    partnerFor: "Grotere teams, partners of multi-label omgevingen.",
+    partnerHours: "Maatwerk GTM-service",
+    partnerDesc: "Multi-account, CRM-koppeling en custom reporting.",
+    partnerFeatures: ["Multi-account omgeving", "Meerdere proposities", "Sales team enablement", "HubSpot of CRM-koppeling", "Custom reporting", "Dedicated GTM-architectuur"],
+    bookCall: "Bespreek uw situatie",
     ppEyebrow: "Voor gekwalificeerde klanten",
     ppTitleA: "Performance Partnership.",
     ppTitleB: "Lage techkosten. Gedeelde upside.",
@@ -80,41 +94,56 @@ const T = {
     ppFine2a: "Wij investeren regelmatig in start-ups met een barter-constructie.",
     ppFine2link: "Bekijk de voorwaarden",
     ppFine2b: "en join onze hub.",
-    servicesEyebrow: "UW B2B GROEIPARTNER VOOR",
-    services: ["Advies", "Consultancy", "Tool integraties (AI)", "Service & Beheer"],
+    addOnsEyebrow: "OPTIONELE ADD-ONS",
+    addOnsTitle: "Bouw uw engine verder uit.",
+    addOnsSub: "Schaal capaciteit, doelgroepen en kanalen los van uw basispakket.",
     footerLine: "Wilt u weten wat dit voor uw situatie betekent?",
     ctaScan: "Boek gratis scan →",
     ctaTalk: "Boek gratis scan →",
     ctaFooter: "Boek gratis scan →",
+    compareTitle: "Vergelijk de pakketten",
+    compareSub: "Wat zit er in elke Engine?",
   },
   en: {
     eyebrow: "Commercial model",
-    headLine1: "Low threshold.",
-    headLine2: "Scalable value.",
-    headSub: "One system. Three ways to start. We think in lifetime, not in one-off projects.",
+    headLine1: "Pick the B2B Engine",
+    headLine2: "that fits your growth stage.",
+    headSub: "No one-off campaigns. A commercial machine that signals, activates and follows up new opportunities every month.",
     monthly: "Monthly",
     yearly12: "12 months",
     perMonth: "/ month",
     yearlyMeta: "12 months · 20% off",
-    monthlyMeta: "Cancel any time",
+    monthlyMeta: "Min. 3 months · monthly cancellation after",
     onRequest: "On request",
-    sprintMeta: "Build & transfer · project basis",
-    sdrMeta: "Per hour · hire as needed",
-    growthBadge: "Growth System",
-    growthTitle: "Growth System",
-    growthDesc: "We run your growth system. Signals, routing and engagement.",
-    growthFeatures: ["ICP and signal scoring", "Routing and dashboard", "Engagement and optimization", "Dedicated campaign manager"],
+    partnerMeta: "From · custom scope",
+    fromPrice: "From",
+    mostChosen: "Most chosen",
+    startBadge: "Entry",
+    startTitle: "Start Engine",
+    startFor: "Companies setting up their outbound foundation.",
+    startHours: "4 hours GTM service / month",
+    startDesc: "System live, base lists and first campaigns.",
+    startFeatures: ["1 target audience / ICP", "1 outbound campaign flow", "Base prospect list", "Email activation", "Light LinkedIn activation", "Monthly reporting"],
+    growthBadge: "Core offer",
+    growthTitle: "Growth Engine",
+    growthFor: "Companies that want structurally new opportunities.",
+    growthHours: "8 hours GTM service / month",
+    growthDesc: "Active campaigns with continuous optimization.",
+    growthFeatures: ["2 target audiences / ICPs", "2 campaign flows", "Signal-based lead lists", "Email and LinkedIn activation", "Engagement scoring", "Base CRM handling"],
     growthFootnote: "Goal: lifetime partnership.",
-    sprintBadge: "Build Sprint",
-    sprintTitle: "Sprint · 6 months",
-    sprintDesc: "We build your system in 6 months. Ideal for start-ups and scale-ups.",
-    sprintFeatures: ["Full setup and training", "Handover to your team", "Running fee for licenses after", "Optional: ongoing management"],
-    sdrBadge: "SDR Service",
-    sdrTitle: "GTM capacity per hour",
-    sdrDesc: "Extra GTM hands when you need them. No fixed fee.",
-    sdrFeatures: ["Sales development (SDR)", "Outbound and follow-up", "Hourly or daily basis", "Seamless on your system"],
-    sdrCta: "Reserve your capacity",
-    planA: "Plan A", planB: "Plan B", planC: "Plan C",
+    scaleBadge: "Managed growth",
+    scaleTitle: "Scale Engine",
+    scaleFor: "Companies running multiple audiences and channels.",
+    scaleHours: "16 hours GTM service / month",
+    scaleDesc: "Fully managed GTM machine with regie.",
+    scaleFeatures: ["3-4 target audiences", "Multiple campaign flows", "Data enrichment and lead scoring", "Email, LinkedIn and signals", "CRM sync and pipeline", "Bi-weekly reporting"],
+    partnerBadge: "Enterprise",
+    partnerTitle: "Partner Engine",
+    partnerFor: "Larger teams, partners or multi-label environments.",
+    partnerHours: "Custom GTM service",
+    partnerDesc: "Multi-account, CRM integration and custom reporting.",
+    partnerFeatures: ["Multi-account environment", "Multiple propositions", "Sales team enablement", "HubSpot or CRM integration", "Custom reporting", "Dedicated GTM architecture"],
+    bookCall: "Discuss your situation",
     ppEyebrow: "For qualified clients",
     ppTitleA: "Performance Partnership.",
     ppTitleB: "Low tech cost. Shared upside.",
@@ -131,60 +160,90 @@ const T = {
     ppFine2a: "We regularly invest in start-ups with a barter structure.",
     ppFine2link: "See the terms",
     ppFine2b: "and join our hub.",
-    servicesEyebrow: "YOUR B2B GROWTH PARTNER FOR",
-    services: ["Advisory", "Consultancy", "Tool integrations (AI)", "Service & Support"],
+    addOnsEyebrow: "OPTIONAL ADD-ONS",
+    addOnsTitle: "Extend your engine further.",
+    addOnsSub: "Scale capacity, audiences and channels separately from your base package.",
     footerLine: "Want to know what this means for your situation?",
     ctaScan: "Book free scan →",
     ctaTalk: "Book a call →",
     ctaFooter: "Book a call →",
+    compareTitle: "Compare the packages",
+    compareSub: "What's included in each Engine?",
   },
 } as const;
 
 const buildFases = (yearly: boolean, lang: Lang, currency: Currency): Fase[] => {
   const t = T[lang];
   const fmt = makeFmt(currency);
-  const monthly = PRICES[currency].monthly;
-  const yearlyPrice = Math.round(monthly * 0.8);
+  const p = PRICES[currency];
+  const yr = (n: number) => Math.round(n * 0.8);
+  const priceFor = (n: number) => yearly ? fmt(yr(n)) : fmt(n);
+  const strikeFor = (n: number) => (yearly ? fmt(n) : undefined);
   return [
   {
-    step: t.planA,
+    step: t.startBadge,
+    badge: t.startBadge,
+    title: t.startTitle,
+    price: priceFor(p.start),
+    priceSuffix: t.perMonth,
+    priceStrike: strikeFor(p.start),
+    meta: yearly ? t.yearlyMeta : t.monthlyMeta,
+    forWho: t.startFor,
+    gtmHours: t.startHours,
+    description: t.startDesc,
+    features: [...t.startFeatures],
+    ctaIntent: "gratisScan",
+    ctaLocation: "Pricing Start Engine",
+    ctaLabel: t.ctaScan,
+  },
+  {
+    step: t.mostChosen,
     badge: t.growthBadge,
     title: t.growthTitle,
-    price: yearly ? fmt(yearlyPrice) : fmt(monthly),
+    price: priceFor(p.growth),
     priceSuffix: t.perMonth,
-    priceStrike: yearly ? fmt(monthly) : undefined,
+    priceStrike: strikeFor(p.growth),
     meta: yearly ? t.yearlyMeta : t.monthlyMeta,
+    forWho: t.growthFor,
+    gtmHours: t.growthHours,
     description: t.growthDesc,
     features: [...t.growthFeatures],
     ctaIntent: "gratisScan",
-    ctaLocation: "Pricing Growth System",
+    ctaLocation: "Pricing Growth Engine",
     ctaLabel: t.ctaScan,
     highlight: true,
     footnote: t.growthFootnote,
   },
   {
-    step: t.planB,
-    badge: t.sprintBadge,
-    title: t.sprintTitle,
-    price: t.onRequest,
-    meta: t.sprintMeta,
-    description: t.sprintDesc,
-    features: [...t.sprintFeatures],
-    ctaIntent: "bespreekSituatie",
-    ctaLocation: "Pricing Sprint",
-    ctaLabel: t.ctaTalk,
+    step: t.scaleBadge,
+    badge: t.scaleBadge,
+    title: t.scaleTitle,
+    price: priceFor(p.scale),
+    priceSuffix: t.perMonth,
+    priceStrike: strikeFor(p.scale),
+    meta: yearly ? t.yearlyMeta : t.monthlyMeta,
+    forWho: t.scaleFor,
+    gtmHours: t.scaleHours,
+    description: t.scaleDesc,
+    features: [...t.scaleFeatures],
+    ctaIntent: "gratisScan",
+    ctaLocation: "Pricing Scale Engine",
+    ctaLabel: t.ctaScan,
   },
   {
-    step: t.planC,
-    badge: t.sdrBadge,
-    title: t.sdrTitle,
-    price: t.onRequest,
-    meta: t.sdrMeta,
-    description: t.sdrDesc,
-    features: [...t.sdrFeatures],
+    step: t.partnerBadge,
+    badge: t.partnerBadge,
+    title: t.partnerTitle,
+    price: `${t.fromPrice} ${fmt(p.partner)}`,
+    priceSuffix: t.perMonth,
+    meta: t.partnerMeta,
+    forWho: t.partnerFor,
+    gtmHours: t.partnerHours,
+    description: t.partnerDesc,
+    features: [...t.partnerFeatures],
     ctaIntent: "bespreekSituatie",
-    ctaLocation: "Pricing SDR",
-    ctaLabel: t.sdrCta,
+    ctaLocation: "Pricing Partner Engine",
+    ctaLabel: t.bookCall,
   },
 ];
 };
@@ -196,27 +255,34 @@ const PricingCard = ({ fase, index }: { fase: Fase; index: number }) => (
     viewport={{ once: true, margin: "-50px" }}
     transition={{ duration: 0.45, delay: index * 0.06 }}
     className={cn(
-      "relative rounded-2xl p-6 md:p-7 flex flex-col h-full border transition-colors",
+      "relative rounded-2xl p-5 md:p-6 flex flex-col h-full border transition-colors",
       fase.highlight
         ? "border-primary/40 bg-primary/5 shadow-[0_0_40px_-12px_hsl(var(--primary)/0.35)]"
         : "border-border bg-card hover:border-primary/30",
     )}
   >
-    <div className="flex items-center justify-between mb-5">
-      <span className="text-[10px] font-display font-semibold tracking-[0.2em] uppercase text-primary/80">
+    {fase.highlight && (
+      <span className="absolute -top-3 left-1/2 -translate-x-1/2 text-[10px] font-display font-semibold tracking-[0.18em] uppercase bg-primary text-primary-foreground px-3 py-1 rounded-full">
         {fase.step}
       </span>
-      <span className="text-[10px] font-display font-semibold tracking-[0.18em] uppercase text-muted-foreground">
+    )}
+    <div className="flex items-center justify-between mb-5">
+      <span className="text-[10px] font-display font-semibold tracking-[0.18em] uppercase text-primary/80">
         {fase.badge}
+      </span>
+      <span className="inline-flex items-center gap-1 text-[10px] font-display font-semibold tracking-wide uppercase text-muted-foreground">
+        <Clock className="w-3 h-3" />
+        {fase.gtmHours}
       </span>
     </div>
 
-    <h3 className="font-display font-bold text-xl leading-tight mb-3">
+    <h3 className="font-display font-bold text-xl leading-tight mb-2">
       {fase.title}
     </h3>
+    <p className="text-xs text-muted-foreground mb-4 leading-relaxed">{fase.forWho}</p>
 
     <div className="flex items-baseline gap-2 mb-1 flex-wrap">
-      <span className="font-display font-bold text-4xl md:text-5xl tracking-tight">
+      <span className="font-display font-bold text-3xl md:text-4xl tracking-tight">
         {fase.price}
       </span>
       {fase.priceSuffix && (
@@ -226,13 +292,13 @@ const PricingCard = ({ fase, index }: { fase: Fase; index: number }) => (
         <span className="text-muted-foreground/60 text-sm line-through">{fase.priceStrike}</span>
       )}
     </div>
-    <p className="text-xs text-muted-foreground mb-5">{fase.meta}</p>
+    <p className="text-[11px] text-muted-foreground mb-5">{fase.meta}</p>
 
-    <p className="text-sm text-muted-foreground leading-relaxed mb-5">
+    <p className="text-sm text-foreground/80 leading-relaxed mb-5">
       {fase.description}
     </p>
 
-    <ul className="space-y-2.5 mb-6 flex-1">
+    <ul className="space-y-2 mb-6 flex-1">
       {fase.features.map((f) => (
         <li key={f} className="flex items-start gap-2.5 text-sm">
           <span
@@ -268,32 +334,147 @@ const PricingCard = ({ fase, index }: { fase: Fase; index: number }) => (
   </motion.div>
 );
 
-const SERVICE_ICONS = [Lightbulb, Users, Plug, LifeBuoy] as const;
+const COMPARE_ROWS_NL: { label: string; values: [string, string, string, string] }[] = [
+  { label: "Doelgroepen", values: ["1", "2", "3-4", "Maatwerk"] },
+  { label: "Campagneflows", values: ["1", "2", "3+", "Maatwerk"] },
+  { label: "E-mailactivatie", values: ["Ja", "Ja", "Ja", "Multi-account"] },
+  { label: "LinkedIn-activatie", values: ["Licht", "Ja", "Ja", "Multi-account"] },
+  { label: "Dataverrijking", values: ["Basis", "Ja", "Ja + scoring", "Advanced"] },
+  { label: "Engagement scoring", values: ["Basis", "Ja", "Ja", "Advanced"] },
+  { label: "CRM-verwerking", values: ["Hand-off", "Basis sync", "Sync + pipeline", "Integraties"] },
+  { label: "Rapportage", values: ["Maandelijks", "Maandelijks", "2-wekelijks", "Maatwerk"] },
+  { label: "GTM-service", values: ["4 uur p/m", "8 uur p/m", "16 uur p/m", "Maatwerk"] },
+  { label: "Minimale looptijd", values: ["3 maanden", "3 maanden", "3 maanden", "Maatwerk"] },
+];
 
-const ServiceCards = ({ lang }: { lang: Lang }) => (
-  <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-10 md:mb-14">
-    {T[lang].services.map((title, i) => {
-      const Icon = SERVICE_ICONS[i];
-      return (
-        <motion.div
-          key={title}
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-50px" }}
-          transition={{ duration: 0.4, delay: i * 0.05 }}
-          className="rounded-xl border border-border bg-card hover:border-primary/40 transition-colors p-4 md:p-5"
-        >
-          <div className="flex items-center gap-2.5 mb-2">
-            <span className="w-8 h-8 rounded-lg bg-primary/15 text-primary flex items-center justify-center shrink-0">
-              <Icon className="w-4 h-4" />
-            </span>
-            <h4 className="font-display font-semibold text-sm tracking-wide">{title}</h4>
-          </div>
-        </motion.div>
-      );
-    })}
-  </div>
-);
+const COMPARE_ROWS_EN: { label: string; values: [string, string, string, string] }[] = [
+  { label: "Target audiences", values: ["1", "2", "3-4", "Custom"] },
+  { label: "Campaign flows", values: ["1", "2", "3+", "Custom"] },
+  { label: "Email activation", values: ["Yes", "Yes", "Yes", "Multi-account"] },
+  { label: "LinkedIn activation", values: ["Light", "Yes", "Yes", "Multi-account"] },
+  { label: "Data enrichment", values: ["Base", "Yes", "Yes + scoring", "Advanced"] },
+  { label: "Engagement scoring", values: ["Base", "Yes", "Yes", "Advanced"] },
+  { label: "CRM handling", values: ["Hand-off", "Base sync", "Sync + pipeline", "Integrations"] },
+  { label: "Reporting", values: ["Monthly", "Monthly", "Bi-weekly", "Custom"] },
+  { label: "GTM service", values: ["4 hrs / m", "8 hrs / m", "16 hrs / m", "Custom"] },
+  { label: "Min. term", values: ["3 months", "3 months", "3 months", "Custom"] },
+];
+
+const ComparisonTable = ({ lang }: { lang: Lang }) => {
+  const tt = T[lang];
+  const rows = lang === "nl" ? COMPARE_ROWS_NL : COMPARE_ROWS_EN;
+  const headers = [tt.startTitle, tt.growthTitle, tt.scaleTitle, tt.partnerTitle];
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.5 }}
+      className="mt-12 md:mt-16 rounded-2xl border border-border bg-card/40 overflow-hidden"
+    >
+      <div className="p-6 md:p-8 border-b border-border">
+        <h3 className="font-display font-bold text-xl md:text-2xl tracking-tight">{tt.compareTitle}</h3>
+        <p className="text-sm text-muted-foreground mt-1">{tt.compareSub}</p>
+      </div>
+      <div className="overflow-x-auto">
+        <table className="w-full min-w-[640px] text-sm">
+          <thead>
+            <tr className="border-b border-border bg-background/40">
+              <th className="text-left font-display font-semibold text-xs tracking-wide uppercase text-muted-foreground py-3 px-4 md:px-6">&nbsp;</th>
+              {headers.map((h, i) => (
+                <th key={h} className={cn(
+                  "text-left font-display font-semibold text-xs tracking-wide uppercase py-3 px-3 md:px-4",
+                  i === 1 ? "text-primary" : "text-foreground/80",
+                )}>
+                  {h}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((row) => (
+              <tr key={row.label} className="border-b border-border/50 last:border-0">
+                <td className="py-3 px-4 md:px-6 text-muted-foreground">{row.label}</td>
+                {row.values.map((v, i) => (
+                  <td key={i} className={cn(
+                    "py-3 px-3 md:px-4",
+                    i === 1 ? "text-primary font-medium bg-primary/5" : "text-foreground/90",
+                  )}>
+                    {v}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </motion.div>
+  );
+};
+
+const ADDONS_NL = [
+  { icon: Phone, title: "Telefonische opvolging", price: "vanaf €500 p/m", desc: "Persoonlijke opvolging via partner." },
+  { icon: Clock, title: "Extra GTM-uren", price: "€125 p/u", desc: "Strategie, campagnes en optimalisatie." },
+  { icon: Target, title: "Extra doelgroep", price: "€350 p/m", desc: "Nieuwe ICP of campagnelijn toevoegen." },
+  { icon: Linkedin, title: "Extra LinkedIn-account", price: "€250 p/m", desc: "Extra salesprofiel actief." },
+  { icon: Database, title: "HubSpot inrichting", price: "vanaf €1.500 eenmalig", desc: "Pipeline, velden en lifecycle stages." },
+  { icon: FileText, title: "Content engine", price: "vanaf €750 p/m", desc: "LinkedIn-posts, mailcopy en cases." },
+  { icon: TrendingUp, title: "Performance model", price: "maatwerk", desc: "Lage basis plus succesfee." },
+];
+
+const ADDONS_EN = [
+  { icon: Phone, title: "Phone follow-up", price: "from €500 / mo", desc: "Personal follow-up via partner." },
+  { icon: Clock, title: "Extra GTM hours", price: "€125 / hr", desc: "Strategy, campaigns and optimization." },
+  { icon: Target, title: "Extra audience", price: "€350 / mo", desc: "Add a new ICP or campaign line." },
+  { icon: Linkedin, title: "Extra LinkedIn seat", price: "€250 / mo", desc: "Additional active sales profile." },
+  { icon: Database, title: "HubSpot setup", price: "from €1,500 one-off", desc: "Pipeline, fields and lifecycle stages." },
+  { icon: FileText, title: "Content engine", price: "from €750 / mo", desc: "LinkedIn posts, email copy and cases." },
+  { icon: TrendingUp, title: "Performance model", price: "custom", desc: "Low base plus success fee." },
+];
+
+const AddOnsGrid = ({ lang }: { lang: Lang }) => {
+  const tt = T[lang];
+  const items = lang === "nl" ? ADDONS_NL : ADDONS_EN;
+  return (
+    <div className="mt-12 md:mt-16">
+      <div className="text-center mb-8">
+        <p className="text-[11px] font-display font-semibold tracking-[0.2em] uppercase text-primary/80 mb-3">
+          {tt.addOnsEyebrow}
+        </p>
+        <h3 className="font-display font-bold text-2xl md:text-3xl tracking-tight">{tt.addOnsTitle}</h3>
+        <p className="text-sm text-muted-foreground mt-2 max-w-xl mx-auto">{tt.addOnsSub}</p>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
+        {items.map((item, i) => {
+          const Icon = item.icon;
+          return (
+            <motion.div
+              key={item.title}
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.4, delay: i * 0.04 }}
+              className="rounded-xl border border-border bg-card hover:border-primary/40 transition-colors p-4 md:p-5"
+            >
+              <div className="flex items-start gap-3">
+                <span className="w-9 h-9 rounded-lg bg-primary/15 text-primary flex items-center justify-center shrink-0">
+                  <Icon className="w-4 h-4" />
+                </span>
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-baseline justify-between gap-2 mb-1">
+                    <h4 className="font-display font-semibold text-sm">{item.title}</h4>
+                  </div>
+                  <p className="text-xs text-primary/90 font-medium mb-1">{item.price}</p>
+                  <p className="text-xs text-muted-foreground leading-relaxed">{item.desc}</p>
+                </div>
+              </div>
+            </motion.div>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
 
 const PerformancePartnership = ({ lang }: { lang: Lang }) => {
   const tt = T[lang];
@@ -453,7 +634,7 @@ const PricingSection = ({ language = "nl", currency }: PricingSectionProps = {})
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6 }}
-          className="mb-12 md:mb-16 text-center max-w-2xl mx-auto"
+          className="mb-12 md:mb-16 text-center max-w-3xl mx-auto"
         >
           <p className="text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4">
             {tt.eyebrow}
@@ -472,21 +653,21 @@ const PricingSection = ({ language = "nl", currency }: PricingSectionProps = {})
         </motion.div>
 
         {/* Fase grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 items-stretch mb-10 md:mb-14">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5 items-stretch">
           {fases.map((fase, i) => (
             <PricingCard key={fase.title} fase={fase} index={i} />
           ))}
         </div>
 
-        {/* Performance Partnership */}
-        <PerformancePartnership lang={lang} />
+        {/* Comparison table */}
+        <ComparisonTable lang={lang} />
 
-        {/* Aanvullende diensten */}
-        <div className="mt-10 md:mt-14">
-          <p className="text-center text-[11px] font-display font-semibold tracking-[0.2em] uppercase text-muted-foreground mb-5">
-            {tt.servicesEyebrow}
-          </p>
-          <ServiceCards lang={lang} />
+        {/* Add-ons */}
+        <AddOnsGrid lang={lang} />
+
+        {/* Performance Partnership */}
+        <div className="mt-12 md:mt-16">
+          <PerformancePartnership lang={lang} />
         </div>
 
         {/* Bottom note */}

@@ -1,110 +1,66 @@
-# SEO Authority Agent — MVP plan
+## Pricing herstructurering: van 3 plannen naar 4 B2B Engine tiers
 
-Context-aware backlink & authority discovery engine. Geïntegreerd als nieuwe tab **Authority** in `/admin/seo`, naast bestaande Backlinks Monitor. Multi-website (jij beheert b2bgroeimachine.io plus eventuele client-domeinen). Discovery via Firecrawl search + scrape. AI scoring via Lovable AI Gateway (Gemini Flash).
+### Doel
+`src/components/PricingSection.tsx` ombouwen van het huidige "Growth System / Sprint / SDR" model naar een tier-structuur met **Start / Growth / Scale / Partner Engine**, plus add-ons en een vergelijkingstabel.
 
-## 1. Database (1 migration, 9 tabellen)
+### 1. Nieuwe tier-structuur (vervangt `buildFases`)
 
-Alle in `public`, met GRANTs naar `authenticated` + `service_role`, RLS on, policies `has_role(auth.uid(),'admin')`.
+| Tier | Prijs p/m | GTM-uren | Positie |
+|---|---|---|---|
+| **Start Engine** | €1.500 | 4u | Instap / marktvalidatie |
+| **Growth Engine** | €2.250 | 8u | Hoofdaanbod — **Meest gekozen** |
+| **Scale Engine** | €3.500 | 16u | Managed groei |
+| **Partner Engine** | vanaf €5.000 | maatwerk | Multi-account / enterprise |
 
-- `authority_websites` — naam, domein, propositie, status
-- `authority_context_profiles` — JSONB met propositie, ICP, core/secondary topics, sectors, differentiators, money_pages, recommended_pages, linkable_assets, negative_keywords, raw_summary, context_version
-- `authority_target_pages` — url, title, page_type, topic, sector, priority
-- `authority_queries` — query, cluster, intent, priority
-- `authority_runs` — run_type, status, counts, started/completed_at
-- `authority_crawled_pages` — full crawl metadata (zoals doc §10.6)
-- `authority_opportunities` — alle scoring-velden + status (zoals doc §10.7)
-- `authority_assets` — asset-ideeën met status idea→published
-- `authority_placements` — placement_url, target_url, anchors, verification
+- Minimale looptijd: **3 maanden**, daarna maandelijks opzegbaar
+- USD-equivalenten in `PRICES` bijwerken (≈ €→$ koers behouden, +10%)
+- 12-maanden toggle (−20%) blijft werken op alle 4 tiers behalve Partner (blijft "vanaf")
 
-Prefix `authority_` om naast bestaande `semrush_backlinks` te leven.
+### 2. Card-grid layout
+- Wijzig grid van `lg:grid-cols-3` naar `lg:grid-cols-4` (op md `grid-cols-2`)
+- Growth Engine krijgt `highlight: true` + "Meest gekozen" badge bovenaan
+- Partner Engine toont "vanaf €5.000" + CTA "Bespreek situatie" i.p.v. prijs
+- Korte feature-lijst per kaart (5-6 punten, B1 Dutch)
 
-## 2. Edge functions (8)
+### 3. Nieuwe vergelijkingstabel onder de kaarten
+Nieuwe component `ComparisonTable` met rijen:
+- Doelgroepen (1 / 2 / 3-4 / Maatwerk)
+- Campagneflows (1 / 2 / 3+ / Maatwerk)
+- E-mailactivatie, LinkedIn-activatie, Dataverrijking, Engagement scoring
+- CRM-verwerking, Rapportagefrequentie, GTM-service uren
+- Responsive: op mobiel als stacked accordeon of horizontal scroll
 
-Alle in `supabase/functions/`, geregistreerd in `config.toml` (`verify_jwt = true` voor admin-acties; `false` voor cron-trigger met CRON_SECRET header).
+### 4. Add-ons sectie (nieuw blok onder vergelijkingstabel)
+Vervangt huidige generieke `ServiceCards` met concrete add-ons:
+- Telefonische opvolging — vanaf €500 p/m
+- Extra GTM-uren — €125 p/u
+- Extra doelgroep — €350 p/m
+- Extra LinkedIn-account — €250 p/m
+- HubSpot inrichting — vanaf €1.500 eenmalig
+- Content engine — vanaf €750 p/m
+- Performance model — maatwerk
 
-| Function | Doel |
-|---|---|
-| `authority-analyze-context` | Crawlt homepage + 5–10 interne pagina's via Firecrawl, stuurt naar Gemini Flash met prompt §11.1, slaat profiel op |
-| `authority-generate-queries` | Neemt context, genereert 25–60 queries (prompt §11.2), inserts in `authority_queries` |
-| `authority-discover` | Loopt queries af via Firecrawl `/v2/search`, dedupes, slaat URLs op als `crawled_pages` stubs |
-| `authority-crawl-url` | Firecrawl `/v2/scrape` voor één URL → vult `crawled_pages` (title, h1/h2, text, outbound links, emails, robots) |
-| `authority-score-opportunity` | Pakt crawled page + context → Gemini prompt §11.3 → insert/update `authority_opportunities` met scoring + target match + anchor |
-| `authority-generate-outreach` | Per opportunity → Gemini prompt §11.4 → returnt subject/body (niet opgeslagen tenzij user "Save draft") |
-| `authority-verify-placement` | Firecrawl scrape placement_url, check link aanwezig + anchor + rel + statuscode + robots |
-| `authority-daily-cron` | Triggert verify van alle `placed` placements + nieuwe discovery batch (10 queries) + rescore pending. Cron via pg_cron + CRON_SECRET |
+Layout: 3-koloms grid met kleine kaartjes (titel + prijs + 1 regel uitleg).
 
-Risk filter en scoring (sectie §8.6/§8.7) draaien server-side in `authority-score-opportunity`. Negative keywords komen uit het context profile.
+### 5. Copy-aanpassingen (NL + EN)
+- **Eyebrow**: "Commercieel model" → blijft
+- **Headline**: "Lage drempel. Schaalbare waarde." → **"Kies de B2B Engine die past bij uw groeifase."**
+- **Subhead**: "Geen losse campagnes. Een commerciële machine die elke maand kansen signaleert, activeert en opvolgbaar maakt."
+- Sprint-tekst volledig weg uit `T.nl` en `T.en`
+- Alle copy volgt B1 Dutch regels: max 12 woorden/zin, u/uw, geen em-dashes
 
-## 3. Frontend
+### 6. Performance Partnership blok
+- Blijft staan onder de tiers (ongewijzigd) — past goed bij Partner Engine narrative
 
-Nieuwe tab in `src/pages/admin/AdminSeoHub.tsx`:
+### Technisch
+- Alleen wijzigingen in `src/components/PricingSection.tsx`
+- `Fase` type uitbreiden met optionele velden: `commitment?: string`, `gtmHours?: string`
+- Nieuwe sub-component `ComparisonTable` binnen hetzelfde bestand
+- Nieuwe sub-component `AddOnsGrid` vervangt `ServiceCards`
+- Geen wijziging aan props-signatuur (`language`, `currency`) → werkt automatisch op alle `/voor/:slug` client pages
+- Memory `mem://business/pricing-structure` wordt na implementatie geüpdatet naar de nieuwe 4-tier structuur
 
-```
-<TabsTrigger value="authority">Authority</TabsTrigger>
-<TabsContent value="authority"><AuthorityHub /></TabsContent>
-```
-
-Nieuwe map `src/pages/admin/authority/` met sub-router (sub-tabs i.p.v. losse routes, blijft binnen `/admin/seo?tab=authority`):
-
-- `AuthorityDashboard.tsx` — KPI-cards (websites, new/high-priority/needs-asset/ready/placed/lost), laatste run
-- `AuthorityWebsites.tsx` — lijst + "Add website" dialog (domain + name). "Run context scan" knop triggert `authority-analyze-context`
-- `AuthorityContextBrain.tsx` — toont/edits JSON-velden uit profile, "Refresh" + "Generate queries" buttons
-- `AuthorityRuns.tsx` — runs-tabel met status + counts
-- `AuthorityOpportunities.tsx` — gefilterde lijst (status/type/priority/sector), inline approve/reject, klik → detail drawer
-- `AuthorityOpportunityDetail.tsx` (drawer/sheet) — alle scoring-cijfers, reden, target/anchor suggesties, action-buttons (Approve, Reject, Generate Outreach, Mark Contacted, Mark Placed, Create Asset Task)
-- `AuthorityAssets.tsx` — assets-tabel met statussen
-- `AuthorityPlacements.tsx` — placements + "Verify Now"
-- `AuthoritySettings.tsx` — thresholds, crawl depth, max URLs/run, default negative keywords
-
-Hooks in `src/hooks/`:
-- `useAuthorityWebsites`, `useAuthorityOpportunities`, `useAuthorityRuns` — react-query wrappers rond Supabase + edge function invokes
-
-UI: shadcn componenten zoals bestaande admin (`Card`, `Table`, `Badge`, `Sheet`, `Tabs`). Status badges met semantic tokens (geen hardcoded colors). Score badges met 3 tiers (≥80 groen, 65–79 amber, <65 muted).
-
-## 4. Integraties / secrets
-
-Alles al aanwezig:
-- `FIRECRAWL_API_KEY` (connector) — search + scrape
-- `LOVABLE_API_KEY` — Gemini Flash scoring/outreach/context
-- `CRON_SECRET` — cron-trigger guard
-- `SUPABASE_SERVICE_ROLE_KEY` — edge functions
-
-Geen nieuwe secrets nodig.
-
-## 5. Cron (pg_cron)
-
-Eén dagelijkse job die `authority-daily-cron` aanroept (verify + discover-batch). Geen wekelijkse/maandelijkse jobs in MVP — die knoppen worden handmatige buttons in Settings ("Refresh context", "Regenerate queries").
-
-## 6. Veiligheidsregels
-
-- Edge functions valideren input met zod
-- Discovery cap: max 50 URLs per run, max 100 queries per website
-- Outreach wordt **nooit** verzonden — alleen tekst-output in UI
-- Risk-score ≥ 60 → automatisch `rejected`
-- Negative-keyword match → automatisch `rejected` voor scoring AI wordt aangeroepen (bespaart credits)
-
-## 7. Seed data
-
-Migration zet b2bgroeimachine.io als eerste website + voorbeeld context profile uit doc §16 zodat je direct kan testen zonder eerst de context-scan te draaien.
-
-## 8. Niet in MVP (later)
-
-- Ahrefs/Semrush CSV import (apart van bestaande Semrush-tab)
-- GSC integratie voor unlinked mentions
-- Multi-user rollen (alleen admin)
-- Bulk outreach send
-- White-label rapportage
-
-## 9. Volgorde van implementatie
-
-1. Migration met 9 tabellen + seed b2bgroeimachine context
-2. Edge functions `authority-analyze-context` + `authority-generate-queries` (basisflow)
-3. `AuthorityHub` shell + Websites + Context Brain pagina's
-4. Edge functions `authority-discover` + `authority-crawl-url` + `authority-score-opportunity`
-5. Opportunities lijst + detail drawer
-6. Outreach + Assets pagina's
-7. Placements + `authority-verify-placement`
-8. Daily cron + Settings pagina
-9. Dashboard met KPI's
-
-Na approve van dit plan: stap 1 (migration) eerst, dan ga ik de rest in 2–3 iteraties bouwen omdat het te groot is voor één edit-ronde.
+### Niet in scope (later)
+- Aparte detail-pagina per Engine-tier
+- Stripe checkout-koppeling per tier
+- Toggle voor "per uur losse capaciteit" — komt in vervolgiteratie
