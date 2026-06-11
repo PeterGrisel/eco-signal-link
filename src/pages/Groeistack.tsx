@@ -132,6 +132,9 @@ const Groeistack = () => {
             </div>
           </section>
 
+          {/* Lead Capture bovenaan de pagina */}
+          <GroeistackLeadCapture />
+
           {/* Categorieën */}
           <div className="container mx-auto px-4 md:px-6 pb-12 md:pb-20 space-y-12 md:space-y-16">
             {groeistackCategories.map((cat) => {
