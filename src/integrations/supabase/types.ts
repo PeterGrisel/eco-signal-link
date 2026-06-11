@@ -1375,6 +1375,33 @@ export type Database = {
         }
         Relationships: []
       }
+      groeistack_leads: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          name: string
+          note: string | null
+          source: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          name: string
+          note?: string | null
+          source?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          name?: string
+          note?: string | null
+          source?: string
+        }
+        Relationships: []
+      }
       groeistack_tools: {
         Row: {
           category: string
