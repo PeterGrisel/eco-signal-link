@@ -190,7 +190,6 @@ const Groeistack = () => {
             </p>
           </div>
 
-          <GroeistackLeadCapture />
           <CtaSection />
           <Footer />
         </div>
