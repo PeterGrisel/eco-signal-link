@@ -22,6 +22,7 @@ import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 import { FeatureCard } from "@/components/blocks/grid-feature-cards";
 import { usePageMeta } from "@/hooks/usePageMeta";
 import { supabase } from "@/integrations/supabase/client";
+import GroeistackLeadCapture from "@/components/GroeistackLeadCapture";
 
 interface PlaybookRow {
   slug: string;
@@ -127,6 +128,12 @@ const Playbooks = () => {
               </div>
             </div>
           </section>
+
+          <GroeistackLeadCapture
+            title="Wilt u op de hoogte blijven van alle GTM-ontwikkelingen?"
+            description="Ontvang een melding zodra wij nieuwe playbooks, scenario's en strategieën delen."
+            source="playbooks"
+          />
 
           {/* Grid */}
           <div className="container mx-auto px-4 md:px-6 pb-12 md:pb-20">
