@@ -16,6 +16,7 @@ import PageLoader from "@/components/PageLoader";
 import AmbientBackdrop from "@/components/homepage/AmbientBackdrop";
 import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 import CtaSection from "@/components/CtaSection";
+import GroeistackLeadCapture from "@/components/GroeistackLeadCapture";
 import { usePageMeta } from "@/hooks/usePageMeta";
 import { supabase } from "@/integrations/supabase/client";
 import {
@@ -189,6 +190,7 @@ const Groeistack = () => {
             </p>
           </div>
 
+          <GroeistackLeadCapture />
           <CtaSection />
           <Footer />
         </div>
