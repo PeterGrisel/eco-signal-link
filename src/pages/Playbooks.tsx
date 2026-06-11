@@ -82,10 +82,10 @@ const Playbooks = () => {
           />
           <Navbar />
 
-          {/* Hero */}
+          {/* Hero met kern-playbooks geïntegreerd */}
           <section className="relative pt-32 md:pt-40 pb-12 md:pb-16">
-            <div className="container mx-auto px-4 md:px-6 max-w-3xl text-center">
-              <div>
+            <div className="container mx-auto px-4 md:px-6">
+              <div className="max-w-3xl mx-auto text-center mb-10 md:mb-14">
                 <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/30 bg-primary/10 mb-6">
                   <BookOpenCheck className="w-3.5 h-3.5 text-primary" />
                   <span className="text-primary font-display font-semibold text-xs tracking-[0.2em] uppercase">
@@ -101,46 +101,44 @@ const Playbooks = () => {
                   Groeistack en onze methode. Elke dag een nieuwe.
                 </p>
               </div>
-            </div>
-          </section>
 
-          {/* Kern-playbooks — compacte index, andere look dan de grid */}
-          <section className="container mx-auto px-4 md:px-6 pb-12 md:pb-16">
-            <div className="max-w-5xl mx-auto rounded-2xl border border-border/60 bg-card/20 backdrop-blur-sm overflow-hidden">
-              <div className="flex items-center justify-between gap-4 px-5 md:px-6 py-4 border-b border-border/60 bg-card/30">
-                <p className="text-[11px] font-display font-semibold tracking-[0.22em] uppercase text-primary/80">
-                  Kern-playbooks uit het systeem
-                </p>
-                <span className="text-xs text-muted-foreground tabular-nums">
-                  {CORE_PLAYBOOKS.length} stromen
-                </span>
+              {/* Kern-playbooks — compacte index in de hero */}
+              <div className="max-w-5xl mx-auto rounded-2xl border border-border/60 bg-card/20 backdrop-blur-sm overflow-hidden">
+                <div className="flex items-center justify-between gap-4 px-5 md:px-6 py-4 border-b border-border/60 bg-card/30">
+                  <p className="text-[11px] font-display font-semibold tracking-[0.22em] uppercase text-primary/80">
+                    Kern-playbooks uit het systeem
+                  </p>
+                  <span className="text-xs text-muted-foreground tabular-nums">
+                    {CORE_PLAYBOOKS.length} stromen
+                  </span>
+                </div>
+                <ul className="divide-y divide-border/40">
+                  {CORE_PLAYBOOKS.map((pb) => (
+                    <li key={pb.title}>
+                      <Link
+                        to="/playbooks"
+                        className="group flex items-center gap-4 px-5 md:px-6 py-3.5 hover:bg-card/40 transition-colors"
+                      >
+                        <span className="shrink-0 w-9 h-9 rounded-lg border border-border/60 bg-background/40 flex items-center justify-center text-primary/90 group-hover:border-primary/50 group-hover:text-primary transition-colors">
+                          <pb.icon className="w-4 h-4" />
+                        </span>
+                        <span className="hidden sm:inline-block w-28 shrink-0 text-[10px] font-display font-semibold tracking-[0.18em] uppercase text-primary/70">
+                          {pb.phase}
+                        </span>
+                        <span className="flex-1 min-w-0">
+                          <span className="block font-display font-semibold text-sm md:text-base text-foreground leading-tight">
+                            {pb.title}
+                          </span>
+                          <span className="block text-xs md:text-sm text-muted-foreground leading-snug truncate">
+                            {pb.description}
+                          </span>
+                        </span>
+                        <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all shrink-0" />
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
               </div>
-              <ul className="divide-y divide-border/40">
-                {CORE_PLAYBOOKS.map((pb) => (
-                  <li key={pb.title}>
-                    <Link
-                      to="/playbooks"
-                      className="group flex items-center gap-4 px-5 md:px-6 py-3.5 hover:bg-card/40 transition-colors"
-                    >
-                      <span className="shrink-0 w-9 h-9 rounded-lg border border-border/60 bg-background/40 flex items-center justify-center text-primary/90 group-hover:border-primary/50 group-hover:text-primary transition-colors">
-                        <pb.icon className="w-4 h-4" />
-                      </span>
-                      <span className="hidden sm:inline-block w-28 shrink-0 text-[10px] font-display font-semibold tracking-[0.18em] uppercase text-primary/70">
-                        {pb.phase}
-                      </span>
-                      <span className="flex-1 min-w-0">
-                        <span className="block font-display font-semibold text-sm md:text-base text-foreground leading-tight">
-                          {pb.title}
-                        </span>
-                        <span className="block text-xs md:text-sm text-muted-foreground leading-snug truncate">
-                          {pb.description}
-                        </span>
-                      </span>
-                      <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all shrink-0" />
-                    </Link>
-                  </li>
-                ))}
-              </ul>
             </div>
           </section>
 
