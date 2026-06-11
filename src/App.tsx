@@ -187,7 +187,7 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <CurrencyProvider>
       <TooltipProvider>
-        <BrowserRouter>
+        <BrowserRouter basename={typeof window !== "undefined" && /^\/en(\/|$)/.test(window.location.pathname) ? "/en" : undefined}>
           <Toaster />
           <Sonner />
           <TrackingScriptInjector />
