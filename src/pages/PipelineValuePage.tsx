@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import PageLoader from "@/components/PageLoader";
 import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 import PipelineValueCalculator from "@/components/pipeline/PipelineValueCalculator";
+import GroeistackLeadCapture from "@/components/GroeistackLeadCapture";
 
 const PipelineValuePage = () => {
   return (
@@ -34,6 +35,12 @@ const PipelineValuePage = () => {
             </motion.div>
           </div>
         </section>
+
+        <GroeistackLeadCapture
+          title="Wilt u op de hoogte blijven van alle GTM-ontwikkelingen?"
+          description="Ontvang een melding zodra wij nieuwe tools, rekenmodellen en calculators lanceren."
+          source="calculators"
+        />
 
         <section className="pb-24">
           <div className="container mx-auto px-4 max-w-6xl">

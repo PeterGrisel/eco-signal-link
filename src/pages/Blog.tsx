@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import { usePageMeta } from "@/hooks/usePageMeta";
 import { format } from "date-fns";
 import { nl } from "date-fns/locale";
+import GroeistackLeadCapture from "@/components/GroeistackLeadCapture";
 
 interface BlogPost {
   id: string;
@@ -59,6 +60,12 @@ const Blog = () => {
           <p className="text-muted-foreground text-lg mb-10 max-w-2xl">
             Inzichten over B2B sales, prospecting en groeistrategieën.
           </p>
+
+          <GroeistackLeadCapture
+            title="Wilt u op de hoogte blijven van alle GTM-ontwikkelingen?"
+            description="Ontvang een melding zodra wij nieuwe blogartikelen, tools en playbooks delen."
+            source="blog"
+          />
 
           {/* Category filter */}
           {categories.length > 0 && (

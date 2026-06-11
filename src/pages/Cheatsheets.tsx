@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import CheatsheetTrainingCta from "@/components/cheatsheet/CheatsheetTrainingCta";
 import { FileText, ArrowRight, ThumbsUp, Star } from "lucide-react";
 import { trackCTA } from "@/lib/tracking";
+import GroeistackLeadCapture from "@/components/GroeistackLeadCapture";
 
 type Level = "Beginner" | "Gevorderd" | "Expert";
 
@@ -142,6 +143,12 @@ const Cheatsheets = () => {
           <p className="text-muted-foreground text-lg mb-8 max-w-2xl">
             Praktische quick-start guides. Kopieer de prompts, volg de stappen en ga direct live.
           </p>
+
+          <GroeistackLeadCapture
+            title="Wilt u op de hoogte blijven van alle GTM-ontwikkelingen?"
+            description="Ontvang een melding zodra wij nieuwe cheatsheets, templates en guides delen."
+            source="cheatsheets"
+          />
 
           {/* Training upsell */}
           <div className="mb-10">

@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import PageLoader from "@/components/PageLoader";
 import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 import FunnelCalculatorSection from "@/components/FunnelCalculatorSection";
+import GroeistackLeadCapture from "@/components/GroeistackLeadCapture";
 
 const FunnelCalculatorPage = () => {
   return (
@@ -34,6 +35,12 @@ const FunnelCalculatorPage = () => {
             </motion.div>
           </div>
         </section>
+
+        <GroeistackLeadCapture
+          title="Wilt u op de hoogte blijven van alle GTM-ontwikkelingen?"
+          description="Ontvang een melding zodra wij nieuwe tools, rekenmodellen en calculators lanceren."
+          source="calculators"
+        />
 
         <FunnelCalculatorSection />
 

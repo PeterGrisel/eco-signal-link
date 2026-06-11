@@ -18,7 +18,17 @@ const schema = z.object({
   }),
 });
 
-const GroeistackLeadCapture = () => {
+interface GroeistackLeadCaptureProps {
+  title?: string;
+  description?: string;
+  source?: string;
+}
+
+const GroeistackLeadCapture = ({
+  title = "Wilt u op de hoogte blijven van alle GTM-ontwikkelingen?",
+  description = "Ontvang een melding zodra wij nieuwe tools, playbooks en inzichten delen.",
+  source = "groeistack",
+}: GroeistackLeadCaptureProps) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [consent, setConsent] = useState(false);
@@ -42,7 +52,7 @@ const GroeistackLeadCapture = () => {
     const { error } = await sb.from("groeistack_leads").insert({
       name: parsed.data.name,
       email: parsed.data.email,
-      source: "groeistack",
+      source: source,
     });
     setLoading(false);
     if (error) {
@@ -56,7 +66,7 @@ const GroeistackLeadCapture = () => {
     setDone(true);
     toast({
       title: "Bedankt!",
-      description: "U ontvangt updates zodra er nieuwe tools beschikbaar komen.",
+      description: "U staat op de lijst en ontvangt onze updates.",
     });
   };
 
@@ -73,11 +83,10 @@ const GroeistackLeadCapture = () => {
           <Bell className="w-5 h-5 text-primary" strokeWidth={1.6} />
         </span>
         <h2 className="font-display font-bold text-2xl md:text-3xl tracking-tight mb-3">
-          Blijf op de hoogte van nieuwe tools
+          {title}
         </h2>
         <p className="text-muted-foreground mb-6">
-          Wij testen continu nieuwe AI- en GTM-tools. Ontvang een mail zodra wij
-          een nieuwe tool aan de Groeistack toevoegen.
+          {description}
         </p>
 
         {done ? (
@@ -131,7 +140,7 @@ const GroeistackLeadCapture = () => {
                 htmlFor="consent"
                 className="text-xs text-muted-foreground leading-normal cursor-pointer select-none"
               >
-                Ik geef toestemming om mijn gegevens te verwerken en mij op de hoogte te houden van nieuwe GTM- en AI-tools. Uw gegevens worden verwerkt conform onze{" "}
+                Ik geef toestemming om mijn gegevens te verwerken en mij op de hoogte te houden van nieuwe GTM- en AI-ontwikkelingen. Uw gegevens worden verwerkt conform onze{" "}
                 <Link to="/privacy" className="text-primary hover:underline" target="_blank">
                   Privacy Policy
                 </Link>
