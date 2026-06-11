@@ -102,42 +102,28 @@ const Playbooks = () => {
                 </p>
               </div>
 
-              {/* Kern-playbooks — compacte index in de hero */}
-              <div className="max-w-5xl mx-auto rounded-2xl border border-border/60 bg-card/20 backdrop-blur-sm overflow-hidden">
-                <div className="flex items-center justify-between gap-4 px-5 md:px-6 py-4 border-b border-border/60 bg-card/30">
-                  <p className="text-[11px] font-display font-semibold tracking-[0.22em] uppercase text-primary/80">
-                    Kern-playbooks uit het systeem
-                  </p>
-                  <span className="text-xs text-muted-foreground tabular-nums">
-                    {CORE_PLAYBOOKS.length} stromen
-                  </span>
-                </div>
-                <ul className="divide-y divide-border/40">
-                  {CORE_PLAYBOOKS.map((pb) => (
-                    <li key={pb.title}>
-                      <Link
-                        to="/playbooks"
-                        className="group flex items-center gap-4 px-5 md:px-6 py-3.5 hover:bg-card/40 transition-colors"
-                      >
-                        <span className="shrink-0 w-9 h-9 rounded-lg border border-border/60 bg-background/40 flex items-center justify-center text-primary/90 group-hover:border-primary/50 group-hover:text-primary transition-colors">
-                          <pb.icon className="w-4 h-4" />
-                        </span>
-                        <span className="hidden sm:inline-block w-28 shrink-0 text-[10px] font-display font-semibold tracking-[0.18em] uppercase text-primary/70">
-                          {pb.phase}
-                        </span>
-                        <span className="flex-1 min-w-0">
-                          <span className="block font-display font-semibold text-sm md:text-base text-foreground leading-tight">
-                            {pb.title}
-                          </span>
-                          <span className="block text-xs md:text-sm text-muted-foreground leading-snug truncate">
-                            {pb.description}
-                          </span>
-                        </span>
-                        <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all shrink-0" />
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
+              {/* Kern-playbooks — bento 4x2 tiles */}
+              <div className="max-w-6xl mx-auto w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-border/40 border border-border/60 rounded-2xl overflow-hidden shadow-2xl">
+                {CORE_PLAYBOOKS.map((pb) => (
+                  <Link
+                    key={pb.title}
+                    to="/playbooks"
+                    className="group bg-card/40 hover:bg-card/70 backdrop-blur-sm p-6 md:p-8 transition-colors flex flex-col"
+                  >
+                    <div className="flex items-center justify-between mb-6">
+                      <pb.icon className="w-6 h-6 text-primary/80 group-hover:text-primary transition-colors" />
+                      <span className="text-[10px] font-display font-bold uppercase tracking-[0.22em] text-primary/60 group-hover:text-primary transition-colors">
+                        {pb.phase}
+                      </span>
+                    </div>
+                    <h3 className="font-display font-semibold text-lg text-foreground/90 mb-2 group-hover:text-foreground transition-colors">
+                      {pb.title}
+                    </h3>
+                    <p className="text-sm text-muted-foreground leading-snug">
+                      {pb.description}
+                    </p>
+                  </Link>
+                ))}
               </div>
             </div>
           </section>
