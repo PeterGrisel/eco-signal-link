@@ -56,6 +56,23 @@ const LogoCircle = ({ name, url }: { name: string; url: string }) => {
 const Hero = () => {
   return (
     <section className="relative min-h-screen flex flex-col overflow-hidden">
+      {/* Spline 3D achtergrond */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <iframe
+          src="https://my.spline.design/boxeshover-g8dfBTivcdXuOFsC7f8TeVWr/"
+          title="3D hero scene"
+          frameBorder={0}
+          loading="lazy"
+          className="absolute inset-0 w-full h-full pointer-events-auto"
+          allow="autoplay; fullscreen"
+        />
+        {/* Leesbaarheidslagen */}
+        <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/40 to-background pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background/60 via-transparent to-background/60 pointer-events-none" />
+        {/* Spline-watermerk afdekken (rechtsonder) */}
+        <div className="absolute bottom-3 right-3 w-44 h-12 bg-background rounded-md pointer-events-auto" />
+      </div>
+
       <div className="container mx-auto px-4 md:px-6 relative z-10 flex-1 flex flex-col">
         {/* Hoofdcontent, verticaal gecentreerd */}
         <div className="flex-1 flex flex-col justify-center text-center pt-28 md:pt-32 pb-10">
