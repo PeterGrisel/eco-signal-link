@@ -439,127 +439,85 @@ const ComparisonTable = ({ lang }: { lang: Lang }) => {
   );
 };
 
-const BOOSTS_NL = [
-  {
-    icon: Rocket,
-    title: "GTM Boost",
-    price: "vanaf €575 p/m",
-    desc: "Extra commerciële capaciteit voor strategie, campagnes en optimalisatie.",
-    items: [
-      "5 extra GTM-service uren per maand",
-      "Campagne-optimalisatie",
-      "Propositie-aanscherping",
-      "Nieuwe berichtvarianten",
-      "Analyse van campagnes en conversie",
-    ],
-    footer: "Losse uitbreiding: €125 per extra GTM-uur.",
-  },
-  {
-    icon: Target,
-    title: "Reach Boost",
-    price: "vanaf €750 p/m",
-    desc: "Activeer extra doelgroepen, campagneflows en LinkedIn-accounts.",
-    items: [
-      "Extra doelgroep / ICP",
-      "Extra campagneflow",
-      "Extra LinkedIn-account",
-      "Extra datalijst en verrijking",
-      "Extra engagementlaag",
-    ],
-    footer: "Staffel: €500 / €750 / €950 p/m.",
-  },
-  {
-    icon: Database,
-    title: "CRM Boost",
-    price: "HubSpot/Pipedrive vanaf €2.500",
-    desc: "Richt uw commerciële opvolging goed in met pipelines, velden, stages en rapportage.",
-    items: [
-      "Pipeline-inrichting",
-      "Deal stages en leadstatussen",
-      "Velden en segmentatie",
-      "Basisautomatisering",
-      "Dashboard en rapportage",
-    ],
-    footer: "Optioneel beheer: vanaf €500 p/m.",
-  },
-  {
-    icon: FileText,
-    title: "Content Boost",
-    price: "vanaf €950 p/m",
-    desc: "Vergroot engagement met LinkedIn-content, mailcopy, nurture en klantcases.",
-    items: [
-      "LinkedIn-posts",
-      "Campagnecopy en e-mailvarianten",
-      "Klantcases",
-      "Nurture-content",
-      "Content op basis van signalen",
-    ],
-    footer: "Staffel: Lite €750 / Boost €950 / Engine vanaf €1.500 p/m.",
-  },
-];
+const buildBoosts = (lang: Lang, fmt: (eur: number) => string) => {
+  const pm = lang === "nl" ? " p/m" : " / mo";
+  const from = lang === "nl" ? "vanaf " : "from ";
+  if (lang === "nl") {
+    return [
+      {
+        icon: Rocket,
+        title: "GTM Boost",
+        price: `${from}${fmt(575)}${pm}`,
+        desc: "Extra commerciële capaciteit voor strategie, campagnes en optimalisatie.",
+        items: ["5 extra GTM-service uren per maand", "Campagne-optimalisatie", "Propositie-aanscherping", "Nieuwe berichtvarianten", "Analyse van campagnes en conversie"],
+        footer: `Losse uitbreiding: ${fmt(125)} per extra GTM-uur.`,
+      },
+      {
+        icon: Target,
+        title: "Reach Boost",
+        price: `${from}${fmt(750)}${pm}`,
+        desc: "Activeer extra doelgroepen, campagneflows en LinkedIn-accounts.",
+        items: ["Extra doelgroep / ICP", "Extra campagneflow", "Extra LinkedIn-account", "Extra datalijst en verrijking", "Extra engagementlaag"],
+        footer: `Staffel: ${fmt(500)} / ${fmt(750)} / ${fmt(950)} p/m.`,
+      },
+      {
+        icon: Database,
+        title: "CRM Boost",
+        price: `HubSpot/Pipedrive ${from}${fmt(2500)}`,
+        desc: "Richt uw commerciële opvolging goed in met pipelines, velden, stages en rapportage.",
+        items: ["Pipeline-inrichting", "Deal stages en leadstatussen", "Velden en segmentatie", "Basisautomatisering", "Dashboard en rapportage"],
+        footer: `Optioneel beheer: ${from}${fmt(500)}${pm}.`,
+      },
+      {
+        icon: FileText,
+        title: "Content Boost",
+        price: `${from}${fmt(950)}${pm}`,
+        desc: "Vergroot engagement met LinkedIn-content, mailcopy, nurture en klantcases.",
+        items: ["LinkedIn-posts", "Campagnecopy en e-mailvarianten", "Klantcases", "Nurture-content", "Content op basis van signalen"],
+        footer: `Staffel: Lite ${fmt(750)} / Boost ${fmt(950)} / Engine ${from}${fmt(1500)}${pm}.`,
+      },
+    ];
+  }
+  return [
+    {
+      icon: Rocket,
+      title: "GTM Boost",
+      price: `${from}${fmt(575)}${pm}`,
+      desc: "Extra commercial capacity for strategy, campaigns and optimization.",
+      items: ["5 extra GTM service hours per month", "Campaign optimization", "Proposition sharpening", "New message variants", "Campaign and conversion analysis"],
+      footer: `Add-on: ${fmt(125)} per extra GTM hour.`,
+    },
+    {
+      icon: Target,
+      title: "Reach Boost",
+      price: `${from}${fmt(750)}${pm}`,
+      desc: "Activate extra audiences, campaign flows and LinkedIn seats.",
+      items: ["Extra audience / ICP", "Extra campaign flow", "Extra LinkedIn seat", "Extra data list and enrichment", "Extra engagement layer"],
+      footer: `Tiered: ${fmt(500)} / ${fmt(750)} / ${fmt(950)} / mo.`,
+    },
+    {
+      icon: Database,
+      title: "CRM Boost",
+      price: `HubSpot/Pipedrive ${from}${fmt(2500)}`,
+      desc: "Set up commercial follow-up properly with pipelines, fields, stages and reporting.",
+      items: ["Pipeline setup", "Deal stages and lead statuses", "Fields and segmentation", "Base automation", "Dashboard and reporting"],
+      footer: `Optional management: ${from}${fmt(500)}${pm}.`,
+    },
+    {
+      icon: FileText,
+      title: "Content Boost",
+      price: `${from}${fmt(950)}${pm}`,
+      desc: "Grow engagement with LinkedIn content, email copy, nurture and customer cases.",
+      items: ["LinkedIn posts", "Campaign and email copy", "Customer cases", "Nurture content", "Signal-based content"],
+      footer: `Tiered: Lite ${fmt(750)} / Boost ${fmt(950)} / Engine ${from}${fmt(1500)}${pm}.`,
+    },
+  ];
+};
 
-const BOOSTS_EN = [
-  {
-    icon: Rocket,
-    title: "GTM Boost",
-    price: "from €575 / mo",
-    desc: "Extra commercial capacity for strategy, campaigns and optimization.",
-    items: [
-      "5 extra GTM service hours per month",
-      "Campaign optimization",
-      "Proposition sharpening",
-      "New message variants",
-      "Campaign and conversion analysis",
-    ],
-    footer: "Add-on: €125 per extra GTM hour.",
-  },
-  {
-    icon: Target,
-    title: "Reach Boost",
-    price: "from €750 / mo",
-    desc: "Activate extra audiences, campaign flows and LinkedIn seats.",
-    items: [
-      "Extra audience / ICP",
-      "Extra campaign flow",
-      "Extra LinkedIn seat",
-      "Extra data list and enrichment",
-      "Extra engagement layer",
-    ],
-    footer: "Tiered: €500 / €750 / €950 / mo.",
-  },
-  {
-    icon: Database,
-    title: "CRM Boost",
-    price: "HubSpot/Pipedrive from €2,500",
-    desc: "Set up commercial follow-up properly with pipelines, fields, stages and reporting.",
-    items: [
-      "Pipeline setup",
-      "Deal stages and lead statuses",
-      "Fields and segmentation",
-      "Base automation",
-      "Dashboard and reporting",
-    ],
-    footer: "Optional management: from €500 / mo.",
-  },
-  {
-    icon: FileText,
-    title: "Content Boost",
-    price: "from €950 / mo",
-    desc: "Grow engagement with LinkedIn content, email copy, nurture and customer cases.",
-    items: [
-      "LinkedIn posts",
-      "Campaign and email copy",
-      "Customer cases",
-      "Nurture content",
-      "Signal-based content",
-    ],
-    footer: "Tiered: Lite €750 / Boost €950 / Engine from €1,500 / mo.",
-  },
-];
-
-const BoostsGrid = ({ lang }: { lang: Lang }) => {
+const BoostsGrid = ({ lang, currency, rate }: { lang: Lang; currency: Currency; rate: number }) => {
   const tt = T[lang];
-  const items = lang === "nl" ? BOOSTS_NL : BOOSTS_EN;
+  const fmt = makeFmt(currency, rate);
+  const items = buildBoosts(lang, fmt);
   return (
     <div className="mt-12 md:mt-16">
       <div className="text-center mb-8 max-w-2xl mx-auto">
@@ -643,8 +601,10 @@ const CallBoostSection = ({ lang }: { lang: Lang }) => {
   );
 };
 
-const PerformancePartnership = ({ lang }: { lang: Lang }) => {
+const PerformancePartnership = ({ lang, currency, rate }: { lang: Lang; currency: Currency; rate: number }) => {
   const tt = T[lang];
+  const fmt = makeFmt(currency, rate);
+  const ppTechValue = `${fmt(500)} — ${fmt(1000)}`;
   return (
   <motion.div
     initial={{ opacity: 0, y: 16 }}
@@ -693,7 +653,7 @@ const PerformancePartnership = ({ lang }: { lang: Lang }) => {
             {tt.ppTechLabel}
           </p>
           <div className="flex items-baseline gap-1 mb-1">
-            <span className="font-display font-bold text-3xl tracking-tight">{tt.ppTechValue}</span>
+            <span className="font-display font-bold text-3xl tracking-tight">{ppTechValue}</span>
           </div>
           <p className="text-xs text-muted-foreground">{tt.ppTechSuffix}</p>
         </div>
@@ -833,14 +793,14 @@ const PricingSection = ({ language = "nl", currency }: PricingSectionProps = {})
         <ComparisonTable lang={lang} />
 
         {/* Boost packages */}
-        <BoostsGrid lang={lang} />
+        <BoostsGrid lang={lang} currency={cur} rate={rate} />
 
         {/* Call Boost */}
         <CallBoostSection lang={lang} />
 
         {/* Performance Partnership */}
         <div className="mt-12 md:mt-16">
-          <PerformancePartnership lang={lang} />
+          <PerformancePartnership lang={lang} currency={cur} rate={rate} />
         </div>
 
         {/* Bottom note */}

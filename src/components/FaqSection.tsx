@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { motion } from "framer-motion";
+import { useCurrency } from "@/contexts/CurrencyContext";
 import {
   Accordion,
   AccordionContent,
@@ -7,7 +8,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
-const faqs = [
+const buildFaqs = (fmt: (eur: number) => string) => [
   {
     q: "Wat is een gratis scan?",
     a: "Een korte analyse van uw sales- en serviceproces. Wij brengen in kaart wat handmatig loopt, waar signalen blijven liggen en welke stappen het meeste opleveren als we ze automatiseren. U krijgt een concrete kaart binnen 5 werkdagen.",
@@ -26,7 +27,7 @@ const faqs = [
   },
   {
     q: "Wat kost het?",
-    a: "Vier B2B Engine-tiers: Start (€1.500), Growth (€2.250), Scale (€3.500) en Partner (vanaf €5.000) per maand. Minimum 3 maanden, daarna maandelijks opzegbaar. Boost-pakketten voor extra capaciteit, bereik, CRM of content.",
+    a: `Vier B2B Engine-tiers: Start (${fmt(1500)}), Growth (${fmt(2250)}), Scale (${fmt(3500)}) en Partner (vanaf ${fmt(5000)}) per maand. Minimum 3 maanden, daarna maandelijks opzegbaar. Boost-pakketten voor extra capaciteit, bereik, CRM of content.`,
   },
   {
     q: "Zit ik vast aan jullie tools?",
@@ -35,6 +36,8 @@ const faqs = [
 ];
 
 const FaqSection = () => {
+  const { format } = useCurrency();
+  const faqs = buildFaqs((eur) => format(eur, { maximumFractionDigits: 0 }));
   useEffect(() => {
     const id = "faq-jsonld";
     let script = document.getElementById(id) as HTMLScriptElement | null;
@@ -56,7 +59,7 @@ const FaqSection = () => {
     return () => {
       script?.remove();
     };
-  }, []);
+  }, [faqs]);
 
   return (
     <section id="faq" className="py-16 md:py-24 pb-32 md:pb-24 border-t border-border">
