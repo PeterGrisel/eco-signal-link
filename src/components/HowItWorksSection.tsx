@@ -1,14 +1,11 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
-  Target,
-  Send,
   PhoneCall,
   ArrowRight,
   BookOpenCheck,
   Eye,
   MessageSquare,
-  ClipboardCheck,
 } from "lucide-react";
 
 const STEPS = [
@@ -17,6 +14,7 @@ const STEPS = [
     title: "Awareness",
     subtitle: "Van onbekende markt naar dynamische targetlijsten.",
     icon: Eye,
+    colSpan: 2 as const,
     summary:
       "We starten met het zichtbaar maken van relevante accounts, prospects en bestaande klantkansen. Niet op basis van statische lijsten, maar op basis van data, signalen en commerciële context.",
     doen: [
