@@ -28,6 +28,58 @@ const BOT_AGENTS = [
 
 const STATIC_EXTENSIONS = /\.(js|css|png|jpg|jpeg|gif|svg|ico|woff2?|ttf|eot|map|webp|avif|json)$/i;
 
+// Supported language prefixes for Weglot subdirectory routing.
+// /en/* and /en  -> origin path stripped, English version served.
+// All other paths default to Dutch (no prefix).
+const LANG_PREFIXES = ['en'];
+
+function parseLangPrefix(pathname) {
+  const match = pathname.match(/^\/([a-z]{2})(\/.*)?$/);
+  if (match && LANG_PREFIXES.includes(match[1])) {
+    return { lang: match[1], rest: match[2] || '/' };
+  }
+  return null;
+}
+
+// HTMLRewriter handler: injects window.__WG_LANG + hreflang + canonical for translated subpaths.
+class LangInjector {
+  constructor(lang, pathWithoutPrefix) {
+    this.lang = lang;
+    this.path = pathWithoutPrefix;
+    this.injectedHead = false;
+    this.replacedCanonical = false;
+  }
+  element(element) {
+    if (element.tagName === 'head' && !this.injectedHead) {
+      this.injectedHead = true;
+      const base = 'https://b2bgroeimachine.io';
+      element.prepend(
+        `<script>window.__WG_LANG=${JSON.stringify(this.lang)};</script>` +
+        `<link rel="alternate" hreflang="nl" href="${base}${this.path}">` +
+        `<link rel="alternate" hreflang="en" href="${base}/${this.lang}${this.path === '/' ? '' : this.path}">` +
+        `<link rel="alternate" hreflang="x-default" href="${base}${this.path}">`,
+        { html: true }
+      );
+    }
+    if (element.tagName === 'link' && element.getAttribute('rel') === 'canonical' && !this.replacedCanonical) {
+      this.replacedCanonical = true;
+      const base = 'https://b2bgroeimachine.io';
+      element.setAttribute('href', `${base}/${this.lang}${this.path === '/' ? '' : this.path}`);
+    }
+    if (element.tagName === 'html') {
+      element.setAttribute('lang', this.lang);
+    }
+  }
+}
+
+function rewriteForLang(response, lang, pathWithoutPrefix) {
+  return new HTMLRewriter()
+    .on('head', new LangInjector(lang, pathWithoutPrefix))
+    .on('link[rel="canonical"]', new LangInjector(lang, pathWithoutPrefix))
+    .on('html', new LangInjector(lang, pathWithoutPrefix))
+    .transform(response);
+}
+
 // 301 redirects for removed routes -> most relevant live page
 const REDIRECTS_301 = {
   '/datahub': '/pipeline-equation',
@@ -121,10 +173,21 @@ export default {
     const url = new URL(request.url);
     const userAgent = request.headers.get('user-agent') || '';
 
+    // 0-pre. Language subdirectory handling (Weglot subdirectory mode)
+    // /en/foo -> origin /foo + injected EN language + SEO tags.
+    const langInfo = parseLangPrefix(url.pathname);
+    let activeLang = null;
+    let internalPath = url.pathname;
+    if (langInfo) {
+      activeLang = langInfo.lang;
+      internalPath = langInfo.rest;
+    }
+
     // 0a. Permanent redirects for removed routes
-    const redirectTarget = REDIRECTS_301[url.pathname];
+    const redirectTarget = REDIRECTS_301[internalPath];
     if (redirectTarget) {
-      return Response.redirect(`https://b2bgroeimachine.io${redirectTarget}`, 301);
+      const prefix = activeLang ? `/${activeLang}` : '';
+      return Response.redirect(`https://b2bgroeimachine.io${prefix}${redirectTarget}`, 301);
     }
 
     // 0. Proxy /sitemap.xml to dynamic Edge Function
@@ -175,7 +238,13 @@ export default {
 
     // 2. Normal users -> Lovable origin
     if (!isBot(userAgent)) {
-      return fetch(toOrigin(request, url));
+      const originUrl = new URL(url.toString());
+      originUrl.pathname = internalPath;
+      const originResp = await fetch(toOrigin(request, originUrl));
+      if (!activeLang) return originResp;
+      const ct = originResp.headers.get('content-type') || '';
+      if (!ct.includes('text/html')) return originResp;
+      return rewriteForLang(originResp, activeLang, internalPath);
     }
 
     // 3. Bot path: check Worker cache first
@@ -202,7 +271,7 @@ export default {
     let prerenderResponse;
     try {
       prerenderResponse = await fetchPrerendered(
-        url.pathname,
+        internalPath,
         userAgent,
         env.SUPABASE_ANON_KEY,
         env.PRERENDER_SECRET ?? null
@@ -223,7 +292,7 @@ export default {
       return botFallback(url.pathname);
     }
 
-    const response = new Response(html, {
+    let response = new Response(html, {
       status: 200,
       headers: {
         'Content-Type': 'text/html; charset=utf-8',
@@ -231,6 +300,10 @@ export default {
         'Cache-Control': `public, max-age=${CACHE_TTL_WORKER}, s-maxage=${CACHE_TTL_EDGE}`,
       },
     });
+
+    if (activeLang) {
+      response = rewriteForLang(response, activeLang, internalPath);
+    }
 
     // 5. Store in Worker cache without blocking the response
     ctx.waitUntil(cache.put(cacheKey, response.clone()));
