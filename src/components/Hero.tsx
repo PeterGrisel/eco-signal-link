@@ -93,7 +93,7 @@ const Hero = () => {
             transition={{ duration: 0.6, ease, delay: 0.12 }}
             className="text-muted-foreground text-lg md:text-2xl max-w-4xl mx-auto mb-10 leading-relaxed"
           >
-            Veel B2B-bedrijven willen groeien. Maar het bestaande team komt niet toe aan structurele acquisitie en opvolging. Wij bouwen en draaien de commerciële engine die nieuwe kansen signaleert, activeert en opvolgbaar maakt.
+            GTM services combining AI workflows with human expertise
           </motion.p>
 
           {/* CTA's */}
