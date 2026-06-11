@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useCurrency } from "@/contexts/CurrencyContext";
+import { CurrencySwitcher } from "@/components/CurrencySwitcher";
 import { motion } from "framer-motion";
 import { Check, Minus, Handshake, Infinity as InfinityIcon, Phone, Clock, Target, Database, FileText, Rocket } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -25,17 +27,35 @@ type Fase = {
 };
 
 type Lang = "nl" | "en";
-type Currency = "EUR" | "USD";
+type Currency = "EUR" | "USD" | "GBP";
 
-const PRICES: Record<Currency, { start: number; growth: number; scale: number; partner: number; locale: string; symbol: string }> = {
-  EUR: { start: 1500, growth: 2250, scale: 3500, partner: 5000, locale: "nl-NL", symbol: "€" },
-  USD: { start: 1650, growth: 2500, scale: 3850, partner: 5500, locale: "en-US", symbol: "$" },
+// Base prices in EUR. Other currencies are derived from live FX rates passed in via context.
+const BASE_PRICES_EUR = { start: 1500, growth: 2250, scale: 3500, partner: 5000 } as const;
+
+const CURRENCY_META: Record<Currency, { locale: string; symbol: string }> = {
+  EUR: { locale: "nl-NL", symbol: "€" },
+  USD: { locale: "en-US", symbol: "$" },
+  GBP: { locale: "en-GB", symbol: "£" },
 };
 
-const makeFmt = (currency: Currency) => {
-  const { locale, symbol } = PRICES[currency];
-  return (n: number) => `${symbol}${n.toLocaleString(locale)}`;
+/** Round to a "nice" price — nearest 50 below 5000, nearest 100 above. */
+function nicePrice(n: number): number {
+  if (n >= 5000) return Math.round(n / 100) * 100;
+  return Math.round(n / 50) * 50;
+}
+
+const makeFmt = (currency: Currency, rate: number) => {
+  const { locale, symbol } = CURRENCY_META[currency];
+  return (eurAmount: number) => `${symbol}${nicePrice(eurAmount * rate).toLocaleString(locale)}`;
 };
+
+const makePrices = (currency: Currency, rate: number) => ({
+  start: nicePrice(BASE_PRICES_EUR.start * rate),
+  growth: nicePrice(BASE_PRICES_EUR.growth * rate),
+  scale: nicePrice(BASE_PRICES_EUR.scale * rate),
+  partner: nicePrice(BASE_PRICES_EUR.partner * rate),
+  ...CURRENCY_META[currency],
+});
 
 const T = {
   nl: {
@@ -180,13 +200,13 @@ const T = {
   },
 } as const;
 
-const buildFases = (yearly: boolean, lang: Lang, currency: Currency): Fase[] => {
+const buildFases = (yearly: boolean, lang: Lang, currency: Currency, rate: number): Fase[] => {
   const t = T[lang];
-  const fmt = makeFmt(currency);
-  const p = PRICES[currency];
-  const yr = (n: number) => Math.round(n * 0.8);
-  const priceFor = (n: number) => yearly ? fmt(yr(n)) : fmt(n);
-  const strikeFor = (n: number) => (yearly ? fmt(n) : undefined);
+  const fmt = makeFmt(currency, rate);
+  const p = BASE_PRICES_EUR;
+  const yr = (eur: number) => eur * 0.8;
+  const priceFor = (eur: number) => (yearly ? fmt(yr(eur)) : fmt(eur));
+  const strikeFor = (eur: number) => (yearly ? fmt(eur) : undefined);
   return [
   {
     step: t.startBadge,
@@ -766,9 +786,11 @@ interface PricingSectionProps {
 
 const PricingSection = ({ language = "nl", currency }: PricingSectionProps = {}) => {
   const [yearly, setYearly] = useState(false);
+  const { currency: ctxCurrency, rates } = useCurrency();
   const lang: Lang = language;
-  const cur: Currency = currency ?? (lang === "en" ? "USD" : "EUR");
-  const fases = buildFases(yearly, lang, cur);
+  const cur: Currency = currency ?? (ctxCurrency as Currency);
+  const rate = rates[cur] ?? 1;
+  const fases = buildFases(yearly, lang, cur, rate);
   const tt = T[lang];
 
   return (
@@ -794,8 +816,9 @@ const PricingSection = ({ language = "nl", currency }: PricingSectionProps = {})
           <p className="text-muted-foreground mt-4 text-lg leading-relaxed">
             {tt.headSub}
           </p>
-          <div className="mt-8 flex justify-center">
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
             <BillingToggle yearly={yearly} onChange={setYearly} lang={lang} />
+            <CurrencySwitcher variant="inline" />
           </div>
         </motion.div>
 

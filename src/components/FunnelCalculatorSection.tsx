@@ -3,9 +3,9 @@ import { motion } from "framer-motion";
 import { Calculator, ArrowDown, TrendingUp, Target, BarChart3, Info } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import type { FunnelDefaults } from "@/data/sectors";
+import { useCurrency } from "@/contexts/CurrencyContext";
+import { CurrencySwitcher } from "@/components/CurrencySwitcher";
 
-const fmt = (n: number) => n >= 1000 ? `€${n.toLocaleString("nl-NL", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : `€${n.toFixed(2)}`;
-const fmtN = (n: number) => Math.round(n).toLocaleString("nl-NL");
 const fmtPct = (n: number) => `${n.toFixed(2)}%`;
 
 const tooltips: Record<string, string> = {
@@ -60,6 +60,13 @@ const InfoTip = ({ label }: { label: string }) => {
 
 const FunnelCalculatorSection = ({ defaults }: { defaults?: FunnelDefaults }) => {
   const d = defaults || { monthlyRevenue: 83333, expenseRate: 30, marketingRate: 5, avgDealSize: 7000, optInRate: 3, optInToSqlRate: 19.76, sqlToCallRate: 60, salesConversionRate: 30, ltv: 12 };
+
+  const { symbol, locale } = useCurrency();
+  const fmt = (n: number) =>
+    n >= 1000
+      ? `${symbol}${n.toLocaleString(locale, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+      : `${symbol}${n.toFixed(2)}`;
+  const fmtN = (n: number) => Math.round(n).toLocaleString(locale);
 
   const [monthlyRevenue, setMonthlyRevenue] = useState(d.monthlyRevenue);
   const [expenseRate, setExpenseRate] = useState(d.expenseRate);
@@ -154,6 +161,10 @@ const FunnelCalculatorSection = ({ defaults }: { defaults?: FunnelDefaults }) =>
             Stel uw maandomzet en ratio's in. Wij berekenen de volledige funnel, kosten, 
             CAC en meer — zodat u weet wat er nodig is. Klik op de <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-muted align-middle"><Info className="w-2.5 h-2.5 text-muted-foreground" /></span> icoontjes voor uitleg.
           </p>
+          <div className="mt-5 flex items-center gap-3">
+            <span className="text-xs uppercase tracking-[0.18em] text-muted-foreground font-display">Valuta</span>
+            <CurrencySwitcher variant="inline" />
+          </div>
         </motion.div>
 
         <div className="grid lg:grid-cols-2 gap-10 items-start">

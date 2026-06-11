@@ -32,6 +32,7 @@ import { MenuToggleIcon } from "@/components/ui/menu-toggle-icon";
 import { trackCTA } from "@/lib/tracking";
 import { cn } from "@/lib/utils";
 import { WeglotLanguageToggle } from "@/components/WeglotLanguageToggle";
+import { CurrencySwitcher } from "@/components/CurrencySwitcher";
 
 type LinkItem = {
   title: string;
@@ -224,6 +225,7 @@ const Navbar = () => {
         </NavigationMenu>
 
         <div className="hidden md:flex items-center gap-2">
+          <CurrencySwitcher />
           <WeglotLanguageToggle />
           <a
             href="tel:+493075675721"
@@ -237,6 +239,7 @@ const Navbar = () => {
         </div>
 
         <div className="md:hidden flex items-center gap-2">
+          <CurrencySwitcher />
           <WeglotLanguageToggle />
           <button
           type="button"
