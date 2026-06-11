@@ -25,17 +25,35 @@ type Fase = {
 };
 
 type Lang = "nl" | "en";
-type Currency = "EUR" | "USD";
+type Currency = "EUR" | "USD" | "GBP";
 
-const PRICES: Record<Currency, { start: number; growth: number; scale: number; partner: number; locale: string; symbol: string }> = {
-  EUR: { start: 1500, growth: 2250, scale: 3500, partner: 5000, locale: "nl-NL", symbol: "€" },
-  USD: { start: 1650, growth: 2500, scale: 3850, partner: 5500, locale: "en-US", symbol: "$" },
+// Base prices in EUR. Other currencies are derived from live FX rates passed in via context.
+const BASE_PRICES_EUR = { start: 1500, growth: 2250, scale: 3500, partner: 5000 } as const;
+
+const CURRENCY_META: Record<Currency, { locale: string; symbol: string }> = {
+  EUR: { locale: "nl-NL", symbol: "€" },
+  USD: { locale: "en-US", symbol: "$" },
+  GBP: { locale: "en-GB", symbol: "£" },
 };
 
-const makeFmt = (currency: Currency) => {
-  const { locale, symbol } = PRICES[currency];
-  return (n: number) => `${symbol}${n.toLocaleString(locale)}`;
+/** Round to a "nice" price — nearest 50 below 5000, nearest 100 above. */
+function nicePrice(n: number): number {
+  if (n >= 5000) return Math.round(n / 100) * 100;
+  return Math.round(n / 50) * 50;
+}
+
+const makeFmt = (currency: Currency, rate: number) => {
+  const { locale, symbol } = CURRENCY_META[currency];
+  return (eurAmount: number) => `${symbol}${nicePrice(eurAmount * rate).toLocaleString(locale)}`;
 };
+
+const makePrices = (currency: Currency, rate: number) => ({
+  start: nicePrice(BASE_PRICES_EUR.start * rate),
+  growth: nicePrice(BASE_PRICES_EUR.growth * rate),
+  scale: nicePrice(BASE_PRICES_EUR.scale * rate),
+  partner: nicePrice(BASE_PRICES_EUR.partner * rate),
+  ...CURRENCY_META[currency],
+});
 
 const T = {
   nl: {
