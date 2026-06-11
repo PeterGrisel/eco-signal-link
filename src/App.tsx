@@ -15,6 +15,7 @@ import SolutionPage from "./pages/SolutionPage.tsx";
 import HoeHetWerkt from "./pages/HoeHetWerkt.tsx";
 import Groeistack from "./pages/Groeistack.tsx";
 import AdminGroeistack from "./pages/admin/AdminGroeistack.tsx";
+import AdminGroeistackLeads from "./pages/admin/AdminGroeistackLeads.tsx";
 import Playbooks from "./pages/Playbooks.tsx";
 import PlaybookPost from "./pages/PlaybookPost.tsx";
 import AdminPlaybooks from "./pages/admin/AdminPlaybooks.tsx";
