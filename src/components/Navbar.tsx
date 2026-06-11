@@ -31,6 +31,7 @@ import { MenuToggleIcon } from "@/components/ui/menu-toggle-icon";
 
 import { trackCTA } from "@/lib/tracking";
 import { cn } from "@/lib/utils";
+import { WeglotLanguageToggle } from "@/components/WeglotLanguageToggle";
 
 type LinkItem = {
   title: string;
@@ -223,6 +224,7 @@ const Navbar = () => {
         </NavigationMenu>
 
         <div className="hidden md:flex items-center gap-2">
+          <WeglotLanguageToggle />
           <a
             href="tel:+493075675721"
             className={ctaClasses}
@@ -234,16 +236,19 @@ const Navbar = () => {
           </a>
         </div>
 
-        <button
+        <div className="md:hidden flex items-center gap-2">
+          <WeglotLanguageToggle />
+          <button
           type="button"
           onClick={() => setOpen(!open)}
-          className="md:hidden p-2 text-foreground"
+          className="p-2 text-foreground"
           aria-expanded={open}
           aria-controls="mobile-menu"
           aria-label="Menu openen"
         >
           <MenuToggleIcon open={open} className="h-7 w-7" />
-        </button>
+          </button>
+        </div>
       </div>
 
       <MobileMenu open={open}>

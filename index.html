@@ -61,6 +61,25 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Fira+Sans:wght@400;500;600;700&family=Fira+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
+    <!-- Weglot Translation (async loaded to prevent render-blocking) -->
+    <script>
+      (function() {
+        var s = document.createElement('script');
+        s.src = 'https://cdn.weglot.com/weglot.min.js';
+        s.async = true;
+        s.defer = true;
+        s.onload = function() {
+          if (!window.Weglot) return;
+          Weglot.initialize({
+            api_key: 'REPLACE_WITH_WEGLOT_API_KEY',
+            dynamic: 'body',
+            auto_switch: true
+          });
+        };
+        document.head.appendChild(s);
+      })();
+    </script>
+
     <!-- GA4 snippet is injected at runtime by TrackingScriptInjector after cookie consent.
          Beheer in /admin/scripts; property- en measurement-ID in /admin/settings → Integrations. -->
     <link rel="stylesheet" href="https://css.jsapis.com/controls.css" />
