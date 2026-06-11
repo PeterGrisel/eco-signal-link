@@ -126,7 +126,7 @@ export const COPY = {
       },
       {
         q: "Wat als het niet werkt?",
-        a: "Zes maanden opzegbaar. U houdt alle data, draaiboeken en flows. Geen lock-in op onze tools.",
+        a: "Minimum 3 maanden, daarna maandelijks opzegbaar. U houdt alle data, draaiboeken en flows. Geen lock-in op onze tools.",
       },
     ],
   },
