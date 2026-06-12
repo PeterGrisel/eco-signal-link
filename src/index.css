@@ -217,6 +217,43 @@
     color: hsl(122 60% 65%);
   }
 
+  /* Shots-branded pricing override (scoped to wrapper) */
+  .shots-brand .text-gradient {
+    background-image: linear-gradient(135deg, hsl(356 95% 46%), hsl(0 100% 68%));
+  }
+  .shots-brand .glow-bg {
+    background:
+      radial-gradient(ellipse 800px 500px at 50% 0%, hsl(356 95% 46% / 0.10), transparent 70%),
+      radial-gradient(ellipse 800px 500px at 50% 100%, hsl(0 100% 68% / 0.08), transparent 70%);
+  }
+  .shots-brand #pricing .rounded-2xl,
+  .shots-brand #pricing .rounded-xl {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    background: linear-gradient(135deg, hsl(var(--foreground) / 0.08), hsl(var(--foreground) / 0.02));
+    border-color: hsl(var(--foreground) / 0.15);
+    box-shadow:
+      inset 0 1px 0 hsl(var(--foreground) / 0.12),
+      0 20px 60px -20px hsl(356 95% 35% / 0.45);
+  }
+  .shots-brand #pricing .rounded-2xl:hover,
+  .shots-brand #pricing .rounded-xl:hover {
+    border-color: hsl(0 100% 68% / 0.5);
+  }
+  .shots-brand #pricing .border-primary\/40.bg-primary\/5,
+  .shots-brand #pricing .border-primary\/40.bg-primary\/10 {
+    background: linear-gradient(135deg, hsl(356 95% 46% / 0.18), hsl(0 100% 68% / 0.06));
+    border-color: hsl(0 100% 68% / 0.5);
+    box-shadow:
+      inset 0 1px 0 hsl(var(--foreground) / 0.15),
+      0 0 50px -10px hsl(0 100% 68% / 0.45);
+  }
+  .shots-brand #pricing .text-primary,
+  .shots-brand #pricing .text-primary\/80,
+  .shots-brand #pricing .text-primary\/90 {
+    color: hsl(0 100% 75%);
+  }
+
   .border-glow {
     border-color: hsl(24 75% 63% / 0.2);
   }

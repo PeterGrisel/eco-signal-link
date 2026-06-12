@@ -50,6 +50,7 @@ import AdminAbmPages from "./pages/admin/AdminAbmPages.tsx";
 import ClientPage from "./pages/ClientPage.tsx";
 import HegoPage from "./pages/HegoPage.tsx";
 import SealEcoPage from "./pages/SealEcoPage.tsx";
+import ShotsPage from "./pages/ShotsPage.tsx";
 import SignalCheatsheet from "./pages/SignalCheatsheet.tsx";
 import LinkedInOutreach from "./pages/LinkedInOutreach.tsx";
 import HubSpotPipeline from "./pages/HubSpotPipeline.tsx";
@@ -157,6 +158,7 @@ const AnimatedRoutes = () => {
           <Route path="/admin/abm" element={<AdminAbmPages />} />
           <Route path="/voor/hego" element={<HegoPage />} />
           <Route path="/voor/sealeco" element={<SealEcoPage />} />
+          <Route path="/voor/shots" element={<ShotsPage />} />
           <Route path="/voor/:slug" element={<ClientPage />} />
           <Route path="/admin/blog/new" element={<AdminBlogEditor />} />
           <Route path="/admin/blog/edit/:id" element={<AdminBlogEditor />} />
