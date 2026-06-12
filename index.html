@@ -74,20 +74,23 @@
           if (!window.Weglot) return;
           Weglot.initialize({
             api_key: 'wg_3da90dbc1a8d5951ec0ddba41250ae4e3',
-            auto_switch: !window.__WG_LANG,
+            auto_switch: false,
             languages: [{ language: 'en' }]
           });
           if (window.__WG_LANG && window.__WG_LANG !== 'nl') {
-            Weglot.on && Weglot.on('initialized', function () {
-              try { Weglot.switchTo(window.__WG_LANG); } catch (e) {}
-            });
-            setTimeout(function () {
+            var target = window.__WG_LANG;
+            var tryswitch = function () {
               try {
-                if (Weglot.getCurrentLang && Weglot.getCurrentLang() !== window.__WG_LANG) {
-                  Weglot.switchTo(window.__WG_LANG);
+                if (Weglot.getCurrentLang && Weglot.getCurrentLang() !== target) {
+                  Weglot.switchTo(target);
                 }
               } catch (e) {}
-            }, 500);
+            };
+            Weglot.on && Weglot.on('initialized', tryswitch);
+            // Retry several times so React-rendered DOM gets translated
+            [200, 600, 1200, 2000, 3500, 5000].forEach(function (d) {
+              setTimeout(tryswitch, d);
+            });
           }
         };
         document.head.appendChild(s);
