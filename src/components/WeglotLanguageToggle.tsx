@@ -24,17 +24,27 @@ const FLAGS: Record<string, { emoji: string; label: string }> = {
 
 const ORDER: Array<"nl" | "en"> = ["nl", "en"];
 
+function getUrlLang(): "nl" | "en" {
+  if (typeof window === "undefined") return "nl";
+  return window.location.pathname === "/en" || window.location.pathname.startsWith("/en/") ? "en" : "nl";
+}
+
 export function WeglotLanguageToggle() {
-  const [lang, setLang] = useState("nl");
+  const [lang, setLang] = useState<"nl" | "en">(getUrlLang());
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
     const check = () => {
       if (window.Weglot) {
-        setLang(window.Weglot.getCurrentLang());
+        const urlLang = getUrlLang();
+        const weglotLang = window.Weglot.getCurrentLang() as "nl" | "en";
+        setLang(urlLang);
         setReady(true);
+        if (weglotLang !== urlLang) {
+          try { window.Weglot.switchTo(urlLang); } catch {}
+        }
         window.Weglot.on("languageChanged", (newLang: string) => {
-          setLang(newLang);
+          if (newLang === "nl" || newLang === "en") setLang(newLang);
         });
       }
     };
