@@ -38,7 +38,7 @@ const loadWeglotScript = () =>
 
 const switchWeglotTo = (target: SupportedLang, force = false) => {
   const Weglot = getWeglot();
-  if (!Weglot?.switchTo) return;
+  if (!Weglot?.switchTo || !Weglot.initialized) return;
 
   try {
     const current = Weglot.getCurrentLang?.();
@@ -67,7 +67,6 @@ const initializeOrSyncWeglot = (target: SupportedLang) => {
       auto_switch: false,
       cache: true,
       hide_switcher: true,
-      languages: [{ language: "en" }],
       wait_transition: true,
     });
   }
