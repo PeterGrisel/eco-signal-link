@@ -57,15 +57,18 @@ const initializeOrSyncWeglot = (target: SupportedLang) => {
   const Weglot = getWeglot();
   if (!Weglot) return;
 
-  document.documentElement.lang = target;
   (window as any).__WG_LANG = target;
 
   if (!Weglot.initialized && Weglot.initialize) {
     Weglot.on?.("initialized", () => switchWeglotTo(target, target === "en"));
+    Weglot.on?.("languageChanged", (newLang: SupportedLang) => {
+      if (newLang === "nl" || newLang === "en") document.documentElement.lang = newLang;
+    });
     Weglot.initialize({
       api_key: WEGLOT_API_KEY,
       auto_switch: false,
       cache: true,
+      dynamics: [{ value: "#root" }],
       hide_switcher: true,
       wait_transition: true,
     });
@@ -82,7 +85,6 @@ const WeglotLoader = () => {
   useEffect(() => {
     let cancelled = false;
     const target = getUrlLanguage();
-    document.documentElement.lang = target;
     (window as any).__WG_LANG = target;
 
     loadWeglotScript()
