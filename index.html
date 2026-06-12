@@ -61,42 +61,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Fira+Sans:wght@400;500;600;700&family=Fira+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
-    <!-- Weglot Translation (async loaded to prevent render-blocking) -->
-    <script>
-      (function() {
-        var pathLang = window.location.pathname === '/en' || window.location.pathname.indexOf('/en/') === 0 ? 'en' : null;
-        window.__WG_LANG = window.__WG_LANG || pathLang;
-        var s = document.createElement('script');
-        s.src = 'https://cdn.weglot.com/weglot.min.js';
-        s.async = true;
-        s.defer = true;
-        s.onload = function() {
-          if (!window.Weglot) return;
-          Weglot.initialize({
-            api_key: 'wg_3da90dbc1a8d5951ec0ddba41250ae4e3',
-            auto_switch: false,
-            languages: [{ language: 'en' }]
-          });
-          if (window.__WG_LANG && window.__WG_LANG !== 'nl') {
-            var target = window.__WG_LANG;
-            var tryswitch = function () {
-              try {
-                if (Weglot.getCurrentLang && Weglot.getCurrentLang() !== target) {
-                  Weglot.switchTo(target);
-                }
-              } catch (e) {}
-            };
-            Weglot.on && Weglot.on('initialized', tryswitch);
-            // Retry several times so React-rendered DOM gets translated
-            [200, 600, 1200, 2000, 3500, 5000].forEach(function (d) {
-              setTimeout(tryswitch, d);
-            });
-          }
-        };
-        document.head.appendChild(s);
-      })();
-    </script>
-
     <!-- GA4 snippet is injected at runtime by TrackingScriptInjector after cookie consent.
          Beheer in /admin/scripts; property- en measurement-ID in /admin/settings → Integrations. -->
     <link rel="stylesheet" href="https://css.jsapis.com/controls.css" />

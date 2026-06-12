@@ -71,6 +71,7 @@ import TrackingScriptInjector from "./components/TrackingScriptInjector";
 import CookieConsent from "./components/CookieConsent";
 import { BookingModalHost } from "./components/booking/GlobalBookingModal";
 import LeftDock from "./components/LeftDock";
+import WeglotLoader from "./components/WeglotLoader";
 
 const queryClient = new QueryClient();
 
@@ -190,6 +191,7 @@ const App = () => (
     <CurrencyProvider>
       <TooltipProvider>
         <BrowserRouter basename={typeof window !== "undefined" && /^\/en(\/|$)/.test(window.location.pathname) ? "/en" : undefined}>
+          <WeglotLoader />
           <Toaster />
           <Sonner />
           <TrackingScriptInjector />
