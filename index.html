@@ -64,6 +64,8 @@
     <!-- Weglot Translation (async loaded to prevent render-blocking) -->
     <script>
       (function() {
+        var pathLang = window.location.pathname === '/en' || window.location.pathname.indexOf('/en/') === 0 ? 'en' : null;
+        window.__WG_LANG = window.__WG_LANG || pathLang;
         var s = document.createElement('script');
         s.src = 'https://cdn.weglot.com/weglot.min.js';
         s.async = true;
@@ -79,6 +81,13 @@
             Weglot.on && Weglot.on('initialized', function () {
               try { Weglot.switchTo(window.__WG_LANG); } catch (e) {}
             });
+            setTimeout(function () {
+              try {
+                if (Weglot.getCurrentLang && Weglot.getCurrentLang() !== window.__WG_LANG) {
+                  Weglot.switchTo(window.__WG_LANG);
+                }
+              } catch (e) {}
+            }, 500);
           }
         };
         document.head.appendChild(s);
