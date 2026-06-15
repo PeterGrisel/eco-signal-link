@@ -3,7 +3,8 @@ import { motion } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Search, ExternalLink, Linkedin, BadgeCheck, Users, Sparkles, Globe } from "lucide-react";
+import { Search, ExternalLink, Linkedin, BadgeCheck, Users, Sparkles, Globe, Shield, Check } from "lucide-react";
+import { openBookingModal } from "@/components/booking/GlobalBookingModal";
 
 interface Partner {
   id: string;
