@@ -742,9 +742,10 @@ const BillingToggle = ({
 interface PricingSectionProps {
   language?: Lang;
   currency?: Currency;
+  showPerformancePartnership?: boolean;
 }
 
-const PricingSection = ({ language = "nl", currency }: PricingSectionProps = {}) => {
+const PricingSection = ({ language = "nl", currency, showPerformancePartnership = true }: PricingSectionProps = {}) => {
   const [yearly, setYearly] = useState(false);
   const { currency: ctxCurrency, rates } = useCurrency();
   const lang: Lang = language;
@@ -799,9 +800,11 @@ const PricingSection = ({ language = "nl", currency }: PricingSectionProps = {})
         <CallBoostSection lang={lang} />
 
         {/* Performance Partnership */}
-        <div className="mt-12 md:mt-16">
-          <PerformancePartnership lang={lang} currency={cur} rate={rate} />
-        </div>
+        {showPerformancePartnership && (
+          <div className="mt-12 md:mt-16">
+            <PerformancePartnership lang={lang} currency={cur} rate={rate} />
+          </div>
+        )}
 
         {/* Bottom note */}
         <motion.div

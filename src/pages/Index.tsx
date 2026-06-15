@@ -72,7 +72,7 @@ const Index = () => {
       <GroeistackSection />
       <Chapter11Bewegingen />
       <CaseStudiesSection />
-      <PricingSection />
+      <PricingSection showPerformancePartnership={false} />
       <FaqSection />
       <CtaSection />
       <Footer />
