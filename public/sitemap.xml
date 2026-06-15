@@ -271,6 +271,24 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://b2bgroeimachine.io/blog/b2b-partnerschappen-pipeline-passief-vullen</loc>
+    <lastmod>2026-06-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://b2bgroeimachine.io/blog/b2b-sales-automation-groothandel-strategisch-optimaliseren</loc>
+    <lastmod>2026-06-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://b2bgroeimachine.io/blog/marketing-maakindustrie-groei-strategie-niche-markten</loc>
+    <lastmod>2026-06-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://b2bgroeimachine.io/blog/voorspelbare-kandidaten-instroom-signaalgebaseerde-recruitment</loc>
     <lastmod>2026-06-12</lastmod>
     <changefreq>weekly</changefreq>
@@ -439,56 +457,26 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://b2bgroeimachine.io/blog/customer-lifetime-value-b2b-calculator-werkelijke-waarde-klantrelaties</loc>
-    <lastmod>2026-05-05</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://b2bgroeimachine.io/blog/customer-lifetime-value-b2b-calculator</loc>
-    <lastmod>2026-05-05</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://b2bgroeimachine.io/blog/geautomatiseerde-outreach-b2b-grens-efficientie-spam</loc>
-    <lastmod>2026-05-04</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://b2bgroeimachine.io/blog/geautomatiseerde-outreach-b2b-efficientie-vs-spam</loc>
-    <lastmod>2026-05-04</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://b2bgroeimachine.io/blog/waarom-klantloyaliteit-b2b-start-bij-de-onboarding-5-strategieen</loc>
-    <lastmod>2026-05-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://b2bgroeimachine.io/blog/voorspelbaar-recruitment-b2b-talent-aantrekken</loc>
-    <lastmod>2026-04-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://b2bgroeimachine.io/blog/voorspelbaar-recruitment-b2b-precisie-klantacquisitie</loc>
-    <lastmod>2026-04-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://b2bgroeimachine.io/blog/b2b-lead-scoring-model-configurator-kwalificatie-criteria</loc>
-    <lastmod>2026-04-29</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://b2bgroeimachine.io/blog/data-gedreven-groeistrategie-zonder-data-analist</loc>
     <lastmod>2026-04-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://b2bgroeimachine.io/playbooks/playbook-pipeline-voorspellen-rekenmodel</loc>
+    <lastmod>2026-06-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://b2bgroeimachine.io/playbooks/playbook-leasemaatschappijen-structurele-new-business</loc>
+    <lastmod>2026-06-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://b2bgroeimachine.io/playbooks/rekenmodel-naar-rendement-voorspelbare-pijplijn</loc>
+    <lastmod>2026-06-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -545,6 +533,24 @@
     <lastmod>2026-05-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://b2bgroeimachine.io/woordenboek/revenue-blueprint</loc>
+    <lastmod>2026-06-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://b2bgroeimachine.io/woordenboek/revenue-predictability-engine</loc>
+    <lastmod>2026-06-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://b2bgroeimachine.io/woordenboek/groeistrategie-canvas</loc>
+    <lastmod>2026-06-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://b2bgroeimachine.io/woordenboek/revenue-operations-blueprint</loc>
