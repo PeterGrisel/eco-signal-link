@@ -447,10 +447,10 @@ const buildBoosts = (lang: Lang, fmt: (eur: number) => string) => {
       {
         icon: Rocket,
         title: "GTM Boost",
-        price: `${from}${fmt(575)}${pm}`,
+        price: `${from}${fmt(600)}${pm}`,
         desc: "Extra commerciële capaciteit voor strategie, campagnes en optimalisatie.",
-        items: ["5 extra GTM-service uren per maand", "Campagne-optimalisatie", "Propositie-aanscherping", "Nieuwe berichtvarianten", "Analyse van campagnes en conversie"],
-        footer: `Losse uitbreiding: ${fmt(125)} per extra GTM-uur.`,
+        items: ["6 extra GTM-service uren per maand", "Campagne-optimalisatie", "Propositie-aanscherping", "Nieuwe berichtvarianten", "Analyse van campagnes en conversie"],
+        footer: `Losse uitbreiding: ${fmt(100)} per extra GTM-uur.`,
       },
       {
         icon: Target,
@@ -482,10 +482,10 @@ const buildBoosts = (lang: Lang, fmt: (eur: number) => string) => {
     {
       icon: Rocket,
       title: "GTM Boost",
-      price: `${from}${fmt(575)}${pm}`,
+      price: `${from}${fmt(600)}${pm}`,
       desc: "Extra commercial capacity for strategy, campaigns and optimization.",
-      items: ["5 extra GTM service hours per month", "Campaign optimization", "Proposition sharpening", "New message variants", "Campaign and conversion analysis"],
-      footer: `Add-on: ${fmt(125)} per extra GTM hour.`,
+      items: ["6 extra GTM service hours per month", "Campaign optimization", "Proposition sharpening", "New message variants", "Campaign and conversion analysis"],
+      footer: `Add-on: ${fmt(100)} per extra GTM hour.`,
     },
     {
       icon: Target,
