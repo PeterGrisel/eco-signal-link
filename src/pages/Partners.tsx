@@ -233,8 +233,6 @@ const Partners = () => {
             </div>
           )}
 
-          )}
-
           {/* Performance Partnership Section */}
           <div className="mt-16 mb-24">
             <div className="relative p-6 md:p-8 lg:p-10 rounded-2xl border border-primary/15 bg-gradient-to-b from-[#14151A] to-[#0D0E11] overflow-hidden">
