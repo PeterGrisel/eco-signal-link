@@ -3,7 +3,8 @@ import { motion } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Search, ExternalLink, Linkedin, BadgeCheck, Users, Sparkles, Globe } from "lucide-react";
+import { Search, ExternalLink, Linkedin, BadgeCheck, Users, Sparkles, Globe, Shield, Check } from "lucide-react";
+import { openBookingModal } from "@/components/booking/GlobalBookingModal";
 
 interface Partner {
   id: string;
@@ -231,6 +232,129 @@ const Partners = () => {
               )}
             </div>
           )}
+
+          {/* Performance Partnership Section */}
+          <div className="mt-16 mb-24">
+            <div className="relative p-6 md:p-8 lg:p-10 rounded-2xl border border-primary/15 bg-gradient-to-b from-[#14151A] to-[#0D0E11] overflow-hidden">
+              {/* Background dot grid pattern to match the image precisely */}
+              <div 
+                className="absolute inset-0 opacity-[0.03] pointer-events-none" 
+                style={{
+                  backgroundImage: `radial-gradient(circle, currentColor 1px, transparent 1px)`,
+                  backgroundSize: '16px 1px',
+                }}
+              />
+              <div 
+                className="absolute inset-0 opacity-[0.02] pointer-events-none" 
+                style={{
+                  backgroundImage: `radial-gradient(circle, currentColor 1px, transparent 1px)`,
+                  backgroundSize: '1px 16px',
+                }}
+              />
+
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 relative z-10">
+                {/* Left column: Proposition and requirements */}
+                <div className="lg:col-span-7 flex flex-col justify-center">
+                  <div className="flex items-center gap-2 mb-4">
+                    <Shield className="w-4 h-4 text-primary shrink-0" />
+                    <span className="text-[10px] md:text-xs font-semibold uppercase tracking-[0.15em] text-primary">
+                      Voor gekwalificeerde klanten
+                    </span>
+                  </div>
+                  
+                  <h2 className="font-display text-2xl md:text-3xl lg:text-4xl font-bold mb-2 tracking-tight">
+                    Performance Partnership.
+                  </h2>
+                  <p className="font-display text-lg md:text-xl font-medium text-primary mb-6">
+                    Lage techkosten. Gedeelde upside.
+                  </p>
+                  
+                  <p className="text-muted-foreground text-sm md:text-base leading-relaxed mb-8 max-w-xl">
+                    Voor wie al omzet draait, maar het systeem mist. Wij bouwen en draaien de groeimachine. U deelt mee in de upside die het systeem oplevert.
+                  </p>
+
+                  <div>
+                    <h4 className="text-[10px] md:text-xs font-bold uppercase tracking-[0.1em] text-primary/70 mb-4">
+                      Toelating
+                    </h4>
+                    <ul className="grid sm:grid-cols-2 gap-x-6 gap-y-3">
+                      {[
+                        "Bewezen B2B-propositie met klanten",
+                        "Gezonde marges en dealwaarde",
+                        "Transparante CRM- en salesdata",
+                        "Heldere attributie-afspraken vooraf"
+                      ].map((req, index) => (
+                        <li key={index} className="flex items-start gap-2.5 text-xs md:text-sm">
+                          <span className="text-primary font-bold shrink-0 mt-0.5">✓</span>
+                          <span className="text-muted-foreground font-medium">{req}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+
+                {/* Right column: Interactive/visual pricing cards and footnotes */}
+                <div className="lg:col-span-5 flex flex-col justify-between bg-black/20 p-5 md:p-6 rounded-xl border border-border/40 backdrop-blur-sm">
+                  <div>
+                    {/* Top Row: Price Cards */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                      {/* Min Techkosten Card */}
+                      <div className="p-4 rounded-xl bg-[#111216] border border-border/50 flex flex-col">
+                        <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-1.5">
+                          Min. Techkosten
+                        </span>
+                        <span className="text-xl md:text-2xl font-bold font-display text-foreground tracking-tight">
+                          €500 – €1.000
+                        </span>
+                        <span className="text-[10px] text-muted-foreground mt-1">
+                          / maand
+                        </span>
+                      </div>
+
+                      {/* Revenue Share Card with Glow Accent */}
+                      <div className="p-4 rounded-xl bg-[#111216] border border-primary/40 shadow-[0_0_15px_rgba(232,148,90,0.05)] flex flex-col relative">
+                        <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-wider text-primary mb-1.5">
+                          Revenue Share
+                        </span>
+                        <span className="text-xl md:text-2xl font-bold font-display text-primary tracking-tight">
+                          5 – 15%
+                        </span>
+                        <span className="text-[10px] text-muted-foreground mt-1">
+                          van toegeschreven omzet
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Dotted Footnotes stack to match visual styling */}
+                    <div className="space-y-3 mb-6">
+                      <div className="p-3.5 rounded-lg border border-dashed border-border/60 text-[11px] text-muted-foreground leading-relaxed bg-[#111216]/40">
+                        Alleen op duidelijk afgebakende, door het systeem gegenereerde of beïnvloede omzet. Attributie wordt vooraf vastgelegd.
+                      </div>
+                      
+                      <div className="p-3.5 rounded-lg border border-dashed border-border/60 text-[11px] text-muted-foreground leading-relaxed bg-[#111216]/40">
+                        Wij investeren regelmatig in start-ups met een barter-constructie.{" "}
+                        <button 
+                          onClick={() => openBookingModal()}
+                          className="text-primary hover:underline font-semibold"
+                        >
+                          Bekijk de voorwaarden
+                        </button>
+                        {" "}en join onze hub.
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Big Accent CTA Button */}
+                  <button
+                    onClick={() => openBookingModal()}
+                    className="w-full py-3.5 px-6 rounded-xl bg-primary text-black font-bold text-sm tracking-wide transition-all duration-300 flex items-center justify-center gap-2 hover:bg-primary/90 hover:shadow-[0_0_25px_rgba(232,148,90,0.2)] active:scale-[0.98]"
+                  >
+                    Boek gratis scan →
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
 
           {/* Wat krijg je als partner */}
           <div className="mt-16">
