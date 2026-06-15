@@ -15,6 +15,8 @@ import HowItWorksSection from "@/components/HowItWorksSection";
 import GroeistackSection from "@/components/GroeistackSection";
 import CaseStudiesSection from "@/components/CaseStudiesSection";
 import Chapter11Bewegingen from "@/components/homepage/chapters/Chapter11Bewegingen";
+import ScrollExpandMedia from "@/components/blocks/scroll-expansion-hero";
+import shotsHeroVideo from "@/assets/shots-hero.mp4.asset.json";
 
 const Index = () => {
   // Scroll to hash after entrance animation completes (300ms fade)
@@ -63,6 +65,13 @@ const Index = () => {
       <BreadcrumbJsonLd items={[{ name: "Home", url: "https://b2bgroeimachine.io/" }]} />
       <Navbar />
       <div id="section-hero">
+        <ScrollExpandMedia
+          mediaType="video"
+          mediaSrc={shotsHeroVideo.url}
+          title="B2B Groei Machine"
+          scrollToExpand="Scroll om te ontdekken"
+          textBlend
+        />
         <Hero />
       </div>
       {/* Offer-led: aanbod, hoe het werkt, en het bewijs */}
