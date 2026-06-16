@@ -268,7 +268,7 @@ const buildFases = (yearly: boolean, lang: Lang, currency: Currency, rate: numbe
     gtmHours: t.partnerHours,
     description: t.partnerDesc,
     features: [...t.partnerFeatures],
-    ctaIntent: "bespreekSituatie",
+    ctaIntent: "enterpriseAgenda",
     ctaLocation: "Pricing Partner Engine",
     ctaLabel: t.bookCall,
   },
