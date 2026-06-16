@@ -1,14 +1,12 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import CtaLink from "@/components/CtaLink";
 import { CTA } from "@/content/copy";
 import { Compass, ArrowRight, ArrowDown, UserPlus, MapPin, Globe, Handshake, Briefcase, RotateCcw } from "lucide-react";
 import heroVideoMp4 from "@/assets/hero-background.mp4.asset.json";
-import heroVideoWebm from "@/assets/hero-background.webm.asset.json";
 import heroPoster from "@/assets/hero-poster.jpg.asset.json";
-import { useEffect, useRef } from "react";
 
 const heroMotions = [
   { icon: UserPlus, title: "Klanten werven" },
@@ -58,7 +56,12 @@ const LogoCircle = ({ name, url }: { name: string; url: string }) => {
 };
 
 const Hero = () => {
-  const videoRef = useRef<HTMLVideoElement | null>(null);
+  // Double-buffer: twee identieke video-elementen die elkaar aflossen.
+  // Terwijl A speelt, staat B klaar op frame 0 met `preload="auto"`.
+  // Net vóór A eindigt, starten we B en switchen via opacity. Zo is er
+  // nooit een grijze frame, ongeacht decoder-hiccups of seek-latentie.
+  const videoARef = useRef<HTMLVideoElement | null>(null);
+  const videoBRef = useRef<HTMLVideoElement | null>(null);
   const [reducedMotion, setReducedMotion] = useState(() => {
     if (typeof window === "undefined" || !window.matchMedia) return false;
     return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -73,46 +76,97 @@ const Hero = () => {
     return () => mq.removeEventListener?.("change", onChange);
   }, []);
 
-  // Best-effort autoplay kickstart for browsers that defer muted autoplay
-  // (Safari iOS in low-power mode, some Android variants).
+  // Frame-accurate seamless loop via dubbele buffer + handoff.
   useEffect(() => {
     if (reducedMotion) return;
-    const v = videoRef.current;
-    if (!v) return;
-    const tryPlay = () => {
-      const p = v.play();
+    const a = videoARef.current;
+    const b = videoBRef.current;
+    if (!a || !b) return;
+
+    // Handoff-window: hoeveel seconden vóór het einde de andere buffer start.
+    // 0.18s is genoeg om decoder-warmup te dekken zelfs op tragere apparaten.
+    const HANDOFF = 0.18;
+
+    // Welke buffer toont op dit moment het beeld (opacity:1).
+    let active: HTMLVideoElement = a;
+    let standby: HTMLVideoElement = b;
+    let swapping = false;
+
+    const safePlay = (el: HTMLVideoElement) => {
+      const p = el.play();
       if (p && typeof p.catch === "function") p.catch(() => {});
     };
-    if (v.readyState >= 2) tryPlay();
-    else v.addEventListener("loadeddata", tryPlay, { once: true });
-    const onVisible = () => {
-      if (document.visibilityState === "visible") tryPlay();
+
+    const prep = (el: HTMLVideoElement) => {
+      try {
+        el.muted = true;
+        el.currentTime = 0;
+        el.pause();
+      } catch {}
     };
+
+    // Initiële state: A zichtbaar en aan het spelen, B onzichtbaar op frame 0.
+    a.style.opacity = "1";
+    b.style.opacity = "0";
+    prep(b);
+    safePlay(a);
+
+    const swap = () => {
+      if (swapping) return;
+      const next = standby;
+      const prev = active;
+      swapping = true;
+
+      // Start de standby NU zodat z'n eerste frame al gedecodeerd is
+      // tegen de tijd dat we de opacity flippen.
+      next.currentTime = 0;
+      safePlay(next);
+
+      // Wacht één animatie-frame zodat de browser het eerste frame
+      // van `next` daadwerkelijk heeft gepaint vóór we omschakelen.
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          next.style.opacity = "1";
+          prev.style.opacity = "0";
+          // Reset de uitgaande buffer pas ná de swap, anders zie je z'n grijze frame.
+          setTimeout(() => {
+            prep(prev);
+            active = next;
+            standby = prev;
+            swapping = false;
+          }, 40);
+        });
+      });
+    };
+
+    const onTimeUpdate = (e: Event) => {
+      const v = e.currentTarget as HTMLVideoElement;
+      if (v !== active) return;
+      if (!v.duration || !isFinite(v.duration)) return;
+      if (v.currentTime >= v.duration - HANDOFF) swap();
+    };
+
+    const onEnded = (e: Event) => {
+      // Vangnet — zou normaal niet moeten triggeren door de handoff.
+      if ((e.currentTarget as HTMLVideoElement) === active) swap();
+    };
+
+    const onVisible = () => {
+      if (document.visibilityState === "visible") safePlay(active);
+    };
+
+    a.addEventListener("timeupdate", onTimeUpdate);
+    b.addEventListener("timeupdate", onTimeUpdate);
+    a.addEventListener("ended", onEnded);
+    b.addEventListener("ended", onEnded);
     document.addEventListener("visibilitychange", onVisible);
 
-    // Seamless loop: native `loop` flashes a grey frame on some browsers
-    // (Chromium/Safari) tussen iteraties. We seeken net vóór het einde
-    // terug naar het begin zodat de overgang onzichtbaar is.
-    const LOOP_SAFETY = 0.12; // seconden vóór het einde terugspoelen
-    const onTimeUpdate = () => {
-      if (!v.duration || !isFinite(v.duration)) return;
-      if (v.currentTime >= v.duration - LOOP_SAFETY) {
-        v.currentTime = 0;
-        tryPlay();
-      }
-    };
-    const onEnded = () => {
-      v.currentTime = 0;
-      tryPlay();
-    };
-    v.addEventListener("timeupdate", onTimeUpdate);
-    v.addEventListener("ended", onEnded);
-
     return () => {
+      a.removeEventListener("timeupdate", onTimeUpdate);
+      b.removeEventListener("timeupdate", onTimeUpdate);
+      a.removeEventListener("ended", onEnded);
+      b.removeEventListener("ended", onEnded);
       document.removeEventListener("visibilitychange", onVisible);
-      v.removeEventListener("loadeddata", tryPlay);
-      v.removeEventListener("timeupdate", onTimeUpdate);
-      v.removeEventListener("ended", onEnded);
     };
   }, [reducedMotion]);
 
@@ -130,24 +184,40 @@ const Hero = () => {
             fetchPriority="high"
           />
         ) : (
-        <video
-          ref={videoRef}
-          poster={heroPoster.url}
-          autoPlay
-          muted
-          playsInline
-          disablePictureInPicture
-          disableRemotePlayback
-          preload="metadata"
-          {...({ "webkit-playsinline": "true", "x5-playsinline": "true" } as Record<string, string>)}
-          aria-hidden="true"
-          tabIndex={-1}
-          className="absolute inset-0 w-full h-full object-cover"
-        >
-          {/* MP4 eerst: betrouwbaarder seamless looping dan VP9/WebM */}
-          <source src={heroVideoMp4.url} type="video/mp4" />
-          <source src={heroVideoWebm.url} type="video/webm" />
-        </video>
+        <>
+          {/* Buffer A — zichtbaar bij start */}
+          <video
+            ref={videoARef}
+            src={heroVideoMp4.url}
+            poster={heroPoster.url}
+            autoPlay
+            muted
+            playsInline
+            disablePictureInPicture
+            disableRemotePlayback
+            preload="auto"
+            {...({ "webkit-playsinline": "true", "x5-playsinline": "true" } as Record<string, string>)}
+            aria-hidden="true"
+            tabIndex={-1}
+            style={{ opacity: 1, transition: "opacity 60ms linear" }}
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+          {/* Buffer B — wacht op handoff, zelfde bron, volledig vooraf geladen */}
+          <video
+            ref={videoBRef}
+            src={heroVideoMp4.url}
+            muted
+            playsInline
+            disablePictureInPicture
+            disableRemotePlayback
+            preload="auto"
+            {...({ "webkit-playsinline": "true", "x5-playsinline": "true" } as Record<string, string>)}
+            aria-hidden="true"
+            tabIndex={-1}
+            style={{ opacity: 0, transition: "opacity 60ms linear" }}
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+        </>
         )}
         {/* Leesbaarheids-overlay */}
         <div className="absolute inset-0 bg-background/40 pointer-events-none" />
