@@ -58,7 +58,6 @@ import IcpAi from "./pages/IcpAi.tsx";
 import MultichannelSequencing from "./pages/MultichannelSequencing.tsx";
 import GammaCheatsheet from "./pages/GammaCheatsheet.tsx";
 import Cheatsheets from "./pages/Cheatsheets.tsx";
-import Trainingen from "./pages/Trainingen.tsx";
 import Partners from "./pages/Partners.tsx";
 import Klanten from "./pages/Klanten.tsx";
 import IconsPreview from "./pages/IconsPreview.tsx";
@@ -164,7 +163,6 @@ const AnimatedRoutes = () => {
           <Route path="/admin/blog/edit/:id" element={<AdminBlogEditor />} />
           <Route path="/admin/blog/generate" element={<AdminBlogGenerate />} />
           <Route path="/cheatsheets" element={<Cheatsheets />} />
-          <Route path="/trainingen" element={<Trainingen />} />
           <Route path="/partners" element={<Partners />} />
           <Route path="/klanten" element={<Klanten />} />
           <Route path="/icons-preview" element={<IconsPreview />} />
