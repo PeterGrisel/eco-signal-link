@@ -5,8 +5,9 @@ import { Button } from "@/components/ui/button";
 import CtaLink from "@/components/CtaLink";
 import { CTA } from "@/content/copy";
 import { Compass, ArrowRight, ArrowDown, UserPlus, MapPin, Globe, Handshake, Briefcase, RotateCcw } from "lucide-react";
-import heroVideoMp4 from "@/assets/hero-background.mp4.asset.json";
 import heroPoster from "@/assets/hero-poster.jpg.asset.json";
+
+const HERO_VIDEO_SRC = "/media/hero-loop.mp4";
 
 const heroMotions = [
   { icon: UserPlus, title: "Klanten werven" },
@@ -83,9 +84,9 @@ const Hero = () => {
     const b = videoBRef.current;
     if (!a || !b) return;
 
-    // Handoff-window: hoeveel seconden vóór het einde de andere buffer start.
-    // 0.18s is genoeg om decoder-warmup te dekken zelfs op tragere apparaten.
-    const HANDOFF = 0.18;
+    // De nieuwe video bevat geen grijze eindframes en eindigt op het startframe.
+    // Daarom wisselen we pas vlak vóór het einde, zonder zichtbare cut.
+    const HANDOFF = 0.04;
 
     // Welke buffer toont op dit moment het beeld (opacity:1).
     let active: HTMLVideoElement = a;
@@ -174,21 +175,22 @@ const Hero = () => {
     <section className="relative isolate min-h-screen flex flex-col overflow-hidden bg-background">
       {/* Loopende video-achtergrond */}
       <div className="absolute inset-0 z-0 overflow-hidden bg-background">
+        <img
+          src={heroPoster.url}
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 w-full h-full object-cover"
+          decoding="async"
+          fetchPriority="high"
+        />
         {reducedMotion ? (
-          <img
-            src={heroPoster.url}
-            alt=""
-            aria-hidden="true"
-            className="absolute inset-0 w-full h-full object-cover"
-            decoding="async"
-            fetchPriority="high"
-          />
+          null
         ) : (
         <>
           {/* Buffer A — zichtbaar bij start */}
           <video
             ref={videoARef}
-            src={heroVideoMp4.url}
+            src={HERO_VIDEO_SRC}
             poster={heroPoster.url}
             autoPlay
             muted
@@ -205,7 +207,8 @@ const Hero = () => {
           {/* Buffer B — wacht op handoff, zelfde bron, volledig vooraf geladen */}
           <video
             ref={videoBRef}
-            src={heroVideoMp4.url}
+            src={HERO_VIDEO_SRC}
+            poster={heroPoster.url}
             muted
             playsInline
             disablePictureInPicture
