@@ -263,7 +263,7 @@ const Hero = () => {
             transition={{ duration: 0.6, ease, delay: 0.12 }}
             className="text-muted-foreground text-lg md:text-2xl max-w-4xl mx-auto mb-10 leading-relaxed"
           >
-            GTM-diensten die AI-workflows combineren met menselijke expertise
+            In een sessie van 60 minuten brengen we uw commerciële groeimotor terug naar één helder A4: doelgroep, boodschap, kanalen, opvolging, conversie, klantwaarde en referral.
           </motion.p>
 
           {/* CTA's */}
@@ -281,7 +281,7 @@ const Hero = () => {
             >
               <CtaLink intent="gratisScan" location="Hero">
                 <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/25 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
-                <span className="relative">{CTA.gratisScan.label}</span>
+                <span className="relative">Plan uw 60-minuten Groeiplan-sessie →</span>
               </CtaLink>
             </Button>
             <Link
@@ -292,6 +292,16 @@ const Hero = () => {
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </motion.div>
+
+          {/* Subtekst onder CTA */}
+          <motion.p
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease, delay: 0.24 }}
+            className="text-muted-foreground/90 text-sm md:text-base max-w-2xl mx-auto mt-5 leading-relaxed"
+          >
+            Na afloop ontvangt u uw 1-Pagina Groeiplan: negen vakken, drie fases en één concreet commercieel verhaal voor uw bedrijf.
+          </motion.p>
         </div>
 
         {/* Onderbalk, vastgepind onderaan de viewport */}
