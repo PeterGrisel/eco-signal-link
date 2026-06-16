@@ -55,12 +55,6 @@ const oplossingen: LinkItem[] = [
     description: "Funnel-, pipeline- en value calculators",
   },
   {
-    title: "Trainingen",
-    href: "/trainingen",
-    icon: GraduationCap,
-    description: "Train uw team op signaal-prospecting",
-  },
-  {
     title: "Cheatsheets",
     href: "/cheatsheets",
     icon: FileSpreadsheet,
