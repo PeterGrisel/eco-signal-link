@@ -2,7 +2,7 @@ import { useParams, Navigate } from "react-router-dom";
 import { useMemo } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { CheckCircle, AlertTriangle, Radio, FileText, Database, Users, Calendar, Ban } from "lucide-react";
+import { CheckCircle, AlertTriangle, Radio, FileText, Database, Users, Calendar, Ban, HelpCircle } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PageLoader from "@/components/PageLoader";
@@ -35,6 +35,29 @@ const SectorPage = () => {
 
   const Icon = sector.icon;
 
+  const faqs = [
+    {
+      q: `Hoe snel zien wij resultaten in ${sector.title.toLowerCase()}?`,
+      a: `Wij zijn binnen vier weken operationeel. In die periode staat de infrastructuur. De eerste gesprekken volgen meestal in week vijf of zes. Geen beloftes over aantallen, wel een herhaalbaar proces.`,
+    },
+    {
+      q: `Waarin verschilt dit van klassieke koude acquisitie?`,
+      a: `Wij werken signaal-gedreven. Dat betekent: alleen bedrijven benaderen met een actuele aanleiding. Denk aan rolwisselingen, groei of contractmomenten. Lees meer over onze aanpak in onze gids over koude acquisitie.`,
+    },
+    {
+      q: `Welke data gebruiken jullie voor targeting in ${sector.title.toLowerCase()}?`,
+      a: `Wij combineren KvK-mutaties, LinkedIn-signalen, branchedata en uw eigen CRM. Alles loopt door één centraal datacontext-centrum. Zo blijven targeting en messaging altijd actueel.`,
+    },
+    {
+      q: `Wat kost B2B leadgeneratie voor ${sector.title.toLowerCase()}?`,
+      a: `Wij werken met een engagement-model op uurbasis. De omvang hangt af van uw doelgroep en kanaalmix. Bekijk onze pricing-pagina voor de actuele tarieven en pakketten.`,
+    },
+    {
+      q: `Werken jullie ook samen met onze interne sales?`,
+      a: `Ja. Wij automatiseren de bovenkant en het midden van de funnel. Uw sales houdt de gesprekken en de deals. Zo benut u uw eigen mensen op het juiste moment.`,
+    },
+  ];
+
   return (
     <PageLoader>
       <div className="min-h-screen">
@@ -63,6 +86,18 @@ const SectorPage = () => {
             },
             url: `https://www.b2bgroeimachine.io/sectoren/${sector.slug}`,
             inLanguage: "nl-NL",
+          }}
+        />
+        <JsonLd
+          id="faq-jsonld"
+          data={{
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: faqs.map((f) => ({
+              "@type": "Question",
+              name: f.q,
+              acceptedAnswer: { "@type": "Answer", text: f.a },
+            })),
           }}
         />
         <Navbar />
@@ -97,6 +132,23 @@ const SectorPage = () => {
                   Plan een Demo →
                 </a>
               </Button>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* Context + interne links naar pillars */}
+        <section className="py-16 border-t border-border">
+          <div className="container mx-auto px-6 max-w-3xl">
+            <motion.div {...fadeUp} className="space-y-5 text-muted-foreground text-base md:text-lg leading-relaxed">
+              <p>
+                {sector.title} draait op timing. Wie te vroeg belt, krijgt geen gehoor. Wie te laat belt, is de deal kwijt. Wij bouwen een systeem dat het juiste moment voor u herkent. Geen losse outreach, maar een herhaalbaar proces met data als basis.
+              </p>
+              <p>
+                De motor bestaat uit drie lagen. Eerst <Link to="/b2b-leadgeneratie" className="text-primary hover:underline">b2b leadgeneratie</Link> op basis van signalen. Daarna een gestructureerde vorm van <Link to="/koude-acquisitie" className="text-primary hover:underline">koude acquisitie</Link> via meerdere kanalen. Tot slot een complete <Link to="/groeistack" className="text-primary hover:underline">groeistack</Link> die alles aan elkaar knoopt. U houdt de regie en wij houden het systeem scherp.
+              </p>
+              <p>
+                Voor {sector.title.toLowerCase()} betekent dit concreet: u krijgt elke week een lijst met bedrijven die nu klaar zijn voor een gesprek. Geen ruwe data, wel context per account. Uw sales hoeft alleen te bellen op het moment dat de aanleiding er is.
+              </p>
             </motion.div>
           </div>
         </section>
@@ -357,6 +409,38 @@ const SectorPage = () => {
             ...(sector.beslissers ?? []).slice(0, 2),
           ]}
         />
+
+        {/* FAQ */}
+        <section className="py-24 border-t border-border">
+          <div className="container mx-auto px-6 max-w-3xl">
+            <motion.div {...fadeUp} className="mb-10">
+              <p className="text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4 flex items-center gap-2">
+                <HelpCircle className="w-4 h-4" /> Veelgestelde vragen
+              </p>
+              <h2 className="font-display font-bold text-2xl md:text-4xl">
+                Wat u vooraf wil <span className="text-gradient">weten</span>
+              </h2>
+            </motion.div>
+            <div className="space-y-4">
+              {faqs.map((f, i) => (
+                <motion.details
+                  key={f.q}
+                  initial={{ opacity: 0, y: 12 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: i * 0.05 }}
+                  className="card-gradient border border-glow rounded-lg p-6 group"
+                >
+                  <summary className="font-display font-semibold text-base md:text-lg cursor-pointer list-none flex items-start justify-between gap-4">
+                    <span>{f.q}</span>
+                    <span className="text-primary text-xl leading-none mt-0.5 group-open:rotate-45 transition-transform">+</span>
+                  </summary>
+                  <p className="text-muted-foreground leading-relaxed mt-4">{f.a}</p>
+                </motion.details>
+              ))}
+            </div>
+          </div>
+        </section>
 
         <CtaSection />
         <Footer />
