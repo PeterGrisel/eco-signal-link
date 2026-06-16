@@ -75,7 +75,7 @@ const FullServiceRecruitment = () => {
     title: "Full Service Recruitment — B2BGroeiMachine",
     description:
       "Van sourcing tot plaatsing: wij nemen uw volledige recruitment uit handen. Data-gedreven, persoonlijk en resultaatgericht.",
-    canonical: "https://b2bgroeimachine.io/full-service-recruitment",
+    canonical: "https://www.b2bgroeimachine.io/full-service-recruitment",
   });
 
   return (
@@ -83,10 +83,10 @@ const FullServiceRecruitment = () => {
       <div className="min-h-screen">
         <BreadcrumbJsonLd
           items={[
-            { name: "Home", url: "https://b2bgroeimachine.io/" },
+            { name: "Home", url: "https://www.b2bgroeimachine.io/" },
             {
               name: "Full Service Recruitment",
-              url: "https://b2bgroeimachine.io/full-service-recruitment",
+              url: "https://www.b2bgroeimachine.io/full-service-recruitment",
             },
           ]}
         />

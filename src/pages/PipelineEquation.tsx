@@ -24,8 +24,8 @@ const PipelineEquation = () => {
       <div className="min-h-screen">
         <BreadcrumbJsonLd
           items={[
-            { name: "Home", url: "https://b2bgroeimachine.io/" },
-            { name: "Pipeline Equation™", url: "https://b2bgroeimachine.io/pipeline-equation" },
+            { name: "Home", url: "https://www.b2bgroeimachine.io/" },
+            { name: "Pipeline Equation™", url: "https://www.b2bgroeimachine.io/pipeline-equation" },
           ]}
         />
         <Navbar />

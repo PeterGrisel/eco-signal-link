@@ -12,9 +12,9 @@ const PipelineValuePage = () => {
       <div className="min-h-screen">
         <BreadcrumbJsonLd
           items={[
-            { name: "Home", url: "https://b2bgroeimachine.io/" },
-            { name: "Tools", url: "https://b2bgroeimachine.io/tools" },
-            { name: "Pipeline Value Calculator", url: "https://b2bgroeimachine.io/tools/pipeline-value" },
+            { name: "Home", url: "https://www.b2bgroeimachine.io/" },
+            { name: "Tools", url: "https://www.b2bgroeimachine.io/tools" },
+            { name: "Pipeline Value Calculator", url: "https://www.b2bgroeimachine.io/tools/pipeline-value" },
           ]}
         />
         <Navbar />

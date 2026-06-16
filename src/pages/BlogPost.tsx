@@ -59,7 +59,7 @@ const BlogPost = () => {
   usePageMeta({
     title: post ? `${post.title} | B2BGroeiMachine` : "Blog | B2BGroeiMachine",
     description: post?.meta_description || post?.excerpt || undefined,
-    canonical: post ? `https://b2bgroeimachine.io/blog/${post.slug}` : undefined,
+    canonical: post ? `https://www.b2bgroeimachine.io/blog/${post.slug}` : undefined,
     ogType: post ? "article" : "website",
     ogImage: post?.featured_image || undefined,
   });
@@ -270,9 +270,9 @@ const BlogPost = () => {
       {/* BreadcrumbList JSON-LD */}
       <BreadcrumbJsonLd
         items={[
-          { name: "Home", url: "https://b2bgroeimachine.io/" },
-          { name: "Blog", url: "https://b2bgroeimachine.io/blog" },
-          { name: post.title, url: `https://b2bgroeimachine.io/blog/${post.slug}` },
+          { name: "Home", url: "https://www.b2bgroeimachine.io/" },
+          { name: "Blog", url: "https://www.b2bgroeimachine.io/blog" },
+          { name: post.title, url: `https://www.b2bgroeimachine.io/blog/${post.slug}` },
         ]}
       />
 
@@ -288,22 +288,22 @@ const BlogPost = () => {
             image: post.featured_image ? [post.featured_image] : undefined,
             datePublished: publishDate,
             dateModified: post.updated_at || publishDate,
-            url: `https://b2bgroeimachine.io/blog/${post.slug}`,
+            url: `https://www.b2bgroeimachine.io/blog/${post.slug}`,
             mainEntityOfPage: {
               "@type": "WebPage",
-              "@id": `https://b2bgroeimachine.io/blog/${post.slug}`,
+              "@id": `https://www.b2bgroeimachine.io/blog/${post.slug}`,
             },
             author: {
               "@type": "Organization",
               name: "B2BGroeiMachine",
-              url: "https://b2bgroeimachine.io",
+              url: "https://www.b2bgroeimachine.io",
             },
             publisher: {
               "@type": "Organization",
               name: "B2BGroeiMachine",
               logo: {
                 "@type": "ImageObject",
-                url: "https://b2bgroeimachine.io/favicon.ico",
+                url: "https://www.b2bgroeimachine.io/favicon.ico",
               },
             },
             articleSection: post.category?.name || undefined,

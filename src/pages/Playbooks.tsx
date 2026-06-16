@@ -55,7 +55,7 @@ const Playbooks = () => {
     title: "Playbooks — GTM-gidsen op basis van De Groeistack | B2BGroeiMachine",
     description:
       "Praktische, AI-gegenereerde playbooks voor concrete B2B-groei-scenario's, gebouwd op De Groeistack en onze methode.",
-    canonical: "https://b2bgroeimachine.io/playbooks",
+    canonical: "https://www.b2bgroeimachine.io/playbooks",
   });
 
   useEffect(() => {
@@ -77,8 +77,8 @@ const Playbooks = () => {
         <div className="relative z-10">
           <BreadcrumbJsonLd
             items={[
-              { name: "Home", url: "https://b2bgroeimachine.io/" },
-              { name: "Playbooks", url: "https://b2bgroeimachine.io/playbooks" },
+              { name: "Home", url: "https://www.b2bgroeimachine.io/" },
+              { name: "Playbooks", url: "https://www.b2bgroeimachine.io/playbooks" },
             ]}
           />
           <Navbar />

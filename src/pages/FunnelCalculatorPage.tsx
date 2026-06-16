@@ -12,9 +12,9 @@ const FunnelCalculatorPage = () => {
       <div className="min-h-screen">
         <BreadcrumbJsonLd
           items={[
-            { name: "Home", url: "https://b2bgroeimachine.io/" },
-            { name: "Tools", url: "https://b2bgroeimachine.io/tools" },
-            { name: "Funnel Calculator", url: "https://b2bgroeimachine.io/tools/funnel-calculator" },
+            { name: "Home", url: "https://www.b2bgroeimachine.io/" },
+            { name: "Tools", url: "https://www.b2bgroeimachine.io/tools" },
+            { name: "Funnel Calculator", url: "https://www.b2bgroeimachine.io/tools/funnel-calculator" },
           ]}
         />
         <Navbar />

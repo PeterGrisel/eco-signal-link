@@ -52,8 +52,8 @@ const ShotsPage = () => {
     title: "Shots × B2BGroeiMachine — Market Activation Playbook",
     description:
       "Persoonlijk playbook voor Shots: hoe wij retailers, wholesalers, distributeurs en e-commerce partners activeren in de internationale B2B adult markt.",
-    canonical: "https://b2bgroeimachine.io/voor/shots",
-    ogImage: "https://b2bgroeimachine.io/og/shots.jpg",
+    canonical: "https://www.b2bgroeimachine.io/voor/shots",
+    ogImage: "https://www.b2bgroeimachine.io/og/shots.jpg",
   });
 
   useEffect(() => {

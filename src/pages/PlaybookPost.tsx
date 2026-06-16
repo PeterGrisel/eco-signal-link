@@ -47,7 +47,7 @@ const PlaybookPost = () => {
   usePageMeta({
     title: pb ? `${pb.title} | Playbook — B2BGroeiMachine` : "Playbook — B2BGroeiMachine",
     description: pb?.meta_description || pb?.excerpt || "Een GTM-playbook van B2BGroeiMachine.",
-    canonical: `https://b2bgroeimachine.io/playbooks/${slug}`,
+    canonical: `https://www.b2bgroeimachine.io/playbooks/${slug}`,
   });
 
   if (!loading && !pb) return <Navigate to="/playbooks" replace />;
@@ -60,9 +60,9 @@ const PlaybookPost = () => {
           {pb && (
             <BreadcrumbJsonLd
               items={[
-                { name: "Home", url: "https://b2bgroeimachine.io/" },
-                { name: "Playbooks", url: "https://b2bgroeimachine.io/playbooks" },
-                { name: pb.title, url: `https://b2bgroeimachine.io/playbooks/${pb.slug}` },
+                { name: "Home", url: "https://www.b2bgroeimachine.io/" },
+                { name: "Playbooks", url: "https://www.b2bgroeimachine.io/playbooks" },
+                { name: pb.title, url: `https://www.b2bgroeimachine.io/playbooks/${pb.slug}` },
               ]}
             />
           )}

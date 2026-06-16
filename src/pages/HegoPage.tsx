@@ -80,8 +80,8 @@ const HegoPage = () => {
     title: "HEGO × B2BGroeiMachine — Market Activation Playbook",
     description:
       "Persoonlijk playbook voor HEGO: hoe wij groothandel, traders en producenten activeren rond RVS, aluminium en maatwerk bewerkingen.",
-    canonical: "https://b2bgroeimachine.io/voor/hego",
-    ogImage: "https://b2bgroeimachine.io/og/hego.jpg",
+    canonical: "https://www.b2bgroeimachine.io/voor/hego",
+    ogImage: "https://www.b2bgroeimachine.io/og/hego.jpg",
   });
 
   useEffect(() => {

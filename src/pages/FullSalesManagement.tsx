@@ -74,7 +74,7 @@ const FullSalesManagement = () => {
   usePageMeta({
     title: "Full Sales Management — B2BGroeiMachine",
     description: "Van strategie tot uitvoering: wij nemen uw volledige commerciële proces over. Sales, marketing, strategie en relatiebeheer in één pakket.",
-    canonical: "https://b2bgroeimachine.io/full-sales-management",
+    canonical: "https://www.b2bgroeimachine.io/full-sales-management",
   });
 
   return (
@@ -82,8 +82,8 @@ const FullSalesManagement = () => {
       <div className="min-h-screen">
         <BreadcrumbJsonLd
           items={[
-            { name: "Home", url: "https://b2bgroeimachine.io/" },
-            { name: "Full Sales Management", url: "https://b2bgroeimachine.io/full-sales-management" },
+            { name: "Home", url: "https://www.b2bgroeimachine.io/" },
+            { name: "Full Sales Management", url: "https://www.b2bgroeimachine.io/full-sales-management" },
           ]}
         />
         <Navbar />

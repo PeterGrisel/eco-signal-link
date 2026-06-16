@@ -24,7 +24,7 @@ const HoeHetWerkt = () => {
       "Hoe het werkt — het B2B-groeisysteem stap voor stap | B2BGroeiMachine",
     description:
       "Van commerciële context tot geboekte gesprekken. Bekijk de volledige methode: het Commercieel Brein, acht stappen, modules en levering.",
-    canonical: "https://b2bgroeimachine.io/hoe-het-werkt",
+    canonical: "https://www.b2bgroeimachine.io/hoe-het-werkt",
   });
 
   return (
@@ -34,10 +34,10 @@ const HoeHetWerkt = () => {
         <div className="relative z-10">
           <BreadcrumbJsonLd
             items={[
-              { name: "Home", url: "https://b2bgroeimachine.io/" },
+              { name: "Home", url: "https://www.b2bgroeimachine.io/" },
               {
                 name: "Hoe het werkt",
-                url: "https://b2bgroeimachine.io/hoe-het-werkt",
+                url: "https://www.b2bgroeimachine.io/hoe-het-werkt",
               },
             ]}
           />
