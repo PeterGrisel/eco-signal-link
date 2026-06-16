@@ -257,14 +257,16 @@ const Hero = () => {
           </motion.h1>
 
           {/* Subkop */}
-          <motion.p
+          <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease, delay: 0.12 }}
-            className="text-muted-foreground text-lg md:text-2xl max-w-4xl mx-auto mb-10 leading-relaxed"
+            className="max-w-3xl mx-auto mb-10"
           >
-            Wij helpen B2B-bedrijven om geïnteresseerde accounts eerder te herkennen. Zo zet u ze sneller om naar gesprekken met sales.
-          </motion.p>
+            <p className="text-foreground/90 text-base md:text-xl leading-relaxed border border-white/10 bg-card/45 backdrop-blur-md px-6 py-4 rounded-2xl shadow-[0_8px_32px_0_rgba(0,0,0,0.3)]">
+              Wij helpen B2B-bedrijven om geïnteresseerde accounts eerder te herkennen. Zo zet u ze sneller om naar gesprekken met sales.
+            </p>
+          </motion.div>
 
           {/* CTA's */}
           <motion.div
