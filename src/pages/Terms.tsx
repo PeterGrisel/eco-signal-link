@@ -6,6 +6,7 @@ const Terms = () => {
   usePageMeta({
     title: "Algemene Voorwaarden | B2BGroeiMachine",
     description: "Lees de algemene voorwaarden van Rebel Force B.V. / B2BGroeiMachine.",
+    canonical: "https://www.b2bgroeimachine.io/terms",
   });
 
   return (
