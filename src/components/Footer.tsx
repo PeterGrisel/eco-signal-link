@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Rss } from "lucide-react";
 import { Link } from "react-router-dom";
 import { sectors } from "@/data/sectors";
-import { solutions } from "@/data/solutions";
 import { supabase } from "@/integrations/supabase/client";
 
 interface RecentPost {
@@ -11,10 +10,10 @@ interface RecentPost {
 }
 
 const diensten = [
-  { href: "/groeistack", label: "De Groeistack" },
+  { href: "/signaal", label: "Signaal Detectiesysteem" },
   { href: "/full-sales-management", label: "Full Sales Management" },
   { href: "/full-service-recruitment", label: "Full Service Recruitment" },
-  { href: "/signaal", label: "Signaal Detectiesysteem" },
+  { href: "/groeistack", label: "De Groeistack" },
 ];
 
 const bedrijf = [
@@ -50,15 +49,11 @@ const Footer = () => {
     fetchRecent();
   }, []);
 
-  // Split solutions into two columns
-  const solsLeft = solutions.slice(0, 5);
-  const solsRight = solutions.slice(5);
-
   return (
     <footer className="border-t border-border bg-card/30">
       <div className="container mx-auto px-4 md:px-6">
         {/* Main grid */}
-        <div className="py-12 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-8 lg:gap-6">
+        <div className="py-12 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-8 lg:gap-6">
           {/* Sectoren */}
           <div>
             <p className="text-[11px] font-display font-semibold tracking-[0.2em] uppercase text-primary/70 mb-4">
@@ -72,42 +67,6 @@ const Footer = () => {
                   className="text-sm text-muted-foreground hover:text-primary transition-colors"
                 >
                   {s.title}
-                </Link>
-              ))}
-            </div>
-          </div>
-
-          {/* Solutions col 1 */}
-          <div>
-            <p className="text-[11px] font-display font-semibold tracking-[0.2em] uppercase text-primary/70 mb-4">
-              Solutions
-            </p>
-            <div className="flex flex-col gap-2.5">
-              {solsLeft.map((s) => (
-                <Link
-                  key={s.slug}
-                  to={`/solutions/${s.slug}`}
-                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
-                >
-                  {s.navLabel}
-                </Link>
-              ))}
-            </div>
-          </div>
-
-          {/* Solutions col 2 */}
-          <div>
-            <p className="text-[11px] font-display font-semibold tracking-[0.2em] uppercase text-primary/70 mb-4 invisible">
-              Solutions
-            </p>
-            <div className="flex flex-col gap-2.5">
-              {solsRight.map((s) => (
-                <Link
-                  key={s.slug}
-                  to={`/solutions/${s.slug}`}
-                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
-                >
-                  {s.navLabel}
                 </Link>
               ))}
             </div>
