@@ -133,6 +133,8 @@ const AnimatedRoutes = () => {
           <Route path="/leads-genereren-b2b" element={<SeoLandingPage />} />
           <Route path="/online-leadgeneratie" element={<SeoLandingPage />} />
           <Route path="/zakelijke-leads" element={<SeoLandingPage />} />
+          <Route path="/koude-acquisitie" element={<SeoLandingPage />} />
+          <Route path="/acquisitie-uitbesteden" element={<SeoLandingPage />} />
           <Route path="/full-service-recruitment" element={<FullServiceRecruitment />} />
           <Route path="/full-sales-management" element={<FullSalesManagement />} />
           <Route path="/blog" element={<Blog />} />
