@@ -286,9 +286,9 @@ const AlwaysOnBentoSection = () => {
               Signalen live
             </div>
             <h3 className="text-base md:text-lg font-display font-semibold text-foreground leading-snug">
-              Pulse op accounts in Europa.{" "}
+              Pulse op accounts in de hele wereld.{" "}
               <span className="text-muted-foreground font-normal">
-                Realtime triggers uit publieke en private bronnen.
+                Realtime triggers uit publieke bronnen.
               </span>
             </h3>
             <div className="relative mt-4">
