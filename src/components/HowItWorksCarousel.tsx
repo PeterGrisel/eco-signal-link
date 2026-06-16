@@ -124,7 +124,7 @@ const steps: readonly Step[] = [
     resultaat:
       "Commerciële signalen worden omgezet naar gesprekken, afspraken, offertes en concrete pipeline.",
     icon: PhoneCall,
-    imgSrc: placeholder("03 · Activities"),
+    imgSrc: activitiesStep3.url,
     imgAlt: "Activities — signalen omzetten in salesactie",
   },
 ];
