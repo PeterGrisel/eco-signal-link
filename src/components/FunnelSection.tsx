@@ -143,27 +143,6 @@ const FunnelSection = () => {
             </div>
           ))}
         </div>
-
-        {/* Internal links to solutions */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="mt-12 flex flex-wrap gap-3 justify-center"
-        >
-          <Link to="/solutions/outbound-automatisering" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors font-medium">
-            Outbound automatiseren <ArrowRight className="w-3.5 h-3.5" />
-          </Link>
-          <span className="text-border">·</span>
-          <Link to="/solutions/gerichte-prospecting" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors font-medium">
-            Gerichte prospecting <ArrowRight className="w-3.5 h-3.5" />
-          </Link>
-          <span className="text-border">·</span>
-          <Link to="/solutions/voorspelbare-pipeline" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors font-medium">
-            Voorspelbare pipeline <ArrowRight className="w-3.5 h-3.5" />
-          </Link>
-        </motion.div>
       </div>
     </section>
   );

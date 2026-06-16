@@ -11,7 +11,6 @@ import Index from "./pages/Index.tsx";
 import OverOns from "./pages/OverOns.tsx";
 import OnsTeam from "./pages/OnsTeam.tsx";
 import SectorPage from "./pages/SectorPage.tsx";
-import SolutionPage from "./pages/SolutionPage.tsx";
 import HoeHetWerkt from "./pages/HoeHetWerkt.tsx";
 import Groeistack from "./pages/Groeistack.tsx";
 import AdminGroeistack from "./pages/admin/AdminGroeistack.tsx";
@@ -117,7 +116,6 @@ const AnimatedRoutes = () => {
           <Route path="/over-ons" element={<OverOns />} />
           <Route path="/ons-team" element={<OnsTeam />} />
           <Route path="/sectoren/:slug" element={<SectorPage />} />
-          <Route path="/solutions/:slug" element={<SolutionPage />} />
           {/* /hoe-het-werkt is verwijderd — redirect naar homepage */}
           <Route path="/hoe-het-werkt" element={<Navigate to="/" replace />} />
           <Route path="/groeistack" element={<Groeistack />} />

@@ -291,45 +291,6 @@ const SeoLandingPage = () => {
           </section>
         )}
 
-        <section className="py-24 border-t border-border scroll-mt-24">
-          <div className="container mx-auto px-6 max-w-5xl">
-            <motion.div {...fadeUp} className="mb-10 flex items-end justify-between flex-wrap gap-4">
-              <div>
-                <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-3">
-                  <ArrowRight className="w-3.5 h-3.5" /> Lees verder
-                </div>
-                <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground">
-                  Verwante oplossingen
-                </h2>
-              </div>
-            </motion.div>
-            <div className="grid sm:grid-cols-3 gap-4">
-              {page.relatedSolutions.map((r, i) => (
-                <motion.div
-                  key={r.slug}
-                  {...fadeUp}
-                  transition={{ duration: 0.4, delay: i * 0.05 }}
-                >
-                  <Link
-                    to={`/solutions/${r.slug}`}
-                    className="block p-6 rounded-xl border border-border bg-card hover:border-primary/50 hover:bg-card/60 transition-all group h-full"
-                  >
-                    <div className="text-xs uppercase tracking-wider text-muted-foreground mb-3">
-                      Oplossing
-                    </div>
-                    <div className="font-display text-lg font-semibold text-foreground mb-4 group-hover:text-primary transition-colors">
-                      {r.label}
-                    </div>
-                    <div className="flex items-center gap-2 text-sm text-primary opacity-60 group-hover:opacity-100 transition-opacity">
-                      Bekijken <ArrowRight className="w-3.5 h-3.5" />
-                    </div>
-                  </Link>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-
         <CtaSection />
         <Footer />
       </div>
