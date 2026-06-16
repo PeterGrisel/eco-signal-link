@@ -1,6 +1,8 @@
 project_id = "snymrcialncxkcsibkjv"
 
 [functions]
+  [functions.check-indexability]
+    verify_jwt = false
   [functions.auth-email-hook]
     verify_jwt = false
   [functions.create-checkout]

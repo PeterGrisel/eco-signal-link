@@ -4,6 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CompetitorsTabContent } from "./AdminCompetitors";
 import { ListingsTabContent } from "./AdminListings";
 import { IndexingTabContent } from "./AdminIndexing";
+import { IndexabilityTabContent } from "./AdminIndexability";
 import { BacklinksTabContent } from "./AdminBacklinks";
 import { AuthorityHub } from "./authority/AuthorityHub";
 import { Globe, Save, Loader2 } from "lucide-react";
@@ -68,6 +69,9 @@ const AdminSeoHub = () => {
           <TabsTrigger value="indexing" className="text-xs data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
             Indexing
           </TabsTrigger>
+          <TabsTrigger value="indexability" className="text-xs data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
+            Indexability
+          </TabsTrigger>
           <TabsTrigger value="analytics" className="text-xs data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
             Analytics
           </TabsTrigger>
@@ -85,6 +89,7 @@ const AdminSeoHub = () => {
         <TabsContent value="competitors"><CompetitorsTabContent /></TabsContent>
         <TabsContent value="listings"><ListingsTabContent /></TabsContent>
         <TabsContent value="indexing"><IndexingTabContent /></TabsContent>
+        <TabsContent value="indexability"><IndexabilityTabContent /></TabsContent>
         <TabsContent value="analytics"><AnalyticsTabContent /></TabsContent>
         <TabsContent value="ai-readiness"><AiReadinessPanel /></TabsContent>
         <TabsContent value="backlinks"><BacklinksTabContent /></TabsContent>
