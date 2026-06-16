@@ -69,7 +69,6 @@ const Index = () => {
       {/* Offer-led: aanbod, hoe het werkt, en het bewijs */}
       <Gtm2026Section />
       <HerkenbareSection />
-      <ReactiefVsAlwaysOnSection />
       <AlwaysOnBentoSection />
       <HowItWorksSection />
       <GroeistackSection />
