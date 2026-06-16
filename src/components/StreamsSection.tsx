@@ -2,7 +2,6 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight, Megaphone, Target } from "lucide-react";
 import { sectors } from "@/data/sectors";
-import { solutions } from "@/data/solutions";
 import { trackCTA } from "@/lib/tracking";
 
 const clients = [
@@ -200,29 +199,6 @@ const StreamsSection = () => {
           </div>
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-50px" }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="p-6 md:p-8 rounded-xl border border-border bg-secondary/30"
-        >
-          <p className="text-muted-foreground mb-4">
-            Dezelfde uitdagingen, ongeacht uw branche? Bekijk onze oplossingen:
-          </p>
-          <div className="flex flex-wrap gap-3">
-            {solutions.slice(0, 5).map((sol) => (
-              <Link
-                key={sol.slug}
-                to={`/solutions/${sol.slug}`}
-                className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:text-primary/80 transition-colors group"
-              >
-                {sol.title}
-                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
-              </Link>
-            ))}
-          </div>
-        </motion.div>
       </div>
     </section>
   );

@@ -248,27 +248,6 @@ const ProcessSection = () => {
             <CtaLink intent="gratisScan" location="Proces — Samen bepalen" />
           </Button>
         </motion.div>
-
-        {/* Internal links */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="flex flex-wrap gap-3 justify-center"
-        >
-          <Link to="/solutions/voorspelbare-pipeline" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors font-medium">
-            Voorspelbare pipeline <ArrowRight className="w-3.5 h-3.5" />
-          </Link>
-          <span className="text-border">·</span>
-          <Link to="/solutions/internationaal-uitbreiden" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors font-medium">
-            Internationaal uitbreiden <ArrowRight className="w-3.5 h-3.5" />
-          </Link>
-          <span className="text-border">·</span>
-          <Link to="/solutions/commercieel-talent" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors font-medium">
-            Commercieel talent vinden <ArrowRight className="w-3.5 h-3.5" />
-          </Link>
-        </motion.div>
       </div>
     </section>
   );

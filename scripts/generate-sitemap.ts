@@ -62,15 +62,6 @@ const staticEntries: SitemapEntry[] = [
   { path: "/sectoren/bouw-en-renovatie", changefreq: "monthly", priority: "0.7" },
   { path: "/sectoren/technische-dienstverlening", changefreq: "monthly", priority: "0.7" },
   // Solution pages
-  { path: "/solutions/voorspelbare-pipeline", changefreq: "monthly", priority: "0.7" },
-  { path: "/solutions/outbound-automatisering", changefreq: "monthly", priority: "0.7" },
-  { path: "/solutions/commercieel-talent", changefreq: "monthly", priority: "0.7" },
-  { path: "/solutions/data-gedreven-sales", changefreq: "monthly", priority: "0.7" },
-  { path: "/solutions/schaalbaar-groeisysteem", changefreq: "monthly", priority: "0.7" },
-  { path: "/solutions/internationaal-uitbreiden", changefreq: "monthly", priority: "0.7" },
-  { path: "/solutions/versnipperde-tools", changefreq: "monthly", priority: "0.7" },
-  { path: "/solutions/weg-uit-excel", changefreq: "monthly", priority: "0.7" },
-  { path: "/solutions/gerichte-prospecting", changefreq: "monthly", priority: "0.7" },
 ];
 
 function formatDate(dateStr: string | null | undefined): string | undefined {

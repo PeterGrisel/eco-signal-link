@@ -1,8 +1,5 @@
 import { motion } from "framer-motion";
 import { Send } from "lucide-react";
-import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
-import { solutions } from "@/data/solutions";
 
 const DeliveryModelSection = () => {
   return (
@@ -58,26 +55,6 @@ const DeliveryModelSection = () => {
             </div>
           </motion.div>
         </div>
-
-        {/* Solution links */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="flex flex-wrap justify-center gap-x-6 gap-y-3 mt-10"
-        >
-          {solutions.slice(0, 3).map((sol) => (
-            <Link
-              key={sol.slug}
-              to={`/solutions/${sol.slug}`}
-              className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-primary transition-colors group"
-            >
-              {sol.title}
-              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
-            </Link>
-          ))}
-        </motion.div>
       </div>
     </section>
   );
