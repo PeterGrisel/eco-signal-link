@@ -1,0 +1,1 @@
+DELETE FROM public.client_logos WHERE id = 'dd9409fe-29f2-4fb6-a16f-0671588c3026';
