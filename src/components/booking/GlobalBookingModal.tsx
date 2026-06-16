@@ -45,6 +45,20 @@ export function GlobalBookingModal({ open, onOpenChange, prefillData }: GlobalBo
     return () => clearTimeout(timer);
   }, [open]);
 
+  // Listen for HubSpot meeting-booked postMessage and fire conversion event.
+  React.useEffect(() => {
+    const onMessage = (e: MessageEvent) => {
+      const data = e.data as { meetingBookSucceeded?: boolean } | undefined;
+      if (data && data.meetingBookSucceeded) {
+        trackEvent("demo_booked", "conversion", "Groeiplan sessie geboekt", {
+          source: window.location.pathname,
+        });
+      }
+    };
+    window.addEventListener("message", onMessage);
+    return () => window.removeEventListener("message", onMessage);
+  }, []);
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[700px] lg:max-w-[1100px] max-h-[95vh] lg:h-[800px] p-0 overflow-y-auto lg:overflow-hidden bg-background border border-glow flex flex-col">
