@@ -22,8 +22,6 @@ import AdminGlossary from "./pages/admin/AdminGlossary.tsx";
 import Woordenboek from "./pages/Woordenboek.tsx";
 import WoordenboekPost from "./pages/WoordenboekPost.tsx";
 import SeoLandingPage from "./pages/SeoLandingPage.tsx";
-import FullSalesManagement from "./pages/FullSalesManagement.tsx";
-import FullServiceRecruitment from "./pages/FullServiceRecruitment.tsx";
 import Blog from "./pages/Blog.tsx";
 import BlogPost from "./pages/BlogPost.tsx";
 import Brandstory from "./pages/Brandstory.tsx";

@@ -9,13 +9,6 @@ interface RecentPost {
   title: string;
 }
 
-const diensten = [
-  { href: "/signaal", label: "Signaal Detectiesysteem" },
-  { href: "/full-sales-management", label: "Full Sales Management" },
-  { href: "/full-service-recruitment", label: "Full Service Recruitment" },
-  { href: "/groeistack", label: "De Groeistack" },
-];
-
 const bedrijf = [
   { href: "/over-ons", label: "Over Ons" },
   { href: "/ons-team", label: "Ons Team" },
@@ -26,6 +19,7 @@ const bedrijf = [
 ];
 
 const kennis = [
+  { href: "/groeistack", label: "De Groeistack" },
   { href: "/playbooks", label: "Playbooks" },
   { href: "/woordenboek", label: "Woordenboek" },
   { href: "/cheatsheets", label: "Cheatsheets" },
