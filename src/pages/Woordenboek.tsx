@@ -99,6 +99,7 @@ const Woordenboek = () => {
                     value={q}
                     onChange={(e) => setQ(e.target.value)}
                     placeholder="Zoek een term..."
+                    aria-label="Zoek in het woordenboek"
                     className="w-full rounded-full bg-card/60 border border-border/60 pl-10 pr-4 py-2.5 text-sm outline-none focus:border-primary/40"
                   />
                 </div>
