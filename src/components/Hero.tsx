@@ -46,7 +46,7 @@ const LogoCircle = ({ name, url }: { name: string; url: string }) => {
       ) : (
         <img
           src={`https://www.google.com/s2/favicons?domain=${domain}&sz=64`}
-          alt={name}
+          alt={`${name} client logo`}
           className="w-5 h-5 object-contain"
           loading="lazy"
           onError={() => setErr(true)}
