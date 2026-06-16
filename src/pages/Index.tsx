@@ -14,7 +14,7 @@ import HerkenbareSection from "@/components/HerkenbareSection";
 import HowItWorksSection from "@/components/HowItWorksSection";
 import AlwaysOnBentoSection from "@/components/AlwaysOnBentoSection";
 import GroeistackSection from "@/components/GroeistackSection";
-import Groeiplan1PagerSection from "@/components/Groeiplan1PagerSection";
+
 import CaseStudiesSection from "@/components/CaseStudiesSection";
 import Chapter11Bewegingen from "@/components/homepage/chapters/Chapter11Bewegingen";
 
@@ -75,7 +75,7 @@ const Index = () => {
       <GroeistackSection />
       <Chapter11Bewegingen />
       <CaseStudiesSection />
-      <Groeiplan1PagerSection />
+      
       <PricingSection showPerformancePartnership={false} />
       <FaqSection />
       <CtaSection />
