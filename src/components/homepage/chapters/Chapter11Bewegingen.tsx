@@ -1,6 +1,12 @@
 import ChapterFrame from "../ChapterFrame";
 import { UserPlus, MapPin, Globe, Handshake, Briefcase, RotateCcw } from "lucide-react";
 import { ProjectCard } from "@/components/ui/ProjectCard";
+import imgKlanten from "@/assets/bewegingen/klanten-werven.png.asset.json";
+import imgLokaal from "@/assets/bewegingen/lokaal-uitbreiden.png.asset.json";
+import imgMarkten from "@/assets/bewegingen/nieuwe-markten.png.asset.json";
+import imgPartners from "@/assets/bewegingen/partners-vinden.png.asset.json";
+import imgTalent from "@/assets/bewegingen/talent-werven.png.asset.json";
+import imgRelaties from "@/assets/bewegingen/relaties-reactiveren.png.asset.json";
 
 const motions = [
   {
@@ -9,7 +15,8 @@ const motions = [
     title: "Klanten werven",
     description: "Bouw een voorspelbare stroom van gekwalificeerde B2B-leads. Volledig geautomatiseerd en gebaseerd op realtime intentiedata.",
     link: "/groeistack",
-    linkText: "Ontdek systeem"
+    linkText: "Ontdek systeem",
+    imgSrc: imgKlanten.url,
   },
   {
     n: "02",
@@ -17,7 +24,8 @@ const motions = [
     title: "Lokaal uitbreiden",
     description: "Versterk uw marktpositie in specifieke regio's. Bereik lokale beslissers met gepersonaliseerde campagnes en relevante data.",
     link: "/groeistack",
-    linkText: "Regio's targeten"
+    linkText: "Regio's targeten",
+    imgSrc: imgLokaal.url,
   },
   {
     n: "03",
@@ -25,7 +33,8 @@ const motions = [
     title: "Nieuwe markten openen",
     description: "Betreed nieuwe sectoren of landen met minimale frictie. Test de haalbaarheid vooraf met betrouwbare doelgroepdata.",
     link: "/groeistack",
-    linkText: "Markten verkennen"
+    linkText: "Markten verkennen",
+    imgSrc: imgMarkten.url,
   },
   {
     n: "04",
@@ -33,7 +42,8 @@ const motions = [
     title: "Partners vinden",
     description: "Identificeer en verbind met strategische partners, resellers of distributeurs die uw groei in Europa versnellen.",
     link: "/groeistack",
-    linkText: "Partnering starten"
+    linkText: "Partnering starten",
+    imgSrc: imgPartners.url,
   },
   {
     n: "05",
@@ -41,7 +51,8 @@ const motions = [
     title: "Talent werven",
     description: "Trek de beste professionals aan voor uw openstaande posities. Directe en actieve benadering van passief toptalent.",
     link: "/groeistack",
-    linkText: "Werving automatiseren"
+    linkText: "Werving automatiseren",
+    imgSrc: imgTalent.url,
   },
   {
     n: "06",
@@ -49,7 +60,8 @@ const motions = [
     title: "Relaties reactiveren",
     description: "Activeer slapende accounts en voormalige klanten. Breng uzelf opnieuw top-of-mind met relevante signalen op het juiste moment.",
     link: "/groeistack",
-    linkText: "Klanten wekken"
+    linkText: "Klanten wekken",
+    imgSrc: imgRelaties.url,
   },
 ];
 
@@ -73,6 +85,7 @@ export default function Chapter11Bewegingen() {
               description={m.description}
               link={m.link}
               linkText={m.linkText}
+              imgSrc={m.imgSrc}
             />
           ))}
         </div>
