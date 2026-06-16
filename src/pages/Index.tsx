@@ -13,6 +13,7 @@ import Gtm2026Section from "@/components/Gtm2026Section";
 import HerkenbareSection from "@/components/HerkenbareSection";
 import HowItWorksSection from "@/components/HowItWorksSection";
 import ReactiefVsAlwaysOnSection from "@/components/ReactiefVsAlwaysOnSection";
+import AlwaysOnBentoSection from "@/components/AlwaysOnBentoSection";
 import GroeistackSection from "@/components/GroeistackSection";
 import CaseStudiesSection from "@/components/CaseStudiesSection";
 import Chapter11Bewegingen from "@/components/homepage/chapters/Chapter11Bewegingen";
@@ -70,6 +71,7 @@ const Index = () => {
       <Gtm2026Section />
       <HerkenbareSection />
       <ReactiefVsAlwaysOnSection />
+      <AlwaysOnBentoSection />
       <HowItWorksSection />
       <GroeistackSection />
       <Chapter11Bewegingen />
