@@ -91,14 +91,11 @@ const Hero = () => {
           autoPlay
           loop
           muted
-          defaultMuted
           playsInline
           disablePictureInPicture
           disableRemotePlayback
           preload="metadata"
-          // @ts-expect-error: non-standard but supported in iOS
-          webkit-playsinline="true"
-          x5-playsinline="true"
+          {...({ "webkit-playsinline": "true", "x5-playsinline": "true" } as Record<string, string>)}
           aria-hidden="true"
           tabIndex={-1}
           className="absolute inset-0 w-full h-full object-cover"
