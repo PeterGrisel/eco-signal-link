@@ -180,7 +180,7 @@ const Hero = () => {
           aria-hidden="true"
           className="absolute inset-0 w-full h-full object-cover"
           decoding="async"
-          fetchPriority="high"
+          loading="eager"
         />
         {reducedMotion ? (
           null
