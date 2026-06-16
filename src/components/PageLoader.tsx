@@ -39,7 +39,6 @@ const PageLoader = ({ children }: { children: React.ReactNode }) => {
               playsInline
               loop
               className="w-full h-full max-w-[1200px] max-h-[75vh] object-contain px-4 md:px-8 drop-shadow-[0_0_50px_rgba(232,148,90,0.15)]"
-              loading="eager"
             />
           </motion.div>
         </motion.div>
