@@ -12,7 +12,6 @@ const navItems = [
   { href: "/admin/analytics", label: "Analytics", icon: Activity },
   { href: "/admin/content", label: "Content", icon: FileText, showPilotBadge: true },
   { href: "/admin/seo", label: "SEO", icon: Globe },
-  { href: "/admin/signaal", label: "Signaal", icon: Radio },
   { href: "/admin/groeistack", label: "Groeistack", icon: Boxes },
   { href: "/admin/playbooks", label: "Playbooks", icon: BookOpen },
   { href: "/admin/woordenboek", label: "Woordenboek", icon: BookA },

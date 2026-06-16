@@ -22,8 +22,6 @@ import AdminGlossary from "./pages/admin/AdminGlossary.tsx";
 import Woordenboek from "./pages/Woordenboek.tsx";
 import WoordenboekPost from "./pages/WoordenboekPost.tsx";
 import SeoLandingPage from "./pages/SeoLandingPage.tsx";
-import FullSalesManagement from "./pages/FullSalesManagement.tsx";
-import FullServiceRecruitment from "./pages/FullServiceRecruitment.tsx";
 import Blog from "./pages/Blog.tsx";
 import BlogPost from "./pages/BlogPost.tsx";
 import Brandstory from "./pages/Brandstory.tsx";
@@ -44,7 +42,6 @@ import AdminSeoHub from "./pages/admin/AdminSeoHub.tsx";
 import AdminSystem from "./pages/admin/AdminSystem.tsx";
 import AdminBlogEditor from "./pages/admin/AdminBlogEditor.tsx";
 import AdminBlogGenerate from "./pages/admin/AdminBlogGenerate.tsx";
-import AdminSignaal from "./pages/admin/AdminSignaal.tsx";
 import AdminAbmPages from "./pages/admin/AdminAbmPages.tsx";
 import ClientPage from "./pages/ClientPage.tsx";
 import HegoPage from "./pages/HegoPage.tsx";
@@ -61,11 +58,6 @@ import Partners from "./pages/Partners.tsx";
 import Klanten from "./pages/Klanten.tsx";
 import IconsPreview from "./pages/IconsPreview.tsx";
 import NotFound from "./pages/NotFound.tsx";
-import SignaalLanding from "./signaal/pages/SignaalLanding.tsx";
-import SignaalStart from "./signaal/pages/SignaalStart.tsx";
-import SignaalJourney from "./signaal/pages/SignaalJourney.tsx";
-import SignaalBlueprint from "./signaal/pages/SignaalBlueprint.tsx";
-import SignaalDashboard from "./signaal/pages/SignaalDashboard.tsx";
 import TrackingScriptInjector from "./components/TrackingScriptInjector";
 import CookieConsent from "./components/CookieConsent";
 import { BookingModalHost } from "./components/booking/GlobalBookingModal";
@@ -133,8 +125,6 @@ const AnimatedRoutes = () => {
           <Route path="/zakelijke-leads" element={<SeoLandingPage />} />
           <Route path="/koude-acquisitie" element={<SeoLandingPage />} />
           <Route path="/acquisitie-uitbesteden" element={<SeoLandingPage />} />
-          <Route path="/full-service-recruitment" element={<FullServiceRecruitment />} />
-          <Route path="/full-sales-management" element={<FullSalesManagement />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="/brandstory" element={<Brandstory />} />
@@ -153,7 +143,6 @@ const AnimatedRoutes = () => {
           <Route path="/admin/content" element={<AdminContentHub />} />
           <Route path="/admin/seo" element={<AdminSeoHub />} />
           <Route path="/admin/system" element={<AdminSystem />} />
-          <Route path="/admin/signaal" element={<AdminSignaal />} />
           <Route path="/admin/abm" element={<AdminAbmPages />} />
           <Route path="/voor/hego" element={<HegoPage />} />
           <Route path="/voor/sealeco" element={<SealEcoPage />} />
@@ -172,12 +161,6 @@ const AnimatedRoutes = () => {
           <Route path="/cheatsheet/icp-ai" element={<IcpAi />} />
           <Route path="/cheatsheet/multichannel-sequencing" element={<MultichannelSequencing />} />
           <Route path="/cheatsheet/gamma-presentaties" element={<GammaCheatsheet />} />
-          <Route path="/signaal" element={<SignaalLanding />} />
-          <Route path="/signaal/start" element={<SignaalStart />} />
-          <Route path="/signaal/dashboard" element={<SignaalDashboard />} />
-          <Route path="/signaal/journey" element={<SignaalJourney />} />
-          <Route path="/signaal/journey/:journeyId" element={<SignaalJourney />} />
-          <Route path="/signaal/blueprint" element={<SignaalBlueprint />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
