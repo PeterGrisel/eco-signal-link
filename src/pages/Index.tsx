@@ -11,7 +11,7 @@ import FaqSection from "@/components/FaqSection";
 import CtaSection from "@/components/CtaSection";
 import Gtm2026Section from "@/components/Gtm2026Section";
 import HerkenbareSection from "@/components/HerkenbareSection";
-import HowItWorksSection from "@/components/HowItWorksSection";
+import HowItWorksCarousel from "@/components/HowItWorksCarousel";
 import AlwaysOnBentoSection from "@/components/AlwaysOnBentoSection";
 import GroeistackSection from "@/components/GroeistackSection";
 
@@ -71,7 +71,7 @@ const Index = () => {
       <HerkenbareSection />
       <AlwaysOnBentoSection />
       <Gtm2026Section />
-      <HowItWorksSection />
+      <HowItWorksCarousel />
       <GroeistackSection />
       <Chapter11Bewegingen />
       <CaseStudiesSection />
