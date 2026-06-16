@@ -67,9 +67,9 @@ const Index = () => {
         <Hero />
       </div>
       {/* Offer-led: aanbod, hoe het werkt, en het bewijs */}
-      <Gtm2026Section />
       <HerkenbareSection />
       <AlwaysOnBentoSection />
+      <Gtm2026Section />
       <HowItWorksSection />
       <GroeistackSection />
       <Chapter11Bewegingen />
