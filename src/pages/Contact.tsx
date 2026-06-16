@@ -8,6 +8,7 @@ import Footer from "@/components/Footer";
 import { Send, Loader2, Calendar, Mail, Phone, Building2, TrendingUp, Users, Workflow, ArrowRight } from "lucide-react";
 import { z } from "zod";
 import { trackCTA, trackFormSubmit } from "@/lib/tracking";
+import { usePageMeta } from "@/hooks/usePageMeta";
 
 const contactSchema = z.object({
   name: z.string().trim().min(1, "Naam is verplicht").max(100),
@@ -18,6 +19,12 @@ const contactSchema = z.object({
 });
 
 const Contact = () => {
+  usePageMeta({
+    title: "Contact | B2BGroeiMachine",
+    description:
+      "Plan een vrijblijvend gesprek of stel uw vraag. Wij helpen B2B-organisaties met voorspelbare groei via sales, data en automatisering.",
+    canonical: "https://www.b2bgroeimachine.io/contact",
+  });
   const [form, setForm] = useState({ name: "", email: "", company: "", phone: "", message: "" });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
