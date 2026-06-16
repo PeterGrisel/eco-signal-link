@@ -99,7 +99,7 @@ const steps: readonly Step[] = [
     resultaat:
       "Meer interactie met de juiste accounts en inzicht in wie warm wordt of opvolging nodig heeft.",
     icon: MessageSquare,
-    imgSrc: placeholder("02 · Engagement"),
+    imgSrc: engagementStep2.url,
     imgAlt: "Engagement — markt activeren met gerichte campagnes",
   },
   {
