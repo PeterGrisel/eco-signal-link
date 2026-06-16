@@ -107,6 +107,16 @@ export const seoLandingPages: SeoLandingPage[] = [
           anchor: "reverse funnel calculator",
           description: "Bereken zelf hoeveel input u nodig heeft voor uw gewenste output aan klanten.",
         },
+        {
+          href: "/koude-acquisitie",
+          anchor: "koude acquisitie op koopsignalen",
+          description: "Hoe u koude acquisitie vervangt door benadering op basis van actuele signalen.",
+        },
+        {
+          href: "/acquisitie-uitbesteden",
+          anchor: "acquisitie uitbesteden zonder lock-in",
+          description: "Wanneer het slim is om acquisitie uit te besteden en hoe u regie houdt.",
+        },
       ],
     },
   },
@@ -229,6 +239,32 @@ export const seoLandingPages: SeoLandingPage[] = [
       { slug: "data-gedreven-sales", label: "Data-gedreven sales" },
       { slug: "weg-uit-excel", label: "Weg uit Excel" },
     ],
+    internalLinks: {
+      title: "Verdiep u in de bouwstenen",
+      lead: "Zakelijke leads worden pas waardevol binnen een groter systeem. Hieronder de onderdelen die direct met dit onderwerp samenhangen.",
+      links: [
+        {
+          href: "/b2b-leadgeneratie",
+          anchor: "B2B leadgeneratie op koopsignalen",
+          description: "Het bredere systeem waarin zakelijke leads doorlopend worden aangevuld en gekwalificeerd.",
+        },
+        {
+          href: "/koude-acquisitie",
+          anchor: "koude acquisitie op warme signalen",
+          description: "Hoe u zakelijke leads benadert zonder terug te vallen op koude lijsten en massa-mail.",
+        },
+        {
+          href: "/acquisitie-uitbesteden",
+          anchor: "acquisitie uitbesteden aan een specialist",
+          description: "Laat het ophalen en opvolgen van zakelijke leads door een extern team doen, op uw eigen tools.",
+        },
+        {
+          href: "/pipeline-equation",
+          anchor: "voorspelmodel voor uw pipeline",
+          description: "Reken terug hoeveel zakelijke leads u per maand nodig heeft voor uw omzetdoel.",
+        },
+      ],
+    },
   },
   {
     slug: "koude-acquisitie",
@@ -336,6 +372,7 @@ export const seoLandingPages: SeoLandingPage[] = [
       links: [
         { href: "/koude-acquisitie", anchor: "koude acquisitie op koopsignalen", description: "Hoe we koude acquisitie vervangen door benadering op basis van actuele signalen." },
         { href: "/b2b-leadgeneratie", anchor: "B2B leadgeneratie als systeem", description: "Het bredere systeem waar uitbestede acquisitie een uitvoerend onderdeel binnen is." },
+        { href: "/zakelijke-leads", anchor: "kwalitatieve zakelijke leads", description: "Hoe wij doorlopend zakelijke leads aanleveren in plaats van eenmalige lijsten." },
         { href: "/hoe-het-werkt", anchor: "werkwijze van ons leadgeneratie bureau", description: "Stap voor stap hoe wij een acquisitie-traject inrichten en overdragen." },
         { href: "/pipeline-equation", anchor: "voorspelmodel voor uw pipeline", description: "Bereken vooraf wat uitbestede acquisitie u in pipeline gaat opleveren." },
       ],
