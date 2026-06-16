@@ -6,6 +6,7 @@ const Privacy = () => {
   usePageMeta({
     title: "Privacyverklaring | B2BGroeiMachine",
     description: "Lees onze privacyverklaring en ontdek hoe B2BGroeiMachine (Rebel Force B.V.) omgaat met jouw persoonsgegevens.",
+    canonical: "https://www.b2bgroeimachine.io/privacy",
   });
 
   return (
