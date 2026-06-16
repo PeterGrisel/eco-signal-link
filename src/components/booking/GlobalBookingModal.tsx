@@ -42,8 +42,8 @@ export function GlobalBookingModal({ open, onOpenChange, prefillData }: GlobalBo
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[700px] lg:max-w-[1100px] max-h-[95vh] lg:h-[800px] p-0 overflow-hidden bg-background border border-glow flex flex-col">
-        <div className="grid lg:grid-cols-[450px_1fr] h-full overflow-y-auto lg:overflow-hidden">
+      <DialogContent className="sm:max-w-[700px] lg:max-w-[1100px] max-h-[95vh] lg:h-[800px] p-0 overflow-y-auto lg:overflow-hidden bg-background border border-glow flex flex-col">
+        <div className="grid lg:grid-cols-[450px_1fr] lg:h-full lg:overflow-hidden">
           
           {/* Left panel: What they get (Groeiplan overview) */}
           <div className="p-6 md:p-8 lg:p-10 bg-[#0d1321] border-b lg:border-b-0 lg:border-r border-glow flex flex-col justify-between overflow-y-auto lg:h-full">
