@@ -74,7 +74,7 @@ const Groeistack = () => {
     title: "De Groeistack — onze AI- en GTM-toolstack | B2BGroeiMachine",
     description:
       "De beste AI- en GTM-tools, gecureerd en geïntegreerd in uw eigen systemen. Van signalen en verrijking tot outreach, CRM en attributie.",
-    canonical: "https://b2bgroeimachine.io/groeistack",
+    canonical: "https://www.b2bgroeimachine.io/groeistack",
   });
 
   useEffect(() => {
@@ -102,8 +102,8 @@ const Groeistack = () => {
         <div className="relative z-10">
           <BreadcrumbJsonLd
             items={[
-              { name: "Home", url: "https://b2bgroeimachine.io/" },
-              { name: "De Groeistack", url: "https://b2bgroeimachine.io/groeistack" },
+              { name: "Home", url: "https://www.b2bgroeimachine.io/" },
+              { name: "De Groeistack", url: "https://www.b2bgroeimachine.io/groeistack" },
             ]}
           />
           <Navbar />

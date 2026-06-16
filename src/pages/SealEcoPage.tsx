@@ -52,8 +52,8 @@ const SealEcoPage = () => {
     title: "SealEco × B2BGroeiMachine — Market Activation Playbook",
     description:
       "Persoonlijk playbook voor SealEco: hoe wij installateurs, architecten, prefabricators en distributeurs activeren rond roofing, facade, lining en geo.",
-    canonical: "https://b2bgroeimachine.io/voor/sealeco",
-    ogImage: "https://b2bgroeimachine.io/og/sealeco.jpg",
+    canonical: "https://www.b2bgroeimachine.io/voor/sealeco",
+    ogImage: "https://www.b2bgroeimachine.io/og/sealeco.jpg",
   });
 
   useEffect(() => {

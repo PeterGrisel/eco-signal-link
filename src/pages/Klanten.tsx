@@ -203,7 +203,7 @@ const Klanten = () => {
     title: "Klanten | B2BGroeiMachine",
     description:
       "Een selectie van ambitieuze B2B-organisaties die met ons commerciële brein voorspelbare groei bouwen.",
-    canonical: "https://b2bgroeimachine.io/klanten",
+    canonical: "https://www.b2bgroeimachine.io/klanten",
   });
 
   useEffect(() => {
@@ -239,8 +239,8 @@ const Klanten = () => {
       <div className="min-h-screen">
         <BreadcrumbJsonLd
           items={[
-            { name: "Home", url: "https://b2bgroeimachine.io/" },
-            { name: "Klanten", url: "https://b2bgroeimachine.io/klanten" },
+            { name: "Home", url: "https://www.b2bgroeimachine.io/" },
+            { name: "Klanten", url: "https://www.b2bgroeimachine.io/klanten" },
           ]}
         />
         <Navbar />

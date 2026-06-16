@@ -27,7 +27,7 @@ const Blog = () => {
   usePageMeta({
     title: "Blog — B2B Sales & Prospecting Insights | B2BGroeiMachine",
     description: "Lees onze laatste artikelen over B2B sales, prospecting, outreach en groeistrategieën.",
-    canonical: "https://b2bgroeimachine.io/blog",
+    canonical: "https://www.b2bgroeimachine.io/blog",
   });
 
   useEffect(() => {
@@ -156,7 +156,7 @@ const Blog = () => {
             "@context": "https://schema.org",
             "@type": "Blog",
             name: "B2BGroeiMachine Blog",
-            url: "https://b2bgroeimachine.io/blog",
+            url: "https://www.b2bgroeimachine.io/blog",
             description: "Inzichten over B2B sales, prospecting en groeistrategieën.",
           }),
         }}

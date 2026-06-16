@@ -41,7 +41,7 @@ const SolutionPage = () => {
   usePageMeta({
     title: solution.metaTitle,
     description: solution.metaDescription,
-    canonical: `https://b2bgroeimachine.io/solutions/${solution.slug}`,
+    canonical: `https://www.b2bgroeimachine.io/solutions/${solution.slug}`,
   });
 
   return (
@@ -49,8 +49,8 @@ const SolutionPage = () => {
       <div className="min-h-screen">
         <BreadcrumbJsonLd
           items={[
-            { name: "Home", url: "https://b2bgroeimachine.io/" },
-            { name: solution.title, url: `https://b2bgroeimachine.io/solutions/${solution.slug}` },
+            { name: "Home", url: "https://www.b2bgroeimachine.io/" },
+            { name: solution.title, url: `https://www.b2bgroeimachine.io/solutions/${solution.slug}` },
           ]}
         />
         <JsonLd
@@ -65,9 +65,9 @@ const SolutionPage = () => {
             provider: {
               "@type": "Organization",
               name: "B2BGroeiMachine",
-              url: "https://b2bgroeimachine.io",
+              url: "https://www.b2bgroeimachine.io",
             },
-            url: `https://b2bgroeimachine.io/solutions/${solution.slug}`,
+            url: `https://www.b2bgroeimachine.io/solutions/${solution.slug}`,
             inLanguage: "nl-NL",
           }}
         />

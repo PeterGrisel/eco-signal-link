@@ -77,7 +77,7 @@ const SignaalLanding = () => {
             "@type": "Product",
             "name": "Signaal Detectiesysteem",
             "description": "Bouw in 90 minuten uw eigen signaal-detectiesysteem voor B2B sales. 7-laags interactieve journey met AI Strategy Agent, Blueprint PDF export en setup checklists.",
-            "url": "https://b2bgroeimachine.io/signaal",
+            "url": "https://www.b2bgroeimachine.io/signaal",
             "brand": { "@type": "Brand", "name": "B2BGroeiMachine" },
             "offers": {
               "@type": "Offer",

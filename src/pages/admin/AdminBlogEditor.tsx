@@ -107,7 +107,7 @@ const AdminBlogEditor = () => {
 
   const autoSubmitIndexing = async (postSlug: string) => {
     try {
-      const blogUrl = `https://b2bgroeimachine.io/blog/${postSlug}`;
+      const blogUrl = `https://www.b2bgroeimachine.io/blog/${postSlug}`;
       await supabase.functions.invoke("request-indexing", {
         body: { url: blogUrl },
       });

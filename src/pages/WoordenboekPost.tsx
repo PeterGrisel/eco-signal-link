@@ -56,7 +56,7 @@ const WoordenboekPost = () => {
   usePageMeta({
     title: t ? `${t.term} — definitie | Woordenboek B2BGroeiMachine` : "Woordenboek — B2BGroeiMachine",
     description: t?.meta_description || t?.short_def || "Een term uit het B2B-groei woordenboek.",
-    canonical: `https://b2bgroeimachine.io/woordenboek/${slug}`,
+    canonical: `https://www.b2bgroeimachine.io/woordenboek/${slug}`,
   });
 
   if (!loading && !t) return <Navigate to="/woordenboek" replace />;
@@ -69,9 +69,9 @@ const WoordenboekPost = () => {
           {t && (
             <BreadcrumbJsonLd
               items={[
-                { name: "Home", url: "https://b2bgroeimachine.io/" },
-                { name: "Woordenboek", url: "https://b2bgroeimachine.io/woordenboek" },
-                { name: t.term, url: `https://b2bgroeimachine.io/woordenboek/${t.slug}` },
+                { name: "Home", url: "https://www.b2bgroeimachine.io/" },
+                { name: "Woordenboek", url: "https://www.b2bgroeimachine.io/woordenboek" },
+                { name: t.term, url: `https://www.b2bgroeimachine.io/woordenboek/${t.slug}` },
               ]}
             />
           )}

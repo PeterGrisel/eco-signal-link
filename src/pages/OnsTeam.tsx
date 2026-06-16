@@ -93,7 +93,7 @@ const OnsTeam = () => {
     title: "Ons Team — B2BGroeiMachine",
     description:
       "Maak kennis met de experts achter B2BGroeiMachine. Van strategie tot AI — ons team bouwt systemen die structureel B2B groei opleveren.",
-    canonical: "https://b2bgroeimachine.io/ons-team",
+    canonical: "https://www.b2bgroeimachine.io/ons-team",
   });
 
   return (
@@ -101,8 +101,8 @@ const OnsTeam = () => {
       <div className="min-h-screen">
         <BreadcrumbJsonLd
           items={[
-            { name: "Home", url: "https://b2bgroeimachine.io/" },
-            { name: "Ons Team", url: "https://b2bgroeimachine.io/ons-team" },
+            { name: "Home", url: "https://www.b2bgroeimachine.io/" },
+            { name: "Ons Team", url: "https://www.b2bgroeimachine.io/ons-team" },
           ]}
         />
         <Navbar />

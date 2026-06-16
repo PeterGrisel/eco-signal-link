@@ -29,7 +29,7 @@ const Woordenboek = () => {
     title: "Woordenboek — B2B-groei begrippen uitgelegd | B2BGroeiMachine",
     description:
       "Heldere definities voor B2B-groei, signalen, ICP, intent data en RevOps. Dagelijks aangevuld door onze AI-redactie.",
-    canonical: "https://b2bgroeimachine.io/woordenboek",
+    canonical: "https://www.b2bgroeimachine.io/woordenboek",
   });
 
   useEffect(() => {
@@ -72,8 +72,8 @@ const Woordenboek = () => {
         <div className="relative z-10">
           <BreadcrumbJsonLd
             items={[
-              { name: "Home", url: "https://b2bgroeimachine.io/" },
-              { name: "Woordenboek", url: "https://b2bgroeimachine.io/woordenboek" },
+              { name: "Home", url: "https://www.b2bgroeimachine.io/" },
+              { name: "Woordenboek", url: "https://www.b2bgroeimachine.io/woordenboek" },
             ]}
           />
           <Navbar />

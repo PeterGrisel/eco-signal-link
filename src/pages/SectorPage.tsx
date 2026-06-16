@@ -28,7 +28,7 @@ const SectorPage = () => {
   usePageMeta({
     title: sector?.metaTitle ?? "Sector — B2BGroeiMachine",
     description: sector?.metaDescription,
-    canonical: sector ? `https://b2bgroeimachine.io/sectoren/${slug}` : undefined,
+    canonical: sector ? `https://www.b2bgroeimachine.io/sectoren/${slug}` : undefined,
   });
 
   if (!sector) return <Navigate to="/404" replace />;
@@ -39,9 +39,9 @@ const SectorPage = () => {
     <PageLoader>
       <div className="min-h-screen">
         <BreadcrumbJsonLd items={[
-          { name: "Home", url: "https://b2bgroeimachine.io/" },
-          { name: "Sectoren", url: "https://b2bgroeimachine.io/" },
-          { name: sector.title, url: `https://b2bgroeimachine.io/sectoren/${sector.slug}` },
+          { name: "Home", url: "https://www.b2bgroeimachine.io/" },
+          { name: "Sectoren", url: "https://www.b2bgroeimachine.io/" },
+          { name: sector.title, url: `https://www.b2bgroeimachine.io/sectoren/${sector.slug}` },
         ]} />
         <JsonLd
           id="service-jsonld"
@@ -55,13 +55,13 @@ const SectorPage = () => {
             provider: {
               "@type": "Organization",
               name: "B2BGroeiMachine",
-              url: "https://b2bgroeimachine.io",
+              url: "https://www.b2bgroeimachine.io",
             },
             audience: {
               "@type": "BusinessAudience",
               name: sector.title,
             },
-            url: `https://b2bgroeimachine.io/sectoren/${sector.slug}`,
+            url: `https://www.b2bgroeimachine.io/sectoren/${sector.slug}`,
             inLanguage: "nl-NL",
           }}
         />

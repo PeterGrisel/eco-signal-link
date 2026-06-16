@@ -223,7 +223,7 @@ const Footer = () => {
             <span className="w-px h-3.5 bg-border" />
             <Link to="/cookies" className="text-muted-foreground hover:text-foreground transition-colors">Cookies</Link>
             <span className="w-px h-3.5 bg-border" />
-            <a href="https://b2bgroeimachine.io/rss.xml" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors" title="RSS Feed" aria-label="RSS feed">
+            <a href="https://www.b2bgroeimachine.io/rss.xml" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors" title="RSS Feed" aria-label="RSS feed">
               <Rss className="w-4 h-4" />
             </a>
           </nav>

@@ -62,7 +62,7 @@ const Index = () => {
       {/* Cinematic ambient backdrop — falling pattern + primary glows */}
       <AmbientBackdrop />
       <div className="relative z-10">
-      <BreadcrumbJsonLd items={[{ name: "Home", url: "https://b2bgroeimachine.io/" }]} />
+      <BreadcrumbJsonLd items={[{ name: "Home", url: "https://www.b2bgroeimachine.io/" }]} />
       <Navbar />
       <div id="section-hero">
         <Hero />

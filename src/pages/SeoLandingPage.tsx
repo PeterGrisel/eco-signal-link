@@ -27,7 +27,7 @@ const SeoLandingPage = () => {
 
   if (!page) return <Navigate to="/404" replace />;
 
-  const canonical = `https://b2bgroeimachine.io/${page.slug}`;
+  const canonical = `https://www.b2bgroeimachine.io/${page.slug}`;
 
   usePageMeta({
     title: page.metaTitle,
@@ -69,7 +69,7 @@ const SeoLandingPage = () => {
       <div className="min-h-screen">
         <BreadcrumbJsonLd
           items={[
-            { name: "Home", url: "https://b2bgroeimachine.io/" },
+            { name: "Home", url: "https://www.b2bgroeimachine.io/" },
             { name: page.keyword, url: canonical },
           ]}
         />
