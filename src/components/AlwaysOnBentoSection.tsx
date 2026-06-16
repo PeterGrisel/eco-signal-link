@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import DottedMap from "dotted-map";
 import {
   Activity,
-  ArrowRight,
   Radio,
   MapPin,
   Layers,
@@ -44,10 +43,11 @@ const SignalMap = () => (
     ))}
     {/* Highlight a few "live" signal pulses */}
     {[
-      { x: 58, y: 22 }, // NL
-      { x: 60, y: 24 }, // BE
-      { x: 62, y: 20 }, // DE
-      { x: 56, y: 26 }, // UK
+      { x: 61.7, y: 12.7 }, // NL
+      { x: 61.3, y: 13.4 }, // BE
+      { x: 63.3, y: 13.0 }, // DE
+      { x: 59.3, y: 12.0 }, // UK
+      { x: 62.0, y: 15.0 }, // FR
     ].map((p, i) => (
       <g key={`pulse-${i}`}>
         <circle cx={p.x} cy={p.y} r={0.6} fill="hsl(var(--primary))" />
@@ -148,9 +148,9 @@ const signals: Signal[] = [
 ];
 
 const SignalStreamCard = () => (
-  <div className="relative w-full max-w-sm h-[280px] overflow-hidden font-body">
-    <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-card to-transparent z-10 pointer-events-none" />
-    <div className="space-y-2 relative z-0">
+  <div className="relative w-full h-full min-h-[220px] overflow-hidden font-body">
+    <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-card to-transparent z-10 pointer-events-none" />
+    <div className="space-y-1.5 relative z-0">
       {signals.map((s, i) => (
         <motion.div
           key={i}
@@ -158,10 +158,10 @@ const SignalStreamCard = () => (
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: i * 0.08, duration: 0.4 }}
-          className="flex items-start gap-3 rounded-lg border border-border/60 bg-background/40 p-3"
+          className="flex items-start gap-2.5 rounded-md border border-border/60 bg-background/40 p-2.5"
         >
-          <span className="mt-0.5 w-7 h-7 shrink-0 rounded-md border border-primary/30 bg-primary/10 flex items-center justify-center">
-            <Radio className="w-3.5 h-3.5 text-primary" strokeWidth={1.8} />
+          <span className="mt-0.5 w-6 h-6 shrink-0 rounded border border-primary/30 bg-primary/10 flex items-center justify-center">
+            <Radio className="w-3 h-3 text-primary" strokeWidth={1.8} />
           </span>
           <div className="min-w-0 flex-1">
             <div className="flex items-center justify-between gap-2">
@@ -188,28 +188,65 @@ function FeatureCard({
   eyebrow,
   title,
   description,
+  visual,
 }: {
   icon: React.ReactNode;
   eyebrow: string;
   title: string;
   description: string;
+  visual?: React.ReactNode;
 }) {
   return (
-    <div className="relative flex flex-col gap-3 p-6 border border-border/60 bg-card/40 transition hover:bg-card/60">
-      <span className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-muted-foreground">
+    <div className="group relative flex flex-col gap-3 p-5 border border-border/60 bg-card/40 transition hover:bg-card/60 overflow-hidden">
+      <span className="inline-flex items-center gap-2 text-[11px] font-mono uppercase tracking-wider text-muted-foreground">
         {icon}
         {eyebrow}
       </span>
-      <h4 className="text-lg font-display font-semibold tracking-tight text-foreground leading-snug">
+      <h4 className="text-base font-display font-semibold tracking-tight text-foreground leading-snug">
         {title}{" "}
         <span className="text-muted-foreground font-normal">{description}</span>
       </h4>
-      <div className="absolute bottom-3 right-3 p-2.5 flex items-center justify-center border border-border/60 rounded-full bg-background/60 transition-transform group-hover:-rotate-45">
-        <ArrowRight className="w-3.5 h-3.5 text-primary" />
-      </div>
+      {visual && <div className="mt-auto pt-2">{visual}</div>}
     </div>
   );
 }
+
+// ---------- Mini visuals ----------
+const PulseBars = () => (
+  <div className="flex items-end gap-1 h-12">
+    {[40, 65, 50, 80, 55, 90, 70, 100, 85, 95, 75, 100].map((h, i) => (
+      <motion.span
+        key={i}
+        initial={{ scaleY: 0.3 }}
+        whileInView={{ scaleY: 1 }}
+        viewport={{ once: true }}
+        transition={{ delay: i * 0.04, duration: 0.5 }}
+        style={{ height: `${h}%`, transformOrigin: "bottom" }}
+        className="flex-1 bg-gradient-to-t from-primary/60 to-primary/20 rounded-sm"
+      />
+    ))}
+  </div>
+);
+
+const CompoundingStack = () => (
+  <div className="flex items-end justify-between gap-1.5 h-12">
+    {[1, 2, 3, 4, 5, 6, 7].map((n, i) => (
+      <motion.div
+        key={i}
+        initial={{ height: 0 }}
+        whileInView={{ height: `${n * 14}%` }}
+        viewport={{ once: true }}
+        transition={{ delay: i * 0.06, duration: 0.5 }}
+        className="flex-1 bg-primary/70 rounded-sm relative"
+        style={{ minHeight: 4 }}
+      >
+        <span className="absolute -top-4 left-1/2 -translate-x-1/2 text-[9px] font-mono text-muted-foreground">
+          W{n}
+        </span>
+      </motion.div>
+    ))}
+  </div>
+);
 
 // ---------- Section ----------
 const AlwaysOnBentoSection = () => {
@@ -243,52 +280,52 @@ const AlwaysOnBentoSection = () => {
         {/* Bento grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 md:grid-rows-2 border border-border/60 rounded-2xl overflow-hidden bg-background/30 backdrop-blur-sm">
           {/* 1. MAP — top-left */}
-          <div className="relative overflow-hidden bg-card/30 border-b border-r-0 md:border-r border-border/60 p-6">
-            <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-muted-foreground mb-4">
-              <MapPin className="w-3.5 h-3.5 text-primary" />
+          <div className="relative overflow-hidden bg-card/30 border-b border-r-0 md:border-r border-border/60 p-5">
+            <div className="flex items-center gap-2 text-[11px] font-mono uppercase tracking-wider text-muted-foreground mb-3">
+              <MapPin className="w-3 h-3 text-primary" />
               Signalen live
             </div>
-            <h3 className="text-xl font-display font-semibold text-foreground leading-snug">
+            <h3 className="text-base md:text-lg font-display font-semibold text-foreground leading-snug">
               Pulse op accounts in Europa.{" "}
               <span className="text-muted-foreground font-normal">
                 Realtime triggers uit publieke en private bronnen.
               </span>
             </h3>
-            <div className="relative mt-6">
-              <div className="absolute top-6 left-1/2 -translate-x-1/2 z-10 px-3 py-1.5 bg-card border border-primary/30 text-foreground rounded-md text-xs font-mono shadow-lg flex items-center gap-2">
+            <div className="relative mt-4">
+              <div className="absolute top-[8%] left-[52%] z-10 px-2.5 py-1 bg-card border border-primary/30 text-foreground rounded text-[10px] font-mono shadow-lg flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-                Nieuw signaal in NL
+                Nieuw signaal · NL
               </div>
               <SignalMap />
             </div>
           </div>
 
           {/* 2. SIGNAL STREAM — top-right */}
-          <div className="flex flex-col justify-between gap-4 p-6 bg-card/30 border-b border-border/60">
+          <div className="flex flex-col gap-4 p-5 bg-card/30 border-b border-border/60">
             <div>
-              <span className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-muted-foreground mb-2">
-                <Activity className="w-3.5 h-3.5 text-primary" />
+              <span className="flex items-center gap-2 text-[11px] font-mono uppercase tracking-wider text-muted-foreground mb-2">
+                <Activity className="w-3 h-3 text-primary" />
                 Continue stream
               </span>
-              <h3 className="text-xl font-display font-semibold text-foreground leading-snug">
+              <h3 className="text-base md:text-lg font-display font-semibold text-foreground leading-snug">
                 Elk signaal direct in beeld.{" "}
                 <span className="text-muted-foreground font-normal">
                   Funding, hires, vacatures en intent in één feed.
                 </span>
               </h3>
             </div>
-            <div className="flex justify-center items-start w-full">
+            <div className="flex-1 w-full">
               <SignalStreamCard />
             </div>
           </div>
 
           {/* 3. CHART — bottom-left */}
-          <div className="bg-card/30 border-r-0 md:border-r border-border/60 p-6 space-y-4">
-            <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-muted-foreground">
-              <Activity className="w-3.5 h-3.5 text-primary" />
+          <div className="bg-card/30 border-r-0 md:border-r border-border/60 p-5 space-y-3">
+            <div className="flex items-center gap-2 text-[11px] font-mono uppercase tracking-wider text-muted-foreground">
+              <Activity className="w-3 h-3 text-primary" />
               Pipeline groei
             </div>
-            <h3 className="text-xl font-display font-semibold text-foreground leading-snug">
+            <h3 className="text-base md:text-lg font-display font-semibold text-foreground leading-snug">
               Reactief piekt. Always-on stapelt.{" "}
               <span className="text-muted-foreground font-normal">
                 Het verschil na zeven weken in één beeld.
@@ -298,18 +335,20 @@ const AlwaysOnBentoSection = () => {
           </div>
 
           {/* 4. FEATURE CARDS — bottom-right */}
-          <div className="grid sm:grid-cols-2 bg-card/20">
+          <div className="grid grid-rows-2 bg-card/20">
             <FeatureCard
-              icon={<InfinityIcon className="w-3.5 h-3.5 text-primary" />}
+              icon={<InfinityIcon className="w-3 h-3 text-primary" />}
               eyebrow="Altijd aan"
               title="Signalen 24/7."
               description="Uw motor blijft draaien, ook zonder dat uw team actief zoekt."
+              visual={<PulseBars />}
             />
             <FeatureCard
-              icon={<Layers className="w-3.5 h-3.5 text-primary" />}
+              icon={<Layers className="w-3 h-3 text-primary" />}
               eyebrow="Compounding"
               title="Elke week meer."
               description="Data, modellen en opvolging worden samen sterker."
+              visual={<CompoundingStack />}
             />
           </div>
         </div>
