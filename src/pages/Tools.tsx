@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PageLoader from "@/components/PageLoader";
 import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
+import { usePageMeta } from "@/hooks/usePageMeta";
 
 const tools = [
   {
@@ -31,6 +32,12 @@ const tools = [
 ];
 
 const Tools = () => {
+  usePageMeta({
+    title: "Gratis B2B groei-tools | B2BGroeiMachine",
+    description:
+      "Reken uw funnel, pipelinewaarde en pipeline-score uit met onze gratis B2B tools. Direct inzicht in groei, leads en omzetdoelen.",
+    canonical: "https://www.b2bgroeimachine.io/tools",
+  });
   return (
     <PageLoader>
       <div className="min-h-screen">
