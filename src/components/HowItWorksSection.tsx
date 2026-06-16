@@ -15,7 +15,6 @@ const STEPS = [
     title: "Awareness",
     subtitle: "We maken zichtbaar waar de commerciële kansen zitten.",
     icon: Eye,
-    colSpan: 2 as const,
     summary:
       "We vertalen uw groeidoel naar concrete doelgroepen, accounts, contactpersonen en signalen.",
     labels: [
@@ -34,7 +33,6 @@ const STEPS = [
     title: "Engagement",
     subtitle: "We activeren de markt met gerichte campagnes.",
     icon: MessageSquare,
-    colSpan: 1 as const,
     summary:
       "We brengen uw doelgroep in beweging via e-mail, LinkedIn, content en nurture flows.",
     labels: [
@@ -54,7 +52,6 @@ const STEPS = [
     title: "Activities",
     subtitle: "We zetten signalen om in concrete salesactie.",
     icon: PhoneCall,
-    colSpan: 3 as const,
     featured: true,
     summary:
       "We zorgen dat sales, accountmanagement of directie weet wie moet worden opgevolgd, waarom en met welke boodschap.",
@@ -74,7 +71,7 @@ const STEPS = [
 ];
 
 interface HowItWorksSectionProps {
-  accent?: string; // custom brand accent (hex). When set, overrides primary tokens.
+  accent?: string;
 }
 
 const HowItWorksSection = ({ accent }: HowItWorksSectionProps = {}) => {
@@ -82,36 +79,45 @@ const HowItWorksSection = ({ accent }: HowItWorksSectionProps = {}) => {
   const accentBorder = accent ? { borderColor: `${accent}55` } : undefined;
   const accentPhaseStyle = accent ? { color: `${accent}CC` } : undefined;
 
-  // Interactive scrolling story — self-contained scroll container
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
-    const container = scrollContainerRef.current;
-    if (!container) return;
-    const handleScroll = () => {
-      const scrollableHeight = container.scrollHeight - container.clientHeight;
-      if (scrollableHeight <= 0) return;
-      const stepHeight = scrollableHeight / STEPS.length;
+    const wrap = wrapperRef.current;
+    if (!wrap) return;
+    const handle = () => {
+      const rect = wrap.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const total = rect.height - vh;
+      if (total <= 0) return;
+      const scrolled = Math.min(Math.max(-rect.top, 0), total);
+      const step = total / STEPS.length;
       const next = Math.min(
         STEPS.length - 1,
-        Math.floor(container.scrollTop / Math.max(stepHeight, 1))
+        Math.max(0, Math.floor(scrolled / Math.max(step, 1)))
       );
       setActiveIndex(next);
     };
-    container.addEventListener("scroll", handleScroll, { passive: true });
-    return () => container.removeEventListener("scroll", handleScroll);
+    handle();
+    window.addEventListener("scroll", handle, { passive: true });
+    window.addEventListener("resize", handle);
+    return () => {
+      window.removeEventListener("scroll", handle);
+      window.removeEventListener("resize", handle);
+    };
   }, []);
 
   const scrollToIndex = (i: number) => {
-    const container = scrollContainerRef.current;
-    if (!container) return;
-    const scrollableHeight = container.scrollHeight - container.clientHeight;
-    const stepHeight = scrollableHeight / STEPS.length;
-    container.scrollTo({ top: stepHeight * i, behavior: "smooth" });
+    const wrap = wrapperRef.current;
+    if (!wrap) return;
+    const rect = wrap.getBoundingClientRect();
+    const vh = window.innerHeight;
+    const total = rect.height - vh;
+    const step = total / STEPS.length;
+    const top = window.scrollY + rect.top + step * i + 4;
+    window.scrollTo({ top, behavior: "smooth" });
   };
 
-  // Grid pattern background for the right column (matches reference)
   const gridPatternStyle: React.CSSProperties = {
     backgroundImage: `
       linear-gradient(to right, hsl(var(--primary) / 0.08) 1px, transparent 1px),
@@ -121,8 +127,8 @@ const HowItWorksSection = ({ accent }: HowItWorksSectionProps = {}) => {
   };
 
   return (
-    <section id="proces" className="py-16 md:py-24 relative">
-      <div className="container mx-auto px-4 md:px-6 relative z-10 mb-10 md:mb-14">
+    <section id="proces" className="pt-16 md:pt-24 pb-8 md:pb-12 relative">
+      <div className="container mx-auto px-4 md:px-6 relative z-10 mb-6 md:mb-10">
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -155,35 +161,32 @@ const HowItWorksSection = ({ accent }: HowItWorksSectionProps = {}) => {
               commerciële uitvoering.
             </span>
           </h2>
-          <p className="text-muted-foreground text-lg leading-relaxed mt-6">
-            Wij bouwen een B2B Engine die uw markt zichtbaar maakt, doelgroepen activeert en signalen omzet in concrete opvolging. Niet als losse campagne, maar als doorlopend groeisysteem.
+          <p className="text-muted-foreground text-base md:text-lg leading-relaxed mt-5">
+            Wij bouwen een B2B Engine die uw markt zichtbaar maakt, doelgroepen activeert en signalen omzet in concrete opvolging.
           </p>
         </motion.div>
       </div>
 
-      {/* ===== Interactive Scrolling Story ===== */}
+      {/* ===== Scrolling Story Wrapper ===== */}
       <div
-        ref={scrollContainerRef}
-        className="relative h-screen overflow-y-auto scroll-smooth bg-background [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        ref={wrapperRef}
+        className="relative"
+        style={{ height: `${STEPS.length * 80 + 20}vh` }}
       >
-        {/* Tall inner spacer drives the scroll progress */}
-        <div
-          className="relative w-full"
-          style={{ height: `${STEPS.length * 100}vh` }}
-        >
-          {/* Sticky two-column panel */}
-          <div className="sticky top-0 h-screen w-full">
-            <div className="grid grid-cols-1 lg:grid-cols-2 h-full">
-              {/* ===== LEFT COLUMN ===== */}
-              <div className="relative flex flex-col justify-center px-6 md:px-12 lg:px-16 py-12">
+        {/* Sticky panel — fits any viewport */}
+        <div className="sticky top-0 h-[100svh] w-full flex items-center">
+          <div className="container mx-auto px-4 md:px-6 w-full">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-10 lg:gap-12 items-center">
+              {/* LEFT */}
+              <div className="relative flex flex-col justify-center order-2 lg:order-1">
                 {/* Pagination */}
-                <div className="flex items-center gap-2 mb-10">
+                <div className="flex items-center gap-2 mb-5 md:mb-7">
                   {STEPS.map((_, i) => (
                     <button
                       key={i}
                       onClick={() => scrollToIndex(i)}
                       aria-label={`Ga naar stap ${i + 1}`}
-                      className={`h-1 rounded-full transition-all duration-500 ease-in-out ${
+                      className={`h-1 rounded-full transition-all duration-500 ${
                         i === activeIndex
                           ? "w-12 bg-primary"
                           : "w-6 bg-primary/20 hover:bg-primary/40"
@@ -197,8 +200,7 @@ const HowItWorksSection = ({ accent }: HowItWorksSectionProps = {}) => {
                   ))}
                 </div>
 
-                {/* All slides — opacity toggles based on active */}
-                <div className="relative max-w-xl">
+                <div className="relative max-w-xl min-h-[240px] md:min-h-[260px]">
                   {STEPS.map((slide, i) => {
                     const Icon = slide.icon;
                     const isActive = i === activeIndex;
@@ -211,9 +213,9 @@ const HowItWorksSection = ({ accent }: HowItWorksSectionProps = {}) => {
                             : "opacity-0 translate-y-4 absolute inset-0 pointer-events-none"
                         }`}
                       >
-                        <div className="flex items-center gap-4 mb-6">
+                        <div className="flex items-center gap-3 md:gap-4 mb-4">
                           <span
-                            className="w-12 h-12 rounded-xl border border-primary/30 bg-card flex items-center justify-center"
+                            className="w-10 h-10 md:w-11 md:h-11 rounded-xl border border-primary/30 bg-card flex items-center justify-center"
                             style={accentBorder}
                           >
                             <Icon
@@ -223,7 +225,7 @@ const HowItWorksSection = ({ accent }: HowItWorksSectionProps = {}) => {
                             />
                           </span>
                           <span
-                            className="font-display font-bold text-4xl md:text-5xl text-gradient leading-none"
+                            className="font-display font-bold text-3xl md:text-4xl text-gradient leading-none"
                             style={
                               accent
                                 ? {
@@ -246,16 +248,16 @@ const HowItWorksSection = ({ accent }: HowItWorksSectionProps = {}) => {
                           )}
                         </div>
 
-                        <h3 className="font-display font-bold text-3xl md:text-5xl leading-tight mb-4">
+                        <h3 className="font-display font-bold text-2xl md:text-4xl leading-tight mb-3">
                           {slide.title}
                         </h3>
                         <p
-                          className="text-xs md:text-sm font-display font-semibold tracking-[0.18em] uppercase mb-5"
+                          className="text-[11px] md:text-xs font-display font-semibold tracking-[0.18em] uppercase mb-3"
                           style={accentPhaseStyle}
                         >
                           {slide.subtitle}
                         </p>
-                        <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
+                        <p className="text-sm md:text-base text-muted-foreground leading-relaxed">
                           {slide.summary}
                         </p>
                       </div>
@@ -263,11 +265,10 @@ const HowItWorksSection = ({ accent }: HowItWorksSectionProps = {}) => {
                   })}
                 </div>
 
-                {/* CTA */}
-                <div className="mt-10">
+                <div className="mt-5 md:mt-7">
                   <Link
                     to="/playbooks"
-                    className="inline-flex items-center gap-2 font-medium text-primary hover:gap-3 transition-all"
+                    className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:gap-3 transition-all"
                     style={accentStyle}
                   >
                     Bekijk de 8 uitvoerende playbooks
@@ -276,12 +277,12 @@ const HowItWorksSection = ({ accent }: HowItWorksSectionProps = {}) => {
                 </div>
               </div>
 
-              {/* ===== RIGHT COLUMN ===== */}
+              {/* RIGHT */}
               <div
-                className="relative hidden lg:flex items-center justify-center overflow-hidden border-l border-border/50"
+                className="relative rounded-2xl overflow-hidden border border-border/50 h-[42vh] sm:h-[48vh] md:h-[56vh] lg:h-[62vh] order-1 lg:order-2"
                 style={gridPatternStyle}
               >
-                <div className="relative w-[80%] h-[75%]">
+                <div className="absolute inset-3 md:inset-5">
                   {STEPS.map((slide, i) => {
                     const isActive = i === activeIndex;
                     return (
@@ -293,18 +294,18 @@ const HowItWorksSection = ({ accent }: HowItWorksSectionProps = {}) => {
                             : "opacity-0 scale-95 pointer-events-none"
                         }`}
                       >
-                        <div className="card-gradient border-glow rounded-2xl p-8 h-full flex flex-col overflow-hidden">
+                        <div className="card-gradient border-glow rounded-xl p-4 md:p-6 h-full flex flex-col overflow-hidden">
                           <p
-                            className="text-[10px] font-display font-semibold tracking-[0.18em] uppercase mb-4"
+                            className="text-[10px] font-display font-semibold tracking-[0.18em] uppercase mb-3"
                             style={accentPhaseStyle}
                           >
                             Diensten
                           </p>
-                          <div className="flex flex-wrap gap-2 mb-8">
+                          <div className="flex flex-wrap gap-1.5 md:gap-2 mb-4">
                             {slide.labels.map((item, idx) => (
                               <span
                                 key={idx}
-                                className="inline-flex items-center px-2.5 py-1 rounded-md border border-primary/25 bg-primary/5 text-xs font-medium text-foreground/85"
+                                className="inline-flex items-center px-2 py-1 rounded-md border border-primary/25 bg-primary/5 text-[11px] md:text-xs font-medium text-foreground/85"
                                 style={
                                   accent
                                     ? {
@@ -319,14 +320,14 @@ const HowItWorksSection = ({ accent }: HowItWorksSectionProps = {}) => {
                             ))}
                           </div>
 
-                          <div className="mt-auto border-t border-primary/15 pt-5">
+                          <div className="mt-auto border-t border-primary/15 pt-4">
                             <p
                               className="text-[10px] font-display font-semibold tracking-[0.18em] uppercase mb-2"
                               style={accentPhaseStyle}
                             >
                               Resultaat
                             </p>
-                            <p className="text-base text-primary/90 leading-relaxed font-medium">
+                            <p className="text-xs md:text-sm text-primary/90 leading-relaxed font-medium">
                               {slide.resultaat}
                             </p>
                           </div>
