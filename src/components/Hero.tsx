@@ -7,10 +7,19 @@ import { Button } from "@/components/ui/button";
 import CtaLink from "@/components/CtaLink";
 import { CTA } from "@/content/copy";
 import { Compass, ArrowRight, ArrowDown, UserPlus, MapPin, Globe, Handshake, Briefcase, RotateCcw } from "lucide-react";
-import layer1 from "@/assets/hero/layer-1-sky.jpg";
-import layer2 from "@/assets/hero/layer-2-mist.png";
-import layer3 from "@/assets/hero/layer-3-skyline.png";
-import layer4 from "@/assets/hero/layer-4-grid.png";
+import heroLayer1 from "@/assets/hero/hero-layer-1.png.asset.json";
+import heroLayer2 from "@/assets/hero/hero-layer-2.png.asset.json";
+import heroLayer3 from "@/assets/hero/hero-layer-3.png.asset.json";
+import heroLayer4 from "@/assets/hero/hero-layer-4.png.asset.json";
+import heroLayer5 from "@/assets/hero/hero-layer-5.png.asset.json";
+import heroLayer6 from "@/assets/hero/hero-layer-6.png.asset.json";
+
+const layer1 = heroLayer1.url;
+const layer2 = heroLayer2.url;
+const layer3 = heroLayer3.url;
+const layer4 = heroLayer4.url;
+const layer5 = heroLayer5.url;
+const layer6 = heroLayer6.url;
 
 const heroMotions = [
   { icon: UserPlus, title: "Klanten werven" },
@@ -79,10 +88,12 @@ const Hero = () => {
       });
 
       const layers = [
-        { layer: "1", yPercent: 70 },
-        { layer: "2", yPercent: 55 },
-        { layer: "3", yPercent: 40 },
-        { layer: "4", yPercent: 10 },
+        { layer: "1", yPercent: 75 },
+        { layer: "2", yPercent: 60 },
+        { layer: "3", yPercent: 48 },
+        { layer: "4", yPercent: 34 },
+        { layer: "5", yPercent: 20 },
+        { layer: "6", yPercent: 8 },
       ];
 
       layers.forEach((layerObj, idx) => {
@@ -120,18 +131,28 @@ const Hero = () => {
         />
         <div
           data-parallax-layer="2"
-          className="absolute inset-0 bg-cover bg-center opacity-70 mix-blend-screen will-change-transform"
+          className="absolute inset-0 bg-cover bg-center opacity-80 mix-blend-screen will-change-transform"
           style={{ backgroundImage: `url(${layer2})` }}
         />
         <div
           data-parallax-layer="3"
-          className="absolute inset-0 bg-cover bg-bottom opacity-85 will-change-transform"
+          className="absolute inset-0 bg-cover bg-center opacity-85 mix-blend-screen will-change-transform"
           style={{ backgroundImage: `url(${layer3})` }}
         />
         <div
           data-parallax-layer="4"
-          className="absolute inset-0 bg-cover bg-bottom opacity-80 mix-blend-screen will-change-transform"
+          className="absolute inset-0 bg-contain bg-center bg-no-repeat opacity-90 mix-blend-screen will-change-transform"
           style={{ backgroundImage: `url(${layer4})` }}
+        />
+        <div
+          data-parallax-layer="5"
+          className="absolute inset-0 bg-cover bg-center opacity-80 mix-blend-screen will-change-transform"
+          style={{ backgroundImage: `url(${layer5})` }}
+        />
+        <div
+          data-parallax-layer="6"
+          className="absolute inset-0 bg-cover bg-center opacity-95 mix-blend-screen will-change-transform"
+          style={{ backgroundImage: `url(${layer6})` }}
         />
         {/* Leesbaarheid onderaan */}
         <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-background/60 to-transparent pointer-events-none" />
