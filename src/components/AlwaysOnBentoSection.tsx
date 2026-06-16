@@ -149,9 +149,9 @@ const signals: Signal[] = [
 ];
 
 const SignalStreamCard = () => (
-  <div className="relative w-full max-w-sm h-[280px] overflow-hidden font-body">
-    <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-card to-transparent z-10 pointer-events-none" />
-    <div className="space-y-2 relative z-0">
+  <div className="relative w-full h-full min-h-[220px] overflow-hidden font-body">
+    <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-card to-transparent z-10 pointer-events-none" />
+    <div className="space-y-1.5 relative z-0">
       {signals.map((s, i) => (
         <motion.div
           key={i}
@@ -159,10 +159,10 @@ const SignalStreamCard = () => (
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: i * 0.08, duration: 0.4 }}
-          className="flex items-start gap-3 rounded-lg border border-border/60 bg-background/40 p-3"
+          className="flex items-start gap-2.5 rounded-md border border-border/60 bg-background/40 p-2.5"
         >
-          <span className="mt-0.5 w-7 h-7 shrink-0 rounded-md border border-primary/30 bg-primary/10 flex items-center justify-center">
-            <Radio className="w-3.5 h-3.5 text-primary" strokeWidth={1.8} />
+          <span className="mt-0.5 w-6 h-6 shrink-0 rounded border border-primary/30 bg-primary/10 flex items-center justify-center">
+            <Radio className="w-3 h-3 text-primary" strokeWidth={1.8} />
           </span>
           <div className="min-w-0 flex-1">
             <div className="flex items-center justify-between gap-2">
@@ -189,28 +189,65 @@ function FeatureCard({
   eyebrow,
   title,
   description,
+  visual,
 }: {
   icon: React.ReactNode;
   eyebrow: string;
   title: string;
   description: string;
+  visual?: React.ReactNode;
 }) {
   return (
-    <div className="relative flex flex-col gap-3 p-6 border border-border/60 bg-card/40 transition hover:bg-card/60">
-      <span className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-muted-foreground">
+    <div className="group relative flex flex-col gap-3 p-5 border border-border/60 bg-card/40 transition hover:bg-card/60 overflow-hidden">
+      <span className="inline-flex items-center gap-2 text-[11px] font-mono uppercase tracking-wider text-muted-foreground">
         {icon}
         {eyebrow}
       </span>
-      <h4 className="text-lg font-display font-semibold tracking-tight text-foreground leading-snug">
+      <h4 className="text-base font-display font-semibold tracking-tight text-foreground leading-snug">
         {title}{" "}
         <span className="text-muted-foreground font-normal">{description}</span>
       </h4>
-      <div className="absolute bottom-3 right-3 p-2.5 flex items-center justify-center border border-border/60 rounded-full bg-background/60 transition-transform group-hover:-rotate-45">
-        <ArrowRight className="w-3.5 h-3.5 text-primary" />
-      </div>
+      {visual && <div className="mt-auto pt-2">{visual}</div>}
     </div>
   );
 }
+
+// ---------- Mini visuals ----------
+const PulseBars = () => (
+  <div className="flex items-end gap-1 h-12">
+    {[40, 65, 50, 80, 55, 90, 70, 100, 85, 95, 75, 100].map((h, i) => (
+      <motion.span
+        key={i}
+        initial={{ scaleY: 0.3 }}
+        whileInView={{ scaleY: 1 }}
+        viewport={{ once: true }}
+        transition={{ delay: i * 0.04, duration: 0.5 }}
+        style={{ height: `${h}%`, transformOrigin: "bottom" }}
+        className="flex-1 bg-gradient-to-t from-primary/60 to-primary/20 rounded-sm"
+      />
+    ))}
+  </div>
+);
+
+const CompoundingStack = () => (
+  <div className="flex items-end justify-between gap-1.5 h-12">
+    {[1, 2, 3, 4, 5, 6, 7].map((n, i) => (
+      <motion.div
+        key={i}
+        initial={{ height: 0 }}
+        whileInView={{ height: `${n * 14}%` }}
+        viewport={{ once: true }}
+        transition={{ delay: i * 0.06, duration: 0.5 }}
+        className="flex-1 bg-primary/70 rounded-sm relative"
+        style={{ minHeight: 4 }}
+      >
+        <span className="absolute -top-4 left-1/2 -translate-x-1/2 text-[9px] font-mono text-muted-foreground">
+          W{n}
+        </span>
+      </motion.div>
+    ))}
+  </div>
+);
 
 // ---------- Section ----------
 const AlwaysOnBentoSection = () => {
