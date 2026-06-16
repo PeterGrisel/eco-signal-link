@@ -73,6 +73,42 @@ export const seoLandingPages: SeoLandingPage[] = [
       { slug: "outbound-automatisering", label: "Outbound automatisering" },
       { slug: "gerichte-prospecting", label: "Gerichte prospecting" },
     ],
+    internalLinks: {
+      title: "Verdiep u in de bouwstenen",
+      lead: "B2B leadgeneratie bestaat uit meerdere lagen. Hieronder leest u meer over de onderdelen die direct bij dit onderwerp horen.",
+      links: [
+        {
+          href: "/zakelijke-leads",
+          anchor: "kwalitatieve zakelijke leads",
+          description: "Wat maakt een zakelijke lead echt waardevol en hoe scheidt u ruis van kansen.",
+        },
+        {
+          href: "/pipeline-equation",
+          anchor: "voorspelmodellen voor uw pipeline",
+          description: "Reken terug vanaf uw omzetdoel naar het aantal gesprekken dat u per maand nodig heeft.",
+        },
+        {
+          href: "/hoe-het-werkt",
+          anchor: "werkwijze van ons leadgeneratie bureau",
+          description: "Hoe wij als bureau uw leadgeneratie inrichten zonder vendor lock-in en met volle data-overdracht.",
+        },
+        {
+          href: "/online-leadgeneratie",
+          anchor: "online leadgeneratie in B2B",
+          description: "Welke online kanalen werken en hoe u ze samenbrengt in één meetbare flow.",
+        },
+        {
+          href: "/leads-genereren-b2b",
+          anchor: "stappenplan om leads te genereren",
+          description: "Concreet stappenplan om structureel B2B leads te genereren in plaats van losse acties.",
+        },
+        {
+          href: "/funnel-calculator",
+          anchor: "reverse funnel calculator",
+          description: "Bereken zelf hoeveel input u nodig heeft voor uw gewenste output aan klanten.",
+        },
+      ],
+    },
   },
   {
     slug: "leads-genereren-b2b",
