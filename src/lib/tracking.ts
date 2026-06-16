@@ -179,6 +179,11 @@ const sendGA4Event = (
   if (typeof window !== "undefined" && window.gtag) {
     window.gtag("event", eventName, params);
   }
+  // Also push to GTM dataLayer so any downstream tag (Leadinfo, Ads, LinkedIn, etc.) can listen.
+  if (typeof window !== "undefined") {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ event: eventName, ...params });
+  }
 };
 
 // ── Internal tracking (fire & forget) ──
