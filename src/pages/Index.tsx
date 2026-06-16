@@ -12,7 +12,6 @@ import CtaSection from "@/components/CtaSection";
 import Gtm2026Section from "@/components/Gtm2026Section";
 import HerkenbareSection from "@/components/HerkenbareSection";
 import HowItWorksSection from "@/components/HowItWorksSection";
-import ReactiefVsAlwaysOnSection from "@/components/ReactiefVsAlwaysOnSection";
 import AlwaysOnBentoSection from "@/components/AlwaysOnBentoSection";
 import GroeistackSection from "@/components/GroeistackSection";
 import CaseStudiesSection from "@/components/CaseStudiesSection";
@@ -70,7 +69,6 @@ const Index = () => {
       {/* Offer-led: aanbod, hoe het werkt, en het bewijs */}
       <Gtm2026Section />
       <HerkenbareSection />
-      <ReactiefVsAlwaysOnSection />
       <AlwaysOnBentoSection />
       <HowItWorksSection />
       <GroeistackSection />
