@@ -89,9 +89,30 @@ const Hero = () => {
       if (document.visibilityState === "visible") tryPlay();
     };
     document.addEventListener("visibilitychange", onVisible);
+
+    // Seamless loop: native `loop` flashes a grey frame on some browsers
+    // (Chromium/Safari) tussen iteraties. We seeken net vóór het einde
+    // terug naar het begin zodat de overgang onzichtbaar is.
+    const LOOP_SAFETY = 0.12; // seconden vóór het einde terugspoelen
+    const onTimeUpdate = () => {
+      if (!v.duration || !isFinite(v.duration)) return;
+      if (v.currentTime >= v.duration - LOOP_SAFETY) {
+        v.currentTime = 0;
+        tryPlay();
+      }
+    };
+    const onEnded = () => {
+      v.currentTime = 0;
+      tryPlay();
+    };
+    v.addEventListener("timeupdate", onTimeUpdate);
+    v.addEventListener("ended", onEnded);
+
     return () => {
       document.removeEventListener("visibilitychange", onVisible);
       v.removeEventListener("loadeddata", tryPlay);
+      v.removeEventListener("timeupdate", onTimeUpdate);
+      v.removeEventListener("ended", onEnded);
     };
   }, [reducedMotion]);
 
@@ -113,7 +134,6 @@ const Hero = () => {
           ref={videoRef}
           poster={heroPoster.url}
           autoPlay
-          loop
           muted
           playsInline
           disablePictureInPicture
@@ -124,9 +144,9 @@ const Hero = () => {
           tabIndex={-1}
           className="absolute inset-0 w-full h-full object-cover"
         >
-          {/* WebM eerst voor Chromium/Firefox: kleiner & efficiënter */}
-          <source src={heroVideoWebm.url} type="video/webm" />
+          {/* MP4 eerst: betrouwbaarder seamless looping dan VP9/WebM */}
           <source src={heroVideoMp4.url} type="video/mp4" />
+          <source src={heroVideoWebm.url} type="video/webm" />
         </video>
         )}
         {/* Leesbaarheids-overlay */}
