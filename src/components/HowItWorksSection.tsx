@@ -1,5 +1,6 @@
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
 import {
   PhoneCall,
   ArrowRight,
@@ -79,11 +80,47 @@ interface HowItWorksSectionProps {
 const HowItWorksSection = ({ accent }: HowItWorksSectionProps = {}) => {
   const accentStyle = accent ? { color: accent } : undefined;
   const accentBorder = accent ? { borderColor: `${accent}55` } : undefined;
-  const accentBg = accent ? { backgroundColor: `${accent}15` } : undefined;
   const accentPhaseStyle = accent ? { color: `${accent}CC` } : undefined;
-  const accentOutputStyle = accent
-    ? { color: `${accent}CC`, borderColor: `${accent}33` }
-    : undefined;
+
+  // Interactive scrolling story state
+  const scrollWrapRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    const wrap = scrollWrapRef.current;
+    if (!wrap) return;
+    const handle = () => {
+      const rect = wrap.getBoundingClientRect();
+      const total = rect.height - window.innerHeight;
+      const scrolled = Math.min(Math.max(-rect.top, 0), total);
+      const step = total / STEPS.length;
+      const next = Math.min(
+        STEPS.length - 1,
+        Math.max(0, Math.floor(scrolled / Math.max(step, 1)))
+      );
+      setActiveIndex(next);
+    };
+    handle();
+    window.addEventListener("scroll", handle, { passive: true });
+    window.addEventListener("resize", handle);
+    return () => {
+      window.removeEventListener("scroll", handle);
+      window.removeEventListener("resize", handle);
+    };
+  }, []);
+
+  const scrollToIndex = (i: number) => {
+    const wrap = scrollWrapRef.current;
+    if (!wrap) return;
+    const rect = wrap.getBoundingClientRect();
+    const total = rect.height - window.innerHeight;
+    const step = total / STEPS.length;
+    const top = window.scrollY + rect.top + step * i + 8;
+    window.scrollTo({ top, behavior: "smooth" });
+  };
+
+  const active = STEPS[activeIndex];
+  const ActiveIcon = active.icon;
 
   return (
     <section id="proces" className="py-16 md:py-32 relative">
@@ -126,132 +163,154 @@ const HowItWorksSection = ({ accent }: HowItWorksSectionProps = {}) => {
           </p>
         </motion.div>
 
-        {/* 3 Steps — bento layout: 2 / 1 op rij 1, full-width conversie op rij 2 */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6 auto-rows-fr">
-          {STEPS.map((s, i) => (
-            <motion.div
-              key={s.n}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              className={`group relative card-gradient border-glow rounded-2xl p-6 md:p-8 flex flex-col overflow-hidden transition-all duration-300 hover:-translate-y-0.5 will-change-transform ${
-                s.colSpan === 3
-                  ? "lg:col-span-3"
-                  : s.colSpan === 2
-                  ? "lg:col-span-2"
-                  : "lg:col-span-1"
-              } ${s.featured ? "ring-1 ring-primary/40" : ""}`}
-              style={
-                s.featured && accent
-                  ? { boxShadow: `0 0 0 1px ${accent}55` }
-                  : undefined
-              }
-            >
-              {/* Dot pattern overlay on hover */}
-              <div className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,hsl(var(--primary)/0.08)_1px,transparent_1px)] bg-[length:6px_6px]" />
-              </div>
-
-              <div className="relative flex flex-col h-full">
-              {/* Top bar: icon + number */}
-              <div className="flex items-center justify-between mb-5">
-                <span
-                  className="w-11 h-11 rounded-xl border border-primary/30 bg-card flex items-center justify-center"
-                  style={accentBorder}
-                >
-                  <s.icon
-                    className="w-5 h-5 text-primary"
-                    strokeWidth={1.6}
-                    style={accentStyle}
-                  />
-                </span>
-                <div className="flex items-center gap-3">
-                  {s.featured && (
-                    <span
-                      className="text-[10px] font-display font-semibold tracking-[0.18em] uppercase px-2 py-1 rounded-md border border-primary/30 text-primary"
-                      style={accentStyle}
-                    >
-                      Conversie
-                    </span>
-                  )}
-                  <span
-                  className="font-display font-bold text-3xl md:text-4xl text-gradient leading-none"
-                  style={
-                    accent
-                      ? {
-                          color: accent,
-                          WebkitTextFillColor: accent,
-                          backgroundImage: "none",
-                        }
-                      : undefined
-                  }
-                >
-                  {s.n}
-                </span>
-                </div>
-              </div>
-
-              {/* Title + subtitle */}
-              <h3 className="font-display font-bold text-xl md:text-2xl leading-tight mb-2">
-                {s.title}
-              </h3>
-              <p
-                className="text-sm font-display font-semibold tracking-wide uppercase mb-4"
-                style={accentPhaseStyle}
-              >
-                {s.subtitle}
-              </p>
-              <p className="text-sm text-muted-foreground leading-relaxed mb-6">
-                {s.summary}
-              </p>
-
-              {/* Diensten — labels */}
-              <div className="mb-6">
-                <p
-                  className="text-[10px] font-display font-semibold tracking-[0.18em] uppercase mb-3"
-                  style={accentPhaseStyle}
-                >
-                  Diensten
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {s.labels.map((item, idx) => (
-                    <span
-                      key={idx}
-                      className="inline-flex items-center px-2.5 py-1 rounded-md border border-primary/25 bg-primary/5 text-xs font-medium text-foreground/85"
+        {/* Interactive scrolling story */}
+        <div
+          ref={scrollWrapRef}
+          className="relative"
+          style={{ height: `${STEPS.length * 100}vh` }}
+        >
+          <div className="sticky top-0 h-screen flex items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 w-full">
+              {/* Left: text + pagination */}
+              <div className="flex flex-col justify-center">
+                {/* Pagination bars */}
+                <div className="flex items-center gap-2 mb-8">
+                  {STEPS.map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => scrollToIndex(i)}
+                      aria-label={`Ga naar stap ${i + 1}`}
+                      className={`h-1 rounded-full transition-all duration-500 ease-in-out ${
+                        i === activeIndex
+                          ? "w-12 bg-primary"
+                          : "w-6 bg-primary/20 hover:bg-primary/40"
+                      }`}
                       style={
-                        accent
-                          ? {
-                              borderColor: `${accent}40`,
-                              backgroundColor: `${accent}10`,
-                            }
+                        accent && i === activeIndex
+                          ? { backgroundColor: accent }
                           : undefined
                       }
-                    >
-                      {item}
-                    </span>
+                    />
                   ))}
                 </div>
+
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={active.n}
+                    initial={{ opacity: 0, y: 16 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -16 }}
+                    transition={{ duration: 0.4, ease: "easeOut" }}
+                  >
+                    <div className="flex items-center gap-4 mb-5">
+                      <span
+                        className="w-12 h-12 rounded-xl border border-primary/30 bg-card flex items-center justify-center"
+                        style={accentBorder}
+                      >
+                        <ActiveIcon
+                          className="w-5 h-5 text-primary"
+                          strokeWidth={1.6}
+                          style={accentStyle}
+                        />
+                      </span>
+                      <span
+                        className="font-display font-bold text-4xl md:text-5xl text-gradient leading-none"
+                        style={
+                          accent
+                            ? {
+                                color: accent,
+                                WebkitTextFillColor: accent,
+                                backgroundImage: "none",
+                              }
+                            : undefined
+                        }
+                      >
+                        {active.n}
+                      </span>
+                      {active.featured && (
+                        <span
+                          className="text-[10px] font-display font-semibold tracking-[0.18em] uppercase px-2 py-1 rounded-md border border-primary/30 text-primary"
+                          style={accentStyle}
+                        >
+                          Conversie
+                        </span>
+                      )}
+                    </div>
+
+                    <h3 className="font-display font-bold text-3xl md:text-5xl leading-tight mb-3">
+                      {active.title}
+                    </h3>
+                    <p
+                      className="text-sm font-display font-semibold tracking-wide uppercase mb-5"
+                      style={accentPhaseStyle}
+                    >
+                      {active.subtitle}
+                    </p>
+                    <p className="text-base md:text-lg text-muted-foreground leading-relaxed max-w-xl">
+                      {active.summary}
+                    </p>
+                  </motion.div>
+                </AnimatePresence>
               </div>
 
-              {/* Resultaat */}
-              <div
-                className="mt-auto border-t border-primary/15 pt-5"
-                style={accentOutputStyle}
-              >
-                <p
-                  className="text-[10px] font-display font-semibold tracking-[0.18em] uppercase mb-2"
-                  style={accentPhaseStyle}
-                >
-                  Resultaat
-                </p>
-                <p className="text-sm text-primary/90 leading-relaxed font-medium">
-                  {s.resultaat}
-                </p>
+              {/* Right: visual panel with diensten + resultaat */}
+              <div className="relative">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={active.n}
+                    initial={{ opacity: 0, scale: 0.98, y: 16 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.98, y: -16 }}
+                    transition={{ duration: 0.5, ease: "easeOut" }}
+                    className="relative card-gradient border-glow rounded-2xl p-6 md:p-8 overflow-hidden"
+                  >
+                    <div className="absolute inset-0 pointer-events-none opacity-60">
+                      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,hsl(var(--primary)/0.08)_1px,transparent_1px)] bg-[length:6px_6px]" />
+                    </div>
+
+                    <div className="relative">
+                      <p
+                        className="text-[10px] font-display font-semibold tracking-[0.18em] uppercase mb-3"
+                        style={accentPhaseStyle}
+                      >
+                        Diensten
+                      </p>
+                      <div className="flex flex-wrap gap-2 mb-8">
+                        {active.labels.map((item, idx) => (
+                          <span
+                            key={idx}
+                            className="inline-flex items-center px-2.5 py-1 rounded-md border border-primary/25 bg-primary/5 text-xs font-medium text-foreground/85"
+                            style={
+                              accent
+                                ? {
+                                    borderColor: `${accent}40`,
+                                    backgroundColor: `${accent}10`,
+                                  }
+                                : undefined
+                            }
+                          >
+                            {item}
+                          </span>
+                        ))}
+                      </div>
+
+                      <div className="border-t border-primary/15 pt-5">
+                        <p
+                          className="text-[10px] font-display font-semibold tracking-[0.18em] uppercase mb-2"
+                          style={accentPhaseStyle}
+                        >
+                          Resultaat
+                        </p>
+                        <p className="text-sm md:text-base text-primary/90 leading-relaxed font-medium">
+                          {active.resultaat}
+                        </p>
+                      </div>
+                    </div>
+                  </motion.div>
+                </AnimatePresence>
               </div>
-              </div>
-            </motion.div>
-          ))}
+            </div>
+          </div>
         </div>
 
         {/* Link naar de 8 playbooks */}
