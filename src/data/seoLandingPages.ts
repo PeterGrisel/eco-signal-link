@@ -255,7 +255,7 @@ export const seoLandingPages: SeoLandingPage[] = [
         },
         {
           href: "/acquisitie-uitbesteden",
-          anchor: "acquisitie uitbesteden aan een specialist",
+          anchor: "acquisitie uitbesteden op uw eigen tools",
           description: "Laat het ophalen en opvolgen van zakelijke leads door een extern team doen, op uw eigen tools.",
         },
         {
@@ -315,9 +315,9 @@ export const seoLandingPages: SeoLandingPage[] = [
       lead: "Koude acquisitie werkt het best als onderdeel van een groter systeem. Hieronder leest u de losse onderdelen.",
       links: [
         { href: "/acquisitie-uitbesteden", anchor: "acquisitie uitbesteden aan een specialist", description: "Hoe het werkt als u het hele proces bij ons neerlegt en wat u zelf blijft beslissen." },
-        { href: "/b2b-leadgeneratie", anchor: "B2B leadgeneratie op koopsignalen", description: "Het bredere systeem waar koude acquisitie een kanaal binnen is." },
-        { href: "/zakelijke-leads", anchor: "kwalitatieve zakelijke leads", description: "Waarom een eigen leadmotor beter werkt dan koude lijsten kopen." },
-        { href: "/pipeline-equation", anchor: "voorspelmodel voor uw pipeline", description: "Reken vooraf uit hoeveel acquisitie u per maand nodig heeft." },
+        { href: "/b2b-leadgeneratie", anchor: "B2B leadgeneratie binnen één flow", description: "Het bredere systeem waar koude acquisitie een kanaal binnen is." },
+        { href: "/zakelijke-leads", anchor: "eigen leadmotor voor zakelijke leads", description: "Waarom een eigen leadmotor beter werkt dan koude lijsten kopen." },
+        { href: "/pipeline-equation", anchor: "reken uw pipeline-behoefte vooraf uit", description: "Reken vooraf uit hoeveel acquisitie u per maand nodig heeft." },
       ],
     },
   },
@@ -370,11 +370,11 @@ export const seoLandingPages: SeoLandingPage[] = [
       title: "Verdiep u in de bouwstenen",
       lead: "Acquisitie uitbesteden is meer dan bellen voor u. Hieronder de onderdelen die wij voor u inrichten.",
       links: [
-        { href: "/koude-acquisitie", anchor: "koude acquisitie op koopsignalen", description: "Hoe we koude acquisitie vervangen door benadering op basis van actuele signalen." },
+        { href: "/koude-acquisitie", anchor: "koude acquisitie via signaal-detectie", description: "Hoe we koude acquisitie vervangen door benadering op basis van actuele signalen." },
         { href: "/b2b-leadgeneratie", anchor: "B2B leadgeneratie als systeem", description: "Het bredere systeem waar uitbestede acquisitie een uitvoerend onderdeel binnen is." },
-        { href: "/zakelijke-leads", anchor: "kwalitatieve zakelijke leads", description: "Hoe wij doorlopend zakelijke leads aanleveren in plaats van eenmalige lijsten." },
-        { href: "/hoe-het-werkt", anchor: "werkwijze van ons leadgeneratie bureau", description: "Stap voor stap hoe wij een acquisitie-traject inrichten en overdragen." },
-        { href: "/pipeline-equation", anchor: "voorspelmodel voor uw pipeline", description: "Bereken vooraf wat uitbestede acquisitie u in pipeline gaat opleveren." },
+        { href: "/zakelijke-leads", anchor: "doorlopende stroom zakelijke leads", description: "Hoe wij doorlopend zakelijke leads aanleveren in plaats van eenmalige lijsten." },
+        { href: "/hoe-het-werkt", anchor: "onze werkwijze stap voor stap", description: "Stap voor stap hoe wij een acquisitie-traject inrichten en overdragen." },
+        { href: "/pipeline-equation", anchor: "bereken uw pipeline-behoefte", description: "Bereken vooraf wat uitbestede acquisitie u in pipeline gaat opleveren." },
       ],
     },
   },
