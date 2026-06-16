@@ -4,7 +4,7 @@ import Hero from "@/components/Hero";
 import PageLoader from "@/components/PageLoader";
 import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 import Footer from "@/components/Footer";
-import MobileDock from "@/components/MobileDock";
+
 import AmbientBackdrop from "@/components/homepage/AmbientBackdrop";
 import PricingSection from "@/components/PricingSection";
 import FaqSection from "@/components/FaqSection";
@@ -78,7 +78,7 @@ const Index = () => {
       <FaqSection />
       <CtaSection />
       <Footer />
-      <MobileDock />
+      
       </div>
     </div>
     </PageLoader>
