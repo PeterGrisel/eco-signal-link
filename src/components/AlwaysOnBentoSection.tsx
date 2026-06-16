@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import DottedMap from "dotted-map";
 import {
   Activity,
-  ArrowRight,
   Radio,
   MapPin,
   Layers,
