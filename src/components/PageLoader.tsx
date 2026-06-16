@@ -1,11 +1,14 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
+import loaderscreenVideo from "@/assets/loaderscreen.mp4.asset.json";
+import loaderPoster from "@/assets/loader-poster.jpg.asset.json";
 
 const PageLoader = ({ children }: { children: React.ReactNode }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 1200);
+    // Keep loader active for 2.2s to showcase the stunning brand loop
+    const timer = setTimeout(() => setLoading(false), 2200);
     return () => clearTimeout(timer);
   }, []);
 
@@ -14,33 +17,29 @@ const PageLoader = ({ children }: { children: React.ReactNode }) => {
       {loading ? (
         <motion.div
           key="loader"
-          className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-background"
+          className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#05070f]"
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.5, ease: "easeInOut" }}
+          transition={{ duration: 0.6, ease: "easeInOut" }}
         >
           <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
+            initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.4 }}
-            className="flex flex-col items-center gap-6"
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            className="relative w-full h-full flex items-center justify-center overflow-hidden"
           >
-            <span className="font-display font-bold text-3xl md:text-4xl tracking-tight">
-              B2B<span className="text-primary">GroeiMachine</span>
-            </span>
-            <div className="flex gap-1.5">
-              {[0, 1, 2].map((i) => (
-                <motion.div
-                  key={i}
-                  className="w-2.5 h-2.5 rounded-full bg-primary"
-                  animate={{ opacity: [0.3, 1, 0.3], scale: [0.8, 1.2, 0.8] }}
-                  transition={{
-                    duration: 0.8,
-                    repeat: Infinity,
-                    delay: i * 0.15,
-                  }}
-                />
-              ))}
-            </div>
+            {/* Ambient background glow */}
+            <div className="absolute inset-0 bg-radial-gradient from-primary/10 via-transparent to-transparent pointer-events-none" />
+            
+            {/* The brand video loader */}
+            <video
+              src={loaderscreenVideo.url}
+              poster={loaderPoster.url}
+              autoPlay
+              muted
+              playsInline
+              loop
+              className="w-full h-full max-w-[1200px] max-h-[75vh] object-contain px-4 md:px-8 drop-shadow-[0_0_50px_rgba(232,148,90,0.15)]"
+            />
           </motion.div>
         </motion.div>
       ) : (
