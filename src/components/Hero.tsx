@@ -5,8 +5,9 @@ import { Button } from "@/components/ui/button";
 import CtaLink from "@/components/CtaLink";
 import { CTA } from "@/content/copy";
 import { Compass, ArrowRight, ArrowDown, UserPlus, MapPin, Globe, Handshake, Briefcase, RotateCcw } from "lucide-react";
-import heroVideoMp4 from "@/assets/hero-background.mp4.asset.json";
 import heroPoster from "@/assets/hero-poster.jpg.asset.json";
+
+const HERO_VIDEO_SRC = "/media/hero-loop.mp4";
 
 const heroMotions = [
   { icon: UserPlus, title: "Klanten werven" },
@@ -83,14 +84,15 @@ const Hero = () => {
     const b = videoBRef.current;
     if (!a || !b) return;
 
-    // Handoff-window: hoeveel seconden vóór het einde de andere buffer start.
-    // 0.18s is genoeg om decoder-warmup te dekken zelfs op tragere apparaten.
-    const HANDOFF = 0.18;
+    // De nieuwe video bevat geen grijze eindframes en eindigt op het startframe.
+    // We monitoren per animation frame, want `timeupdate` is te traag.
+    const HANDOFF = 0.12;
 
     // Welke buffer toont op dit moment het beeld (opacity:1).
     let active: HTMLVideoElement = a;
     let standby: HTMLVideoElement = b;
     let swapping = false;
+    let frameId: number | null = null;
 
     const safePlay = (el: HTMLVideoElement) => {
       const p = el.play();
@@ -139,11 +141,11 @@ const Hero = () => {
       });
     };
 
-    const onTimeUpdate = (e: Event) => {
-      const v = e.currentTarget as HTMLVideoElement;
-      if (v !== active) return;
-      if (!v.duration || !isFinite(v.duration)) return;
-      if (v.currentTime >= v.duration - HANDOFF) swap();
+    const tick = () => {
+      if (!swapping && active.duration && isFinite(active.duration)) {
+        if (active.currentTime >= active.duration - HANDOFF) swap();
+      }
+      frameId = requestAnimationFrame(tick);
     };
 
     const onEnded = (e: Event) => {
@@ -155,18 +157,16 @@ const Hero = () => {
       if (document.visibilityState === "visible") safePlay(active);
     };
 
-    a.addEventListener("timeupdate", onTimeUpdate);
-    b.addEventListener("timeupdate", onTimeUpdate);
     a.addEventListener("ended", onEnded);
     b.addEventListener("ended", onEnded);
     document.addEventListener("visibilitychange", onVisible);
+    frameId = requestAnimationFrame(tick);
 
     return () => {
-      a.removeEventListener("timeupdate", onTimeUpdate);
-      b.removeEventListener("timeupdate", onTimeUpdate);
       a.removeEventListener("ended", onEnded);
       b.removeEventListener("ended", onEnded);
       document.removeEventListener("visibilitychange", onVisible);
+      if (frameId !== null) cancelAnimationFrame(frameId);
     };
   }, [reducedMotion]);
 
@@ -174,21 +174,22 @@ const Hero = () => {
     <section className="relative isolate min-h-screen flex flex-col overflow-hidden bg-background">
       {/* Loopende video-achtergrond */}
       <div className="absolute inset-0 z-0 overflow-hidden bg-background">
+        <img
+          src={heroPoster.url}
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 w-full h-full object-cover"
+          decoding="async"
+          loading="eager"
+        />
         {reducedMotion ? (
-          <img
-            src={heroPoster.url}
-            alt=""
-            aria-hidden="true"
-            className="absolute inset-0 w-full h-full object-cover"
-            decoding="async"
-            fetchPriority="high"
-          />
+          null
         ) : (
         <>
           {/* Buffer A — zichtbaar bij start */}
           <video
             ref={videoARef}
-            src={heroVideoMp4.url}
+            src={HERO_VIDEO_SRC}
             poster={heroPoster.url}
             autoPlay
             muted
@@ -205,7 +206,8 @@ const Hero = () => {
           {/* Buffer B — wacht op handoff, zelfde bron, volledig vooraf geladen */}
           <video
             ref={videoBRef}
-            src={heroVideoMp4.url}
+            src={HERO_VIDEO_SRC}
+            poster={heroPoster.url}
             muted
             playsInline
             disablePictureInPicture
