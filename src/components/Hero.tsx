@@ -2,7 +2,6 @@ import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Lenis from "@studio-freight/lenis";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import CtaLink from "@/components/CtaLink";
@@ -98,19 +97,9 @@ const Hero = () => {
       });
     }
 
-    const lenis = new Lenis();
-    lenis.on("scroll", ScrollTrigger.update);
-    const tickerCb = (time: number) => {
-      lenis.raf(time * 1000);
-    };
-    gsap.ticker.add(tickerCb);
-    gsap.ticker.lagSmoothing(0);
-
     return () => {
       ScrollTrigger.getAll().forEach((st) => st.kill());
       if (triggerElement) gsap.killTweensOf(triggerElement);
-      gsap.ticker.remove(tickerCb);
-      lenis.destroy();
     };
   }, []);
 
