@@ -44,10 +44,11 @@ const SignalMap = () => (
     ))}
     {/* Highlight a few "live" signal pulses */}
     {[
-      { x: 58, y: 22 }, // NL
-      { x: 60, y: 24 }, // BE
-      { x: 62, y: 20 }, // DE
-      { x: 56, y: 26 }, // UK
+      { x: 61.7, y: 12.7 }, // NL
+      { x: 61.3, y: 13.4 }, // BE
+      { x: 63.3, y: 13.0 }, // DE
+      { x: 59.3, y: 12.0 }, // UK
+      { x: 62.0, y: 15.0 }, // FR
     ].map((p, i) => (
       <g key={`pulse-${i}`}>
         <circle cx={p.x} cy={p.y} r={0.6} fill="hsl(var(--primary))" />
