@@ -26,6 +26,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import awarenessStep1 from "@/assets/how-it-works/awareness-step-1.png.asset.json";
+import engagementStep2 from "@/assets/how-it-works/engagement-step-2.png.asset.json";
 
 // =====================================================================
 // Types
