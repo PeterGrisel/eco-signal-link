@@ -284,17 +284,6 @@ const Hero = () => {
                 <span className="relative">{CTA.gratisScan.label}</span>
               </CtaLink>
             </Button>
-            <Button
-              variant="heroOutline"
-              size="lg"
-              className="group h-12 rounded-full px-6 text-base"
-              asChild
-            >
-            <a href="#proces">
-                Bekijk hoe we dit oplossen
-                <ArrowDown className="w-4 h-4 transition-transform group-hover:translate-y-0.5" />
-              </a>
-            </Button>
             <Link
               to="/klanten"
               className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors"
