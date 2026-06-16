@@ -9,6 +9,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "react-router-dom";
+import { trackFormSubmit } from "@/lib/tracking";
 
 const schema = z.object({
   name: z.string().trim().min(2, "Vul uw naam in").max(100),
@@ -64,6 +65,7 @@ const GroeistackLeadCapture = ({
       return;
     }
     setDone(true);
+    trackFormSubmit("groeistack_lead", { source });
     toast({
       title: "Bedankt!",
       description: "U staat op de lijst en ontvangt onze updates.",

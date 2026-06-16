@@ -2,6 +2,7 @@ import * as React from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { ExternalLink, Check, Sparkles } from "lucide-react";
 import { COPY } from "@/content/copy";
+import { trackEvent } from "@/lib/tracking";
 
 interface GlobalBookingModalProps {
   open: boolean;
@@ -30,6 +31,10 @@ export function GlobalBookingModal({ open, onOpenChange, prefillData }: GlobalBo
 
   React.useEffect(() => {
     if (!open) return;
+    trackEvent("demo_modal_open", "conversion", "Groeiplan booking modal", {
+      source: window.location.pathname,
+      has_prefill: !!(prefillData?.email || prefillData?.name),
+    });
     const timer = setTimeout(() => {
       document.querySelectorAll(`script[src="${HUBSPOT_EMBED_SCRIPT}"]`).forEach((s) => s.remove());
       const script = document.createElement("script");
@@ -39,6 +44,20 @@ export function GlobalBookingModal({ open, onOpenChange, prefillData }: GlobalBo
     }, 150);
     return () => clearTimeout(timer);
   }, [open]);
+
+  // Listen for HubSpot meeting-booked postMessage and fire conversion event.
+  React.useEffect(() => {
+    const onMessage = (e: MessageEvent) => {
+      const data = e.data as { meetingBookSucceeded?: boolean } | undefined;
+      if (data && data.meetingBookSucceeded) {
+        trackEvent("demo_booked", "conversion", "Groeiplan sessie geboekt", {
+          source: window.location.pathname,
+        });
+      }
+    };
+    window.addEventListener("message", onMessage);
+    return () => window.removeEventListener("message", onMessage);
+  }, []);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
