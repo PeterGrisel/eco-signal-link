@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -82,56 +82,53 @@ const HowItWorksSection = ({ accent }: HowItWorksSectionProps = {}) => {
   const accentBorder = accent ? { borderColor: `${accent}55` } : undefined;
   const accentPhaseStyle = accent ? { color: `${accent}CC` } : undefined;
 
-  // Interactive scrolling story state
-  const scrollWrapRef = useRef<HTMLDivElement>(null);
+  // Interactive scrolling story — self-contained scroll container
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
-    const wrap = scrollWrapRef.current;
-    if (!wrap) return;
-    const handle = () => {
-      const rect = wrap.getBoundingClientRect();
-      const total = rect.height - window.innerHeight;
-      const scrolled = Math.min(Math.max(-rect.top, 0), total);
-      const step = total / STEPS.length;
+    const container = scrollContainerRef.current;
+    if (!container) return;
+    const handleScroll = () => {
+      const scrollableHeight = container.scrollHeight - container.clientHeight;
+      if (scrollableHeight <= 0) return;
+      const stepHeight = scrollableHeight / STEPS.length;
       const next = Math.min(
         STEPS.length - 1,
-        Math.max(0, Math.floor(scrolled / Math.max(step, 1)))
+        Math.floor(container.scrollTop / Math.max(stepHeight, 1))
       );
       setActiveIndex(next);
     };
-    handle();
-    window.addEventListener("scroll", handle, { passive: true });
-    window.addEventListener("resize", handle);
-    return () => {
-      window.removeEventListener("scroll", handle);
-      window.removeEventListener("resize", handle);
-    };
+    container.addEventListener("scroll", handleScroll, { passive: true });
+    return () => container.removeEventListener("scroll", handleScroll);
   }, []);
 
   const scrollToIndex = (i: number) => {
-    const wrap = scrollWrapRef.current;
-    if (!wrap) return;
-    const rect = wrap.getBoundingClientRect();
-    const total = rect.height - window.innerHeight;
-    const step = total / STEPS.length;
-    const top = window.scrollY + rect.top + step * i + 8;
-    window.scrollTo({ top, behavior: "smooth" });
+    const container = scrollContainerRef.current;
+    if (!container) return;
+    const scrollableHeight = container.scrollHeight - container.clientHeight;
+    const stepHeight = scrollableHeight / STEPS.length;
+    container.scrollTo({ top: stepHeight * i, behavior: "smooth" });
   };
 
-  const active = STEPS[activeIndex];
-  const ActiveIcon = active.icon;
+  // Grid pattern background for the right column (matches reference)
+  const gridPatternStyle: React.CSSProperties = {
+    backgroundImage: `
+      linear-gradient(to right, hsl(var(--primary) / 0.08) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--primary) / 0.08) 1px, transparent 1px)
+    `,
+    backgroundSize: "3.5rem 3.5rem",
+  };
 
   return (
-    <section id="proces" className="py-16 md:py-32 relative">
-      <div className="container mx-auto px-4 md:px-6 relative z-10">
-        {/* Header */}
+    <section id="proces" className="py-16 md:py-24 relative">
+      <div className="container mx-auto px-4 md:px-6 relative z-10 mb-10 md:mb-14">
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6 }}
-          className="mb-12 md:mb-20 max-w-3xl mx-auto text-center"
+          className="max-w-3xl mx-auto text-center"
         >
           <p
             className="inline-flex items-center justify-center gap-2 text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4 w-full"
@@ -162,19 +159,25 @@ const HowItWorksSection = ({ accent }: HowItWorksSectionProps = {}) => {
             Wij bouwen een B2B Engine die uw markt zichtbaar maakt, doelgroepen activeert en signalen omzet in concrete opvolging. Niet als losse campagne, maar als doorlopend groeisysteem.
           </p>
         </motion.div>
+      </div>
 
-        {/* Interactive scrolling story */}
+      {/* ===== Interactive Scrolling Story ===== */}
+      <div
+        ref={scrollContainerRef}
+        className="relative h-screen overflow-y-auto scroll-smooth no-scrollbar bg-background"
+      >
+        {/* Tall inner spacer drives the scroll progress */}
         <div
-          ref={scrollWrapRef}
-          className="relative"
+          className="relative w-full"
           style={{ height: `${STEPS.length * 100}vh` }}
         >
-          <div className="sticky top-0 h-screen flex items-center">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 w-full">
-              {/* Left: text + pagination */}
-              <div className="flex flex-col justify-center">
-                {/* Pagination bars */}
-                <div className="flex items-center gap-2 mb-8">
+          {/* Sticky two-column panel */}
+          <div className="sticky top-0 h-screen w-full">
+            <div className="grid grid-cols-1 lg:grid-cols-2 h-full">
+              {/* ===== LEFT COLUMN ===== */}
+              <div className="relative flex flex-col justify-center px-6 md:px-12 lg:px-16 py-12">
+                {/* Pagination */}
+                <div className="flex items-center gap-2 mb-10">
                   {STEPS.map((_, i) => (
                     <button
                       key={i}
@@ -194,142 +197,148 @@ const HowItWorksSection = ({ accent }: HowItWorksSectionProps = {}) => {
                   ))}
                 </div>
 
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={active.n}
-                    initial={{ opacity: 0, y: 16 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -16 }}
-                    transition={{ duration: 0.4, ease: "easeOut" }}
-                  >
-                    <div className="flex items-center gap-4 mb-5">
-                      <span
-                        className="w-12 h-12 rounded-xl border border-primary/30 bg-card flex items-center justify-center"
-                        style={accentBorder}
+                {/* All slides — opacity toggles based on active */}
+                <div className="relative max-w-xl">
+                  {STEPS.map((slide, i) => {
+                    const Icon = slide.icon;
+                    const isActive = i === activeIndex;
+                    return (
+                      <div
+                        key={slide.n}
+                        className={`transition-all duration-700 ease-in-out ${
+                          isActive
+                            ? "opacity-100 translate-y-0 relative"
+                            : "opacity-0 translate-y-4 absolute inset-0 pointer-events-none"
+                        }`}
                       >
-                        <ActiveIcon
-                          className="w-5 h-5 text-primary"
-                          strokeWidth={1.6}
-                          style={accentStyle}
-                        />
-                      </span>
-                      <span
-                        className="font-display font-bold text-4xl md:text-5xl text-gradient leading-none"
-                        style={
-                          accent
-                            ? {
-                                color: accent,
-                                WebkitTextFillColor: accent,
-                                backgroundImage: "none",
-                              }
-                            : undefined
-                        }
-                      >
-                        {active.n}
-                      </span>
-                      {active.featured && (
-                        <span
-                          className="text-[10px] font-display font-semibold tracking-[0.18em] uppercase px-2 py-1 rounded-md border border-primary/30 text-primary"
-                          style={accentStyle}
-                        >
-                          Conversie
-                        </span>
-                      )}
-                    </div>
-
-                    <h3 className="font-display font-bold text-3xl md:text-5xl leading-tight mb-3">
-                      {active.title}
-                    </h3>
-                    <p
-                      className="text-sm font-display font-semibold tracking-wide uppercase mb-5"
-                      style={accentPhaseStyle}
-                    >
-                      {active.subtitle}
-                    </p>
-                    <p className="text-base md:text-lg text-muted-foreground leading-relaxed max-w-xl">
-                      {active.summary}
-                    </p>
-                  </motion.div>
-                </AnimatePresence>
-              </div>
-
-              {/* Right: visual panel with diensten + resultaat */}
-              <div className="relative">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={active.n}
-                    initial={{ opacity: 0, scale: 0.98, y: 16 }}
-                    animate={{ opacity: 1, scale: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.98, y: -16 }}
-                    transition={{ duration: 0.5, ease: "easeOut" }}
-                    className="relative card-gradient border-glow rounded-2xl p-6 md:p-8 overflow-hidden"
-                  >
-                    <div className="absolute inset-0 pointer-events-none opacity-60">
-                      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,hsl(var(--primary)/0.08)_1px,transparent_1px)] bg-[length:6px_6px]" />
-                    </div>
-
-                    <div className="relative">
-                      <p
-                        className="text-[10px] font-display font-semibold tracking-[0.18em] uppercase mb-3"
-                        style={accentPhaseStyle}
-                      >
-                        Diensten
-                      </p>
-                      <div className="flex flex-wrap gap-2 mb-8">
-                        {active.labels.map((item, idx) => (
+                        <div className="flex items-center gap-4 mb-6">
                           <span
-                            key={idx}
-                            className="inline-flex items-center px-2.5 py-1 rounded-md border border-primary/25 bg-primary/5 text-xs font-medium text-foreground/85"
+                            className="w-12 h-12 rounded-xl border border-primary/30 bg-card flex items-center justify-center"
+                            style={accentBorder}
+                          >
+                            <Icon
+                              className="w-5 h-5 text-primary"
+                              strokeWidth={1.6}
+                              style={accentStyle}
+                            />
+                          </span>
+                          <span
+                            className="font-display font-bold text-4xl md:text-5xl text-gradient leading-none"
                             style={
                               accent
                                 ? {
-                                    borderColor: `${accent}40`,
-                                    backgroundColor: `${accent}10`,
+                                    color: accent,
+                                    WebkitTextFillColor: accent,
+                                    backgroundImage: "none",
                                   }
                                 : undefined
                             }
                           >
-                            {item}
+                            {slide.n}
                           </span>
-                        ))}
-                      </div>
+                          {slide.featured && (
+                            <span
+                              className="text-[10px] font-display font-semibold tracking-[0.18em] uppercase px-2 py-1 rounded-md border border-primary/30 text-primary"
+                              style={accentStyle}
+                            >
+                              Conversie
+                            </span>
+                          )}
+                        </div>
 
-                      <div className="border-t border-primary/15 pt-5">
+                        <h3 className="font-display font-bold text-3xl md:text-5xl leading-tight mb-4">
+                          {slide.title}
+                        </h3>
                         <p
-                          className="text-[10px] font-display font-semibold tracking-[0.18em] uppercase mb-2"
+                          className="text-xs md:text-sm font-display font-semibold tracking-[0.18em] uppercase mb-5"
                           style={accentPhaseStyle}
                         >
-                          Resultaat
+                          {slide.subtitle}
                         </p>
-                        <p className="text-sm md:text-base text-primary/90 leading-relaxed font-medium">
-                          {active.resultaat}
+                        <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
+                          {slide.summary}
                         </p>
                       </div>
-                    </div>
-                  </motion.div>
-                </AnimatePresence>
+                    );
+                  })}
+                </div>
+
+                {/* CTA */}
+                <div className="mt-10">
+                  <Link
+                    to="/playbooks"
+                    className="inline-flex items-center gap-2 font-medium text-primary hover:gap-3 transition-all"
+                    style={accentStyle}
+                  >
+                    Bekijk de 8 uitvoerende playbooks
+                    <ArrowRight className="w-4 h-4" />
+                  </Link>
+                </div>
+              </div>
+
+              {/* ===== RIGHT COLUMN ===== */}
+              <div
+                className="relative hidden lg:flex items-center justify-center overflow-hidden border-l border-border/50"
+                style={gridPatternStyle}
+              >
+                <div className="relative w-[80%] h-[75%]">
+                  {STEPS.map((slide, i) => {
+                    const isActive = i === activeIndex;
+                    return (
+                      <div
+                        key={slide.n}
+                        className={`absolute inset-0 transition-all duration-700 ease-in-out ${
+                          isActive
+                            ? "opacity-100 scale-100"
+                            : "opacity-0 scale-95 pointer-events-none"
+                        }`}
+                      >
+                        <div className="card-gradient border-glow rounded-2xl p-8 h-full flex flex-col overflow-hidden">
+                          <p
+                            className="text-[10px] font-display font-semibold tracking-[0.18em] uppercase mb-4"
+                            style={accentPhaseStyle}
+                          >
+                            Diensten
+                          </p>
+                          <div className="flex flex-wrap gap-2 mb-8">
+                            {slide.labels.map((item, idx) => (
+                              <span
+                                key={idx}
+                                className="inline-flex items-center px-2.5 py-1 rounded-md border border-primary/25 bg-primary/5 text-xs font-medium text-foreground/85"
+                                style={
+                                  accent
+                                    ? {
+                                        borderColor: `${accent}40`,
+                                        backgroundColor: `${accent}10`,
+                                      }
+                                    : undefined
+                                }
+                              >
+                                {item}
+                              </span>
+                            ))}
+                          </div>
+
+                          <div className="mt-auto border-t border-primary/15 pt-5">
+                            <p
+                              className="text-[10px] font-display font-semibold tracking-[0.18em] uppercase mb-2"
+                              style={accentPhaseStyle}
+                            >
+                              Resultaat
+                            </p>
+                            <p className="text-base text-primary/90 leading-relaxed font-medium">
+                              {slide.resultaat}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             </div>
           </div>
         </div>
-
-        {/* Link naar de 8 playbooks */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true, margin: "-50px" }}
-          transition={{ duration: 0.5 }}
-          className="mt-12 text-center"
-        >
-          <Link
-            to="/playbooks"
-            className="inline-flex items-center gap-2 font-medium text-primary hover:gap-3 transition-all"
-            style={accentStyle}
-          >
-            Bekijk de 8 uitvoerende playbooks achter deze 3 stappen
-            <ArrowRight className="w-4 h-4" />
-          </Link>
-        </motion.div>
       </div>
     </section>
   );
