@@ -3,6 +3,7 @@ import AdminLayout from "@/components/admin/AdminLayout";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BlogTabContent } from "./AdminBlog";
 import { AutopilotTabContent } from "./AdminAutopilot";
+import { QueueManagerTabContent } from "./AdminQueueManager";
 import { CalendarTabContent } from "./AdminCalendar";
 import { TaxonomyTabContent } from "./AdminTaxonomy";
 import { JobsTabContent } from "./AdminJobs";
@@ -31,6 +32,9 @@ const AdminContentHub = () => {
           <TabsTrigger value="autopilot" className="text-xs whitespace-nowrap data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
             Autopilot
           </TabsTrigger>
+          <TabsTrigger value="queue" className="text-xs whitespace-nowrap data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
+            Queue
+          </TabsTrigger>
           <TabsTrigger value="kalender" className="text-xs whitespace-nowrap data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
             Kalender
           </TabsTrigger>
@@ -44,6 +48,7 @@ const AdminContentHub = () => {
 
         <TabsContent value="articles"><BlogTabContent /></TabsContent>
         <TabsContent value="autopilot"><AutopilotTabContent /></TabsContent>
+        <TabsContent value="queue"><QueueManagerTabContent /></TabsContent>
         <TabsContent value="kalender"><CalendarTabContent /></TabsContent>
         <TabsContent value="strategie"><TaxonomyTabContent /></TabsContent>
         <TabsContent value="jobs"><JobsTabContent /></TabsContent>
