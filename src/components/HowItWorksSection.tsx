@@ -164,7 +164,7 @@ const HowItWorksSection = ({ accent }: HowItWorksSectionProps = {}) => {
       {/* ===== Interactive Scrolling Story ===== */}
       <div
         ref={scrollContainerRef}
-        className="relative h-screen overflow-y-auto scroll-smooth no-scrollbar bg-background"
+        className="relative h-screen overflow-y-auto scroll-smooth bg-background [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {/* Tall inner spacer drives the scroll progress */}
         <div
