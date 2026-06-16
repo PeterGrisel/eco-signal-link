@@ -25,7 +25,7 @@ const Blog = () => {
   const [loading, setLoading] = useState(true);
 
   usePageMeta({
-    title: "Blog | B2BGroeiMachine",
+    title: "Blog — B2B Sales & Prospecting Insights | B2BGroeiMachine",
     description: "Lees onze laatste artikelen over B2B sales, prospecting, outreach en groeistrategieën.",
     canonical: "https://b2bgroeimachine.io/blog",
   });
