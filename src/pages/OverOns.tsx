@@ -68,7 +68,7 @@ const values = [
 
 const OverOns = () => {
   usePageMeta({
-    title: "Over Ons — B2BGroeiMachine",
+    title: "Over Ons — Uw Partner in B2B Groei | B2BGroeiMachine",
     description: "Maak kennis met het team achter B2BGroeiMachine. Rebel Force, AI-FCTRY en RebelHub bundelen krachten voor schaalbare B2B groei.",
     canonical: "https://b2bgroeimachine.io/over-ons",
   });
