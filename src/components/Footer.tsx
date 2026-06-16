@@ -47,7 +47,7 @@ const Footer = () => {
     <footer className="border-t border-border bg-card/30">
       <div className="container mx-auto px-4 md:px-6">
         {/* Main grid */}
-        <div className="py-12 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-8 lg:gap-6">
+        <div className="py-12 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-8 lg:gap-6">
           {/* Sectoren */}
           <div>
             <p className="text-[11px] font-display font-semibold tracking-[0.2em] uppercase text-primary/70 mb-4">
@@ -61,24 +61,6 @@ const Footer = () => {
                   className="text-sm text-muted-foreground hover:text-primary transition-colors"
                 >
                   {s.title}
-                </Link>
-              ))}
-            </div>
-          </div>
-
-          {/* Diensten */}
-          <div>
-            <p className="text-[11px] font-display font-semibold tracking-[0.2em] uppercase text-primary/70 mb-4">
-              Diensten
-            </p>
-            <div className="flex flex-col gap-2.5">
-              {diensten.map((link) => (
-                <Link
-                  key={link.href}
-                  to={link.href}
-                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
-                >
-                  {link.label}
                 </Link>
               ))}
             </div>
