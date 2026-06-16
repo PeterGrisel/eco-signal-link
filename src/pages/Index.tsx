@@ -12,6 +12,7 @@ import CtaSection from "@/components/CtaSection";
 import Gtm2026Section from "@/components/Gtm2026Section";
 import HerkenbareSection from "@/components/HerkenbareSection";
 import HowItWorksSection from "@/components/HowItWorksSection";
+import ReactiefVsAlwaysOnSection from "@/components/ReactiefVsAlwaysOnSection";
 import GroeistackSection from "@/components/GroeistackSection";
 import CaseStudiesSection from "@/components/CaseStudiesSection";
 import Chapter11Bewegingen from "@/components/homepage/chapters/Chapter11Bewegingen";
@@ -68,6 +69,7 @@ const Index = () => {
       {/* Offer-led: aanbod, hoe het werkt, en het bewijs */}
       <Gtm2026Section />
       <HerkenbareSection />
+      <ReactiefVsAlwaysOnSection />
       <HowItWorksSection />
       <GroeistackSection />
       <Chapter11Bewegingen />
