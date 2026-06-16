@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import MobileDock from "@/components/MobileDock";
+
 import PageLoader from "@/components/PageLoader";
 import AmbientBackdrop from "@/components/homepage/AmbientBackdrop";
 import Chapter03TwoWays from "@/components/homepage/chapters/Chapter03TwoWays";
@@ -83,7 +83,7 @@ const HoeHetWerkt = () => {
             <Chapter10Levering />
           </main>
           <Footer />
-          <MobileDock />
+          
         </div>
       </div>
     </PageLoader>
