@@ -27,6 +27,7 @@ import {
 import { cn } from "@/lib/utils";
 import awarenessStep1 from "@/assets/how-it-works/awareness-step-1.png.asset.json";
 import engagementStep2 from "@/assets/how-it-works/engagement-step-2.png.asset.json";
+import activitiesStep3 from "@/assets/how-it-works/activities-step-3.png.asset.json";
 
 // =====================================================================
 // Types
@@ -123,7 +124,7 @@ const steps: readonly Step[] = [
     resultaat:
       "Commerciële signalen worden omgezet naar gesprekken, afspraken, offertes en concrete pipeline.",
     icon: PhoneCall,
-    imgSrc: placeholder("03 · Activities"),
+    imgSrc: activitiesStep3.url,
     imgAlt: "Activities — signalen omzetten in salesactie",
   },
 ];
