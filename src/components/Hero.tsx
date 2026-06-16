@@ -1,12 +1,17 @@
 import { motion } from "framer-motion";
-import { Suspense, lazy, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Lenis from "@studio-freight/lenis";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import CtaLink from "@/components/CtaLink";
 import { CTA } from "@/content/copy";
 import { Compass, ArrowRight, ArrowDown, UserPlus, MapPin, Globe, Handshake, Briefcase, RotateCcw } from "lucide-react";
-
-const Spline = lazy(() => import("@splinetool/react-spline"));
+import layer1 from "@/assets/hero/layer-1-sky.jpg";
+import layer2 from "@/assets/hero/layer-2-mist.png";
+import layer3 from "@/assets/hero/layer-3-skyline.png";
+import layer4 from "@/assets/hero/layer-4-grid.png";
 
 const heroMotions = [
   { icon: UserPlus, title: "Klanten werven" },
@@ -56,19 +61,91 @@ const LogoCircle = ({ name, url }: { name: string; url: string }) => {
 };
 
 const Hero = () => {
+  const parallaxRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+
+    const triggerElement = parallaxRef.current?.querySelector("[data-parallax-layers]");
+
+    let tl: gsap.core.Timeline | undefined;
+    if (triggerElement) {
+      tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: triggerElement,
+          start: "0% 0%",
+          end: "100% 0%",
+          scrub: 0,
+        },
+      });
+
+      const layers = [
+        { layer: "1", yPercent: 70 },
+        { layer: "2", yPercent: 55 },
+        { layer: "3", yPercent: 40 },
+        { layer: "4", yPercent: 10 },
+      ];
+
+      layers.forEach((layerObj, idx) => {
+        tl!.to(
+          triggerElement.querySelectorAll(`[data-parallax-layer="${layerObj.layer}"]`),
+          {
+            yPercent: layerObj.yPercent,
+            ease: "none",
+          },
+          idx === 0 ? undefined : "<"
+        );
+      });
+    }
+
+    const lenis = new Lenis();
+    lenis.on("scroll", ScrollTrigger.update);
+    const tickerCb = (time: number) => {
+      lenis.raf(time * 1000);
+    };
+    gsap.ticker.add(tickerCb);
+    gsap.ticker.lagSmoothing(0);
+
+    return () => {
+      ScrollTrigger.getAll().forEach((st) => st.kill());
+      if (triggerElement) gsap.killTweensOf(triggerElement);
+      gsap.ticker.remove(tickerCb);
+      lenis.destroy();
+    };
+  }, []);
+
   return (
-    <section className="relative isolate min-h-screen flex flex-col overflow-hidden bg-background">
-      {/* Spline 3D achtergrond */}
-      <div className="absolute inset-0 z-0 overflow-hidden bg-[radial-gradient(ellipse_85%_60%_at_50%_40%,hsl(var(--primary)/0.28),transparent_64%),radial-gradient(ellipse_70%_50%_at_18%_80%,hsl(190_80%_42%/0.14),transparent_68%),radial-gradient(ellipse_60%_45%_at_82%_76%,hsl(var(--accent)/0.18),transparent_70%),linear-gradient(135deg,hsl(0_0%_10%),hsl(24_34%_13%)_48%,hsl(0_0%_8%))]">
-        <Suspense fallback={null}>
-          <div className="absolute inset-0 mix-blend-screen opacity-90 [&_canvas]:!w-full [&_canvas]:!h-full [&_canvas]:!bg-transparent">
-            <Spline scene="https://prod.spline.design/2yAx0NG9R46ffIu9/scene.splinecode" />
-          </div>
-        </Suspense>
-        {/* Subtiele leesbaarheid alleen onderaan voor de onderbalk */}
-        <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-background/35 to-transparent pointer-events-none" />
-        {/* Spline-watermerk afdekken (rechtsonder) */}
-        <div className="absolute bottom-3 right-3 w-44 h-12 rounded-md bg-background/25 backdrop-blur-md" />
+    <section
+      ref={parallaxRef}
+      className="relative isolate min-h-screen flex flex-col overflow-hidden bg-background"
+    >
+      {/* Parallax-lagen */}
+      <div
+        data-parallax-layers
+        className="absolute inset-0 z-0 overflow-hidden bg-[radial-gradient(ellipse_85%_60%_at_50%_40%,hsl(var(--primary)/0.22),transparent_64%),linear-gradient(135deg,hsl(0_0%_8%),hsl(24_34%_11%)_48%,hsl(0_0%_6%))]"
+      >
+        <div
+          data-parallax-layer="1"
+          className="absolute inset-0 bg-cover bg-center will-change-transform"
+          style={{ backgroundImage: `url(${layer1})` }}
+        />
+        <div
+          data-parallax-layer="2"
+          className="absolute inset-0 bg-cover bg-center opacity-70 mix-blend-screen will-change-transform"
+          style={{ backgroundImage: `url(${layer2})` }}
+        />
+        <div
+          data-parallax-layer="3"
+          className="absolute inset-0 bg-cover bg-bottom opacity-85 will-change-transform"
+          style={{ backgroundImage: `url(${layer3})` }}
+        />
+        <div
+          data-parallax-layer="4"
+          className="absolute inset-0 bg-cover bg-bottom opacity-80 mix-blend-screen will-change-transform"
+          style={{ backgroundImage: `url(${layer4})` }}
+        />
+        {/* Leesbaarheid onderaan */}
+        <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-background/60 to-transparent pointer-events-none" />
       </div>
 
       <div className="container mx-auto px-4 md:px-6 relative z-10 flex-1 flex flex-col pointer-events-none [&_a]:pointer-events-auto [&_button]:pointer-events-auto">
