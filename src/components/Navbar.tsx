@@ -163,10 +163,18 @@ const Navbar = () => {
       <div className="container mx-auto flex items-center justify-between h-20 md:h-24 px-4 md:px-6">
         <Link
           to="/"
-          className="font-display font-bold text-xl md:text-2xl tracking-tight shrink-0"
+          className="flex items-center gap-2 shrink-0 group"
         >
-          <span className="text-foreground">B2B</span>
-          <span className="text-primary">GroeiMachine</span>
+          {/* Mobile: Orange G Logo Icon */}
+          <div className="md:hidden">
+            <GLogoIcon size={36} className="text-primary hover:opacity-90 transition-opacity" />
+          </div>
+
+          {/* Desktop: Full text logo */}
+          <div className="hidden md:block font-display font-bold text-xl md:text-2xl tracking-tight">
+            <span className="text-foreground">B2B</span>
+            <span className="text-primary">GroeiMachine</span>
+          </div>
         </Link>
 
         <NavigationMenu className="hidden md:flex absolute left-1/2 -translate-x-1/2 max-w-none">
