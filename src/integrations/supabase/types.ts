@@ -86,41 +86,6 @@ export type Database = {
         }
         Relationships: []
       }
-      agent_messages: {
-        Row: {
-          content: string
-          created_at: string
-          id: string
-          journey_id: string
-          layer_id: number | null
-          role: string
-        }
-        Insert: {
-          content: string
-          created_at?: string
-          id?: string
-          journey_id: string
-          layer_id?: number | null
-          role: string
-        }
-        Update: {
-          content?: string
-          created_at?: string
-          id?: string
-          journey_id?: string
-          layer_id?: number | null
-          role?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "agent_messages_journey_id_fkey"
-            columns: ["journey_id"]
-            isOneToOne: false
-            referencedRelation: "journeys"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       authority_assets: {
         Row: {
           asset_type: string | null
@@ -815,44 +780,6 @@ export type Database = {
             columns: ["topic_id"]
             isOneToOne: false
             referencedRelation: "content_topics"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      blueprints: {
-        Row: {
-          doc_json: Json | null
-          id: string
-          journey_id: string
-          paid: boolean
-          pdf_url: string | null
-          stripe_session_id: string | null
-          updated_at: string
-        }
-        Insert: {
-          doc_json?: Json | null
-          id?: string
-          journey_id: string
-          paid?: boolean
-          pdf_url?: string | null
-          stripe_session_id?: string | null
-          updated_at?: string
-        }
-        Update: {
-          doc_json?: Json | null
-          id?: string
-          journey_id?: string
-          paid?: boolean
-          pdf_url?: string | null
-          stripe_session_id?: string | null
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "blueprints_journey_id_fkey"
-            columns: ["journey_id"]
-            isOneToOne: true
-            referencedRelation: "journeys"
             referencedColumns: ["id"]
           },
         ]
@@ -1558,85 +1485,6 @@ export type Database = {
         }
         Relationships: []
       }
-      journey_inputs: {
-        Row: {
-          field_key: string
-          id: string
-          journey_id: string
-          layer_id: number
-          section_type: string
-          updated_at: string
-          value_json: Json | null
-        }
-        Insert: {
-          field_key: string
-          id?: string
-          journey_id: string
-          layer_id: number
-          section_type: string
-          updated_at?: string
-          value_json?: Json | null
-        }
-        Update: {
-          field_key?: string
-          id?: string
-          journey_id?: string
-          layer_id?: number
-          section_type?: string
-          updated_at?: string
-          value_json?: Json | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "journey_inputs_journey_id_fkey"
-            columns: ["journey_id"]
-            isOneToOne: false
-            referencedRelation: "journeys"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      journeys: {
-        Row: {
-          completed_at: string | null
-          current_layer: number
-          id: string
-          module_id: string
-          paid: boolean
-          score_total: number
-          started_at: string
-          user_id: string
-        }
-        Insert: {
-          completed_at?: string | null
-          current_layer?: number
-          id?: string
-          module_id?: string
-          paid?: boolean
-          score_total?: number
-          started_at?: string
-          user_id: string
-        }
-        Update: {
-          completed_at?: string | null
-          current_layer?: number
-          id?: string
-          module_id?: string
-          paid?: boolean
-          score_total?: number
-          started_at?: string
-          user_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "journeys_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "signal_profiles"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       keyword_opportunities: {
         Row: {
           clicks: number | null
@@ -1917,15 +1765,7 @@ export type Database = {
           user_id?: string
           website?: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "partners_journey_id_fkey"
-            columns: ["journey_id"]
-            isOneToOne: false
-            referencedRelation: "journeys"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       playbook_runs: {
         Row: {
@@ -2334,30 +2174,6 @@ export type Database = {
           created_at?: string
           id?: string
           updated_at?: string
-        }
-        Relationships: []
-      }
-      signal_profiles: {
-        Row: {
-          company: string | null
-          created_at: string
-          email: string | null
-          id: string
-          name: string | null
-        }
-        Insert: {
-          company?: string | null
-          created_at?: string
-          email?: string | null
-          id: string
-          name?: string | null
-        }
-        Update: {
-          company?: string | null
-          created_at?: string
-          email?: string | null
-          id?: string
-          name?: string | null
         }
         Relationships: []
       }

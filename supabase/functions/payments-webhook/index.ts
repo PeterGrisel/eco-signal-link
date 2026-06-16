@@ -37,47 +37,5 @@ serve(async (req) => {
 });
 
 async function handleCheckoutCompleted(session: any) {
-  const userId = session.metadata?.userId;
-  const journeyId = session.metadata?.journeyId;
-
-  // Handle journey payment (upfront €97)
-  if (userId) {
-    // Find the user's latest journey and mark it paid
-    const { data: journeys } = await supabase
-      .from("journeys")
-      .select("id")
-      .eq("user_id", userId)
-      .order("started_at", { ascending: false })
-      .limit(1);
-
-    if (journeys?.[0]) {
-      await supabase
-        .from("journeys")
-        .update({ paid: true })
-        .eq("id", journeys[0].id);
-
-      await supabase
-        .from("blueprints")
-        .upsert({
-          journey_id: journeys[0].id,
-          paid: true,
-          stripe_session_id: session.id,
-        }, { onConflict: "journey_id" });
-
-      console.log("Journey marked as paid for user:", userId);
-    }
-  }
-
-  // Legacy: handle journeyId in metadata (blueprint-only purchase)
-  if (journeyId && !userId) {
-    await supabase
-      .from("blueprints")
-      .update({
-        paid: true,
-        stripe_session_id: session.id,
-      })
-      .eq("journey_id", journeyId);
-
-    console.log("Blueprint marked as paid for journey:", journeyId);
-  }
+  console.log("Checkout completed:", session.id);
 }
