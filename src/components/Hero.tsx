@@ -1,25 +1,12 @@
 import { motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Suspense, lazy, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import CtaLink from "@/components/CtaLink";
 import { CTA } from "@/content/copy";
 import { Compass, ArrowRight, ArrowDown, UserPlus, MapPin, Globe, Handshake, Briefcase, RotateCcw } from "lucide-react";
-import heroLayer1 from "@/assets/hero/hero-layer-1.png.asset.json";
-import heroLayer2 from "@/assets/hero/hero-layer-2.png.asset.json";
-import heroLayer3 from "@/assets/hero/hero-layer-3.png.asset.json";
-import heroLayer4 from "@/assets/hero/hero-layer-4.png.asset.json";
-import heroLayer5 from "@/assets/hero/hero-layer-5.png.asset.json";
-import heroLayer6 from "@/assets/hero/hero-layer-6.png.asset.json";
 
-const layer1 = heroLayer1.url;
-const layer2 = heroLayer2.url;
-const layer3 = heroLayer3.url;
-const layer4 = heroLayer4.url;
-const layer5 = heroLayer5.url;
-const layer6 = heroLayer6.url;
+const Spline = lazy(() => import("@splinetool/react-spline"));
 
 const heroMotions = [
   { icon: UserPlus, title: "Klanten werven" },
@@ -69,93 +56,19 @@ const LogoCircle = ({ name, url }: { name: string; url: string }) => {
 };
 
 const Hero = () => {
-  const parallaxRef = useRef<HTMLElement | null>(null);
-
-  useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
-
-    const triggerElement = parallaxRef.current?.querySelector("[data-parallax-layers]");
-
-    let tl: gsap.core.Timeline | undefined;
-    if (triggerElement) {
-      tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: triggerElement,
-          start: "0% 0%",
-          end: "100% 0%",
-          scrub: 0,
-        },
-      });
-
-      const layers = [
-        { layer: "1", yPercent: 75 },
-        { layer: "2", yPercent: 60 },
-        { layer: "3", yPercent: 48 },
-        { layer: "4", yPercent: 34 },
-        { layer: "5", yPercent: 20 },
-        { layer: "6", yPercent: 8 },
-      ];
-
-      layers.forEach((layerObj, idx) => {
-        tl!.to(
-          triggerElement.querySelectorAll(`[data-parallax-layer="${layerObj.layer}"]`),
-          {
-            yPercent: layerObj.yPercent,
-            ease: "none",
-          },
-          idx === 0 ? undefined : "<"
-        );
-      });
-    }
-
-    return () => {
-      ScrollTrigger.getAll().forEach((st) => st.kill());
-      if (triggerElement) gsap.killTweensOf(triggerElement);
-    };
-  }, []);
-
   return (
-    <section
-      ref={parallaxRef}
-      className="relative isolate min-h-screen flex flex-col overflow-hidden bg-background"
-    >
-      {/* Parallax-lagen */}
-      <div
-        data-parallax-layers
-        className="absolute inset-0 z-0 overflow-hidden bg-[radial-gradient(ellipse_85%_60%_at_50%_40%,hsl(var(--primary)/0.22),transparent_64%),linear-gradient(135deg,hsl(0_0%_8%),hsl(24_34%_11%)_48%,hsl(0_0%_6%))]"
-      >
-        <div
-          data-parallax-layer="1"
-          className="absolute inset-0 bg-cover bg-center will-change-transform"
-          style={{ backgroundImage: `url(${layer1})` }}
-        />
-        <div
-          data-parallax-layer="2"
-          className="absolute inset-0 bg-cover bg-center opacity-80 mix-blend-screen will-change-transform"
-          style={{ backgroundImage: `url(${layer2})` }}
-        />
-        <div
-          data-parallax-layer="3"
-          className="absolute inset-0 bg-cover bg-center opacity-85 mix-blend-screen will-change-transform"
-          style={{ backgroundImage: `url(${layer3})` }}
-        />
-        <div
-          data-parallax-layer="4"
-          className="absolute inset-0 bg-contain bg-center bg-no-repeat opacity-90 mix-blend-screen will-change-transform"
-          style={{ backgroundImage: `url(${layer4})` }}
-        />
-        <div
-          data-parallax-layer="5"
-          className="absolute inset-0 bg-cover bg-center opacity-80 mix-blend-screen will-change-transform"
-          style={{ backgroundImage: `url(${layer5})` }}
-        />
-        <div
-          data-parallax-layer="6"
-          className="absolute inset-0 bg-cover bg-center opacity-95 mix-blend-screen will-change-transform"
-          style={{ backgroundImage: `url(${layer6})` }}
-        />
-        {/* Leesbaarheid onderaan */}
-        <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-background/60 to-transparent pointer-events-none" />
+    <section className="relative isolate min-h-screen flex flex-col overflow-hidden bg-background">
+      {/* Spline 3D achtergrond */}
+      <div className="absolute inset-0 z-0 overflow-hidden bg-[radial-gradient(ellipse_85%_60%_at_50%_40%,hsl(var(--primary)/0.28),transparent_64%),radial-gradient(ellipse_70%_50%_at_18%_80%,hsl(190_80%_42%/0.14),transparent_68%),radial-gradient(ellipse_60%_45%_at_82%_76%,hsl(var(--accent)/0.18),transparent_70%),linear-gradient(135deg,hsl(0_0%_10%),hsl(24_34%_13%)_48%,hsl(0_0%_8%))]">
+        <Suspense fallback={null}>
+          <div className="absolute inset-0 mix-blend-screen opacity-90 [&_canvas]:!w-full [&_canvas]:!h-full [&_canvas]:!bg-transparent">
+            <Spline scene="https://prod.spline.design/2yAx0NG9R46ffIu9/scene.splinecode" />
+          </div>
+        </Suspense>
+        {/* Subtiele leesbaarheid alleen onderaan voor de onderbalk */}
+        <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-background/35 to-transparent pointer-events-none" />
+        {/* Spline-watermerk afdekken (rechtsonder) */}
+        <div className="absolute bottom-3 right-3 w-44 h-12 rounded-md bg-background/25 backdrop-blur-md" />
       </div>
 
       <div className="container mx-auto px-4 md:px-6 relative z-10 flex-1 flex flex-col pointer-events-none [&_a]:pointer-events-auto [&_button]:pointer-events-auto">
