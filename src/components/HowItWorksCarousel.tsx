@@ -238,7 +238,7 @@ function FeatureCard({
       <div className="relative overflow-hidden rounded-3xl border border-primary/15 bg-card/80 backdrop-blur-md card-gradient">
         <div className="grid grid-cols-1 lg:grid-cols-5">
           {/* LEFT — Copy */}
-          <div className="lg:col-span-2 p-8 md:p-10 flex flex-col min-h-[460px]">
+          <div className="lg:col-span-2 p-8 md:p-10 flex flex-col lg:h-[480px]">
             <AnimatePresence mode="wait">
               <motion.div
                 key={s.id}
@@ -248,14 +248,8 @@ function FeatureCard({
                 transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
                 className="flex flex-col h-full"
               >
-                {/* Top: icon + number */}
-                <div className="flex items-center justify-between mb-5">
-                  <span className="w-11 h-11 rounded-xl border border-primary/30 bg-background/50 flex items-center justify-center">
-                    <Icon
-                      className="w-5 h-5 text-primary"
-                      strokeWidth={1.6}
-                    />
-                  </span>
+                {/* Top: number */}
+                <div className="flex items-center justify-end mb-5">
                   <span className="font-display font-bold text-3xl md:text-4xl text-gradient leading-none">
                     {s.n}
                   </span>
@@ -271,7 +265,7 @@ function FeatureCard({
                   {s.summary}
                 </p>
 
-                <div className="mb-6">
+                <div className="mb-6 mt-auto">
                   <p className="text-[10px] font-display font-semibold tracking-[0.18em] uppercase text-primary/80 mb-3">
                     Diensten
                   </p>
@@ -286,21 +280,12 @@ function FeatureCard({
                     ))}
                   </div>
                 </div>
-
-                <div className="mt-auto border-t border-primary/15 pt-5">
-                  <p className="text-[10px] font-display font-semibold tracking-[0.18em] uppercase text-primary/80 mb-2">
-                    Resultaat
-                  </p>
-                  <p className="text-sm text-primary/90 leading-relaxed font-medium">
-                    {s.resultaat}
-                  </p>
-                </div>
               </motion.div>
             </AnimatePresence>
           </div>
 
           {/* RIGHT — Image */}
-          <div className="relative lg:col-span-3 min-h-[320px] lg:min-h-[460px] border-t lg:border-t-0 lg:border-l border-primary/10 bg-[radial-gradient(circle_at_center,hsl(var(--primary)/0.06),transparent_70%)] overflow-hidden">
+          <div className="relative lg:col-span-3 min-h-[320px] lg:h-[480px] border-t lg:border-t-0 lg:border-l border-primary/10 bg-[radial-gradient(circle_at_center,hsl(var(--primary)/0.06),transparent_70%)] overflow-hidden">
             <AnimatePresence mode="wait">
               <motion.div
                 key={s.id}
