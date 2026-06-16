@@ -281,52 +281,52 @@ const AlwaysOnBentoSection = () => {
         {/* Bento grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 md:grid-rows-2 border border-border/60 rounded-2xl overflow-hidden bg-background/30 backdrop-blur-sm">
           {/* 1. MAP — top-left */}
-          <div className="relative overflow-hidden bg-card/30 border-b border-r-0 md:border-r border-border/60 p-6">
-            <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-muted-foreground mb-4">
-              <MapPin className="w-3.5 h-3.5 text-primary" />
+          <div className="relative overflow-hidden bg-card/30 border-b border-r-0 md:border-r border-border/60 p-5">
+            <div className="flex items-center gap-2 text-[11px] font-mono uppercase tracking-wider text-muted-foreground mb-3">
+              <MapPin className="w-3 h-3 text-primary" />
               Signalen live
             </div>
-            <h3 className="text-xl font-display font-semibold text-foreground leading-snug">
+            <h3 className="text-base md:text-lg font-display font-semibold text-foreground leading-snug">
               Pulse op accounts in Europa.{" "}
               <span className="text-muted-foreground font-normal">
                 Realtime triggers uit publieke en private bronnen.
               </span>
             </h3>
-            <div className="relative mt-6">
-              <div className="absolute top-6 left-1/2 -translate-x-1/2 z-10 px-3 py-1.5 bg-card border border-primary/30 text-foreground rounded-md text-xs font-mono shadow-lg flex items-center gap-2">
+            <div className="relative mt-4">
+              <div className="absolute top-[8%] left-[52%] z-10 px-2.5 py-1 bg-card border border-primary/30 text-foreground rounded text-[10px] font-mono shadow-lg flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-                Nieuw signaal in NL
+                Nieuw signaal · NL
               </div>
               <SignalMap />
             </div>
           </div>
 
           {/* 2. SIGNAL STREAM — top-right */}
-          <div className="flex flex-col justify-between gap-4 p-6 bg-card/30 border-b border-border/60">
+          <div className="flex flex-col gap-4 p-5 bg-card/30 border-b border-border/60">
             <div>
-              <span className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-muted-foreground mb-2">
-                <Activity className="w-3.5 h-3.5 text-primary" />
+              <span className="flex items-center gap-2 text-[11px] font-mono uppercase tracking-wider text-muted-foreground mb-2">
+                <Activity className="w-3 h-3 text-primary" />
                 Continue stream
               </span>
-              <h3 className="text-xl font-display font-semibold text-foreground leading-snug">
+              <h3 className="text-base md:text-lg font-display font-semibold text-foreground leading-snug">
                 Elk signaal direct in beeld.{" "}
                 <span className="text-muted-foreground font-normal">
                   Funding, hires, vacatures en intent in één feed.
                 </span>
               </h3>
             </div>
-            <div className="flex justify-center items-start w-full">
+            <div className="flex-1 w-full">
               <SignalStreamCard />
             </div>
           </div>
 
           {/* 3. CHART — bottom-left */}
-          <div className="bg-card/30 border-r-0 md:border-r border-border/60 p-6 space-y-4">
-            <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-muted-foreground">
-              <Activity className="w-3.5 h-3.5 text-primary" />
+          <div className="bg-card/30 border-r-0 md:border-r border-border/60 p-5 space-y-3">
+            <div className="flex items-center gap-2 text-[11px] font-mono uppercase tracking-wider text-muted-foreground">
+              <Activity className="w-3 h-3 text-primary" />
               Pipeline groei
             </div>
-            <h3 className="text-xl font-display font-semibold text-foreground leading-snug">
+            <h3 className="text-base md:text-lg font-display font-semibold text-foreground leading-snug">
               Reactief piekt. Always-on stapelt.{" "}
               <span className="text-muted-foreground font-normal">
                 Het verschil na zeven weken in één beeld.
@@ -336,18 +336,20 @@ const AlwaysOnBentoSection = () => {
           </div>
 
           {/* 4. FEATURE CARDS — bottom-right */}
-          <div className="grid sm:grid-cols-2 bg-card/20">
+          <div className="grid grid-rows-2 bg-card/20">
             <FeatureCard
-              icon={<InfinityIcon className="w-3.5 h-3.5 text-primary" />}
+              icon={<InfinityIcon className="w-3 h-3 text-primary" />}
               eyebrow="Altijd aan"
               title="Signalen 24/7."
               description="Uw motor blijft draaien, ook zonder dat uw team actief zoekt."
+              visual={<PulseBars />}
             />
             <FeatureCard
-              icon={<Layers className="w-3.5 h-3.5 text-primary" />}
+              icon={<Layers className="w-3 h-3 text-primary" />}
               eyebrow="Compounding"
               title="Elke week meer."
               description="Data, modellen en opvolging worden samen sterker."
+              visual={<CompoundingStack />}
             />
           </div>
         </div>
