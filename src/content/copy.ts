@@ -165,7 +165,7 @@ export const COPY = {
     body:
       "60 minuten samen. U ontvangt een praktisch A4 met de belangrijkste commerciële keuzes en verbeterpunten.",
     speakWith: "Spreek direct met Peter",
-    fineprint: "€0 · 60 minuten · Vrijblijvend",
+    fineprint: "",
   },
   process: {
     eyebrow: "Van pre-check tot Groeiplan",
