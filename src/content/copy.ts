@@ -15,35 +15,47 @@ export const BOOKING_URL =
 export const CTA = {
   /** Hoofd-CTA: gebruikt in hero, navbar, sticky, sections */
   gratisScan: {
-    label: "Boek gratis scan →",
-    labelShort: "Boek gratis scan",
+    label: "Plan uw Groeiplan-sessie →",
+    labelShort: "Plan Groeiplan-sessie",
     href: "#boek-gratis-scan",
     external: false,
   },
   /** Tertiaire CTA: situatie bespreken (in body-tekst) */
   bespreekSituatie: {
-    label: "Boek gratis scan →",
+    label: "Plan uw Groeiplan-sessie →",
     href: "#boek-gratis-scan",
     external: false,
+  },
+  /** Enterprise: mag direct door naar de agenda, geen pre-check */
+  enterpriseAgenda: {
+    label: "Plan direct in agenda →",
+    href: BOOKING_URL,
+    external: true,
   },
 } as const;
 
 /** Vaste propositie- en sectie-teksten die meerdere keren voorkomen */
 export const COPY = {
   proposition: {
+    heroEyebrow: "Nieuwe positionering",
+    heroTitle: "Ontvang uw 1-Pagina Groeiplan",
     heroBody:
-      "Wij bouwen en beheren uw B2B groeimachine op uw eigen tools. Van marktdata en koopsignalen tot outreach, opvolging, CRM-discipline en geboekte gesprekken.",
+      "In een sessie van 60 minuten brengen we uw commerciële groeimotor terug naar één helder A4: doelgroep, boodschap, kanalen, opvolging, conversie, klantwaarde en referral.",
+    heroBodyExtra:
+      "Geen lange strategie. Wel een praktisch groeiplan waarmee u direct ziet waar groei nu lekt en waar de meeste commerciële hefboom zit.",
+    ctaSubtext:
+      "Na afloop ontvangt u uw 1-Pagina Groeiplan: negen vakken, drie fases en één concreet commercieel verhaal voor uw bedrijf.",
     signalHeading:
-      "Samen bepalen we welke signalen en reacties terechtkomen",
+      "Samen scherpen we uw commerciële groeimotor aan",
     signalSubtext:
-      "Geen algemene demo. We kijken welke signalen bij uw ICP passen en hoe we die samen kwalificeren.",
+      "Geen algemene demo. We kijken welke doelgroep, boodschap en kanalen het meest opleveren.",
   },
   heroProof: {
     items: [
       "60 minuten",
       "Vrijblijvend",
       "Direct met Peter",
-      "Werkende kaart binnen 5 dagen",
+      "1-Pagina Groeiplan na afloop",
     ],
   },
   methode: {
@@ -149,14 +161,44 @@ export const COPY = {
   },
   ctaSection: {
     headingLine1: "Klaar voor uw",
-    headingAccent: "gratis scan?",
+    headingAccent: "1-Pagina Groeiplan?",
     body:
-      "60 minuten. Wij brengen uw proces in kaart en laten zien waar de winst zit. Geen verkoopgesprek.",
+      "60 minuten samen. U ontvangt een praktisch A4 met de belangrijkste commerciële keuzes en verbeterpunten.",
     speakWith: "Spreek direct met Peter",
     fineprint: "€0 · 60 minuten · Vrijblijvend",
   },
   process: {
-    eyebrow: "Van scan tot resultaat",
+    eyebrow: "Van pre-check tot Groeiplan",
+  },
+  groeiplan: {
+    eyebrow: "Het 1-Pagina Groeiplan",
+    heading: "Negen vakken. Drie fases.",
+    headingAccent: "Eén helder commercieel verhaal.",
+    body:
+      "In een sessie van 60 minuten brengen we in kaart wie uw ideale klant is, welke boodschap werkt, via welke kanalen u de markt bereikt en hoe interesse wordt omgezet naar gesprekken, deals en klantwaarde.",
+    bodyExtra:
+      "U ontvangt geen abstract adviesrapport, maar een concreet groeiplan dat laat zien waar uw commerciële motor sterker kan worden.",
+    fases: [
+      { label: "Voor", sub: "Prospect" },
+      { label: "Tijdens", sub: "Lead" },
+      { label: "Na", sub: "Klant" },
+    ],
+    cells: [
+      { num: "01", title: "Mijn doelmarkt", q: "Wie is mijn ideale klant en wie nadrukkelijk niet?" },
+      { num: "02", title: "Mijn boodschap", q: "Welk probleem los ik op, in de woorden van mijn klant?" },
+      { num: "03", title: "Mijn kanalen", q: "Waar bereik ik mijn koper en in welke volgorde?" },
+      { num: "04", title: "Mijn vangmechanisme", q: "Hoe vang ik elke vorm van interesse?" },
+      { num: "05", title: "Mijn opwarmsysteem", q: "Hoe bouw ik vertrouwen op tot het koopmoment?" },
+      { num: "06", title: "Mijn conversiestrategie", q: "Hoe wordt een warm gesprek een getekende deal?" },
+      { num: "07", title: "Mijn klantervaring", q: "Hoe lever ik een ervaring die wordt doorverteld?" },
+      { num: "08", title: "Mijn klantwaarde", q: "Hoe groeit de waarde per klant, maand op maand?" },
+      { num: "09", title: "Mijn referralmotor", q: "Hoe organiseer ik aanbevelingen, in plaats van erop te hopen?" },
+    ],
+    flow: [
+      { step: "1", title: "Korte pre-check", text: "Een paar vragen over uw bedrijf, doelgroep en commerciële uitdaging." },
+      { step: "2", title: "60-minuten Groeiplan-sessie", text: "Samen scherpen we uw doelgroep, boodschap, kanalen, opvolging en conversie aan." },
+      { step: "3", title: "1-Pagina Groeiplan", text: "U krijgt een praktisch A4 mee met de belangrijkste commerciële keuzes en verbeterpunten." },
+    ],
   },
 } as const;
 
