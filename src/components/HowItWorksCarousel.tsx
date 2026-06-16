@@ -22,6 +22,7 @@ import {
   Eye,
   MessageSquare,
   PhoneCall,
+  type LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -42,7 +43,7 @@ interface Step {
   summary: string;
   labels: string[];
   resultaat: string;
-  icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
+  icon: LucideIcon;
   imgSrc: string;
   imgAlt: string;
 }
