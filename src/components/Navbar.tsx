@@ -32,6 +32,7 @@ import { trackCTA } from "@/lib/tracking";
 import { cn } from "@/lib/utils";
 import { WeglotLanguageToggle } from "@/components/WeglotLanguageToggle";
 import { CurrencySwitcher } from "@/components/CurrencySwitcher";
+import { GLogoIcon } from "@/components/icons/GLogoIcon";
 
 type LinkItem = {
   title: string;
