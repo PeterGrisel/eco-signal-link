@@ -19,7 +19,7 @@ type Fase = {
   gtmHours: string;
   description: string;
   features: string[];
-  ctaIntent: "gratisScan" | "bespreekSituatie";
+  ctaIntent: "gratisScan" | "bespreekSituatie" | "enterpriseAgenda";
   ctaLocation: string;
   ctaLabel?: string;
   highlight?: boolean;
