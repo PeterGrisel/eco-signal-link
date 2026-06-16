@@ -33,9 +33,11 @@ const CtaSection = () => {
               <CtaLink intent="gratisScan" location="CTA Section" />
             </Button>
           </div>
-          <p className="text-muted-foreground text-sm mt-6">
-            {COPY.ctaSection.fineprint}
-          </p>
+          {COPY.ctaSection.fineprint && (
+            <p className="text-muted-foreground text-sm mt-6">
+              {COPY.ctaSection.fineprint}
+            </p>
+          )}
         </motion.div>
       </div>
     </section>
