@@ -59,10 +59,24 @@ const LogoCircle = ({ name, url }: { name: string; url: string }) => {
 
 const Hero = () => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const [reducedMotion, setReducedMotion] = useState(() => {
+    if (typeof window === "undefined" || !window.matchMedia) return false;
+    return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  });
+
+  // Listen for runtime changes to the OS-level reduced-motion preference.
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.matchMedia) return;
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const onChange = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
+    mq.addEventListener?.("change", onChange);
+    return () => mq.removeEventListener?.("change", onChange);
+  }, []);
 
   // Best-effort autoplay kickstart for browsers that defer muted autoplay
   // (Safari iOS in low-power mode, some Android variants).
   useEffect(() => {
+    if (reducedMotion) return;
     const v = videoRef.current;
     if (!v) return;
     const tryPlay = () => {
@@ -79,12 +93,22 @@ const Hero = () => {
       document.removeEventListener("visibilitychange", onVisible);
       v.removeEventListener("loadeddata", tryPlay);
     };
-  }, []);
+  }, [reducedMotion]);
 
   return (
     <section className="relative isolate min-h-screen flex flex-col overflow-hidden bg-background">
       {/* Loopende video-achtergrond */}
       <div className="absolute inset-0 z-0 overflow-hidden bg-background">
+        {reducedMotion ? (
+          <img
+            src={heroPoster.url}
+            alt=""
+            aria-hidden="true"
+            className="absolute inset-0 w-full h-full object-cover"
+            decoding="async"
+            fetchPriority="high"
+          />
+        ) : (
         <video
           ref={videoRef}
           poster={heroPoster.url}
@@ -104,6 +128,7 @@ const Hero = () => {
           <source src={heroVideoWebm.url} type="video/webm" />
           <source src={heroVideoMp4.url} type="video/mp4" />
         </video>
+        )}
         {/* Leesbaarheids-overlay */}
         <div className="absolute inset-0 bg-background/40 pointer-events-none" />
         <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-background/70 to-transparent pointer-events-none" />
