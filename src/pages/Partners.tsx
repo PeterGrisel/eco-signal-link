@@ -225,9 +225,9 @@ const Partners = () => {
               </p>
               {partners.length === 0 && (
                 <p className="text-sm text-muted-foreground">
-                  Voltooi het{" "}
-                  <a href="/signaal" className="text-primary hover:underline">Signaal Detectiesysteem</a>
-                  {" "}om u aan te melden als partner.
+                  Neem{" "}
+                  <a href="/contact" className="text-primary hover:underline">contact</a>
+                  {" "}op om u aan te melden als partner.
                 </p>
               )}
             </div>
@@ -485,14 +485,13 @@ const Partners = () => {
               <BadgeCheck className="w-8 h-8 text-primary mx-auto mb-3" />
               <h3 className="font-display font-bold text-xl mb-2">Klaar om aan te sluiten?</h3>
               <p className="text-muted-foreground text-sm max-w-lg mx-auto mb-6">
-                Voltooi het Signaal Detectiesysteem en ontvang uw Signal Certified badge.
-                Word zichtbaar voor andere B2B-professionals in uw sector.
+                Word Signal Certified Partner en zichtbaar voor andere B2B-professionals in uw sector.
               </p>
               <a
-                href="/signaal"
+                href="/contact"
                 className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:shadow-[0_0_30px_hsl(var(--primary)/0.3)] transition-all"
               >
-                Start het Signaal Detectiesysteem
+                Neem contact op
               </a>
             </div>
           </div>

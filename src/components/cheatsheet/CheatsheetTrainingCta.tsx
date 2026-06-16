@@ -39,11 +39,11 @@ const CheatsheetTrainingCta = ({
           </p>
         </div>
         <Link
-          to="/signaal"
+          to="/groeistack"
           onClick={() =>
             trackCTA(
               trackLabel || "Cheatsheet Mid CTA — Bekijk training",
-              "/signaal"
+              "/groeistack"
             )
           }
           className="group flex-shrink-0 inline-flex items-center gap-1.5 bg-[#E3874F] text-[#0B0B0B] px-3 py-1.5 md:px-4 md:py-2 rounded font-bold text-[10px] md:text-xs uppercase tracking-wider hover:opacity-90 transition-opacity whitespace-nowrap"
@@ -100,8 +100,8 @@ const CheatsheetTrainingCta = ({
         </div>
 
         <Link
-          to="/signaal"
-          onClick={() => trackCTA("Cheatsheet Training CTA — Bekijk training", "/signaal")}
+          to="/groeistack"
+          onClick={() => trackCTA("Cheatsheet Training CTA — Bekijk training", "/groeistack")}
           className="group flex-shrink-0 inline-flex items-center gap-2 bg-[#E3874F] text-[#0B0B0B] px-5 py-2.5 rounded font-bold text-xs uppercase tracking-wider hover:opacity-90 transition-opacity whitespace-nowrap"
         >
           Bekijk training

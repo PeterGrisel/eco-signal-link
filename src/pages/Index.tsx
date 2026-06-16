@@ -48,14 +48,6 @@ const Index = () => {
     return () => document.removeEventListener('click', handleClick);
   }, []);
 
-  // Redirect auth errors (expired magic links) to /signaal/start
-  useEffect(() => {
-    const hash = window.location.hash;
-    if (hash.includes('error=') && hash.includes('otp_expired')) {
-      window.location.href = '/signaal/start' + hash;
-    }
-  }, []);
-
   return (
     <PageLoader>
     <div className="min-h-screen relative">

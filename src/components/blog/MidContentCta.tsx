@@ -14,7 +14,7 @@ const config = {
     title: "Bouw uw eigen B2B-groeisysteem",
     body: "Doorloop Signaal: een interactieve learning journey. U krijgt een persoonlijk plan met concrete stappen voor uw pipeline.",
     cta: "Start Signaal",
-    href: "/signaal",
+    href: "/groeistack",
     label: "BlogPost Mid — Signaal",
   },
 };
