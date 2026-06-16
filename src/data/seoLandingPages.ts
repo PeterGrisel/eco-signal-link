@@ -19,6 +19,11 @@ export interface SeoLandingPage {
   proof: { metric: string; label: string }[];
   faqs: SeoFaq[];
   relatedSolutions: { slug: string; label: string }[];
+  internalLinks?: {
+    title: string;
+    lead: string;
+    links: { href: string; anchor: string; description: string }[];
+  };
 }
 
 export const seoLandingPages: SeoLandingPage[] = [
