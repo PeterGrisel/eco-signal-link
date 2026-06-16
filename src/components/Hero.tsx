@@ -5,7 +5,10 @@ import { Button } from "@/components/ui/button";
 import CtaLink from "@/components/CtaLink";
 import { CTA } from "@/content/copy";
 import { Compass, ArrowRight, ArrowDown, UserPlus, MapPin, Globe, Handshake, Briefcase, RotateCcw } from "lucide-react";
-import heroVideo from "@/assets/hero-background.mp4.asset.json";
+import heroVideoMp4 from "@/assets/hero-background.mp4.asset.json";
+import heroVideoWebm from "@/assets/hero-background.webm.asset.json";
+import heroPoster from "@/assets/hero-poster.jpg.asset.json";
+import { useEffect, useRef } from "react";
 
 const heroMotions = [
   { icon: UserPlus, title: "Klanten werven" },
@@ -55,20 +58,55 @@ const LogoCircle = ({ name, url }: { name: string; url: string }) => {
 };
 
 const Hero = () => {
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  // Best-effort autoplay kickstart for browsers that defer muted autoplay
+  // (Safari iOS in low-power mode, some Android variants).
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v) return;
+    const tryPlay = () => {
+      const p = v.play();
+      if (p && typeof p.catch === "function") p.catch(() => {});
+    };
+    if (v.readyState >= 2) tryPlay();
+    else v.addEventListener("loadeddata", tryPlay, { once: true });
+    const onVisible = () => {
+      if (document.visibilityState === "visible") tryPlay();
+    };
+    document.addEventListener("visibilitychange", onVisible);
+    return () => {
+      document.removeEventListener("visibilitychange", onVisible);
+      v.removeEventListener("loadeddata", tryPlay);
+    };
+  }, []);
+
   return (
     <section className="relative isolate min-h-screen flex flex-col overflow-hidden bg-background">
       {/* Loopende video-achtergrond */}
       <div className="absolute inset-0 z-0 overflow-hidden bg-background">
         <video
-          src={heroVideo.url}
+          ref={videoRef}
+          poster={heroPoster.url}
           autoPlay
           loop
           muted
+          defaultMuted
           playsInline
-          preload="auto"
+          disablePictureInPicture
+          disableRemotePlayback
+          preload="metadata"
+          // @ts-expect-error: non-standard but supported in iOS
+          webkit-playsinline="true"
+          x5-playsinline="true"
           aria-hidden="true"
+          tabIndex={-1}
           className="absolute inset-0 w-full h-full object-cover"
-        />
+        >
+          {/* WebM eerst voor Chromium/Firefox: kleiner & efficiënter */}
+          <source src={heroVideoWebm.url} type="video/webm" />
+          <source src={heroVideoMp4.url} type="video/mp4" />
+        </video>
         {/* Leesbaarheids-overlay */}
         <div className="absolute inset-0 bg-background/40 pointer-events-none" />
         <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-background/70 to-transparent pointer-events-none" />
