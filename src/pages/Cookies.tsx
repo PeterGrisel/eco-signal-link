@@ -6,6 +6,7 @@ const Cookies = () => {
   usePageMeta({
     title: "Cookieverklaring | B2BGroeiMachine",
     description: "Lees onze cookieverklaring en ontdek welke cookies B2BGroeiMachine gebruikt en hoe je ze kunt beheren.",
+    canonical: "https://www.b2bgroeimachine.io/cookies",
   });
 
   return (
