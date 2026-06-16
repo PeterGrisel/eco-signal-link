@@ -250,6 +250,47 @@ const SeoLandingPage = () => {
         </section>
 
         {/* Related solutions — editorial cards */}
+        {page.internalLinks && (
+          <section className="py-24 border-t border-border scroll-mt-24">
+            <div className="container mx-auto px-6 max-w-4xl">
+              <motion.div {...fadeUp} className="mb-10">
+                <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-3">
+                  <BookOpen className="w-3.5 h-3.5" /> Verdieping
+                </div>
+                <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">
+                  {page.internalLinks.title}
+                </h2>
+                <p className="text-muted-foreground leading-relaxed max-w-2xl">
+                  {page.internalLinks.lead}
+                </p>
+              </motion.div>
+              <div className="grid sm:grid-cols-2 gap-px bg-border rounded-xl overflow-hidden border border-border">
+                {page.internalLinks.links.map((l, i) => (
+                  <motion.div
+                    key={l.href}
+                    {...fadeUp}
+                    transition={{ duration: 0.4, delay: i * 0.04 }}
+                    className="bg-background"
+                  >
+                    <Link
+                      to={l.href}
+                      className="block p-6 h-full group hover:bg-card transition-colors"
+                    >
+                      <div className="font-display text-base font-semibold mb-2 text-primary group-hover:underline underline-offset-4">
+                        {l.anchor}
+                        <ArrowRight className="inline w-3.5 h-3.5 ml-1.5 -mt-0.5 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
+                      </div>
+                      <p className="text-sm text-muted-foreground leading-relaxed">
+                        {l.description}
+                      </p>
+                    </Link>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+
         <section className="py-24 border-t border-border scroll-mt-24">
           <div className="container mx-auto px-6 max-w-5xl">
             <motion.div {...fadeUp} className="mb-10 flex items-end justify-between flex-wrap gap-4">
