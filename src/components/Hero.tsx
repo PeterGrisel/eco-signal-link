@@ -263,7 +263,7 @@ const Hero = () => {
             transition={{ duration: 0.6, ease, delay: 0.12 }}
             className="text-muted-foreground text-lg md:text-2xl max-w-4xl mx-auto mb-10 leading-relaxed"
           >
-            In een sessie van 60 minuten brengen we uw commerciële groeimotor terug naar één helder A4: doelgroep, boodschap, kanalen, opvolging, conversie, klantwaarde en referral.
+            Wij helpen B2B-bedrijven om geïnteresseerde accounts eerder te herkennen. Zo zet u ze sneller om naar gesprekken met sales.
           </motion.p>
 
           {/* CTA's */}
