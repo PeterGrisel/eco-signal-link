@@ -25,6 +25,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import awarenessStep1 from "@/assets/how-it-works/awareness-step-1.png.asset.json";
 
 // =====================================================================
 // Types
@@ -74,7 +75,7 @@ const steps: readonly Step[] = [
     resultaat:
       "Een levende targetlijst met accounts die relevant, verrijkt en commercieel geprioriteerd zijn.",
     icon: Eye,
-    imgSrc: placeholder("01 · Awareness"),
+    imgSrc: awarenessStep1.url,
     imgAlt: "Awareness — zichtbaar maken waar de kansen zitten",
   },
   {
