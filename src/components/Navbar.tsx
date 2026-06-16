@@ -7,7 +7,6 @@ import {
   Workflow,
   Layers,
   Calculator,
-  GraduationCap,
   FileSpreadsheet,
   Handshake,
   Users,
