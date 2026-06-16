@@ -293,15 +293,6 @@ const Hero = () => {
             </Link>
           </motion.div>
 
-          {/* Subtekst onder CTA */}
-          <motion.p
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease, delay: 0.24 }}
-            className="text-muted-foreground/90 text-sm md:text-base max-w-2xl mx-auto mt-5 leading-relaxed"
-          >
-            Na afloop ontvangt u uw 1-Pagina Groeiplan: negen vakken, drie fases en één concreet commercieel verhaal voor uw bedrijf.
-          </motion.p>
         </div>
 
         {/* Onderbalk, vastgepind onderaan de viewport */}
