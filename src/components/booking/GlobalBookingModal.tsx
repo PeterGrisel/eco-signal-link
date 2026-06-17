@@ -1,6 +1,7 @@
 import * as React from "react";
+import { Link } from "react-router-dom";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import { ExternalLink, Check, Sparkles } from "lucide-react";
+import { ExternalLink, Check, Sparkles, Video } from "lucide-react";
 import { COPY } from "@/content/copy";
 import { trackEvent } from "@/lib/tracking";
 
