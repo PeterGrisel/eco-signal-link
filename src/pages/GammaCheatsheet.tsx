@@ -6,13 +6,14 @@ import Navbar from "@/components/Navbar";
 import CheatsheetFeedback from "@/components/cheatsheet/CheatsheetFeedback";
 import CheatsheetTrainingCta from "@/components/cheatsheet/CheatsheetTrainingCta";
 import Footer from "@/components/Footer";
+import { usePageMeta } from "@/hooks/usePageMeta";
 
 const GammaCheatsheet = () => {
-  useEffect(() => {
-    document.title = "Claude × Gamma — Presentaties Cheatsheet | B2BGroeiMachine";
-    const meta = document.querySelector('meta[name="description"]');
-    if (meta) meta.setAttribute("content", "Presentaties bouwen vanuit Claude met Gamma — zonder PowerPoint, zonder templates slopen. In 10 minuten een deck.");
-  }, []);
+  usePageMeta({
+    title: "Claude × Gamma — Presentaties Cheatsheet | B2BGroeiMachine",
+    description: "Presentaties bouwen vanuit Claude met Gamma — zonder PowerPoint, zonder templates slopen. In 10 minuten een deck.",
+    canonical: "https://www.b2bgroeimachine.io/cheatsheet/gamma-presentaties",
+  });
 
   return (
     <div className="min-h-screen bg-background text-foreground">
