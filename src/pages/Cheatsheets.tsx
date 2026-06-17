@@ -7,6 +7,7 @@ import CheatsheetTrainingCta from "@/components/cheatsheet/CheatsheetTrainingCta
 import { FileText, ArrowRight, ThumbsUp, Star } from "lucide-react";
 import { trackCTA } from "@/lib/tracking";
 import GroeistackLeadCapture from "@/components/GroeistackLeadCapture";
+import { usePageMeta } from "@/hooks/usePageMeta";
 
 type Level = "Beginner" | "Gevorderd" | "Expert";
 
@@ -93,6 +94,12 @@ const Cheatsheets = () => {
   const [activeTool, setActiveTool] = useState<string | null>(null);
   const [stats, setStats] = useState<FeedbackStats>({});
 
+  usePageMeta({
+    title: "Cheatsheets | B2BGroeiMachine",
+    description: "Praktische cheatsheets en quick-start guides voor B2B sales, prospecting en automatisering.",
+    canonical: "https://www.b2bgroeimachine.io/cheatsheets",
+  });
+
   useEffect(() => {
     const fetchStats = async () => {
       const { data } = await supabase
@@ -119,12 +126,6 @@ const Cheatsheets = () => {
       setStats(grouped);
     };
     fetchStats();
-  }, []);
-
-  useEffect(() => {
-    document.title = "Cheatsheets | B2BGroeiMachine";
-    const meta = document.querySelector('meta[name="description"]');
-    if (meta) meta.setAttribute("content", "Praktische cheatsheets en quick-start guides voor B2B sales, prospecting en automatisering.");
   }, []);
 
   const filtered = cheatsheets
