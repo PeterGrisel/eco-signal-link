@@ -65,7 +65,7 @@ const Demo = () => {
           </div>
 
           <p className="text-center text-sm text-muted-foreground mt-6">
-            Liever direct mailen? <a href="mailto:peter@b2bgroeimachine.io" className="text-[#E8945A] hover:underline">peter@b2bgroeimachine.io</a>
+            Liever direct mailen? <a href="mailto:peter.grisel@rebelforce.nl" className="text-[#E8945A] hover:underline">peter.grisel@rebelforce.nl</a>
           </p>
         </section>
       </main>
