@@ -1,6 +1,7 @@
 import * as React from "react";
+import { Link } from "react-router-dom";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import { ExternalLink, Check, Sparkles } from "lucide-react";
+import { ExternalLink, Check, Sparkles, Video } from "lucide-react";
 import { COPY } from "@/content/copy";
 import { trackEvent } from "@/lib/tracking";
 
@@ -111,9 +112,24 @@ export function GlobalBookingModal({ open, onOpenChange, prefillData }: GlobalBo
                   <span className="text-muted-foreground"><strong>Fase 3:</strong> Klantervaring, klantwaarde en referral (Na)</span>
                 </div>
               </div>
+
+              {/* Demo explanation CTA */}
+              <div className="mt-5 p-3 rounded-lg bg-primary/5 border border-glow/40">
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  Wil u eerst meer uitleg over onze werkwijze?{" "}
+                  <Link 
+                    to="/demo" 
+                    onClick={() => onOpenChange(false)}
+                    className="text-primary hover:underline font-semibold inline-flex items-center gap-1"
+                  >
+                    Bekijk de 3-minuten video
+                    <Video className="w-3.5 h-3.5" />
+                  </Link>
+                </p>
+              </div>
             </div>
 
-            <div className="pt-4 border-t border-glow/40">
+            <div className="pt-4 border-t border-glow/40 mt-4">
               <p className="text-[11px] text-muted-foreground/80 leading-relaxed italic">
                 "Geen lang abstract adviesrapport. Wel een praktisch groeiplan waarmee u direct ziet waar groei nu lekt."
               </p>
