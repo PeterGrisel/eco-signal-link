@@ -56,6 +56,7 @@ import GammaCheatsheet from "./pages/GammaCheatsheet.tsx";
 import Cheatsheets from "./pages/Cheatsheets.tsx";
 import Partners from "./pages/Partners.tsx";
 import Klanten from "./pages/Klanten.tsx";
+import Demo from "./pages/Demo.tsx";
 import IconsPreview from "./pages/IconsPreview.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import TrackingScriptInjector from "./components/TrackingScriptInjector";
@@ -161,6 +162,8 @@ const AnimatedRoutes = () => {
           <Route path="/cheatsheet/icp-ai" element={<IcpAi />} />
           <Route path="/cheatsheet/multichannel-sequencing" element={<MultichannelSequencing />} />
           <Route path="/cheatsheet/gamma-presentaties" element={<GammaCheatsheet />} />
+          <Route path="/demo" element={<Demo />} />
+          <Route path="/video" element={<Navigate to="/demo" replace />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
