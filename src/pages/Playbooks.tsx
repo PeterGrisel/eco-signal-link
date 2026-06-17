@@ -117,9 +117,9 @@ const Playbooks = () => {
                         {pb.phase}
                       </span>
                     </div>
-                    <h3 className="font-display font-semibold text-lg text-foreground/90 mb-2 group-hover:text-foreground transition-colors">
+                    <h2 className="font-display font-semibold text-lg text-foreground/90 mb-2 group-hover:text-foreground transition-colors">
                       {pb.title}
-                    </h3>
+                    </h2>
                     <p className="text-sm text-muted-foreground leading-snug">
                       {pb.description}
                     </p>
