@@ -6,13 +6,14 @@ import Navbar from "@/components/Navbar";
 import CheatsheetFeedback from "@/components/cheatsheet/CheatsheetFeedback";
 import CheatsheetTrainingCta from "@/components/cheatsheet/CheatsheetTrainingCta";
 import Footer from "@/components/Footer";
+import { usePageMeta } from "@/hooks/usePageMeta";
 
 const LinkedInOutreach = () => {
-  useEffect(() => {
-    document.title = "LinkedIn Outreach Formules — Cheatsheet | B2BGroeiMachine";
-    const meta = document.querySelector('meta[name="description"]');
-    if (meta) meta.setAttribute("content", "5 bewezen LinkedIn berichtsjablonen voor B2B outreach. Kopieer de prompts, personaliseer met ChatGPT en ga direct live.");
-  }, []);
+  usePageMeta({
+    title: "LinkedIn Outreach Formules — Cheatsheet | B2BGroeiMachine",
+    description: "5 bewezen LinkedIn berichtsjablonen voor B2B outreach. Kopieer de prompts, personaliseer met ChatGPT en ga direct live.",
+    canonical: "https://www.b2bgroeimachine.io/cheatsheet/linkedin-outreach",
+  });
 
   return (
     <div className="min-h-screen bg-background text-foreground">

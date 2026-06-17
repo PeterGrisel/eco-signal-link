@@ -6,13 +6,14 @@ import Navbar from "@/components/Navbar";
 import CheatsheetFeedback from "@/components/cheatsheet/CheatsheetFeedback";
 import CheatsheetTrainingCta from "@/components/cheatsheet/CheatsheetTrainingCta";
 import Footer from "@/components/Footer";
+import { usePageMeta } from "@/hooks/usePageMeta";
 
 const MultichannelSequencing = () => {
-  useEffect(() => {
-    document.title = "Multi-channel Sequencing Playbook — Cheatsheet | B2BGroeiMachine";
-    const meta = document.querySelector('meta[name="description"]');
-    if (meta) meta.setAttribute("content", "14-dagen multi-channel sequentie: e-mail, LinkedIn en calling gecombineerd. Templates per kanaal met exacte timing.");
-  }, []);
+  usePageMeta({
+    title: "Multi-channel Sequencing Playbook — Cheatsheet | B2BGroeiMachine",
+    description: "14-dagen multi-channel sequentie: e-mail, LinkedIn en calling gecombineerd. Templates per kanaal met exacte timing.",
+    canonical: "https://www.b2bgroeimachine.io/cheatsheet/multichannel-sequencing",
+  });
 
   return (
     <div className="min-h-screen bg-background text-foreground">

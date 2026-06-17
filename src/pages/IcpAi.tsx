@@ -6,13 +6,14 @@ import Navbar from "@/components/Navbar";
 import CheatsheetFeedback from "@/components/cheatsheet/CheatsheetFeedback";
 import CheatsheetTrainingCta from "@/components/cheatsheet/CheatsheetTrainingCta";
 import Footer from "@/components/Footer";
+import { usePageMeta } from "@/hooks/usePageMeta";
 
 const IcpAi = () => {
-  useEffect(() => {
-    document.title = "ICP Scherpslijpen met AI — Cheatsheet | B2BGroeiMachine";
-    const meta = document.querySelector('meta[name="description"]');
-    if (meta) meta.setAttribute("content", "Verfijn je Ideal Customer Profile met Claude, Apollo en LinkedIn. Van vage omschrijving naar scherpe targeting in 20 minuten.");
-  }, []);
+  usePageMeta({
+    title: "ICP Scherpslijpen met AI — Cheatsheet | B2BGroeiMachine",
+    description: "Verfijn je Ideal Customer Profile met Claude, Apollo en LinkedIn. Van vage omschrijving naar scherpe targeting in 20 minuten.",
+    canonical: "https://www.b2bgroeimachine.io/cheatsheet/icp-ai",
+  });
 
   return (
     <div className="min-h-screen bg-background text-foreground">
