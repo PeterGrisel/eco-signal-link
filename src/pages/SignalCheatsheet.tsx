@@ -6,13 +6,14 @@ import Navbar from "@/components/Navbar";
 import CheatsheetFeedback from "@/components/cheatsheet/CheatsheetFeedback";
 import CheatsheetTrainingCta from "@/components/cheatsheet/CheatsheetTrainingCta";
 import Footer from "@/components/Footer";
+import { usePageMeta } from "@/hooks/usePageMeta";
 
 const SignalCheatsheet = () => {
-  useEffect(() => {
-    document.title = "Claude × Apollo — Signal Cheatsheet | B2BGroeiMachine";
-    const meta = document.querySelector('meta[name="description"]');
-    if (meta) meta.setAttribute("content", "Van marktsignaal naar persoonlijke outreach — zonder developer, zonder koppeling. Signal prospecting cheatsheet.");
-  }, []);
+  usePageMeta({
+    title: "Claude × Apollo — Signal Cheatsheet | B2BGroeiMachine",
+    description: "Van marktsignaal naar persoonlijke outreach — zonder developer, zonder koppeling. Signal prospecting cheatsheet.",
+    canonical: "https://www.b2bgroeimachine.io/cheatsheet/signal-prospecting",
+  });
 
   return (
     <div className="min-h-screen bg-background text-foreground">
