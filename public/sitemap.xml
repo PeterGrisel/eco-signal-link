@@ -16,8 +16,6 @@
     <priority>0.6</priority>
   </url>
   <url>
-  <url>
-  <url>
     <loc>https://www.b2bgroeimachine.io/pipeline-equation</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -112,7 +110,6 @@
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
-  <url>
   <url>
     <loc>https://www.b2bgroeimachine.io/cheatsheet/signal-prospecting</loc>
     <changefreq>monthly</changefreq>
@@ -214,14 +211,11 @@
     <priority>0.7</priority>
   </url>
   <url>
-  <url>
-  <url>
-  <url>
-  <url>
-  <url>
-  <url>
-  <url>
-  <url>
+    <loc>https://www.b2bgroeimachine.io/blog/churn-reductie-strategie-b2b-data-analyse-klantgedrag</loc>
+    <lastmod>2026-06-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
   <url>
     <loc>https://www.b2bgroeimachine.io/blog/b2b-leadkwalificatie-checklist-sql-definitie</loc>
     <lastmod>2026-06-16</lastmod>
@@ -271,6 +265,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.b2bgroeimachine.io/blog/signaalgebaseerde-targeting-b2b-software-implementatie</loc>
+    <lastmod>2026-06-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
   <url>
     <loc>https://www.b2bgroeimachine.io/blog/b2b-leadopvolging-automatiseren</loc>
     <lastmod>2026-06-07</lastmod>
@@ -278,6 +277,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.b2bgroeimachine.io/blog/signaalgebaseerde-prospecting-b2b-koopsignalen-herkennen</loc>
+    <lastmod>2026-06-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
   <url>
     <loc>https://www.b2bgroeimachine.io/blog/b2b-groei-strategie-wrijving-elimineren</loc>
     <lastmod>2026-06-05</lastmod>
@@ -345,6 +349,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.b2bgroeimachine.io/blog/signaalgebaseerde-prospecting-concurrentie</loc>
+    <lastmod>2026-05-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
   <url>
     <loc>https://www.b2bgroeimachine.io/blog/kandidaten-funnel-bouwen-technische-functies-mkb</loc>
     <lastmod>2026-05-18</lastmod>
@@ -402,6 +411,12 @@
   <url>
     <loc>https://www.b2bgroeimachine.io/blog/data-gedreven-groeistrategie-zonder-data-analist</loc>
     <lastmod>2026-04-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.b2bgroeimachine.io/playbooks/playbook-multichannel-sequencing</loc>
+    <lastmod>2026-06-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -482,6 +497,12 @@
     <lastmod>2026-05-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.b2bgroeimachine.io/woordenboek/revenue-resilience</loc>
+    <lastmod>2026-06-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://www.b2bgroeimachine.io/woordenboek/klantlifecycle-management</loc>
