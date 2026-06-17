@@ -6,13 +6,14 @@ import Navbar from "@/components/Navbar";
 import CheatsheetFeedback from "@/components/cheatsheet/CheatsheetFeedback";
 import CheatsheetTrainingCta from "@/components/cheatsheet/CheatsheetTrainingCta";
 import Footer from "@/components/Footer";
+import { usePageMeta } from "@/hooks/usePageMeta";
 
 const HubSpotPipeline = () => {
-  useEffect(() => {
-    document.title = "HubSpot Pipeline Setup in 30 min — Cheatsheet | B2BGroeiMachine";
-    const meta = document.querySelector('meta[name="description"]');
-    if (meta) meta.setAttribute("content", "Richt je HubSpot CRM pipeline in 30 minuten in. Dealfases, properties, automatiseringen en dashboard voor B2B.");
-  }, []);
+  usePageMeta({
+    title: "HubSpot Pipeline Setup in 30 min — Cheatsheet | B2BGroeiMachine",
+    description: "Richt je HubSpot CRM pipeline in 30 minuten in. Dealfases, properties, automatiseringen en dashboard voor B2B.",
+    canonical: "https://www.b2bgroeimachine.io/cheatsheet/hubspot-pipeline",
+  });
 
   return (
     <div className="min-h-screen bg-background text-foreground">
