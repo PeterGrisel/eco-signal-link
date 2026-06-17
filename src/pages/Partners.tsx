@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Search, ExternalLink, Linkedin, BadgeCheck, Users, Sparkles, Globe, Shield, Check } from "lucide-react";
 import { openBookingModal } from "@/components/booking/GlobalBookingModal";
+import { usePageMeta } from "@/hooks/usePageMeta";
 
 interface Partner {
   id: string;
@@ -36,11 +37,11 @@ const Partners = () => {
   const [search, setSearch] = useState("");
   const [activeSector, setActiveSector] = useState<string | null>(null);
 
-  useEffect(() => {
-    document.title = "Signal Partners | B2BGroeiMachine";
-    const meta = document.querySelector('meta[name="description"]');
-    if (meta) meta.setAttribute("content", "Ontdek gecertificeerde Signal Partners — ondernemers die signal-based selling toepassen in hun B2B-groei.");
-  }, []);
+  usePageMeta({
+    title: "Signal Partners | B2BGroeiMachine",
+    description: "Ontdek gecertificeerde Signal Partners — ondernemers die signal-based selling toepassen in hun B2B-groei.",
+    canonical: "https://www.b2bgroeimachine.io/partners",
+  });
 
   useEffect(() => {
     const fetchPartners = async () => {
