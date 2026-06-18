@@ -264,7 +264,7 @@ const Hero = () => {
             className="max-w-3xl mx-auto mb-10"
           >
             <p className="text-foreground/90 text-base md:text-xl leading-relaxed border border-white/10 bg-card/45 backdrop-blur-md px-6 py-4 rounded-2xl shadow-[0_8px_32px_0_rgba(0,0,0,0.3)]">
-              Je stak jaren in je vak, niet in leads jagen. Toch valt je pijplijn stil zodra je het druk krijgt. Van overvloed val je zo weer terug in schaarste. Wij bezorgen niche B2B-specialisten een constante stroom gekwalificeerde gesprekken. Geen jacht. Geen hoop op aanbevelingen.
+              Je stak jaren in je vak, niet in leads jagen. Toch valt je pijplijn stil zodra je het druk krijgt. Van overvloed val je zo weer terug in schaarste. Wij bezorgen niche B2B-specialisten een constante stroom gekwalificeerde gesprekken.
             </p>
           </motion.div>
 
