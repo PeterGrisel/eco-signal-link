@@ -283,7 +283,7 @@ const Hero = () => {
             >
               <CtaLink intent="gratisScan" location="Hero">
                 <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/25 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
-                <span className="relative">Plan uw 60-minuten Groeiplan-sessie →</span>
+                <span className="relative">Start met een gratis Groeiplan-sessie →</span>
               </CtaLink>
             </Button>
             <Link
