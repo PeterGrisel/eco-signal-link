@@ -256,17 +256,6 @@ const Hero = () => {
             <span className="font-bold text-foreground">Nooit meer een lead die onzichtbaar is</span>
           </motion.h1>
 
-          {/* Subkop */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease, delay: 0.12 }}
-            className="max-w-3xl mx-auto mb-10"
-          >
-            <p className="text-foreground/90 text-base md:text-xl leading-relaxed border border-white/10 bg-card/45 backdrop-blur-md px-6 py-4 rounded-2xl shadow-[0_8px_32px_0_rgba(0,0,0,0.3)]">
-              Je bent uitstekend in je vak. Je studeerde jarenlang. Je leverde jarenlang kwaliteit. Die stille pijplijn ligt dus nooit aan jouw kwaliteiten. Hij valt simpelweg stil zodra je het druk krijgt. Wij bezorgen niche B2B-specialisten een constante stroom gekwalificeerde gesprekken.
-            </p>
-          </motion.div>
 
           {/* CTA's */}
           <motion.div
