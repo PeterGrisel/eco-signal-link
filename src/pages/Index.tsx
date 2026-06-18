@@ -61,9 +61,9 @@ const Index = () => {
       </div>
       {/* Offer-led: aanbod, hoe het werkt, en het bewijs */}
       <HerkenbareSection />
-      <AlwaysOnBentoSection />
       <Gtm2026Section />
       <HowItWorksCarousel />
+      <AlwaysOnBentoSection />
       <GroeistackSection />
       <Chapter11Bewegingen />
       <CaseStudiesSection />
