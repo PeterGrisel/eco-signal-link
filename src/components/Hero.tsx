@@ -251,9 +251,9 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease, delay: 0.05 }}
-            className="font-display text-[2.85rem] xs:text-[3.25rem] md:text-[3.75rem] lg:text-[4.75rem] xl:text-[5.75rem] leading-[0.95] tracking-tighter mb-6 [text-wrap:balance] [text-shadow:0_2px_24px_hsl(var(--background))]"
+            className="font-display text-[3.25rem] xs:text-[3.85rem] md:text-[5rem] lg:text-[6.5rem] xl:text-[7.5rem] leading-[0.9] tracking-[-0.04em] mb-6 [text-wrap:balance] [text-shadow:0_2px_24px_hsl(var(--background))]"
           >
-            <span className="font-bold text-foreground">Nooit meer een lead die onzichtbaar is</span>
+            <span className="font-black text-foreground">Nooit meer een lead die onzichtbaar is</span>
           </motion.h1>
 
 
