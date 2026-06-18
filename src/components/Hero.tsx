@@ -241,7 +241,7 @@ const Hero = () => {
                 <Compass className="w-3 h-3 text-primary" strokeWidth={2} />
               </span>
               <span className="text-xs md:text-sm font-display font-semibold tracking-wide text-foreground/90">
-                Uw creativiteit is de brandstof voor onze groeimotor
+                Je creativiteit is de brandstof voor onze groeimotor
               </span>
             </span>
           </motion.div>
@@ -264,7 +264,7 @@ const Hero = () => {
             className="max-w-3xl mx-auto mb-10"
           >
             <p className="text-foreground/90 text-base md:text-xl leading-relaxed border border-white/10 bg-card/45 backdrop-blur-md px-6 py-4 rounded-2xl shadow-[0_8px_32px_0_rgba(0,0,0,0.3)]">
-              Uw pipeline valt stil zodra u het druk krijgt. Wij bezorgen niche B2B-specialisten een constante stroom nieuwe klanten. Dit gebeurt in uw eigen stem en blijft uw eigendom. U hoeft niet te jagen of te hopen op aanbevelingen.
+              Je pipeline valt stil zodra je het druk krijgt. Wij bezorgen niche B2B-specialisten een constante stroom nieuwe klanten. Dit gebeurt in je eigen stem en blijft jouw eigendom. Je hoeft niet te jagen of te hopen op aanbevelingen.
             </p>
           </motion.div>
 
