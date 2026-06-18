@@ -264,7 +264,7 @@ const Hero = () => {
             className="max-w-3xl mx-auto mb-10"
           >
             <p className="text-foreground/90 text-base md:text-xl leading-relaxed border border-white/10 bg-card/45 backdrop-blur-md px-6 py-4 rounded-2xl shadow-[0_8px_32px_0_rgba(0,0,0,0.3)]">
-              Wij helpen B2B-bedrijven om geïnteresseerde accounts eerder te herkennen. Zo zet u ze sneller om naar gesprekken met sales.
+              Uw pipeline valt stil zodra u het druk krijgt. Wij bezorgen niche B2B-specialisten een constante stroom nieuwe klanten. Dit gebeurt in uw eigen stem en blijft uw eigendom. U hoeft niet te jagen of te hopen op aanbevelingen.
             </p>
           </motion.div>
 
