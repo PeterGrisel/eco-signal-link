@@ -29,6 +29,7 @@ import Brandbook from "./pages/Brandbook.tsx";
 import PipelineEquation from "./pages/PipelineEquation.tsx";
 import Tools from "./pages/Tools.tsx";
 import FunnelCalculatorPage from "./pages/FunnelCalculatorPage.tsx";
+import GroeiplanInvullen from "./pages/GroeiplanInvullen.tsx";
 import PipelineValuePage from "./pages/PipelineValuePage.tsx";
 import Contact from "./pages/Contact.tsx";
 import Privacy from "./pages/Privacy.tsx";
