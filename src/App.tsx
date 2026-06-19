@@ -134,6 +134,7 @@ const AnimatedRoutes = () => {
           <Route path="/tools" element={<Tools />} />
           <Route path="/tools/funnel-calculator" element={<FunnelCalculatorPage />} />
           <Route path="/tools/pipeline-value" element={<PipelineValuePage />} />
+          <Route path="/groeiplan" element={<GroeiplanInvullen />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/terms" element={<Terms />} />
