@@ -243,7 +243,7 @@ const GroeiplanInvullen = () => {
                       {grouped[phase].map((cell) => (
                         <div
                           key={cell.id}
-                          className="rounded-xl bg-[#FAF1E8] p-4 min-h-[170px] flex flex-col"
+                          className="rounded-xl bg-[#FAF1E8] p-4 min-h-[170px] flex flex-col self-start"
                         >
                           <div className="text-sm font-semibold text-neutral-900 mb-1">
                             <span className="text-[#E8945A]">{cell.num}</span>{" "}
@@ -254,11 +254,16 @@ const GroeiplanInvullen = () => {
                           </div>
                           <textarea
                             value={values[cell.id]}
-                            onChange={(e) => setValues((v) => ({ ...v, [cell.id]: e.target.value }))}
+                            onChange={(e) => {
+                              setValues((v) => ({ ...v, [cell.id]: e.target.value }));
+                              const t = e.currentTarget;
+                              t.style.height = "auto";
+                              t.style.height = t.scrollHeight + "px";
+                            }}
                             placeholder={unlocked ? "Vul hier in…" : "—"}
                             disabled={!unlocked}
                             rows={4}
-                            className="flex-1 w-full min-h-[90px] resize-y bg-transparent text-sm text-neutral-800 placeholder-neutral-300 focus:outline-none focus:ring-0 border-0"
+                            className="w-full min-h-[90px] resize-y bg-transparent text-sm text-neutral-800 placeholder-neutral-300 focus:outline-none focus:ring-0 border-0 overflow-hidden"
                           />
                         </div>
                       ))}
