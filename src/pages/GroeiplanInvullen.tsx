@@ -293,6 +293,41 @@ const GroeiplanInvullen = () => {
       </main>
 
       <Footer />
+
+      <Dialog open={showBooking} onOpenChange={setShowBooking}>
+        <DialogContent className="bg-[#0F0F10] border-white/10 text-white sm:max-w-md">
+          <DialogHeader>
+            <div className="flex items-center gap-2 text-[#E8945A] mb-2">
+              <CheckCircle2 className="h-5 w-5" />
+              <span className="font-mono text-[11px] tracking-[0.25em] uppercase">Plan gedownload</span>
+            </div>
+            <DialogTitle className="text-2xl font-display">
+              Bespreek je groeiplan met Peter
+            </DialogTitle>
+            <DialogDescription className="text-white/60">
+              Je groeiplan staat op papier. In 30 minuten bespreken we samen welke vakken het hardst aan optimalisatie toe zijn en hoe je dat versnelt.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="flex flex-col sm:flex-row gap-2 sm:gap-2">
+            <Button
+              variant="outline"
+              onClick={() => setShowBooking(false)}
+              className="border-white/15 bg-transparent text-white hover:bg-white/5 hover:text-white"
+            >
+              Later
+            </Button>
+            <Button
+              asChild
+              className="bg-[#E8945A] hover:bg-[#E8945A]/90 text-black font-medium"
+            >
+              <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
+                <Calendar className="h-4 w-4 mr-2" />
+                Plan een gesprek
+              </a>
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
