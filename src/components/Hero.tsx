@@ -275,13 +275,6 @@ const Hero = () => {
                 <span className="relative">Start met een gratis Groeiplan-sessie →</span>
               </CtaLink>
             </Button>
-            <Link
-              to="/klanten"
-              className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors"
-            >
-              Bekijk wie al met ons werkt
-              <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
           </motion.div>
 
         </div>
@@ -306,6 +299,13 @@ const Hero = () => {
               <p className="text-xs text-muted-foreground">
                 Yaskawa, Leister, Excelsior Rotterdam e.a.
               </p>
+              <Link
+                to="/klanten"
+                className="mt-1 inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-primary transition-colors"
+              >
+                Bekijk wie al met ons werkt
+                <ArrowRight className="w-3 h-3" />
+              </Link>
             </div>
           </div>
         </motion.div>
