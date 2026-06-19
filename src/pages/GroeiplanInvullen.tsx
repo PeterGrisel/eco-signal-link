@@ -10,7 +10,16 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { usePageMeta } from "@/hooks/usePageMeta";
-import { Download, Loader2, Lock } from "lucide-react";
+import { Download, Loader2, Lock, Calendar, CheckCircle2 } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@/components/ui/dialog";
+import { BOOKING_URL } from "@/content/copy";
 
 type Cell = {
   id: string;
@@ -60,6 +69,7 @@ const GroeiplanInvullen = () => {
     () => Object.fromEntries(CELLS.map((c) => [c.id, ""])),
   );
   const [downloading, setDownloading] = useState(false);
+  const [showBooking, setShowBooking] = useState(false);
   const planRef = useRef<HTMLDivElement>(null);
 
   const grouped = useMemo(() => ({
@@ -125,6 +135,7 @@ const GroeiplanInvullen = () => {
       const safeName = (company || "groeiplan").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
       pdf.save(`1-pagina-groeiplan-${safeName}.pdf`);
       toast({ title: "Klaar", description: "Je groeiplan is gedownload." });
+      setShowBooking(true);
     } catch (e) {
       console.error(e);
       toast({ title: "Er ging iets mis", description: "Probeer het opnieuw.", variant: "destructive" });
@@ -282,6 +293,41 @@ const GroeiplanInvullen = () => {
       </main>
 
       <Footer />
+
+      <Dialog open={showBooking} onOpenChange={setShowBooking}>
+        <DialogContent className="bg-[#0F0F10] border-white/10 text-white sm:max-w-md">
+          <DialogHeader>
+            <div className="flex items-center gap-2 text-[#E8945A] mb-2">
+              <CheckCircle2 className="h-5 w-5" />
+              <span className="font-mono text-[11px] tracking-[0.25em] uppercase">Plan gedownload</span>
+            </div>
+            <DialogTitle className="text-2xl font-display">
+              Bespreek je groeiplan met Peter
+            </DialogTitle>
+            <DialogDescription className="text-white/60">
+              Je groeiplan staat op papier. In 30 minuten bespreken we samen welke vakken het hardst aan optimalisatie toe zijn en hoe je dat versnelt.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="flex flex-col sm:flex-row gap-2 sm:gap-2">
+            <Button
+              variant="outline"
+              onClick={() => setShowBooking(false)}
+              className="border-white/15 bg-transparent text-white hover:bg-white/5 hover:text-white"
+            >
+              Later
+            </Button>
+            <Button
+              asChild
+              className="bg-[#E8945A] hover:bg-[#E8945A]/90 text-black font-medium"
+            >
+              <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
+                <Calendar className="h-4 w-4 mr-2" />
+                Plan een gesprek
+              </a>
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

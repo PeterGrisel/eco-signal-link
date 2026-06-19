@@ -275,6 +275,16 @@ const Hero = () => {
                 <span className="relative">Start met een gratis Groeiplan-sessie →</span>
               </CtaLink>
             </Button>
+            <Button
+              variant="outline"
+              size="lg"
+              className="h-12 rounded-full px-7 text-base border-white/20 bg-white/[0.03] text-foreground hover:bg-white/[0.06] hover:text-[#E8945A]"
+              asChild
+            >
+              <Link to="/groeiplan">
+                Vul je 1-pagina Groeiplan in →
+              </Link>
+            </Button>
           </motion.div>
 
         </div>
