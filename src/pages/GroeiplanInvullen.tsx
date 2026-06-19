@@ -257,7 +257,8 @@ const GroeiplanInvullen = () => {
                             onChange={(e) => setValues((v) => ({ ...v, [cell.id]: e.target.value }))}
                             placeholder={unlocked ? "Vul hier in…" : "—"}
                             disabled={!unlocked}
-                            className="flex-1 w-full resize-none bg-transparent text-sm text-neutral-800 placeholder-neutral-300 focus:outline-none focus:ring-0 border-0"
+                            rows={4}
+                            className="flex-1 w-full min-h-[90px] resize-y bg-transparent text-sm text-neutral-800 placeholder-neutral-300 focus:outline-none focus:ring-0 border-0"
                           />
                         </div>
                       ))}
