@@ -10,7 +10,16 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { usePageMeta } from "@/hooks/usePageMeta";
-import { Download, Loader2, Lock } from "lucide-react";
+import { Download, Loader2, Lock, Calendar, CheckCircle2 } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@/components/ui/dialog";
+import { BOOKING_URL } from "@/content/copy";
 
 type Cell = {
   id: string;
@@ -60,6 +69,7 @@ const GroeiplanInvullen = () => {
     () => Object.fromEntries(CELLS.map((c) => [c.id, ""])),
   );
   const [downloading, setDownloading] = useState(false);
+  const [showBooking, setShowBooking] = useState(false);
   const planRef = useRef<HTMLDivElement>(null);
 
   const grouped = useMemo(() => ({
@@ -125,6 +135,7 @@ const GroeiplanInvullen = () => {
       const safeName = (company || "groeiplan").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
       pdf.save(`1-pagina-groeiplan-${safeName}.pdf`);
       toast({ title: "Klaar", description: "Je groeiplan is gedownload." });
+      setShowBooking(true);
     } catch (e) {
       console.error(e);
       toast({ title: "Er ging iets mis", description: "Probeer het opnieuw.", variant: "destructive" });
