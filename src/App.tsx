@@ -116,6 +116,7 @@ const AnimatedRoutes = () => {
           <Route path="/groeistack" element={<Groeistack />} />
           <Route path="/admin/groeistack" element={<AdminGroeistack />} />
           <Route path="/admin/groeistack/leads" element={<AdminGroeistackLeads />} />
+          <Route path="/admin/groeiplannen" element={<AdminGroeiplannen />} />
           <Route path="/playbooks" element={<Playbooks />} />
           <Route path="/playbooks/:slug" element={<PlaybookPost />} />
           <Route path="/admin/playbooks" element={<AdminPlaybooks />} />
