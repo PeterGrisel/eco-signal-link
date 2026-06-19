@@ -1302,6 +1302,39 @@ export type Database = {
         }
         Relationships: []
       }
+      groeiplan_submissions: {
+        Row: {
+          company: string | null
+          created_at: string
+          email: string
+          fields: Json
+          id: string
+          mode: string
+          name: string | null
+          source_url: string | null
+        }
+        Insert: {
+          company?: string | null
+          created_at?: string
+          email: string
+          fields?: Json
+          id?: string
+          mode?: string
+          name?: string | null
+          source_url?: string | null
+        }
+        Update: {
+          company?: string | null
+          created_at?: string
+          email?: string
+          fields?: Json
+          id?: string
+          mode?: string
+          name?: string | null
+          source_url?: string | null
+        }
+        Relationships: []
+      }
       groeistack_leads: {
         Row: {
           created_at: string
