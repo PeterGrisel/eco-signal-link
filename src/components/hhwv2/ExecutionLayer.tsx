@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Workflow, Megaphone, FileText, ArrowRight } from "lucide-react";
+import ConnectorFlow from "./ConnectorFlow";
 
 const SERVICES = [
   {
@@ -46,7 +47,7 @@ const ExecutionLayer = () => {
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-4 md:gap-6">
+        <ConnectorFlow className="grid lg:grid-cols-3 gap-4 md:gap-6">
           {SERVICES.map((s, i) => (
             <motion.div
               key={s.title}
@@ -54,7 +55,7 @@ const ExecutionLayer = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="card-gradient border-glow rounded-2xl p-6 md:p-7 flex flex-col"
+              className="cf-node card-gradient border-glow rounded-2xl p-6 md:p-7 flex flex-col"
             >
               <p className="text-[10px] font-display font-semibold tracking-[0.18em] uppercase text-muted-foreground mb-3">
                 {s.eyebrow}
@@ -79,7 +80,7 @@ const ExecutionLayer = () => {
               </ol>
             </motion.div>
           ))}
-        </div>
+        </ConnectorFlow>
 
         <div className="mt-10 max-w-3xl mx-auto text-center text-muted-foreground leading-relaxed">
           <p>
