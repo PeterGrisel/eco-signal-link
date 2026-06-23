@@ -154,13 +154,14 @@ const ExactHero = () => {
                     </feMerge>
                   </filter>
                 </defs>
+                {/* Connectors from 6 signal tiles converging at engine top (340, 285) */}
                 {[
-                  "M 60 110 C 60 240, 220 280, 320 340",
-                  "M 180 110 C 180 240, 270 290, 325 340",
-                  "M 300 110 C 300 230, 320 290, 330 340",
-                  "M 380 110 C 380 230, 360 290, 340 340",
-                  "M 500 110 C 500 240, 410 290, 345 340",
-                  "M 620 110 C 620 240, 460 280, 350 340",
+                  "M 60 130 C 60 220, 240 250, 340 285",
+                  "M 180 130 C 180 220, 280 255, 340 285",
+                  "M 300 130 C 300 215, 325 260, 340 285",
+                  "M 380 130 C 380 215, 355 260, 340 285",
+                  "M 500 130 C 500 220, 400 255, 340 285",
+                  "M 620 130 C 620 220, 440 250, 340 285",
                 ].map((d, i) => (
                   <path
                     key={i}
@@ -172,14 +173,25 @@ const ExactHero = () => {
                     opacity="0.9"
                   />
                 ))}
+                {/* Engine → Operators (right) */}
                 <path
-                  d="M 195 520 V 580"
+                  d="M 425 360 H 465"
+                  stroke="#E8945A"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  filter="url(#neonGlow)"
+                  opacity="0.9"
+                />
+                <circle cx="467" cy="360" r="4" fill="#E8945A" filter="url(#neonGlow)" />
+                {/* Engine → High-fit account (bottom) */}
+                <path
+                  d="M 340 435 V 480"
                   stroke="#E8945A"
                   strokeWidth="2"
                   strokeLinecap="round"
                   filter="url(#neonGlow)"
                 />
-                <circle cx="195" cy="582" r="4" fill="#E8945A" filter="url(#neonGlow)" />
+                <circle cx="340" cy="482" r="4" fill="#E8945A" filter="url(#neonGlow)" />
               </svg>
 
               {/* Signal Logo Tiles at top */}
@@ -211,11 +223,11 @@ const ExactHero = () => {
                 );
               })}
 
-              {/* Revenue Engine central card */}
+              {/* B2BGM Engine™ central card */}
               <motion.div
                 whileHover={{ scale: 1.02 }}
-                className="absolute flex flex-col items-center justify-center gap-3 rounded-xl border border-primary/40 bg-card/40 backdrop-blur-sm shadow-[0_0_40px_rgba(232,148,90,0.18)]"
-                style={{ left: "13%", top: "47%", width: "26%", aspectRatio: "1 / 1" }}
+                className="absolute flex flex-col items-center justify-center gap-3 rounded-xl border border-primary/40 bg-card/60 backdrop-blur-sm shadow-[0_0_50px_rgba(232,148,90,0.25)]"
+                style={{ left: "37.5%", top: "39%", width: "25%", aspectRatio: "1 / 1" }}
               >
                 <div className="grid grid-cols-3 gap-1">
                   <span className="w-3 h-3 md:w-3.5 md:h-3.5" />
@@ -228,18 +240,18 @@ const ExactHero = () => {
                   <span className="w-3 h-3 md:w-3.5 md:h-3.5 bg-primary rounded-sm" />
                   <span className="w-3 h-3 md:w-3.5 md:h-3.5" />
                 </div>
-                <span className="text-[9px] md:text-[10px] font-display font-semibold uppercase tracking-[0.22em] text-primary">
-                  Revenue Engine
+                <span className="text-[9px] md:text-[10px] font-display font-semibold uppercase tracking-[0.22em] text-primary text-center px-2">
+                  B2BGM Engine™
                 </span>
               </motion.div>
 
-              {/* Frontal Operators card */}
+              {/* Frontal Operators card – right of engine */}
               <motion.div
                 initial={{ opacity: 0, x: 16 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.35 }}
                 className="absolute p-4 md:p-5 rounded-xl border border-primary/30 bg-card/40 backdrop-blur-sm shadow-[0_0_40px_rgba(232,148,90,0.12)]"
-                style={{ left: "44%", top: "47%", width: "52%" }}
+                style={{ left: "68.5%", top: "37%", width: "30%" }}
               >
                 <h4 className="font-display font-bold text-foreground text-sm md:text-base mb-1">
                   Frontal operators
@@ -253,13 +265,13 @@ const ExactHero = () => {
                       key={i}
                       src={src}
                       alt="operator"
-                      className="w-8 h-8 md:w-9 md:h-9 rounded-full object-cover border-2 border-background ring-1 ring-primary/30"
+                      className="w-7 h-7 md:w-8 md:h-8 rounded-full object-cover border-2 border-background ring-1 ring-primary/30"
                     />
                   ))}
                 </div>
-                <p className="text-xs text-muted-foreground leading-snug">
-                  Build the system, set the logic for what matters, and run the plays{" "}
-                  <span className="text-primary">for you.</span>
+                <p className="text-[11px] text-muted-foreground leading-snug">
+                  Bouw het systeem, zet de logica en draai de plays{" "}
+                  <span className="text-primary">voor je.</span>
                 </p>
               </motion.div>
 
