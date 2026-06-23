@@ -72,8 +72,55 @@ const ExactRevenueEngine = () => (
       </div>
 
       <div className="relative grid lg:grid-cols-[1fr_1.1fr_1fr] gap-6 md:gap-10 items-start">
+        {/* Connector SVG — desktop only */}
+        <svg
+          className="hidden lg:block absolute inset-0 w-full h-full pointer-events-none z-0"
+          viewBox="0 0 100 100"
+          preserveAspectRatio="none"
+          aria-hidden
+        >
+          <defs>
+            <linearGradient id="re-line-l" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.15" />
+              <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity="0.7" />
+            </linearGradient>
+            <linearGradient id="re-line-r" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.7" />
+              <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity="0.15" />
+            </linearGradient>
+          </defs>
+          {/* Left: 6 signals -> engine convergence point (~35%, 50%) */}
+          {Array.from({ length: 6 }).map((_, i) => {
+            const y = 12 + i * 13.5;
+            return (
+              <path
+                key={`l-${i}`}
+                d={`M 22 ${y} C 30 ${y}, 30 50, 36 50`}
+                fill="none"
+                stroke="url(#re-line-l)"
+                strokeWidth="0.35"
+                vectorEffect="non-scaling-stroke"
+              />
+            );
+          })}
+          {/* Right: engine divergence (~65%, 50%) -> 6 routed steps */}
+          {Array.from({ length: 6 }).map((_, i) => {
+            const y = 12 + i * 13.5;
+            return (
+              <path
+                key={`r-${i}`}
+                d={`M 64 50 C 70 50, 70 ${y}, 78 ${y}`}
+                fill="none"
+                stroke="url(#re-line-r)"
+                strokeWidth="0.35"
+                vectorEffect="non-scaling-stroke"
+              />
+            );
+          })}
+        </svg>
+
         {/* COL 1 — Revenue Signals */}
-        <div className="relative">
+        <div className="relative z-10">
           <p className="text-[10px] font-display font-semibold tracking-[0.28em] uppercase text-primary/80 mb-4 font-mono">
             Revenue signalen
           </p>
@@ -98,7 +145,7 @@ const ExactRevenueEngine = () => (
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.6 }}
-          className="relative rounded-2xl border border-primary/30 card-gradient p-6 md:p-7 shadow-[0_0_80px_-20px_hsl(var(--primary)/0.4)]"
+          className="relative z-10 rounded-2xl border border-primary/30 card-gradient p-6 md:p-7 shadow-[0_0_80px_-20px_hsl(var(--primary)/0.4)]"
         >
           <div className="text-center mb-6">
             <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl border border-primary/40 bg-primary/15 mb-3">
