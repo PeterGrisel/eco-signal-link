@@ -180,6 +180,18 @@ const Navbar = () => {
         <NavigationMenu className="hidden md:flex absolute left-1/2 -translate-x-1/2 max-w-none">
           <NavigationMenuList className="gap-1">
             <NavigationMenuItem>
+              <NavigationMenuLink asChild>
+                <Link
+                  to="/hoe-het-werkt"
+                  onClick={() => trackCTA("Navbar — Hoe het werkt", "/hoe-het-werkt")}
+                  className="inline-flex h-11 items-center justify-center rounded-md bg-transparent px-4 text-base font-medium text-foreground/80 transition-colors hover:bg-accent/60 hover:text-foreground"
+                >
+                  Hoe het werkt
+                </Link>
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+
+            <NavigationMenuItem>
               <NavigationMenuTrigger className="h-11 px-4 text-base bg-transparent data-[state=open]:bg-accent/50">
                 Oplossingen
               </NavigationMenuTrigger>
@@ -210,18 +222,6 @@ const Navbar = () => {
                   </div>
                 </div>
               </NavigationMenuContent>
-            </NavigationMenuItem>
-
-            <NavigationMenuItem>
-              <NavigationMenuLink asChild>
-                <Link
-                  to="/hoe-het-werkt"
-                  onClick={() => trackCTA("Navbar — Hoe het werkt", "/hoe-het-werkt")}
-                  className="inline-flex h-11 items-center justify-center rounded-md bg-transparent px-4 text-base font-medium text-foreground/80 transition-colors hover:bg-accent/60 hover:text-foreground"
-                >
-                  Hoe het werkt
-                </Link>
-              </NavigationMenuLink>
             </NavigationMenuItem>
 
             <NavigationMenuItem>
