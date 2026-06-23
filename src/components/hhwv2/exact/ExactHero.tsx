@@ -35,12 +35,11 @@ const ExactHero = () => {
   };
 
   return (
-    <section className="relative pt-24 md:pt-32 pb-16 md:pb-28 overflow-hidden bg-background">
+    <section className="relative pt-24 md:pt-32 pb-16 md:pb-28 overflow-hidden bg-transparent">
       {/* Background glow effects */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute -top-[20%] -left-[10%] w-[60%] h-[60%] rounded-full bg-primary/10 blur-[140px]" />
         <div className="absolute top-[40%] -right-[10%] w-[50%] h-[50%] rounded-full bg-primary/5 blur-[120px]" />
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.01)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.01)_1px,transparent_1px)] bg-[size:32px_32px]" />
       </div>
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
