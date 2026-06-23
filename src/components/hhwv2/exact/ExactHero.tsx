@@ -351,7 +351,6 @@ const ExactHero = () => {
               </motion.div>
             </div>
           </motion.div>
-          </motion.div>
 
         </div>
       </div>
