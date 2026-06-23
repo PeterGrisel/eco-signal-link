@@ -27,6 +27,7 @@ export default {
       fontFamily: {
         display: ["Space Grotesk", "sans-serif"],
         body: ["Inter", "sans-serif"],
+        serif: ["Fraunces", "Georgia", "serif"],
       },
       colors: {
         border: "hsl(var(--border))",
