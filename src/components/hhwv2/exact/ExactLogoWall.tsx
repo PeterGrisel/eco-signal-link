@@ -1,14 +1,16 @@
 import InfiniteSlider from "../ui/InfiniteSlider";
+import stelzLogo from "@/assets/stelz-logo.png.asset.json";
+import sealecoLogo from "@/assets/sealeco-logo.png.asset.json";
+import shotsLogo from "@/assets/shots-logo.png.asset.json";
+import hegoLogo from "@/assets/hego-logo.png.asset.json";
+import klingeleLogo from "@/assets/klingele24-logo.png.asset.json";
 
 const CLIENTS = [
-  "norva",
-  "SOLVENTIS",
-  "ClearPeak",
-  "datavanta",
-  "Northbyte",
-  "terranova",
-  "FintechOS",
-  "axento",
+  { name: "Stelz", src: stelzLogo.url },
+  { name: "SealEco", src: sealecoLogo.url },
+  { name: "Shots", src: shotsLogo.url },
+  { name: "HEGO", src: hegoLogo.url },
+  { name: "Klingele 24", src: klingeleLogo.url },
 ];
 
 const ExactLogoWall = () => (
@@ -19,13 +21,18 @@ const ExactLogoWall = () => (
       </p>
       <InfiniteSlider
         speed={45}
-        items={CLIENTS.map((name) => (
+        items={[...CLIENTS, ...CLIENTS].map((c, i) => (
           <span
-            key={name}
-            className="inline-flex items-center px-6 font-display font-semibold text-xl md:text-2xl tracking-tight text-foreground/55 hover:text-foreground transition-colors"
-            style={{ letterSpacing: name === name.toUpperCase() ? "0.2em" : undefined }}
+            key={`${c.name}-${i}`}
+            className="inline-flex items-center px-8 md:px-10 h-10 md:h-12"
           >
-            {name}
+            <img
+              src={c.src}
+              alt={c.name}
+              loading="lazy"
+              className="h-full w-auto object-contain opacity-70 hover:opacity-100 transition-opacity"
+              style={{ filter: "grayscale(100%) brightness(1.6) contrast(0.9)" }}
+            />
           </span>
         ))}
       />
