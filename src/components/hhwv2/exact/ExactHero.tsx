@@ -167,12 +167,12 @@ const ExactHero = () => {
                 <path d="M 580 70 Q 500 120, 350 215" fill="none" stroke="url(#glowGrad)" strokeWidth="1.5" strokeDasharray="4 4" className="animate-[dash_11s_linear_infinite]" />
 
                 {/* Connections from Engine */}
-                {/* Engine -> Operators */}
-                <path d="M 405 240 H 510" fill="none" stroke="url(#glowGrad)" strokeWidth="2" strokeDasharray="4 4" />
+                {/* Engine -> Operators (right) */}
+                <path d="M 405 240 Q 470 240, 500 290" fill="none" stroke="url(#glowGrad)" strokeWidth="2" strokeDasharray="4 4" />
                 
-                {/* Engine -> High-fit Account */}
-                <path d="M 350 265 V 340" fill="none" stroke="url(#glowGrad)" strokeWidth="2.5" />
-                <circle cx="350" cy="340" r="4" fill="var(--primary)" />
+                {/* Engine -> High-fit Account (down-left) */}
+                <path d="M 320 270 Q 280 290, 230 340" fill="none" stroke="url(#glowGrad)" strokeWidth="2.5" />
+                <circle cx="230" cy="340" r="4" fill="var(--primary)" />
               </svg>
 
               {/* --- Absolute positioned UI Cards --- */}
@@ -243,7 +243,7 @@ const ExactHero = () => {
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.3 }}
-                className="absolute top-[180px] right-[2%] md:right-[5%] w-52 p-4 rounded-xl border border-primary/10 bg-card/90 shadow-2xl shadow-black/50 z-10"
+                className="absolute top-[270px] right-0 w-52 p-4 rounded-xl border border-primary/10 bg-card/95 backdrop-blur shadow-2xl shadow-black/50 z-20"
               >
                 <div className="flex items-center justify-between mb-1.5">
                   <span className="text-xs font-display font-bold text-foreground">Operators & Logic</span>
@@ -273,7 +273,7 @@ const ExactHero = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
                 whileHover={{ y: -2 }}
-                className="absolute bottom-4 left-1/2 -translate-x-1/2 w-[340px] md:w-[380px] p-4 rounded-xl border border-primary/15 bg-card/95 shadow-2xl shadow-black/60 z-10"
+                className="absolute bottom-0 left-0 w-[360px] p-4 rounded-xl border border-primary/15 bg-card/95 shadow-2xl shadow-black/60 z-10"
               >
                 {/* Header */}
                 <div className="flex items-center justify-between mb-3 pb-3 border-b border-primary/10">
