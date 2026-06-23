@@ -1,78 +1,100 @@
+# Plan: ColdIQ-stijl upgrade voor `/hoe-het-werkt-v2`
 
-# Hoe het werkt — Frontal-stijl rebuild
+We nemen 4 lay-outpatronen van coldiq.com over, blijven 100% donker (bg `#0B0B0E`, accent `#E8945A`), en gebruiken 21st.dev als componentbron. Geen vendor-logo's van tools (brandregel).
 
-Volledige nieuwe pagina op route `/hoe-het-werkt-v2` (zodat de huidige pagina blijft staan en je kunt vergelijken). 10 secties die de structuur van frontal.so volgen, gevuld met B2BGroeiMachine-content. **Geen partner-logo's of tool-badges** — vervangen door signaal-categorieën met onze eigen iconen (lucide-react + BgmIcon).
+## Wat erbij komt (volgorde op pagina)
 
-## Routing
-- Nieuwe route `/hoe-het-werkt-v2` in `App.tsx`
-- Nieuwe pagina `src/pages/HoeHetWerktV2.tsx`
-- Eigen secties als losse componenten onder `src/components/hhwv2/`
+```text
+1. HeroFlow             ← REBUILD (editorial)
+2. VideoCaptureSection  ← NIEUW
+3. LogoWallCases        ← NIEUW (vervangt niets)
+4. TwoPathsSection
+5. ProblemSection
+6. EngineFlow
+7. ServiceStackSection  ← NIEUW (Agency / Tools / Education-achtig)
+8. NinetyDayBuild
+9. PlaysSection
+10. ExecutionLayer
+11. ComparisonTable
+12. ProofSection
+13. FaqSection
+14. Finale CTA
+```
 
-## Secties
+## 1. HeroFlow — editorial herwerking
 
-**01 — Hero met signaal-flow**  
-Headline links: "Groei voorspelbaar zonder meer mensen." Subkop + e-mail capture + "Bekijk hoe het werkt" link. Rechts: 6 signaal-labels bovenaan ("Funding", "Hiring", "Websitebezoek", "Job changes", "Tech-stack", "Intent") met SVG-paths die samenkomen in een centrale "B2B Engine"-node (BgmIcon, oranje glow).
+- **Pill bovenaan** (ColdIQ-style): `Voor B2B-bedrijven met PMF en ≥ €100K MRR` met kleine `›` chevron. Animated border-glow (21st.dev `animated-pill` / `announcement-badge`).
+- **Headline**: serif accent in oranje + sans rest:
+  - Lijn 1: `Het B2B-groeisysteem van` (Space Grotesk)
+  - Lijn 2: *Morgen, vandaag gebouwd.* (serif italic, Fraunces 600, in oranje gradient)
+- **Sub**: `Wij bouwen B2B-revenue-engines die voor je verkopen.` (B1, max 12 woorden).
+- **Bestaande signal-flow SVG (GSAP)** blijft eronder, smaller en lager, als achtergrond-canvas met lagere opacity zodat de typografie de show steelt.
+- **Geen serif body** — alleen voor de italic accent-regel. Sans blijft Inter/Space Grotesk.
 
-**02 — Twee paden**  
-Twee kaarten naast elkaar: "Eerst het fundament" (90-dagen build) vs "Direct uitvoering" (Execution Layer). Elk met sub-labels en CTA.
+## 2. VideoCaptureSection (NIEUW)
 
-**03 — Het probleem**  
-3 stat-kaarten (vergelijkbare Nederlandse cijfers/bronnen: tijdverlies sales, slechte data, gefragmenteerde tools). Daaronder een "uit sync"-diagram: 4 afdelingen (Marketing, Sales, RevOps, CS) met rode "uit sync" labels ertussen — getekend met tekstlabels, geen logo's.
+- 16:9 video-frame met poster (`/src/assets/hero-poster.jpg` hergebruiken) + custom play-button. **Geen echte video src** vereist; placeholder met click → opent bestaande `GlobalBookingModal`.
+- Onder de player: split CTA-bar `[ je werk-email ]  [ Gratis groeiscan ]`. Email-veld submit → routeert naar `CtaLink intent="gratisScan"` met `?email=` prefill (gebruikt bestaande copy uit `src/content/copy.ts`).
+- Donkere card met `border-glow` + zachte oranje halo (zoals huidige EngineFlow card).
 
-**04 — De B2B Engine**  
-Het centrale flow-diagram: links 6 signaal-bronnen (categorieën, geen logo's), midden een Engine-blok met 5 stappen (Clean → Enrich → Score → Human-in-the-loop → Route), rechts een "Geroute reeks" met 6 acties (Accountlijst, Sequence, Belwachtrij, Ads-audience, CRM-taak, Owner notified). SVG-paths met motion-glow tussen kolommen.
+## 3. LogoWallCases (NIEUW)
 
-**05 — De 90-dagen build**  
-3 fases als horizontale kaarten met mini-mockup per fase:
-- Fase 1 (Week 1-3): Data — accountscores
-- Fase 2 (Week 3-7): Signaal — live signaal-feed
-- Fase 3 (Week 7-12): Plays — signaal→play schema
+- Strikt **geen tool-logo's of partner-logo's** (brandregel). In plaats daarvan:
+  - **Marquee bovenaan** met **sector-labels** in nette outline-pills (Industrie, SaaS, Bouw, Logistiek, Zakelijke dienstverlening, Tech, Maakindustrie). Auto-scroll, 21st.dev `infinite-slider`.
+  - **2 inline case-cards** met case-study teaser uit `src/data/caseStudies.ts` (Hego, Stelz, SealEco, Shots, Klingele24). Card-style identiek aan ColdIQ tegels: groot beeld, eyebrow `Case study`, titel, 2-regel pitch, oranje pijl-CTA.
 
-**06 — Wat is een play?**  
-Headline + 3 voorbeeld-plays als horizontale stappen-strips (Signaal → Enrich → Score → Personalize → Run). Onze 3 voorbeelden: "Funding-trigger outreach", "Pricing-pagina bezoek", "Champion job-change". Onderaan: category-pills met aantal plays.
+## 4. ServiceStackSection (NIEUW)
 
-**07 — De Execution Layer**  
-3 service-blokken (GTM-engineering, Ads-engineering, Content-engineering) elk met 5-staps flow-strip. Heading: "Al een fundament? Start bij uitvoering."
+- 3-koloms bento met onze échte 3 pijlers (geen "Agency/Tools/Education" 1-op-1):
+  - **Done-for-you** — wij draaien de engine (OpEx).
+  - **Build & transfer** — wij bouwen, jullie nemen over (CapEx).
+  - **Toolkit & playbooks** — frameworks, cheatsheets, Signaal (self-serve).
+- 21st.dev `bento-grid` (asymmetric: 1 groot links, 2 kleiner rechts). Elk blok krijgt mini-icon, 1-zin pitch, en `Bekijk →` link naar bestaande pagina's (`/`, `/playbooks`, `/signaal`).
 
-**08 — Waarom B2BGroeiMachine (vergelijkingstabel)**  
-Tabel met kolommen: B2BGroeiMachine vs SDR's inhuren vs AI-tool vs Ander bureau vs Zelf bouwen. 5 rijen (in jouw stack, fixt data/signalen/routing, draait GTM+ads+content, AI+menselijk oordeel, eigenaar van systeem).
+## Technische details
 
-**09 — Proof**  
-Stats + case-grid. Hergebruikt bestaande `CaseStudiesSection` data of nieuwe lichtgewicht grid met onze klant-cijfers uit `src/data/caseStudies.ts`. **Geen** klantlogo-strip (memory regel).
+### Fonts
+- `bun add @fontsource/fraunces` → in `src/main.tsx` `import '@fontsource/fraunces/400-italic.css'; import '@fontsource/fraunces/600-italic.css';`
+- `tailwind.config.ts`: `fontFamily.serif: ['Fraunces', 'serif']` toevoegen (naast bestaande display/body).
+- **Alleen** voor accent-italic-regel. Body/headings blijven Space Grotesk + Inter.
 
-**10 — FAQ**  
-6 vragen in collapsible accordion (shadcn `Accordion`). Vragen vertaald naar onze propositie.
+### 21st.dev componenten
+- Repo `serafimcloud/21st` is een component-marketplace (https://21st.dev). We zoeken via web-fetch op 21st.dev:
+  - `announcement-badge` / `animated-pill` → Hero pill
+  - `hero-video-dialog` of `video-player` → VideoCaptureSection
+  - `infinite-slider` / `logos-marquee` → LogoWallCases marquee
+  - `bento-grid` → ServiceStackSection
+- We **kopiëren JSX/CSS** vanuit 21st.dev (shadcn-style), passen ze in onze tokens (`hsl(var(--primary))`, `card-gradient`, `border-glow`) en plaatsen onder `src/components/hhwv2/ui/`. Geen npm-install nodig per component.
 
-**Eind-CTA**  
-Grote sectie "Zie wat wij in jouw go-to-market zouden bouwen" + CtaLink naar gratisScan.
+### Nieuwe bestanden
+- `src/components/hhwv2/HeroFlow.tsx` (rewrite, behoudt huidige GSAP-timeline op SVG-laag)
+- `src/components/hhwv2/VideoCaptureSection.tsx`
+- `src/components/hhwv2/LogoWallCases.tsx`
+- `src/components/hhwv2/ServiceStackSection.tsx`
+- `src/components/hhwv2/ui/AnnouncementPill.tsx`
+- `src/components/hhwv2/ui/InfiniteSlider.tsx`
+- `src/components/hhwv2/ui/BentoGrid.tsx`
+- `src/components/hhwv2/ui/VideoDialog.tsx`
 
-## Visuele aanpak
-- Donker grid-canvas: `bg-[radial-gradient(...)]` + subtle dot/line pattern (CSS, geen extra deps)
-- Oranje glow: `box-shadow: 0 0 60px hsl(var(--primary)/.4)` op centrale nodes
-- Flow-lijnen: inline SVG `<path>` met `stroke="hsl(var(--primary))"` + Framer Motion `pathLength` animation
-- Animatie: `motion.div` met fade-in-up bij viewport entry (consistent met rest van site)
-- Typography: bestaande Space Grotesk display + Inter body (geen wijziging)
-- Alle iconen: `lucide-react` + `BgmIcon`
+### Bestaande bestanden aangepast
+- `src/pages/HoeHetWerktV2.tsx` — nieuwe imports + volgorde.
+- `tailwind.config.ts` — serif font toevoegen.
+- `src/main.tsx` — Fraunces fontface import.
 
-## Wat NIET in deze pagina
-- Geen tool-logo's, partner-badges, of klantlogo-tickers
-- Geen team-foto's (gebruik bestaande `/ons-team` link)
-- Geen Stripe/pricing — link naar bestaande secties
+### Wat we NIET aanraken
+- Brandregel: geen partner/tool-logo's (vervangen door sector-pills).
+- Bestaande GSAP-flow (EngineFlow, NinetyDayBuild, ExecutionLayer, ConnectorFlow) blijft ongewijzigd.
+- `/hoe-het-werkt` (V1) blijft live.
+- Copy blijft B1 Nederlands, je/jouw, max 12 woorden, geen em-dashes.
 
-## Bestanden
-- `src/pages/HoeHetWerktV2.tsx` (nieuwe pagina)
-- `src/components/hhwv2/HeroFlow.tsx`
-- `src/components/hhwv2/TwoPathsSection.tsx`
-- `src/components/hhwv2/ProblemSection.tsx`
-- `src/components/hhwv2/EngineFlow.tsx` (kerncomponent — centrale flow)
-- `src/components/hhwv2/NinetyDayBuild.tsx`
-- `src/components/hhwv2/PlaysSection.tsx`
-- `src/components/hhwv2/ExecutionLayer.tsx`
-- `src/components/hhwv2/ComparisonTable.tsx`
-- `src/components/hhwv2/ProofSection.tsx`
-- `src/components/hhwv2/FaqSection.tsx` (of hergebruik bestaande)
-- `src/components/hhwv2/GridCanvas.tsx` (achtergrond)
-- `src/App.tsx` — route toevoegen
+### Animatie
+- Pill: subtle border-glow loop (CSS keyframe, geen GSAP).
+- Headline: split-words fade-in + serif-italic schrijft zich oranje in (Framer Motion `staggerChildren`).
+- Marquee: pure CSS `@keyframes scroll` (geen GSAP).
+- Bento cards: hover-lift + border glow-pulse on view.
 
-## Copy
-Alle tekst conform memory: B1 Nederlands, max 12 woorden per zin, "je/jouw", geen em-dashes. Inhoud uit jouw bestaande proposities (Awareness/Engagement/Activities, signaal-gedreven, 4-weken cycli).
+## Buiten scope
+
+- Geen echte video-asset uploaden (placeholder + poster).
+- Geen wijziging aan navigation, footer of routes (`/hoe-het-werkt-v2` blijft).
+- Geen 21st.dev npm-pakket of CLI install — we kopiëren componenten handmatig.
