@@ -1,79 +1,78 @@
-# Plan: Homepage copy-update (Hero → Probleem → Pijnen → Proces)
 
-Pure copy- en structuur-wijzigingen. Geen nieuwe businesslogica. Alle componenten blijven Framer Motion + bestaande design tokens gebruiken.
+# Hoe het werkt — Frontal-stijl rebuild
 
-## 1. Hero — `src/components/Hero.tsx`
+Volledige nieuwe pagina op route `/hoe-het-werkt-v2` (zodat de huidige pagina blijft staan en je kunt vergelijken). 10 secties die de structuur van frontal.so volgen, gevuld met B2BGroeiMachine-content. **Geen partner-logo's of tool-badges** — vervangen door signaal-categorieën met onze eigen iconen (lucide-react + BgmIcon).
 
-- **Pill**: `Voor ambitieuze B2B-bedrijven` → `Voor directies met commerciële groeidoelen`.
-- **Headline**: drie regels, twee-toon:
-  - Regel 1 (bold foreground): `Uw groeidoel is helder.`
-  - Verbinder (light muted): `Nu nog`
-  - Regel 2 (gradient bold): `de commerciële machine die het waarmaakt.`
-- **Subkop** vervangen door:
-  > Veel B2B-bedrijven willen groeien, maar het bestaande team komt niet toe aan structurele acquisitie, opvolging en marktontwikkeling. B2BGroeiMachine bouwt en draait de commerciële engine die nieuwe kansen signaleert, activeert en opvolgbaar maakt.
-  > 
-  > _NB: bevat zinnen >12 woorden — splits volgens B1-regel naar 3 korte zinnen._
-- **Secundaire CTA**: anchor `#diensten` → `#proces`, label `Bekijk hoe we dit oplossen`.
-- **Tertiaire link**: ongewijzigd.
-- **heroMotions** array (6 chips) vervangen:
-  1. Nieuwe klanten werven (UserPlus)
-  2. Slapende relaties activeren (RotateCcw)
-  3. Nieuwe markten openen (Globe)
-  4. Partners vinden (Handshake)
-  5. Lokale groei versnellen (MapPin)
-  6. Salescapaciteit vergroten (Briefcase)
-- **Trust-cluster**: tekst `Vertrouwd door snelgroeiende B2B-teams` → `Vertrouwd door ambitieuze B2B-teams`. Subtekst + logo's onveranderd.
+## Routing
+- Nieuwe route `/hoe-het-werkt-v2` in `App.tsx`
+- Nieuwe pagina `src/pages/HoeHetWerktV2.tsx`
+- Eigen secties als losse componenten onder `src/components/hhwv2/`
 
-## 2. Probleem + Vergelijking — `src/components/Gtm2026Section.tsx`
+## Secties
 
-- **Eyebrow**: `Even stilstaan` → `De echte groeiblokkade`.
-- **H2** (twee regels):
-  - `Uw team wil wel groeien.`
-  - gradient: `Maar het systeem ontbreekt.`
-- **Body** (onder H2): nieuwe lange tekst (gesplitst in korte zinnen, B1):
-  > De groeidoelstelling is duidelijk. Maar het bestaande team is ingericht op klanten bedienen. Niet op structureel nieuwe markt ontwikkelen. Accountmanagers zijn druk met lopende klanten. Marketing levert losse acties. CRM is vooral administratie. Leads en signalen worden te laat opgevolgd. Daardoor blijft groei afhankelijk van toeval en netwerk.
-- **Intro boven tabel** vervangen door:
-  > Meer software, een losse campagne of een extra hire lost dit meestal niet op. U heeft een commercieel systeem nodig dat strategie, data, campagnes en opvolging aan elkaar knoopt.
-- **Tabel `rows`** volledig vervangen door 8 nieuwe features:
-  1. Lost het gebrek aan commercieel ritme op — ✓ / ✗ / Soms / ✗ / ✗
-  2. Combineert strategie, data en uitvoering — ✓ / ✗ / Soms / Soms / Alleen advies
-  3. Signaleert nieuwe kansen proactief — ✓ / Soms / ✗ / ✗ / ✗
-  4. Maakt opvolging concreet voor sales — ✓ / ✗ / ✓ / Soms / ✗
-  5. Werkt op uw bestaande tools en CRM — ✓ / Soms / ✓ / ✗ / ✓
-  6. Binnen 30 dagen operationeel — ✓ / "Setup varieert" / "Inwerktijd" / Soms / ✓
-  7. Uit te breiden met telefonische opvolging — ✓ / ✗ / ✓ / Soms / ✗
-  8. Geen vendor lock-in — ✓ / ✗ / "—" / ✗ / ✓
+**01 — Hero met signaal-flow**  
+Headline links: "Groei voorspelbaar zonder meer mensen." Subkop + e-mail capture + "Bekijk hoe het werkt" link. Rechts: 6 signaal-labels bovenaan ("Funding", "Hiring", "Websitebezoek", "Job changes", "Tech-stack", "Intent") met SVG-paths die samenkomen in een centrale "B2B Engine"-node (BgmIcon, oranje glow).
 
-## 3. NIEUW — "Herkenbare pijnen" sectie
+**02 — Twee paden**  
+Twee kaarten naast elkaar: "Eerst het fundament" (90-dagen build) vs "Direct uitvoering" (Execution Layer). Elk met sub-labels en CTA.
 
-Nieuwe component `src/components/HerkenbareSection.tsx` (apart bestand, niet inproppen in Gtm2026 om die overzichtelijk te houden). Geregistreerd in `src/pages/Index.tsx` tussen `<Gtm2026Section />` en `<HowItWorksSection />`.
+**03 — Het probleem**  
+3 stat-kaarten (vergelijkbare Nederlandse cijfers/bronnen: tijdverlies sales, slechte data, gefragmenteerde tools). Daaronder een "uit sync"-diagram: 4 afdelingen (Marketing, Sales, RevOps, CS) met rode "uit sync" labels ertussen — getekend met tekstlabels, geen logo's.
 
-- Eyebrow: `Herkenbaar?`
-- H2: `Dit is waar groei vaak vastloopt.`
-- Body: `Niet omdat de markt er niet is. Maar omdat niemand structureel eigenaar is van het vinden, activeren en opvolgen van nieuwe kansen.`
-- 6 pijnkaarten in grid (3×2 op desktop, 1-koloms mobiel), elk met titel + body conform copy. Iconen uit lucide (Users, Inbox, Crown, Split, MapPinned, Database). Stijl: zelfde `card-gradient border-glow rounded-2xl p-6` als HowItWorksSection voor visuele samenhang.
+**04 — De B2B Engine**  
+Het centrale flow-diagram: links 6 signaal-bronnen (categorieën, geen logo's), midden een Engine-blok met 5 stappen (Clean → Enrich → Score → Human-in-the-loop → Route), rechts een "Geroute reeks" met 6 acties (Accountlijst, Sequence, Belwachtrij, Ads-audience, CRM-taak, Owner notified). SVG-paths met motion-glow tussen kolommen.
 
-## 4. Hoe het werkt — `src/components/HowItWorksSection.tsx`
+**05 — De 90-dagen build**  
+3 fases als horizontale kaarten met mini-mockup per fase:
+- Fase 1 (Week 1-3): Data — accountscores
+- Fase 2 (Week 3-7): Signaal — live signaal-feed
+- Fase 3 (Week 7-12): Plays — signaal→play schema
 
-- **Eyebrow**: `Het systeem in 3 stappen` → `Zo lossen we het op`.
-- **H2** (twee regels):
-  - `Van groeidoel naar`
-  - gradient: `commerciële uitvoering.`
-- **Body** vervangen door:
-  > Wij bouwen een B2B Engine die uw markt zichtbaar maakt, doelgroepen activeert en commerciële signalen omzet in concrete opvolging. Niet als losse campagne, maar als doorlopend groeisysteem.
-- **STEPS array** subtitle + summary herschrijven (labels en featured-positie blijven):
-  - 01 Awareness — subtitle: `We maken zichtbaar waar de commerciële kansen zitten.` / summary: `We vertalen uw groeidoel naar concrete doelgroepen, accounts, contactpersonen en signalen.` / resultaat ongewijzigd.
-  - 02 Engagement — subtitle: `We activeren de markt met gerichte campagnes.` / summary: `We brengen uw doelgroep in beweging via e-mail, LinkedIn, content en nurture flows.`
-  - 03 Activities — subtitle: `We zetten signalen om in concrete salesactie.` / summary: `We zorgen dat sales, accountmanagement of directie weet wie moet worden opgevolgd, waarom en met welke boodschap.`
-- **Onderlink**: label naar `Bekijk de uitvoerende playbooks achter deze 3 stappen`.
+**06 — Wat is een play?**  
+Headline + 3 voorbeeld-plays als horizontale stappen-strips (Signaal → Enrich → Score → Personalize → Run). Onze 3 voorbeelden: "Funding-trigger outreach", "Pricing-pagina bezoek", "Champion job-change". Onderaan: category-pills met aantal plays.
 
-## Out of scope
+**07 — De Execution Layer**  
+3 service-blokken (GTM-engineering, Ads-engineering, Content-engineering) elk met 5-staps flow-strip. Heading: "Al een fundament? Start bij uitvoering."
 
-- Pricing, FAQ, CTA-sectie en overige hoofdstukken blijven ongewijzigd.
-- Geen nieuwe routes/datalagen.
+**08 — Waarom B2BGroeiMachine (vergelijkingstabel)**  
+Tabel met kolommen: B2BGroeiMachine vs SDR's inhuren vs AI-tool vs Ander bureau vs Zelf bouwen. 5 rijen (in jouw stack, fixt data/signalen/routing, draait GTM+ads+content, AI+menselijk oordeel, eigenaar van systeem).
 
-## Technisch
+**09 — Proof**  
+Stats + case-grid. Hergebruikt bestaande `CaseStudiesSection` data of nieuwe lichtgewicht grid met onze klant-cijfers uit `src/data/caseStudies.ts`. **Geen** klantlogo-strip (memory regel).
 
-- Alleen presentatie. Geen state, geen API, geen i18n-toevoegingen (Hero heeft geen EN-variant in de bestaande file).
-- Alle copy voldoet aan B1 ≤12 woorden per zin (lange brongoten worden gesplitst).
-- Geen em-dashes; `u/uw`; sentence case in subtitles waar passend.
+**10 — FAQ**  
+6 vragen in collapsible accordion (shadcn `Accordion`). Vragen vertaald naar onze propositie.
+
+**Eind-CTA**  
+Grote sectie "Zie wat wij in jouw go-to-market zouden bouwen" + CtaLink naar gratisScan.
+
+## Visuele aanpak
+- Donker grid-canvas: `bg-[radial-gradient(...)]` + subtle dot/line pattern (CSS, geen extra deps)
+- Oranje glow: `box-shadow: 0 0 60px hsl(var(--primary)/.4)` op centrale nodes
+- Flow-lijnen: inline SVG `<path>` met `stroke="hsl(var(--primary))"` + Framer Motion `pathLength` animation
+- Animatie: `motion.div` met fade-in-up bij viewport entry (consistent met rest van site)
+- Typography: bestaande Space Grotesk display + Inter body (geen wijziging)
+- Alle iconen: `lucide-react` + `BgmIcon`
+
+## Wat NIET in deze pagina
+- Geen tool-logo's, partner-badges, of klantlogo-tickers
+- Geen team-foto's (gebruik bestaande `/ons-team` link)
+- Geen Stripe/pricing — link naar bestaande secties
+
+## Bestanden
+- `src/pages/HoeHetWerktV2.tsx` (nieuwe pagina)
+- `src/components/hhwv2/HeroFlow.tsx`
+- `src/components/hhwv2/TwoPathsSection.tsx`
+- `src/components/hhwv2/ProblemSection.tsx`
+- `src/components/hhwv2/EngineFlow.tsx` (kerncomponent — centrale flow)
+- `src/components/hhwv2/NinetyDayBuild.tsx`
+- `src/components/hhwv2/PlaysSection.tsx`
+- `src/components/hhwv2/ExecutionLayer.tsx`
+- `src/components/hhwv2/ComparisonTable.tsx`
+- `src/components/hhwv2/ProofSection.tsx`
+- `src/components/hhwv2/FaqSection.tsx` (of hergebruik bestaande)
+- `src/components/hhwv2/GridCanvas.tsx` (achtergrond)
+- `src/App.tsx` — route toevoegen
+
+## Copy
+Alle tekst conform memory: B1 Nederlands, max 12 woorden per zin, "je/jouw", geen em-dashes. Inhoud uit jouw bestaande proposities (Awareness/Engagement/Activities, signaal-gedreven, 4-weken cycli).
