@@ -11,6 +11,7 @@ import LogoWallCases from "@/components/hhwv2/LogoWallCases";
 import TwoPathsSection from "@/components/hhwv2/TwoPathsSection";
 import ProblemSection from "@/components/hhwv2/ProblemSection";
 import EngineFlow from "@/components/hhwv2/EngineFlow";
+import SystemMapSection from "@/components/hhwv2/SystemMapSection";
 import ServiceStackSection from "@/components/hhwv2/ServiceStackSection";
 import NinetyDayBuild from "@/components/hhwv2/NinetyDayBuild";
 import PlaysSection from "@/components/hhwv2/PlaysSection";
@@ -44,6 +45,7 @@ const HoeHetWerktV2 = () => {
           <TwoPathsSection />
           <ProblemSection />
           <EngineFlow />
+          <SystemMapSection />
           <ServiceStackSection />
           <NinetyDayBuild />
           <PlaysSection />
