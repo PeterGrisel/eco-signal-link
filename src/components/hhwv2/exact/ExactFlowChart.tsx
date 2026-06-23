@@ -1,78 +1,158 @@
+import { Fragment, useState } from "react";
 import { motion } from "framer-motion";
 import {
   Target,
   Sparkles,
   FileText,
-  Linkedin,
-  Youtube,
-  Mail,
-  StickyNote,
-  Phone,
-  BarChart3,
-  Megaphone,
-  Calendar,
-  CheckCircle2,
-  Workflow,
+  Layers,
+  Share2,
   Database,
+  Send,
+  Mail,
+  BarChart3,
+  Wrench,
+  CheckCircle2,
+  CalendarCheck,
+  CalendarClock,
+  CalendarPlus,
   Bell,
-  Search,
+  Workflow,
+  Calendar,
+  type LucideIcon,
 } from "lucide-react";
+import { groeistackSeed, faviconFor } from "@/data/groeistack";
 
-/* --- shared tiny components --- */
+/* ---------- tool lookup (real favicons) ---------- */
+const toolWebsite: Record<string, string> = Object.fromEntries(
+  groeistackSeed.map((t) => [t.name, t.website]),
+);
 
-const ColHeader = ({ icon: Icon, label, sub, tint }: { icon: typeof Target; label: string; sub: string; tint: string }) => (
+const ToolChip = ({ name }: { name: string }) => {
+  const [err, setErr] = useState(false);
+  const src = toolWebsite[name] ? faviconFor(toolWebsite[name]) : "";
+  return (
+    <span className="inline-flex items-center gap-1.5 rounded-md border border-[hsl(var(--col)/0.2)] bg-background/50 px-1.5 py-1">
+      <span className="flex h-4 w-4 items-center justify-center rounded-sm bg-white/90 overflow-hidden shrink-0">
+        {err || !src ? (
+          <span className="text-[8px] font-display font-bold text-neutral-700">{name[0]}</span>
+        ) : (
+          <img src={src} alt="" className="h-3 w-3 object-contain" loading="lazy" onError={() => setErr(true)} />
+        )}
+      </span>
+      <span className="text-[10px] font-display font-medium text-foreground/80 whitespace-nowrap">{name}</span>
+    </span>
+  );
+};
+
+/* ---------- data ---------- */
+type Tier = { items: { label: string; sub: string }[]; active: number };
+type Step = { title: string; icon: LucideIcon; tools?: string[]; tier?: Tier };
+type Column = { key: string; label: string; sub: string; icon: LucideIcon; cssVar: string; steps: Step[] };
+
+const COLUMNS: Column[] = [
+  {
+    key: "awareness",
+    label: "Awareness",
+    sub: "We worden zichtbaar",
+    icon: Target,
+    cssVar: "var(--funnel-awareness)",
+    steps: [
+      { title: "ICP & Segmentatie", icon: Target, tools: ["Apollo", "Ocean.io", "Clay"] },
+      { title: "Intent Signals", icon: Sparkles, tools: ["Common Room", "Koala", "Trigify"] },
+      { title: "Content Strategy", icon: FileText, tools: ["Claude", "ChatGPT"] },
+      {
+        title: "Prioritering",
+        icon: Layers,
+        tier: {
+          active: 0,
+          items: [
+            { label: "Tier 1", sub: "High intent" },
+            { label: "Tier 2", sub: "Mid intent" },
+            { label: "Tier 3", sub: "Low intent" },
+          ],
+        },
+      },
+      { title: "Channels", icon: Share2, tools: ["HeyReach", "lemlist"] },
+      { title: "Bronnen & data", icon: Database, tools: ["Common Room", "Koala", "Clay"] },
+    ],
+  },
+  {
+    key: "engagement",
+    label: "Engagement",
+    sub: "We bouwen interesse",
+    icon: Sparkles,
+    cssVar: "var(--funnel-engagement)",
+    steps: [
+      { title: "Personalized Outreach", icon: Send, tools: ["lemlist", "HeyReach"] },
+      { title: "Multi-Touch Sequences", icon: Mail, tools: ["Smartlead", "Instantly"] },
+      { title: "Value Content", icon: FileText, tools: ["HeyGen", "Claude"] },
+      { title: "Engagement Scoring", icon: BarChart3, tools: ["Dreamdata"] },
+      {
+        title: "Warmte",
+        icon: Layers,
+        tier: {
+          active: 0,
+          items: [
+            { label: "Tier 1", sub: "Hot" },
+            { label: "Tier 2", sub: "Warm" },
+            { label: "Tier 3", sub: "Cold" },
+          ],
+        },
+      },
+      { title: "Tools", icon: Wrench, tools: ["Smartlead", "Clay", "HubSpot"] },
+    ],
+  },
+  {
+    key: "activities",
+    label: "Activities",
+    sub: "We starten gesprekken",
+    icon: Calendar,
+    cssVar: "var(--funnel-conversion)",
+    steps: [
+      { title: "Qualify & Route", icon: CheckCircle2, tools: ["HubSpot", "Clay"] },
+      { title: "Meeting Prep", icon: CalendarClock, tools: ["Claude", "HubSpot"] },
+      { title: "Book Meetings", icon: CalendarPlus, tools: ["HubSpot", "lemlist"] },
+      {
+        title: "Kwalificatie",
+        icon: Layers,
+        tier: {
+          active: 0,
+          items: [
+            { label: "Tier 1", sub: "SQL" },
+            { label: "Tier 2", sub: "MQL" },
+            { label: "Tier 3", sub: "Nurture" },
+          ],
+        },
+      },
+      { title: "Follow-up & Nurture", icon: Bell, tools: ["lemlist", "Smartlead"] },
+      { title: "CRM & Systems", icon: Workflow, tools: ["HubSpot", "Salesforce", "Pipedrive"] },
+    ],
+  },
+];
+
+/* ---------- pieces ---------- */
+const ColHeader = ({ col }: { col: Column }) => (
   <div className="flex items-center gap-2.5 mb-3">
-    <span className={`flex h-9 w-9 items-center justify-center rounded-lg border ${tint}`}>
-      <Icon className="h-4 w-4" strokeWidth={1.8} />
+    <span className="flex h-10 w-10 items-center justify-center rounded-xl border border-[hsl(var(--col)/0.4)] bg-[hsl(var(--col)/0.12)]">
+      <col.icon className="h-4 w-4 text-[hsl(var(--col))]" strokeWidth={1.8} />
     </span>
     <div className="leading-tight">
-      <p className="font-display font-bold text-[13px] text-foreground">{label}</p>
-      <p className="text-[10px] text-muted-foreground">{sub}</p>
+      <p className="font-display font-bold text-sm text-foreground">{col.label}</p>
+      <p className="text-[11px] text-muted-foreground">{col.sub}</p>
     </div>
   </div>
 );
 
-const Card = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
-  <div
-    className={`rounded-lg border border-primary/20 bg-card/70 backdrop-blur px-3 py-2.5 shadow-[0_0_24px_-12px_hsl(var(--primary)/0.5)] ${className}`}
-  >
-    {children}
-  </div>
-);
-
-const CardTitle = ({ children }: { children: React.ReactNode }) => (
-  <p className="font-display font-semibold text-[11px] text-foreground text-center mb-2">{children}</p>
-);
-
-const IconRow = ({ icons }: { icons: { i: typeof Mail; c?: string }[] }) => (
-  <div className="flex items-center justify-center gap-2">
-    {icons.map((x, i) => (
-      <span
-        key={i}
-        className={`flex h-6 w-6 items-center justify-center rounded-md border border-primary/20 bg-background/50 ${x.c ?? "text-primary"}`}
-      >
-        <x.i className="h-3 w-3" strokeWidth={1.8} />
-      </span>
-    ))}
-  </div>
-);
-
-const TierRow = ({
-  items,
-  active,
-}: {
-  items: { label: string; sub: string }[];
-  active: 0 | 1 | 2;
-}) => (
+const TierRow = ({ tier }: { tier: Tier }) => (
   <div>
     <div className="grid grid-cols-3 gap-1.5 mb-1.5">
-      {items.map((t, i) => (
+      {tier.items.map((t, i) => (
         <span
           key={t.label}
           className={`text-center text-[10px] font-display font-semibold py-1 rounded-md border ${
-            i === active
-              ? "bg-primary/20 border-primary/60 text-primary"
-              : "bg-card/60 border-primary/15 text-foreground/70"
+            i === tier.active
+              ? "bg-[hsl(var(--col)/0.18)] border-[hsl(var(--col)/0.6)] text-[hsl(var(--col))]"
+              : "bg-card/60 border-[hsl(var(--col)/0.15)] text-foreground/60"
           }`}
         >
           {t.label}
@@ -80,7 +160,7 @@ const TierRow = ({
       ))}
     </div>
     <div className="grid grid-cols-3 gap-1.5">
-      {items.map((t) => (
+      {tier.items.map((t) => (
         <span key={t.sub} className="text-center text-[9px] text-muted-foreground">
           {t.sub}
         </span>
@@ -89,215 +169,133 @@ const TierRow = ({
   </div>
 );
 
-/* --- main chart --- */
+const StepCard = ({ step, index }: { step: Step; index: number }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 12 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true, margin: "-60px" }}
+    transition={{ duration: 0.45, delay: index * 0.05 }}
+    className="group relative rounded-xl border border-[hsl(var(--col)/0.22)] bg-card/60 backdrop-blur px-3.5 py-3 transition-all duration-300 hover:-translate-y-0.5 hover:border-[hsl(var(--col)/0.55)] hover:shadow-[0_8px_30px_-12px_hsl(var(--col)/0.55)]"
+  >
+    {/* left accent */}
+    <span className="absolute left-0 top-3 bottom-3 w-0.5 rounded-full bg-[hsl(var(--col)/0.6)]" aria-hidden />
+    <div className="flex items-center gap-2 mb-2">
+      <span className="flex h-6 w-6 items-center justify-center rounded-md border border-[hsl(var(--col)/0.3)] bg-[hsl(var(--col)/0.1)] shrink-0">
+        <step.icon className="h-3 w-3 text-[hsl(var(--col))]" strokeWidth={1.9} />
+      </span>
+      <p className="font-display font-semibold text-[12px] text-foreground leading-tight">{step.title}</p>
+    </div>
+    {step.tier ? (
+      <TierRow tier={step.tier} />
+    ) : (
+      <div className="flex flex-wrap gap-1.5">
+        {step.tools?.map((t) => (
+          <ToolChip key={t} name={t} />
+        ))}
+      </div>
+    )}
+  </motion.div>
+);
 
+const FlowConnector = () => (
+  <div className="flex justify-center py-1.5" aria-hidden>
+    <div
+      className="relative h-5 w-px"
+      style={{ background: "linear-gradient(to bottom, hsl(var(--col)/0.1), hsl(var(--col)/0.55))" }}
+    >
+      <span
+        className="absolute left-1/2 h-1.5 w-1.5 -translate-x-1/2 rounded-full"
+        style={{
+          top: 0,
+          background: "hsl(var(--col))",
+          boxShadow: "0 0 8px hsl(var(--col)/0.9)",
+          animation: "fc-flow 1.9s linear infinite",
+        }}
+      />
+    </div>
+  </div>
+);
+
+const ResultCard = ({
+  icon: Icon,
+  label,
+  highlight,
+}: {
+  icon: LucideIcon;
+  label: string;
+  highlight?: boolean;
+}) => (
+  <div
+    className={`flex items-center justify-center gap-2.5 rounded-xl border px-5 py-3.5 backdrop-blur ${
+      highlight
+        ? "border-primary/45 bg-primary/10 shadow-[0_0_50px_-15px_hsl(var(--primary)/0.7)]"
+        : "border-primary/25 bg-card/70"
+    }`}
+  >
+    <Icon className="h-5 w-5 text-primary" strokeWidth={1.9} />
+    <span className="font-display font-bold text-base text-foreground">{label}</span>
+  </div>
+);
+
+/* ---------- main ---------- */
 const ExactFlowChart = () => {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 12 }}
+      initial={{ opacity: 0, y: 14 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 0.7 }}
-      className="relative rounded-2xl border border-primary/20 card-gradient p-5 md:p-7 shadow-[0_0_80px_-20px_hsl(var(--primary)/0.3)]"
+      className="relative overflow-hidden rounded-2xl border border-primary/20 card-gradient p-5 md:p-7 shadow-[0_0_80px_-20px_hsl(var(--primary)/0.3)]"
     >
-      {/* Internal header */}
-      <div className="relative flex items-center justify-between mb-4 px-1">
-        <p className="font-display font-bold text-[13px] text-foreground">Van signaal naar salesproces</p>
+      <style>{`@keyframes fc-flow{0%{top:-6px;opacity:0}25%{opacity:1}100%{top:20px;opacity:0}}`}</style>
+
+      {/* header */}
+      <div className="flex items-center justify-between mb-6 px-1">
+        <p className="font-display font-bold text-sm md:text-base text-foreground">Van signaal naar salesproces</p>
         <p className="text-[10px] tracking-[0.18em] uppercase text-muted-foreground">B2B Growth Machine™</p>
       </div>
 
-      {/* SVG dotted connectors layer */}
-      <svg className="absolute inset-0 w-full h-full pointer-events-none" aria-hidden>
-        <defs>
-          <pattern id="dots" width="6" height="6" patternUnits="userSpaceOnUse">
-            <circle cx="1" cy="1" r="1" fill="hsl(var(--primary) / 0.35)" />
-          </pattern>
-        </defs>
-      </svg>
-
       {/* 3 columns */}
-      <div className="relative grid grid-cols-3 gap-3 md:gap-4">
-        {/* COL 1 — Awareness */}
-        <div className="space-y-2.5">
-          <ColHeader
-            icon={Target}
-            label="Awareness"
-            sub="We worden zichtbaar"
-            tint="border-primary/40 bg-primary/10 text-primary"
-          />
-          <Card>
-            <CardTitle>ICP & Segmentation</CardTitle>
-            <IconRow icons={[{ i: Linkedin }, { i: Search }]} />
-          </Card>
-          <DottedV />
-          <Card>
-            <CardTitle>Intent Signals</CardTitle>
-            <IconRow icons={[{ i: Sparkles }, { i: Search }]} />
-          </Card>
-          <DottedV />
-          <Card>
-            <CardTitle>Content Strategy</CardTitle>
-            <IconRow icons={[{ i: FileText }, { i: StickyNote }]} />
-          </Card>
-          <DottedV />
-          <Card className="!py-3">
-            <TierRow
-              active={0}
-              items={[
-                { label: "Tier 1", sub: "High intent" },
-                { label: "Tier 2", sub: "Mid intent" },
-                { label: "Tier 3", sub: "Low intent" },
-              ]}
-            />
-          </Card>
-          <DottedV />
-          <Card>
-            <CardTitle>Channels</CardTitle>
-            <IconRow icons={[{ i: Linkedin }, { i: Youtube }, { i: Mail }, { i: StickyNote }]} />
-          </Card>
-        </div>
-
-        {/* COL 2 — Engagement */}
-        <div className="space-y-2.5">
-          <ColHeader
-            icon={Sparkles}
-            label="Engagement"
-            sub="We bouwen interesse"
-            tint="border-[hsl(var(--funnel-engagement))]/40 bg-[hsl(var(--funnel-engagement))]/15 text-[hsl(var(--funnel-engagement))]"
-          />
-          <Card>
-            <CardTitle>Personalized Outreach</CardTitle>
-            <IconRow icons={[{ i: Linkedin }, { i: Mail }]} />
-          </Card>
-          <DottedV />
-          <Card>
-            <CardTitle>Multi-Touch Sequences</CardTitle>
-            <IconRow icons={[{ i: Mail }, { i: Phone }]} />
-          </Card>
-          <DottedV />
-          <Card>
-            <CardTitle>Value Content</CardTitle>
-            <IconRow icons={[{ i: FileText }, { i: BarChart3 }, { i: Megaphone }]} />
-          </Card>
-          <DottedV />
-          <Card>
-            <CardTitle>Engagement Scoring</CardTitle>
-            <IconRow icons={[{ i: BarChart3 }]} />
-          </Card>
-          <DottedV />
-          <Card className="!py-3">
-            <TierRow
-              active={0}
-              items={[
-                { label: "Tier 1", sub: "Hot" },
-                { label: "Tier 2", sub: "Warm" },
-                { label: "Tier 3", sub: "Cold" },
-              ]}
-            />
-          </Card>
-          <DottedV />
-          <Card>
-            <CardTitle>Tools</CardTitle>
-            <IconRow icons={[{ i: Mail }, { i: Database }, { i: Workflow }]} />
-          </Card>
-        </div>
-
-        {/* COL 3 — Activities */}
-        <div className="space-y-2.5">
-          <ColHeader
-            icon={Calendar}
-            label="Activities"
-            sub="We starten gesprekken"
-            tint="border-[hsl(var(--funnel-conversion))]/40 bg-[hsl(var(--funnel-conversion))]/15 text-[hsl(var(--funnel-conversion))]"
-          />
-          <Card>
-            <CardTitle>Qualify & Route</CardTitle>
-            <IconRow icons={[{ i: CheckCircle2 }, { i: Workflow }]} />
-          </Card>
-          <DottedV />
-          <Card>
-            <CardTitle>Meeting Prep</CardTitle>
-            <IconRow icons={[{ i: Calendar }, { i: FileText }]} />
-          </Card>
-          <DottedV />
-          <Card>
-            <CardTitle>Book Meetings</CardTitle>
-            <IconRow icons={[{ i: Calendar }, { i: Mail }, { i: Phone }]} />
-          </Card>
-          <DottedV />
-          <Card className="!py-3">
-            <TierRow
-              active={0}
-              items={[
-                { label: "Tier 1", sub: "SQL" },
-                { label: "Tier 2", sub: "MQL" },
-                { label: "Tier 3", sub: "Nurture" },
-              ]}
-            />
-          </Card>
-          <DottedV />
-          <Card>
-            <CardTitle>Follow-up & Nurture</CardTitle>
-            <IconRow icons={[{ i: Bell }, { i: Mail }]} />
-          </Card>
-          <DottedV />
-          <Card>
-            <CardTitle>CRM & Systems</CardTitle>
-            <IconRow icons={[{ i: Database }, { i: Workflow }, { i: BarChart3 }]} />
-          </Card>
-        </div>
+      <div className="grid gap-6 md:gap-5 md:grid-cols-3">
+        {COLUMNS.map((col) => (
+          <div key={col.key} className="flex flex-col" style={{ ["--col" as string]: col.cssVar }}>
+            <ColHeader col={col} />
+            {col.steps.map((step, i) => (
+              <Fragment key={step.title}>
+                <StepCard step={step} index={i} />
+                {i < col.steps.length - 1 && <FlowConnector />}
+              </Fragment>
+            ))}
+          </div>
+        ))}
       </div>
 
-      {/* Horizontal dotted bridges between columns */}
-      <div className="relative my-4 grid grid-cols-3 gap-3 md:gap-4 items-center">
-        <DottedH />
-        <DottedH />
-        <DottedH />
-      </div>
+      {/* convergence */}
+      <div className="relative mt-8" style={{ ["--col" as string]: "var(--primary)" }}>
+        {/* converging lines */}
+        <div className="relative h-10 w-full" aria-hidden>
+          <svg className="absolute inset-0 h-full w-full" viewBox="0 0 300 40" preserveAspectRatio="none" fill="none">
+            {[50, 150, 250].map((x, i) => (
+              <path
+                key={i}
+                d={`M ${x} 0 C ${x} 24, 150 18, 150 40`}
+                stroke="hsl(var(--primary))"
+                strokeOpacity="0.5"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+              />
+            ))}
+          </svg>
+        </div>
 
-      {/* Bottom converged steps */}
-      <div className="relative max-w-md mx-auto space-y-2.5">
-        <Card className="!py-3">
-          <div className="flex items-center justify-center gap-2">
-            <Calendar className="h-4 w-4 text-primary" strokeWidth={1.8} />
-            <span className="font-display font-semibold text-sm text-foreground">Meeting Booked</span>
-          </div>
-        </Card>
-        <DottedV />
-        <Card className="!py-3">
-          <div className="flex items-center justify-center gap-2">
-            <Workflow className="h-4 w-4 text-primary" strokeWidth={1.8} />
-            <span className="font-display font-semibold text-sm text-foreground">Sales Process</span>
-          </div>
-        </Card>
+        <div className="mx-auto max-w-md space-y-0">
+          <ResultCard icon={CalendarCheck} label="Meeting Booked" highlight />
+          <FlowConnector />
+          <ResultCard icon={Workflow} label="Sales Process" />
+        </div>
       </div>
     </motion.div>
   );
 };
-
-const DottedV = () => (
-  <div className="flex justify-center" aria-hidden>
-    <span
-      className="block w-px h-3"
-      style={{
-        backgroundImage:
-          "linear-gradient(to bottom, hsl(var(--primary) / 0.5) 50%, transparent 50%)",
-        backgroundSize: "1px 4px",
-      }}
-    />
-  </div>
-);
-
-const DottedH = () => (
-  <span
-    className="block h-px w-full"
-    style={{
-      backgroundImage:
-        "linear-gradient(to right, hsl(var(--primary) / 0.35) 50%, transparent 50%)",
-      backgroundSize: "6px 1px",
-    }}
-    aria-hidden
-  />
-);
 
 export default ExactFlowChart;
