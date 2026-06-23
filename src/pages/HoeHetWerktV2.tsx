@@ -55,7 +55,7 @@ const HoeHetWerktV2 = () => {
           <ExactToolStack />
           <ExactCaseStudies />
           <ExactNinetyDays />
-          <ExactTestimonials />
+          {/* <ExactTestimonials /> */}
           <ExactFinalCta />
         </main>
         <Footer />
