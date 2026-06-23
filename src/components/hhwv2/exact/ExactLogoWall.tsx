@@ -66,35 +66,48 @@ const ExactLogoWall = () => {
   const itemsList = [...displayClients, ...displayClients, ...displayClients];
 
   return (
-    <section className="py-10 md:py-14 border-y border-primary/10 bg-card/20">
+    <section className="relative py-12 md:py-16 border-y border-white/[0.06] overflow-hidden">
+      {/* soft ambient glow */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+
       <div className="container mx-auto px-4 md:px-6">
-        <p className="text-center text-[11px] font-display font-semibold tracking-[0.28em] uppercase text-muted-foreground mb-7">
-          Vertrouwd door ambitieuze B2B teams
-        </p>
+        {/* eyebrow with flanking hairlines */}
+        <div className="flex items-center justify-center gap-4 mb-9 md:mb-11">
+          <span className="h-px w-10 md:w-20 bg-gradient-to-r from-transparent to-primary/30" />
+          <p className="text-[11px] font-display font-semibold tracking-[0.3em] uppercase text-muted-foreground whitespace-nowrap">
+            Vertrouwd door ambitieuze B2B teams
+          </p>
+          <span className="h-px w-10 md:w-20 bg-gradient-to-l from-transparent to-primary/30" />
+        </div>
+
         <InfiniteSlider
-          speed={45}
+          speed={42}
           items={itemsList.map((c, i) => (
-            <span
+            <div
               key={`${c.name}-${i}`}
-              className="inline-flex items-center px-8 md:px-10 h-10 md:h-12"
+              className="group/logo flex h-16 w-32 md:h-20 md:w-44 items-center justify-center rounded-xl border border-white/[0.06] bg-white/[0.025] px-5 backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/25 hover:bg-white/[0.05] hover:shadow-[0_10px_30px_-12px_hsl(var(--primary)/0.4)]"
             >
               {c.src ? (
                 <img
                   src={c.src}
                   alt={c.name}
                   loading="lazy"
-                  className="h-full w-auto object-contain opacity-70 hover:opacity-100 transition-opacity"
-                  style={{ filter: "grayscale(100%) brightness(1.6) contrast(0.9)" }}
+                  className="max-h-7 md:max-h-9 w-auto object-contain opacity-50 grayscale transition-all duration-300 group-hover/logo:opacity-100 group-hover/logo:grayscale-0"
                   onError={(e) => {
-                    (e.target as HTMLElement).style.display = "none";
+                    const el = e.target as HTMLImageElement;
+                    el.style.display = "none";
+                    el.insertAdjacentHTML(
+                      "afterend",
+                      `<span class="text-sm font-display font-semibold tracking-wide text-foreground/70">${c.name}</span>`,
+                    );
                   }}
                 />
               ) : (
-                <span className="text-sm font-display font-semibold tracking-wide text-foreground/80">
+                <span className="text-sm font-display font-semibold tracking-wide text-foreground/60 transition-colors group-hover/logo:text-foreground/90">
                   {c.name}
                 </span>
               )}
-            </span>
+            </div>
           ))}
         />
       </div>

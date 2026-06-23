@@ -6,12 +6,18 @@ interface Props {
   className?: string;
 }
 
+const edgeFade =
+  "linear-gradient(to right, transparent, #000 8%, #000 92%, transparent)";
+
 const InfiniteSlider = ({ items, speed = 35, className }: Props) => {
   const all = [...items, ...items];
   return (
-    <div className={`group relative overflow-hidden ${className ?? ""}`}>
+    <div
+      className={`group relative overflow-hidden ${className ?? ""}`}
+      style={{ maskImage: edgeFade, WebkitMaskImage: edgeFade }}
+    >
       <div
-        className="flex w-max gap-3 animate-marquee group-hover:[animation-play-state:paused]"
+        className="flex w-max items-center gap-4 md:gap-6 animate-marquee group-hover:[animation-play-state:paused]"
         style={{ animationDuration: `${speed}s` }}
       >
         {all.map((node, i) => (
@@ -20,8 +26,6 @@ const InfiniteSlider = ({ items, speed = 35, className }: Props) => {
           </div>
         ))}
       </div>
-      <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-background to-transparent" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-background to-transparent" />
     </div>
   );
 };
