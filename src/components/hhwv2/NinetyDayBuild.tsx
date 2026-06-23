@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Database, Radio, PlayCircle, ArrowRight } from "lucide-react";
+import ConnectorFlow from "./ConnectorFlow";
 
 const PHASES = [
   {
@@ -89,7 +90,7 @@ const NinetyDayBuild = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-4 md:gap-6">
+        <ConnectorFlow className="grid md:grid-cols-3 gap-4 md:gap-6">
           {PHASES.map((p, i) => (
             <motion.div
               key={p.n}
@@ -97,7 +98,7 @@ const NinetyDayBuild = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="card-gradient border-glow rounded-2xl p-6 md:p-7 flex flex-col"
+              className="cf-node card-gradient border-glow rounded-2xl p-6 md:p-7 flex flex-col"
             >
               <div className="flex items-center justify-between mb-5">
                 <span className="w-10 h-10 rounded-lg border border-primary/30 bg-card flex items-center justify-center">
@@ -126,7 +127,7 @@ const NinetyDayBuild = () => {
               </p>
             </motion.div>
           ))}
-        </div>
+        </ConnectorFlow>
       </div>
     </section>
   );
