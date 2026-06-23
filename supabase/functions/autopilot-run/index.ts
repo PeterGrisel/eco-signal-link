@@ -272,6 +272,28 @@ serve(async (req) => {
       await supabase.from("content_queue").update({ status: "generating" as any }).eq("id", item.id);
 
       try {
+        // Duplicate guard: skip if a blog post with same topic_id already exists for today
+        if (item.topic_id) {
+          const { data: dup } = await supabase
+            .from("blog_posts")
+            .select("id, slug")
+            .eq("topic_id", item.topic_id)
+            .gte("created_at", `${today}T00:00:00Z`)
+            .lt("created_at", `${today}T23:59:59Z`)
+            .limit(1);
+          if (dup && dup.length > 0) {
+            log.push(`⚠ Duplicate guard: topic_id ${item.topic_id} heeft al een post vandaag (${dup[0].slug}), overslaan.`);
+            await supabase.from("content_queue").update({
+              status: "published" as any,
+              blog_post_id: dup[0].id,
+              error_message: "Skipped: duplicate topic_id voor vandaag",
+            }).eq("id", item.id);
+            return new Response(JSON.stringify({ log, articles_generated: 0, skipped: "duplicate_topic_today" }), {
+              headers: { ...corsHeaders, "Content-Type": "application/json" },
+            });
+          }
+        }
+
         // Generate article
         const articleRes = await fetch(`${supabaseUrl}/functions/v1/generate-article`, {
           method: "POST",
