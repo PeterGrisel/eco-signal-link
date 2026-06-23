@@ -8,6 +8,7 @@ import ExactFlowChart from "@/components/hhwv2/exact/ExactFlowChart";
 import ExactFlywheel from "@/components/hhwv2/exact/ExactFlywheel";
 import ExactLogoWall from "@/components/hhwv2/exact/ExactLogoWall";
 import ExactThreeWays from "@/components/hhwv2/exact/ExactThreeWays";
+import ExactRevenueEngine from "@/components/hhwv2/exact/ExactRevenueEngine";
 import ExactToolStack from "@/components/hhwv2/exact/ExactToolStack";
 import ExactCaseStudies from "@/components/hhwv2/exact/ExactCaseStudies";
 import ExactNinetyDays from "@/components/hhwv2/exact/ExactNinetyDays";
@@ -40,6 +41,7 @@ const HoeHetWerktV2 = () => {
           </section>
           <ExactFlywheel />
           <ExactThreeWays />
+          <ExactRevenueEngine />
           <ExactToolStack />
           <ExactCaseStudies />
           <ExactNinetyDays />
