@@ -136,8 +136,8 @@ Ongeveer 1400 woorden. Genereer alle metadata. Noem alleen tools die in De Groei
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "google/gemini-2.5-pro",
-        max_tokens: 16000,
+        model: "google/gemini-2.5-flash",
+        max_tokens: 8000,
         messages: [
           { role: "system", content: systemPrompt },
           { role: "user", content: userPrompt },
@@ -189,7 +189,7 @@ Ongeveer 1400 woorden. Genereer alle metadata. Noem alleen tools die in De Groei
         scenario_id: scenario.id,
         playbook_id: titleClash.id,
         status: "skipped",
-        error_message: `Duplicate title: ${pb.title}`,
+        message: `Duplicate title: ${pb.title}`,
         log: log.join("\n"),
       });
       return new Response(
