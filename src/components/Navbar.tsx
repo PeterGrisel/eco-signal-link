@@ -214,6 +214,18 @@ const Navbar = () => {
 
             <NavigationMenuItem>
               <NavigationMenuLink asChild>
+                <Link
+                  to="/hoe-het-werkt"
+                  onClick={() => trackCTA("Navbar — Hoe het werkt", "/hoe-het-werkt")}
+                  className="inline-flex h-11 items-center justify-center rounded-md bg-transparent px-4 text-base font-medium text-foreground/80 transition-colors hover:bg-accent/60 hover:text-foreground"
+                >
+                  Hoe het werkt
+                </Link>
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+
+            <NavigationMenuItem>
+              <NavigationMenuLink asChild>
                 <a
                   href="/#pricing"
                   onClick={scrollToPricing}
@@ -255,6 +267,16 @@ const Navbar = () => {
             className="text-2xl font-display font-semibold text-foreground hover:text-primary transition-colors"
           >
             Home
+          </Link>
+          <Link
+            to="/hoe-het-werkt"
+            onClick={() => {
+              trackCTA("Navbar (mobile) — Hoe het werkt", "/hoe-het-werkt");
+              setOpen(false);
+            }}
+            className="text-2xl font-display font-semibold text-foreground hover:text-primary transition-colors"
+          >
+            Hoe het werkt
           </Link>
           <MobileSection title="Oplossingen" items={oplossingen} onClick={() => setOpen(false)} />
           <MobileSection
