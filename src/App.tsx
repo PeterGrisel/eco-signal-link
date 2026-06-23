@@ -15,6 +15,7 @@ import HoeHetWerktV2 from "./pages/HoeHetWerktV2.tsx";
 import Groeistack from "./pages/Groeistack.tsx";
 import AdminGroeistack from "./pages/admin/AdminGroeistack.tsx";
 import AdminGroeistackLeads from "./pages/admin/AdminGroeistackLeads.tsx";
+import AdminLeads from "./pages/admin/AdminLeads.tsx";
 import AdminGroeiplannen from "./pages/admin/AdminGroeiplannen.tsx";
 import Playbooks from "./pages/Playbooks.tsx";
 import PlaybookPost from "./pages/PlaybookPost.tsx";
@@ -116,6 +117,7 @@ const AnimatedRoutes = () => {
           <Route path="/groeistack" element={<Groeistack />} />
           <Route path="/admin/groeistack" element={<AdminGroeistack />} />
           <Route path="/admin/groeistack/leads" element={<AdminGroeistackLeads />} />
+          <Route path="/admin/leads" element={<AdminLeads />} />
           <Route path="/admin/groeiplannen" element={<AdminGroeiplannen />} />
           <Route path="/playbooks" element={<Playbooks />} />
           <Route path="/playbooks/:slug" element={<PlaybookPost />} />
