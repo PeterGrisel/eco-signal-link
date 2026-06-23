@@ -85,7 +85,7 @@ const ExactFlywheel = () => {
             Het vliegwiel
           </p>
           <h2 className="font-display font-bold text-3xl md:text-4xl lg:text-5xl tracking-tight mb-4">
-            Eén <span className="font-serif italic text-gradient">vliegwiel</span>, steeds meer pipeline
+            Eén <span className="font-serif italic text-gradient-animate">vliegwiel</span>, steeds meer pipeline
           </h2>
           <p className="text-muted-foreground text-base md:text-lg">
             Elke gesloten deal voedt de volgende cyclus. Content, outbound en signalen versterken elkaar.

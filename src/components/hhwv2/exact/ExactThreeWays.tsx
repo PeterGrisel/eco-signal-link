@@ -27,7 +27,7 @@ const ExactThreeWays = () => (
           Onze aanpak
         </p>
         <h2 className="font-display font-bold text-3xl md:text-4xl lg:text-5xl tracking-tight mb-3">
-          3 manieren waarop we <span className="font-serif italic text-gradient">groei versnellen</span>
+          3 manieren waarop we <span className="font-serif italic text-gradient-animate">groei versnellen</span>
         </h2>
         <p className="text-muted-foreground text-base">
           Niet meer losse acties, maar één samenhangende machine van signalering tot sales.

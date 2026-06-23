@@ -92,11 +92,30 @@ export default {
           from: { transform: "translateX(0)" },
           to: { transform: "translateX(-50%)" },
         },
+        "border-beam": {
+          "100%": { "offset-distance": "100%" },
+        },
+        "meteor": {
+          "0%": { transform: "rotate(215deg) translateX(0)", opacity: "1" },
+          "70%": { opacity: "1" },
+          "100%": { transform: "rotate(215deg) translateX(-500px)", opacity: "0" },
+        },
+        "shine": {
+          "0%": { backgroundPosition: "0% 0%" },
+          "50%": { backgroundPosition: "100% 100%" },
+          "100%": { backgroundPosition: "0% 0%" },
+        },
+        "shimmer-slide": {
+          "100%": { transform: "translateX(100%)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "marquee": "marquee 30s linear infinite",
+        "border-beam": "border-beam calc(var(--duration,8)*1s) infinite linear",
+        "meteor": "meteor 5s linear infinite",
+        "shine": "shine var(--shine-duration,8s) ease-in-out infinite",
       },
     },
   },
