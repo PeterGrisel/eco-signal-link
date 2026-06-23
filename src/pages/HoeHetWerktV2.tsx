@@ -10,7 +10,7 @@ import ExactLogoWall from "@/components/hhwv2/exact/ExactLogoWall";
 import ExactThreeWays from "@/components/hhwv2/exact/ExactThreeWays";
 import ExactRevenueEngine from "@/components/hhwv2/exact/ExactRevenueEngine";
 import ExactToolStack from "@/components/hhwv2/exact/ExactToolStack";
-import ExactProofCases from "@/components/hhwv2/exact/ExactProofCases";
+import ExactCaseStudies from "@/components/hhwv2/exact/ExactCaseStudies";
 import ExactNinetyDays from "@/components/hhwv2/exact/ExactNinetyDays";
 import ExactTestimonials from "@/components/hhwv2/exact/ExactTestimonials";
 import ExactFinalCta from "@/components/hhwv2/exact/ExactFinalCta";
@@ -53,7 +53,7 @@ const HoeHetWerktV2 = () => {
           <ExactThreeWays />
           <ExactRevenueEngine />
           <ExactToolStack />
-          <ExactProofCases />
+          <ExactCaseStudies />
           <ExactNinetyDays />
           <ExactTestimonials />
           <ExactFinalCta />

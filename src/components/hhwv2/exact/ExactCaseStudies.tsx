@@ -4,11 +4,11 @@ import { Spotlight, NumberTicker } from "@/components/hhwv2/ui/magic";
 
 type Metric = {
   label: string;
-  value: number;
+  value: number | string;
   prefix?: string;
   suffix?: string;
   decimals?: number;
-  delta: string;
+  delta?: string;
 };
 
 const CASES: {
@@ -19,27 +19,25 @@ const CASES: {
   metrics: Metric[];
 }[] = [
   {
-    badge: "Cybersecurity",
-    title: "+36 meetings",
-    titleSub: "in 22 dagen",
-    body:
-      "Voor een cybersecurity scale-up bouwden we een nieuwe outbound engine die binnen 3 weken resultaten opleverde.",
+    badge: "Embedded Tech",
+    title: "Van founder-led",
+    titleSub: "naar 200+ leads",
+    body: "Voor een embedded-hardware bedrijf dat sales nog founder-led deed bouwden we een ABM-systeem: 12 ICP-campagnes, een nurture-laag en automatische lead-routing naar het CRM.",
     metrics: [
-      { label: "Meetings booked", value: 36, delta: "+260%" },
-      { label: "Reply rate", value: 21, suffix: "%", delta: "+11pp" },
-      { label: "Pipeline created", value: 1.4, prefix: "€", suffix: "M", decimals: 1, delta: "" },
+      { label: "Engaged leads", value: 200, suffix: "+", delta: "ICP Focus" },
+      { label: "ICP-campagnes", value: 12, delta: "Active" },
+      { label: "Nurture accounts", value: 2000, delta: "In CRM" },
     ],
   },
   {
-    badge: "B2B SaaS",
-    title: "€3M pipeline",
-    titleSub: "in 3 maanden",
-    body:
-      "Voor een B2B SaaS bedrijf optimaliseerden we signalen, content en outreach en bouwden we een voorspelbare pipeline machine.",
+    badge: "Industrie",
+    title: "Van nul systeem",
+    titleSub: "naar globale push",
+    body: "Voor een industriële speler in bevestigingstechniek zetten we de internationale groei op: de EU-markt in kaart (TAM/SAM), een partnerplan voor Azië en de eerste nieuwe markten geactiveerd met outbound.",
     metrics: [
-      { label: "Pipeline created", value: 3.0, prefix: "€", suffix: "M", decimals: 1, delta: "+180%" },
-      { label: "SQLs", value: 74, delta: "+145%" },
-      { label: "Win rate", value: 28, suffix: "%", delta: "+8pp" },
+      { label: "Markten in scope", value: 5, delta: "EU & Azië" },
+      { label: "TAM/SAM EU", value: "Opgezet", delta: "Voltooid" },
+      { label: "Engaged contacten", value: 264, delta: "Sales-ready" },
     ],
   },
 ];
@@ -72,12 +70,12 @@ const ExactCaseStudies = () => (
                 <p className="text-primary font-display font-semibold text-[11px] tracking-[0.22em] uppercase mb-3">
                   Case study
                 </p>
-                <h3 className="font-display font-bold text-3xl md:text-4xl tracking-tight leading-tight mb-3">
+                <h3 className="font-display font-bold text-2xl md:text-3xl tracking-tight leading-tight mb-3">
                   {c.title}
                   <br />
                   <span className="text-foreground/85">{c.titleSub}</span>
                 </h3>
-                <p className="text-sm text-muted-foreground leading-relaxed mb-5">{c.body}</p>
+                <p className="text-xs text-muted-foreground leading-relaxed mb-5">{c.body}</p>
                 <span className="inline-flex items-center rounded-full border border-primary/25 bg-primary/10 px-3 py-1 text-[11px] font-display font-semibold text-primary">
                   {c.badge}
                 </span>
@@ -91,18 +89,22 @@ const ExactCaseStudies = () => (
                   >
                     <div>
                       <p className="text-[11px] text-muted-foreground mb-0.5">{m.label}</p>
-                      <p className="font-display font-bold text-2xl text-foreground leading-none">
-                        <NumberTicker
-                          value={m.value}
-                          prefix={m.prefix}
-                          suffix={m.suffix}
-                          decimals={m.decimals ?? 0}
-                        />
+                      <p className="font-display font-bold text-xl text-foreground leading-none">
+                        {typeof m.value === "number" ? (
+                          <NumberTicker
+                            value={m.value}
+                            prefix={m.prefix}
+                            suffix={m.suffix}
+                            decimals={m.decimals ?? 0}
+                          />
+                        ) : (
+                          <span className="text-primary">{m.value}</span>
+                        )}
                       </p>
                     </div>
                     <div className="flex items-center gap-2">
                       {m.delta && (
-                        <span className="text-[11px] font-display font-semibold text-primary">{m.delta}</span>
+                        <span className="text-[10px] font-display font-semibold text-muted-foreground">{m.delta}</span>
                       )}
                       {idx === 0 && <TrendingUp className="h-4 w-4 text-primary" strokeWidth={2} />}
                       <ArrowUpRight className="h-4 w-4 text-primary/70" strokeWidth={2} />
