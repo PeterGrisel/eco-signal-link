@@ -22,9 +22,17 @@ const ITEMS = [
 const ExactThreeWays = () => (
   <section id="aanpak" className="py-16 md:py-24">
     <div className="container mx-auto px-4 md:px-6">
-      <h2 className="text-center font-display font-bold text-3xl md:text-4xl lg:text-5xl tracking-tight mb-10 md:mb-14">
-        3 manieren waarop we <span className="font-serif italic text-gradient">groei versnellen</span>
-      </h2>
+      <div className="text-center max-w-2xl mx-auto mb-10 md:mb-14">
+        <p className="text-primary font-display font-semibold text-[11px] tracking-[0.22em] uppercase mb-3">
+          Onze aanpak
+        </p>
+        <h2 className="font-display font-bold text-3xl md:text-4xl lg:text-5xl tracking-tight mb-3">
+          3 manieren waarop we <span className="font-serif italic text-gradient">groei versnellen</span>
+        </h2>
+        <p className="text-muted-foreground text-base">
+          Niet meer losse acties, maar één samenhangende machine van signalering tot sales.
+        </p>
+      </div>
       <div className="grid md:grid-cols-3 gap-4 md:gap-5">
         {ITEMS.map((it, i) => (
           <motion.a

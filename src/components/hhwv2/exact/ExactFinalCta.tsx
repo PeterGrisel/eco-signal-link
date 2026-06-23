@@ -25,6 +25,9 @@ const ExactFinalCta = () => {
         >
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             <div>
+              <p className="text-primary font-display font-semibold text-[11px] tracking-[0.22em] uppercase mb-3">
+                Klaar om te versnellen?
+              </p>
               <h2 className="font-display font-bold text-3xl md:text-4xl lg:text-5xl tracking-tight leading-tight mb-4">
                 Klaar om jouw <span className="font-serif italic text-gradient">groeimachine</span> te starten?
               </h2>
