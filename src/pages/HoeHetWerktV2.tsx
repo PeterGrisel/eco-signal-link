@@ -4,6 +4,7 @@ import PageLoader from "@/components/PageLoader";
 import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 import { usePageMeta } from "@/hooks/usePageMeta";
 import ExactHero from "@/components/hhwv2/exact/ExactHero";
+import ExactFlowChart from "@/components/hhwv2/exact/ExactFlowChart";
 import ExactLogoWall from "@/components/hhwv2/exact/ExactLogoWall";
 import ExactThreeWays from "@/components/hhwv2/exact/ExactThreeWays";
 import ExactToolStack from "@/components/hhwv2/exact/ExactToolStack";
@@ -32,6 +33,9 @@ const HoeHetWerktV2 = () => {
         <Navbar />
         <main>
           <ExactHero />
+          <section className="container mx-auto px-4 md:px-6 pb-16 md:pb-24 max-w-5xl relative z-10">
+            <ExactFlowChart />
+          </section>
           <ExactLogoWall />
           <ExactThreeWays />
           <ExactToolStack />
