@@ -103,7 +103,7 @@ const ExactFlowChart = () => {
       {/* Internal header */}
       <div className="relative flex items-center justify-between mb-4 px-1">
         <p className="font-display font-bold text-[13px] text-foreground">Van signaal naar salesproces</p>
-        <p className="text-[10px] tracking-[0.18em] uppercase text-muted-foreground">System of revenue</p>
+        <p className="text-[10px] tracking-[0.18em] uppercase text-muted-foreground">B2B Growth Machine™</p>
       </div>
 
       {/* SVG dotted connectors layer */}
