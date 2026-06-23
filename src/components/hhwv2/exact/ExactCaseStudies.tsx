@@ -31,6 +31,14 @@ const CASES = [
 const ExactCaseStudies = () => (
   <section className="py-16 md:py-24">
     <div className="container mx-auto px-4 md:px-6">
+      <div className="text-center max-w-2xl mx-auto mb-10 md:mb-14">
+        <p className="text-primary font-display font-semibold text-[11px] tracking-[0.22em] uppercase mb-3">
+          Proof over promises
+        </p>
+        <h2 className="font-display font-bold text-3xl md:text-4xl lg:text-5xl tracking-tight">
+          Systemen die <span className="font-serif italic text-gradient">pipeline opleveren</span>
+        </h2>
+      </div>
       <div className="grid lg:grid-cols-2 gap-5 md:gap-6">
         {CASES.map((c, i) => (
           <motion.div

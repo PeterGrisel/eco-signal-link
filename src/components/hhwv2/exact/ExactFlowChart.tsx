@@ -100,6 +100,12 @@ const ExactFlowChart = () => {
       transition={{ duration: 0.7 }}
       className="relative rounded-2xl border border-primary/20 card-gradient p-5 md:p-7 shadow-[0_0_80px_-20px_hsl(var(--primary)/0.3)]"
     >
+      {/* Internal header */}
+      <div className="relative flex items-center justify-between mb-4 px-1">
+        <p className="font-display font-bold text-[13px] text-foreground">Van signaal naar salesproces</p>
+        <p className="text-[10px] tracking-[0.18em] uppercase text-muted-foreground">System of revenue</p>
+      </div>
+
       {/* SVG dotted connectors layer */}
       <svg className="absolute inset-0 w-full h-full pointer-events-none" aria-hidden>
         <defs>
