@@ -168,11 +168,11 @@ const Blog = () => {
                     className="group rounded-xl bg-card border border-border overflow-hidden hover:border-primary/50 transition-colors"
                   >
                     {post.featured_image && (
-                      <div className="aspect-video overflow-hidden">
+                      <div className="aspect-square overflow-hidden bg-muted">
                         <img
                           src={post.featured_image}
                           alt={post.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                          className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
                           loading="lazy"
                         />
                       </div>
@@ -251,11 +251,11 @@ const Blog = () => {
                   className="group rounded-xl bg-card border border-border overflow-hidden hover:border-primary/50 transition-colors"
                 >
                   {post.featured_image && (
-                    <div className="aspect-video overflow-hidden">
+                    <div className="aspect-square overflow-hidden bg-muted">
                       <img
                         src={post.featured_image}
                         alt={post.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
                         loading="lazy"
                       />
                     </div>
