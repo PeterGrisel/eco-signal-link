@@ -189,7 +189,7 @@ const ExactRevenueEngine = () => (
         </motion.div>
 
         {/* COL 3 — Routed Sequence */}
-        <div className="relative">
+        <div className="relative z-10">
           <p className="text-[10px] font-display font-semibold tracking-[0.28em] uppercase text-primary/80 mb-4 font-mono text-right">
             Routed sequence
           </p>
