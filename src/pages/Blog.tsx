@@ -293,9 +293,10 @@ const Blog = () => {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Blog",
-            name: "B2BGroeiMachine Blog",
+            name: "Van signaal naar gesprek — B2BGroeiMachine Blog",
             url: "https://www.b2bgroeimachine.io/blog",
-            description: "Inzichten over B2B sales, prospecting en groeistrategieën.",
+            description:
+              "Praktische playbooks voor B2B-teams die minder handmatig willen prospecten en meer relevante commerciële kansen willen activeren.",
           }),
         }}
       />
