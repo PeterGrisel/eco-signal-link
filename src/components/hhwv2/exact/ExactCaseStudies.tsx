@@ -1,14 +1,15 @@
 import { motion } from "framer-motion";
-import { ArrowUpRight, TrendingUp } from "lucide-react";
 import { Spotlight, NumberTicker } from "@/components/hhwv2/ui/magic";
 
 type Metric = {
   label: string;
-  value: number;
+  /** Numerieke waarde (telt op bij in-view). Laat weg bij een tekst-waarde. */
+  value?: number;
   prefix?: string;
   suffix?: string;
   decimals?: number;
-  delta: string;
+  /** Niet-numerieke waarde, bijv. "Opgezet". Wordt accent-gekleurd getoond. */
+  text?: string;
 };
 
 const CASES: {
@@ -19,27 +20,27 @@ const CASES: {
   metrics: Metric[];
 }[] = [
   {
-    badge: "Cybersecurity",
-    title: "+36 meetings",
-    titleSub: "in 22 dagen",
+    badge: "Embedded Tech",
+    title: "Van founder-led",
+    titleSub: "naar 200+ leads",
     body:
-      "Voor een cybersecurity scale-up bouwden we een nieuwe outbound engine die binnen 3 weken resultaten opleverde.",
+      "Voor een embedded-hardware bedrijf dat sales nog founder-led deed bouwden we een ABM-systeem: 12 ICP-campagnes, een nurture-laag en automatische lead-routing naar het CRM.",
     metrics: [
-      { label: "Meetings booked", value: 36, delta: "+260%" },
-      { label: "Reply rate", value: 21, suffix: "%", delta: "+11pp" },
-      { label: "Pipeline created", value: 1.4, prefix: "€", suffix: "M", decimals: 1, delta: "" },
+      { label: "Engaged leads", value: 200, suffix: "+" },
+      { label: "ICP-campagnes", value: 12 },
+      { label: "Nurture accounts", value: 2000 },
     ],
   },
   {
-    badge: "B2B SaaS",
-    title: "€3M pipeline",
-    titleSub: "in 3 maanden",
+    badge: "Industrie",
+    title: "Van nul systeem",
+    titleSub: "naar globale push",
     body:
-      "Voor een B2B SaaS bedrijf optimaliseerden we signalen, content en outreach en bouwden we een voorspelbare pipeline machine.",
+      "Voor een industriële speler in bevestigingstechniek zetten we de internationale groei op: de EU-markt in kaart (TAM/SAM), een partnerplan voor Azië en de eerste nieuwe markten geactiveerd met outbound.",
     metrics: [
-      { label: "Pipeline created", value: 3.0, prefix: "€", suffix: "M", decimals: 1, delta: "+180%" },
-      { label: "SQLs", value: 74, delta: "+145%" },
-      { label: "Win rate", value: 28, suffix: "%", delta: "+8pp" },
+      { label: "Markten in scope", value: 5 },
+      { label: "TAM/SAM EU", text: "Opgezet" },
+      { label: "Engaged contacten", value: 264 },
     ],
   },
 ];
@@ -84,29 +85,24 @@ const ExactCaseStudies = () => (
               </div>
               {/* Right metrics */}
               <div className="space-y-2.5">
-                {c.metrics.map((m, idx) => (
+                {c.metrics.map((m) => (
                   <div
                     key={m.label}
-                    className="flex items-center justify-between rounded-lg border border-primary/15 bg-background/40 px-4 py-3"
+                    className="flex items-center justify-between gap-4 rounded-lg border border-primary/15 bg-background/40 px-4 py-3.5"
                   >
-                    <div>
-                      <p className="text-[11px] text-muted-foreground mb-0.5">{m.label}</p>
-                      <p className="font-display font-bold text-2xl text-foreground leading-none">
+                    <span className="text-[13px] text-muted-foreground">{m.label}</span>
+                    {m.text ? (
+                      <span className="font-display font-bold text-xl text-primary leading-none">{m.text}</span>
+                    ) : (
+                      <span className="font-display font-bold text-2xl text-foreground leading-none">
                         <NumberTicker
-                          value={m.value}
+                          value={m.value ?? 0}
                           prefix={m.prefix}
                           suffix={m.suffix}
                           decimals={m.decimals ?? 0}
                         />
-                      </p>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      {m.delta && (
-                        <span className="text-[11px] font-display font-semibold text-primary">{m.delta}</span>
-                      )}
-                      {idx === 0 && <TrendingUp className="h-4 w-4 text-primary" strokeWidth={2} />}
-                      <ArrowUpRight className="h-4 w-4 text-primary/70" strokeWidth={2} />
-                    </div>
+                      </span>
+                    )}
                   </div>
                 ))}
               </div>
