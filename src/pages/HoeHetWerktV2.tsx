@@ -6,6 +6,7 @@ import { usePageMeta } from "@/hooks/usePageMeta";
 import ExactHero from "@/components/hhwv2/exact/ExactHero";
 import ExactLogoWall from "@/components/hhwv2/exact/ExactLogoWall";
 import ExactThreeWays from "@/components/hhwv2/exact/ExactThreeWays";
+import ExactToolStack from "@/components/hhwv2/exact/ExactToolStack";
 import ExactCaseStudies from "@/components/hhwv2/exact/ExactCaseStudies";
 import ExactNinetyDays from "@/components/hhwv2/exact/ExactNinetyDays";
 import ExactTestimonials from "@/components/hhwv2/exact/ExactTestimonials";
@@ -33,6 +34,7 @@ const HoeHetWerktV2 = () => {
           <ExactHero />
           <ExactLogoWall />
           <ExactThreeWays />
+          <ExactToolStack />
           <ExactCaseStudies />
           <ExactNinetyDays />
           <ExactTestimonials />
