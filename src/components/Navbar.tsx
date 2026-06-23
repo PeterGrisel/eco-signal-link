@@ -16,7 +16,6 @@ import {
   Sparkles,
   BookMarked,
   Building2,
-  Workflow as WorkflowIcon,
   type LucideIcon,
 } from "lucide-react";
 import {
