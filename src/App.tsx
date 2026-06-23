@@ -12,6 +12,7 @@ import OverOns from "./pages/OverOns.tsx";
 import OnsTeam from "./pages/OnsTeam.tsx";
 import SectorPage from "./pages/SectorPage.tsx";
 import HoeHetWerkt from "./pages/HoeHetWerkt.tsx";
+import HoeHetWerktV2 from "./pages/HoeHetWerktV2.tsx";
 import Groeistack from "./pages/Groeistack.tsx";
 import AdminGroeistack from "./pages/admin/AdminGroeistack.tsx";
 import AdminGroeistackLeads from "./pages/admin/AdminGroeistackLeads.tsx";
@@ -113,6 +114,7 @@ const AnimatedRoutes = () => {
           <Route path="/sectoren/:slug" element={<SectorPage />} />
           {/* /hoe-het-werkt is verwijderd — redirect naar homepage */}
           <Route path="/hoe-het-werkt" element={<Navigate to="/" replace />} />
+          <Route path="/hoe-het-werkt-v2" element={<HoeHetWerktV2 />} />
           <Route path="/groeistack" element={<Groeistack />} />
           <Route path="/admin/groeistack" element={<AdminGroeistack />} />
           <Route path="/admin/groeistack/leads" element={<AdminGroeistackLeads />} />
