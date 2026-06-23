@@ -133,14 +133,14 @@ const ExactHero = () => {
             transition={{ duration: 0.8, delay: 0.1 }}
             className="lg:col-span-7 relative w-full select-none"
           >
-            <div className="relative w-full mx-auto" style={{ maxWidth: "680px", aspectRatio: "680 / 715" }}>
+            <div className="relative w-full mx-auto" style={{ maxWidth: "680px", aspectRatio: "680 / 820" }}>
               {/* Grid background */}
               <div className="absolute inset-0 rounded-2xl bg-[linear-gradient(to_right,rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:48px_48px]" />
 
               {/* SVG glowing neon connectors */}
               <svg
                 className="absolute inset-0 w-full h-full pointer-events-none"
-                viewBox="0 0 680 715"
+                viewBox="0 0 680 820"
                 fill="none"
                 preserveAspectRatio="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -154,14 +154,14 @@ const ExactHero = () => {
                     </feMerge>
                   </filter>
                 </defs>
-                {/* Connectors from 6 signal tiles converging at engine top (340, 285) */}
+                {/* Connectors from 6 signal tiles converging at engine top (300, 280) */}
                 {[
-                  "M 60 130 C 60 220, 240 250, 340 285",
-                  "M 180 130 C 180 220, 280 255, 340 285",
-                  "M 300 130 C 300 215, 325 260, 340 285",
-                  "M 380 130 C 380 215, 355 260, 340 285",
-                  "M 500 130 C 500 220, 400 255, 340 285",
-                  "M 620 130 C 620 220, 440 250, 340 285",
+                  "M 60 130 C 60 220, 200 250, 300 280",
+                  "M 160 130 C 160 220, 240 255, 300 280",
+                  "M 260 130 C 260 215, 285 260, 300 280",
+                  "M 340 130 C 340 215, 315 260, 300 280",
+                  "M 460 130 C 460 220, 360 255, 300 280",
+                  "M 620 130 C 620 220, 400 250, 300 280",
                 ].map((d, i) => (
                   <path
                     key={i}
@@ -175,23 +175,23 @@ const ExactHero = () => {
                 ))}
                 {/* Engine → Operators (right) */}
                 <path
-                  d="M 425 360 H 465"
+                  d="M 380 360 H 430"
                   stroke="#E8945A"
                   strokeWidth="2"
                   strokeLinecap="round"
                   filter="url(#neonGlow)"
                   opacity="0.9"
                 />
-                <circle cx="467" cy="360" r="4" fill="#E8945A" filter="url(#neonGlow)" />
+                <circle cx="432" cy="360" r="4" fill="#E8945A" filter="url(#neonGlow)" />
                 {/* Engine → High-fit account (bottom) */}
                 <path
-                  d="M 340 435 V 480"
+                  d="M 300 460 V 520"
                   stroke="#E8945A"
                   strokeWidth="2"
                   strokeLinecap="round"
                   filter="url(#neonGlow)"
                 />
-                <circle cx="340" cy="482" r="4" fill="#E8945A" filter="url(#neonGlow)" />
+                <circle cx="300" cy="522" r="4" fill="#E8945A" filter="url(#neonGlow)" />
               </svg>
 
               {/* Signal Logo Tiles at top */}
@@ -226,8 +226,8 @@ const ExactHero = () => {
               {/* B2BGM Engine™ central card */}
               <motion.div
                 whileHover={{ scale: 1.02 }}
-                className="absolute flex flex-col items-center justify-center gap-3 rounded-xl border border-primary/40 bg-card/60 backdrop-blur-sm shadow-[0_0_50px_rgba(232,148,90,0.25)]"
-                style={{ left: "37.5%", top: "39%", width: "25%", aspectRatio: "1 / 1" }}
+                className="absolute flex flex-col items-center justify-center gap-2 rounded-xl border border-primary/40 bg-card/60 backdrop-blur-sm shadow-[0_0_50px_rgba(232,148,90,0.25)]"
+                style={{ left: "37%", top: "34%", width: "20%", aspectRatio: "1 / 1" }}
               >
                 <div className="grid grid-cols-3 gap-1">
                   <span className="w-3 h-3 md:w-3.5 md:h-3.5" />
@@ -250,8 +250,8 @@ const ExactHero = () => {
                 initial={{ opacity: 0, x: 16 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.35 }}
-                className="absolute p-4 md:p-5 rounded-xl border border-primary/30 bg-card/40 backdrop-blur-sm shadow-[0_0_40px_rgba(232,148,90,0.12)]"
-                style={{ left: "68.5%", top: "37%", width: "30%" }}
+                className="absolute p-3 md:p-4 rounded-xl border border-primary/30 bg-card/40 backdrop-blur-sm shadow-[0_0_40px_rgba(232,148,90,0.12)]"
+                style={{ left: "64%", top: "34%", width: "32%" }}
               >
                 <h4 className="font-display font-bold text-foreground text-sm md:text-base mb-1">
                   Frontal operators
