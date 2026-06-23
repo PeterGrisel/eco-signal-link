@@ -155,7 +155,7 @@ const ExactHero = () => {
 
             {/* Subtitle */}
             <p className="text-muted-foreground text-base md:text-lg leading-relaxed mb-8 max-w-xl">
-              Wij bouwen één systeem dat signalen, content en outreach omzet in meetings en pipeline.
+              Wij bouwen één systeem dat signalen, content en outreach omzet in gesprekken.
             </p>
 
             {/* Email + CTA Form */}
