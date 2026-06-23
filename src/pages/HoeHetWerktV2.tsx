@@ -25,7 +25,11 @@ const HoeHetWerktV2 = () => {
 
   return (
     <PageLoader>
-      <div className="min-h-screen relative bg-background">
+      <div className="min-h-screen relative bg-background overflow-x-hidden">
+        {/* Global Grid Background */}
+        <div className="absolute inset-0 pointer-events-none z-0">
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-[size:32px_32px]" />
+        </div>
         <BreadcrumbJsonLd
           items={[
             { name: "Home", url: "https://www.b2bgroeimachine.io/" },
@@ -33,7 +37,7 @@ const HoeHetWerktV2 = () => {
           ]}
         />
         <Navbar />
-        <main>
+        <main className="relative z-10">
           <ExactHero />
           <ExactLogoWall />
           <section className="container mx-auto px-4 md:px-6 pb-16 md:pb-24 max-w-5xl relative z-10">
