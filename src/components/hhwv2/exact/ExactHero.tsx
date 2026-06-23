@@ -55,14 +55,14 @@ const ExactHero = () => {
             {/* AI Badge */}
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-primary/20 bg-primary/5 text-primary text-xs font-display font-semibold uppercase tracking-wider mb-6">
               <Sparkles className="h-3 w-3 animate-pulse" />
-              AI-Native Revenue Systems
+              AI-NATIVE OMZET SYSTEEM
             </div>
 
             {/* Heading */}
             <h1 className="font-display font-bold text-4xl md:text-5xl lg:text-6xl tracking-tight leading-[1.08] mb-6">
               Laat omzet groeien zonder <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-primary-glow to-amber-400">
-                extra headcount.
+                extra personeel.
               </span>
             </h1>
 
