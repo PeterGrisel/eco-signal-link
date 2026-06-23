@@ -112,7 +112,10 @@ const SignalFlowDiagram = () => {
         className="absolute left-1/2 top-[68%] -translate-x-1/2 -translate-y-1/2"
       >
         <div className="w-44 h-44 rounded-2xl bg-card/80 backdrop-blur border border-primary/50 flex flex-col items-center justify-center gap-3 shadow-[0_0_80px_hsl(var(--primary)/0.45)]">
-          <BgmIcon size={44} className="text-primary" />
+          <BgmIcon size={44} className="text-primary">
+            <circle cx="12" cy="12" r="8" />
+            <path d="M12 4v16M4 12h16" />
+          </BgmIcon>
           <span className="text-[10px] font-display font-semibold tracking-[0.2em] uppercase text-primary">
             B2B Engine
           </span>
