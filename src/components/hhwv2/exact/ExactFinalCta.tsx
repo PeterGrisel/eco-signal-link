@@ -1,0 +1,103 @@
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { ArrowRight, Check } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { CTA } from "@/content/copy";
+
+const ExactFinalCta = () => {
+  const [form, setForm] = useState({ name: "", email: "", company: "", size: "" });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const target = CTA.gratisScan.href;
+    window.location.hash = target.replace(/^#/, "");
+  };
+
+  return (
+    <section className="py-16 md:py-24">
+      <div className="container mx-auto px-4 md:px-6">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.6 }}
+          className="rounded-2xl border border-primary/25 card-gradient p-6 md:p-10 lg:p-12 shadow-[0_0_80px_-20px_hsl(var(--primary)/0.35)]"
+        >
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+            <div>
+              <h2 className="font-display font-bold text-3xl md:text-4xl lg:text-5xl tracking-tight leading-tight mb-4">
+                Klaar om jouw <span className="font-serif italic text-gradient">groeimachine</span> te starten?
+              </h2>
+              <p className="text-muted-foreground text-base leading-relaxed">
+                Plan een demo en ontdek hoe we jouw GTM kunnen versnellen naar voorspelbare groei.
+              </p>
+            </div>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="grid sm:grid-cols-2 gap-3">
+                <Field label="Naam" placeholder="Je naam" value={form.name} onChange={(v) => setForm({ ...form, name: v })} />
+                <Field label="E-mailadres" type="email" placeholder="naam@bedrijf.nl" value={form.email} onChange={(v) => setForm({ ...form, email: v })} />
+              </div>
+              <div className="grid sm:grid-cols-2 gap-3">
+                <Field label="Bedrijf" placeholder="Jouw bedrijf" value={form.company} onChange={(v) => setForm({ ...form, company: v })} />
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-xs font-display font-semibold text-foreground/80">Hoeveel medewerkers?</label>
+                  <select
+                    value={form.size}
+                    onChange={(e) => setForm({ ...form, size: e.target.value })}
+                    className="rounded-md border border-primary/25 bg-background/60 px-3 py-2.5 text-sm text-foreground focus:outline-none focus:border-primary/60"
+                  >
+                    <option value="">Kies een range</option>
+                    <option>1—10</option>
+                    <option>11—50</option>
+                    <option>51—200</option>
+                    <option>200+</option>
+                  </select>
+                </div>
+              </div>
+              <Button type="submit" variant="hero" size="lg" className="w-full">
+                Plan een demo
+                <ArrowRight className="ml-1 h-4 w-4" />
+              </Button>
+              <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-[12px] text-muted-foreground pt-2">
+                <span className="inline-flex items-center gap-1.5">
+                  <Check className="h-3.5 w-3.5 text-primary" strokeWidth={2.5} /> Binnen 24 uur reactie
+                </span>
+                <span className="inline-flex items-center gap-1.5">
+                  <Check className="h-3.5 w-3.5 text-primary" strokeWidth={2.5} /> Geen verplichtingen
+                </span>
+              </div>
+            </form>
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+};
+
+const Field = ({
+  label,
+  placeholder,
+  value,
+  onChange,
+  type = "text",
+}: {
+  label: string;
+  placeholder: string;
+  value: string;
+  onChange: (v: string) => void;
+  type?: string;
+}) => (
+  <div className="flex flex-col gap-1.5">
+    <label className="text-xs font-display font-semibold text-foreground/80">{label}</label>
+    <input
+      type={type}
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      placeholder={placeholder}
+      required
+      className="rounded-md border border-primary/25 bg-background/60 px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:border-primary/60"
+    />
+  </div>
+);
+
+export default ExactFinalCta;
