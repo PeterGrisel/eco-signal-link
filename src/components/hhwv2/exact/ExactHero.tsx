@@ -81,7 +81,7 @@ const ExactHero = () => {
                   required
                   placeholder="Jouw werk e-mail"
                   value={email}
-                  onChange={(e) => setEmail(email || e.target.value)}
+                  onChange={(e) => setEmail(e.target.value)}
                   className="w-full h-12 px-4 rounded-lg bg-card/60 border border-primary/10 text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:border-primary/40 focus:ring-1 focus:ring-primary/40 transition-all text-sm font-display font-medium"
                 />
               </div>
