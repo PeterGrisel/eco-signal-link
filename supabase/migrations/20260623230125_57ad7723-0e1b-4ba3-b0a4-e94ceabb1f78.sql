@@ -1,0 +1,1 @@
+UPDATE public.blog_posts SET category_id='7e160fed-fc9a-4491-901b-c337c515f053' WHERE slug='signaalgebaseerde-targeting-aankoopintentie';
