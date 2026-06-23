@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { openBookingModal } from "@/components/booking/GlobalBookingModal";
+import { supabase } from "@/integrations/supabase/client";
 import operator1 from "@/assets/team-member-1.jpg";
 import operator2 from "@/assets/team-member-2.jpg";
 import operator3 from "@/assets/team-member-3.jpg";
@@ -98,8 +99,27 @@ const ExactHero = () => {
     return () => ctx.revert();
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const trimmed = email.trim().toLowerCase();
+    if (trimmed && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
+      try {
+        await supabase.functions.invoke("hhw-lead", {
+          body: {
+            email: trimmed,
+            source: "hoe-het-werkt-hero",
+            session_id:
+              typeof window !== "undefined"
+                ? sessionStorage.getItem("b2b_session_id")
+                : null,
+            page_url:
+              typeof window !== "undefined" ? window.location.href : null,
+          },
+        });
+      } catch (err) {
+        console.error("hhw-lead invoke failed", err);
+      }
+    }
     openBookingModal();
   };
 
