@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { ArrowUpRight, TrendingUp } from "lucide-react";
-import { BorderBeam, Spotlight, NumberTicker } from "@/components/hhwv2/ui/magic";
+import { Spotlight, NumberTicker } from "@/components/hhwv2/ui/magic";
 
 type Metric = {
   label: string;
@@ -66,7 +66,6 @@ const ExactCaseStudies = () => (
             className="relative overflow-hidden rounded-2xl border border-primary/20 card-gradient p-6 md:p-7"
           >
             <Spotlight size={420} />
-            <BorderBeam size={220} duration={11} delay={i * 2} />
             <div className="grid md:grid-cols-2 gap-6 items-start">
               {/* Left */}
               <div>

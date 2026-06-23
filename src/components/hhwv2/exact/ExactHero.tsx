@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { BorderBeam, Spotlight, Meteors } from "@/components/hhwv2/ui/magic";
+import { Spotlight, Meteors } from "@/components/hhwv2/ui/magic";
 import {
   ArrowRight,
   ArrowDown,
@@ -202,7 +202,6 @@ const ExactHero = () => {
               <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(to_right,rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:40px_40px]" />
               <Meteors number={10} />
               <Spotlight />
-              <BorderBeam size={220} duration={9} />
 
               <div className="relative flex flex-col">
                 {/* Signals row */}
@@ -226,7 +225,6 @@ const ExactHero = () => {
 
                 {/* Engine card */}
                 <div className="relative mx-auto flex flex-col items-center gap-2 rounded-xl border border-primary/40 bg-card/70 backdrop-blur-sm px-6 py-4 shadow-[0_0_40px_rgba(232,148,90,0.2)] overflow-hidden">
-                  <BorderBeam size={90} duration={6} />
                   <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-primary/40 bg-primary/15">
                     <Zap className="h-5 w-5 text-primary" strokeWidth={1.8} />
                   </span>
