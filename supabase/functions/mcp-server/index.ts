@@ -409,6 +409,206 @@ mcp.tool("update_seo_settings", {
 
 // ─── AUTH: DB-based API key validation ───
 
+// ─── LOVART BLOG VISUAL ───
+
+const LOVART_BASE = "https://lgw.lovart.ai";
+const LOVART_PREFIX = "/v1/openapi";
+const LOVART_PROJECT_ID = "odODxVnkpG";
+const LOVART_STYLE_REF = "https://a.lovart.ai/artifacts/user/Sg8fWUDPMVGzWngL.png";
+const LOVART_LOGO_REF = "https://a.lovart.ai/context-forge/kits/kit_b5276abe/logo/7bdd1e88.png";
+
+async function lovartSign(method: string, path: string): Promise<Record<string, string>> {
+  const ak = Deno.env.get("LOVART_ACCESS_KEY")!;
+  const sk = Deno.env.get("LOVART_SECRET_KEY")!;
+  const ts = Math.floor(Date.now() / 1000).toString();
+  const msg = `${method}\n${path}\n${ts}`;
+  const key = await crypto.subtle.importKey(
+    "raw",
+    new TextEncoder().encode(sk),
+    { name: "HMAC", hash: "SHA-256" },
+    false,
+    ["sign"],
+  );
+  const sigBuf = await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(msg));
+  const sig = Array.from(new Uint8Array(sigBuf))
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
+  return {
+    "X-Access-Key": ak,
+    "X-Timestamp": ts,
+    "X-Signature": sig,
+    "X-Signed-Method": method,
+    "X-Signed-Path": path,
+    "Content-Type": "application/json",
+  };
+}
+
+async function lovartRequest(method: "GET" | "POST", path: string, body?: unknown, params?: Record<string, string>) {
+  let url = `${LOVART_BASE}${path}`;
+  if (params) url += "?" + new URLSearchParams(params).toString();
+  const headers = await lovartSign(method, path);
+  const res = await fetch(url, {
+    method,
+    headers,
+    body: body !== undefined ? JSON.stringify(body) : undefined,
+  });
+  const text = await res.text();
+  if (!res.ok) throw new Error(`Lovart ${res.status}: ${text}`);
+  const json = JSON.parse(text);
+  if (typeof json.code === "number" && json.code !== 0) {
+    throw new Error(json.message || "Lovart error");
+  }
+  return json.data ?? json;
+}
+
+function buildBlogVisualPrompt(input: {
+  headline: string;
+  visual_concept: string;
+  structure_content: string;
+  key_phrases: string[];
+  accent_usage: string;
+  closing_question: string;
+}): string {
+  return `CRITICAL CONSTRAINTS - follow exactly:
+- ASPECT RATIO: 1:1 SQUARE (1024x1024). NOT portrait. NOT vertical.
+- LOGO: Use attachment #2 (the orange circular G icon) as the LITERAL logo image in the top-left corner. Do NOT redraw it, do NOT write logo text - paste the supplied logo file exactly as provided.
+- STYLE: match attachment #1 reference exactly - spacious 3-part layout, illustrated photo-realistic characters (not flat icons), generous breathing room.
+
+COLOR BALANCE (strict):
+- Background #121212 dominates ~60%
+- Cream text #EEEAE4 dominates ~30%
+- Terracotta orange #E8945A only ~10% (highlights, accent words, key icons - NOT large filled shapes)
+
+Main headline in large bold cream text: "${input.headline}"
+
+Visual concept: ${input.visual_concept}
+
+${input.structure_content}
+
+Key phrases to include:
+${input.key_phrases.map((p) => `- "${p}"`).join("\n")}
+
+Use terracotta orange (#E8945A) for ${input.accent_usage}. Style: Clean, modern B2B infographic - professional with iconography. Include website "b2bgroeimachine.io" at the bottom.
+
+Closing question at bottom in a pill-shaped box with orange question mark icon: "${input.closing_question}"
+
+Typography: Space Grotesk for headlines, Inter for body.`;
+}
+
+mcp.tool("generate_blog_visual", {
+  description:
+    "Generate a B2BGroeiMachine blog visual via Lovart (project odODxVnkpG, 1:1, gpt-image-2, brand kit refs). Returns thread_id immediately - use get_blog_visual_result to fetch the image once done (typically 60-120s).",
+  inputSchema: {
+    type: "object",
+    properties: {
+      headline: { type: "string", description: "Main headline, taken verbatim from the blog" },
+      slug: { type: "string", description: "Blog slug, used in output filename" },
+      template_type: {
+        type: "string",
+        enum: ["split_comparison", "funnel_leaks", "system_engine", "signal_targeting", "framework_comparison"],
+        description: "Which of the 5 canonical visual templates to use",
+      },
+      visual_concept: { type: "string", description: "1-2 sentence visual metaphor (e.g. 'central growth engine with two output streams')" },
+      structure_content: { type: "string", description: "Detailed layout description - zones, characters, icons, labels" },
+      key_phrases: { type: "array", items: { type: "string" }, description: "2-3 supporting quotes to include in the visual" },
+      accent_usage: { type: "string", description: "What gets highlighted in orange (e.g. 'engine and output flows')" },
+      closing_question: { type: "string", description: "Closing question for the bottom pill" },
+    },
+    required: ["headline", "slug", "visual_concept", "structure_content", "key_phrases", "accent_usage", "closing_question"],
+  },
+  handler: async (input: {
+    headline: string;
+    slug: string;
+    template_type?: string;
+    visual_concept: string;
+    structure_content: string;
+    key_phrases: string[];
+    accent_usage: string;
+    closing_question: string;
+  }) => {
+    try {
+      const prompt = buildBlogVisualPrompt(input);
+      const data = await lovartRequest("POST", `${LOVART_PREFIX}/chat`, {
+        prompt,
+        project_id: LOVART_PROJECT_ID,
+        attachments: [LOVART_STYLE_REF, LOVART_LOGO_REF],
+        tool_config: { include_tools: ["generate_image_gpt_image_2"] },
+      });
+      const threadId = data.thread_id;
+      return {
+        content: [
+          {
+            type: "text" as const,
+            text: JSON.stringify(
+              {
+                thread_id: threadId,
+                project_id: LOVART_PROJECT_ID,
+                slug: input.slug,
+                template_type: input.template_type ?? null,
+                status: "running",
+                canvas_url: `https://www.lovart.ai/canvas?projectId=${LOVART_PROJECT_ID}`,
+                next: `Call get_blog_visual_result with thread_id="${threadId}" in 60-120s to fetch the image URL.`,
+              },
+              null,
+              2,
+            ),
+          },
+        ],
+      };
+    } catch (e) {
+      return { content: [{ type: "text" as const, text: `Error: ${(e as Error).message}` }] };
+    }
+  },
+});
+
+mcp.tool("get_blog_visual_result", {
+  description:
+    "Fetch the result of a generate_blog_visual call by thread_id. Returns artifact URLs when done, or status='running' if still generating.",
+  inputSchema: {
+    type: "object",
+    properties: { thread_id: { type: "string" } },
+    required: ["thread_id"],
+  },
+  handler: async ({ thread_id }: { thread_id: string }) => {
+    try {
+      const status = await lovartRequest("GET", `${LOVART_PREFIX}/chat/status`, undefined, { thread_id });
+      if (status.status !== "done") {
+        return {
+          content: [{ type: "text" as const, text: JSON.stringify({ thread_id, status: status.status }, null, 2) }],
+        };
+      }
+      const result = await lovartRequest("GET", `${LOVART_PREFIX}/chat/result`, undefined, { thread_id });
+      const artifacts: { type: string; url: string }[] = [];
+      for (const item of result.items ?? []) {
+        for (const a of item.artifacts ?? []) {
+          if (a.content) artifacts.push({ type: a.type, url: a.content });
+        }
+      }
+      return {
+        content: [
+          {
+            type: "text" as const,
+            text: JSON.stringify(
+              {
+                thread_id,
+                status: "done",
+                artifacts,
+                canvas_url: `https://www.lovart.ai/canvas?projectId=${LOVART_PROJECT_ID}`,
+              },
+              null,
+              2,
+            ),
+          },
+        ],
+      };
+    } catch (e) {
+      return { content: [{ type: "text" as const, text: `Error: ${(e as Error).message}` }] };
+    }
+  },
+});
+
+// ─── AUTH: DB-based API key validation ───
+
 async function validateApiKey(token: string | undefined): Promise<{ valid: boolean; permissions: string[] | null }> {
   if (!token) return { valid: false, permissions: null };
 
