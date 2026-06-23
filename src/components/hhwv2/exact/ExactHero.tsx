@@ -253,23 +253,23 @@ const ExactHero = () => {
                 className="absolute p-3 md:p-4 rounded-xl border border-primary/30 bg-card/40 backdrop-blur-sm shadow-[0_0_40px_rgba(232,148,90,0.12)]"
                 style={{ left: "64%", top: "34%", width: "32%" }}
               >
-                <h4 className="font-display font-bold text-foreground text-sm md:text-base mb-1">
+                <h4 className="font-display font-bold text-foreground text-xs md:text-sm mb-1">
                   Frontal operators
                 </h4>
-                <p className="text-[10px] font-display font-bold text-primary uppercase tracking-[0.18em] mb-3">
+                <p className="text-[8px] md:text-[9px] font-display font-bold text-primary uppercase tracking-[0.18em] mb-2">
                   Human judgment
                 </p>
-                <div className="flex items-center -space-x-2 mb-3">
+                <div className="flex items-center -space-x-1.5 mb-2">
                   {operators.map((src, i) => (
                     <img
                       key={i}
                       src={src}
                       alt="operator"
-                      className="w-7 h-7 md:w-8 md:h-8 rounded-full object-cover border-2 border-background ring-1 ring-primary/30"
+                      className="w-6 h-6 md:w-7 md:h-7 rounded-full object-cover border-2 border-background ring-1 ring-primary/30"
                     />
                   ))}
                 </div>
-                <p className="text-[11px] text-muted-foreground leading-snug">
+                <p className="text-[9px] md:text-[10px] text-muted-foreground leading-snug">
                   Bouw het systeem, zet de logica en draai de plays{" "}
                   <span className="text-primary">voor je.</span>
                 </p>
