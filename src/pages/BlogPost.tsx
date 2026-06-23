@@ -13,9 +13,9 @@ import { ArrowLeft, Clock, Calendar } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import MidContentCta from "@/components/blog/MidContentCta";
 import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
-import { trackCTA } from "@/lib/tracking";
 import AnswerBlock from "@/components/blog/AnswerBlock";
 import { parseAnswerBlock } from "@/lib/parseAnswerBlock";
+import BlogPostCta, { pickVariant } from "@/components/blog/BlogPostCta";
 
 interface Post {
   id: string;
@@ -29,6 +29,7 @@ interface Post {
   status: string;
   created_at: string;
   updated_at?: string | null;
+  cta_variant?: string | null;
   category: { name: string; slug: string } | null;
 }
 
@@ -242,22 +243,14 @@ const BlogPost = () => {
             })()}
           </div>
 
-          {/* Bottom CTA */}
-          <div className="mt-16 p-8 rounded-2xl bg-gradient-to-br from-primary/10 via-secondary to-secondary border border-primary/20">
-            <h3 className="font-display text-xl font-bold text-foreground mb-2">
-              Benieuwd hoe uw pipeline scoort?
-            </h3>
-            <p className="text-muted-foreground text-sm mb-4">
-              Doe de gratis Pipeline Score™: 14 factoren, 10 verdiepingsvragen, en een AI-rapport met concrete verbeterpunten per fase. In 5 minuten.
-            </p>
-            <Link
-              to="/pipeline-equation#calculator"
-              onClick={() => trackCTA("BlogPost — Pipeline Score", `/blog/${post.slug}`)}
-              className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-6 py-2.5 rounded-lg font-display font-semibold text-sm hover:bg-primary/90 transition-colors"
-            >
-              Start de Pipeline Score →
-            </Link>
-          </div>
+          {/* Bottom CTA — variant per onderwerp/categorie */}
+          <BlogPostCta
+            variant={pickVariant({
+              ctaVariant: post.cta_variant,
+              categorySlug: post.category?.slug,
+            })}
+            postSlug={post.slug}
+          />
         </article>
       </div>
 
