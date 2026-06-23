@@ -13,7 +13,6 @@ import { ArrowLeft, Clock, Calendar } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import MidContentCta from "@/components/blog/MidContentCta";
 import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
-import { trackCTA } from "@/lib/tracking";
 import AnswerBlock from "@/components/blog/AnswerBlock";
 import { parseAnswerBlock } from "@/lib/parseAnswerBlock";
 import BlogPostCta, { pickVariant } from "@/components/blog/BlogPostCta";
