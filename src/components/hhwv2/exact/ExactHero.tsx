@@ -280,27 +280,27 @@ const ExactHero = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.45 }}
-                className="absolute p-3 md:p-4 rounded-xl border border-primary/25 bg-card/40 backdrop-blur-sm shadow-[0_0_40px_rgba(232,148,90,0.1)]"
-                style={{ left: "15%", bottom: "0%", width: "70%" }}
+                className="absolute p-2.5 md:p-3 rounded-xl border border-primary/25 bg-card/40 backdrop-blur-sm shadow-[0_0_40px_rgba(232,148,90,0.1)]"
+                style={{ left: "22%", bottom: "0%", width: "56%" }}
               >
-                <div className="flex items-start justify-between mb-3">
+                <div className="flex items-start justify-between mb-2">
                   <div>
-                    <h4 className="font-display font-bold text-foreground text-xs md:text-sm mb-0.5">
+                    <h4 className="font-display font-bold text-foreground text-[11px] md:text-xs mb-0.5">
                       High-fit account
                     </h4>
-                    <p className="text-[8px] md:text-[9px] font-display font-bold text-muted-foreground uppercase tracking-[0.18em]">
+                    <p className="text-[7px] md:text-[8px] font-display font-bold text-muted-foreground uppercase tracking-[0.18em]">
                       Series B · 240 employees
                     </p>
                   </div>
                   <div className="text-right">
-                    <div className="text-primary font-display font-black text-xl md:text-2xl leading-none">94</div>
-                    <span className="text-[8px] md:text-[9px] font-display font-bold text-primary uppercase tracking-[0.18em]">
+                    <div className="text-primary font-display font-black text-lg md:text-xl leading-none">94</div>
+                    <span className="text-[7px] md:text-[8px] font-display font-bold text-primary uppercase tracking-[0.18em]">
                       Fit
                     </span>
                   </div>
                 </div>
 
-                <div className="space-y-1.5 mb-3">
+                <div className="space-y-1 mb-2">
                   {[
                     { letters: "cb", color: "#1d6df0", bg: "#fff", text: "Series B funding closed" },
                     { letters: "in", color: "#fff", bg: "#0a66c2", text: "Hiring 6 sales reps" },
@@ -308,38 +308,38 @@ const ExactHero = () => {
                   ].map((row) => (
                     <div
                       key={row.text}
-                      className="flex items-center justify-between gap-2 px-2.5 py-1.5 rounded-lg bg-background/40 border border-primary/10"
+                      className="flex items-center justify-between gap-2 px-2 py-1 rounded-lg bg-background/40 border border-primary/10"
                     >
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-1.5">
                         <div
-                          className="w-5.5 h-5.5 rounded-md flex items-center justify-center font-display font-bold text-[9px] shrink-0"
-                          style={{ background: row.bg, color: row.color, width: "22px", height: "22px" }}
+                          className="rounded-md flex items-center justify-center font-display font-bold text-[8px] shrink-0"
+                          style={{ background: row.bg, color: row.color, width: "18px", height: "18px" }}
                         >
                           {row.letters}
                         </div>
-                        <span className="text-[10px] md:text-xs text-foreground/90 font-display font-medium">
+                        <span className="text-[9px] md:text-[10px] text-foreground/90 font-display font-medium">
                           {row.text}
                         </span>
                       </div>
-                      <CheckCircle2 className="h-3.5 w-3.5 text-primary shrink-0" />
+                      <CheckCircle2 className="h-3 w-3 text-primary shrink-0" />
                     </div>
                   ))}
                 </div>
 
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-[8px] md:text-[9px] font-display font-bold text-muted-foreground uppercase tracking-[0.18em]">
+                <div className="flex items-center justify-between mb-1.5">
+                  <span className="text-[7px] md:text-[8px] font-display font-bold text-muted-foreground uppercase tracking-[0.18em]">
                     Next action
                   </span>
                   <button
                     onClick={openBookingModal}
-                    className="px-3 py-1 rounded-md border border-primary/50 text-primary font-display font-semibold text-[10px] hover:bg-primary/10 transition-colors"
+                    className="px-2 py-0.5 rounded border border-primary/50 text-primary font-display font-semibold text-[8px] hover:bg-primary/10 transition-colors"
                   >
                     Call today
                   </button>
                 </div>
 
-                <div className="flex items-center justify-between pt-2 border-t border-primary/10">
-                  <span className="text-[8px] md:text-[9px] font-display font-bold text-muted-foreground uppercase tracking-[0.18em]">
+                <div className="flex items-center justify-between pt-1.5 border-t border-primary/10">
+                  <span className="text-[7px] md:text-[8px] font-display font-bold text-muted-foreground uppercase tracking-[0.18em]">
                     In your stack
                   </span>
                   <div className="flex items-center gap-1">
@@ -351,8 +351,8 @@ const ExactHero = () => {
                     ].map((t) => (
                       <div
                         key={t.l}
-                        className="w-5.5 h-5.5 rounded-md bg-white flex items-center justify-center font-display font-bold text-[9px]"
-                        style={{ color: t.c, width: "22px", height: "22px" }}
+                        className="rounded-md bg-white flex items-center justify-center font-display font-bold text-[8px]"
+                        style={{ color: t.c, width: "18px", height: "18px" }}
                       >
                         {t.l}
                       </div>
