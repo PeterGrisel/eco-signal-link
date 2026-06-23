@@ -5,8 +5,15 @@ import PageLoader from "@/components/PageLoader";
 import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 import FunnelCalculatorSection from "@/components/FunnelCalculatorSection";
 import GroeistackLeadCapture from "@/components/GroeistackLeadCapture";
+import { usePageMeta } from "@/hooks/usePageMeta";
 
 const FunnelCalculatorPage = () => {
+  usePageMeta({
+    title: "Funnel Calculator — Reken terug vanaf je omzetdoel | B2BGroeiMachine",
+    description:
+      "Bereken hoeveel meetings, leads en outreach je per maand nodig hebt om je B2B-omzetdoel te halen. Gratis reverse funnel calculator.",
+    canonical: "https://www.b2bgroeimachine.io/tools/funnel-calculator",
+  });
   return (
     <PageLoader>
       <div className="min-h-screen">
