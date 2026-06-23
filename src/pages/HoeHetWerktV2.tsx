@@ -6,9 +6,12 @@ import CtaLink from "@/components/CtaLink";
 import { Button } from "@/components/ui/button";
 import { usePageMeta } from "@/hooks/usePageMeta";
 import HeroFlow from "@/components/hhwv2/HeroFlow";
+import VideoCaptureSection from "@/components/hhwv2/VideoCaptureSection";
+import LogoWallCases from "@/components/hhwv2/LogoWallCases";
 import TwoPathsSection from "@/components/hhwv2/TwoPathsSection";
 import ProblemSection from "@/components/hhwv2/ProblemSection";
 import EngineFlow from "@/components/hhwv2/EngineFlow";
+import ServiceStackSection from "@/components/hhwv2/ServiceStackSection";
 import NinetyDayBuild from "@/components/hhwv2/NinetyDayBuild";
 import PlaysSection from "@/components/hhwv2/PlaysSection";
 import ExecutionLayer from "@/components/hhwv2/ExecutionLayer";
@@ -36,9 +39,12 @@ const HoeHetWerktV2 = () => {
         <Navbar />
         <main>
           <HeroFlow />
+          <VideoCaptureSection />
+          <LogoWallCases />
           <TwoPathsSection />
           <ProblemSection />
           <EngineFlow />
+          <ServiceStackSection />
           <NinetyDayBuild />
           <PlaysSection />
           <ExecutionLayer />
