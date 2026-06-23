@@ -16,6 +16,7 @@ import CtaLink from "@/components/CtaLink";
 import GridCanvas from "./GridCanvas";
 import { BgmIcon } from "@/components/icons/BgmIcon";
 import { useFlowTimeline, primePath, pointOnPath } from "@/hooks/useFlowTimeline";
+import AnnouncementPill from "./ui/AnnouncementPill";
 
 const SIGNALS = [
   { label: "Funding", icon: TrendingUp },
@@ -31,39 +32,38 @@ const HeroFlow = () => {
     <section className="relative pt-32 md:pt-40 pb-16 md:pb-24 overflow-hidden">
       <GridCanvas />
       <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <span className="inline-block px-4 py-1.5 rounded-full border border-primary/40 text-primary text-xs font-display font-semibold tracking-[0.2em] uppercase mb-6">
-              AI-native groeisysteem
-            </span>
-            <h1 className="font-display font-bold text-5xl md:text-6xl lg:text-7xl tracking-tighter leading-[1.02] mb-6">
-              Groei voorspelbaar
-              <br />
-              zonder meer
-              <br />
-              <span className="text-gradient">mensen aan te nemen.</span>
-            </h1>
-            <p className="text-muted-foreground text-lg md:text-xl leading-relaxed mb-8 max-w-xl">
-              Wij bouwen het groeisysteem achter je sales en marketing. Neem het in 90 dagen over, of laat ons het draaien.
-            </p>
-            <div className="flex flex-wrap items-center gap-4">
-              <Button variant="hero" size="lg" asChild>
-                <CtaLink intent="gratisScan" location="Hoe het werkt v2 — hero" />
-              </Button>
-              <a href="#engine" className="inline-flex items-center gap-2 text-primary font-medium hover:gap-3 transition-all">
-                Bekijk hoe het werkt
-                <ArrowRight className="w-4 h-4" />
-              </a>
-            </div>
-          </motion.div>
-
-          <div className="relative h-[520px] md:h-[600px]">
-            <SignalFlowDiagram />
+        {/* Editorial centered hero (ColdIQ-stijl) */}
+        <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="max-w-5xl mx-auto text-center"
+        >
+          <AnnouncementPill className="mb-7">
+            Voor B2B-bedrijven met PMF
+          </AnnouncementPill>
+          <h1 className="font-display font-bold text-5xl md:text-7xl lg:text-[5.5rem] tracking-tighter leading-[1.02] mb-6">
+            Het B2B-groeisysteem van
+            <br />
+            <span className="font-serif italic font-semibold text-gradient">morgen, vandaag gebouwd.</span>
+          </h1>
+          <p className="text-muted-foreground text-lg md:text-xl leading-relaxed mb-8 max-w-2xl mx-auto">
+            Wij bouwen B2B-revenue-engines die voor je verkopen. In je eigen stack.
+          </p>
+          <div className="flex flex-wrap justify-center items-center gap-4">
+            <Button variant="hero" size="lg" asChild>
+              <CtaLink intent="gratisScan" location="Hoe het werkt v2 — hero" />
+            </Button>
+            <a href="#engine" className="inline-flex items-center gap-2 text-primary font-medium hover:gap-3 transition-all">
+              Bekijk hoe het werkt
+              <ArrowRight className="w-4 h-4" />
+            </a>
           </div>
+        </motion.div>
+
+        {/* Signal flow as supporting visual underneath */}
+        <div className="relative h-[440px] md:h-[520px] mt-12 md:mt-16 max-w-4xl mx-auto opacity-90">
+          <SignalFlowDiagram />
         </div>
       </div>
     </section>
