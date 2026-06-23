@@ -1,5 +1,8 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { BorderBeam, Spotlight, Meteors } from "@/components/hhwv2/ui/magic";
 import {
   ArrowRight,
   ArrowDown,
@@ -76,8 +79,24 @@ const DownConnector = () => (
   </div>
 );
 
+gsap.registerPlugin(ScrollTrigger);
+
 const ExactHero = () => {
   const [email, setEmail] = useState("");
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = panelRef.current;
+    if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const ctx = gsap.context(() => {
+      gsap.to(el, {
+        yPercent: -7,
+        ease: "none",
+        scrollTrigger: { trigger: el, start: "top bottom", end: "bottom top", scrub: 0.6 },
+      });
+    });
+    return () => ctx.revert();
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -111,9 +130,7 @@ const ExactHero = () => {
             {/* Heading */}
             <h1 className="font-display font-bold text-4xl md:text-5xl lg:text-6xl tracking-tight leading-[1.08] mb-5">
               Laat omzet groeien zonder{" "}
-              <span className="font-serif italic text-transparent bg-clip-text bg-gradient-to-r from-primary via-primary to-amber-400">
-                extra personeel.
-              </span>
+              <span className="font-serif italic text-gradient-animate">extra personeel.</span>
             </h1>
 
             {/* Subtitle */}
@@ -133,7 +150,8 @@ const ExactHero = () => {
                   className="w-full h-12 px-4 rounded-lg bg-card/60 border border-primary/10 text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:border-primary/40 focus:ring-1 focus:ring-primary/40 transition-all text-sm font-display font-medium"
                 />
               </div>
-              <Button type="submit" variant="hero" size="lg" className="h-12 px-6 font-display font-semibold shrink-0">
+              <Button type="submit" variant="hero" size="lg" className="group relative h-12 overflow-hidden px-6 font-display font-semibold shrink-0">
+                <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/25 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
                 Plan een demo
                 <ArrowRight className="h-4 w-4 ml-2" />
               </Button>
@@ -176,9 +194,15 @@ const ExactHero = () => {
             transition={{ duration: 0.8, delay: 0.1 }}
             className="lg:col-span-7 relative w-full select-none"
           >
-            <div className="relative mx-auto w-full max-w-xl rounded-2xl border border-primary/20 card-gradient p-4 sm:p-6 shadow-[0_0_80px_-20px_hsl(var(--primary)/0.35)] overflow-hidden">
+            <div
+              ref={panelRef}
+              className="relative mx-auto w-full max-w-xl rounded-2xl border border-primary/20 card-gradient p-4 sm:p-6 shadow-[0_0_80px_-20px_hsl(var(--primary)/0.35)] overflow-hidden"
+            >
               {/* Grid background */}
               <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(to_right,rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:40px_40px]" />
+              <Meteors number={10} />
+              <Spotlight />
+              <BorderBeam size={220} duration={9} />
 
               <div className="relative flex flex-col">
                 {/* Signals row */}
@@ -201,7 +225,8 @@ const ExactHero = () => {
                 <ConvergeConnector />
 
                 {/* Engine card */}
-                <div className="mx-auto flex flex-col items-center gap-2 rounded-xl border border-primary/40 bg-card/70 backdrop-blur-sm px-6 py-4 shadow-[0_0_40px_rgba(232,148,90,0.2)]">
+                <div className="relative mx-auto flex flex-col items-center gap-2 rounded-xl border border-primary/40 bg-card/70 backdrop-blur-sm px-6 py-4 shadow-[0_0_40px_rgba(232,148,90,0.2)] overflow-hidden">
+                  <BorderBeam size={90} duration={6} />
                   <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-primary/40 bg-primary/15">
                     <Zap className="h-5 w-5 text-primary" strokeWidth={1.8} />
                   </span>

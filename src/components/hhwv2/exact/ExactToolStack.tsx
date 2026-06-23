@@ -42,7 +42,7 @@ const ExactToolStack = () => (
           De groeistack
         </p>
         <h2 className="font-display font-bold text-3xl md:text-4xl lg:text-5xl tracking-tight mb-3">
-          Gebouwd met de <span className="font-serif italic text-gradient">beste tools</span>
+          Gebouwd met de <span className="font-serif italic text-gradient-animate">beste tools</span>
         </h2>
         <p className="text-muted-foreground text-base">
           Wij blijven vendor-neutraal. U houdt eigenaarschap over data en systemen.

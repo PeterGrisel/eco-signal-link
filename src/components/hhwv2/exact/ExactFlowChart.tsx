@@ -21,6 +21,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { groeistackSeed, faviconFor } from "@/data/groeistack";
+import { BorderBeam, Spotlight } from "@/components/hhwv2/ui/magic";
 
 /* ---------- tool lookup (real favicons) ---------- */
 const toolWebsite: Record<string, string> = Object.fromEntries(
@@ -248,6 +249,8 @@ const ExactFlowChart = () => {
       className="relative overflow-hidden rounded-2xl border border-primary/20 card-gradient p-5 md:p-7 shadow-[0_0_80px_-20px_hsl(var(--primary)/0.3)]"
     >
       <style>{`@keyframes fc-flow{0%{top:-6px;opacity:0}25%{opacity:1}100%{top:20px;opacity:0}}`}</style>
+      <Spotlight size={500} />
+      <BorderBeam size={280} duration={12} />
 
       {/* header */}
       <div className="flex items-center justify-between mb-6 px-1">

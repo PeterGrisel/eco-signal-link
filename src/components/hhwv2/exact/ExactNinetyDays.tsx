@@ -49,7 +49,7 @@ const ExactNinetyDays = () => (
     <div className="container mx-auto px-4 md:px-6">
       <div className="text-center max-w-2xl mx-auto mb-10 md:mb-14">
         <h2 className="font-display font-bold text-3xl md:text-4xl lg:text-5xl tracking-tight mb-3">
-          Wat gebeurt er in de <span className="font-serif italic text-gradient">eerste 90 dagen</span>
+          Wat gebeurt er in de <span className="font-serif italic text-gradient-animate">eerste 90 dagen</span>
         </h2>
         <p className="text-muted-foreground text-base">
           Een heldere route van fundament naar schaalbare omzetbeweging.

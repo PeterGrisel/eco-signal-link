@@ -1,7 +1,23 @@
 import { motion } from "framer-motion";
 import { ArrowUpRight, TrendingUp } from "lucide-react";
+import { BorderBeam, Spotlight, NumberTicker } from "@/components/hhwv2/ui/magic";
 
-const CASES = [
+type Metric = {
+  label: string;
+  value: number;
+  prefix?: string;
+  suffix?: string;
+  decimals?: number;
+  delta: string;
+};
+
+const CASES: {
+  badge: string;
+  title: string;
+  titleSub: string;
+  body: string;
+  metrics: Metric[];
+}[] = [
   {
     badge: "Cybersecurity",
     title: "+36 meetings",
@@ -9,9 +25,9 @@ const CASES = [
     body:
       "Voor een cybersecurity scale-up bouwden we een nieuwe outbound engine die binnen 3 weken resultaten opleverde.",
     metrics: [
-      { label: "Meetings booked", value: "36", delta: "+260%" },
-      { label: "Reply rate", value: "21%", delta: "+11pp" },
-      { label: "Pipeline created", value: "€1.4M", delta: "" },
+      { label: "Meetings booked", value: 36, delta: "+260%" },
+      { label: "Reply rate", value: 21, suffix: "%", delta: "+11pp" },
+      { label: "Pipeline created", value: 1.4, prefix: "€", suffix: "M", decimals: 1, delta: "" },
     ],
   },
   {
@@ -21,9 +37,9 @@ const CASES = [
     body:
       "Voor een B2B SaaS bedrijf optimaliseerden we signalen, content en outreach en bouwden we een voorspelbare pipeline machine.",
     metrics: [
-      { label: "Pipeline created", value: "€3.0M", delta: "+180%" },
-      { label: "SQLs", value: "74", delta: "+145%" },
-      { label: "Win rate", value: "28%", delta: "+8pp" },
+      { label: "Pipeline created", value: 3.0, prefix: "€", suffix: "M", decimals: 1, delta: "+180%" },
+      { label: "SQLs", value: 74, delta: "+145%" },
+      { label: "Win rate", value: 28, suffix: "%", delta: "+8pp" },
     ],
   },
 ];
@@ -36,7 +52,7 @@ const ExactCaseStudies = () => (
           Proof over promises
         </p>
         <h2 className="font-display font-bold text-3xl md:text-4xl lg:text-5xl tracking-tight">
-          Systemen die <span className="font-serif italic text-gradient">pipeline opleveren</span>
+          Systemen die <span className="font-serif italic text-gradient-animate">pipeline opleveren</span>
         </h2>
       </div>
       <div className="grid lg:grid-cols-2 gap-5 md:gap-6">
@@ -47,8 +63,10 @@ const ExactCaseStudies = () => (
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.55, delay: i * 0.08 }}
-            className="rounded-2xl border border-primary/20 card-gradient p-6 md:p-7"
+            className="relative overflow-hidden rounded-2xl border border-primary/20 card-gradient p-6 md:p-7"
           >
+            <Spotlight size={420} />
+            <BorderBeam size={220} duration={11} delay={i * 2} />
             <div className="grid md:grid-cols-2 gap-6 items-start">
               {/* Left */}
               <div>
@@ -74,7 +92,14 @@ const ExactCaseStudies = () => (
                   >
                     <div>
                       <p className="text-[11px] text-muted-foreground mb-0.5">{m.label}</p>
-                      <p className="font-display font-bold text-2xl text-foreground leading-none">{m.value}</p>
+                      <p className="font-display font-bold text-2xl text-foreground leading-none">
+                        <NumberTicker
+                          value={m.value}
+                          prefix={m.prefix}
+                          suffix={m.suffix}
+                          decimals={m.decimals ?? 0}
+                        />
+                      </p>
                     </div>
                     <div className="flex items-center gap-2">
                       {m.delta && (

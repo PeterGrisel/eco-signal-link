@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CTA } from "@/content/copy";
+import { BorderBeam, Spotlight, Meteors } from "@/components/hhwv2/ui/magic";
 
 const ExactFinalCta = () => {
   const [form, setForm] = useState({ name: "", email: "", company: "", size: "" });
@@ -21,15 +22,18 @@ const ExactFinalCta = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.6 }}
-          className="rounded-2xl border border-primary/25 card-gradient p-6 md:p-10 lg:p-12 shadow-[0_0_80px_-20px_hsl(var(--primary)/0.35)]"
+          className="relative overflow-hidden rounded-2xl border border-primary/25 card-gradient p-6 md:p-10 lg:p-12 shadow-[0_0_80px_-20px_hsl(var(--primary)/0.35)]"
         >
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+          <Meteors number={14} />
+          <Spotlight size={560} />
+          <BorderBeam size={320} duration={12} />
+          <div className="relative z-10 grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             <div>
               <p className="text-primary font-display font-semibold text-[11px] tracking-[0.22em] uppercase mb-3">
                 Klaar om te versnellen?
               </p>
               <h2 className="font-display font-bold text-3xl md:text-4xl lg:text-5xl tracking-tight leading-tight mb-4">
-                Klaar om jouw <span className="font-serif italic text-gradient">groeimachine</span> te starten?
+                Klaar om jouw <span className="font-serif italic text-gradient-animate">groeimachine</span> te starten?
               </h2>
               <p className="text-muted-foreground text-base leading-relaxed">
                 Plan een demo en ontdek hoe we jouw GTM kunnen versnellen naar voorspelbare groei.
@@ -57,7 +61,8 @@ const ExactFinalCta = () => {
                   </select>
                 </div>
               </div>
-              <Button type="submit" variant="hero" size="lg" className="w-full">
+              <Button type="submit" variant="hero" size="lg" className="group relative w-full overflow-hidden">
+                <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/25 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
                 Plan een demo
                 <ArrowRight className="ml-1 h-4 w-4" />
               </Button>
