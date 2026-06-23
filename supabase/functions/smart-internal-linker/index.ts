@@ -110,11 +110,14 @@ serve(async (req) => {
 
     const { data: targets, error: tErr } = await supabase
       .from("link_targets")
-      .select("keyword,target_url,priority")
+      .select("keyword,target_url,priority,pillar_slugs")
       .eq("active", true);
     if (tErr) throw tErr;
 
-    let q = supabase.from("blog_posts").select("id,slug,content").eq("status", "published");
+    let q = supabase
+      .from("blog_posts")
+      .select("id,slug,content,category_id,blog_categories(slug)")
+      .eq("status", "published");
     if (onlySlug) q = q.eq("slug", onlySlug);
     const { data: posts, error: pErr } = await q.limit(500);
     if (pErr) throw pErr;
@@ -122,7 +125,14 @@ serve(async (req) => {
     let updated = 0;
     let totalInserted = 0;
     for (const post of posts || []) {
-      const { content, inserted, suggestions } = injectLinks(post.content || "", targets || []);
+      const pillarSlug: string | null = (post as any).blog_categories?.slug ?? null;
+      // Scope: keep targets that are universal (empty pillar_slugs) or that include this post's pillar
+      const scoped = (targets || []).filter((t: any) => {
+        const ps: string[] = Array.isArray(t.pillar_slugs) ? t.pillar_slugs : [];
+        if (ps.length === 0) return true;
+        return pillarSlug ? ps.includes(pillarSlug) : false;
+      });
+      const { content, inserted, suggestions } = injectLinks(post.content || "", scoped);
       if (inserted > 0 && content !== post.content) {
         await supabase.from("blog_posts").update({ content }).eq("id", post.id);
         updated++;
