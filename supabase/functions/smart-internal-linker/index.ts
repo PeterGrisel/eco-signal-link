@@ -30,7 +30,7 @@ function escapeRegex(s: string) {
 
 function injectLinks(
   markdown: string,
-  targets: Array<{ keyword: string; target_url: string; priority: number }>
+  targets: Array<{ keyword: string; target_url: string; priority: number; pillar_slugs?: string[] }>
 ): { content: string; inserted: number; suggestions: Array<{ source_url: string; target_url: string; anchor_text: string; anchor_type: string }> } {
   // Split by code fences to skip code blocks
   const parts = markdown.split(/(```[\s\S]*?```)/g);
