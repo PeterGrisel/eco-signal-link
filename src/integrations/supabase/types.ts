@@ -1617,6 +1617,7 @@ export type Database = {
           created_at: string
           id: string
           keyword: string
+          pillar_slugs: string[]
           priority: number
           target_type: string
           target_url: string
@@ -1627,6 +1628,7 @@ export type Database = {
           created_at?: string
           id?: string
           keyword: string
+          pillar_slugs?: string[]
           priority?: number
           target_type?: string
           target_url: string
@@ -1637,6 +1639,7 @@ export type Database = {
           created_at?: string
           id?: string
           keyword?: string
+          pillar_slugs?: string[]
           priority?: number
           target_type?: string
           target_url?: string
