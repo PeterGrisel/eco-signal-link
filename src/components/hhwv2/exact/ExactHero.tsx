@@ -127,231 +127,228 @@ const ExactHero = () => {
             </div>
           </motion.div>
 
-          {/* Right Column - Interactive Visual Diagram */}
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.95 }} 
-            animate={{ opacity: 1, scale: 1 }} 
+          {/* Right Column - Revenue Engine Diagram (matches reference) */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.97 }}
+            animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.1 }}
-            className="lg:col-span-7 relative w-full h-[450px] md:h-[600px] flex items-center justify-center select-none overflow-hidden lg:overflow-visible"
+            className="lg:col-span-7 relative w-full select-none"
           >
-            <div className="relative w-[700px] h-[550px] scale-[0.55] xs:scale-[0.65] sm:scale-[0.8] lg:scale-100 origin-center shrink-0">
-              {/* SVG Interactive Flowing Connectors */}
-              <svg className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-visible" xmlns="http://www.w3.org/2000/svg">
+            <div className="relative w-full mx-auto" style={{ maxWidth: "680px", aspectRatio: "680 / 715" }}>
+              {/* Grid background */}
+              <div className="absolute inset-0 rounded-2xl bg-[linear-gradient(to_right,rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:48px_48px]" />
+
+              {/* SVG glowing neon connectors */}
+              <svg
+                className="absolute inset-0 w-full h-full pointer-events-none"
+                viewBox="0 0 680 715"
+                fill="none"
+                preserveAspectRatio="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
                 <defs>
-                  <linearGradient id="glowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="var(--primary)" stopOpacity="0.8" />
-                    <stop offset="100%" stopColor="var(--primary-glow)" stopOpacity="0.2" />
-                  </linearGradient>
-                  <filter id="shadowGlow" x="-20%" y="-20%" width="140%" height="140%">
-                    <feDropShadow dx="0" dy="4" stdDeviation="6" floodColor="var(--primary)" floodOpacity="0.15" />
+                  <filter id="neonGlow" x="-50%" y="-50%" width="200%" height="200%">
+                    <feGaussianBlur stdDeviation="3" result="b" />
+                    <feMerge>
+                      <feMergeNode in="b" />
+                      <feMergeNode in="SourceGraphic" />
+                    </feMerge>
                   </filter>
                 </defs>
-
-                {/* Curves connecting Signal Pills to Revenue Engine (Central Element) */}
-                {/* 1. Funding signals (Left-top) -> Engine */}
-                <path d="M 120 70 Q 200 120, 350 215" fill="none" stroke="url(#glowGrad)" strokeWidth="1.5" strokeDasharray="4 4" className="animate-[dash_10s_linear_infinite]" />
-                
-                {/* 2. Hiring signals (Center-left-top) -> Engine */}
-                <path d="M 210 70 Q 240 130, 350 215" fill="none" stroke="url(#glowGrad)" strokeWidth="1.5" strokeDasharray="4 4" className="animate-[dash_8s_linear_infinite]" />
-                
-                {/* 3. Website bezoeken (Center-top) -> Engine */}
-                <path d="M 305 70 Q 330 140, 350 215" fill="none" stroke="url(#glowGrad)" strokeWidth="1.5" strokeDasharray="4 4" className="animate-[dash_12s_linear_infinite]" />
-                
-                {/* 4. Concurrent research (Center-right-top) -> Engine */}
-                <path d="M 400 70 Q 370 140, 350 215" fill="none" stroke="url(#glowGrad)" strokeWidth="1.5" strokeDasharray="4 4" className="animate-[dash_7s_linear_infinite]" />
-                
-                {/* 5. Ad engagement (Right-top) -> Engine */}
-                <path d="M 495 70 Q 460 130, 350 215" fill="none" stroke="url(#glowGrad)" strokeWidth="1.5" strokeDasharray="4 4" className="animate-[dash_9s_linear_infinite]" />
-                
-                {/* 6. Tool stack (Far-right-top) -> Engine */}
-                <path d="M 580 70 Q 500 120, 350 215" fill="none" stroke="url(#glowGrad)" strokeWidth="1.5" strokeDasharray="4 4" className="animate-[dash_11s_linear_infinite]" />
-
-                {/* Connections from Engine */}
-                {/* Engine -> Operators (right) */}
-                <path d="M 405 240 Q 470 240, 500 290" fill="none" stroke="url(#glowGrad)" strokeWidth="2" strokeDasharray="4 4" />
-                
-                {/* Engine -> High-fit Account (down-left) */}
-                <path d="M 320 270 Q 280 290, 230 340" fill="none" stroke="url(#glowGrad)" strokeWidth="2.5" />
-                <circle cx="230" cy="340" r="4" fill="var(--primary)" />
+                {[
+                  "M 60 110 C 60 240, 220 280, 320 340",
+                  "M 180 110 C 180 240, 270 290, 325 340",
+                  "M 300 110 C 300 230, 320 290, 330 340",
+                  "M 380 110 C 380 230, 360 290, 340 340",
+                  "M 500 110 C 500 240, 410 290, 345 340",
+                  "M 620 110 C 620 240, 460 280, 350 340",
+                ].map((d, i) => (
+                  <path
+                    key={i}
+                    d={d}
+                    stroke="#E8945A"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    filter="url(#neonGlow)"
+                    opacity="0.9"
+                  />
+                ))}
+                <path
+                  d="M 195 520 V 580"
+                  stroke="#E8945A"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  filter="url(#neonGlow)"
+                />
+                <circle cx="195" cy="582" r="4" fill="#E8945A" filter="url(#neonGlow)" />
               </svg>
 
-              {/* --- Absolute positioned UI Cards --- */}
+              {/* Signal Logo Tiles at top */}
+              {[
+                { label: "FUNDING", letters: "cb", color: "#1d6df0", bg: "#fff" },
+                { label: "HIRING", letters: "in", color: "#fff", bg: "#0a66c2" },
+                { label: "WEB VISIT", letters: "▦", color: "#3b82f6", bg: "#fff" },
+                { label: "COMPETITOR", letters: "G2", color: "#ff492c", bg: "#fff" },
+                { label: "ADS", letters: "∞", color: "#0668e1", bg: "#fff" },
+                { label: "TOOL STACK", letters: "bw", color: "#2d9d3f", bg: "#fff" },
+              ].map((item, i) => {
+                const positions = ["6%", "22.5%", "39%", "55.5%", "72%", "88.5%"];
+                return (
+                  <div
+                    key={item.label}
+                    className="absolute flex flex-col items-center gap-2"
+                    style={{ top: "2%", left: positions[i], transform: "translateX(-50%)" }}
+                  >
+                    <span className="text-[9px] md:text-[10px] font-display font-bold text-primary uppercase tracking-[0.18em] whitespace-nowrap">
+                      {item.label}
+                    </span>
+                    <div
+                      className="w-10 h-10 md:w-11 md:h-11 rounded-lg flex items-center justify-center font-display font-bold text-base shadow-lg shadow-black/40"
+                      style={{ background: item.bg, color: item.color }}
+                    >
+                      {item.letters}
+                    </div>
+                  </div>
+                );
+              })}
 
-              {/* 1. Signal Cards at the top */}
-              <div className="absolute top-4 left-[2%] md:left-[5%] flex flex-col items-center gap-1">
-                <span className="text-[10px] text-muted-foreground/80 font-display font-semibold text-center leading-none">Funding<br/>signals</span>
-                <div className="w-10 h-10 rounded-lg bg-card/80 border border-primary/15 flex items-center justify-center text-primary shadow-lg shadow-black/40 hover:scale-105 transition-transform">
-                  <TrendingUp className="h-5 w-5" />
-                </div>
-              </div>
-
-              <div className="absolute top-4 left-[18%] md:left-[21%] flex flex-col items-center gap-1">
-                <span className="text-[10px] text-muted-foreground/80 font-display font-semibold text-center leading-none">Hiring<br/>signals</span>
-                <div className="w-10 h-10 rounded-lg bg-card/80 border border-primary/15 flex items-center justify-center text-primary shadow-lg shadow-black/40 hover:scale-105 transition-transform">
-                  <Users className="h-5 w-5" />
-                </div>
-              </div>
-
-              <div className="absolute top-4 left-[34%] md:left-[36%] flex flex-col items-center gap-1">
-                <span className="text-[10px] text-muted-foreground/80 font-display font-semibold text-center leading-none">Website<br/>bezoeken</span>
-                <div className="w-10 h-10 rounded-lg bg-card/80 border border-primary/15 flex items-center justify-center text-primary shadow-lg shadow-black/40 hover:scale-105 transition-transform">
-                  <Globe className="h-5 w-5" />
-                </div>
-              </div>
-
-              <div className="absolute top-4 left-[50%] md:left-[51%] flex flex-col items-center gap-1">
-                <span className="text-[10px] text-muted-foreground/80 font-display font-semibold text-center leading-none">Concurrent<br/>research</span>
-                <div className="w-10 h-10 rounded-lg bg-card/80 border border-primary/15 flex items-center justify-center text-primary shadow-lg shadow-black/40 hover:scale-105 transition-transform">
-                  <Search className="h-5 w-5" />
-                </div>
-              </div>
-
-              <div className="absolute top-4 left-[66%] md:left-[67%] flex flex-col items-center gap-1">
-                <span className="text-[10px] text-muted-foreground/80 font-display font-semibold text-center leading-none">Ad<br/>engagement</span>
-                <div className="w-10 h-10 rounded-lg bg-card/80 border border-primary/15 flex items-center justify-center text-primary shadow-lg shadow-black/40 hover:scale-105 transition-transform">
-                  <MousePointerClick className="h-5 w-5" />
-                </div>
-              </div>
-
-              <div className="absolute top-4 left-[81%] md:left-[82%] flex flex-col items-center gap-1">
-                <span className="text-[10px] text-muted-foreground/80 font-display font-semibold text-center leading-none">Tool<br/>stack</span>
-                <div className="w-10 h-10 rounded-lg bg-card/80 border border-primary/15 flex items-center justify-center text-primary shadow-lg shadow-black/40 hover:scale-105 transition-transform">
-                  <Layers className="h-5 w-5" />
-                </div>
-              </div>
-
-              {/* 2. REVENUE ENGINE (Central Node) */}
-              <motion.div 
+              {/* Revenue Engine central card */}
+              <motion.div
                 whileHover={{ scale: 1.02 }}
-                className="absolute top-[205px] left-1/2 -translate-x-1/2 w-48 py-4 px-6 rounded-xl border border-primary bg-card shadow-[0_0_30px_rgba(232,148,90,0.15)] flex flex-col items-center gap-2 z-10"
+                className="absolute flex flex-col items-center justify-center gap-3 rounded-xl border border-primary/40 bg-card/40 backdrop-blur-sm shadow-[0_0_40px_rgba(232,148,90,0.18)]"
+                style={{ left: "13%", top: "47%", width: "26%", aspectRatio: "1 / 1" }}
               >
-                {/* Mini Custom logo for engine */}
-                <div className="flex items-end gap-1 h-7">
-                  <span className="w-1 h-3 rounded-full bg-primary/40" />
-                  <span className="w-1 h-5 rounded-full bg-primary/60" />
-                  <span className="w-1 h-6 rounded-full bg-primary" />
-                  <span className="w-1 h-4 rounded-full bg-primary/80" />
-                  <span className="w-1 h-2 rounded-full bg-primary/30" />
+                <div className="grid grid-cols-3 gap-1">
+                  <span className="w-3 h-3 md:w-3.5 md:h-3.5" />
+                  <span className="w-3 h-3 md:w-3.5 md:h-3.5 bg-primary rounded-sm" />
+                  <span className="w-3 h-3 md:w-3.5 md:h-3.5" />
+                  <span className="w-3 h-3 md:w-3.5 md:h-3.5 bg-primary rounded-sm" />
+                  <span className="w-3 h-3 md:w-3.5 md:h-3.5 bg-primary rounded-sm" />
+                  <span className="w-3 h-3 md:w-3.5 md:h-3.5 bg-primary rounded-sm" />
+                  <span className="w-3 h-3 md:w-3.5 md:h-3.5" />
+                  <span className="w-3 h-3 md:w-3.5 md:h-3.5 bg-primary rounded-sm" />
+                  <span className="w-3 h-3 md:w-3.5 md:h-3.5" />
                 </div>
-                <span className="text-[11px] font-display font-extrabold uppercase tracking-[0.18em] text-foreground text-center">
+                <span className="text-[9px] md:text-[10px] font-display font-semibold uppercase tracking-[0.22em] text-primary">
                   Revenue Engine
                 </span>
               </motion.div>
 
-              {/* 3. Operators & Logic (Right Side Element) */}
-              <motion.div 
-                initial={{ opacity: 0, x: 20 }}
+              {/* Frontal Operators card */}
+              <motion.div
+                initial={{ opacity: 0, x: 16 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.3 }}
-                className="absolute top-[270px] right-0 w-52 p-4 rounded-xl border border-primary/10 bg-card/95 backdrop-blur shadow-2xl shadow-black/50 z-20"
+                transition={{ delay: 0.35 }}
+                className="absolute p-4 md:p-5 rounded-xl border border-primary/30 bg-card/40 backdrop-blur-sm shadow-[0_0_40px_rgba(232,148,90,0.12)]"
+                style={{ left: "44%", top: "47%", width: "52%" }}
               >
-                <div className="flex items-center justify-between mb-1.5">
-                  <span className="text-xs font-display font-bold text-foreground">Operators & Logic</span>
-                  <span className="text-[9px] text-primary bg-primary/10 px-1.5 py-0.5 rounded font-medium">Human judgment</span>
-                </div>
-                
-                {/* Avatars Pile */}
-                <div className="flex items-center -space-x-2 my-2.5">
+                <h4 className="font-display font-bold text-foreground text-sm md:text-base mb-1">
+                  Frontal operators
+                </h4>
+                <p className="text-[10px] font-display font-bold text-primary uppercase tracking-[0.18em] mb-3">
+                  Human judgment
+                </p>
+                <div className="flex items-center -space-x-2 mb-3">
                   {operators.map((src, i) => (
-                    <img 
-                      key={i} 
-                      src={src} 
-                      alt="operator" 
-                      className="w-6 h-6 rounded-full object-cover border-2 border-card ring-1 ring-primary/20" 
+                    <img
+                      key={i}
+                      src={src}
+                      alt="operator"
+                      className="w-8 h-8 md:w-9 md:h-9 rounded-full object-cover border-2 border-background ring-1 ring-primary/30"
                     />
                   ))}
                 </div>
-
-                <p className="text-[9px] text-muted-foreground leading-snug">
-                  We bouwen de logica die ertoe doet, en operators die het verschil maken.
+                <p className="text-xs text-muted-foreground leading-snug">
+                  Build the system, set the logic for what matters, and run the plays{" "}
+                  <span className="text-primary">for you.</span>
                 </p>
               </motion.div>
 
-              {/* 4. High-fit Account (Detailed Bottom Card) */}
-              <motion.div 
-                initial={{ opacity: 0, y: 30 }}
+              {/* High-fit account card */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
-                whileHover={{ y: -2 }}
-                className="absolute bottom-0 left-0 w-[360px] p-4 rounded-xl border border-primary/15 bg-card/95 shadow-2xl shadow-black/60 z-10"
+                transition={{ delay: 0.45 }}
+                className="absolute p-4 md:p-5 rounded-xl border border-primary/25 bg-card/40 backdrop-blur-sm shadow-[0_0_40px_rgba(232,148,90,0.1)]"
+                style={{ left: "5%", bottom: 0, width: "90%" }}
               >
-                {/* Header */}
-                <div className="flex items-center justify-between mb-3 pb-3 border-b border-primary/10">
+                <div className="flex items-start justify-between mb-4">
                   <div>
-                    <h4 className="text-xs font-display font-bold text-foreground">High-fit account</h4>
-                    <p className="text-[9px] text-muted-foreground uppercase tracking-wider font-semibold">Serie B · 240 employees</p>
+                    <h4 className="font-display font-bold text-foreground text-base md:text-lg mb-0.5">
+                      High-fit account
+                    </h4>
+                    <p className="text-[10px] font-display font-bold text-muted-foreground uppercase tracking-[0.18em]">
+                      Series B · 240 employees
+                    </p>
                   </div>
                   <div className="text-right">
-                    <div className="text-primary font-display font-black text-2xl leading-none">94</div>
-                    <span className="text-[8px] text-muted-foreground uppercase tracking-wider font-bold">Fit Score</span>
-                  </div>
-                </div>
-
-                {/* Signals checklist */}
-                <div className="space-y-2 mb-4">
-                  <div className="flex items-center justify-between text-[11px]">
-                    <div className="flex items-center gap-2 text-foreground/90">
-                      <TrendingUp className="h-3 w-3 text-primary" />
-                      <span>Series B funding afgerond</span>
-                    </div>
-                    <CheckCircle2 className="h-3.5 w-3.5 text-primary" />
-                  </div>
-
-                  <div className="flex items-center justify-between text-[11px]">
-                    <div className="flex items-center gap-2 text-foreground/90">
-                      <Users className="h-3 w-3 text-primary" />
-                      <span>6 nieuwe sales hires</span>
-                    </div>
-                    <CheckCircle2 className="h-3.5 w-3.5 text-primary" />
-                  </div>
-
-                  <div className="flex items-center justify-between text-[11px]">
-                    <div className="flex items-center gap-2 text-foreground/90">
-                      <Globe className="h-3 w-3 text-primary" />
-                      <span>3x website pricing bezoeken</span>
-                    </div>
-                    <CheckCircle2 className="h-3.5 w-3.5 text-primary" />
-                  </div>
-
-                  <div className="flex items-center justify-between text-[11px]">
-                    <div className="flex items-center gap-2 text-foreground/90">
-                      <MousePointerClick className="h-3 w-3 text-primary" />
-                      <span>Sterke engagement met ads</span>
-                    </div>
-                    <CheckCircle2 className="h-3.5 w-3.5 text-primary" />
-                  </div>
-                </div>
-
-                {/* Next Action Trigger */}
-                <div className="mb-4">
-                  <span className="text-[8px] text-muted-foreground uppercase tracking-wider font-bold block mb-1">Next Action</span>
-                  <button 
-                    onClick={openBookingModal}
-                    className="w-full flex items-center justify-between px-3 py-2 rounded-lg bg-primary/5 hover:bg-primary/10 border border-primary/10 transition-colors text-left"
-                  >
-                    <div className="flex items-center gap-2">
-                      <PhoneCall className="h-3.5 w-3.5 text-primary" />
-                      <span className="text-[11px] font-display font-semibold text-foreground">Bel vandaag</span>
-                    </div>
-                    <ArrowRight className="h-3.5 w-3.5 text-primary" />
-                  </button>
-                </div>
-
-                {/* Tool Stack at bottom */}
-                <div className="flex items-center justify-between pt-2 border-t border-primary/10">
-                  <span className="text-[8px] text-muted-foreground uppercase tracking-wider font-bold">In jouw stack</span>
-                  <div className="flex items-center gap-1.5">
-                    <span className="w-5 h-5 rounded bg-blue-600/10 border border-blue-600/20 text-blue-400 text-[9px] flex items-center justify-center font-bold">sf</span>
-                    <span className="w-5 h-5 rounded bg-orange-600/10 border border-orange-600/20 text-orange-400 text-[9px] flex items-center justify-center font-bold">hs</span>
-                    <span className="w-5 h-5 rounded bg-green-600/10 border border-green-600/20 text-green-400 text-[9px] flex items-center justify-center font-bold">sl</span>
-                    <span className="w-5 h-5 rounded bg-purple-600/10 border border-purple-600/20 text-purple-400 text-[9px] flex items-center justify-center font-bold">as</span>
-                    <span className="w-5 h-5 rounded border border-dashed border-primary/30 text-primary flex items-center justify-center hover:bg-primary/10 transition-colors cursor-pointer">
-                      <Plus className="h-3 w-3" />
+                    <div className="text-primary font-display font-black text-3xl md:text-4xl leading-none">94</div>
+                    <span className="text-[10px] font-display font-bold text-primary uppercase tracking-[0.18em]">
+                      Fit
                     </span>
                   </div>
                 </div>
-              </motion.div>
 
+                <div className="space-y-2 mb-4">
+                  {[
+                    { letters: "cb", color: "#1d6df0", bg: "#fff", text: "Series B funding closed" },
+                    { letters: "in", color: "#fff", bg: "#0a66c2", text: "Hiring 6 sales reps" },
+                    { letters: "▦", color: "#3b82f6", bg: "#fff", text: "Visited pricing 3 times" },
+                  ].map((row) => (
+                    <div
+                      key={row.text}
+                      className="flex items-center justify-between gap-3 px-3 py-2 rounded-lg bg-background/40 border border-primary/10"
+                    >
+                      <div className="flex items-center gap-3">
+                        <div
+                          className="w-7 h-7 rounded-md flex items-center justify-center font-display font-bold text-[11px] shrink-0"
+                          style={{ background: row.bg, color: row.color }}
+                        >
+                          {row.letters}
+                        </div>
+                        <span className="text-xs md:text-sm text-foreground/90 font-display font-medium">
+                          {row.text}
+                        </span>
+                      </div>
+                      <CheckCircle2 className="h-4 w-4 text-primary shrink-0" />
+                    </div>
+                  ))}
+                </div>
+
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-[10px] font-display font-bold text-muted-foreground uppercase tracking-[0.18em]">
+                    Next action
+                  </span>
+                  <button
+                    onClick={openBookingModal}
+                    className="px-4 py-1.5 rounded-md border border-primary/50 text-primary font-display font-semibold text-xs hover:bg-primary/10 transition-colors"
+                  >
+                    Call today
+                  </button>
+                </div>
+
+                <div className="flex items-center justify-between pt-3 border-t border-primary/10">
+                  <span className="text-[10px] font-display font-bold text-muted-foreground uppercase tracking-[0.18em]">
+                    In your stack
+                  </span>
+                  <div className="flex items-center gap-1.5">
+                    {[
+                      { l: "sf", c: "#00a1e0" },
+                      { l: "hs", c: "#ff7a59" },
+                      { l: "ap", c: "#000" },
+                      { l: "sl", c: "#611f69" },
+                    ].map((t) => (
+                      <div
+                        key={t.l}
+                        className="w-7 h-7 rounded-md bg-white flex items-center justify-center font-display font-bold text-[10px]"
+                        style={{ color: t.c }}
+                      >
+                        {t.l}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
             </div>
           </motion.div>
 
