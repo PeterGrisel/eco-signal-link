@@ -68,8 +68,7 @@ const ExactHero = () => {
 
             {/* Subtitle */}
             <p className="text-muted-foreground text-base md:text-lg leading-relaxed mb-8 max-w-xl">
-              B2B Groeimachine bouwt de revenue machine achter sales, marketing en RevOps. 
-              Breng signalen, content en outreach samen tot meetings, pipeline en schaalbare groei.
+              {"\n"}
             </p>
 
             {/* Email + CTA Form */}
