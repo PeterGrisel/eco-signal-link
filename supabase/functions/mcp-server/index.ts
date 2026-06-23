@@ -584,6 +584,30 @@ mcp.tool("get_blog_visual_result", {
           if (a.content) artifacts.push({ type: a.type, url: a.content });
         }
       }
+
+      // Mirror image artifacts to the blog-images bucket so the blog can use a self-hosted URL.
+      const mirrored: { lovart_url: string; storage_url: string }[] = [];
+      for (const a of artifacts) {
+        if (a.type !== "image") continue;
+        try {
+          const r = await fetch(a.url);
+          if (!r.ok) continue;
+          const buf = new Uint8Array(await r.arrayBuffer());
+          const ext = (a.url.split("?")[0].split(".").pop() || "png").toLowerCase();
+          const safeExt = ["png", "jpg", "jpeg", "webp"].includes(ext) ? ext : "png";
+          const contentType = safeExt === "jpg" ? "image/jpeg" : `image/${safeExt}`;
+          const fileName = `lovart-${thread_id}-${Date.now()}.${safeExt}`;
+          const { error: upErr } = await supabaseAdmin.storage
+            .from("blog-images")
+            .upload(fileName, buf, { contentType, upsert: false });
+          if (upErr) continue;
+          const { data: pub } = supabaseAdmin.storage.from("blog-images").getPublicUrl(fileName);
+          mirrored.push({ lovart_url: a.url, storage_url: pub.publicUrl });
+        } catch {
+          // skip on failure; lovart_url stays available in artifacts
+        }
+      }
+
       return {
         content: [
           {
@@ -593,6 +617,11 @@ mcp.tool("get_blog_visual_result", {
                 thread_id,
                 status: "done",
                 artifacts,
+                mirrored,
+                featured_image: mirrored[0]?.storage_url ?? null,
+                next: mirrored[0]
+                  ? `Use update_blog_post with featured_image="${mirrored[0].storage_url}" to set this on a post.`
+                  : "No image artifacts to mirror.",
                 canvas_url: `https://www.lovart.ai/canvas?projectId=${LOVART_PROJECT_ID}`,
               },
               null,
