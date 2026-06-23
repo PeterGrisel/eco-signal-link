@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { trackCTA } from "@/lib/tracking";
 import { Wrench, Building2, Zap, Magnet, Crosshair, MessageSquare, RefreshCw, TrendingUp, Database, Radio, Clock, Gem, PenLine, UserCheck, Share2, IterationCw, Flag } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import { usePageMeta } from "@/hooks/usePageMeta";
 
 const phaseIconMap: Record<string, LucideIcon> = {
   Magnet, Crosshair, MessageSquare, RefreshCw, TrendingUp,
@@ -19,6 +20,12 @@ const varIconMap: Record<string, LucideIcon> = {
 };
 
 const PipelineEquation = () => {
+  usePageMeta({
+    title: "Pipeline Equation™ — De 10 factoren van je B2B pipeline | B2BGroeiMachine",
+    description:
+      "Je pipeline hangt af van 10 factoren. Ontdek welke schakel het zwakst is en bereken je score met onze gratis Pipeline Equation calculator.",
+    canonical: "https://www.b2bgroeimachine.io/pipeline-equation",
+  });
   return (
     <PageLoader>
       <div className="min-h-screen">

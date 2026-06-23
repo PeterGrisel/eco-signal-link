@@ -5,8 +5,15 @@ import PageLoader from "@/components/PageLoader";
 import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 import PipelineValueCalculator from "@/components/pipeline/PipelineValueCalculator";
 import GroeistackLeadCapture from "@/components/GroeistackLeadCapture";
+import { usePageMeta } from "@/hooks/usePageMeta";
 
 const PipelineValuePage = () => {
+  usePageMeta({
+    title: "Pipeline Value Calculator — Bereken je pipelinewaarde | B2BGroeiMachine",
+    description:
+      "Bereken je B2B pipelinewaarde per cyclus. Van adresseerbare markt naar meetings, deals en dealwaarde — met heldere aannames per stap.",
+    canonical: "https://www.b2bgroeimachine.io/tools/pipeline-value",
+  });
   return (
     <PageLoader>
       <div className="min-h-screen">
