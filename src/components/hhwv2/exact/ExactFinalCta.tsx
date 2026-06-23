@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CTA } from "@/content/copy";
-import { BorderBeam, Spotlight, Meteors } from "@/components/hhwv2/ui/magic";
+import { Spotlight, Meteors } from "@/components/hhwv2/ui/magic";
 
 const ExactFinalCta = () => {
   const [form, setForm] = useState({ name: "", email: "", company: "", size: "" });
@@ -26,7 +26,6 @@ const ExactFinalCta = () => {
         >
           <Meteors number={14} />
           <Spotlight size={560} />
-          <BorderBeam size={320} duration={12} />
           <div className="relative z-10 grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             <div>
               <p className="text-primary font-display font-semibold text-[11px] tracking-[0.22em] uppercase mb-3">

@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { BorderBeam, Spotlight } from "@/components/hhwv2/ui/magic";
+import { Spotlight } from "@/components/hhwv2/ui/magic";
 import {
   Globe,
   Database,
@@ -149,7 +149,6 @@ const ExactRevenueEngine = () => (
           className="relative z-10 overflow-hidden rounded-2xl border border-primary/30 card-gradient p-6 md:p-7 shadow-[0_0_80px_-20px_hsl(var(--primary)/0.4)]"
         >
           <Spotlight size={360} />
-          <BorderBeam size={160} duration={8} />
           <div className="text-center mb-6">
             <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl border border-primary/40 bg-primary/15 mb-3">
               <Zap className="h-6 w-6 text-primary" strokeWidth={1.8} />
