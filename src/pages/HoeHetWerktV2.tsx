@@ -11,6 +11,7 @@ import ExactThreeWays from "@/components/hhwv2/exact/ExactThreeWays";
 import ExactRevenueEngine from "@/components/hhwv2/exact/ExactRevenueEngine";
 import ExactToolStack from "@/components/hhwv2/exact/ExactToolStack";
 import ExactCaseStudies from "@/components/hhwv2/exact/ExactCaseStudies";
+import ExactProofCases from "@/components/hhwv2/exact/ExactProofCases";
 import ExactNinetyDays from "@/components/hhwv2/exact/ExactNinetyDays";
 import ExactTestimonials from "@/components/hhwv2/exact/ExactTestimonials";
 import ExactFinalCta from "@/components/hhwv2/exact/ExactFinalCta";
@@ -54,6 +55,7 @@ const HoeHetWerktV2 = () => {
           <ExactRevenueEngine />
           <ExactToolStack />
           <ExactCaseStudies />
+          <ExactProofCases />
           <ExactNinetyDays />
           <ExactTestimonials />
           <ExactFinalCta />
