@@ -30,12 +30,16 @@ const ExactLogoWall = () => {
   const [clients, setClients] = useState<{ name: string; src: string }[]>([]);
 
   useEffect(() => {
-    supabase
-      .from("client_logos")
-      .select("id, name, domain, logo_url, scale, padding, website")
-      .eq("is_visible", true)
-      .order("sort_order")
-      .then(({ data }) => {
+    const fetchClients = async () => {
+      try {
+        const { data, error } = await supabase
+          .from("client_logos")
+          .select("id, name, domain, logo_url, scale, padding, website")
+          .eq("is_visible", true)
+          .order("sort_order");
+        
+        if (error) throw error;
+
         if (data && data.length > 0) {
           const formatted = data.map((c) => {
             const src = c.logo_url || faviconFor(c.website || c.domain);
@@ -48,10 +52,13 @@ const ExactLogoWall = () => {
         } else {
           setClients(STATIC_CLIENTS);
         }
-      })
-      .catch(() => {
+      } catch (err) {
+        console.error("Error fetching client logos:", err);
         setClients(STATIC_CLIENTS);
-      });
+      }
+    };
+
+    fetchClients();
   }, []);
 
   const displayClients = clients.length > 0 ? clients : STATIC_CLIENTS;
@@ -79,7 +86,6 @@ const ExactLogoWall = () => {
                   className="h-full w-auto object-contain opacity-70 hover:opacity-100 transition-opacity"
                   style={{ filter: "grayscale(100%) brightness(1.6) contrast(0.9)" }}
                   onError={(e) => {
-                    // Hide or handle load error gracefully
                     (e.target as HTMLElement).style.display = "none";
                   }}
                 />
