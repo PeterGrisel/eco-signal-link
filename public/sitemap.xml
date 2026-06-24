@@ -211,6 +211,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://www.b2bgroeimachine.io/blog/signaalgebaseerde-targeting-aankoopintentie</loc>
+    <lastmod>2026-06-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.b2bgroeimachine.io/blog/talent-acquisitie-automatisering-mkb</loc>
     <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
@@ -427,6 +433,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.b2bgroeimachine.io/playbooks/abm-b2b-saas-scale-ups</loc>
+    <lastmod>2026-06-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.b2bgroeimachine.io/playbooks/playbook-multichannel-sequencing</loc>
     <lastmod>2026-06-17</lastmod>
     <changefreq>weekly</changefreq>
@@ -509,6 +521,12 @@
     <lastmod>2026-05-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.b2bgroeimachine.io/woordenboek/hyperpersonalisatie-engine</loc>
+    <lastmod>2026-06-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://www.b2bgroeimachine.io/woordenboek/revenue-engine-optimalisatie</loc>
@@ -971,11 +989,5 @@
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://www.b2bgroeimachine.io/give-aways</loc>
-    <lastmod>2026-06-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
   </url>
 </urlset>
