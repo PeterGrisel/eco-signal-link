@@ -359,7 +359,7 @@ function MobileMenu({ open, children }: { open: boolean; children: React.ReactNo
   return createPortal(
     <div
       id="mobile-menu"
-      className="fixed inset-0 z-[60] md:hidden bg-background/95 backdrop-blur-xl animate-in fade-in duration-200"
+      className="fixed inset-0 z-[10000] md:hidden bg-background/95 backdrop-blur-xl animate-in fade-in duration-200"
     >
       {children}
     </div>,
