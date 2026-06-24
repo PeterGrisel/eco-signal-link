@@ -58,6 +58,13 @@ const GiveAwayDetail = () => {
     return () => { document.body.classList.remove("gw-printing"); };
   }, [unlocked]);
 
+  // If arriving with a token, confirm the lead in the background
+  useEffect(() => {
+    const token = params.get("t");
+    if (!token) return;
+    supabase.functions.invoke("content-bucket-confirm", { body: { token } }).catch(() => {});
+  }, [params]);
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!item) return;
