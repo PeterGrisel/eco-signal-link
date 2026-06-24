@@ -1,100 +1,67 @@
-# Plan: ColdIQ-stijl upgrade voor `/hoe-het-werkt-v2`
 
-We nemen 4 lay-outpatronen van coldiq.com over, blijven 100% donker (bg `#0B0B0E`, accent `#E8945A`), en gebruiken 21st.dev als componentbron. Geen vendor-logo's van tools (brandregel).
+# Content Bucket Engine
 
-## Wat erbij komt (volgorde op pagina)
+Eén systeem dat verschillende soorten "content-buckets" beheert. Elke bucket = een type asset met eigen layout(s), generator-prompt en publicatieflow. We starten met de bucket **Give-Aways** (24 templates uit de bundle) en bouwen de architectuur direct zo dat een tweede bucket (bijv. **LinkedIn-posts**) later alleen een nieuwe rij in `content_buckets` + een renderer-component nodig heeft.
+
+## Wat de gebruiker krijgt
+
+**Publiek**
+- `/give-aways` — overzicht van alle 24 templates met cover-cards (week-slot + type-label).
+- `/give-aways/:slug` — detailpagina met preview en e-mailgate. Na double opt-in: PDF/print + welkomstmail.
+- Werkt in dezelfde dark editorial stijl als de prototype (Space Grotesk, Inter, JetBrains Mono, accent #E8945A, bg #121212, A4-vriendelijk via `@media print`).
+
+**Admin (`/admin/content-buckets`)**
+- Lijst van buckets (Give-Aways, later LinkedIn, etc.) met counters.
+- Per bucket: tabel met alle items, status (draft/published), inline edit, "Genereer met AI" knop.
+- AI-generator (Lovable AI / Gemini 2.5 Flash) die op basis van bucket-type een nieuw item maakt in het juiste schema. Per bucket-type een eigen system prompt.
+- Lead-overzicht per bucket: wie heeft welk item opgevraagd, opt-in status.
+
+## Architectuur
 
 ```text
-1. HeroFlow             ← REBUILD (editorial)
-2. VideoCaptureSection  ← NIEUW
-3. LogoWallCases        ← NIEUW (vervangt niets)
-4. TwoPathsSection
-5. ProblemSection
-6. EngineFlow
-7. ServiceStackSection  ← NIEUW (Agency / Tools / Education-achtig)
-8. NinetyDayBuild
-9. PlaysSection
-10. ExecutionLayer
-11. ComparisonTable
-12. ProofSection
-13. FaqSection
-14. Finale CTA
+content_buckets        (Give-Aways, LinkedIn-posts, …)
+   │
+   └── content_bucket_items   (24 templates, JSON payload per layout)
+            │
+            └── content_bucket_leads   (e-mailgate + double opt-in)
 ```
 
-## 1. HeroFlow — editorial herwerking
+**Layouts (Give-Aways)** — 6 renderers, 1-op-1 uit de prototype:
+`scorecard`, `canvas` (columns/grid/matrix), `worksheet`, `checklist`, `framework` (flow/funnel), `playbook`. Layout-keuze in `item.payload.type`, zodat een nieuwe bucket eigen layouts kan toevoegen zonder de bestaande te raken.
 
-- **Pill bovenaan** (ColdIQ-style): `Voor B2B-bedrijven met PMF en ≥ €100K MRR` met kleine `›` chevron. Animated border-glow (21st.dev `animated-pill` / `announcement-badge`).
-- **Headline**: serif accent in oranje + sans rest:
-  - Lijn 1: `Het B2B-groeisysteem van` (Space Grotesk)
-  - Lijn 2: *Morgen, vandaag gebouwd.* (serif italic, Fraunces 600, in oranje gradient)
-- **Sub**: `Wij bouwen B2B-revenue-engines die voor je verkopen.` (B1, max 12 woorden).
-- **Bestaande signal-flow SVG (GSAP)** blijft eronder, smaller en lager, als achtergrond-canvas met lagere opacity zodat de typografie de show steelt.
-- **Geen serif body** — alleen voor de italic accent-regel. Sans blijft Inter/Space Grotesk.
+**E-mailgate flow**
+1. Bezoeker vult e-mail in op `/give-aways/:slug`.
+2. Edge function `content-bucket-request` slaat lead op (status `pending`) en zet bevestigingsmail in de bestaande email-queue (`auth-email-hook` patroon, maar als transactional).
+3. Bezoeker klikt link → `content-bucket-confirm` zet status op `confirmed`, redirect naar download-/printpagina.
+4. Welkomstmail met PDF-link gaat via dezelfde queue.
 
-## 2. VideoCaptureSection (NIEUW)
+We gebruiken jouw bestaande `email_send_log` + `enqueue_email` infrastructuur. Suppression check is automatisch.
 
-- 16:9 video-frame met poster (`/src/assets/hero-poster.jpg` hergebruiken) + custom play-button. **Geen echte video src** vereist; placeholder met click → opent bestaande `GlobalBookingModal`.
-- Onder de player: split CTA-bar `[ je werk-email ]  [ Gratis groeiscan ]`. Email-veld submit → routeert naar `CtaLink intent="gratisScan"` met `?email=` prefill (gebruikt bestaande copy uit `src/content/copy.ts`).
-- Donkere card met `border-glow` + zachte oranje halo (zoals huidige EngineFlow card).
+**AI-generator** — edge function `generate-bucket-item`:
+- Input: `bucket_id`, optioneel `topic` / `layout`.
+- Laadt bucket-config (system prompt + JSON schema).
+- Roept Lovable AI met tool-call zodat output exact het schema volgt.
+- Slaat op als `draft` zodat je het in admin nog kunt redigeren.
 
-## 3. LogoWallCases (NIEUW)
+## Bouwvolgorde
 
-- Strikt **geen tool-logo's of partner-logo's** (brandregel). In plaats daarvan:
-  - **Marquee bovenaan** met **sector-labels** in nette outline-pills (Industrie, SaaS, Bouw, Logistiek, Zakelijke dienstverlening, Tech, Maakindustrie). Auto-scroll, 21st.dev `infinite-slider`.
-  - **2 inline case-cards** met case-study teaser uit `src/data/caseStudies.ts` (Hego, Stelz, SealEco, Shots, Klingele24). Card-style identiek aan ColdIQ tegels: groot beeld, eyebrow `Case study`, titel, 2-regel pitch, oranje pijl-CTA.
-
-## 4. ServiceStackSection (NIEUW)
-
-- 3-koloms bento met onze échte 3 pijlers (geen "Agency/Tools/Education" 1-op-1):
-  - **Done-for-you** — wij draaien de engine (OpEx).
-  - **Build & transfer** — wij bouwen, jullie nemen over (CapEx).
-  - **Toolkit & playbooks** — frameworks, cheatsheets, Signaal (self-serve).
-- 21st.dev `bento-grid` (asymmetric: 1 groot links, 2 kleiner rechts). Elk blok krijgt mini-icon, 1-zin pitch, en `Bekijk →` link naar bestaande pagina's (`/`, `/playbooks`, `/signaal`).
+1. **Migratie**: `content_buckets`, `content_bucket_items`, `content_bucket_leads` met RLS + GRANTs. Seed `give-aways` bucket en de 24 templates uit `Giveaway Engine.dc.html`.
+2. **Renderers**: `src/components/buckets/giveaway/` met 6 layout-components, exact dark editorial styling + `@media print` voor PDF.
+3. **Publieke pagina's**: `/give-aways` (grid) en `/give-aways/:slug` (preview + e-mailgate).
+4. **Admin**: `/admin/content-buckets` met bucket-tabs, item-tabel, edit-drawer, "Genereer met AI", lead-tab.
+5. **Edge functions**: `content-bucket-request` (gate + queue mail), `content-bucket-confirm` (double opt-in), `generate-bucket-item` (AI).
+6. **E-mail templates** (React Email): `bucket-confirm-optin` en `bucket-delivery`.
+7. Sitemap + nav-link toevoegen.
 
 ## Technische details
 
-### Fonts
-- `bun add @fontsource/fraunces` → in `src/main.tsx` `import '@fontsource/fraunces/400-italic.css'; import '@fontsource/fraunces/600-italic.css';`
-- `tailwind.config.ts`: `fontFamily.serif: ['Fraunces', 'serif']` toevoegen (naast bestaande display/body).
-- **Alleen** voor accent-italic-regel. Body/headings blijven Space Grotesk + Inter.
+- DB: payload als `jsonb` zodat elk layout-type vrij is. `slug` uniek per bucket. `position` integer voor volgorde.
+- RLS: items met `status='published'` publiek leesbaar; admin schrijft via `has_role(auth.uid(),'admin')`. Leads alleen via service-role (edge functions).
+- Print: bestaande `@media print` rules uit het prototype 1-op-1 naar `src/index.css` toevoegen onder een scoped class.
+- Geen vendor logos. Tone-of-voice: bestaande B1-NL regels uit `mem://style/copywriting`.
+- Geen partner logos of tool badges (memory rule).
 
-### 21st.dev componenten
-- Repo `serafimcloud/21st` is een component-marketplace (https://21st.dev). We zoeken via web-fetch op 21st.dev:
-  - `announcement-badge` / `animated-pill` → Hero pill
-  - `hero-video-dialog` of `video-player` → VideoCaptureSection
-  - `infinite-slider` / `logos-marquee` → LogoWallCases marquee
-  - `bento-grid` → ServiceStackSection
-- We **kopiëren JSX/CSS** vanuit 21st.dev (shadcn-style), passen ze in onze tokens (`hsl(var(--primary))`, `card-gradient`, `border-glow`) en plaatsen onder `src/components/hhwv2/ui/`. Geen npm-install nodig per component.
+## Wat ik nog NIET doe (vraag eerst om bevestiging)
 
-### Nieuwe bestanden
-- `src/components/hhwv2/HeroFlow.tsx` (rewrite, behoudt huidige GSAP-timeline op SVG-laag)
-- `src/components/hhwv2/VideoCaptureSection.tsx`
-- `src/components/hhwv2/LogoWallCases.tsx`
-- `src/components/hhwv2/ServiceStackSection.tsx`
-- `src/components/hhwv2/ui/AnnouncementPill.tsx`
-- `src/components/hhwv2/ui/InfiniteSlider.tsx`
-- `src/components/hhwv2/ui/BentoGrid.tsx`
-- `src/components/hhwv2/ui/VideoDialog.tsx`
-
-### Bestaande bestanden aangepast
-- `src/pages/HoeHetWerktV2.tsx` — nieuwe imports + volgorde.
-- `tailwind.config.ts` — serif font toevoegen.
-- `src/main.tsx` — Fraunces fontface import.
-
-### Wat we NIET aanraken
-- Brandregel: geen partner/tool-logo's (vervangen door sector-pills).
-- Bestaande GSAP-flow (EngineFlow, NinetyDayBuild, ExecutionLayer, ConnectorFlow) blijft ongewijzigd.
-- `/hoe-het-werkt` (V1) blijft live.
-- Copy blijft B1 Nederlands, je/jouw, max 12 woorden, geen em-dashes.
-
-### Animatie
-- Pill: subtle border-glow loop (CSS keyframe, geen GSAP).
-- Headline: split-words fade-in + serif-italic schrijft zich oranje in (Framer Motion `staggerChildren`).
-- Marquee: pure CSS `@keyframes scroll` (geen GSAP).
-- Bento cards: hover-lift + border glow-pulse on view.
-
-## Buiten scope
-
-- Geen echte video-asset uploaden (placeholder + poster).
-- Geen wijziging aan navigation, footer of routes (`/hoe-het-werkt-v2` blijft).
-- Geen 21st.dev npm-pakket of CLI install — we kopiëren componenten handmatig.
+- LinkedIn-post bucket: alleen architectuur klaarzetten; tweede bucket bouwen we als je dit hebt goedgekeurd.
+- Auto-publicatie naar LinkedIn API: nog niet — eerst alleen "klaar voor copy/paste".
