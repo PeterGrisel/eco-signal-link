@@ -45,3 +45,9 @@ project_id = "snymrcialncxkcsibkjv"
     verify_jwt = true
   [functions.authority-daily-cron]
     verify_jwt = false
+  [functions.content-bucket-request]
+    verify_jwt = false
+  [functions.content-bucket-confirm]
+    verify_jwt = false
+  [functions.generate-bucket-item]
+    verify_jwt = true
