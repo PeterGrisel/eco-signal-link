@@ -16,6 +16,7 @@ import {
   Sparkles,
   BookMarked,
   Building2,
+  X,
   type LucideIcon,
 } from "lucide-react";
 import {
@@ -271,45 +272,86 @@ const Navbar = () => {
       </div>
 
       <MobileMenu open={open}>
-        <div className="container mx-auto px-4 pt-24 pb-10 flex flex-col gap-8 overflow-y-auto h-full">
-          <Link
-            to="/"
-            onClick={() => setOpen(false)}
-            className="text-2xl font-display font-semibold text-foreground hover:text-primary transition-colors"
-          >
-            Home
-          </Link>
-          <Link
-            to="/hoe-het-werkt"
-            onClick={() => {
-              trackCTA("Navbar (mobile) — Hoe het werkt", "/hoe-het-werkt");
-              setOpen(false);
-            }}
-            className="text-2xl font-display font-semibold text-foreground hover:text-primary transition-colors"
-          >
-            Hoe het werkt
-          </Link>
+        <div className="flex h-full flex-col">
+          <div className="flex h-16 shrink-0 items-center justify-between border-b border-border/70 px-5">
+            <span className="font-display text-xl font-bold text-foreground">Menu</span>
+            <button
+              type="button"
+              onClick={() => setOpen(false)}
+              className="flex h-11 w-11 items-center justify-center rounded-md border border-border/80 text-foreground transition-colors hover:border-primary/50 hover:text-primary"
+              aria-label="Menu sluiten"
+            >
+              <X className="h-5 w-5" />
+            </button>
+          </div>
+
+          <div className="container mx-auto flex flex-1 flex-col gap-5 overflow-y-auto px-4 pb-24 pt-4">
+            <div className="grid gap-2">
+              <MobilePrimaryLink to="/" label="Home" onClick={() => setOpen(false)} />
+              <MobilePrimaryLink
+                to="/hoe-het-werkt"
+                label="Hoe het werkt"
+                onClick={() => {
+                  trackCTA("Navbar (mobile) — Hoe het werkt", "/hoe-het-werkt");
+                  setOpen(false);
+                }}
+                highlighted
+              />
+            </div>
+
           <MobileSection title="Oplossingen" items={oplossingen} onClick={() => setOpen(false)} />
           <MobileSection
             title="Bedrijf"
             items={[...bedrijf, ...bedrijf2]}
             onClick={() => setOpen(false)}
           />
-          <a
-            href="/#pricing"
-            onClick={(e) => {
-              scrollToPricing(e);
-              setOpen(false);
-            }}
-            className="text-2xl font-display font-semibold text-foreground"
-          >
-            Pricing
-          </a>
+          </div>
+
+          <div className="shrink-0 border-t border-border/70 bg-background/95 p-4">
+            <a
+              href="/#pricing"
+              onClick={(e) => {
+                scrollToPricing(e);
+                setOpen(false);
+              }}
+              className="flex items-center justify-between rounded-lg border border-primary/35 bg-primary/10 px-4 py-3.5 font-display text-lg font-semibold text-foreground transition-colors hover:border-primary/60 hover:bg-primary/15"
+            >
+              Pricing
+              <span className="text-primary">→</span>
+            </a>
+          </div>
         </div>
       </MobileMenu>
     </header>
   );
 };
+
+function MobilePrimaryLink({
+  to,
+  label,
+  onClick,
+  highlighted = false,
+}: {
+  to: string;
+  label: string;
+  onClick: () => void;
+  highlighted?: boolean;
+}) {
+  return (
+    <Link
+      to={to}
+      onClick={onClick}
+      className={cn(
+        "rounded-lg border px-4 py-3 font-display text-xl font-semibold transition-colors",
+        highlighted
+          ? "border-primary/40 bg-primary/10 text-foreground hover:border-primary/70"
+          : "border-border/70 text-foreground hover:border-primary/40 hover:text-primary",
+      )}
+    >
+      {label}
+    </Link>
+  );
+}
 
 function MobileMenu({ open, children }: { open: boolean; children: React.ReactNode }) {
   if (typeof window === "undefined") return null;
@@ -317,7 +359,7 @@ function MobileMenu({ open, children }: { open: boolean; children: React.ReactNo
   return createPortal(
     <div
       id="mobile-menu"
-      className="fixed inset-0 z-40 md:hidden bg-background/95 backdrop-blur-xl animate-in fade-in duration-200"
+      className="fixed inset-0 z-[10000] md:hidden bg-[hsl(var(--background))] animate-in fade-in duration-200"
     >
       {children}
     </div>,
@@ -335,8 +377,8 @@ function MobileSection({
   onClick: () => void;
 }) {
   return (
-    <div className="flex flex-col gap-3">
-      <div className="text-xs uppercase tracking-[0.18em] text-muted-foreground font-semibold">
+    <div className="flex flex-col gap-2">
+      <div className="px-1 text-xs uppercase tracking-[0.18em] text-muted-foreground font-semibold">
         {title}
       </div>
       <div className="flex flex-col gap-1">
@@ -350,9 +392,9 @@ function MobileSection({
                 trackCTA(`Navbar (mobile) — ${item.title}`, item.href);
                 onClick();
               }}
-              className="flex items-center gap-3 py-2.5 text-xl font-display text-foreground hover:text-primary transition-colors"
+              className="flex items-center gap-3 rounded-md px-2 py-2.5 font-display text-lg text-foreground transition-colors hover:bg-accent/50 hover:text-primary"
             >
-              <Icon className="w-5 h-5 text-primary/80" />
+              <Icon className="w-5 h-5 shrink-0 text-primary/80" />
               {item.title}
             </Link>
           );
