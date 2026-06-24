@@ -910,6 +910,191 @@ export type Database = {
         }
         Relationships: []
       }
+      content_bucket_items: {
+        Row: {
+          bucket_id: string
+          category: string | null
+          created_at: string
+          cta_text: string | null
+          cta_url: string | null
+          id: string
+          intro: string | null
+          is_bonus: boolean | null
+          layout: string
+          payload: Json
+          position: number
+          slot_label: string | null
+          slug: string
+          status: string
+          subtitle: string | null
+          title: string
+          type_label: string | null
+          updated_at: string
+        }
+        Insert: {
+          bucket_id: string
+          category?: string | null
+          created_at?: string
+          cta_text?: string | null
+          cta_url?: string | null
+          id?: string
+          intro?: string | null
+          is_bonus?: boolean | null
+          layout: string
+          payload?: Json
+          position?: number
+          slot_label?: string | null
+          slug: string
+          status?: string
+          subtitle?: string | null
+          title: string
+          type_label?: string | null
+          updated_at?: string
+        }
+        Update: {
+          bucket_id?: string
+          category?: string | null
+          created_at?: string
+          cta_text?: string | null
+          cta_url?: string | null
+          id?: string
+          intro?: string | null
+          is_bonus?: boolean | null
+          layout?: string
+          payload?: Json
+          position?: number
+          slot_label?: string | null
+          slug?: string
+          status?: string
+          subtitle?: string | null
+          title?: string
+          type_label?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "content_bucket_items_bucket_id_fkey"
+            columns: ["bucket_id"]
+            isOneToOne: false
+            referencedRelation: "content_buckets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      content_bucket_leads: {
+        Row: {
+          bucket_id: string
+          company: string | null
+          confirm_token: string
+          confirmed_at: string | null
+          created_at: string
+          delivered_at: string | null
+          email: string
+          id: string
+          ip_hash: string | null
+          item_id: string | null
+          name: string | null
+          status: string
+          user_agent: string | null
+          utm: Json | null
+        }
+        Insert: {
+          bucket_id: string
+          company?: string | null
+          confirm_token?: string
+          confirmed_at?: string | null
+          created_at?: string
+          delivered_at?: string | null
+          email: string
+          id?: string
+          ip_hash?: string | null
+          item_id?: string | null
+          name?: string | null
+          status?: string
+          user_agent?: string | null
+          utm?: Json | null
+        }
+        Update: {
+          bucket_id?: string
+          company?: string | null
+          confirm_token?: string
+          confirmed_at?: string | null
+          created_at?: string
+          delivered_at?: string | null
+          email?: string
+          id?: string
+          ip_hash?: string | null
+          item_id?: string | null
+          name?: string | null
+          status?: string
+          user_agent?: string | null
+          utm?: Json | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "content_bucket_leads_bucket_id_fkey"
+            columns: ["bucket_id"]
+            isOneToOne: false
+            referencedRelation: "content_buckets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "content_bucket_leads_item_id_fkey"
+            columns: ["item_id"]
+            isOneToOne: false
+            referencedRelation: "content_bucket_items"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      content_buckets: {
+        Row: {
+          accent_color: string | null
+          created_at: string
+          cta_text: string | null
+          default_layouts: string[] | null
+          description: string | null
+          generator_schema: Json | null
+          generator_system_prompt: string | null
+          id: string
+          is_published: boolean
+          name: string
+          slug: string
+          tagline: string | null
+          updated_at: string
+        }
+        Insert: {
+          accent_color?: string | null
+          created_at?: string
+          cta_text?: string | null
+          default_layouts?: string[] | null
+          description?: string | null
+          generator_schema?: Json | null
+          generator_system_prompt?: string | null
+          id?: string
+          is_published?: boolean
+          name: string
+          slug: string
+          tagline?: string | null
+          updated_at?: string
+        }
+        Update: {
+          accent_color?: string | null
+          created_at?: string
+          cta_text?: string | null
+          default_layouts?: string[] | null
+          description?: string | null
+          generator_schema?: Json | null
+          generator_system_prompt?: string | null
+          id?: string
+          is_published?: boolean
+          name?: string
+          slug?: string
+          tagline?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       content_entities: {
         Row: {
           confidence: number
