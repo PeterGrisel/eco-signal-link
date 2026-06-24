@@ -330,4 +330,39 @@
   body.gw-printing .gw-stage { overflow: visible !important; padding: 0 !important; background: #1A1A1A !important; }
   body.gw-printing .js-asset { border: none !important; border-radius: 0 !important; box-shadow: none !important; width: 100% !important; }
   @page { size: A4 portrait; margin: 12mm; }
+  body.gw-printing .gw-no-print { display: none !important; }
+  body.gw-printing input, body.gw-printing .gw-edit {
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+    color: #EEEAE4 !important;
+    background: transparent !important;
+  }
+  body.gw-printing input[type="checkbox"] { accent-color: #E8945A; }
 }
+
+/* Auto-grow contentEditable with placeholder */
+.gw-edit {
+  outline: none;
+  min-height: 1.4em;
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: #EEEAE4;
+}
+.gw-edit:empty::before {
+  content: attr(data-placeholder);
+  color: #6b6358;
+  font-style: italic;
+}
+.gw-edit:focus { box-shadow: inset 0 -1px 0 #E8945A; }
+
+.gw-input {
+  background: #121212;
+  border: 1px solid #2E2E2E;
+  color: #E8945A;
+  border-radius: 6px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 14px;
+  text-align: center;
+  width: 70px;
+  height: 34px;
+}
+.gw-input:focus { outline: none; border-color: #E8945A; }
