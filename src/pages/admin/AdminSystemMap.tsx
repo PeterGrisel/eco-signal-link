@@ -78,7 +78,7 @@ const AdminSystemMap = () => {
     const [
       blogTotal, blogPub, blogDraft, blogRecent,
       glossaryTotal, playbooksTotal, abmTotal, abmLive,
-      queueOpen, queueApproved, queueGenerating, queueFailed,
+      queuePending, queueApproved, queueGenerating, queueFailed,
       topicsTotal, refreshOpen,
       indexQueued, indexFailed, indexRecent,
       gscRecent, monthlyEval, healthRecent,
@@ -100,7 +100,7 @@ const AdminSystemMap = () => {
       supabase.from("playbooks").select("*", head),
       supabase.from("abm_pages").select("*", head),
       supabase.from("abm_pages").select("*", head).eq("status", "live"),
-      supabase.from("content_queue").select("*", head).eq("status", "open"),
+      supabase.from("content_queue").select("*", head).eq("status", "pending"),
       supabase.from("content_queue").select("*", head).eq("status", "approved"),
       supabase.from("content_queue").select("*", head).eq("status", "generating"),
       supabase.from("content_queue").select("*", head).eq("status", "failed"),
@@ -109,9 +109,9 @@ const AdminSystemMap = () => {
       supabase.from("indexing_requests").select("*", head).eq("status", "pending"),
       supabase.from("indexing_requests").select("*", head).eq("status", "failed"),
       supabase.from("indexing_requests").select("created_at").order("created_at", { ascending: false }).limit(1).maybeSingle(),
-      supabase.from("gsc_snapshots").select("snapshot_date").order("snapshot_date", { ascending: false }).limit(1).maybeSingle(),
+      supabase.from("gsc_snapshots").select("date").order("date", { ascending: false }).limit(1).maybeSingle(),
       supabase.from("monthly_evaluations").select("created_at").order("created_at", { ascending: false }).limit(1).maybeSingle(),
-      supabase.from("seo_health_log").select("checked_at").order("checked_at", { ascending: false }).limit(1).maybeSingle(),
+      supabase.from("seo_health_log").select("created_at").order("created_at", { ascending: false }).limit(1).maybeSingle(),
       supabase.from("authority_opportunities").select("*", head).eq("status", "open"),
       supabase.from("authority_placements").select("*", head).eq("status", "live"),
       supabase.from("authority_runs").select("created_at, status").order("created_at", { ascending: false }).limit(1).maybeSingle(),
@@ -123,14 +123,14 @@ const AdminSystemMap = () => {
       supabase.from("groeistack_tools").select("*", head),
       supabase.from("mcp_api_keys" as never).select("*", head).eq("is_active", true),
       supabase.from("tracking_scripts").select("*", head).eq("is_active", true),
-      supabase.from("client_logos").select("*", head).eq("is_active", true),
+      supabase.from("client_logos").select("*", head).eq("is_visible", true),
       supabase.from("job_runs").select("created_at, status, job_key").order("created_at", { ascending: false }).limit(1).maybeSingle(),
       supabase.from("job_runs").select("*", head).eq("status", "failed").gte("created_at", new Date(Date.now() - 24 * 3600 * 1000).toISOString()),
-      supabase.from("partners").select("*", head).eq("status", "active"),
+      supabase.from("partners").select("*", head).eq("is_approved", true),
       supabase.from("seo_action_items").select("*", head).eq("status", "open"),
       supabase.from("page_embeddings").select("*", head),
       supabase.from("link_suggestions").select("*", head).eq("status", "open"),
-      supabase.from("semrush_sync_runs").select("created_at, status").order("created_at", { ascending: false }).limit(1).maybeSingle(),
+      supabase.from("semrush_sync_runs").select("started_at, status").order("started_at", { ascending: false }).limit(1).maybeSingle(),
     ]);
 
     const cnt = (r: { count: number | null }) => r.count ?? 0;
@@ -139,15 +139,15 @@ const AdminSystemMap = () => {
 
     const lastBlog = at(blogRecent, "published_at");
     const lastIndex = at(indexRecent, "created_at");
-    const lastGsc = at(gscRecent, "snapshot_date");
+    const lastGsc = at(gscRecent, "date");
     const lastEval = at(monthlyEval, "created_at");
-    const lastHealth = at(healthRecent, "checked_at");
+    const lastHealth = at(healthRecent, "created_at");
     const lastAuthRun = at(authRunsRecent, "created_at");
     const lastLead = at(leadsRecent, "created_at");
     const lastPlan = at(groeiplannenRecent, "created_at");
     const lastContact = at(contactRecent, "created_at");
     const lastJob = at(jobRunsRecent, "created_at");
-    const lastSemrush = at(semrushRunsRecent, "created_at");
+    const lastSemrush = at(semrushRunsRecent, "started_at");
 
     const cards: ModuleCard[] = [
       // Content
@@ -167,7 +167,7 @@ const AdminSystemMap = () => {
         icon: Sparkles, href: "/admin/content?tab=autopilot", category: "content",
         status: cnt(queueFailed) > 0 ? "error" : cnt(queueApproved) + cnt(queueGenerating) > 0 ? "ok" : "idle",
         metrics: [
-          { label: "In queue", value: cnt(queueOpen) + cnt(queueApproved), tone: "success" },
+          { label: "In queue", value: cnt(queuePending) + cnt(queueApproved), tone: "success" },
           { label: "Generating", value: cnt(queueGenerating) },
           { label: "Failed", value: cnt(queueFailed), tone: cnt(queueFailed) > 0 ? "error" : "default" },
           { label: "Topics", value: cnt(topicsTotal) },
