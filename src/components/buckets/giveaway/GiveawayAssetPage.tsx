@@ -1,4 +1,6 @@
 import { ReactNode } from "react";
+import { BOOKING_URL } from "@/content/copy";
+import { trackCTA } from "@/lib/tracking";
 import GiveawayRenderer, { GiveawayPayload } from "./GiveawayRenderer";
 
 interface Item {
@@ -24,8 +26,9 @@ const splitTitle = (t: string) => {
   return [parts.join(" "), last];
 };
 
-export const GiveawayAssetPage = ({ item, ctaText = "Plan de nulmeting →", toolbar }: Props) => {
+export const GiveawayAssetPage = ({ item, ctaText = "Plan uw Groeiplan-sessie →", toolbar }: Props) => {
   const [a, b] = splitTitle(item.title);
+  const handleCta = () => trackCTA(`Give-Away · ${item.title}`, BOOKING_URL);
   return (
     <div className="gw-stage">
       <div className="gw-stage-inner">
@@ -69,10 +72,28 @@ export const GiveawayAssetPage = ({ item, ctaText = "Plan de nulmeting →", too
                 Powered by Rebel Force · b2bgroeimachine.io
               </div>
             </div>
-            <div className="bg-[#E8945A] text-[#121212] font-display font-semibold text-[13.5px] px-4 py-2.5 rounded-md whitespace-nowrap">
+            <a
+              href={BOOKING_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={handleCta}
+              className="bg-[#E8945A] text-[#121212] hover:bg-[#F0A968] font-display font-semibold text-[13.5px] px-4 py-2.5 rounded-md whitespace-nowrap transition-colors no-underline"
+            >
               {ctaText}
-            </div>
+            </a>
           </div>
+        </div>
+
+        <div className="gw-no-print mt-6 flex items-center justify-center">
+          <a
+            href={BOOKING_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={handleCta}
+            className="inline-flex items-center gap-2 bg-[#E8945A] text-[#121212] hover:bg-[#F0A968] font-display font-semibold text-sm px-5 py-3 rounded-md transition-colors no-underline"
+          >
+            Bespreek jouw ingevulde template →
+          </a>
         </div>
       </div>
     </div>
