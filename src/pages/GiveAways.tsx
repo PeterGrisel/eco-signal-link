@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { supabase } from "@/integrations/supabase/client";
+import { usePageMeta } from "@/hooks/usePageMeta";
 
 interface Bucket { id: string; name: string; tagline: string | null; description: string | null; cta_text: string | null; }
 interface Item { id: string; slug: string; title: string; subtitle: string | null; intro: string | null; layout: string; slot_label: string | null; type_label: string | null; is_bonus: boolean; }
@@ -12,6 +12,11 @@ const GiveAways = () => {
   const [bucket, setBucket] = useState<Bucket | null>(null);
   const [items, setItems] = useState<Item[]>([]);
   const [loading, setLoading] = useState(true);
+
+  usePageMeta({
+    title: "Give-Aways · B2BGroeiMachine",
+    description: "24 gratis B2B-templates. Eén per week. Scherp je groeisysteem aan met scorecards, canvas, checklists, frameworks en playbooks.",
+  });
 
   useEffect(() => {
     (async () => {
@@ -33,10 +38,6 @@ const GiveAways = () => {
 
   return (
     <>
-      <Helmet>
-        <title>Give-Aways · B2BGroeiMachine</title>
-        <meta name="description" content="24 gratis B2B-templates. Eén per week. Scherp je groeisysteem aan met scorecards, canvas, checklists, frameworks en playbooks." />
-      </Helmet>
       <Navbar />
       <main className="bg-background min-h-screen">
         <section className="border-b border-border">
