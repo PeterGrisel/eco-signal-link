@@ -43,6 +43,7 @@ import AdminAnalyticsHub from "./pages/admin/AdminAnalyticsHub.tsx";
 import AdminContentHub from "./pages/admin/AdminContentHub.tsx";
 import AdminSeoHub from "./pages/admin/AdminSeoHub.tsx";
 import AdminSystem from "./pages/admin/AdminSystem.tsx";
+import AdminSystemMap from "./pages/admin/AdminSystemMap.tsx";
 import AdminBlogEditor from "./pages/admin/AdminBlogEditor.tsx";
 import AdminBlogGenerate from "./pages/admin/AdminBlogGenerate.tsx";
 import AdminAbmPages from "./pages/admin/AdminAbmPages.tsx";
@@ -150,6 +151,7 @@ const AnimatedRoutes = () => {
           <Route path="/admin/content" element={<AdminContentHub />} />
           <Route path="/admin/seo" element={<AdminSeoHub />} />
           <Route path="/admin/system" element={<AdminSystem />} />
+          <Route path="/admin/system-map" element={<AdminSystemMap />} />
           <Route path="/admin/abm" element={<AdminAbmPages />} />
           <Route path="/voor/hego" element={<HegoPage />} />
           <Route path="/voor/sealeco" element={<SealEcoPage />} />
