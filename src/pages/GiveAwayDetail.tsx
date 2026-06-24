@@ -119,8 +119,12 @@ const GiveAwayDetail = () => {
         <div className="container mx-auto px-6 md:px-8 flex items-center justify-between">
           <Link to="/give-aways" className="text-[#998D7D] hover:text-[#E8945A] text-sm font-display">← Alle templates</Link>
           <div className="flex items-center gap-2 text-xs text-[#998D7D] font-mono">
-            <span className="text-[#E8945A]">{item.slot_label}</span>
-            <span className="opacity-50">·</span>
+            {item.slot_label && (
+              <>
+                <span className="text-[#E8945A]">{item.slot_label}</span>
+                <span className="opacity-50">·</span>
+              </>
+            )}
             <span>{item.type_label}</span>
           </div>
         </div>
