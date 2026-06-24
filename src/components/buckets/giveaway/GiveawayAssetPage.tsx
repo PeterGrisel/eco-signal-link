@@ -37,7 +37,7 @@ export const GiveawayAssetPage = ({ item, ctaText = "Plan uw Groeiplan-sessie 鈫
             <div className="flex items-center gap-2.5">
               <span className="block w-5 h-px bg-[#E8945A]" />
               <span className="uppercase tracking-[0.14em] text-[11px] text-[#E8945A] font-display font-semibold">
-                {item.type_label} 路 {item.slot_label}
+                {[item.type_label, item.slot_label].filter(Boolean).join(" 路 ")}
               </span>
             </div>
             {toolbar}
@@ -49,7 +49,7 @@ export const GiveawayAssetPage = ({ item, ctaText = "Plan uw Groeiplan-sessie 鈫
             <div className="flex items-center gap-2.5 mb-3.5">
               <span className="block w-[22px] h-px bg-[#E8945A]" />
               <span className="uppercase tracking-[0.14em] text-[10.5px] text-[#E8945A] font-display font-semibold">
-                {item.slot_label} 路 {item.type_label}
+                {[item.slot_label, item.type_label].filter(Boolean).join(" 路 ")}
               </span>
             </div>
             <h1 className="m-0 font-display font-bold text-[28px] md:text-[35px] leading-[1.1] tracking-tight text-[#EEEAE4]">
