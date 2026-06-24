@@ -47,6 +47,9 @@ import AdminSystemMap from "./pages/admin/AdminSystemMap.tsx";
 import AdminBlogEditor from "./pages/admin/AdminBlogEditor.tsx";
 import AdminBlogGenerate from "./pages/admin/AdminBlogGenerate.tsx";
 import AdminAbmPages from "./pages/admin/AdminAbmPages.tsx";
+import AdminContentBuckets from "./pages/admin/AdminContentBuckets.tsx";
+import GiveAways from "./pages/GiveAways.tsx";
+import GiveAwayDetail from "./pages/GiveAwayDetail.tsx";
 import ClientPage from "./pages/ClientPage.tsx";
 import HegoPage from "./pages/HegoPage.tsx";
 import SealEcoPage from "./pages/SealEcoPage.tsx";
@@ -153,6 +156,9 @@ const AnimatedRoutes = () => {
           <Route path="/admin/system" element={<AdminSystem />} />
           <Route path="/admin/system-map" element={<AdminSystemMap />} />
           <Route path="/admin/abm" element={<AdminAbmPages />} />
+          <Route path="/admin/content-buckets" element={<AdminContentBuckets />} />
+          <Route path="/give-aways" element={<GiveAways />} />
+          <Route path="/give-aways/:slug" element={<GiveAwayDetail />} />
           <Route path="/voor/hego" element={<HegoPage />} />
           <Route path="/voor/sealeco" element={<SealEcoPage />} />
           <Route path="/voor/shots" element={<ShotsPage />} />
