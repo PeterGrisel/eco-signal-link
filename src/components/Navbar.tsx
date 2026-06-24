@@ -273,7 +273,7 @@ const Navbar = () => {
 
       <MobileMenu open={open}>
         <div className="flex h-full flex-col">
-          <div className="flex h-20 shrink-0 items-center justify-between border-b border-border/70 px-5">
+          <div className="flex h-16 shrink-0 items-center justify-between border-b border-border/70 px-5">
             <span className="font-display text-xl font-bold text-foreground">Menu</span>
             <button
               type="button"
@@ -285,7 +285,7 @@ const Navbar = () => {
             </button>
           </div>
 
-          <div className="container mx-auto flex h-full flex-col gap-6 overflow-y-auto px-4 py-6">
+          <div className="container mx-auto flex flex-1 flex-col gap-5 overflow-y-auto px-4 pb-24 pt-4">
             <div className="grid gap-2">
               <MobilePrimaryLink to="/" label="Home" onClick={() => setOpen(false)} />
               <MobilePrimaryLink
@@ -305,14 +305,16 @@ const Navbar = () => {
             items={[...bedrijf, ...bedrijf2]}
             onClick={() => setOpen(false)}
           />
+          </div>
 
+          <div className="shrink-0 border-t border-border/70 bg-background/95 p-4">
             <a
               href="/#pricing"
               onClick={(e) => {
                 scrollToPricing(e);
                 setOpen(false);
               }}
-              className="mt-auto flex items-center justify-between rounded-lg border border-primary/35 bg-primary/10 px-4 py-4 font-display text-xl font-semibold text-foreground transition-colors hover:border-primary/60 hover:bg-primary/15"
+              className="flex items-center justify-between rounded-lg border border-primary/35 bg-primary/10 px-4 py-3.5 font-display text-lg font-semibold text-foreground transition-colors hover:border-primary/60 hover:bg-primary/15"
             >
               Pricing
               <span className="text-primary">→</span>
@@ -340,7 +342,7 @@ function MobilePrimaryLink({
       to={to}
       onClick={onClick}
       className={cn(
-        "rounded-lg border px-4 py-4 font-display text-2xl font-semibold transition-colors",
+        "rounded-lg border px-4 py-3 font-display text-xl font-semibold transition-colors",
         highlighted
           ? "border-primary/40 bg-primary/10 text-foreground hover:border-primary/70"
           : "border-border/70 text-foreground hover:border-primary/40 hover:text-primary",
@@ -357,7 +359,7 @@ function MobileMenu({ open, children }: { open: boolean; children: React.ReactNo
   return createPortal(
     <div
       id="mobile-menu"
-      className="fixed inset-0 z-40 md:hidden bg-background/95 backdrop-blur-xl animate-in fade-in duration-200"
+      className="fixed inset-0 z-[60] md:hidden bg-background/95 backdrop-blur-xl animate-in fade-in duration-200"
     >
       {children}
     </div>,
