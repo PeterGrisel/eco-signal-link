@@ -91,8 +91,7 @@ const CardGrid = ({ title, items }: { title: string; items: Item[] }) => (
           to={`/give-aways/${it.slug}`}
           className="group block bg-card border border-border rounded-xl p-5 hover:border-primary/60 transition-colors"
         >
-          <div className="flex items-center justify-between gap-2 mb-3">
-            <span className="font-mono text-[10px] text-muted-foreground tracking-wide">{it.slot_label}</span>
+          <div className="flex items-center justify-end gap-2 mb-3">
             <span className="text-[9px] uppercase tracking-[0.08em] text-muted-foreground border border-border rounded-md px-1.5 py-0.5 font-display font-semibold">
               {it.type_label}
             </span>
