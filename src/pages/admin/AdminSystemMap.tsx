@@ -134,8 +134,11 @@ const AdminSystemMap = () => {
     ]);
 
     const cnt = (r: { count: number | null }) => r.count ?? 0;
-    const at = (r: { data: Record<string, unknown> | null }, key: string) =>
-      (r.data?.[key] as string | undefined) ?? null;
+    const at = (r: { data: unknown }, key: string): string | null => {
+      const d = r.data as Record<string, unknown> | null;
+      const v = d?.[key];
+      return typeof v === "string" ? v : null;
+    };
 
     const lastBlog = at(blogRecent, "published_at");
     const lastIndex = at(indexRecent, "created_at");
