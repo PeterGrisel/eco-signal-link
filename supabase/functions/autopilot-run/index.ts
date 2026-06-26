@@ -176,17 +176,17 @@ serve(async (req) => {
       const today = body.target_date || new Date().toISOString().split("T")[0];
       log.push(`🌙 Nachtelijke generatie voor ${today}`);
 
-      // Guard: check if we already generated OR published a post today (prevents duplicates)
-      const { data: todayPosts } = await supabase
-        .from("blog_posts")
-        .select("id")
-        .gte("created_at", `${today}T00:00:00Z`)
-        .lt("created_at", `${today}T23:59:59Z`)
-        .limit(1);
-
-      if (todayPosts && todayPosts.length > 0) {
-        log.push("⚠ Er is vandaag al een artikel gegenereerd, overslaan.");
-        return new Response(JSON.stringify({ log, articles_generated: 0 }), {
+      // Guard: skip if ANY post is created OR published on `today` (covers manual + autopilot)
+      const dayStart = `${today}T00:00:00Z`;
+      const dayEnd = `${today}T23:59:59Z`;
+      const [{ data: createdToday }, { data: publishedToday }] = await Promise.all([
+        supabase.from("blog_posts").select("id, slug").gte("created_at", dayStart).lt("created_at", dayEnd).limit(1),
+        supabase.from("blog_posts").select("id, slug").gte("published_at", dayStart).lt("published_at", dayEnd).limit(1),
+      ]);
+      const existing = (createdToday?.[0] || publishedToday?.[0]) ?? null;
+      if (existing) {
+        log.push(`⚠ Er bestaat al een blogpost voor ${today} (${existing.slug}), overslaan.`);
+        return new Response(JSON.stringify({ log, articles_generated: 0, skipped: "post_exists_for_date" }), {
           headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
@@ -272,26 +272,30 @@ serve(async (req) => {
       await supabase.from("content_queue").update({ status: "generating" as any }).eq("id", item.id);
 
       try {
-        // Duplicate guard: skip if a blog post with same topic_id already exists for today
+        // Duplicate guard: skip if a blog post with same topic_id OR same date already exists
+        const dupQueries: Promise<any>[] = [
+          supabase.from("blog_posts").select("id, slug")
+            .gte("created_at", dayStart).lt("created_at", dayEnd).limit(1),
+          supabase.from("blog_posts").select("id, slug")
+            .gte("published_at", dayStart).lt("published_at", dayEnd).limit(1),
+        ];
         if (item.topic_id) {
-          const { data: dup } = await supabase
-            .from("blog_posts")
-            .select("id, slug")
-            .eq("topic_id", item.topic_id)
-            .gte("created_at", `${today}T00:00:00Z`)
-            .lt("created_at", `${today}T23:59:59Z`)
-            .limit(1);
-          if (dup && dup.length > 0) {
-            log.push(`⚠ Duplicate guard: topic_id ${item.topic_id} heeft al een post vandaag (${dup[0].slug}), overslaan.`);
-            await supabase.from("content_queue").update({
-              status: "published" as any,
-              blog_post_id: dup[0].id,
-              error_message: "Skipped: duplicate topic_id voor vandaag",
-            }).eq("id", item.id);
-            return new Response(JSON.stringify({ log, articles_generated: 0, skipped: "duplicate_topic_today" }), {
-              headers: { ...corsHeaders, "Content-Type": "application/json" },
-            });
-          }
+          dupQueries.push(
+            supabase.from("blog_posts").select("id, slug").eq("topic_id", item.topic_id).limit(1),
+          );
+        }
+        const dupResults = await Promise.all(dupQueries);
+        const dup = dupResults.map((r: any) => r?.data?.[0]).find(Boolean);
+        if (dup) {
+          log.push(`⚠ Duplicate guard: er bestaat al een post voor ${today} of topic (${dup.slug}), overslaan.`);
+          await supabase.from("content_queue").update({
+            status: "published" as any,
+            blog_post_id: dup.id,
+            error_message: "Skipped: duplicate (date of topic_id)",
+          }).eq("id", item.id);
+          return new Response(JSON.stringify({ log, articles_generated: 0, skipped: "duplicate_for_date_or_topic" }), {
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+          });
         }
 
         // Generate article
