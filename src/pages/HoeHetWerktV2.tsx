@@ -27,15 +27,8 @@ const HoeHetWerktV2 = () => {
   return (
     <PageLoader>
       <div className="min-h-screen relative bg-background overflow-x-hidden">
-        {/* Global premium dot-pattern background */}
-        <div className="absolute inset-0 pointer-events-none z-0">
-          <DotPattern
-            opacity={0.08}
-            gap={28}
-            mask="linear-gradient(to bottom, transparent, #000 6%, #000 94%, transparent)"
-          />
-          <div className="absolute left-1/2 top-0 h-[600px] w-[900px] -translate-x-1/2 rounded-full bg-primary/[0.06] blur-[160px]" />
-        </div>
+        {/* Homepage ambient backdrop */}
+        <AmbientBackdrop />
         <BreadcrumbJsonLd
           items={[
             { name: "Home", url: "https://www.b2bgroeimachine.io/" },
