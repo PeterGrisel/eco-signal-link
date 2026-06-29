@@ -279,11 +279,6 @@ serve(async (req) => {
           supabase.from("blog_posts").select("id, slug")
             .gte("published_at", dayStart).lt("published_at", dayEnd).limit(1),
         ];
-        if (item.topic_id) {
-          dupQueries.push(
-            supabase.from("blog_posts").select("id, slug").eq("topic_id", item.topic_id).limit(1),
-          );
-        }
         const dupResults = await Promise.all(dupQueries);
         const dup = dupResults.map((r: any) => r?.data?.[0]).find(Boolean);
         if (dup) {
