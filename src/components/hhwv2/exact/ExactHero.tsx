@@ -87,6 +87,8 @@ gsap.registerPlugin(ScrollTrigger);
 
 const ExactHero = () => {
   const [email, setEmail] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
   const videoARef = useRef<HTMLVideoElement | null>(null);
   const videoBRef = useRef<HTMLVideoElement | null>(null);
@@ -198,25 +200,27 @@ const ExactHero = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const trimmed = email.trim().toLowerCase();
-    if (trimmed && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
-      try {
-        await supabase.functions.invoke("hhw-lead", {
-          body: {
-            email: trimmed,
-            source: "hoe-het-werkt-hero",
-            session_id:
-              typeof window !== "undefined"
-                ? sessionStorage.getItem("b2b_session_id")
-                : null,
-            page_url:
-              typeof window !== "undefined" ? window.location.href : null,
-          },
-        });
-      } catch (err) {
-        console.error("hhw-lead invoke failed", err);
-      }
+    if (!trimmed || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) return;
+    setSubmitting(true);
+    try {
+      await supabase.functions.invoke("hhw-lead", {
+        body: {
+          email: trimmed,
+          source: "hoe-het-werkt-hero",
+          session_id:
+            typeof window !== "undefined"
+              ? sessionStorage.getItem("b2b_session_id")
+              : null,
+          page_url:
+            typeof window !== "undefined" ? window.location.href : null,
+        },
+      });
+    } catch (err) {
+      console.error("hhw-lead invoke failed", err);
+    } finally {
+      setSubmitting(false);
+      setSubmitted(true);
     }
-    openBookingModal();
   };
 
   return (
