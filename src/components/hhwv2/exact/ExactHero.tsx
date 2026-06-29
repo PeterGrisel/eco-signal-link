@@ -331,16 +331,16 @@ const ExactHero = () => {
             </a>
 
             {/* Highlights Bar */}
-            <div className="grid grid-cols-3 gap-3 md:gap-4 w-full pt-6 border-t border-primary/10">
-              <div className="flex items-center gap-1.5 text-primary">
+            <div className="grid grid-cols-3 gap-3 md:gap-4 w-full pt-4">
+              <div className="liquid-glass rounded-lg px-2.5 py-2 flex items-center gap-1.5 text-primary">
                 <Sparkles className="h-3.5 w-3.5 shrink-0" />
                 <span className="font-display font-bold text-xs md:text-sm text-foreground">AI-native</span>
               </div>
-              <div className="flex items-center gap-1.5 text-primary">
+              <div className="liquid-glass rounded-lg px-2.5 py-2 flex items-center gap-1.5 text-primary">
                 <CheckCircle2 className="h-3.5 w-3.5 shrink-0" />
                 <span className="font-display font-bold text-xs md:text-sm text-foreground">In 90 dagen live</span>
               </div>
-              <div className="flex items-center gap-1.5 text-primary">
+              <div className="liquid-glass rounded-lg px-2.5 py-2 flex items-center gap-1.5 text-primary">
                 <Users className="h-3.5 w-3.5 shrink-0" />
                 <span className="font-display font-bold text-xs md:text-sm text-foreground">Zonder headcount</span>
               </div>
