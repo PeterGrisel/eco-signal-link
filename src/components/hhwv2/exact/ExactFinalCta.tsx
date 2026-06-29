@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { CTA } from "@/content/copy";
+import { openBookingModal } from "@/components/booking/GlobalBookingModal";
 import { Spotlight, Meteors } from "@/components/hhwv2/ui/magic";
 
 const ExactFinalCta = () => {
@@ -10,8 +10,7 @@ const ExactFinalCta = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const target = CTA.gratisScan.href;
-    window.location.hash = target.replace(/^#/, "");
+    openBookingModal();
   };
 
   return (
