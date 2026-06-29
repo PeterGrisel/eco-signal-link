@@ -14,7 +14,7 @@ import ExactCaseStudies from "@/components/hhwv2/exact/ExactCaseStudies";
 import ExactNinetyDays from "@/components/hhwv2/exact/ExactNinetyDays";
 import ExactTestimonials from "@/components/hhwv2/exact/ExactTestimonials";
 import ExactFinalCta from "@/components/hhwv2/exact/ExactFinalCta";
-import { DotPattern } from "@/components/hhwv2/ui/magic";
+import AmbientBackdrop from "@/components/homepage/AmbientBackdrop";
 
 const HoeHetWerktV2 = () => {
   usePageMeta({
