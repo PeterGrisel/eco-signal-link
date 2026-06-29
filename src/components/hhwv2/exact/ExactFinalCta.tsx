@@ -1,16 +1,38 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Check } from "lucide-react";
+import { ArrowRight, Check, Calendar, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { openBookingModal } from "@/components/booking/GlobalBookingModal";
 import { Spotlight, Meteors } from "@/components/hhwv2/ui/magic";
+import { supabase } from "@/integrations/supabase/client";
 
 const ExactFinalCta = () => {
   const [form, setForm] = useState({ name: "", email: "", company: "", size: "" });
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    openBookingModal();
+    setError(null);
+    if (!form.name.trim() || !form.email.trim()) return;
+    setSubmitting(true);
+    try {
+      const { error: insertError } = await supabase.from("contact_submissions").insert({
+        name: form.name.trim(),
+        email: form.email.trim().toLowerCase(),
+        company: form.company.trim() || null,
+        message: `Demo-aanvraag via Hoe het werkt. Bedrijfsgrootte: ${form.size || "onbekend"}.`,
+        selected_package: { source: "hoe-het-werkt-final-cta", size: form.size },
+      });
+      if (insertError) throw insertError;
+      setSubmitted(true);
+    } catch (err) {
+      console.error("contact_submissions insert failed", err);
+      setError("Versturen mislukt. Probeer het nog eens of plan direct een afspraak.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -33,10 +55,37 @@ const ExactFinalCta = () => {
               <h2 className="font-display font-bold text-3xl md:text-4xl lg:text-5xl tracking-tight leading-tight mb-4">
                 Klaar om jouw <span className="font-serif italic text-gradient-animate">groeimachine</span> te starten?
               </h2>
-              <p className="text-muted-foreground text-base leading-relaxed">
-                Plan een demo en ontdek hoe we jouw GTM kunnen versnellen naar voorspelbare groei.
+              <p className="text-muted-foreground text-base leading-relaxed mb-6">
+                Laat je gegevens achter en we nemen binnen 24 uur contact op — of plan direct een afspraak in de agenda.
               </p>
+              <Button
+                type="button"
+                onClick={() => openBookingModal()}
+                variant="outline"
+                size="lg"
+                className="group"
+              >
+                <Calendar className="h-4 w-4 mr-2" />
+                Plan afspraak in agenda
+                <ArrowRight className="h-4 w-4 ml-2 transition-transform group-hover:translate-x-0.5" />
+              </Button>
             </div>
+            {submitted ? (
+              <div className="rounded-xl border border-primary/30 bg-primary/5 p-6 flex flex-col items-start gap-3">
+                <CheckCircle2 className="h-8 w-8 text-primary" />
+                <h3 className="font-display font-bold text-xl">Bedankt!</h3>
+                <p className="text-muted-foreground text-sm">
+                  We hebben je aanvraag ontvangen en nemen binnen 24 uur contact op.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => openBookingModal()}
+                  className="text-primary font-display font-semibold text-sm inline-flex items-center gap-1.5 hover:underline"
+                >
+                  Of plan zelf een tijdstip <ArrowRight className="h-3.5 w-3.5" />
+                </button>
+              </div>
+            ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid sm:grid-cols-2 gap-3">
                 <Field label="Naam" placeholder="Je naam" value={form.name} onChange={(v) => setForm({ ...form, name: v })} />
@@ -59,11 +108,12 @@ const ExactFinalCta = () => {
                   </select>
                 </div>
               </div>
-              <Button type="submit" variant="hero" size="lg" className="group relative w-full overflow-hidden">
+              <Button type="submit" disabled={submitting} variant="hero" size="lg" className="group relative w-full overflow-hidden">
                 <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/25 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
-                Plan een demo
+                {submitting ? "Versturen…" : "Stuur mijn aanvraag"}
                 <ArrowRight className="ml-1 h-4 w-4" />
               </Button>
+              {error && <p className="text-xs text-destructive">{error}</p>}
               <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-[12px] text-muted-foreground pt-2">
                 <span className="inline-flex items-center gap-1.5">
                   <Check className="h-3.5 w-3.5 text-primary" strokeWidth={2.5} /> Binnen 24 uur reactie
@@ -73,6 +123,7 @@ const ExactFinalCta = () => {
                 </span>
               </div>
             </form>
+            )}
           </div>
         </motion.div>
       </div>

@@ -87,6 +87,8 @@ gsap.registerPlugin(ScrollTrigger);
 
 const ExactHero = () => {
   const [email, setEmail] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
   const videoARef = useRef<HTMLVideoElement | null>(null);
   const videoBRef = useRef<HTMLVideoElement | null>(null);
@@ -198,25 +200,27 @@ const ExactHero = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const trimmed = email.trim().toLowerCase();
-    if (trimmed && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
-      try {
-        await supabase.functions.invoke("hhw-lead", {
-          body: {
-            email: trimmed,
-            source: "hoe-het-werkt-hero",
-            session_id:
-              typeof window !== "undefined"
-                ? sessionStorage.getItem("b2b_session_id")
-                : null,
-            page_url:
-              typeof window !== "undefined" ? window.location.href : null,
-          },
-        });
-      } catch (err) {
-        console.error("hhw-lead invoke failed", err);
-      }
+    if (!trimmed || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) return;
+    setSubmitting(true);
+    try {
+      await supabase.functions.invoke("hhw-lead", {
+        body: {
+          email: trimmed,
+          source: "hoe-het-werkt-hero",
+          session_id:
+            typeof window !== "undefined"
+              ? sessionStorage.getItem("b2b_session_id")
+              : null,
+          page_url:
+            typeof window !== "undefined" ? window.location.href : null,
+        },
+      });
+    } catch (err) {
+      console.error("hhw-lead invoke failed", err);
+    } finally {
+      setSubmitting(false);
+      setSubmitted(true);
     }
-    openBookingModal();
   };
 
   return (
@@ -298,24 +302,41 @@ const ExactHero = () => {
               Wij bouwen één systeem dat signalen, content en outreach omzet in gesprekken.
             </p>
 
-            {/* Email + CTA Form */}
-            <form onSubmit={handleSubmit} className="w-full max-w-lg flex flex-col sm:flex-row gap-3 mb-6">
-              <div className="flex-1 relative">
-                <input
-                  type="email"
-                  required
-                  placeholder="Jouw werk e-mail"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full h-12 px-4 rounded-lg liquid-glass text-foreground placeholder:text-muted-foreground/60 transition-all text-sm font-display font-medium"
-                />
+            {/* Email capture + separate booking CTA */}
+            {submitted ? (
+              <div className="w-full max-w-lg liquid-glass rounded-lg px-4 py-3 mb-3 flex items-center gap-2 text-sm">
+                <CheckCircle2 className="h-4 w-4 text-primary shrink-0" />
+                <span className="text-foreground font-display font-medium">
+                  Bedankt — we nemen binnen 24 uur contact op.
+                </span>
               </div>
-              <Button type="submit" variant="hero" size="lg" className="group relative h-12 overflow-hidden px-6 font-display font-semibold shrink-0">
-                <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/25 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
-                Plan een demo
-                <ArrowRight className="h-4 w-4 ml-2" />
-              </Button>
-            </form>
+            ) : (
+              <form onSubmit={handleSubmit} className="w-full max-w-lg flex flex-col sm:flex-row gap-3 mb-3">
+                <div className="flex-1 relative">
+                  <input
+                    type="email"
+                    required
+                    placeholder="Jouw werk e-mail"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full h-12 px-4 rounded-lg liquid-glass text-foreground placeholder:text-muted-foreground/60 transition-all text-sm font-display font-medium"
+                  />
+                </div>
+                <Button type="submit" disabled={submitting} variant="hero" size="lg" className="group relative h-12 overflow-hidden px-6 font-display font-semibold shrink-0">
+                  <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/25 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
+                  {submitting ? "Versturen…" : "Stuur mij info"}
+                  <ArrowRight className="h-4 w-4 ml-2" />
+                </Button>
+              </form>
+            )}
+            <button
+              type="button"
+              onClick={() => openBookingModal()}
+              className="inline-flex items-center gap-2 text-sm font-display font-semibold text-primary hover:underline mb-6"
+            >
+              Of plan direct een afspraak in de agenda
+              <ArrowRight className="h-3.5 w-3.5" />
+            </button>
 
             {/* Alternative link */}
             <a
