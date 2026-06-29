@@ -225,55 +225,7 @@ const ExactHero = () => {
 
   return (
     <section className="relative isolate pt-24 md:pt-32 pb-16 md:pb-28 overflow-hidden bg-transparent min-h-[90vh] flex flex-col">
-      {/* Homepage video background */}
-      <div className="absolute inset-0 z-0 overflow-hidden bg-background">
-        <img
-          src={heroPoster.url}
-          alt=""
-          aria-hidden="true"
-          className="absolute inset-0 w-full h-full object-cover"
-          decoding="async"
-          loading="eager"
-        />
-        {!reducedMotion && (
-          <>
-            <video
-              ref={videoARef}
-              src={HERO_VIDEO_SRC}
-              poster={heroPoster.url}
-              autoPlay
-              muted
-              playsInline
-              disablePictureInPicture
-              disableRemotePlayback
-              preload="auto"
-              {...({ "webkit-playsinline": "true", "x5-playsinline": "true" } as Record<string, string>)}
-              aria-hidden="true"
-              tabIndex={-1}
-              style={{ opacity: 1, transition: "opacity 60ms linear" }}
-              className="absolute inset-0 w-full h-full object-cover"
-            />
-            <video
-              ref={videoBRef}
-              src={HERO_VIDEO_SRC}
-              poster={heroPoster.url}
-              muted
-              playsInline
-              disablePictureInPicture
-              disableRemotePlayback
-              preload="auto"
-              {...({ "webkit-playsinline": "true", "x5-playsinline": "true" } as Record<string, string>)}
-              aria-hidden="true"
-              tabIndex={-1}
-              style={{ opacity: 0, transition: "opacity 60ms linear" }}
-              className="absolute inset-0 w-full h-full object-cover"
-            />
-          </>
-        )}
-        {/* Readability overlay */}
-        <div className="absolute inset-0 bg-background/50 pointer-events-none" />
-        <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-background/60 to-transparent pointer-events-none" />
-      </div>
+      {/* Transparent — shares the page-level AmbientBackdrop */}
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-10 items-center">
