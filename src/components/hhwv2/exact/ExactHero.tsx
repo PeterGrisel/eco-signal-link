@@ -20,11 +20,14 @@ import {
 import { Button } from "@/components/ui/button";
 import { openBookingModal } from "@/components/booking/GlobalBookingModal";
 import { supabase } from "@/integrations/supabase/client";
+import heroPoster from "@/assets/hero-poster.jpg.asset.json";
 import operator1 from "@/assets/team-member-1.jpg";
 import operator2 from "@/assets/team-member-2.jpg";
 import operator3 from "@/assets/team-member-3.jpg";
 import operator4 from "@/assets/team-member-4.jpg";
 import operator5 from "@/assets/team-member-5.jpg";
+
+const HERO_VIDEO_SRC = "/media/hero-loop.mp4";
 
 const operators = [operator1, operator2, operator3, operator4, operator5];
 
