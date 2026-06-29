@@ -20,11 +20,14 @@ import {
 import { Button } from "@/components/ui/button";
 import { openBookingModal } from "@/components/booking/GlobalBookingModal";
 import { supabase } from "@/integrations/supabase/client";
+import heroPoster from "@/assets/hero-poster.jpg.asset.json";
 import operator1 from "@/assets/team-member-1.jpg";
 import operator2 from "@/assets/team-member-2.jpg";
 import operator3 from "@/assets/team-member-3.jpg";
 import operator4 from "@/assets/team-member-4.jpg";
 import operator5 from "@/assets/team-member-5.jpg";
+
+const HERO_VIDEO_SRC = "/media/hero-loop.mp4";
 
 const operators = [operator1, operator2, operator3, operator4, operator5];
 
@@ -85,6 +88,99 @@ gsap.registerPlugin(ScrollTrigger);
 const ExactHero = () => {
   const [email, setEmail] = useState("");
   const panelRef = useRef<HTMLDivElement>(null);
+  const videoARef = useRef<HTMLVideoElement | null>(null);
+  const videoBRef = useRef<HTMLVideoElement | null>(null);
+  const [reducedMotion, setReducedMotion] = useState(() => {
+    if (typeof window === "undefined" || !window.matchMedia) return false;
+    return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  });
+
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.matchMedia) return;
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const onChange = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
+    mq.addEventListener?.("change", onChange);
+    return () => mq.removeEventListener?.("change", onChange);
+  }, []);
+
+  useEffect(() => {
+    if (reducedMotion) return;
+    const a = videoARef.current;
+    const b = videoBRef.current;
+    if (!a || !b) return;
+
+    const HANDOFF = 0.12;
+    let active: HTMLVideoElement = a;
+    let standby: HTMLVideoElement = b;
+    let swapping = false;
+    let frameId: number | null = null;
+
+    const safePlay = (el: HTMLVideoElement) => {
+      const p = el.play();
+      if (p && typeof p.catch === "function") p.catch(() => {});
+    };
+
+    const prep = (el: HTMLVideoElement) => {
+      try {
+        el.muted = true;
+        el.currentTime = 0;
+        el.pause();
+      } catch {}
+    };
+
+    a.style.opacity = "1";
+    b.style.opacity = "0";
+    prep(b);
+    safePlay(a);
+
+    const swap = () => {
+      if (swapping) return;
+      const next = standby;
+      const prev = active;
+      swapping = true;
+      next.currentTime = 0;
+      safePlay(next);
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          next.style.opacity = "1";
+          prev.style.opacity = "0";
+          setTimeout(() => {
+            prep(prev);
+            active = next;
+            standby = prev;
+            swapping = false;
+          }, 40);
+        });
+      });
+    };
+
+    const tick = () => {
+      if (!swapping && active.duration && isFinite(active.duration)) {
+        if (active.currentTime >= active.duration - HANDOFF) swap();
+      }
+      frameId = requestAnimationFrame(tick);
+    };
+
+    const onEnded = (e: Event) => {
+      if ((e.currentTarget as HTMLVideoElement) === active) swap();
+    };
+
+    const onVisible = () => {
+      if (document.visibilityState === "visible") safePlay(active);
+    };
+
+    a.addEventListener("ended", onEnded);
+    b.addEventListener("ended", onEnded);
+    document.addEventListener("visibilitychange", onVisible);
+    frameId = requestAnimationFrame(tick);
+
+    return () => {
+      a.removeEventListener("ended", onEnded);
+      b.removeEventListener("ended", onEnded);
+      document.removeEventListener("visibilitychange", onVisible);
+      if (frameId !== null) cancelAnimationFrame(frameId);
+    };
+  }, [reducedMotion]);
 
   useEffect(() => {
     const el = panelRef.current;
@@ -124,11 +220,55 @@ const ExactHero = () => {
   };
 
   return (
-    <section className="relative pt-24 md:pt-32 pb-16 md:pb-28 overflow-hidden bg-transparent">
-      {/* Background glow effects */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute -top-[20%] -left-[10%] w-[60%] h-[60%] rounded-full bg-primary/10 blur-[140px]" />
-        <div className="absolute top-[40%] -right-[10%] w-[50%] h-[50%] rounded-full bg-primary/5 blur-[120px]" />
+    <section className="relative isolate pt-24 md:pt-32 pb-16 md:pb-28 overflow-hidden bg-transparent min-h-[90vh] flex flex-col">
+      {/* Homepage video background */}
+      <div className="absolute inset-0 z-0 overflow-hidden bg-background">
+        <img
+          src={heroPoster.url}
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 w-full h-full object-cover"
+          decoding="async"
+          loading="eager"
+        />
+        {!reducedMotion && (
+          <>
+            <video
+              ref={videoARef}
+              src={HERO_VIDEO_SRC}
+              poster={heroPoster.url}
+              autoPlay
+              muted
+              playsInline
+              disablePictureInPicture
+              disableRemotePlayback
+              preload="auto"
+              {...({ "webkit-playsinline": "true", "x5-playsinline": "true" } as Record<string, string>)}
+              aria-hidden="true"
+              tabIndex={-1}
+              style={{ opacity: 1, transition: "opacity 60ms linear" }}
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+            <video
+              ref={videoBRef}
+              src={HERO_VIDEO_SRC}
+              poster={heroPoster.url}
+              muted
+              playsInline
+              disablePictureInPicture
+              disableRemotePlayback
+              preload="auto"
+              {...({ "webkit-playsinline": "true", "x5-playsinline": "true" } as Record<string, string>)}
+              aria-hidden="true"
+              tabIndex={-1}
+              style={{ opacity: 0, transition: "opacity 60ms linear" }}
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+          </>
+        )}
+        {/* Readability overlay */}
+        <div className="absolute inset-0 bg-background/50 pointer-events-none" />
+        <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-background/60 to-transparent pointer-events-none" />
       </div>
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
