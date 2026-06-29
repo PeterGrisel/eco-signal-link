@@ -88,6 +88,99 @@ gsap.registerPlugin(ScrollTrigger);
 const ExactHero = () => {
   const [email, setEmail] = useState("");
   const panelRef = useRef<HTMLDivElement>(null);
+  const videoARef = useRef<HTMLVideoElement | null>(null);
+  const videoBRef = useRef<HTMLVideoElement | null>(null);
+  const [reducedMotion, setReducedMotion] = useState(() => {
+    if (typeof window === "undefined" || !window.matchMedia) return false;
+    return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  });
+
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.matchMedia) return;
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const onChange = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
+    mq.addEventListener?.("change", onChange);
+    return () => mq.removeEventListener?.("change", onChange);
+  }, []);
+
+  useEffect(() => {
+    if (reducedMotion) return;
+    const a = videoARef.current;
+    const b = videoBRef.current;
+    if (!a || !b) return;
+
+    const HANDOFF = 0.12;
+    let active: HTMLVideoElement = a;
+    let standby: HTMLVideoElement = b;
+    let swapping = false;
+    let frameId: number | null = null;
+
+    const safePlay = (el: HTMLVideoElement) => {
+      const p = el.play();
+      if (p && typeof p.catch === "function") p.catch(() => {});
+    };
+
+    const prep = (el: HTMLVideoElement) => {
+      try {
+        el.muted = true;
+        el.currentTime = 0;
+        el.pause();
+      } catch {}
+    };
+
+    a.style.opacity = "1";
+    b.style.opacity = "0";
+    prep(b);
+    safePlay(a);
+
+    const swap = () => {
+      if (swapping) return;
+      const next = standby;
+      const prev = active;
+      swapping = true;
+      next.currentTime = 0;
+      safePlay(next);
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          next.style.opacity = "1";
+          prev.style.opacity = "0";
+          setTimeout(() => {
+            prep(prev);
+            active = next;
+            standby = prev;
+            swapping = false;
+          }, 40);
+        });
+      });
+    };
+
+    const tick = () => {
+      if (!swapping && active.duration && isFinite(active.duration)) {
+        if (active.currentTime >= active.duration - HANDOFF) swap();
+      }
+      frameId = requestAnimationFrame(tick);
+    };
+
+    const onEnded = (e: Event) => {
+      if ((e.currentTarget as HTMLVideoElement) === active) swap();
+    };
+
+    const onVisible = () => {
+      if (document.visibilityState === "visible") safePlay(active);
+    };
+
+    a.addEventListener("ended", onEnded);
+    b.addEventListener("ended", onEnded);
+    document.addEventListener("visibilitychange", onVisible);
+    frameId = requestAnimationFrame(tick);
+
+    return () => {
+      a.removeEventListener("ended", onEnded);
+      b.removeEventListener("ended", onEnded);
+      document.removeEventListener("visibilitychange", onVisible);
+      if (frameId !== null) cancelAnimationFrame(frameId);
+    };
+  }, [reducedMotion]);
 
   useEffect(() => {
     const el = panelRef.current;
