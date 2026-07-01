@@ -636,6 +636,165 @@ mcp.tool("get_blog_visual_result", {
   },
 });
 
+// ─── CONTENT BUCKETS ───
+
+mcp.tool("list_content_buckets", {
+  description: "List all content buckets (give-away collections). Returns id, slug, name, tagline, is_published.",
+  inputSchema: {
+    type: "object",
+    properties: {
+      published_only: { type: "boolean", description: "If true, only return published buckets" },
+    },
+  },
+  handler: async ({ published_only }: { published_only?: boolean }) => {
+    let q = supabaseAdmin
+      .from("content_buckets")
+      .select("id, slug, name, tagline, description, cta_text, is_published, accent_color, created_at")
+      .order("created_at", { ascending: false });
+    if (published_only) q = q.eq("is_published", true);
+    const { data, error } = await q;
+    if (error) return { content: [{ type: "text" as const, text: `Error: ${error.message}` }] };
+    return { content: [{ type: "text" as const, text: JSON.stringify(data, null, 2) }] };
+  },
+});
+
+mcp.tool("get_content_bucket", {
+  description: "Get a single content bucket by id or slug, including its items.",
+  inputSchema: {
+    type: "object",
+    properties: {
+      id: { type: "string" },
+      slug: { type: "string" },
+    },
+  },
+  handler: async ({ id, slug }: { id?: string; slug?: string }) => {
+    let q = supabaseAdmin.from("content_buckets").select("*");
+    if (id) q = q.eq("id", id);
+    else if (slug) q = q.eq("slug", slug);
+    else return { content: [{ type: "text" as const, text: "Provide either id or slug" }] };
+    const { data: bucket, error } = await q.single();
+    if (error) return { content: [{ type: "text" as const, text: `Error: ${error.message}` }] };
+    const { data: items } = await supabaseAdmin
+      .from("content_bucket_items")
+      .select("id, slug, title, subtitle, layout, position, category, status, cta_text, cta_url")
+      .eq("bucket_id", bucket.id)
+      .order("position");
+    return { content: [{ type: "text" as const, text: JSON.stringify({ ...bucket, items }, null, 2) }] };
+  },
+});
+
+mcp.tool("list_bucket_items", {
+  description: "List items inside a content bucket. Filter by status.",
+  inputSchema: {
+    type: "object",
+    properties: {
+      bucket_id: { type: "string" },
+      bucket_slug: { type: "string", description: "Alternative to bucket_id" },
+      status: { type: "string", enum: ["draft", "published", "archived"] },
+    },
+  },
+  handler: async ({ bucket_id, bucket_slug, status }: { bucket_id?: string; bucket_slug?: string; status?: string }) => {
+    let bid = bucket_id;
+    if (!bid && bucket_slug) {
+      const { data: b } = await supabaseAdmin.from("content_buckets").select("id").eq("slug", bucket_slug).single();
+      bid = b?.id;
+    }
+    if (!bid) return { content: [{ type: "text" as const, text: "Provide bucket_id or bucket_slug" }] };
+    let q = supabaseAdmin
+      .from("content_bucket_items")
+      .select("id, slug, title, subtitle, layout, position, category, status, cta_text, cta_url, updated_at")
+      .eq("bucket_id", bid)
+      .order("position");
+    if (status) q = q.eq("status", status);
+    const { data, error } = await q;
+    if (error) return { content: [{ type: "text" as const, text: `Error: ${error.message}` }] };
+    return { content: [{ type: "text" as const, text: JSON.stringify(data, null, 2) }] };
+  },
+});
+
+mcp.tool("get_bucket_item", {
+  description: "Get a single bucket item by id, including its full payload.",
+  inputSchema: {
+    type: "object",
+    properties: { id: { type: "string" } },
+    required: ["id"],
+  },
+  handler: async ({ id }: { id: string }) => {
+    const { data, error } = await supabaseAdmin
+      .from("content_bucket_items")
+      .select("*")
+      .eq("id", id)
+      .single();
+    if (error) return { content: [{ type: "text" as const, text: `Error: ${error.message}` }] };
+    return { content: [{ type: "text" as const, text: JSON.stringify(data, null, 2) }] };
+  },
+});
+
+mcp.tool("update_bucket_item", {
+  description: "Update a bucket item (title, subtitle, intro, layout, status, payload, cta_text, cta_url, position, category).",
+  inputSchema: {
+    type: "object",
+    properties: {
+      id: { type: "string" },
+      title: { type: "string" },
+      subtitle: { type: "string" },
+      intro: { type: "string" },
+      layout: { type: "string" },
+      status: { type: "string", enum: ["draft", "published", "archived"] },
+      cta_text: { type: "string" },
+      cta_url: { type: "string" },
+      category: { type: "string" },
+      position: { type: "number" },
+      payload: { type: "object", description: "Full payload JSON for the item renderer" },
+    },
+    required: ["id"],
+  },
+  handler: async (input: Record<string, unknown>) => {
+    const updates: Record<string, unknown> = {};
+    for (const key of ["title", "subtitle", "intro", "layout", "status", "cta_text", "cta_url", "category", "position", "payload"]) {
+      if (input[key] !== undefined) updates[key] = input[key];
+    }
+    const { data, error } = await supabaseAdmin
+      .from("content_bucket_items")
+      .update(updates)
+      .eq("id", input.id as string)
+      .select("id, slug, title, status")
+      .single();
+    if (error) return { content: [{ type: "text" as const, text: `Error: ${error.message}` }] };
+    return { content: [{ type: "text" as const, text: `Updated: ${JSON.stringify(data)}` }] };
+  },
+});
+
+mcp.tool("list_bucket_leads", {
+  description: "List leads captured via content buckets. Filter by bucket and status.",
+  inputSchema: {
+    type: "object",
+    properties: {
+      bucket_id: { type: "string" },
+      bucket_slug: { type: "string" },
+      status: { type: "string", enum: ["pending", "confirmed", "unsubscribed"] },
+      limit: { type: "number", description: "Max results (default 50)" },
+    },
+  },
+  handler: async ({ bucket_id, bucket_slug, status, limit = 50 }: { bucket_id?: string; bucket_slug?: string; status?: string; limit?: number }) => {
+    let bid = bucket_id;
+    if (!bid && bucket_slug) {
+      const { data: b } = await supabaseAdmin.from("content_buckets").select("id").eq("slug", bucket_slug).single();
+      bid = b?.id;
+    }
+    let q = supabaseAdmin
+      .from("content_bucket_leads")
+      .select("id, bucket_id, item_id, email, name, company, status, confirmed_at, delivered_at, created_at")
+      .order("created_at", { ascending: false })
+      .limit(limit);
+    if (bid) q = q.eq("bucket_id", bid);
+    if (status) q = q.eq("status", status);
+    const { data, error } = await q;
+    if (error) return { content: [{ type: "text" as const, text: `Error: ${error.message}` }] };
+    return { content: [{ type: "text" as const, text: JSON.stringify(data, null, 2) }] };
+  },
+});
+
 // ─── AUTH: DB-based API key validation ───
 
 async function validateApiKey(token: string | undefined): Promise<{ valid: boolean; permissions: string[] | null }> {
