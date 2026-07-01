@@ -216,6 +216,7 @@ export const IndexingTabContent = () => {
     switch (status) {
       case "indexed": return <CheckCircle2 className="w-4 h-4 text-green-400" />;
       case "failed": return <XCircle className="w-4 h-4 text-red-400" />;
+      case "quota_exceeded": return <Clock className="w-4 h-4 text-amber-400" />;
       case "requested":
       case "pending": return <Clock className="w-4 h-4 text-blue-400" />;
       default: return <Globe className="w-4 h-4 text-muted-foreground" />;
@@ -330,7 +331,11 @@ export const IndexingTabContent = () => {
                   </div>
                   <div className="flex items-center gap-2 ml-4">
                     <Badge variant="outline" className={statusColors[urlStatus] || "bg-muted/50 text-muted-foreground"}>
-                      {urlStatus === "not_submitted" ? "niet ingediend" : urlStatus}
+                      {urlStatus === "not_submitted"
+                        ? "niet ingediend"
+                        : urlStatus === "quota_exceeded"
+                        ? "wacht op reset"
+                        : urlStatus}
                     </Badge>
                     <Button
                       variant="ghost"
