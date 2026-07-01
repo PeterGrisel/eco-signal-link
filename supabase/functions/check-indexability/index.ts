@@ -130,7 +130,7 @@ Deno.serve(async (req) => {
   try {
     const body = await req.json().catch(() => ({}));
     let urls: string[] = Array.isArray(body?.urls) ? body.urls : [];
-    urls = urls.filter((u) => typeof u === 'string' && /^https?:\/\//.test(u)).slice(0, 60);
+    urls = urls.filter((u) => typeof u === 'string' && /^https?:\/\//.test(u)).slice(0, 250);
 
     if (urls.length === 0) {
       return new Response(JSON.stringify({ error: 'Geen geldige URL\'s ontvangen' }), {
