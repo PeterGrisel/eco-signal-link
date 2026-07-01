@@ -107,8 +107,20 @@ serve(async (req) => {
     const accessToken = await getAccessToken(clientEmail, privateKey);
 
     const results = [];
+    let quotaExceeded = false;
 
     for (const targetUrl of targetUrls) {
+      if (quotaExceeded) {
+        // Google's daily quota is gone for today — mark remaining as pending retry, don't burn calls
+        await supabase.from("indexing_requests").upsert({
+          url: targetUrl,
+          status: "quota_exceeded",
+          response_message: "Daglimiet Google Indexing API bereikt — automatisch opnieuw morgen",
+        }, { onConflict: "url" });
+        results.push({ url: targetUrl, status: "quota_exceeded", message: "Daglimiet bereikt, wordt morgen opnieuw geprobeerd" });
+        continue;
+      }
+
       // Upsert: if URL already exists, update status; otherwise insert
       const { data: record, error: insertErr } = await supabase.from("indexing_requests")
         .upsert({
@@ -144,11 +156,14 @@ serve(async (req) => {
           }).eq("id", record.id);
           results.push({ url: targetUrl, status: "indexed" });
         } else {
+          const msg: string = data.error?.message || "Google API fout";
+          const isQuota = response.status === 429 || /quota/i.test(msg) || /rate.?limit/i.test(msg);
+          if (isQuota) quotaExceeded = true;
           await supabase.from("indexing_requests").update({
-            status: "failed",
-            response_message: data.error?.message || "Google API fout",
+            status: isQuota ? "quota_exceeded" : "failed",
+            response_message: isQuota ? "Daglimiet Google Indexing API bereikt — automatisch opnieuw morgen" : msg,
           }).eq("id", record.id);
-          results.push({ url: targetUrl, status: "failed", message: data.error?.message });
+          results.push({ url: targetUrl, status: isQuota ? "quota_exceeded" : "failed", message: msg });
         }
       } catch (e) {
         await supabase.from("indexing_requests").update({
@@ -159,7 +174,7 @@ serve(async (req) => {
       }
     }
 
-    return new Response(JSON.stringify({ results }), {
+    return new Response(JSON.stringify({ results, quotaExceeded }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (e) {
