@@ -193,7 +193,7 @@ export const IndexabilityTabContent = () => {
 
       <Card className="p-4 space-y-2">
         <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-          URL&apos;s (één per regel, max 60)
+          URL&apos;s (één per regel, max 250)
         </label>
         <Textarea
           value={input}
@@ -205,6 +205,11 @@ export const IndexabilityTabContent = () => {
         <p className="text-xs text-muted-foreground">
           {defaultUrls.length > 0 && `Sitemap bevat ${defaultUrls.length} URL's.`}
         </p>
+        {progress && (
+          <p className="text-xs text-primary">
+            Bezig: {progress.done} / {progress.total} URL's gecheckt…
+          </p>
+        )}
       </Card>
 
       {summary && (
