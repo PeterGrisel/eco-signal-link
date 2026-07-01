@@ -43,6 +43,7 @@ export const IndexabilityTabContent = () => {
   const [running, setRunning] = useState(false);
   const [results, setResults] = useState<CheckResult[]>([]);
   const [summary, setSummary] = useState<Summary | null>(null);
+  const [progress, setProgress] = useState<{ done: number; total: number } | null>(null);
 
   const loadSitemap = useCallback(async () => {
     try {
@@ -76,17 +77,33 @@ export const IndexabilityTabContent = () => {
     setRunning(true);
     setResults([]);
     setSummary(null);
+    setProgress({ done: 0, total: urls.length });
     try {
-      const { data, error } = await supabase.functions.invoke("check-indexability", {
-        body: { urls },
+      // Batch client-side (edge function accepts up to 250, but 40/batch keeps
+      // each request well inside the CPU/time budget and gives live progress).
+      const BATCH = 40;
+      const all: CheckResult[] = [];
+      for (let i = 0; i < urls.length; i += BATCH) {
+        const chunk = urls.slice(i, i + BATCH);
+        const { data, error } = await supabase.functions.invoke("check-indexability", {
+          body: { urls: chunk },
+        });
+        if (error) throw error;
+        all.push(...(data.results ?? []));
+        setResults([...all]);
+        setProgress({ done: Math.min(i + BATCH, urls.length), total: urls.length });
+      }
+      setSummary({
+        total: all.length,
+        ok: all.filter((r) => r.ok).length,
+        withIssues: all.filter((r) => r.issues.length > 0).length,
+        noindex: all.filter((r) => r.noindex).length,
       });
-      if (error) throw error;
-      setResults(data.results ?? []);
-      setSummary(data.summary ?? null);
     } catch (e) {
       toast({ title: "Check mislukt", description: (e as Error).message, variant: "destructive" });
     } finally {
       setRunning(false);
+      setProgress(null);
     }
   };
 
