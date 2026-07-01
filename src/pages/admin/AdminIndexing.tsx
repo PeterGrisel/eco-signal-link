@@ -12,6 +12,7 @@ const statusColors: Record<string, string> = {
   requested: "bg-blue-500/10 text-blue-400 border-blue-500/20",
   indexed: "bg-green-500/10 text-green-400 border-green-500/20",
   failed: "bg-red-500/10 text-red-400 border-red-500/20",
+  quota_exceeded: "bg-amber-500/10 text-amber-400 border-amber-500/20",
 };
 
 interface SitemapUrl {
@@ -72,7 +73,7 @@ export const IndexingTabContent = () => {
   const stats = {
     total: sitemapUrls.length,
     indexed: sitemapUrls.filter(u => getUrlStatus(u.url) === "indexed").length,
-    pending: sitemapUrls.filter(u => ["pending", "requested"].includes(getUrlStatus(u.url))).length,
+    pending: sitemapUrls.filter(u => ["pending", "requested", "quota_exceeded"].includes(getUrlStatus(u.url))).length,
     notSubmitted: sitemapUrls.filter(u => getUrlStatus(u.url) === "not_submitted").length,
     failed: sitemapUrls.filter(u => getUrlStatus(u.url) === "failed").length,
   };
@@ -91,8 +92,15 @@ export const IndexingTabContent = () => {
 
       const results = data?.results || [];
       const failed = results.filter((r: any) => r.status === "failed");
+      const quota = results.filter((r: any) => r.status === "quota_exceeded");
       const succeeded = results.filter((r: any) => r.status === "indexed");
 
+      if (quota.length > 0) {
+        toast({
+          title: `Daglimiet Google bereikt`,
+          description: `${quota.length} URL(s) worden morgen automatisch opnieuw geprobeerd.`,
+        });
+      }
       if (failed.length > 0) {
         toast({
           title: `${failed.length} URL(s) mislukt`,
@@ -124,7 +132,18 @@ export const IndexingTabContent = () => {
         body: { urls: targetUrls },
       });
       if (error) throw error;
-      toast({ title: `${targetUrls.length} URLs ingediend!` });
+      const results = data?.results || [];
+      const succeeded = results.filter((r: any) => r.status === "indexed").length;
+      const quota = results.filter((r: any) => r.status === "quota_exceeded").length;
+      const failed = results.filter((r: any) => r.status === "failed").length;
+      toast({
+        title: quota > 0
+          ? `${succeeded} ingediend, ${quota} wachten op reset`
+          : `${targetUrls.length} URLs ingediend!`,
+        description: quota > 0
+          ? `Daglimiet Google bereikt — resterende URLs worden morgen automatisch opnieuw geprobeerd.${failed > 0 ? ` ${failed} mislukt.` : ""}`
+          : undefined,
+      });
       fetchData();
     } catch (e: any) {
       toast({ title: "Fout", description: e.message, variant: "destructive" });
@@ -172,10 +191,13 @@ export const IndexingTabContent = () => {
       const results = data?.results || [];
       const succeeded = results.filter((r: any) => r.status === "indexed").length;
       const failed = results.filter((r: any) => r.status === "failed").length;
+      const quota = results.filter((r: any) => r.status === "quota_exceeded").length;
 
       toast({
-        title: `${succeeded} geïndexeerd, ${failed} mislukt`,
-        description: `${missing.length} nieuw gesynchroniseerd`,
+        title: `${succeeded} geïndexeerd${quota ? `, ${quota} wachten op reset` : ""}${failed ? `, ${failed} mislukt` : ""}`,
+        description: quota
+          ? `Daglimiet Google bereikt — ${quota} URLs worden morgen automatisch opnieuw geprobeerd. ${missing.length} nieuw gesynchroniseerd.`
+          : `${missing.length} nieuw gesynchroniseerd`,
       });
 
       fetchData();
@@ -194,6 +216,7 @@ export const IndexingTabContent = () => {
     switch (status) {
       case "indexed": return <CheckCircle2 className="w-4 h-4 text-green-400" />;
       case "failed": return <XCircle className="w-4 h-4 text-red-400" />;
+      case "quota_exceeded": return <Clock className="w-4 h-4 text-amber-400" />;
       case "requested":
       case "pending": return <Clock className="w-4 h-4 text-blue-400" />;
       default: return <Globe className="w-4 h-4 text-muted-foreground" />;
@@ -308,7 +331,11 @@ export const IndexingTabContent = () => {
                   </div>
                   <div className="flex items-center gap-2 ml-4">
                     <Badge variant="outline" className={statusColors[urlStatus] || "bg-muted/50 text-muted-foreground"}>
-                      {urlStatus === "not_submitted" ? "niet ingediend" : urlStatus}
+                      {urlStatus === "not_submitted"
+                        ? "niet ingediend"
+                        : urlStatus === "quota_exceeded"
+                        ? "wacht op reset"
+                        : urlStatus}
                     </Badge>
                     <Button
                       variant="ghost"
