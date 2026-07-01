@@ -2643,7 +2643,12 @@ export type Database = {
         | "published"
         | "failed"
       content_type: "article" | "tool" | "video" | "pseo"
-      indexing_status: "pending" | "requested" | "indexed" | "failed"
+      indexing_status:
+        | "pending"
+        | "requested"
+        | "indexed"
+        | "failed"
+        | "quota_exceeded"
       listing_status: "todo" | "submitted" | "live" | "rejected"
     }
     CompositeTypes: {
@@ -2783,7 +2788,13 @@ export const Constants = {
         "failed",
       ],
       content_type: ["article", "tool", "video", "pseo"],
-      indexing_status: ["pending", "requested", "indexed", "failed"],
+      indexing_status: [
+        "pending",
+        "requested",
+        "indexed",
+        "failed",
+        "quota_exceeded",
+      ],
       listing_status: ["todo", "submitted", "live", "rejected"],
     },
   },
