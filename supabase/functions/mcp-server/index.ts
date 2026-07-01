@@ -641,11 +641,6 @@ mcp.tool("get_blog_visual_result", {
 async function validateApiKey(token: string | undefined): Promise<{ valid: boolean; permissions: string[] | null }> {
   if (!token) return { valid: false, permissions: null };
 
-  return await validateApiKeyImpl(token);
-}
-
-async function validateApiKeyImpl(token: string): Promise<{ valid: boolean; permissions: string[] | null }> {
-
   const { data, error } = await supabaseAdmin
     .from("mcp_api_keys")
     .select("id, is_master, permissions, is_active")
