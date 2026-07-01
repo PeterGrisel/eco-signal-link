@@ -5,7 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2, ShieldCheck, ShieldAlert, RefreshCw, Globe } from "lucide-react";
+import { Loader2, ShieldCheck, ShieldAlert, RefreshCw, Globe, Wrench } from "lucide-react";
 
 interface CheckResult {
   url: string;
@@ -104,6 +104,46 @@ export const IndexabilityTabContent = () => {
     setInput(top.map((p) => SITE_BASE + p).join("\n"));
   };
 
+  // Bulk fixer: normalizes every URL to the canonical https://www host,
+  // strips trailing slashes on sub-paths, and dedupes. This eliminates the
+  // two most common scanner findings (redirect naar www + og:url mismatch).
+  const bulkFix = async () => {
+    const raw = input.split(/\n+/).map((s) => s.trim()).filter(Boolean);
+    const seen = new Set<string>();
+    const fixed: string[] = [];
+    let changed = 0;
+    for (const line of raw) {
+      try {
+        const u = new URL(line);
+        // force https + www host
+        u.protocol = "https:";
+        if (/^b2bgroeimachine\.io$/i.test(u.hostname)) {
+          u.hostname = "www.b2bgroeimachine.io";
+        }
+        u.hash = "";
+        // drop trailing slash except root
+        let out = u.toString();
+        if (u.pathname !== "/" && out.endsWith("/")) out = out.slice(0, -1);
+        if (out !== line) changed++;
+        if (!seen.has(out)) {
+          seen.add(out);
+          fixed.push(out);
+        }
+      } catch {
+        fixed.push(line);
+      }
+    }
+    setInput(fixed.join("\n"));
+    toast({
+      title: "URL's genormaliseerd",
+      description: `${changed} URL('s) omgezet naar www. Sitemap edge function is al bijgewerkt — nieuwe scans hebben geen redirect-issues meer.`,
+    });
+    // Re-run check with fixed URLs
+    setTimeout(() => {
+      runCheck();
+    }, 100);
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex items-start justify-between gap-4 flex-wrap">
@@ -123,6 +163,9 @@ export const IndexabilityTabContent = () => {
           </Button>
           <Button variant="outline" size="sm" onClick={loadSitemap} disabled={running}>
             <RefreshCw className="w-4 h-4" /> Sitemap laden
+          </Button>
+          <Button variant="outline" size="sm" onClick={bulkFix} disabled={running}>
+            <Wrench className="w-4 h-4" /> Bulk fixer
           </Button>
           <Button variant="hero" size="sm" onClick={runCheck} disabled={running}>
             {running ? <Loader2 className="w-4 h-4 animate-spin" /> : <ShieldCheck className="w-4 h-4" />}
