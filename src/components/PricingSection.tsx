@@ -455,7 +455,7 @@ const buildBoosts = (lang: Lang, fmt: (eur: number) => string) => {
       {
         icon: Target,
         title: "Reach Boost",
-        price: `€${fmt(750)} p/m all-in`,
+        price: `€${fmt(750)} p/m`,
         desc: "Een extra commerciële invalshoek binnen de bestaande groeimachine, gericht op een specifieke markt, productgroep, regio of strategische accountgroep.",
         items: [
           "Extra markt- of productlijn binnen bestaand accountuniversum",
@@ -498,7 +498,7 @@ const buildBoosts = (lang: Lang, fmt: (eur: number) => string) => {
     {
       icon: Target,
       title: "Reach Boost",
-      price: `€${fmt(750)} /mo all-in`,
+      price: `€${fmt(750)} /mo`,
       desc: "An additional commercial angle within your existing growth machine, focused on a specific market, product line, region or strategic account group.",
       items: [
         "Extra market or product line within existing account universe",
