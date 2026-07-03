@@ -15,7 +15,6 @@ import HowItWorksCarousel from "@/components/HowItWorksCarousel";
 import AlwaysOnBentoSection from "@/components/AlwaysOnBentoSection";
 import GroeistackSection from "@/components/GroeistackSection";
 
-import CaseStudiesSection from "@/components/CaseStudiesSection";
 import Chapter11Bewegingen from "@/components/homepage/chapters/Chapter11Bewegingen";
 
 const Index = () => {
@@ -66,8 +65,6 @@ const Index = () => {
       <AlwaysOnBentoSection />
       <GroeistackSection />
       <Chapter11Bewegingen />
-      <CaseStudiesSection />
-      
       <PricingSection showPerformancePartnership={false} />
       <FaqSection />
       <CtaSection />
