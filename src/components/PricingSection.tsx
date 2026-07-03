@@ -479,7 +479,7 @@ const buildBoosts = (lang: Lang, fmt: (eur: number) => string) => {
       {
         icon: FileText,
         title: "Content Boost",
-        price: `${from}${fmt(950)}${pm}`,
+        price: `${from}${fmt(500)}${pm}`,
         desc: "Vergroot engagement met LinkedIn-content, mailcopy, nurture en klantcases.",
         items: ["LinkedIn-posts", "Campagnecopy en e-mailvarianten", "Klantcases", "Nurture-content", "Content op basis van signalen"],
         footer: `Staffel: Lite ${fmt(500)} / Boost ${fmt(750)} / Engine ${from}${fmt(1000)}${pm}.`,
@@ -522,7 +522,7 @@ const buildBoosts = (lang: Lang, fmt: (eur: number) => string) => {
     {
       icon: FileText,
       title: "Content Boost",
-      price: `${from}${fmt(950)}${pm}`,
+      price: `${from}${fmt(500)}${pm}`,
       desc: "Grow engagement with LinkedIn content, email copy, nurture and customer cases.",
       items: ["LinkedIn posts", "Campaign and email copy", "Customer cases", "Nurture content", "Signal-based content"],
       footer: `Tiered: Lite ${fmt(500)} / Boost ${fmt(750)} / Engine ${from}${fmt(1000)}${pm}.`,
