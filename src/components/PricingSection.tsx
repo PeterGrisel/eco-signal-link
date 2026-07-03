@@ -471,7 +471,7 @@ const buildBoosts = (lang: Lang, fmt: (eur: number) => string) => {
       {
         icon: Database,
         title: "CRM Boost",
-        price: `HubSpot/Pipedrive ${from}${fmt(2500)}`,
+        price: `HubSpot/Pipedrive ${from}${fmt(2500)} eenmalig`,
         desc: "Richt uw commerciële opvolging goed in met pipelines, velden, stages en rapportage.",
         items: ["Pipeline-inrichting", "Deal stages en leadstatussen", "Velden en segmentatie", "Basisautomatisering", "Dashboard en rapportage"],
         footer: `Optioneel beheer: ${from}${fmt(200)}${pm}.`,
@@ -514,7 +514,7 @@ const buildBoosts = (lang: Lang, fmt: (eur: number) => string) => {
     {
       icon: Database,
       title: "CRM Boost",
-      price: `HubSpot/Pipedrive ${from}${fmt(2500)}`,
+      price: `HubSpot/Pipedrive ${from}${fmt(2500)} one-time`,
       desc: "Set up commercial follow-up properly with pipelines, fields, stages and reporting.",
       items: ["Pipeline setup", "Deal stages and lead statuses", "Fields and segmentation", "Base automation", "Dashboard and reporting"],
       footer: `Optional management: ${from}${fmt(200)}${pm}.`,
