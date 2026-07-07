@@ -1499,6 +1499,662 @@ export type Database = {
         }
         Relationships: []
       }
+      gp_accounts: {
+        Row: {
+          country: string | null
+          created_at: string
+          domain: string | null
+          employee_range: string | null
+          id: string
+          industry: string | null
+          name: string
+          organization_id: string
+          status: string
+          warmth: string
+        }
+        Insert: {
+          country?: string | null
+          created_at?: string
+          domain?: string | null
+          employee_range?: string | null
+          id?: string
+          industry?: string | null
+          name: string
+          organization_id: string
+          status?: string
+          warmth?: string
+        }
+        Update: {
+          country?: string | null
+          created_at?: string
+          domain?: string | null
+          employee_range?: string | null
+          id?: string
+          industry?: string | null
+          name?: string
+          organization_id?: string
+          status?: string
+          warmth?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "gp_accounts_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "gp_organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      gp_campaigns: {
+        Row: {
+          accounts_count: number
+          channels: string[]
+          created_at: string
+          goal: string | null
+          icp_id: string | null
+          id: string
+          learnings: string | null
+          market_id: string | null
+          meetings: number
+          name: string
+          organization_id: string
+          positive_replies: number
+          sales_ready: number
+          started_at: string | null
+          status: string
+        }
+        Insert: {
+          accounts_count?: number
+          channels?: string[]
+          created_at?: string
+          goal?: string | null
+          icp_id?: string | null
+          id?: string
+          learnings?: string | null
+          market_id?: string | null
+          meetings?: number
+          name: string
+          organization_id: string
+          positive_replies?: number
+          sales_ready?: number
+          started_at?: string | null
+          status?: string
+        }
+        Update: {
+          accounts_count?: number
+          channels?: string[]
+          created_at?: string
+          goal?: string | null
+          icp_id?: string | null
+          id?: string
+          learnings?: string | null
+          market_id?: string | null
+          meetings?: number
+          name?: string
+          organization_id?: string
+          positive_replies?: number
+          sales_ready?: number
+          started_at?: string | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "gp_campaigns_icp_id_fkey"
+            columns: ["icp_id"]
+            isOneToOne: false
+            referencedRelation: "gp_icps"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "gp_campaigns_market_id_fkey"
+            columns: ["market_id"]
+            isOneToOne: false
+            referencedRelation: "gp_markets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "gp_campaigns_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "gp_organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      gp_contacts: {
+        Row: {
+          account_id: string | null
+          created_at: string
+          email: string | null
+          full_name: string
+          id: string
+          linkedin_url: string | null
+          organization_id: string
+          title: string | null
+        }
+        Insert: {
+          account_id?: string | null
+          created_at?: string
+          email?: string | null
+          full_name: string
+          id?: string
+          linkedin_url?: string | null
+          organization_id: string
+          title?: string | null
+        }
+        Update: {
+          account_id?: string | null
+          created_at?: string
+          email?: string | null
+          full_name?: string
+          id?: string
+          linkedin_url?: string | null
+          organization_id?: string
+          title?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "gp_contacts_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "gp_accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "gp_contacts_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "gp_organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      gp_icps: {
+        Row: {
+          created_at: string
+          description: string | null
+          employee_range: string | null
+          id: string
+          industries: string[] | null
+          name: string
+          organization_id: string
+          target_roles: string[] | null
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          employee_range?: string | null
+          id?: string
+          industries?: string[] | null
+          name: string
+          organization_id: string
+          target_roles?: string[] | null
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          employee_range?: string | null
+          id?: string
+          industries?: string[] | null
+          name?: string
+          organization_id?: string
+          target_roles?: string[] | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "gp_icps_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "gp_organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      gp_markets: {
+        Row: {
+          country: string | null
+          created_at: string
+          id: string
+          name: string
+          organization_id: string
+          status: string
+        }
+        Insert: {
+          country?: string | null
+          created_at?: string
+          id?: string
+          name: string
+          organization_id: string
+          status?: string
+        }
+        Update: {
+          country?: string | null
+          created_at?: string
+          id?: string
+          name?: string
+          organization_id?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "gp_markets_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "gp_organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      gp_onboarding_projects: {
+        Row: {
+          created_at: string
+          id: string
+          organization_id: string
+          started_at: string
+          status: string
+          target_go_live: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          organization_id: string
+          started_at?: string
+          status?: string
+          target_go_live?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          organization_id?: string
+          started_at?: string
+          status?: string
+          target_go_live?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "gp_onboarding_projects_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: true
+            referencedRelation: "gp_organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      gp_onboarding_tasks: {
+        Row: {
+          client_action: string | null
+          created_at: string
+          deadline: string | null
+          deliverable: string | null
+          description: string | null
+          id: string
+          organization_id: string
+          owner: string | null
+          project_id: string
+          status: string
+          step_order: number
+          title: string
+        }
+        Insert: {
+          client_action?: string | null
+          created_at?: string
+          deadline?: string | null
+          deliverable?: string | null
+          description?: string | null
+          id?: string
+          organization_id: string
+          owner?: string | null
+          project_id: string
+          status?: string
+          step_order: number
+          title: string
+        }
+        Update: {
+          client_action?: string | null
+          created_at?: string
+          deadline?: string | null
+          deliverable?: string | null
+          description?: string | null
+          id?: string
+          organization_id?: string
+          owner?: string | null
+          project_id?: string
+          status?: string
+          step_order?: number
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "gp_onboarding_tasks_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "gp_organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "gp_onboarding_tasks_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "gp_onboarding_projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      gp_organization_members: {
+        Row: {
+          created_at: string
+          id: string
+          organization_id: string
+          role: Database["public"]["Enums"]["growth_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          organization_id: string
+          role?: Database["public"]["Enums"]["growth_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          organization_id?: string
+          role?: Database["public"]["Enums"]["growth_role"]
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "gp_organization_members_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "gp_organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      gp_organizations: {
+        Row: {
+          country: string | null
+          created_at: string
+          id: string
+          industry: string | null
+          logo_url: string | null
+          name: string
+          package: string | null
+          slug: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          country?: string | null
+          created_at?: string
+          id?: string
+          industry?: string | null
+          logo_url?: string | null
+          name: string
+          package?: string | null
+          slug?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          country?: string | null
+          created_at?: string
+          id?: string
+          industry?: string | null
+          logo_url?: string | null
+          name?: string
+          package?: string | null
+          slug?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      gp_profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          email: string | null
+          full_name: string | null
+          id: string
+          is_platform_admin: boolean
+          updated_at: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id: string
+          is_platform_admin?: boolean
+          updated_at?: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id?: string
+          is_platform_admin?: boolean
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      gp_sales_actions: {
+        Row: {
+          account_id: string | null
+          action_type: string
+          contact_id: string | null
+          created_at: string
+          due_date: string | null
+          id: string
+          notes: string | null
+          organization_id: string
+          outcome: string | null
+          owner_id: string | null
+          priority: string
+          signal_id: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          account_id?: string | null
+          action_type: string
+          contact_id?: string | null
+          created_at?: string
+          due_date?: string | null
+          id?: string
+          notes?: string | null
+          organization_id: string
+          outcome?: string | null
+          owner_id?: string | null
+          priority?: string
+          signal_id?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          account_id?: string | null
+          action_type?: string
+          contact_id?: string | null
+          created_at?: string
+          due_date?: string | null
+          id?: string
+          notes?: string | null
+          organization_id?: string
+          outcome?: string | null
+          owner_id?: string | null
+          priority?: string
+          signal_id?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "gp_sales_actions_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "gp_accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "gp_sales_actions_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "gp_contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "gp_sales_actions_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "gp_organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "gp_sales_actions_signal_id_fkey"
+            columns: ["signal_id"]
+            isOneToOne: false
+            referencedRelation: "gp_signals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      gp_service_requests: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          organization_id: string
+          priority: string
+          request_type: string
+          requester_id: string | null
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          organization_id: string
+          priority?: string
+          request_type: string
+          requester_id?: string | null
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          organization_id?: string
+          priority?: string
+          request_type?: string
+          requester_id?: string | null
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "gp_service_requests_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "gp_organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      gp_signals: {
+        Row: {
+          account_id: string | null
+          campaign_id: string | null
+          contact_id: string | null
+          created_at: string
+          id: string
+          organization_id: string
+          owner_id: string | null
+          priority: string
+          recommended_action: string | null
+          relevance: string | null
+          signal_date: string
+          signal_source: string | null
+          signal_type: string
+          status: string
+          strength: string
+          summary: string | null
+        }
+        Insert: {
+          account_id?: string | null
+          campaign_id?: string | null
+          contact_id?: string | null
+          created_at?: string
+          id?: string
+          organization_id: string
+          owner_id?: string | null
+          priority?: string
+          recommended_action?: string | null
+          relevance?: string | null
+          signal_date?: string
+          signal_source?: string | null
+          signal_type: string
+          status?: string
+          strength?: string
+          summary?: string | null
+        }
+        Update: {
+          account_id?: string | null
+          campaign_id?: string | null
+          contact_id?: string | null
+          created_at?: string
+          id?: string
+          organization_id?: string
+          owner_id?: string | null
+          priority?: string
+          recommended_action?: string | null
+          relevance?: string | null
+          signal_date?: string
+          signal_source?: string | null
+          signal_type?: string
+          status?: string
+          strength?: string
+          summary?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "gp_signals_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "gp_accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "gp_signals_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "gp_campaigns"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "gp_signals_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "gp_contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "gp_signals_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "gp_organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       groeiplan_submissions: {
         Row: {
           company: string | null
@@ -2593,6 +3249,22 @@ export type Database = {
           title: string
         }[]
       }
+      gp_can_access_org: {
+        Args: { _org_id: string; _user_id: string }
+        Returns: boolean
+      }
+      gp_has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["growth_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      gp_is_org_member: {
+        Args: { _org_id: string; _user_id: string }
+        Returns: boolean
+      }
+      gp_is_rebel_force: { Args: { _user_id: string }; Returns: boolean }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -2643,6 +3315,15 @@ export type Database = {
         | "published"
         | "failed"
       content_type: "article" | "tool" | "video" | "pseo"
+      growth_role:
+        | "super_admin"
+        | "rebel_force_admin"
+        | "growth_manager"
+        | "growth_operator"
+        | "client_admin"
+        | "client_sales_manager"
+        | "client_sales_user"
+        | "client_viewer"
       indexing_status:
         | "pending"
         | "requested"
@@ -2788,6 +3469,16 @@ export const Constants = {
         "failed",
       ],
       content_type: ["article", "tool", "video", "pseo"],
+      growth_role: [
+        "super_admin",
+        "rebel_force_admin",
+        "growth_manager",
+        "growth_operator",
+        "client_admin",
+        "client_sales_manager",
+        "client_sales_user",
+        "client_viewer",
+      ],
       indexing_status: [
         "pending",
         "requested",

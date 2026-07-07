@@ -66,6 +66,16 @@ import Klanten from "./pages/Klanten.tsx";
 import Demo from "./pages/Demo.tsx";
 import IconsPreview from "./pages/IconsPreview.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import PortalLayout from "./pages/app/PortalLayout.tsx";
+import PortalLogin from "./pages/app/PortalLogin.tsx";
+import PortalDashboard from "./pages/app/Dashboard.tsx";
+import PortalOnboarding from "./pages/app/Onboarding.tsx";
+import PortalSignals from "./pages/app/Signals.tsx";
+import PortalSalesActions from "./pages/app/SalesActions.tsx";
+import PortalCampaigns from "./pages/app/Campaigns.tsx";
+import PortalResults from "./pages/app/Results.tsx";
+import PortalService from "./pages/app/Service.tsx";
+import PortalSettings from "./pages/app/Settings.tsx";
 import TrackingScriptInjector from "./components/TrackingScriptInjector";
 import CookieConsent from "./components/CookieConsent";
 import { BookingModalHost } from "./components/booking/GlobalBookingModal";
@@ -178,6 +188,18 @@ const AnimatedRoutes = () => {
           <Route path="/cheatsheet/gamma-presentaties" element={<GammaCheatsheet />} />
           <Route path="/demo" element={<Demo />} />
           <Route path="/video" element={<Navigate to="/demo" replace />} />
+          {/* Growth Ops Portal */}
+          <Route path="/app/login" element={<PortalLogin />} />
+          <Route path="/app" element={<PortalLayout />}>
+            <Route index element={<PortalDashboard />} />
+            <Route path="onboarding" element={<PortalOnboarding />} />
+            <Route path="signalen" element={<PortalSignals />} />
+            <Route path="sales-acties" element={<PortalSalesActions />} />
+            <Route path="campagnes" element={<PortalCampaigns />} />
+            <Route path="resultaten" element={<PortalResults />} />
+            <Route path="service" element={<PortalService />} />
+            <Route path="instellingen" element={<PortalSettings />} />
+          </Route>
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
