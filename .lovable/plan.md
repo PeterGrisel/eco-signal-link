@@ -1,67 +1,79 @@
 
-# Content Bucket Engine
+# B2Bgroeimachine.io Portal — bouwplan
 
-Eén systeem dat verschillende soorten "content-buckets" beheert. Elke bucket = een type asset met eigen layout(s), generator-prompt en publicatieflow. We starten met de bucket **Give-Aways** (24 templates uit de bundle) en bouwen de architectuur direct zo dat een tweede bucket (bijv. **LinkedIn-posts**) later alleen een nieuwe rij in `content_buckets` + een renderer-component nodig heeft.
+De uploads beschrijven een multi-tenant portal met drie omgevingen (klant, Rebel Force ops, platform admin), 8 rollen, ~25 database-entiteiten en een publieke configurator. Dat is te groot voor één iteratie. We volgen de bijgeleverde build checklist: **Fase 1 = demo-klaar**, daarna Fase 2 en 3.
 
-## Wat de gebruiker krijgt
+Alles komt naast de bestaande marketing-site te leven onder nieuwe routes. De huidige homepage, blog, admin en pricing blijven ongewijzigd.
 
-**Publiek**
-- `/give-aways` — overzicht van alle 24 templates met cover-cards (week-slot + type-label).
-- `/give-aways/:slug` — detailpagina met preview en e-mailgate. Na double opt-in: PDF/print + welkomstmail.
-- Werkt in dezelfde dark editorial stijl als de prototype (Space Grotesk, Inter, JetBrains Mono, accent #E8945A, bg #121212, A4-vriendelijk via `@media print`).
+## Fase 1 — Demo-klare klantomgeving (deze sprint)
 
-**Admin (`/admin/content-buckets`)**
-- Lijst van buckets (Give-Aways, later LinkedIn, etc.) met counters.
-- Per bucket: tabel met alle items, status (draft/published), inline edit, "Genereer met AI" knop.
-- AI-generator (Lovable AI / Gemini 2.5 Flash) die op basis van bucket-type een nieuw item maakt in het juiste schema. Per bucket-type een eigen system prompt.
-- Lead-overzicht per bucket: wie heeft welk item opgevraagd, opt-in status.
+**Routes**
+- `/app/login` — auth
+- `/app` — Mijn Groeimachine (dashboard)
+- `/app/onboarding`, `/app/signalen`, `/app/sales-acties`, `/app/campagnes`, `/app/resultaten`, `/app/service`, `/app/instellingen`
 
-## Architectuur
+**Backend (één migratie, Lovable Cloud)**
+- Enum `user_role` (8 waarden uit spec)
+- Tabellen: `organizations`, `profiles`, `organization_members`, `markets`, `icps`, `accounts`, `contacts`, `signals`, `campaigns`, `sales_actions`, `onboarding_projects`, `onboarding_tasks`, `service_requests`
+- Alle rijen scoped op `organization_id`
+- Security-definer functies: `has_role(user_id, role)`, `is_org_member(user_id, org_id)`, `current_org_ids(user_id)`
+- RLS: klant ziet alleen rijen waar `organization_id` in `current_org_ids(auth.uid())`. Rebel Force rollen zien alles.
+- GRANT SELECT/INSERT/UPDATE/DELETE aan `authenticated`, GRANT ALL aan `service_role`, geen `anon`.
+- Trigger `handle_new_user` op `auth.users` → maakt `profiles` rij.
 
-```text
-content_buckets        (Give-Aways, LinkedIn-posts, …)
-   │
-   └── content_bucket_items   (24 templates, JSON payload per layout)
-            │
-            └── content_bucket_leads   (e-mailgate + double opt-in)
-```
+**Seed-data** (edge function `seed-demo` of SQL insert)
+- 3 demo-organisaties uit `04_demo_data.md`: Delta Industrial Supply, Northbridge Digital, CoreVision Systems, met accounts/contacten/signalen/salesacties/campagnes volgens de opgegeven aantallen.
 
-**Layouts (Give-Aways)** — 6 renderers, 1-op-1 uit de prototype:
-`scorecard`, `canvas` (columns/grid/matrix), `worksheet`, `checklist`, `framework` (flow/funnel), `playbook`. Layout-keuze in `item.payload.type`, zodat een nieuwe bucket eigen layouts kan toevoegen zonder de bestaande te raken.
+**UI-shell**
+- Nieuwe `AppLayout` met linker sidebar (nav uit spec), topbar met org-switcher als user in meerdere orgs zit.
+- shadcn kaarten, tabellen, badges. Dark theme + brand accent #E8945A blijft consistent met bestaande site.
+- Copy in NL, B1, "u/uw".
 
-**E-mailgate flow**
-1. Bezoeker vult e-mail in op `/give-aways/:slug`.
-2. Edge function `content-bucket-request` slaat lead op (status `pending`) en zet bevestigingsmail in de bestaande email-queue (`auth-email-hook` patroon, maar als transactional).
-3. Bezoeker klikt link → `content-bucket-confirm` zet status op `confirmed`, redirect naar download-/printpagina.
-4. Welkomstmail met PDF-link gaat via dezelfde queue.
+**Views per pagina** — exact volgens `05_ux_informatiearchitectuur.md`:
+- Dashboard: statuskaart + 6 KPI's + "Deze week" narratief + prioriteit-tabel + funnel + top-signalen
+- Onboarding: 7 mijlpalen met status/eigenaar/deadline
+- Signalen: tabel + detail-drawer, knop "Zet om naar salesactie"
+- Sales acties: tabel met statussen en uitkomsten uit spec
+- Campagnes: kaartweergave per campagne met doel/kanalen/resultaat
+- Resultaten: 4 blokken (marktdekking, engagement, salesactivatie, commerciële impact)
+- Service: aanvraagformulier met 8 request-types + eigen ticketlijst
 
-We gebruiken jouw bestaande `email_send_log` + `enqueue_email` infrastructuur. Suppression check is automatisch.
+## Fase 2 — Rebel Force Operations Console
 
-**AI-generator** — edge function `generate-bucket-item`:
-- Input: `bucket_id`, optioneel `topic` / `layout`.
-- Laadt bucket-config (system prompt + JSON schema).
-- Roept Lovable AI met tool-call zodat output exact het schema volgt.
-- Slaat op als `draft` zodat je het in admin nog kunt redigeren.
+- Routes onder `/ops` met eigen layout, alleen toegankelijk voor rollen `rebel_force_admin`, `growth_manager`, `growth_operator`, `super_admin`
+- Klantenlijst, Provisioning Kanban (10 kolommen uit prompt 2), Signal management, Sales Handover, Taken, Service desk, Costs & Margin, Product Catalog
+- Extra tabellen: `subscriptions`, `products`, `product_modules`, `cost_items`, `monthly_metrics`, `activity_logs`
 
-## Bouwvolgorde
+## Fase 3 — Publieke configurator + eerste echte workflow
 
-1. **Migratie**: `content_buckets`, `content_bucket_items`, `content_bucket_leads` met RLS + GRANTs. Seed `give-aways` bucket en de 24 templates uit `Giveaway Engine.dc.html`.
-2. **Renderers**: `src/components/buckets/giveaway/` met 6 layout-components, exact dark editorial styling + `@media print` voor PDF.
-3. **Publieke pagina's**: `/give-aways` (grid) en `/give-aways/:slug` (preview + e-mailgate).
-4. **Admin**: `/admin/content-buckets` met bucket-tabs, item-tabel, edit-drawer, "Genereer met AI", lead-tab.
-5. **Edge functions**: `content-bucket-request` (gate + queue mail), `content-bucket-confirm` (double opt-in), `generate-bucket-item` (AI).
-6. **E-mail templates** (React Email): `bucket-confirm-optin` en `bucket-delivery`.
-7. Sitemap + nav-link toevoegen.
+- `/configureer` — 6-staps wizard uit prompt 4 (doel, markt, coverage, kanalen, servicemodel, samenvatting) → creëert `service_request` van type "Nieuwe klantaanvraag"
+- Eén echte klant, één ICP, één markt, één signaalbron, één CRM-koppeling live
+- Documenten, integrations, opportunities, notifications tabellen erbij
+
+## Wat we bewust NIET bouwen (uit checklist)
+
+Geen checkout, geen facturatie, geen custom campagne-builder voor klanten, geen live inbox provisioning, geen CRM-vervanging, geen attribution.
 
 ## Technische details
 
-- DB: payload als `jsonb` zodat elk layout-type vrij is. `slug` uniek per bucket. `position` integer voor volgorde.
-- RLS: items met `status='published'` publiek leesbaar; admin schrijft via `has_role(auth.uid(),'admin')`. Leads alleen via service-role (edge functions).
-- Print: bestaande `@media print` rules uit het prototype 1-op-1 naar `src/index.css` toevoegen onder een scoped class.
-- Geen vendor logos. Tone-of-voice: bestaande B1-NL regels uit `mem://style/copywriting`.
-- Geen partner logos of tool badges (memory rule).
+- Auth: Lovable Cloud email/password + Google. Signup laat gebruiker geen org kiezen — Rebel Force koppelt via `organization_members` (of via invite-link fase 2).
+- Rollen in `organization_members.role`, niet op profiles. `has_role` security-definer voorkomt RLS-recursie.
+- Bestaande `src/pages/admin/*` (marketing/CMS admin) blijft gescheiden van `/ops` (growth operations). Kunnen we later samenvoegen.
+- Copy centraal per view (geen `copy.ts` uitbreiden — dat is marketing-only).
+- Alle mutaties via supabase-js direct vanuit componenten; edge functions alleen voor seed en later voor integraties.
 
-## Wat ik nog NIET doe (vraag eerst om bevestiging)
+## Wat ik als eerste build-actie doe na goedkeuring
 
-- LinkedIn-post bucket: alleen architectuur klaarzetten; tweede bucket bouwen we als je dit hebt goedgekeurd.
-- Auto-publicatie naar LinkedIn API: nog niet — eerst alleen "klaar voor copy/paste".
+**Alleen Fase 1 tot en met "signalen + salesacties werkend met demo-data"**. Concreet:
+1. Database-migratie met alle Fase 1 tabellen + RLS + GRANTs
+2. Auth-config + `AppLayout` + login/route-guard
+3. Seed-functie met de 3 demo-klanten
+4. Dashboard, Signalen, Sales acties, Onboarding pagina's werkend
+5. Campagnes, Resultaten, Service als lees-alleen shells (invulling in vervolgsprint)
+
+Daarna terug voor review en Fase 2.
+
+## Open vraag die ik met defaults invul, tenzij u anders zegt
+
+- **Inloggen**: standaard email/password + Google. Klanten worden handmatig aangemaakt door Rebel Force (geen self-signup in Fase 1).
+- **Org-switcher**: alleen tonen als user in meerdere orgs zit. Uw eigen account krijgt `super_admin` en toegang tot alle 3 demo-orgs.
