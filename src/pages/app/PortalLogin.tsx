@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
-import { usePortal } from "./PortalContext";
 
 export default function PortalLogin() {
   const [mode, setMode] = useState<"signin" | "signup">("signin");
@@ -13,11 +12,16 @@ export default function PortalLogin() {
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
   const nav = useNavigate();
-  const { session } = usePortal();
 
   useEffect(() => {
-    if (session) nav("/app", { replace: true });
-  }, [session, nav]);
+    supabase.auth.getSession().then(({ data }) => {
+      if (data.session) nav("/app", { replace: true });
+    });
+    const { data: sub } = supabase.auth.onAuthStateChange((_e, s) => {
+      if (s) nav("/app", { replace: true });
+    });
+    return () => sub.subscription.unsubscribe();
+  }, [nav]);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
