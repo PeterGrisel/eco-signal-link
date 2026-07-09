@@ -6,7 +6,6 @@ import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 import Footer from "@/components/Footer";
 
 import AmbientBackdrop from "@/components/homepage/AmbientBackdrop";
-import PricingSection from "@/components/PricingSection";
 import FaqSection from "@/components/FaqSection";
 import CtaSection from "@/components/CtaSection";
 import Gtm2026Section from "@/components/Gtm2026Section";
@@ -65,7 +64,6 @@ const Index = () => {
       <AlwaysOnBentoSection />
       <GroeistackSection />
       <Chapter11Bewegingen />
-      <PricingSection showPerformancePartnership={false} />
       <FaqSection />
       <CtaSection />
       <Footer />
