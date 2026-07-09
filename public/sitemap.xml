@@ -211,6 +211,18 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://www.b2bgroeimachine.io/blog/b2b-partnerschappen-identificeren-indirecte-leads</loc>
+    <lastmod>2026-07-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.b2bgroeimachine.io/blog/segmentatie-versus-targeting-b2b</loc>
+    <lastmod>2026-07-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.b2bgroeimachine.io/blog/data-synchronisatie-b2b-omnichannel-ervaring</loc>
     <lastmod>2026-07-07</lastmod>
     <changefreq>weekly</changefreq>
@@ -605,6 +617,18 @@
     <lastmod>2026-05-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.b2bgroeimachine.io/woordenboek/groeimechanisme-mapping</loc>
+    <lastmod>2026-07-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.b2bgroeimachine.io/woordenboek/voorspelbaar-pijplijnbeheer</loc>
+    <lastmod>2026-07-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://www.b2bgroeimachine.io/woordenboek/revops-data-harmonization</loc>
