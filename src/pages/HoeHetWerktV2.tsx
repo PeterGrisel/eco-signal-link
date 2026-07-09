@@ -51,7 +51,9 @@ const HoeHetWerktV2 = () => {
           {/* <ExactTestimonials /> */}
           <ExactFinalCta />
         </main>
-        <Footer />
+        <div className="relative z-10">
+          <Footer />
+        </div>
       </div>
     </PageLoader>
   );
