@@ -92,7 +92,10 @@ export default function LeftDock() {
     {
       icon: Euro,
       label: "Pricing",
-      onClick: () => goToAnchor("/#pricing", "pricing", "Pricing"),
+      onClick: () => {
+        navigate("/pricing");
+        trackCTA("LeftDock — Pricing", "/pricing");
+      },
     },
     {
       icon: Phone,
