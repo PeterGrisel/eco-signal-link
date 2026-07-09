@@ -286,17 +286,17 @@ const Navbar = () => {
           </div>
 
           <div className="shrink-0 border-t border-border/70 bg-background/95 p-4">
-            <a
-              href="/#pricing"
-              onClick={(e) => {
-                scrollToPricing(e);
+            <Link
+              to="/pricing"
+              onClick={() => {
+                trackCTA("Navbar (mobile) — Pricing", "/pricing");
                 setOpen(false);
               }}
               className="flex items-center justify-between rounded-lg border border-primary/35 bg-primary/10 px-4 py-3.5 font-display text-lg font-semibold text-foreground transition-colors hover:border-primary/60 hover:bg-primary/15"
             >
               Pricing
               <span className="text-primary">→</span>
-            </a>
+            </Link>
           </div>
         </div>
       </MobileMenu>
