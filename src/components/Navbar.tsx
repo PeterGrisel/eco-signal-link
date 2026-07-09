@@ -122,7 +122,6 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
   const scrolled = useScroll(10);
   const location = useLocation();
-  const navigate = useNavigate();
 
   // Close mobile sheet on route change
   useEffect(() => {
