@@ -216,13 +216,13 @@ const Navbar = () => {
 
             <NavigationMenuItem>
               <NavigationMenuLink asChild>
-                <a
-                  href="/#pricing"
-                  onClick={scrollToPricing}
+                <Link
+                  to="/pricing"
+                  onClick={() => trackCTA("Navbar — Pricing", "/pricing")}
                   className="inline-flex h-11 items-center justify-center rounded-md bg-transparent px-4 text-base font-medium text-foreground/80 transition-colors hover:bg-accent/60 hover:text-foreground"
                 >
                   Pricing
-                </a>
+                </Link>
               </NavigationMenuLink>
             </NavigationMenuItem>
           </NavigationMenuList>
