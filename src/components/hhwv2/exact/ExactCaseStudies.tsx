@@ -54,7 +54,7 @@ const CASES: {
     titleSub: "naar sponsor",
     body: "Voor Excelsior bouwden wij een sponsorsysteem. Wij mappen lokale bedrijven, activeren beslissers en zetten vrouwenvoetbal actief op de kaart. Elk signaal wordt een gesprek voor het commerciële team.",
     metrics: [
-      { label: "Sponsor-ICP's", value: 3, delta: "Doelgroepen" },
+      { label: "Reply rate", value: 25, suffix: "%", delta: "Op outbound" },
       { label: "Bedrijven in scope", value: 480, delta: "Regionaal" },
       { label: "Vrouwenvoetbal-tracks", value: "Actief", delta: "Live" },
     ],
@@ -67,8 +67,8 @@ const CASES: {
     titleSub: "naar hunting",
     body: "Voor Leister, een technisch groothandel, verschuiven wij het commerciële model. Account managers werken vanuit signalen in plaats van bestaande relaties. Hun netwerk breidt maandelijks uit met nieuwe beslissers en installateurs.",
     metrics: [
-      { label: "Nieuwe accounts", value: 120, suffix: "+", delta: "Per kwartaal" },
-      { label: "Signaal-triggers", value: 8, delta: "Live" },
+      { label: "Nieuwe accounts", value: 800, suffix: "+", delta: "Continu" },
+      { label: "Qualifiers", value: 5, delta: "Per maand" },
       { label: "Netwerkgroei", value: "Continu", delta: "Maandelijks" },
     ],
   },
