@@ -123,7 +123,6 @@ const AnimatedRoutes = () => {
           <Route path="/" element={<HoeHetWerktV2 />} />
           {/* 301 redirects for removed routes (client-side fallback; worker handles server-side 301) */}
           <Route path="/datahub" element={<Navigate to="/pipeline-equation" replace />} />
-          <Route path="/pricing" element={<Navigate to="/pipeline-equation" replace />} />
           <Route path="/over-ons" element={<OverOns />} />
           <Route path="/ons-team" element={<OnsTeam />} />
           <Route path="/sectoren/:slug" element={<SectorPage />} />
