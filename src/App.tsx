@@ -146,6 +146,13 @@ const AnimatedRoutes = () => {
           <Route path="/zakelijke-leads" element={<SeoLandingPage />} />
           <Route path="/koude-acquisitie" element={<SeoLandingPage />} />
           <Route path="/acquisitie-uitbesteden" element={<SeoLandingPage />} />
+          <Route path="/leadgeneratie-uitbesteden" element={<SeoLandingPage />} />
+          <Route path="/cold-email-uitbesteden" element={<SeoLandingPage />} />
+          <Route path="/apollo-io-partner-nederland" element={<SeoLandingPage />} />
+          <Route path="/sales-automation-mkb" element={<SeoLandingPage />} />
+          <Route path="/leadgeneratie-maakindustrie" element={<SeoLandingPage />} />
+          <Route path="/leadgeneratie-tech-services" element={<SeoLandingPage />} />
+          <Route path="/leadgeneratie-zakelijke-dienstverlening" element={<SeoLandingPage />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="/brandstory" element={<Brandstory />} />

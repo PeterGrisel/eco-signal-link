@@ -166,7 +166,7 @@ export const sectors: Sector[] = [
     title: "Zakelijke Dienstverlening",
     tagline: "Groei voor accountants, juristen en consultants.",
     description: "Accountants, juristen en consultants die groeien. Bereik partners en directies op het juiste moment met de juiste boodschap.",
-    metaTitle: "B2B Leadgeneratie voor Zakelijke Dienstverlening — B2B GroeiMachine",
+    metaTitle: "Groeimachine voor Zakelijke Dienstverlening — B2B GroeiMachine",
     metaDescription: "Groei uw accountancy, juridisch of consultancy kantoor met data-gedreven leadgeneratie. Bereik partners en directies op het juiste moment.",
     challenges: [
       "Groei is afhankelijk van persoonlijk netwerk en referrals",
@@ -230,7 +230,7 @@ export const sectors: Sector[] = [
     title: "Maakindustrie",
     tagline: "Van productievloer naar nieuwe markten.",
     description: "Productiebedrijven die investeren in automatisering, nieuwe markten betreden of hun supply chain uitbreiden.",
-    metaTitle: "B2B Leadgeneratie voor de Maakindustrie — B2B GroeiMachine",
+    metaTitle: "Groeimachine voor de Maakindustrie — B2B GroeiMachine",
     metaDescription: "Productiebedrijven die groeien: vind nieuwe afnemers, supply chain partners en marktkansen met geautomatiseerde B2B leadgeneratie.",
     challenges: [
       "Afhankelijkheid van een beperkt aantal grote klanten",
@@ -294,7 +294,7 @@ export const sectors: Sector[] = [
     title: "IT & Software",
     tagline: "Nieuwe klanten voor SaaS, diensten en consultancy.",
     description: "Software-bedrijven, SaaS-aanbieders en IT-dienstverleners die sneller willen groeien. Bereik CTO's, IT-managers en beslissers op het juiste moment.",
-    metaTitle: "B2B Leadgeneratie voor IT & Software Bedrijven — B2B GroeiMachine",
+    metaTitle: "Groeimachine voor IT & Software Bedrijven — B2B GroeiMachine",
     metaDescription: "Groei uw IT- of softwarebedrijf met data-gedreven leadgeneratie. Bereik CTO's en IT-managers op het moment dat ze investeren in technologie.",
     challenges: [
       "Lange sales cycles met technische evaluaties en meerdere stakeholders",
