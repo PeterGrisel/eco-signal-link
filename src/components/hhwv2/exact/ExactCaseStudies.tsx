@@ -13,6 +13,8 @@ type Metric = {
 
 const CASES: {
   badge: string;
+  company: string;
+  logo: string;
   title: string;
   titleSub: string;
   body: string;
@@ -20,9 +22,11 @@ const CASES: {
 }[] = [
   {
     badge: "Embedded Tech",
-    title: "Van founder-led",
+    company: "Core-Vision",
+    logo: "/logos/core-vision-logo.png",
+    title: "Van founder-led sales",
     titleSub: "naar 200+ leads",
-    body: "Voor een embedded-hardware bedrijf dat sales nog founder-led deed bouwden we een ABM-systeem: 12 ICP-campagnes, een nurture-laag en automatische lead-routing naar het CRM.",
+    body: "Voor Core-Vision, een embedded-hardware bedrijf dat sales nog founder-led deed, bouwden we een ABM-systeem: 12 ICP-campagnes, een nurture-laag en automatische lead-routing naar het CRM.",
     metrics: [
       { label: "Engaged leads", value: 200, suffix: "+", delta: "ICP Focus" },
       { label: "ICP-campagnes", value: 12, delta: "Active" },
@@ -31,9 +35,11 @@ const CASES: {
   },
   {
     badge: "Industrie",
-    title: "Van nul systeem",
+    company: "Eurofast",
+    logo: "/logos/eurofast-logo.png",
+    title: "Van nul",
     titleSub: "naar globale push",
-    body: "Voor een industriële speler in bevestigingstechniek zetten we de internationale groei op: de EU-markt in kaart (TAM/SAM), een partnerplan voor Azië en de eerste nieuwe markten geactiveerd met outbound.",
+    body: "Voor Eurofast, een industriële speler in bevestigingstechniek, zetten we de internationale groei op: de EU-markt in kaart (TAM/SAM), een partnerplan voor Azië en de eerste nieuwe markten geactiveerd met outbound.",
     metrics: [
       { label: "Markten in scope", value: 5, delta: "EU & Azië" },
       { label: "TAM/SAM EU", value: "Opgezet", delta: "Voltooid" },
@@ -42,9 +48,11 @@ const CASES: {
   },
   {
     badge: "Sport & Sponsoring",
-    title: "Van clubgevoel",
-    titleSub: "naar sponsorpijplijn",
-    body: "Voor een voetbalclub bouwden wij een sponsorsysteem. Wij mappen lokale bedrijven, activeren beslissers en zetten vrouwenvoetbal actief op de kaart. Elk signaal wordt een gesprek voor het commerciële team.",
+    company: "Excelsior",
+    logo: "/logos/excelsior-logo.png",
+    title: "Van club",
+    titleSub: "naar sponsor",
+    body: "Voor Excelsior bouwden wij een sponsorsysteem. Wij mappen lokale bedrijven, activeren beslissers en zetten vrouwenvoetbal actief op de kaart. Elk signaal wordt een gesprek voor het commerciële team.",
     metrics: [
       { label: "Sponsor-ICP's", value: 3, delta: "Doelgroepen" },
       { label: "Bedrijven in scope", value: 480, delta: "Regionaal" },
@@ -53,9 +61,11 @@ const CASES: {
   },
   {
     badge: "Technisch groothandel",
+    company: "Leister",
+    logo: "/logos/leister-logo.png",
     title: "Van farmen",
-    titleSub: "naar structureel jagen",
-    body: "Voor een technisch groothandel verschuiven wij het commerciële model. Account managers werken vanuit signalen in plaats van bestaande relaties. Hun netwerk breidt maandelijks uit met nieuwe beslissers en installateurs.",
+    titleSub: "naar hunting",
+    body: "Voor Leister, een technisch groothandel, verschuiven wij het commerciële model. Account managers werken vanuit signalen in plaats van bestaande relaties. Hun netwerk breidt maandelijks uit met nieuwe beslissers en installateurs.",
     metrics: [
       { label: "Nieuwe accounts", value: 120, suffix: "+", delta: "Per kwartaal" },
       { label: "Signaal-triggers", value: 8, delta: "Live" },
@@ -78,7 +88,7 @@ const ExactCaseStudies = () => (
       <div className="grid lg:grid-cols-2 gap-5 md:gap-6">
         {CASES.map((c, i) => (
           <motion.div
-            key={c.title}
+            key={c.company}
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
@@ -89,9 +99,17 @@ const ExactCaseStudies = () => (
             <div className="grid md:grid-cols-2 gap-6 items-start">
               {/* Left */}
               <div>
-                <p className="text-primary font-display font-semibold text-[11px] tracking-[0.22em] uppercase mb-3">
-                  Case study
-                </p>
+                <div className="flex items-center gap-3 mb-4">
+                  <img
+                    src={c.logo}
+                    alt={c.company}
+                    loading="lazy"
+                    className="h-9 w-auto object-contain rounded-md"
+                  />
+                  <span className="text-[11px] font-display font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                    Case study
+                  </span>
+                </div>
                 <h3 className="font-display font-bold text-2xl md:text-3xl tracking-tight leading-tight mb-3">
                   {c.title}
                   <br />
