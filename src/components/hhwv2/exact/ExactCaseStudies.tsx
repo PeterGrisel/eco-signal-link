@@ -104,7 +104,11 @@ const ExactCaseStudies = () => (
                     src={c.logo}
                     alt={c.company}
                     loading="lazy"
-                    className="h-7 md:h-8 w-auto object-contain rounded-md"
+                    className={`w-auto object-contain rounded-md ${
+                      c.company === "Eurofast"
+                        ? "h-5 md:h-6 max-w-[120px]"
+                        : "h-7 md:h-8"
+                    }`}
                   />
                   <span className="text-[10px] font-display font-semibold uppercase tracking-[0.18em] text-muted-foreground">
                     Case study
