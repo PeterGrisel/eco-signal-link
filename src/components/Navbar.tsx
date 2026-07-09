@@ -124,28 +124,6 @@ const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const scrollToPricing = (e: React.MouseEvent) => {
-    e.preventDefault();
-    trackCTA("Navbar — Pricing", "#pricing");
-    if (location.pathname === "/") {
-      const el = document.getElementById("pricing");
-      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-    } else {
-      navigate("/#pricing");
-      // Wait for Index to mount, then scroll
-      const tryScroll = (attempt = 0) => {
-        const el = document.getElementById("pricing");
-        if (el) {
-          el.scrollIntoView({ behavior: "smooth", block: "start" });
-        } else if (attempt < 20) {
-          setTimeout(() => tryScroll(attempt + 1), 100);
-        }
-      };
-      setTimeout(() => tryScroll(), 100);
-    }
-    setOpen(false);
-  };
-
   // Close mobile sheet on route change
   useEffect(() => {
     setOpen(false);
