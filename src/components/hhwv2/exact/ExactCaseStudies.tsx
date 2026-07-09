@@ -67,8 +67,8 @@ const CASES: {
     titleSub: "naar hunting",
     body: "Voor Leister, een technisch groothandel, verschuiven wij het commerciële model. Account managers werken vanuit signalen in plaats van bestaande relaties. Hun netwerk breidt maandelijks uit met nieuwe beslissers en installateurs.",
     metrics: [
-      { label: "Nieuwe accounts", value: 120, suffix: "+", delta: "Per kwartaal" },
-      { label: "Signaal-triggers", value: 8, delta: "Live" },
+      { label: "Nieuwe accounts", value: 800, suffix: "+", delta: "Continu" },
+      { label: "Qualifiers", value: 5, delta: "Per maand" },
       { label: "Netwerkgroei", value: "Continu", delta: "Maandelijks" },
     ],
   },
