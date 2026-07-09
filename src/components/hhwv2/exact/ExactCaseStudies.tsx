@@ -23,7 +23,7 @@ const CASES: {
   {
     badge: "Embedded Tech",
     company: "Core-Vision",
-    logo: "/logos/core-vision-logo.png",
+    logo: "https://www.google.com/s2/favicons?domain=core-vision.nl&sz=128",
     title: "Van founder-led sales",
     titleSub: "naar 200+ leads",
     body: "Voor Core-Vision, een embedded-hardware bedrijf dat sales nog founder-led deed, bouwden we een ABM-systeem: 12 ICP-campagnes, een nurture-laag en automatische lead-routing naar het CRM.",
@@ -36,7 +36,7 @@ const CASES: {
   {
     badge: "Industrie",
     company: "Eurofast",
-    logo: "/logos/eurofast-logo.png",
+    logo: "https://eurofast.eu/wp-content/uploads/2023/12/EUF_Logo_Colour_Light.svg",
     title: "Van nul",
     titleSub: "naar globale push",
     body: "Voor Eurofast, een industriële speler in bevestigingstechniek, zetten we de internationale groei op: de EU-markt in kaart (TAM/SAM), een partnerplan voor Azië en de eerste nieuwe markten geactiveerd met outbound.",
@@ -49,7 +49,7 @@ const CASES: {
   {
     badge: "Sport & Sponsoring",
     company: "Excelsior",
-    logo: "/logos/excelsior-logo.png",
+    logo: "https://www.google.com/s2/favicons?domain=excelsiorrotterdam.nl&sz=128",
     title: "Van club",
     titleSub: "naar sponsor",
     body: "Voor Excelsior bouwden wij een sponsorsysteem. Wij mappen lokale bedrijven, activeren beslissers en zetten vrouwenvoetbal actief op de kaart. Elk signaal wordt een gesprek voor het commerciële team.",
@@ -62,7 +62,7 @@ const CASES: {
   {
     badge: "Technisch groothandel",
     company: "Leister",
-    logo: "/logos/leister-logo.png",
+    logo: "https://www.leister.com/svg/logos/Logo-LeisterTechnologies.svg",
     title: "Van farmen",
     titleSub: "naar hunting",
     body: "Voor Leister, een technisch groothandel, verschuiven wij het commerciële model. Account managers werken vanuit signalen in plaats van bestaande relaties. Hun netwerk breidt maandelijks uit met nieuwe beslissers en installateurs.",
