@@ -19,7 +19,7 @@ const clients = [
   { name: "RTC Group", url: "https://www.rtc-group.nl/", domain: "rtc-group.nl" },
   { name: "Yaskawa", url: "https://www.yaskawa.nl/", domain: "yaskawa.nl" },
   { name: "ThriveOS", url: "https://thriveos.nl/", domain: "thriveos.nl" },
-  { name: "Eurofast", url: "https://eurofastgroup.nl/", domain: "eurofastgroup.nl" },
+  { name: "Eurofast", url: "https://eurofastgroup.nl/", domain: "eurofastgroup.nl", logo: "/logos/eurofast-logo.png" },
   { name: "Leister Benelux", url: "https://www.leister.com/", domain: "leister.com" },
 ];
 
@@ -186,7 +186,7 @@ const StreamsSection = () => {
                 title={client.name}
               >
                 <img
-                  src={`https://www.google.com/s2/favicons?domain=${client.domain}&sz=64`}
+                  src={client.logo || `https://www.google.com/s2/favicons?domain=${client.domain}&sz=64`}
                   alt={client.name}
                   className="w-7 h-7 rounded-sm object-contain"
                   loading="lazy"
