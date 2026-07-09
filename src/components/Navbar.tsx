@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { createPortal } from "react-dom";
 import {
   Phone,
@@ -122,29 +122,6 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
   const scrolled = useScroll(10);
   const location = useLocation();
-  const navigate = useNavigate();
-
-  const scrollToPricing = (e: React.MouseEvent) => {
-    e.preventDefault();
-    trackCTA("Navbar — Pricing", "#pricing");
-    if (location.pathname === "/") {
-      const el = document.getElementById("pricing");
-      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-    } else {
-      navigate("/#pricing");
-      // Wait for Index to mount, then scroll
-      const tryScroll = (attempt = 0) => {
-        const el = document.getElementById("pricing");
-        if (el) {
-          el.scrollIntoView({ behavior: "smooth", block: "start" });
-        } else if (attempt < 20) {
-          setTimeout(() => tryScroll(attempt + 1), 100);
-        }
-      };
-      setTimeout(() => tryScroll(), 100);
-    }
-    setOpen(false);
-  };
 
   // Close mobile sheet on route change
   useEffect(() => {
@@ -238,13 +215,13 @@ const Navbar = () => {
 
             <NavigationMenuItem>
               <NavigationMenuLink asChild>
-                <a
-                  href="/#pricing"
-                  onClick={scrollToPricing}
+                <Link
+                  to="/pricing"
+                  onClick={() => trackCTA("Navbar — Pricing", "/pricing")}
                   className="inline-flex h-11 items-center justify-center rounded-md bg-transparent px-4 text-base font-medium text-foreground/80 transition-colors hover:bg-accent/60 hover:text-foreground"
                 >
                   Pricing
-                </a>
+                </Link>
               </NavigationMenuLink>
             </NavigationMenuItem>
           </NavigationMenuList>
@@ -308,17 +285,17 @@ const Navbar = () => {
           </div>
 
           <div className="shrink-0 border-t border-border/70 bg-background/95 p-4">
-            <a
-              href="/#pricing"
-              onClick={(e) => {
-                scrollToPricing(e);
+            <Link
+              to="/pricing"
+              onClick={() => {
+                trackCTA("Navbar (mobile) — Pricing", "/pricing");
                 setOpen(false);
               }}
               className="flex items-center justify-between rounded-lg border border-primary/35 bg-primary/10 px-4 py-3.5 font-display text-lg font-semibold text-foreground transition-colors hover:border-primary/60 hover:bg-primary/15"
             >
               Pricing
               <span className="text-primary">→</span>
-            </a>
+            </Link>
           </div>
         </div>
       </MobileMenu>
