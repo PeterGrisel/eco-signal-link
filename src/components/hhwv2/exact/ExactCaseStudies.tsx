@@ -36,7 +36,7 @@ const CASES: {
   {
     badge: "Industrie",
     company: "Eurofast",
-    logo: "https://eurofast.eu/wp-content/uploads/2023/12/EUF_Logo_Colour_Light.svg",
+    logo: "/logos/eurofast-logo.png",
     title: "Van nul",
     titleSub: "naar globale push",
     body: "Voor Eurofast, een industriële speler in bevestigingstechniek, zetten we de internationale groei op: de EU-markt in kaart (TAM/SAM), een partnerplan voor Azië en de eerste nieuwe markten geactiveerd met outbound.",
