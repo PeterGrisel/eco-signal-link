@@ -104,7 +104,7 @@ const ExactCaseStudies = () => (
                     src={c.logo}
                     alt={c.company}
                     loading="lazy"
-                    className="h-12 md:h-14 w-auto object-contain rounded-md"
+                    className="h-7 md:h-8 w-auto object-contain rounded-md"
                   />
                   <span className="text-[10px] font-display font-semibold uppercase tracking-[0.18em] text-muted-foreground">
                     Case study
