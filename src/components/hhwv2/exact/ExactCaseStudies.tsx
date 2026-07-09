@@ -99,14 +99,14 @@ const ExactCaseStudies = () => (
             <div className="grid md:grid-cols-2 gap-6 items-start">
               {/* Left */}
               <div>
-                <div className="flex items-center gap-3 mb-4">
+                <div className="flex items-center justify-between mb-5">
                   <img
                     src={c.logo}
                     alt={c.company}
                     loading="lazy"
-                    className="h-9 w-auto object-contain rounded-md"
+                    className="h-12 md:h-14 w-auto object-contain rounded-md"
                   />
-                  <span className="text-[11px] font-display font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                  <span className="text-[10px] font-display font-semibold uppercase tracking-[0.18em] text-muted-foreground">
                     Case study
                   </span>
                 </div>
