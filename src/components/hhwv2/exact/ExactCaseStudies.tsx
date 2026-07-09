@@ -40,6 +40,28 @@ const CASES: {
       { label: "Engaged contacten", value: 264, delta: "Sales-ready" },
     ],
   },
+  {
+    badge: "Sport & Sponsoring",
+    title: "Van clubgevoel",
+    titleSub: "naar sponsorpijplijn",
+    body: "Voor een voetbalclub bouwden wij een sponsorsysteem. Wij mappen lokale bedrijven, activeren beslissers en zetten vrouwenvoetbal actief op de kaart. Elk signaal wordt een gesprek voor het commerciële team.",
+    metrics: [
+      { label: "Sponsor-ICP's", value: 3, delta: "Doelgroepen" },
+      { label: "Bedrijven in scope", value: 480, delta: "Regionaal" },
+      { label: "Vrouwenvoetbal-tracks", value: "Actief", delta: "Live" },
+    ],
+  },
+  {
+    badge: "Technisch groothandel",
+    title: "Van farmen",
+    titleSub: "naar structureel jagen",
+    body: "Voor een technisch groothandel verschuiven wij het commerciële model. Account managers werken vanuit signalen in plaats van bestaande relaties. Hun netwerk breidt maandelijks uit met nieuwe beslissers en installateurs.",
+    metrics: [
+      { label: "Nieuwe accounts", value: 120, suffix: "+", delta: "Per kwartaal" },
+      { label: "Signaal-triggers", value: 8, delta: "Live" },
+      { label: "Netwerkgroei", value: "Continu", delta: "Maandelijks" },
+    ],
+  },
 ];
 
 const ExactCaseStudies = () => (
