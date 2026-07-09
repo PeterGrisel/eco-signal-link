@@ -117,10 +117,9 @@ const ExactFlywheel = () => {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 0.7 }}
-              className="relative mx-auto"
-              style={{ width: size, height: size }}
+              className="relative mx-auto w-full max-w-[420px] aspect-square"
             >
-              <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
+              <svg width="100%" height="100%" viewBox={`0 0 ${size} ${size}`} preserveAspectRatio="xMidYMid meet">
                 <defs>
                   {SEGMENTS.map((s) => (
                     <radialGradient key={s.key} id={`grad-${s.key}`} cx="50%" cy="50%" r="50%">
