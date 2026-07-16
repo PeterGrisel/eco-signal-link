@@ -7,7 +7,7 @@ import {
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { usePageMeta } from "@/hooks/usePageMeta";
-import heroImage from "@/assets/hcm-arnhem-hero.jpg.asset.json";
+import heroImage from "@/assets/hcm-arnhem-hero-real.webp.asset.json";
 import hcmLogo from "@/assets/hcm-arnhem-logo.png.asset.json";
 
 const ORANGE = "#EA5D1E";       // Real HCM Arnhem orange
