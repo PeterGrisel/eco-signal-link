@@ -214,118 +214,119 @@ const HcmArnhemPage = () => {
         </div>
       </section>
 
-      {/* WAT DOET B2B GROEIMACHINE + ZO WERKT HET */}
+      {/* WAT DOET B2B GROEIMACHINE — full-width 3-col grid of services */}
       <section id="zo-werkt-het" className="py-14 md:py-20">
-        <div className="container mx-auto px-4 md:px-6 grid lg:grid-cols-2 gap-12">
-          {/* Left column: services list */}
-          <div>
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="max-w-2xl mb-10">
             <h2 className="font-display font-black uppercase tracking-wider text-2xl md:text-3xl mb-3">
               Wat doet B2B Groeimachine?
             </h2>
-            <p className="text-muted-foreground mb-8 max-w-md">
+            <p className="text-muted-foreground">
               Wij bouwen en beheren digitale salesfunnels met AI. Volledig gericht op structurele groei.
             </p>
-            <ul className="space-y-5">
-              {services.map((s) => (
-                <li key={s.title} className="flex items-start gap-4">
-                  <IconPill>
-                    <s.icon className="h-5 w-5" />
-                  </IconPill>
-                  <div>
-                    <p className="font-display font-bold text-base mb-0.5">{s.title}</p>
-                    <p className="text-sm text-muted-foreground leading-relaxed">{s.desc}</p>
-                  </div>
-                </li>
-              ))}
-            </ul>
           </div>
+          <ul className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            {services.map((s) => (
+              <li key={s.title} className="flex items-start gap-4 rounded-2xl border border-border p-5">
+                <IconPill>
+                  <s.icon className="h-5 w-5" />
+                </IconPill>
+                <div>
+                  <p className="font-display font-bold text-base mb-1">{s.title}</p>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{s.desc}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
 
-          {/* Right column: process, price row, 20% band */}
-          <div>
-            <h2 className="font-display font-black uppercase tracking-wider text-2xl md:text-3xl mb-8">
+      {/* ZO WERKT HET — full-width process + price row + 20% handshake */}
+      <section className="pb-14 md:pb-20">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="max-w-2xl mb-10">
+            <h2 className="font-display font-black uppercase tracking-wider text-2xl md:text-3xl mb-3">
               Zo werkt het
             </h2>
+            <p className="text-muted-foreground">
+              Van dienstafname tot zichtbaarheid bij HCM Arnhem — in vijf stappen.
+            </p>
+          </div>
 
-            {/* Numbered process */}
-            <div className="grid grid-cols-5 gap-2 mb-4">
-              {steps.map((step, i) => (
-                <div key={i} className="flex flex-col items-center text-center relative">
-                  <div className="relative">
-                    <div
-                      className="h-16 w-16 rounded-full flex items-center justify-center"
-                      style={{ backgroundColor: ORANGE_SOFT, color: INK }}
-                    >
-                      <step.icon className="h-7 w-7" />
-                    </div>
-                    <div
-                      className="absolute -top-2 -left-2 h-7 w-7 rounded-full flex items-center justify-center font-display font-black text-xs text-white"
-                      style={{ backgroundColor: ORANGE }}
-                    >
-                      {i + 1}
-                    </div>
-                    {i < steps.length - 1 && (
-                      <div
-                        aria-hidden
-                        className="hidden md:block absolute top-1/2 -right-3 w-6 border-t-2 border-dashed"
-                        style={{ borderColor: ORANGE, transform: "translateY(-50%)" }}
-                      />
-                    )}
+          {/* Numbered process */}
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-6 md:gap-4 mb-10">
+            {steps.map((step, i) => (
+              <div key={i} className="flex flex-col items-center text-center">
+                <div className="relative mb-4">
+                  <div
+                    className="h-20 w-20 rounded-full flex items-center justify-center"
+                    style={{ backgroundColor: ORANGE_SOFT, color: INK }}
+                  >
+                    <step.icon className="h-8 w-8" />
                   </div>
+                  <div
+                    className="absolute -top-2 -left-2 h-8 w-8 rounded-full flex items-center justify-center font-display font-black text-xs text-white"
+                    style={{ backgroundColor: ORANGE }}
+                  >
+                    {i + 1}
+                  </div>
+                  {i < steps.length - 1 && (
+                    <div
+                      aria-hidden
+                      className="hidden md:block absolute top-1/2 -right-4 w-4 border-t-2 border-dashed"
+                      style={{ borderColor: ORANGE, transform: "translateY(-50%)" }}
+                    />
+                  )}
                 </div>
-              ))}
-            </div>
-            <div className="grid grid-cols-5 gap-2 mb-10">
-              {steps.map((step, i) => (
-                <p key={i} className="text-[11px] md:text-xs text-center text-muted-foreground leading-tight px-1">
+                <p className="text-xs md:text-sm text-muted-foreground leading-tight px-1 max-w-[160px]">
                   {step.title}
                 </p>
-              ))}
-            </div>
+              </div>
+            ))}
+          </div>
 
-            {/* Price stat row */}
-            <div
-              className="rounded-2xl border-2 grid grid-cols-3 divide-x mb-6"
-              style={{ borderColor: ORANGE, borderStyle: "solid" }}
-            >
-              {[
-                { label: "VANAF", value: "€1.500,-", sub: "PER MAAND" },
-                { label: "MINIMAAL", value: "90 DAGEN", sub: "STARTPERIODE" },
-                { label: "DAARNA", value: "MAANDELIJKS", sub: "OPZEGBAAR" },
-              ].map((s) => (
-                <div key={s.label} className="p-5 text-center" style={{ borderColor: "hsl(var(--border))" }}>
-                  <p className="text-[10px] md:text-xs tracking-[0.2em] text-muted-foreground font-display font-bold mb-2">
-                    {s.label}
-                  </p>
-                  <p className="font-display font-black text-xl md:text-2xl leading-tight" style={{ color: ORANGE }}>
-                    {s.value}
-                  </p>
-                  <p className="text-[10px] md:text-xs tracking-[0.15em] text-muted-foreground font-semibold mt-2">
-                    {s.sub}
-                  </p>
-                </div>
-              ))}
-            </div>
-
-            {/* 20% = handshake */}
-            <div
-              className="rounded-2xl p-5 md:p-6 flex items-center gap-5"
-              style={{ backgroundColor: INK }}
-            >
-              <div className="text-center shrink-0">
-                <p className="font-display font-black text-3xl md:text-4xl" style={{ color: ORANGE }}>
-                  20%
+          {/* Price stat row */}
+          <div
+            className="rounded-2xl border-2 grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x mb-6"
+            style={{ borderColor: ORANGE, borderStyle: "solid" }}
+          >
+            {[
+              { label: "VANAF", value: "€1.500,-", sub: "PER MAAND" },
+              { label: "MINIMAAL", value: "90 DAGEN", sub: "STARTPERIODE" },
+              { label: "DAARNA", value: "MAANDELIJKS", sub: "OPZEGBAAR" },
+            ].map((s) => (
+              <div key={s.label} className="p-6 text-center" style={{ borderColor: "hsl(var(--border))" }}>
+                <p className="text-[10px] md:text-xs tracking-[0.2em] text-muted-foreground font-display font-bold mb-2">
+                  {s.label}
                 </p>
-                <p className="text-[10px] tracking-[0.2em] font-display font-bold text-white mt-1">
-                  NAAR
-                  <br /> HCM ARNHEM
+                <p className="font-display font-black text-2xl md:text-3xl leading-tight" style={{ color: ORANGE }}>
+                  {s.value}
+                </p>
+                <p className="text-[10px] md:text-xs tracking-[0.15em] text-muted-foreground font-semibold mt-2">
+                  {s.sub}
                 </p>
               </div>
-              <div className="font-display font-black text-3xl text-white/40">=</div>
-              <Handshake className="h-10 w-10 shrink-0" style={{ color: ORANGE }} />
-              <p className="text-sm text-white/85 font-medium leading-relaxed">
-                Uw investering in groei, zichtbaarheid en een sterke club.
+            ))}
+          </div>
+
+          {/* 20% = handshake */}
+          <div
+            className="rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-center gap-6"
+            style={{ backgroundColor: INK }}
+          >
+            <div className="text-center shrink-0">
+              <p className="font-display font-black text-4xl md:text-5xl" style={{ color: ORANGE }}>
+                20%
+              </p>
+              <p className="text-[10px] tracking-[0.2em] font-display font-bold text-white mt-1">
+                NAAR HCM ARNHEM
               </p>
             </div>
+            <div className="font-display font-black text-3xl text-white/40">=</div>
+            <Handshake className="h-12 w-12 shrink-0" style={{ color: ORANGE }} />
+            <p className="text-base md:text-lg text-white/85 font-medium leading-relaxed md:flex-1">
+              Uw investering in groei, zichtbaarheid en een sterke club.
+            </p>
           </div>
         </div>
       </section>
