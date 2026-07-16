@@ -162,7 +162,7 @@ const HcmArnhemPage = () => {
               {/* Shield badge card */}
               <div className="hidden md:flex items-start justify-end">
                 <div className="flex items-start gap-4">
-                  <HcmBadge className="w-24 h-28 drop-shadow-lg" />
+                  <HcmBadge className="w-28 h-28 md:w-32 md:h-32 object-contain" />
                   <div className="pt-2">
                     <p className="font-display font-bold uppercase text-sm tracking-wider leading-tight" style={{ color: ORANGE }}>
                       Samen bouwen
