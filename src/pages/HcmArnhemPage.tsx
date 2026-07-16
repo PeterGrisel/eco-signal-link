@@ -8,9 +8,10 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { usePageMeta } from "@/hooks/usePageMeta";
 import heroImage from "@/assets/hcm-arnhem-hero.jpg.asset.json";
+import hcmLogo from "@/assets/hcm-arnhem-logo.png.asset.json";
 
-const ORANGE = "#E8945A";
-const ORANGE_SOFT = "#FBE4D3";
+const ORANGE = "#EA5D1E";       // Real HCM Arnhem orange
+const ORANGE_SOFT = "#FBE0D0";
 const INK = "#0B0F14";
 
 // Small reusable pill icon on soft peach background
@@ -26,40 +27,15 @@ const IconPill = ({ children, size = "md" }: { children: React.ReactNode; size?:
   );
 };
 
-const HcmShield = ({ className = "" }: { className?: string }) => (
-  <svg viewBox="0 0 100 120" className={className} aria-hidden>
-    <path
-      d="M50 4 L92 18 L92 62 C92 88 74 108 50 116 C26 108 8 88 8 62 L8 18 Z"
-      fill={INK}
-      stroke={ORANGE}
-      strokeWidth="4"
-    />
-    <text
-      x="50"
-      y="55"
-      textAnchor="middle"
-      fontFamily="Space Grotesk, sans-serif"
-      fontWeight="800"
-      fontSize="20"
-      fill="#ffffff"
-      letterSpacing="1"
-    >
-      HCM
-    </text>
-    <text
-      x="50"
-      y="72"
-      textAnchor="middle"
-      fontFamily="Space Grotesk, sans-serif"
-      fontWeight="700"
-      fontSize="10"
-      fill={ORANGE}
-      letterSpacing="2"
-    >
-      ARNHEM
-    </text>
-    <path d="M32 88 L45 100 M68 88 L55 100" stroke={ORANGE} strokeWidth="3" strokeLinecap="round" />
-  </svg>
+const HcmBadge = ({ className = "" }: { className?: string }) => (
+  <img
+    src={hcmLogo.url}
+    alt="HCM Arnhem — sinds 1975"
+    width={200}
+    height={200}
+    className={className}
+    style={{ filter: "drop-shadow(0 12px 24px rgba(0,0,0,0.45))" }}
+  />
 );
 
 const services = [
