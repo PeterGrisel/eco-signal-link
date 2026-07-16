@@ -1,9 +1,4 @@
-import { motion } from "framer-motion";
-import {
-  ArrowRight, Check, Mail, Phone, TrendingUp, Users, Eye, Target, Send,
-  Filter, HandHeart, LineChart, Handshake, GraduationCap, Leaf, Star,
-  HelpCircle, Building2, Cog, Shield,
-} from "lucide-react";
+import { ArrowRight, ArrowUpRight, Mail, Phone } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { usePageMeta } from "@/hooks/usePageMeta";
@@ -11,73 +6,51 @@ import heroImage from "@/assets/hcm-arnhem-hero-real.webp.asset.json";
 import roderickPhoto from "@/assets/roderick-roelofs.png.asset.json";
 import hcmLogo from "@/assets/hcm-arnhem-logo.png.asset.json";
 
-const ORANGE = "#EA5D1E";       // Real HCM Arnhem orange
-const ORANGE_SOFT = "#FBE0D0";
+const ORANGE = "#EA5D1E"; // Real HCM Arnhem orange
 const INK = "#0B0F14";
+const SERIF = "'DM Serif Display', Georgia, serif";
+const MONO = "'JetBrains Mono', monospace";
 
-// Small reusable pill icon on soft peach background
-const IconPill = ({ children, size = "md" }: { children: React.ReactNode; size?: "sm" | "md" | "lg" }) => {
-  const s = size === "lg" ? "h-14 w-14" : size === "sm" ? "h-9 w-9" : "h-11 w-11";
-  return (
-    <div
-      className={`${s} rounded-full flex items-center justify-center shrink-0`}
-      style={{ backgroundColor: ORANGE_SOFT, color: ORANGE }}
-    >
-      {children}
-    </div>
-  );
+// Subtle diagonal pitch-line texture used on section backdrops
+const PITCH_LINES = {
+  backgroundImage: `repeating-linear-gradient(-55deg, ${ORANGE}0f 0 1px, transparent 1px 22px)`,
 };
 
-const HcmBadge = ({ className = "" }: { className?: string }) => (
-  <img
-    src={hcmLogo.url}
-    alt="HCM Arnhem — sinds 1975"
-    width={200}
-    height={200}
-    className={className}
-    style={{ filter: "drop-shadow(0 12px 24px rgba(0,0,0,0.45))" }}
-  />
-);
+const tickerItems = [
+  "Groei met AI",
+  "Word zichtbaar",
+  "Versterk HCM Arnhem",
+  "20% naar de club",
+  "Regio Arnhem",
+];
 
 const services = [
-  { icon: Target, title: "Scherp doelprofiel", desc: "We bepalen uw ideale klant en kansrijke doelgroepen." },
-  { icon: Users, title: "Leads & data", desc: "We vinden, verrijken en kwalificeren relevante bedrijven en contactpersonen." },
-  { icon: Send, title: "Outreach & campagnes", desc: "Slimme e-mail, LinkedIn en multi-channel campagnes die opvallen." },
-  { icon: Filter, title: "Kwalificatie & opvolging", desc: "AI en slimme workflows signaleren interesse en kwalificeren kansen." },
-  { icon: HandHeart, title: "Warme overdracht", desc: "Geïnteresseerde leads worden overgedragen aan uw salesteam." },
-  { icon: LineChart, title: "Maandelijkse optimalisatie", desc: "We optimaliseren continu campagnes, data en opvolging." },
+  { title: "Scherp doelprofiel", desc: "We bepalen uw ideale klant en kansrijke doelgroepen." },
+  { title: "Leads & data", desc: "We vinden, verrijken en kwalificeren relevante bedrijven en contactpersonen." },
+  { title: "Outreach & campagnes", desc: "Slimme e-mail, LinkedIn en multi-channel campagnes die opvallen." },
+  { title: "Kwalificatie & opvolging", desc: "AI en slimme workflows signaleren interesse en kwalificeren kansen." },
+  { title: "Warme overdracht", desc: "Geïnteresseerde leads worden overgedragen aan uw salesteam." },
+  { title: "Maandelijkse optimalisatie", desc: "We optimaliseren continu campagnes, data en opvolging." },
 ];
 
 const steps = [
-  { icon: Building2, title: "U neemt een dienst af bij B2B Groeimachine." },
-  { icon: Cog, title: "Wij bouwen en beheren uw AI-salesfunnel." },
-  { icon: Users, title: "Uw sales krijgt warme kansen en meer grip op de pipeline." },
-  { icon: Shield, title: "20% van uw maandelijkse investering gaat naar HCM Arnhem." },
-  { icon: Eye, title: "Uw logo wordt zichtbaar op schermen en doeken bij HCM Arnhem." },
+  { title: "Dienst afnemen", desc: "U neemt een B2B Sales AI-dienst af bij B2B Groeimachine." },
+  { title: "Wij bouwen", desc: "Wij bouwen en beheren uw AI-salesfunnel." },
+  { title: "Sales scoort", desc: "Uw sales krijgt warme kansen en meer grip op de pipeline." },
+  { title: "Club groeit", desc: "20% van uw maandelijkse investering gaat naar HCM Arnhem." },
+  { title: "U wordt gezien", desc: "Uw logo wordt zichtbaar op schermen en doeken bij HCM Arnhem." },
 ];
 
 const winTiles = [
-  {
-    title: "UW BEDRIJF GROEIT",
-    icon: TrendingUp,
-    desc: "Meer leads, betere opvolging en warme kansen voor sales dankzij een beheerde AI-salesfunnel.",
-  },
-  {
-    title: "HCM ARNHEM GROEIT",
-    icon: Shield,
-    desc: "20% van uw maandelijkse investering gaat structureel naar HCM Arnhem.",
-  },
-  {
-    title: "UW ZICHTBAARHEID GROEIT",
-    icon: Eye,
-    desc: "Uw logo wordt zichtbaar als partner op schermen en doeken bij de tophockeyclub van Arnhem.",
-  },
+  { title: "Uw bedrijf groeit", desc: "Meer leads, betere opvolging en warme kansen voor sales dankzij een beheerde AI-salesfunnel." },
+  { title: "HCM Arnhem groeit", desc: "20% van uw maandelijkse investering gaat structureel naar HCM Arnhem." },
+  { title: "Uw zichtbaarheid groeit", desc: "Uw logo wordt zichtbaar als partner op schermen en doeken bij de tophockeyclub van Arnhem." },
 ];
 
 const whyItWorks = [
-  { icon: GraduationCap, title: "INVESTEREN IN JONG TALENT", desc: "Wij investeren in jonge commerciële talenten en geven hen de kans om ervaring op te doen bij topbedrijven." },
-  { icon: Leaf, title: "LOKALE ECONOMIE STIMULEREN", desc: "Samen bouwen we aan een sterk ondernemersklimaat en een florerende regio Arnhem." },
-  { icon: Star, title: "SPORT & BUSINESS VERSTERKEN ELKAAR", desc: "Door sport en ondernemerschap te verbinden creëren we impact die verder gaat dan het veld." },
+  { title: "Investeren in jong talent", desc: "Wij investeren in jonge commerciële talenten en geven hen de kans om ervaring op te doen bij topbedrijven." },
+  { title: "Lokale economie stimuleren", desc: "Samen bouwen we aan een sterk ondernemersklimaat en een florerende regio Arnhem." },
+  { title: "Sport & business versterken elkaar", desc: "Door sport en ondernemerschap te verbinden creëren we impact die verder gaat dan het veld." },
 ];
 
 const faqs = [
@@ -95,6 +68,17 @@ const visibilityPoints = [
   "Onderdeel van het HCM partnernetwerk",
 ];
 
+const SectionHeader = ({ index, title }: { index: string; title: string }) => (
+  <div className="flex items-baseline gap-4 border-t-2 pt-5 mb-10 md:mb-14" style={{ borderColor: ORANGE }}>
+    <span className="text-sm md:text-base" style={{ fontFamily: MONO, color: ORANGE }}>
+      {index}
+    </span>
+    <h2 className="font-display font-bold uppercase tracking-tight text-3xl md:text-5xl leading-none">
+      {title}
+    </h2>
+  </div>
+);
+
 const HcmArnhemPage = () => {
   usePageMeta({
     title: "HCM Arnhem × B2B Groeimachine — Groei met AI, versterk de club",
@@ -107,372 +91,377 @@ const HcmArnhemPage = () => {
     <div className="min-h-screen bg-background text-foreground">
       <Navbar />
 
-      {/* HERO — infographic-style with photo backdrop and shield */}
-      <section className="relative pt-24 md:pt-32">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="relative overflow-hidden rounded-3xl border border-border">
-            <img
-              src={heroImage.url}
-              alt="Hockeyveld HCM Arnhem"
-              width={1920}
-              height={1080}
-              className="absolute inset-0 h-full w-full object-cover"
-            />
-            <div
-              className="absolute inset-0"
-              style={{
-                background:
-                  "linear-gradient(90deg, hsl(var(--background) / 0.96) 0%, hsl(var(--background) / 0.85) 45%, hsl(var(--background) / 0.55) 75%, hsl(var(--background) / 0.35) 100%)",
-              }}
-            />
+      {/* HERO — full-bleed photo, poster typography hanging over the edge */}
+      <section className="relative pt-20 md:pt-24">
+        <div className="relative h-[46vh] min-h-[320px] md:h-[62vh] overflow-hidden">
+          <img
+            src={heroImage.url}
+            alt="Hockeyveld HCM Arnhem"
+            width={1920}
+            height={1080}
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                "linear-gradient(180deg, hsl(var(--background) / 0.55) 0%, hsl(var(--background) / 0.15) 40%, hsl(var(--background)) 100%)",
+            }}
+          />
 
-            <div className="relative grid md:grid-cols-[1.5fr_1fr] gap-8 p-8 md:p-14 min-h-[520px] md:min-h-[600px]">
-              <div className="flex flex-col justify-center">
-                <p className="font-display text-xs md:text-sm tracking-[0.3em] uppercase text-primary font-bold mb-6">
-                  B2B Groeimachine × HCM Arnhem
-                </p>
-                <h1 className="font-display font-black uppercase tracking-tight text-4xl md:text-6xl lg:text-7xl leading-[0.95] mb-6">
-                  Groei met AI.
-                  <br />
-                  Word zichtbaar.
-                  <br />
-                  <span style={{ color: ORANGE }}>Versterk HCM Arnhem.</span>
-                </h1>
-                <p className="text-base md:text-lg text-foreground/85 max-w-xl leading-relaxed">
-                  Neem een B2B Sales AI-dienst af bij B2B Groeimachine. Komt uw bedrijf uit{" "}
-                  <span className="font-semibold" style={{ color: ORANGE }}>regio Arnhem</span>? Dan sponsoren wij{" "}
-                  <span className="font-semibold" style={{ color: ORANGE }}>20% van uw maandelijkse investering</span>{" "}
-                  aan HCM Arnhem.
-                </p>
-                <div className="mt-8 flex flex-wrap gap-3">
-                  <a
-                    href="#contact"
-                    className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground hover:opacity-90 transition"
-                  >
-                    Plan een kennismaking <ArrowRight className="h-4 w-4" />
-                  </a>
-                  <a
-                    href="#zo-werkt-het"
-                    className="inline-flex items-center gap-2 rounded-full border border-border bg-background/60 backdrop-blur px-6 py-3 text-sm font-semibold hover:bg-background/80 transition"
-                  >
-                    Zo werkt het
-                  </a>
-                </div>
-              </div>
+          {/* Matchday-style meta line */}
+          <div className="absolute top-6 inset-x-0">
+            <div className="container mx-auto px-4 md:px-6 flex items-center justify-between gap-4">
+              <p className="uppercase text-[11px] md:text-xs tracking-[0.25em] text-white/90" style={{ fontFamily: MONO }}>
+                Partnerprogramma — regio Arnhem
+              </p>
+              <p className="hidden sm:block uppercase text-[11px] md:text-xs tracking-[0.25em] text-white/90" style={{ fontFamily: MONO }}>
+                B2B Groeimachine × HCM Arnhem
+              </p>
+            </div>
+          </div>
 
-              {/* Shield badge card */}
-              <div className="hidden md:flex items-start justify-end">
-                <div className="flex items-start gap-4">
-                  <HcmBadge className="w-28 h-28 md:w-32 md:h-32 object-contain" />
-                  <div className="pt-2">
-                    <p className="font-display font-bold uppercase text-sm tracking-wider leading-tight" style={{ color: ORANGE }}>
-                      Samen bouwen
-                      <br /> aan tophockey
-                      <br /> en een sterke
-                      <br /> regio
-                    </p>
-                  </div>
-                </div>
-              </div>
+          <img
+            src={hcmLogo.url}
+            alt="HCM Arnhem — sinds 1975"
+            width={200}
+            height={200}
+            className="absolute right-4 md:right-10 bottom-4 md:bottom-8 w-20 h-20 md:w-32 md:h-32 object-contain"
+            style={{ filter: "drop-shadow(0 12px 24px rgba(0,0,0,0.45))" }}
+          />
+        </div>
+
+        <div className="container mx-auto px-4 md:px-6 -mt-24 md:-mt-40 relative">
+          <h1 className="font-display font-bold uppercase tracking-tight leading-[0.92] text-[13vw] sm:text-6xl md:text-7xl lg:text-8xl">
+            Groei met AI.
+            <br />
+            Word zichtbaar.
+            <br />
+            <span style={{ color: ORANGE }}>Versterk HCM Arnhem.</span>
+          </h1>
+
+          <div className="mt-8 md:mt-10 grid md:grid-cols-[1fr_auto] gap-8 items-end">
+            <p className="text-base md:text-xl max-w-2xl leading-relaxed text-foreground/85">
+              Neem een B2B Sales AI-dienst af bij B2B Groeimachine. Komt uw bedrijf uit{" "}
+              <em style={{ fontFamily: SERIF, color: ORANGE }}>regio Arnhem</em>? Dan sponsoren wij{" "}
+              <em style={{ fontFamily: SERIF, color: ORANGE }}>20% van uw maandelijkse investering</em>{" "}
+              aan HCM Arnhem.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <a
+                href="#contact"
+                className="inline-flex items-center gap-2 px-6 py-3.5 text-sm font-display font-bold uppercase tracking-wider text-white transition hover:translate-x-0.5"
+                style={{ backgroundColor: ORANGE }}
+              >
+                Plan een kennismaking <ArrowRight className="h-4 w-4" />
+              </a>
+              <a
+                href="#zo-werkt-het"
+                className="inline-flex items-center gap-2 border px-6 py-3.5 text-sm font-display font-bold uppercase tracking-wider transition hover:border-current"
+                style={{ borderColor: "hsl(var(--border))" }}
+              >
+                Zo werkt het
+              </a>
             </div>
           </div>
         </div>
-      </section>
 
-      {/* WIN-WIN-WIN black band */}
-      <section className="py-8 md:py-10">
-        <div className="container mx-auto px-4 md:px-6">
-          <div
-            className="rounded-2xl grid md:grid-cols-3 gap-0 divide-y md:divide-y-0 md:divide-x"
-            style={{ backgroundColor: INK, borderColor: "hsl(var(--border))", borderWidth: 1 }}
-          >
-            {winTiles.map((w, i) => (
-              <motion.div
-                key={w.title}
-                initial={{ opacity: 0, y: 8 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.08 }}
-                className="flex items-start gap-4 p-6 md:p-7"
-                style={{ borderColor: "rgba(255,255,255,0.08)" }}
+        {/* Ticker strip */}
+        <div className="mt-12 md:mt-16 border-y overflow-hidden py-3" style={{ borderColor: "hsl(var(--border))" }}>
+          <div className="flex w-max animate-marquee">
+            {[...tickerItems, ...tickerItems, ...tickerItems, ...tickerItems].map((item, i) => (
+              <span
+                key={i}
+                className="flex items-center whitespace-nowrap uppercase text-xs md:text-sm tracking-[0.3em] px-6"
+                style={{ fontFamily: MONO, color: i % 2 === 0 ? ORANGE : "hsl(var(--muted-foreground))" }}
               >
-                <div
-                  className="h-12 w-12 rounded-full border-2 flex items-center justify-center shrink-0"
-                  style={{ borderColor: ORANGE, color: ORANGE }}
+                {item}
+                <span className="ml-12 text-[8px]" style={{ color: ORANGE }}>◆</span>
+              </span>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 01 — DE AFSPRAAK: giant 20% + three wins as ruled columns */}
+      <section className="py-16 md:py-24" style={PITCH_LINES}>
+        <div className="container mx-auto px-4 md:px-6">
+          <SectionHeader index="01" title="De afspraak" />
+
+          <div className="grid lg:grid-cols-[auto_1fr] gap-8 lg:gap-16 items-center mb-14 md:mb-20">
+            <p
+              className="font-display font-bold leading-none text-[28vw] lg:text-[13rem] select-none"
+              style={{ WebkitTextStroke: `3px ${ORANGE}`, color: "transparent" }}
+              aria-hidden
+            >
+              20%
+            </p>
+            <p className="text-2xl md:text-4xl leading-snug max-w-xl" style={{ fontFamily: SERIF }}>
+              Van elke euro die u maandelijks investeert, gaat twintig procent{" "}
+              <span style={{ color: ORANGE }}>rechtstreeks naar HCM Arnhem</span>. Uw groei is de sponsoring.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-x-10 gap-y-8">
+            {winTiles.map((w, i) => (
+              <div key={w.title} className="border-t pt-5" style={{ borderColor: "hsl(var(--border))" }}>
+                <p className="uppercase text-xs tracking-[0.25em] mb-3" style={{ fontFamily: MONO, color: ORANGE }}>
+                  Winst {String(i + 1).padStart(2, "0")}
+                </p>
+                <p className="font-display font-bold uppercase tracking-wide text-lg mb-2">{w.title}</p>
+                <p className="text-sm text-muted-foreground leading-relaxed">{w.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 02 — WAT DOET B2B GROEIMACHINE: editorial numbered index */}
+      <section className="py-16 md:py-24">
+        <div className="container mx-auto px-4 md:px-6">
+          <SectionHeader index="02" title="Wat doet B2B Groeimachine?" />
+
+          <div className="grid lg:grid-cols-[1fr_2fr] gap-10 lg:gap-16">
+            <p className="text-lg md:text-xl leading-relaxed text-muted-foreground lg:sticky lg:top-28 self-start">
+              Wij bouwen en beheren digitale salesfunnels met AI.{" "}
+              <em style={{ fontFamily: SERIF, color: "hsl(var(--foreground))" }}>
+                Volledig gericht op structurele groei.
+              </em>
+            </p>
+
+            <ol>
+              {services.map((s, i) => (
+                <li
+                  key={s.title}
+                  className="group grid grid-cols-[3rem_1fr] md:grid-cols-[4rem_16rem_1fr] gap-x-4 md:gap-x-8 items-baseline border-b py-5 md:py-6 transition-colors hover:bg-white/[0.02]"
+                  style={{ borderColor: "hsl(var(--border))" }}
                 >
-                  <w.icon className="h-5 w-5" />
-                </div>
-                <div>
-                  <p className="font-display font-black uppercase tracking-wider text-sm mb-2 text-white">
-                    {w.title}
+                  <span className="text-sm md:text-base" style={{ fontFamily: MONO, color: ORANGE }}>
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <p className="font-display font-bold uppercase tracking-wide text-base md:text-lg">
+                    {s.title}
                   </p>
-                  <p className="text-sm leading-relaxed text-white/75">{w.desc}</p>
-                </div>
-              </motion.div>
-            ))}
+                  <p className="col-start-2 md:col-start-3 text-sm text-muted-foreground leading-relaxed mt-1 md:mt-0">
+                    {s.desc}
+                  </p>
+                </li>
+              ))}
+            </ol>
           </div>
         </div>
       </section>
 
-      {/* WAT DOET B2B GROEIMACHINE — full-width 3-col grid of services */}
-      <section id="zo-werkt-het" className="py-14 md:py-20">
+      {/* 03 — ZO WERKT HET: vertical play-by-play timeline + scoreboard */}
+      <section id="zo-werkt-het" className="py-16 md:py-24" style={PITCH_LINES}>
         <div className="container mx-auto px-4 md:px-6">
-          <div className="max-w-2xl mb-10">
-            <h2 className="font-display font-black uppercase tracking-wider text-2xl md:text-3xl mb-3">
-              Wat doet B2B Groeimachine?
-            </h2>
-            <p className="text-muted-foreground">
-              Wij bouwen en beheren digitale salesfunnels met AI. Volledig gericht op structurele groei.
-            </p>
-          </div>
-          <ul className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            {services.map((s) => (
-              <li key={s.title} className="flex items-start gap-4 rounded-2xl border border-border p-5">
-                <IconPill>
-                  <s.icon className="h-5 w-5" />
-                </IconPill>
-                <div>
-                  <p className="font-display font-bold text-base mb-1">{s.title}</p>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{s.desc}</p>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
+          <SectionHeader index="03" title="Zo werkt het" />
 
-      {/* ZO WERKT HET — full-width process + price row + 20% handshake */}
-      <section className="pb-14 md:pb-20">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="max-w-2xl mb-10">
-            <h2 className="font-display font-black uppercase tracking-wider text-2xl md:text-3xl mb-3">
-              Zo werkt het
-            </h2>
-            <p className="text-muted-foreground">
-              Van dienstafname tot zichtbaarheid bij HCM Arnhem — in vijf stappen.
-            </p>
-          </div>
-
-          {/* Numbered process */}
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-6 md:gap-4 mb-10">
-            {steps.map((step, i) => (
-              <div key={i} className="flex flex-col items-center text-center">
-                <div className="relative mb-4">
-                  <div
-                    className="h-20 w-20 rounded-full flex items-center justify-center"
-                    style={{ backgroundColor: ORANGE_SOFT, color: INK }}
-                  >
-                    <step.icon className="h-8 w-8" />
-                  </div>
-                  <div
-                    className="absolute -top-2 -left-2 h-8 w-8 rounded-full flex items-center justify-center font-display font-black text-xs text-white"
-                    style={{ backgroundColor: ORANGE }}
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
+            {/* Timeline */}
+            <div className="relative pl-10 md:pl-14">
+              <div className="absolute left-3 md:left-4 top-2 bottom-2 w-px" style={{ backgroundColor: ORANGE }} />
+              {steps.map((step, i) => (
+                <div key={step.title} className="relative pb-10 last:pb-0">
+                  <span
+                    className="absolute -left-10 md:-left-14 top-0 h-7 w-7 md:h-9 md:w-9 flex items-center justify-center text-xs md:text-sm text-white"
+                    style={{ backgroundColor: i === steps.length - 1 ? ORANGE : INK, fontFamily: MONO, border: `1px solid ${ORANGE}` }}
                   >
                     {i + 1}
-                  </div>
-                  {i < steps.length - 1 && (
-                    <div
-                      aria-hidden
-                      className="hidden md:block absolute top-1/2 -right-4 w-4 border-t-2 border-dashed"
-                      style={{ borderColor: ORANGE, transform: "translateY(-50%)" }}
-                    />
-                  )}
+                  </span>
+                  <p className="font-display font-bold uppercase tracking-wide text-lg md:text-xl mb-1">
+                    {step.title}
+                  </p>
+                  <p className="text-sm md:text-base text-muted-foreground leading-relaxed max-w-md">{step.desc}</p>
                 </div>
-                <p className="text-xs md:text-sm text-muted-foreground leading-tight px-1 max-w-[160px]">
-                  {step.title}
-                </p>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
 
-          {/* Price stat row */}
-          <div
-            className="rounded-2xl border-2 grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x mb-6"
-            style={{ borderColor: ORANGE, borderStyle: "solid" }}
-          >
-            {[
-              { label: "VANAF", value: "€1.500,-", sub: "PER MAAND" },
-              { label: "MINIMAAL", value: "90 DAGEN", sub: "STARTPERIODE" },
-              { label: "DAARNA", value: "MAANDELIJKS", sub: "OPZEGBAAR" },
-            ].map((s) => (
-              <div key={s.label} className="p-6 text-center" style={{ borderColor: "hsl(var(--border))" }}>
-                <p className="text-[10px] md:text-xs tracking-[0.2em] text-muted-foreground font-display font-bold mb-2">
-                  {s.label}
-                </p>
-                <p className="font-display font-black text-2xl md:text-3xl leading-tight" style={{ color: ORANGE }}>
-                  {s.value}
-                </p>
-                <p className="text-[10px] md:text-xs tracking-[0.15em] text-muted-foreground font-semibold mt-2">
-                  {s.sub}
-                </p>
+            {/* Scoreboard */}
+            <div className="self-start lg:sticky lg:top-28">
+              <div className="border" style={{ backgroundColor: INK, borderColor: "rgba(255,255,255,0.12)" }}>
+                <div className="px-6 py-3 border-b flex items-center justify-between" style={{ borderColor: "rgba(255,255,255,0.12)" }}>
+                  <span className="uppercase text-[10px] tracking-[0.3em] text-white/60" style={{ fontFamily: MONO }}>
+                    De voorwaarden
+                  </span>
+                  <span className="h-2 w-2 rounded-full" style={{ backgroundColor: ORANGE }} />
+                </div>
+                {[
+                  { label: "Vanaf", value: "€ 1.500", sub: "per maand" },
+                  { label: "Minimaal", value: "90 dagen", sub: "startperiode" },
+                  { label: "Daarna", value: "Maandelijks", sub: "opzegbaar" },
+                  { label: "Naar HCM Arnhem", value: "20%", sub: "van uw investering" },
+                ].map((row) => (
+                  <div
+                    key={row.label}
+                    className="px-6 py-5 border-b last:border-b-0 flex items-baseline justify-between gap-4"
+                    style={{ borderColor: "rgba(255,255,255,0.12)" }}
+                  >
+                    <span className="uppercase text-[10px] md:text-xs tracking-[0.25em] text-white/60" style={{ fontFamily: MONO }}>
+                      {row.label}
+                    </span>
+                    <span className="text-right">
+                      <span className="block text-xl md:text-2xl" style={{ fontFamily: MONO, color: ORANGE }}>
+                        {row.value}
+                      </span>
+                      <span className="block uppercase text-[10px] tracking-[0.2em] text-white/50 mt-0.5" style={{ fontFamily: MONO }}>
+                        {row.sub}
+                      </span>
+                    </span>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-
-          {/* 20% = handshake */}
-          <div
-            className="rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-center gap-6"
-            style={{ backgroundColor: INK }}
-          >
-            <div className="text-center shrink-0">
-              <p className="font-display font-black text-4xl md:text-5xl" style={{ color: ORANGE }}>
-                20%
-              </p>
-              <p className="text-[10px] tracking-[0.2em] font-display font-bold text-white mt-1">
-                NAAR HCM ARNHEM
+              <p className="mt-5 text-lg md:text-xl leading-snug" style={{ fontFamily: SERIF }}>
+                Uw investering in groei, zichtbaarheid <span style={{ color: ORANGE }}>en een sterke club.</span>
               </p>
             </div>
-            <div className="font-display font-black text-3xl text-white/40">=</div>
-            <Handshake className="h-12 w-12 shrink-0" style={{ color: ORANGE }} />
-            <p className="text-base md:text-lg text-white/85 font-medium leading-relaxed md:flex-1">
-              Uw investering in groei, zichtbaarheid en een sterke club.
-            </p>
           </div>
         </div>
       </section>
 
-      {/* WAAROM DIT WERKT */}
-      <section className="py-10 md:py-14">
+      {/* 04 — WAAROM DIT WERKT: ghost numerals */}
+      <section className="py-16 md:py-24">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="flex items-center gap-4 mb-8">
-            <div className="h-px flex-1" style={{ backgroundColor: ORANGE }} />
-            <h2 className="font-display font-black uppercase tracking-[0.25em] text-lg md:text-2xl px-2 text-center">
-              Waarom dit werkt
-            </h2>
-            <div className="h-px flex-1" style={{ backgroundColor: ORANGE }} />
-          </div>
+          <SectionHeader index="04" title="Waarom dit werkt" />
 
-          <div className="rounded-2xl border-2 p-6 md:p-10 grid md:grid-cols-3 gap-8" style={{ borderColor: ORANGE }}>
-            {whyItWorks.map((w) => (
-              <div key={w.title} className="flex items-start gap-4">
-                <IconPill size="lg">
-                  <w.icon className="h-7 w-7" />
-                </IconPill>
-                <div>
-                  <p className="font-display font-black uppercase tracking-wider text-sm mb-2 leading-snug">
-                    {w.title}
-                  </p>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{w.desc}</p>
-                </div>
+          <div className="grid md:grid-cols-3 gap-10 md:gap-8">
+            {whyItWorks.map((w, i) => (
+              <div key={w.title} className="relative pt-14 md:pt-20">
+                <span
+                  className="absolute top-0 left-0 font-display font-bold leading-none text-7xl md:text-8xl select-none"
+                  style={{ WebkitTextStroke: `1.5px ${ORANGE}66`, color: "transparent" }}
+                  aria-hidden
+                >
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <p className="font-display font-bold uppercase tracking-wide text-lg mb-3 relative">{w.title}</p>
+                <p className="text-sm md:text-base text-muted-foreground leading-relaxed relative">{w.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* FAQ + ZICHTBAAR + CONTACT — three-column bottom band */}
-      <section id="contact" className="py-14 md:py-20">
-        <div className="container mx-auto px-4 md:px-6 grid lg:grid-cols-3 gap-6">
-          {/* FAQ */}
-          <div className="rounded-2xl border border-border p-6 md:p-8">
-            <p className="font-display font-black uppercase tracking-wider text-sm mb-6" style={{ color: ORANGE }}>
-              Veelgestelde vragen
-            </p>
-            <ul className="space-y-5">
-              {faqs.map((f) => (
-                <li key={f.q} className="flex items-start gap-3">
-                  <HelpCircle className="h-4 w-4 mt-1 shrink-0" style={{ color: ORANGE }} />
-                  <div>
-                    <p className="font-display font-bold text-sm mb-1">{f.q}</p>
-                    <p className="text-xs text-muted-foreground leading-relaxed">{f.a}</p>
+      {/* 05 — VRAGEN & ZICHTBAARHEID: two ruled columns */}
+      <section className="py-16 md:py-24" style={PITCH_LINES}>
+        <div className="container mx-auto px-4 md:px-6">
+          <SectionHeader index="05" title="Goed om te weten" />
+
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
+            {/* FAQ */}
+            <div>
+              <p className="uppercase text-xs tracking-[0.3em] mb-6" style={{ fontFamily: MONO, color: ORANGE }}>
+                Veelgestelde vragen
+              </p>
+              <ul>
+                {faqs.map((f) => (
+                  <li key={f.q} className="border-b py-5 first:pt-0" style={{ borderColor: "hsl(var(--border))" }}>
+                    <p className="font-display font-bold text-base md:text-lg mb-1.5">{f.q}</p>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{f.a}</p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Zichtbaar als partner */}
+            <div>
+              <p className="uppercase text-xs tracking-[0.3em] mb-6" style={{ fontFamily: MONO, color: ORANGE }}>
+                Zichtbaar als partner
+              </p>
+              <ul className="mb-8">
+                {visibilityPoints.map((p) => (
+                  <li
+                    key={p}
+                    className="flex items-center gap-4 border-b py-3.5 first:pt-0 text-sm md:text-base"
+                    style={{ borderColor: "hsl(var(--border))" }}
+                  >
+                    <span className="h-2 w-2 shrink-0" style={{ backgroundColor: ORANGE }} />
+                    <span>{p}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <div className="grid grid-cols-2 gap-4">
+                {[0, 1].map((k) => (
+                  <div
+                    key={k}
+                    className="aspect-video border border-dashed flex items-center justify-center text-center"
+                    style={{ borderColor: ORANGE }}
+                  >
+                    <p className="uppercase text-xs md:text-sm tracking-[0.2em]" style={{ fontFamily: MONO, color: ORANGE }}>
+                      Uw logo
+                      <br /> hier?
+                    </p>
                   </div>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Zichtbaar als partner */}
-          <div className="rounded-2xl border border-border p-6 md:p-8">
-            <p className="font-display font-black uppercase tracking-wider text-sm mb-6" style={{ color: ORANGE }}>
-              Zichtbaar als partner
-            </p>
-            <p className="text-sm text-muted-foreground mb-4">Voorbeelden van zichtbaarheid:</p>
-            <ul className="space-y-2.5">
-              {visibilityPoints.map((p) => (
-                <li key={p} className="flex items-start gap-2 text-sm">
-                  <Check className="h-4 w-4 mt-0.5 shrink-0" style={{ color: ORANGE }} />
-                  <span>{p}</span>
-                </li>
-              ))}
-            </ul>
-
-            <div className="grid grid-cols-2 gap-3 mt-6">
-              {[0, 1].map((k) => (
-                <div
-                  key={k}
-                  className="aspect-video rounded-lg border border-dashed flex items-center justify-center text-center"
-                  style={{ borderColor: ORANGE, backgroundColor: ORANGE_SOFT }}
-                >
-                  <p className="font-display font-black text-xs md:text-sm" style={{ color: INK }}>
-                    UW LOGO
-                    <br /> HIER?
-                  </p>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
+        </div>
+      </section>
 
-          {/* Contact orange card */}
-          <div
-            className="rounded-2xl p-6 md:p-8 flex flex-col"
-            style={{ backgroundColor: ORANGE, color: "#ffffff" }}
-          >
-            <p className="font-display font-black uppercase tracking-wider text-lg md:text-xl leading-tight">
+      {/* 06 — CONTACT: full-width orange band */}
+      <section id="contact" className="py-16 md:py-24" style={{ backgroundColor: ORANGE }}>
+        <div className="container mx-auto px-4 md:px-6 text-white">
+          <div className="flex items-baseline gap-4 border-t-2 border-white pt-5 mb-10 md:mb-14">
+            <span className="text-sm md:text-base" style={{ fontFamily: MONO }}>06</span>
+            <h2 className="font-display font-bold uppercase tracking-tight text-3xl md:text-5xl leading-none">
               Interesse of vragen?
-              <br /> Neem contact op!
-            </p>
+            </h2>
+          </div>
 
-            <div className="mt-6 flex items-center gap-4">
-              <img
-                src={roderickPhoto.url}
-                alt="Roderick Roelofs"
-                className="h-16 w-16 rounded-full object-cover ring-2 ring-white/70 shrink-0"
-              />
-              <p className="font-display font-black uppercase text-sm tracking-wider">Roderick Roelofs</p>
-            </div>
+          <div className="grid lg:grid-cols-[1fr_auto] gap-10 lg:gap-20 items-end">
+            <div>
+              <p className="text-2xl md:text-4xl leading-snug max-w-2xl mb-10" style={{ fontFamily: SERIF }}>
+                Eén gesprek en u weet of dit voor uw bedrijf werkt — en wat het HCM Arnhem oplevert.
+              </p>
 
-            <div className="mt-4 space-y-3">
-              <a
-                href="mailto:roderick.roelofs@rebelforce.nl"
-                className="inline-flex items-center gap-2 text-sm hover:underline break-all"
-              >
-                <Mail className="h-4 w-4 shrink-0" />
-                roderick.roelofs@rebelforce.nl
-              </a>
-              <a href="tel:+31620516731" className="inline-flex items-center gap-2 text-sm hover:underline">
-                <Phone className="h-4 w-4 shrink-0" />
-                06-20516731
-              </a>
-            </div>
+              <div className="flex items-center gap-5 mb-8">
+                <img
+                  src={roderickPhoto.url}
+                  alt="Roderick Roelofs"
+                  className="h-16 w-16 md:h-20 md:w-20 rounded-full object-cover ring-2 ring-white/70 shrink-0"
+                />
+                <div>
+                  <p className="font-display font-bold uppercase tracking-wider text-base md:text-lg">Roderick Roelofs</p>
+                  <div className="mt-2 flex flex-col gap-1.5 text-sm" style={{ fontFamily: MONO }}>
+                    <a href="mailto:roderick.roelofs@rebelforce.nl" className="inline-flex items-center gap-2 hover:underline break-all">
+                      <Mail className="h-4 w-4 shrink-0" /> roderick.roelofs@rebelforce.nl
+                    </a>
+                    <a href="tel:+31620516731" className="inline-flex items-center gap-2 hover:underline">
+                      <Phone className="h-4 w-4 shrink-0" /> 06-20516731
+                    </a>
+                  </div>
+                </div>
+              </div>
 
-            <div className="mt-auto pt-8">
               <a
                 href="mailto:roderick.roelofs@rebelforce.nl?subject=HCM%20Arnhem%20x%20B2B%20Groeimachine"
-                className="inline-flex items-center justify-center w-full gap-2 rounded-full bg-white px-5 py-3 text-sm font-display font-bold uppercase tracking-wider hover:opacity-90 transition"
+                className="inline-flex items-center gap-3 bg-white px-8 py-4 text-sm md:text-base font-display font-bold uppercase tracking-wider transition hover:gap-5"
                 style={{ color: ORANGE }}
               >
-                Plan een gesprek <ArrowRight className="h-4 w-4" />
+                Plan een gesprek <ArrowUpRight className="h-5 w-5" />
               </a>
-              <p className="mt-5 font-display font-black uppercase text-sm tracking-wider leading-tight">
-                Meer leads. Meer groei.
-                <br /> Meer impact.
-              </p>
             </div>
+
+            <p className="font-display font-bold uppercase tracking-tight leading-[0.95] text-3xl md:text-5xl text-right hidden lg:block">
+              Meer leads.
+              <br /> Meer groei.
+              <br /> Meer impact.
+            </p>
           </div>
         </div>
       </section>
 
       {/* Hashtag footer strip */}
-      <div
-        className="py-4 text-center border-t"
-        style={{ backgroundColor: INK, borderColor: "hsl(var(--border))" }}
-      >
-        <div className="container mx-auto px-4 md:px-6 flex flex-col md:flex-row justify-between items-center gap-2 text-xs md:text-sm">
-          <span className="text-white/60 tracking-wider">b2bgroeimachine.io</span>
-          <span className="font-display font-black uppercase tracking-[0.2em]" style={{ color: ORANGE }}>
-            Uw groei. HCM Arnhem. De regio.
-          </span>
-          <span className="text-white/60 tracking-wider">#GroeimetAI #SamenSterker #HCMArnhem</span>
+      <div className="py-4 border-b" style={{ backgroundColor: INK, borderColor: "rgba(255,255,255,0.1)" }}>
+        <div
+          className="container mx-auto px-4 md:px-6 flex flex-col md:flex-row justify-between items-center gap-2 text-[11px] md:text-xs tracking-[0.15em]"
+          style={{ fontFamily: MONO }}
+        >
+          <span className="text-white/60">b2bgroeimachine.io</span>
+          <span className="uppercase" style={{ color: ORANGE }}>Uw groei. HCM Arnhem. De regio.</span>
+          <span className="text-white/60">#GroeimetAI #SamenSterker #HCMArnhem</span>
         </div>
       </div>
 
