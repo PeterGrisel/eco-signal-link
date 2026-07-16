@@ -8,6 +8,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { usePageMeta } from "@/hooks/usePageMeta";
 import heroImage from "@/assets/hcm-arnhem-hero-real.webp.asset.json";
+import roderickPhoto from "@/assets/roderick-roelofs.png.asset.json";
 import hcmLogo from "@/assets/hcm-arnhem-logo.png.asset.json";
 
 const ORANGE = "#EA5D1E";       // Real HCM Arnhem orange
@@ -420,8 +421,16 @@ const HcmArnhemPage = () => {
               <br /> Neem contact op!
             </p>
 
-            <div className="mt-6 space-y-3">
+            <div className="mt-6 flex items-center gap-4">
+              <img
+                src={roderickPhoto.url}
+                alt="Roderick Roelofs"
+                className="h-16 w-16 rounded-full object-cover ring-2 ring-white/70 shrink-0"
+              />
               <p className="font-display font-black uppercase text-sm tracking-wider">Roderick Roelofs</p>
+            </div>
+
+            <div className="mt-4 space-y-3">
               <a
                 href="mailto:roderick.roelofs@rebelforce.nl"
                 className="inline-flex items-center gap-2 text-sm hover:underline break-all"
