@@ -126,13 +126,13 @@ const HcmArnhemPage = () => {
             alt="HCM Arnhem — sinds 1975"
             width={200}
             height={200}
-            className="absolute right-4 md:right-10 bottom-4 md:bottom-8 w-20 h-20 md:w-32 md:h-32 object-contain"
+            className="hidden md:block absolute right-4 md:right-10 bottom-4 md:bottom-8 w-20 h-20 md:w-32 md:h-32 object-contain"
             style={{ filter: "drop-shadow(0 12px 24px rgba(0,0,0,0.45))" }}
           />
         </div>
 
         <div className="container mx-auto px-4 md:px-6 -mt-24 md:-mt-40 relative">
-          <h1 className="font-display font-bold uppercase tracking-tight leading-[0.92] text-[13vw] sm:text-6xl md:text-7xl lg:text-8xl">
+          <h1 className="font-display font-bold uppercase tracking-tight leading-[0.92] text-[11vw] sm:text-6xl md:text-7xl lg:text-8xl">
             Groei met AI.
             <br />
             Word zichtbaar.
