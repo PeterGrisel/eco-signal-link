@@ -28,7 +28,7 @@ BEGIN
       body := json_build_object('url', full_url)::jsonb,
       headers := json_build_object(
         'Content-Type', 'application/json',
-        'Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNueW1yY2lhbG5jeGtjc2lia2p2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ0NTY0MzcsImV4cCI6MjA5MDAzMjQzN30.LzxYO14G5rs7P2ZnkbEzvuBTjx3gGJdy_GFwD2g8nFA'
+        'Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNkaHNibGVqbnpmYWNxYWZ6YnVjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQzNjYyOTcsImV4cCI6MjA5OTk0MjI5N30.283_ZAQ1QDr9YiIeEftB2vkSnD484TdmvpcFHQYij6Q'
       )::jsonb
     );
   END IF;
