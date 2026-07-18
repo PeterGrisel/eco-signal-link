@@ -9,7 +9,10 @@ import {
   extractProviderPreferences,
   parseExecuteRequest,
   parseVaultRef,
+  pickFreshSnapshot,
   selectProvider,
+  snapshotExpiresAt,
+  snapshotRowCount,
   unwrapProviderResponse,
 } from "./lib.ts";
 
@@ -86,6 +89,37 @@ Deno.test("unwrapProviderResponse", () => {
   assertEquals(unwrapProviderResponse([1, 2]), { data: [1, 2] });
 });
 
+// ============ snapshot-cache ============
+
+Deno.test("pickFreshSnapshot: cache-hit kiest nieuwste verse snapshot", () => {
+  const now = new Date("2026-07-18T12:00:00Z");
+  const rows = [
+    { id: "oud", expires_at: "2026-07-19T00:00:00Z", created_at: "2026-07-16T00:00:00Z" },
+    { id: "nieuw", expires_at: "2026-07-20T00:00:00Z", created_at: "2026-07-18T00:00:00Z" },
+  ];
+  assertEquals(pickFreshSnapshot(rows, now)?.id, "nieuw");
+});
+
+Deno.test("pickFreshSnapshot: cache-miss bij verlopen of lege set", () => {
+  const now = new Date("2026-07-18T12:00:00Z");
+  assertEquals(pickFreshSnapshot([{ id: "x", expires_at: "2026-07-18T11:59:59Z", created_at: "2026-07-17T00:00:00Z" }] as any, now), null);
+  assertEquals(pickFreshSnapshot([], now), null);
+});
+
+Deno.test("snapshotExpiresAt: ttl en default", () => {
+  const now = new Date("2026-07-18T00:00:00Z");
+  assertEquals(snapshotExpiresAt(26, now), "2026-07-19T02:00:00.000Z");
+  assertEquals(snapshotExpiresAt(null, now), "2026-07-25T00:00:00.000Z", "default 168 uur");
+  assertEquals(snapshotExpiresAt(0, now), "2026-07-25T00:00:00.000Z", "0 valt terug op default");
+});
+
+Deno.test("snapshotRowCount: grootste top-level array", () => {
+  assertEquals(snapshotRowCount({ accounts: [1, 2, 3], meta: [1] }), 3);
+  assertEquals(snapshotRowCount([1, 2]), 2);
+  assertEquals(snapshotRowCount({ score: 88 }), null);
+  assertEquals(snapshotRowCount("x"), null);
+});
+
 // ============ autorisatie ============
 
 Deno.test("checkInternalToken", () => {
@@ -116,6 +150,7 @@ Deno.test("parseExecuteRequest: happy path en fouten", () => {
     { tenantId: "0b7e1a52-9f6e-4b1c-8f0d-2f9f8a3f6c1e", skillKey: "", input: {} },
     { tenantId: "0b7e1a52-9f6e-4b1c-8f0d-2f9f8a3f6c1e", skillKey: "x", input: [] },
     { tenantId: "0b7e1a52-9f6e-4b1c-8f0d-2f9f8a3f6c1e", skillKey: "x", input: {}, stepRunId: "nope" },
+    { tenantId: "0b7e1a52-9f6e-4b1c-8f0d-2f9f8a3f6c1e", skillKey: "x", input: {}, forceRefresh: "ja" },
   ]) {
     let threw = false;
     try {

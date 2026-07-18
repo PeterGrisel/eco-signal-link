@@ -89,6 +89,38 @@ export function parseVaultRef(ref: unknown): string {
   return ref.slice("vault://".length);
 }
 
+// ============ Snapshots (cache) ============
+
+export const SNAPSHOT_DEFAULT_TTL_HOURS = 168; // 7 dagen
+export const SNAPSHOT_INLINE_MAX_BYTES = 1_000_000; // ~1 MB, daarboven naar Storage
+
+export function snapshotExpiresAt(ttlHours: number | null | undefined, now: Date = new Date()): string {
+  const hours = typeof ttlHours === "number" && ttlHours > 0 ? ttlHours : SNAPSHOT_DEFAULT_TTL_HOURS;
+  return new Date(now.getTime() + hours * 3_600_000).toISOString();
+}
+
+// Grootste top-level array in de payload als indicatie van het aantal rijen.
+export function snapshotRowCount(data: unknown): number | null {
+  if (data === null || typeof data !== "object") return null;
+  if (Array.isArray(data)) return data.length;
+  let max: number | null = null;
+  for (const value of Object.values(data as Record<string, unknown>)) {
+    if (Array.isArray(value) && (max === null || value.length > max)) max = value.length;
+  }
+  return max;
+}
+
+// Cache-hit-beslissing: nieuwste nog niet verlopen snapshot, anders null.
+export function pickFreshSnapshot<T extends { expires_at: string; created_at?: string }>(
+  rows: T[],
+  now: Date = new Date(),
+): T | null {
+  const fresh = rows
+    .filter((r) => Date.parse(r.expires_at) > now.getTime())
+    .sort((a, b) => Date.parse(b.created_at ?? b.expires_at) - Date.parse(a.created_at ?? a.expires_at));
+  return fresh[0] ?? null;
+}
+
 // ============ Provider-response envelope ============
 
 export interface ProviderResult {
@@ -138,6 +170,7 @@ export interface ExecuteRequest {
   input: Record<string, unknown>;
   workflowRunId?: string;
   stepRunId?: string;
+  forceRefresh?: boolean;
 }
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -164,6 +197,9 @@ export function parseExecuteRequest(body: unknown): ExecuteRequest {
   if (b.skillVersion !== undefined && typeof b.skillVersion !== "string") {
     throw new SkillError("invalid_request", "skillVersion moet een string zijn", false, 400);
   }
+  if (b.forceRefresh !== undefined && typeof b.forceRefresh !== "boolean") {
+    throw new SkillError("invalid_request", "forceRefresh moet een boolean zijn", false, 400);
+  }
   return {
     tenantId: b.tenantId,
     skillKey: b.skillKey,
@@ -171,5 +207,6 @@ export function parseExecuteRequest(body: unknown): ExecuteRequest {
     input: b.input as Record<string, unknown>,
     workflowRunId: b.workflowRunId as string | undefined,
     stepRunId: b.stepRunId as string | undefined,
+    forceRefresh: b.forceRefresh === true,
   };
 }

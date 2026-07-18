@@ -7,13 +7,17 @@ import {
   ProviderResult,
   RouteCandidate,
   SkillError,
+  SNAPSHOT_INLINE_MAX_BYTES,
   checkInternalToken,
   extractProviderPreferences,
   hashInput,
   parseExecuteRequest,
   parseVaultRef,
+  pickFreshSnapshot,
   pickHighestVersion,
   selectProvider,
+  snapshotExpiresAt,
+  snapshotRowCount,
   unwrapProviderResponse,
   validateSchema,
 } from "./lib.ts";
@@ -235,7 +239,7 @@ serve(async (req) => {
     // 2. Skill + versie ophalen (default: hoogste actieve versie)
     const { data: skill, error: skillErr } = await supabase
       .from("rt_skills")
-      .select("id, skill_key, status")
+      .select("id, skill_key, status, persist_snapshot, snapshot_ttl_hours")
       .eq("skill_key", request.skillKey)
       .maybeSingle();
     if (skillErr) throw new SkillError("internal_error", "Skill-lookup mislukt", true, 500);
@@ -300,6 +304,63 @@ serve(async (req) => {
     const inputErrors = validateSchema(skillVersionRow.input_schema, request.input);
     if (inputErrors.length > 0) {
       throw new SkillError("input_validation_failed", `Input voldoet niet aan schema: ${inputErrors.slice(0, 5).join("; ")}`, false, 422);
+    }
+
+    // 3b. Snapshot-cache: bij persist_snapshot-skills een verse snapshot met
+    // dezelfde input teruggeven zonder provider-call (en dus zonder credits).
+    // forceRefresh slaat de cache over.
+    const persistSnapshot = skill.persist_snapshot === true;
+    if (persistSnapshot && !request.forceRefresh) {
+      const { data: snapRows, error: snapErr } = await supabase
+        .from("rt_snapshots")
+        .select("id, payload, storage_path, expires_at, created_at")
+        .eq("organization_id", request.tenantId)
+        .eq("input_hash", inputHash)
+        .gt("expires_at", new Date().toISOString())
+        .order("created_at", { ascending: false })
+        .limit(3);
+      if (snapErr) console.error("rt_snapshots lookup failed:", snapErr.message);
+      type SnapRow = { id: string; payload: unknown; storage_path: string | null; expires_at: string; created_at: string };
+      const snap = pickFreshSnapshot<SnapRow>((snapRows ?? []) as SnapRow[]);
+      if (snap) {
+        let cachedData: unknown = snap.payload;
+        if (cachedData == null && snap.storage_path) {
+          const { data: file, error: dlErr } = await supabase.storage.from("rt-snapshots").download(snap.storage_path);
+          if (dlErr || !file) {
+            console.error("snapshot storage download failed:", dlErr?.message);
+          } else {
+            cachedData = JSON.parse(await file.text());
+          }
+        }
+        if (cachedData != null) {
+          const latencyMs = Date.now() - startedAt;
+          if (request.stepRunId) {
+            await updateStepRun(supabase, request.stepRunId, {
+              status: "succeeded",
+              input: request.input,
+              input_hash: inputHash,
+              skill_version_id: skillVersionRow.id,
+              output: cachedData,
+              cost: 0,
+              latency_ms: latencyMs,
+              error: null,
+              started_at: new Date().toISOString(),
+              finished_at: new Date().toISOString(),
+            });
+          }
+          return json(200, {
+            status: "succeeded",
+            skillKey: request.skillKey,
+            skillVersion: skillVersionRow.version,
+            provider: null,
+            data: cachedData,
+            cost: 0,
+            latencyMs,
+            cached: true,
+            snapshot_id: snap.id,
+          });
+        }
+      }
     }
 
     // 4. Provider selecteren: tenant-voorkeur > laagste priority > is_active
@@ -422,6 +483,41 @@ serve(async (req) => {
       );
     }
 
+    // Snapshot wegschrijven: inline tot ~1 MB, anders naar de private
+    // Storage bucket 'rt-snapshots' onder {org}/{skill}/{snapshot_id}.json.
+    let snapshotId: string | null = null;
+    if (persistSnapshot) {
+      try {
+        const serialized = JSON.stringify(outcome.result.data);
+        const inline = serialized.length <= SNAPSHOT_INLINE_MAX_BYTES;
+        const row: Record<string, unknown> = {
+          organization_id: request.tenantId,
+          skill_key: request.skillKey,
+          provider_key: route.provider_key,
+          query_input: request.input,
+          input_hash: inputHash,
+          payload: inline ? outcome.result.data : null,
+          row_count: snapshotRowCount(outcome.result.data),
+          step_run_id: request.stepRunId ?? null,
+          expires_at: snapshotExpiresAt(skill.snapshot_ttl_hours as number | null),
+        };
+        const { data: snap, error: snapErr } = await supabase.from("rt_snapshots").insert(row).select("id").single();
+        if (snapErr) throw new Error(snapErr.message);
+        snapshotId = snap.id;
+        if (!inline) {
+          const path = `${request.tenantId}/${request.skillKey}/${snap.id}.json`;
+          const { error: upErr } = await supabase.storage
+            .from("rt-snapshots")
+            .upload(path, new Blob([serialized], { type: "application/json" }), { upsert: true });
+          if (upErr) throw new Error(upErr.message);
+          await supabase.from("rt_snapshots").update({ storage_path: path }).eq("id", snap.id);
+        }
+      } catch (e) {
+        // Snapshot-persist mag een geslaagde executie nooit laten falen.
+        console.error("snapshot persist failed:", e instanceof Error ? e.message : e);
+      }
+    }
+
     const latencyMs = Date.now() - startedAt;
     if (request.stepRunId) {
       await updateStepRun(supabase, request.stepRunId, {
@@ -444,6 +540,8 @@ serve(async (req) => {
       confidence: outcome.result.confidence,
       cost: cost ?? undefined,
       latencyMs,
+      cached: false,
+      ...(snapshotId ? { snapshot_id: snapshotId } : {}),
     });
   } catch (e) {
     return await fail(e);
