@@ -79,7 +79,7 @@ SELECT cron.schedule(
   '0 3 * * *',
   $$
   SELECT net.http_post(
-    url := 'https://snymrcialncxkcsibkjv.supabase.co/functions/v1/rt-snapshot-cleanup',
+    url := 'https://sdhsblejnzfacqafzbuc.supabase.co/functions/v1/rt-snapshot-cleanup',
     headers := jsonb_build_object(
       'Content-Type', 'application/json',
       'x-rt-internal-token',

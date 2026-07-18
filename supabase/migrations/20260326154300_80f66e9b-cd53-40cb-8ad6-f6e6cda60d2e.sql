@@ -24,7 +24,7 @@ BEGIN
 
     -- Call the request-indexing edge function via pg_net
     PERFORM extensions.http_post(
-      url := 'https://snymrcialncxkcsibkjv.supabase.co/functions/v1/request-indexing',
+      url := 'https://sdhsblejnzfacqafzbuc.supabase.co/functions/v1/request-indexing',
       body := json_build_object('url', full_url)::jsonb,
       headers := json_build_object(
         'Content-Type', 'application/json',

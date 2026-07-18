@@ -14,7 +14,7 @@ SELECT cron.schedule(
   '0 6 * * *',
   $$
   SELECT net.http_post(
-    url := 'https://snymrcialncxkcsibkjv.supabase.co/functions/v1/generate-playbook',
+    url := 'https://sdhsblejnzfacqafzbuc.supabase.co/functions/v1/generate-playbook',
     headers := '{"Content-Type": "application/json"}'::jsonb,
     body := '{}'::jsonb
   );

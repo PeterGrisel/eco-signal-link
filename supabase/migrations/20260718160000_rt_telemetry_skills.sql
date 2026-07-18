@@ -85,7 +85,7 @@ SELECT cron.schedule(
   '30 4 * * *',
   $$
   SELECT net.http_post(
-    url := 'https://snymrcialncxkcsibkjv.supabase.co/functions/v1/rt-telemetry-sync',
+    url := 'https://sdhsblejnzfacqafzbuc.supabase.co/functions/v1/rt-telemetry-sync',
     headers := jsonb_build_object(
       'Content-Type', 'application/json',
       'x-rt-internal-token',

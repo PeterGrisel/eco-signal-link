@@ -14,7 +14,7 @@ SELECT cron.schedule(
   '0 8 * * *',
   $$
   SELECT net.http_post(
-    url := 'https://snymrcialncxkcsibkjv.supabase.co/functions/v1/groeistack-refresh',
+    url := 'https://sdhsblejnzfacqafzbuc.supabase.co/functions/v1/groeistack-refresh',
     headers := '{"Content-Type": "application/json"}'::jsonb,
     body := '{}'::jsonb
   );

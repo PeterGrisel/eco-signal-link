@@ -5,9 +5,9 @@
 //   SUPABASE_ANON_KEY  -- Supabase project API key (anon/public)
 //   PRERENDER_SECRET   -- optional shared secret validated by your Supabase function
 
-const PRERENDER_URL        = "https://snymrcialncxkcsibkjv.supabase.co/functions/v1/prerender";
-const SITEMAP_URL          = "https://snymrcialncxkcsibkjv.supabase.co/functions/v1/sitemap";
-const RSS_URL              = "https://snymrcialncxkcsibkjv.supabase.co/functions/v1/rss";
+const PRERENDER_URL        = "https://sdhsblejnzfacqafzbuc.supabase.co/functions/v1/prerender";
+const SITEMAP_URL          = "https://sdhsblejnzfacqafzbuc.supabase.co/functions/v1/sitemap";
+const RSS_URL              = "https://sdhsblejnzfacqafzbuc.supabase.co/functions/v1/rss";
 const ORIGIN_URL           = "https://eco-signal-link.lovable.app";
 const PRERENDER_TIMEOUT_MS = 5000;
 const CACHE_TTL_EDGE       = 86400; // 24h CDN cache

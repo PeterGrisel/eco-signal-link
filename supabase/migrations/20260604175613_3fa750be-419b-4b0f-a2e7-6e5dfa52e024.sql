@@ -1,1 +1,1 @@
-UPDATE public.abm_pages SET logo_url='https://snymrcialncxkcsibkjv.supabase.co/storage/v1/object/public/abm-assets/klingele24/logo.png' WHERE slug='klingele24';
+UPDATE public.abm_pages SET logo_url='https://sdhsblejnzfacqafzbuc.supabase.co/storage/v1/object/public/abm-assets/klingele24/logo.png' WHERE slug='klingele24';

@@ -1,1 +1,1 @@
-UPDATE public.blog_posts SET featured_image = 'https://snymrcialncxkcsibkjv.supabase.co/storage/v1/object/public/blog-images/generated-1782466432257.png' WHERE id = 'f948e326-c4a3-4595-80aa-1d3d403d8e3f';
+UPDATE public.blog_posts SET featured_image = 'https://sdhsblejnzfacqafzbuc.supabase.co/storage/v1/object/public/blog-images/generated-1782466432257.png' WHERE id = 'f948e326-c4a3-4595-80aa-1d3d403d8e3f';
