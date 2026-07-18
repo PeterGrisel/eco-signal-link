@@ -18,6 +18,9 @@ project_id = "snymrcialncxkcsibkjv"
   [functions.rt-snapshot-cleanup]
     # Aangeroepen door pg_cron; autorisatie via x-rt-internal-token.
     verify_jwt = false
+  [functions.rt-telemetry-sync]
+    # Aangeroepen door pg_cron; autorisatie via x-rt-internal-token.
+    verify_jwt = false
   [functions.mcp-server]
     verify_jwt = false
   [functions.process-email-queue]
