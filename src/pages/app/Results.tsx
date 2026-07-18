@@ -1,13 +1,14 @@
 import { usePortal } from "./PortalContext";
-import { supabase, useOrgQuery, fmtEUR } from "./lib";
+import { supabase, useOrgQuery } from "./lib";
 import { PageHeader } from "./PageHeader";
 
 async function load(orgId: string) {
-  const [accs, camps, ready, meetings] = await Promise.all([
+  const [accs, camps, ready, meetings, won] = await Promise.all([
     supabase.from("gp_accounts").select("id, warmth", { count: "exact" }).eq("organization_id", orgId),
     supabase.from("gp_campaigns").select("accounts_count, positive_replies, sales_ready, meetings, channels").eq("organization_id", orgId),
     supabase.from("gp_accounts").select("id", { count: "exact", head: true }).eq("organization_id", orgId).eq("warmth", "sales_ready"),
     supabase.from("gp_sales_actions").select("id", { count: "exact", head: true }).eq("organization_id", orgId).in("status", ["meeting_planned", "opportunity", "won"]),
+    supabase.from("gp_sales_actions").select("id", { count: "exact", head: true }).eq("organization_id", orgId).eq("status", "won"),
   ]);
   const c = (camps.data ?? []) as any[];
   return {
@@ -17,7 +18,7 @@ async function load(orgId: string) {
     salesReady: ready.count ?? 0,
     meetings: meetings.count ?? 0,
     campaignsLive: c.length,
-    pipeline: (ready.count ?? 0) * 23000,
+    won: won.count ?? 0,
   };
 }
 
@@ -60,7 +61,7 @@ export default function Results() {
           { label: "Afspraken en opportunities", value: data.meetings },
         ]} />
         <Block title="Commerciële impact" blocks={[
-          { label: "Geraamde pipeline", value: fmtEUR(data.pipeline) },
+          { label: "Gewonnen deals", value: data.won },
           { label: "Ratio", value: `${Math.round((data.salesReady / Math.max(1, data.accountsTotal)) * 100)}%`, sub: "Sales-ready / totaal" },
         ]} />
       </div>
