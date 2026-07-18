@@ -7,6 +7,7 @@ import {
   compareVersions,
   extractProviderPreferences,
   hashInput,
+  parseBearerToken,
   parseExecuteRequest,
   parseVaultRef,
   pickHighestVersion,
@@ -194,6 +195,17 @@ Deno.test("unwrapProviderResponse", () => {
   });
   assertEquals(unwrapProviderResponse({ pushed: 3 }), { data: { pushed: 3 } });
   assertEquals(unwrapProviderResponse([1, 2]), { data: [1, 2] });
+});
+
+// ============ autorisatie ============
+
+Deno.test("parseBearerToken", () => {
+  assertEquals(parseBearerToken("Bearer abc.def.ghi"), "abc.def.ghi");
+  assertEquals(parseBearerToken("bearer abc"), "abc", "scheme is case-insensitive");
+  assertEquals(parseBearerToken("Basic abc"), null);
+  assertEquals(parseBearerToken("Bearer "), null);
+  assertEquals(parseBearerToken("Bearer a b"), null, "token mag geen spaties bevatten");
+  assertEquals(parseBearerToken(null), null);
 });
 
 // ============ request parsing ============

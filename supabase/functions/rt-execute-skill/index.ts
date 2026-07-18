@@ -9,6 +9,7 @@ import {
   SkillError,
   extractProviderPreferences,
   hashInput,
+  parseBearerToken,
   parseExecuteRequest,
   parseVaultRef,
   pickHighestVersion,
@@ -73,20 +74,48 @@ async function fetchWithTimeout(url: string, init: RequestInit, timeoutSeconds: 
   }
 }
 
+// De caller is geautoriseerd als hij de service-role key voert (interne
+// orchestrator), of als zijn user-JWT via gp_can_access_org toegang heeft
+// tot de opgegeven tenant.
+async function authorizeCaller(supabase: SupabaseClient, req: Request, tenantId: string): Promise<void> {
+  const token = parseBearerToken(req.headers.get("Authorization"));
+  if (!token) {
+    throw new SkillError("unauthorized", "Authorization Bearer-token ontbreekt", false, 401);
+  }
+  if (token === Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")) return;
+
+  const { data: userData, error: userErr } = await supabase.auth.getUser(token);
+  const userId = userData?.user?.id;
+  if (userErr || !userId) {
+    throw new SkillError("unauthorized", "Ongeldig of verlopen token", false, 401);
+  }
+  const { data: allowed, error: accessErr } = await supabase.rpc("gp_can_access_org", {
+    _user_id: userId,
+    _org_id: tenantId,
+  });
+  if (accessErr) throw new SkillError("internal_error", "Autorisatie-check mislukt", true, 500);
+  if (allowed !== true) {
+    throw new SkillError("forbidden", "Geen toegang tot deze tenant", false, 403);
+  }
+}
+
 async function dispatch(
   supabase: SupabaseClient,
   req: ExecuteRequest,
   skillVersion: SkillVersionRow,
-  credential: string | null,
+  credentialReference: string | null,
 ): Promise<DispatchOutcome> {
   const impl = skillVersion.implementation;
   const implType = impl?.type;
+  // Bewust géén gedecrypte secret in de payload: downstream (n8n-workflow of
+  // Edge Function) resolvet de credential_reference zelf — n8n via eigen
+  // credentials, Edge Functions via de rt_resolve_secret RPC.
   const payload = {
     tenantId: req.tenantId,
     skillKey: req.skillKey,
     skillVersion: skillVersion.version,
     input: req.input,
-    credential,
+    credential_reference: credentialReference,
     context: { workflowRunId: req.workflowRunId ?? null, stepRunId: req.stepRunId ?? null },
   };
 
@@ -198,6 +227,9 @@ serve(async (req) => {
   };
 
   try {
+    // 0. Caller autoriseren: service-role, of user-JWT met toegang tot tenant
+    await authorizeCaller(supabase, req, request.tenantId);
+
     // 1. Tenant valideren
     const { data: tenant, error: tenantErr } = await supabase
       .from("gp_organizations")
@@ -311,8 +343,9 @@ serve(async (req) => {
       throw new SkillError("no_provider_available", `Geen actieve provider-route voor skill "${request.skillKey}"`, true, 503);
     }
 
-    // 5. Credential resolven: tenant-eigen > platform (org IS NULL)
-    let credential: string | null = null;
+    // 5. Credential-referentie bepalen: tenant-eigen > platform (org IS NULL).
+    // We geven alleen de vault-referentie door; de secret zelf verlaat de
+    // database nooit via deze executor.
     const { data: credRows, error: credErr } = await supabase
       .from("rt_provider_credentials")
       .select("organization_id, credential_reference, status")
@@ -323,7 +356,7 @@ serve(async (req) => {
     type CredRow = { organization_id: string | null; credential_reference: string; status: string };
     const credRow = (credRows ?? []).find((c: CredRow) => c.organization_id === request.tenantId) ??
       (credRows ?? []).find((c: CredRow) => c.organization_id === null);
-    if (credRow) credential = await resolveSecret(supabase, credRow.credential_reference);
+    const credentialReference = credRow?.credential_reference ?? null;
 
     // Step run markeren als running
     if (request.stepRunId) {
@@ -348,7 +381,7 @@ serve(async (req) => {
     let outcome: DispatchOutcome;
     const callStart = Date.now();
     try {
-      outcome = await dispatch(supabase, request, skillVersionRow, credential);
+      outcome = await dispatch(supabase, request, skillVersionRow, credentialReference);
     } catch (e) {
       const err = e instanceof SkillError ? e : new SkillError("internal_error", "Dispatch mislukt", true, 500);
       const callStatus = err.code === "provider_timeout" ? "timeout" : err.code === "provider_rate_limited" ? "rate_limited" : "failed";

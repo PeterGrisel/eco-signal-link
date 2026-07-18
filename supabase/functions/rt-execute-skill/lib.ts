@@ -210,6 +210,14 @@ export function unwrapProviderResponse(body: unknown): ProviderResult {
   return { data: body };
 }
 
+// ============ Autorisatie ============
+
+export function parseBearerToken(authHeader: string | null): string | null {
+  if (typeof authHeader !== "string") return null;
+  const match = authHeader.match(/^Bearer\s+(\S+)$/i);
+  return match ? match[1] : null;
+}
+
 // ============ Request-validatie ============
 
 export interface ExecuteRequest {

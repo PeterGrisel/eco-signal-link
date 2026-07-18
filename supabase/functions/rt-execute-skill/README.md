@@ -9,6 +9,19 @@ Datamodel: `supabase/migrations/20260718090000_rt_gtm_runtime_v0_1.sql`.
 Vault-helper: `supabase/migrations/20260718090100_rt_resolve_secret.sql`
 (`public.rt_resolve_secret(name)`, alleen `service_role`).
 
+## Autorisatie
+
+Elke request vereist een `Authorization: Bearer <token>`-header:
+
+- **Service-role key** — volledige toegang; dit is het pad voor de interne
+  orchestrator (workflow-runner, cron, n8n).
+- **User-JWT** — de user wordt via `auth.getUser` geverifieerd en moet via
+  `gp_can_access_org(user_id, tenantId)` toegang hebben tot de opgegeven
+  tenant; anders `403 forbidden`.
+
+De anon key is dus niet voldoende: die passeert weliswaar de JWT-verificatie
+van de Edge Runtime, maar strandt op de user-check (`401 unauthorized`).
+
 ## Contract
 
 **Input** (POST, JSON):
@@ -68,8 +81,11 @@ orchestrator de step opnieuw mag proberen (timeouts, 429, 5xx, netwerkfouten →
   `{"provider_preferences": {"sync_crm": "hubspot"}}` (string of array; eerste
   beschikbare wint).
 - **Provider-payload**: de downstream webhook/functie ontvangt
-  `{ tenantId, skillKey, skillVersion, input, credential, context }`. Het
-  `credential`-veld is de gedecrypte tenant- of platform-secret (of `null`).
+  `{ tenantId, skillKey, skillVersion, input, credential_reference, context }`.
+  `credential_reference` is de `vault://`-referentie van de tenant- of
+  platform-credential (of `null`); de executor stuurt **nooit** een gedecrypte
+  secret mee. n8n-workflows resolven de referentie naar hun eigen n8n
+  credentials, Edge Functions gebruiken de `rt_resolve_secret` RPC.
 - **Provider-response**: óf een envelope `{ "data": ..., "confidence"?: n,
   "cost"?: n }`, óf een kaal object dat zelf de data is. `data` wordt
   gevalideerd tegen `output_schema`; ontbreekt `cost`, dan valt de executor
@@ -88,6 +104,8 @@ orchestrator de step opnieuw mag proberen (timeouts, 429, 5xx, netwerkfouten →
 | Code | Retryable | Betekenis |
 |---|---|---|
 | `invalid_request` | nee | Body/velden ongeldig |
+| `unauthorized` | nee | Bearer-token ontbreekt of is ongeldig |
+| `forbidden` | nee | User heeft geen toegang tot deze tenant |
 | `tenant_not_found` / `tenant_inactive` | nee | Tenant onbekend of niet actief |
 | `skill_not_found` / `skill_version_not_found` | nee | Skill(-versie) onbekend of niet actief |
 | `input_validation_failed` | nee | Input matcht `input_schema` niet |
