@@ -1,0 +1,51 @@
+{
+  "name": "rt-search-companies",
+  "nodes": [
+    {
+      "id": "9f1c2a10-0000-4a01-9a01-rtsearchweb01",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [0, 0],
+      "webhookId": "rt-search-companies",
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "rt-search-companies",
+        "responseMode": "responseNode",
+        "options": {}
+      }
+    },
+    {
+      "id": "9f1c2a10-0000-4a02-9a02-rtsearchcode1",
+      "name": "Apollo Search Companies",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [220, 0],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// rt-search-companies — Apollo /v1/mixed_companies/search, output exact\n// conform het search_companies v1.0.0 output_schema uit rt_skill_versions.\n// De Apollo Master API key komt uit de n8n-omgeving (Settings > Variables of\n// een env var op de instance) — NOOIT uit de inkomende payload; de executor\n// stuurt alleen een credential_reference mee die hier genegeerd wordt.\nconst APOLLO_API_KEY = $env.APOLLO_API_KEY || '<APOLLO_API_KEY>';\n\nconst body = $input.first().json.body || $input.first().json;\nconst input = body.input || {};\n\nif (!input.country) {\n  return [{ json: { error: { code: 'input_invalid', message: 'country is verplicht', retryable: false } } }];\n}\nconst targetCount = Math.min(Math.max(parseInt(input.target_count, 10) || 100, 1), 1000);\n\nconst searchBody = {\n  q_organization_locations: [input.country],\n  per_page: 100,\n};\nif (Array.isArray(input.industries) && input.industries.length > 0) {\n  searchBody.q_organization_keyword_tags = input.industries;\n}\nif (input.employee_min || input.employee_max) {\n  searchBody.organization_num_employees_ranges = [\n    `${input.employee_min || 1},${input.employee_max || 100000}`,\n  ];\n}\n\ntry {\n  const all = [];\n  let page = 1;\n  let totalPages = 1;\n  do {\n    const response = await this.helpers.httpRequest({\n      method: 'POST',\n      url: 'https://api.apollo.io/v1/mixed_companies/search',\n      headers: {\n        'X-Api-Key': APOLLO_API_KEY,\n        'Content-Type': 'application/json',\n        'Cache-Control': 'no-cache',\n      },\n      body: { ...searchBody, page },\n      json: true,\n    });\n    const orgs = response.organizations || response.accounts || [];\n    all.push(...orgs);\n    totalPages = response.pagination?.total_pages || 1;\n    page++;\n    if (page > 20) break; // hard cap tegen runaway loops\n  } while (page <= totalPages && all.length < targetCount);\n\n  const accounts = all.slice(0, targetCount).filter((o) => o.name).map((o) => {\n    let domain = o.primary_domain || o.domain || '';\n    if (!domain && o.website_url) {\n      domain = o.website_url.replace(/^https?:\\/\\/(www\\.)?/, '').replace(/\\/.*$/, '');\n    }\n    return {\n      name: o.name,\n      domain: domain.toLowerCase().trim(),\n      industry: o.industry || '',\n      country: o.country || input.country,\n      employee_range: o.estimated_num_employees ? String(o.estimated_num_employees) : '',\n      source_provider: 'apollo',\n      external_ids: { apollo_organization_id: o.id },\n    };\n  });\n\n  return [{ json: { accounts } }];\n} catch (e) {\n  const msg = String(e.message || e);\n  const retryable = msg.includes('429') || msg.includes('50');\n  return [{ json: { error: { code: 'apollo_error', message: msg.slice(0, 200), retryable } } }];\n}"
+      }
+    },
+    {
+      "id": "9f1c2a10-0000-4a03-9a03-rtsearchresp1",
+      "name": "Respond",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [440, 0],
+      "parameters": {
+        "respondWith": "firstIncomingItem",
+        "options": {}
+      }
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [[{ "node": "Apollo Search Companies", "type": "main", "index": 0 }]]
+    },
+    "Apollo Search Companies": {
+      "main": [[{ "node": "Respond", "type": "main", "index": 0 }]]
+    }
+  },
+  "settings": { "executionOrder": "v1" },
+  "pinData": {}
+}

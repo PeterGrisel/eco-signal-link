@@ -1,0 +1,51 @@
+{
+  "name": "rt-find-contacts",
+  "nodes": [
+    {
+      "id": "8e2d3b21-0000-4b01-8b01-rtfindweb001",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [0, 0],
+      "webhookId": "rt-find-contacts",
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "rt-find-contacts",
+        "responseMode": "responseNode",
+        "options": {}
+      }
+    },
+    {
+      "id": "8e2d3b21-0000-4b02-8b02-rtfindcode01",
+      "name": "Apollo Find Contacts",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [220, 0],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// rt-find-contacts — Apollo /v1/mixed_people/search, output exact conform\n// het find_contacts v1.0.0 output_schema uit rt_skill_versions.\n// De Apollo Master API key komt uit de n8n-omgeving — NOOIT uit de payload.\nconst APOLLO_API_KEY = $env.APOLLO_API_KEY || '<APOLLO_API_KEY>';\n\nconst body = $input.first().json.body || $input.first().json;\nconst input = body.input || {};\n\nif (!input.company_domain || !Array.isArray(input.roles) || input.roles.length === 0) {\n  return [{ json: { error: { code: 'input_invalid', message: 'company_domain en roles zijn verplicht', retryable: false } } }];\n}\nconst maxContacts = Math.min(Math.max(parseInt(input.max_contacts, 10) || 3, 1), 25);\n\ntry {\n  const response = await this.helpers.httpRequest({\n    method: 'POST',\n    url: 'https://api.apollo.io/v1/mixed_people/search',\n    headers: {\n      'X-Api-Key': APOLLO_API_KEY,\n      'Content-Type': 'application/json',\n      'Cache-Control': 'no-cache',\n    },\n    body: {\n      q_organization_domains_list: [input.company_domain],\n      person_titles: input.roles,\n      per_page: maxContacts,\n      page: 1,\n    },\n    json: true,\n  });\n\n  const people = response.people || response.contacts || [];\n  const contacts = people\n    .slice(0, maxContacts)\n    .filter((p) => p.first_name && p.last_name)\n    .map((p) => {\n      // Apollo geeft 'email_not_unlocked@...' voor niet-onthulde adressen.\n      const email = p.email && !String(p.email).includes('email_not_unlocked') ? p.email : null;\n      return {\n        first_name: p.first_name,\n        last_name: p.last_name,\n        title: p.title || '',\n        email,\n        email_status: p.email_status || null,\n        linkedin_url: p.linkedin_url || null,\n        phone: p.sanitized_phone || p.phone || null,\n        source_provider: 'apollo',\n        external_ids: { apollo_person_id: p.id },\n      };\n    });\n\n  return [{ json: { contacts } }];\n} catch (e) {\n  const msg = String(e.message || e);\n  const retryable = msg.includes('429') || msg.includes('50');\n  return [{ json: { error: { code: 'apollo_error', message: msg.slice(0, 200), retryable } } }];\n}"
+      }
+    },
+    {
+      "id": "8e2d3b21-0000-4b03-8b03-rtfindresp01",
+      "name": "Respond",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [440, 0],
+      "parameters": {
+        "respondWith": "firstIncomingItem",
+        "options": {}
+      }
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [[{ "node": "Apollo Find Contacts", "type": "main", "index": 0 }]]
+    },
+    "Apollo Find Contacts": {
+      "main": [[{ "node": "Respond", "type": "main", "index": 0 }]]
+    }
+  },
+  "settings": { "executionOrder": "v1" },
+  "pinData": {}
+}
