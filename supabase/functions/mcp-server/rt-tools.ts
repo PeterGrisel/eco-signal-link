@@ -4,6 +4,14 @@
 // traces of secrets) en een spoor in rt_audit_logs (actor_type 'system').
 import type { SupabaseClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 import { compareVersions, validateSchema } from "../_shared/rt-validation.ts";
+import {
+  TELEMETRY_SKILLS,
+  composeTelemetry,
+  dailyTenantSkillLimit,
+  startOfTodayUtcIso,
+  strongestStairoidsMover,
+  type TelemetrySnapshotRow,
+} from "../_shared/rt-telemetry.ts";
 
 type ToolResult = { content: { type: "text"; text: string }[] };
 
@@ -499,31 +507,77 @@ export function registerRtTools(
     },
   });
 
-  // ── 5. execute_skill (internal-only) ───────────────────────────────────
+  // ── 5. execute_skill ───────────────────────────────────────────────────
+  // Internal keys: alle skills, vrije tenant-keuze. Tenant keys: alleen
+  // skills met tenant_callable=true, met een dag-limiet uit
+  // rt_tenant_playbooks.config.limits.daily_tenant_skill_calls (default 25),
+  // geteld via rt_audit_logs action 'tenant_skill_call'.
 
-  if (!orgLock) mcp.tool("execute_skill", {
-    description: "Execute a single GTM Runtime skill for a tenant via the rt-execute-skill executor (input/output validation, provider routing, logging). Returns the full skill execution result.",
+  mcp.tool("execute_skill", {
+    description: orgLock
+      ? "Execute a GTM Runtime skill for your organization (read skills only). Daily call limit applies. Returns the full skill execution result incl. snapshot_id/cached."
+      : "Execute a single GTM Runtime skill for a tenant via the rt-execute-skill executor (input/output validation, provider routing, logging, snapshot cache). Returns the full skill execution result incl. snapshot_id/cached.",
     inputSchema: {
       type: "object",
       properties: {
-        tenant: { type: "string", description: "Organization slug or name" },
-        skill_key: { type: "string", description: "rt_skills.skill_key, e.g. verify_email" },
+        tenant: { type: "string", description: "Organization slug or name (ignored for tenant-scoped API keys)" },
+        skill_key: { type: "string", description: "rt_skills.skill_key, e.g. search_companies" },
         input: { type: "object", description: "Skill input, validated against the version's input_schema" },
         version: { type: "string", description: "Optional skill version; default: highest active version" },
         step_run_id: { type: "string", description: "Optional rt_step_runs.id for idempotency and step tracking" },
+        force_refresh: { type: "boolean", description: "Skip the snapshot cache and force a fresh provider call" },
       },
-      required: ["tenant", "skill_key", "input"],
+      required: orgLock ? ["skill_key", "input"] : ["tenant", "skill_key", "input"],
     },
-    handler: async ({ tenant, skill_key, input, version, step_run_id }: {
-      tenant: string;
+    handler: async ({ tenant, skill_key, input, version, step_run_id, force_refresh }: {
+      tenant?: string;
       skill_key: string;
       input: Record<string, unknown>;
       version?: string;
       step_run_id?: string;
+      force_refresh?: boolean;
     }) => {
-      const resolved = await resolveTenant(supabase, tenant);
+      const resolved = await resolveOrg(tenant);
       if ("error" in resolved) return resolved.error;
       const org = resolved.org;
+
+      let quota: { limit: number; used: number } | null = null;
+      if (orgLock) {
+        const { data: skillRow, error: skErr } = await supabase
+          .from("rt_skills")
+          .select("id, tenant_callable")
+          .eq("skill_key", skill_key)
+          .maybeSingle();
+        if (skErr) return toolError("db_error", `Skill-lookup mislukt: ${skErr.message}`);
+        if (!skillRow || skillRow.tenant_callable !== true) {
+          return toolError("skill_not_callable", `Skill "${skill_key}" is niet beschikbaar via deze key`);
+        }
+
+        const { data: tps, error: tpErr } = await supabase
+          .from("rt_tenant_playbooks")
+          .select("config")
+          .eq("organization_id", org.id)
+          .eq("is_active", true);
+        if (tpErr) return toolError("db_error", `Config-lookup mislukt: ${tpErr.message}`);
+        const limit = dailyTenantSkillLimit((tps ?? [])[0]?.config ?? null);
+
+        const { count, error: cntErr } = await supabase
+          .from("rt_audit_logs")
+          .select("id", { count: "exact", head: true })
+          .eq("organization_id", org.id)
+          .eq("action", "tenant_skill_call")
+          .gte("created_at", startOfTodayUtcIso());
+        if (cntErr) return toolError("db_error", `Quota-check mislukt: ${cntErr.message}`);
+        const used = count ?? 0;
+        if (used >= limit) {
+          return toolError("daily_limit_reached", `Dagelijkse limiet van ${limit} skill-calls is bereikt; morgen weer beschikbaar`, {
+            limit,
+            used,
+            remaining: 0,
+          });
+        }
+        quota = { limit, used };
+      }
 
       const internalToken = Deno.env.get("RT_INTERNAL_TOKEN");
       if (!internalToken) {
@@ -542,6 +596,7 @@ export function registerRtTools(
             skillVersion: version,
             input,
             stepRunId: step_run_id,
+            forceRefresh: force_refresh === true,
           }),
         });
         httpStatus = res.status;
@@ -550,8 +605,9 @@ export function registerRtTools(
         return toolError("executor_unreachable", "rt-execute-skill was niet bereikbaar of gaf geen geldige JSON");
       }
 
-      const r = result as { status?: string; provider?: string; latencyMs?: number; cost?: number } | null;
-      await auditLog(org.id, "skill_executed", "rt_skills", null, {
+      const r = result as { status?: string; provider?: string; latencyMs?: number; cost?: number; cached?: boolean } | null;
+      // Tenant-calls tellen mee voor het dagquotum (action 'tenant_skill_call').
+      await auditLog(org.id, orgLock ? "tenant_skill_call" : "skill_executed", "rt_skills", null, {
         skill_key,
         version: version ?? null,
         step_run_id: step_run_id ?? null,
@@ -559,8 +615,12 @@ export function registerRtTools(
         provider: r?.provider ?? null,
         latency_ms: r?.latencyMs ?? null,
         cost: r?.cost ?? null,
+        cached: r?.cached ?? null,
       });
 
+      if (quota) {
+        return ok({ ...(result as Record<string, unknown>), quota: { limit: quota.limit, remaining: quota.limit - quota.used - 1 } });
+      }
       return ok(result);
     },
   });
@@ -671,7 +731,241 @@ export function registerRtTools(
     },
   });
 
-  // ── 7. provision_tenant (internal-only) ────────────────────────────────
+  // ── 7. get_snapshot ────────────────────────────────────────────────────
+
+  mcp.tool("get_snapshot", {
+    description: "Get a persisted skill snapshot by id: metadata (skill, provider, created_at, row_count, expires_at) plus the payload (inline or fetched from Storage).",
+    inputSchema: {
+      type: "object",
+      properties: { snapshot_id: { type: "string", description: "rt_snapshots.id (uuid)" } },
+      required: ["snapshot_id"],
+    },
+    handler: async ({ snapshot_id }: { snapshot_id: string }) => {
+      const { data: snap, error } = await supabase
+        .from("rt_snapshots")
+        .select("id, organization_id, skill_key, provider_key, payload, storage_path, row_count, created_at, expires_at")
+        .eq("id", snapshot_id)
+        .maybeSingle();
+      if (error) return toolError("db_error", `Snapshot-lookup mislukt: ${error.message}`);
+      if (!snap || (orgLock && snap.organization_id !== orgLock.organizationId)) {
+        return toolError("snapshot_not_found", `Geen snapshot met id "${snapshot_id}"`);
+      }
+
+      let payload: unknown = snap.payload;
+      if (payload == null && snap.storage_path) {
+        const { data: file, error: dlErr } = await supabase.storage.from("rt-snapshots").download(snap.storage_path);
+        if (dlErr || !file) return toolError("storage_error", "Snapshot-payload kon niet uit Storage worden gelezen");
+        payload = JSON.parse(await file.text());
+      }
+
+      await auditLog(snap.organization_id, "snapshot_viewed", "rt_snapshots", snap.id, { skill_key: snap.skill_key });
+
+      return ok({
+        snapshot_id: snap.id,
+        skill_key: snap.skill_key,
+        provider_key: snap.provider_key,
+        row_count: snap.row_count,
+        created_at: snap.created_at,
+        expires_at: snap.expires_at,
+        payload,
+      });
+    },
+  });
+
+  // ── 8. get_daily_brief ─────────────────────────────────────────────────
+
+  mcp.tool("get_daily_brief", {
+    description: "One aggregation for the client's morning session: new signals (24h), accounts that warmed up this week, open approvals, active workflow runs, this month's costs, open service requests and a telemetry summary — plus a short Dutch 'focus' field.",
+    inputSchema: {
+      type: "object",
+      properties: { tenant: { type: "string", description: "Organization slug or name (ignored for tenant-scoped API keys)" } },
+      required: orgLock ? [] : ["tenant"],
+    },
+    handler: async ({ tenant }: { tenant?: string }) => {
+      const resolved = await resolveOrg(tenant);
+      if ("error" in resolved) return resolved.error;
+      const org = resolved.org;
+
+      const now = new Date();
+      const dayAgo = new Date(now.getTime() - 24 * 3_600_000).toISOString();
+      const weekAgo = new Date(now.getTime() - 7 * 24 * 3_600_000).toISOString();
+      const monthStart = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1)).toISOString();
+
+      const [signalsQ, weekSignalsQ, approvalsQ, runsQ, costQ, serviceQ, snapsQ] = await Promise.all([
+        supabase
+          .from("gp_signals")
+          .select("id, signal_type, summary, recommended_action, priority, account:gp_accounts(name)")
+          .eq("organization_id", org.id)
+          .gte("created_at", dayAgo)
+          .order("created_at", { ascending: false })
+          .limit(10),
+        supabase
+          .from("gp_signals")
+          .select("account:gp_accounts(id, name, warmth)")
+          .eq("organization_id", org.id)
+          .gte("created_at", weekAgo)
+          .limit(200),
+        supabase
+          .from("rt_approvals")
+          .select("id, approval_type, created_at")
+          .eq("organization_id", org.id)
+          .eq("status", "pending"),
+        supabase
+          .from("rt_workflow_runs")
+          .select("id, status, current_step_key, playbook_version:rt_playbook_versions(version, playbook:rt_playbooks(name))")
+          .eq("organization_id", org.id)
+          .in("status", ["queued", "running", "waiting_for_approval", "approved", "revision_required"]),
+        supabase
+          .from("rt_provider_calls")
+          .select("cost")
+          .eq("organization_id", org.id)
+          .gte("created_at", monthStart)
+          .limit(2000),
+        supabase
+          .from("gp_service_requests")
+          .select("id, title, priority, status")
+          .eq("organization_id", org.id)
+          .not("status", "in", "(resolved,closed)")
+          .order("created_at", { ascending: false })
+          .limit(10),
+        supabase
+          .from("rt_snapshots")
+          .select("skill_key, payload, created_at, expires_at")
+          .eq("organization_id", org.id)
+          .in("skill_key", TELEMETRY_SKILLS.map((s) => s.skillKey))
+          .gt("expires_at", now.toISOString())
+          .order("created_at", { ascending: false })
+          .limit(12),
+      ]);
+
+      // Accounts die deze week warm/sales_ready werden: benaderd via de
+      // accounts met signalen in de afgelopen 7 dagen (gp_accounts heeft geen
+      // warmth-wijzigingstijd).
+      const movedMap = new Map<string, { name: string; warmth: string }>();
+      for (const row of (weekSignalsQ.data ?? []) as { account: { id: string; name: string; warmth: string } | null }[]) {
+        const a = row.account;
+        if (a && ["warm", "sales_ready"].includes(a.warmth)) movedMap.set(a.id, { name: a.name, warmth: a.warmth });
+      }
+
+      const costMonth = Math.round(
+        ((costQ.data ?? []) as { cost: number | null }[]).reduce((s, c) => s + (c.cost ?? 0), 0) * 100,
+      ) / 100;
+
+      // Telemetrie-regels (max 4) uit de laatste snapshots.
+      const snaps = (snapsQ.data ?? []) as TelemetrySnapshotRow[];
+      const latestBySkill = new Map<string, TelemetrySnapshotRow[]>();
+      for (const s of snaps) {
+        const arr = latestBySkill.get(s.skill_key) ?? [];
+        arr.push(s);
+        latestBySkill.set(s.skill_key, arr);
+      }
+      const telemetryLines: string[] = [];
+      const pipedriveSnap = (latestBySkill.get("pull_pipedrive_stats") ?? [])[0]?.payload as Record<string, any> | undefined;
+      if (pipedriveSnap?.pipedrive?.open) {
+        const open = pipedriveSnap.pipedrive.open;
+        telemetryLines.push(`Open pipeline: ${open.count ?? "?"} deals, €${Number(open.value ?? 0).toLocaleString("nl-NL")}`);
+      }
+      const heyreachSnap = (latestBySkill.get("pull_heyreach_stats") ?? [])[0]?.payload as Record<string, any> | undefined;
+      if (heyreachSnap) {
+        telemetryLines.push(`HeyReach: ${heyreachSnap.acceptRate ?? "?"}% accept, ${heyreachSnap.replyRate ?? "?"}% reply`);
+      }
+      const apolloSnap = (latestBySkill.get("pull_apollo_sequence_stats") ?? [])[0]?.payload as Record<string, any> | undefined;
+      if (apolloSnap) {
+        telemetryLines.push(`Apollo: ${apolloSnap.openRate ?? "?"}% open rate`);
+      }
+      const stairoidsSnaps = latestBySkill.get("pull_stairoids_scores") ?? [];
+      const mover = strongestStairoidsMover(
+        (stairoidsSnaps[0]?.payload as Record<string, any> | undefined)?.top ?? null,
+        (stairoidsSnaps[1]?.payload as Record<string, any> | undefined)?.top ?? null,
+      );
+      if (mover) {
+        telemetryLines.push(
+          mover.delta !== null
+            ? `Sterkste Stairoids-mover: ${mover.company} (+${mover.delta} naar ${mover.score})`
+            : `Hoogste Stairoids-score: ${mover.company} (${mover.score})`,
+        );
+      }
+
+      const pendingApprovals = (approvalsQ.data ?? []) as { id: string; approval_type: string; created_at: string }[];
+      const newSignals = (signalsQ.data ?? []) as Record<string, unknown>[];
+
+      // Kort NL focus-veld (max 3 zinnen), heuristisch: approvals eerst,
+      // dan signalen, dan warme beweging.
+      const focusParts: string[] = [];
+      if (pendingApprovals.length > 0) {
+        focusParts.push(`Er ${pendingApprovals.length === 1 ? "wacht 1 goedkeuring" : `wachten ${pendingApprovals.length} goedkeuringen`} op u — die houden de workflow op.`);
+      }
+      if (newSignals.length > 0) {
+        focusParts.push(`${newSignals.length} ${newSignals.length === 1 ? "nieuw signaal" : "nieuwe signalen"} in de afgelopen 24 uur; pak de hoogste prioriteit als eerste op.`);
+      }
+      if (movedMap.size > 0) {
+        focusParts.push(`${movedMap.size} account${movedMap.size === 1 ? " is" : "s zijn"} deze week warm of sales-ready — plan opvolging.`);
+      }
+      if (focusParts.length === 0) {
+        focusParts.push("Geen urgente acties: geen open goedkeuringen en geen nieuwe signalen in de afgelopen 24 uur.");
+      }
+
+      await auditLog(org.id, "daily_brief_viewed", null, null, {
+        signals: newSignals.length,
+        approvals: pendingApprovals.length,
+      });
+
+      return ok({
+        tenant: org.slug ?? org.name,
+        generated_at: now.toISOString(),
+        new_signals_24h: newSignals,
+        accounts_warmed_this_week: [...movedMap.entries()].map(([id, a]) => ({ id, ...a })).slice(0, 10),
+        pending_approvals: pendingApprovals,
+        active_runs: (runsQ.data ?? []).map((r: any) => ({
+          run_id: r.id,
+          status: r.status,
+          current_step_key: r.current_step_key,
+          playbook: r.playbook_version?.playbook?.name ?? null,
+          version: r.playbook_version?.version ?? null,
+        })),
+        costs_this_month_eur: costMonth,
+        open_service_requests: serviceQ.data ?? [],
+        telemetry: telemetryLines.slice(0, 4),
+        focus: focusParts.slice(0, 3).join(" "),
+      });
+    },
+  });
+
+  // ── 9. get_telemetry ───────────────────────────────────────────────────
+
+  mcp.tool("get_telemetry", {
+    description: "Compose the dashboard DATA object (keys: pipedrive, heyreach, apollo, planable, staroids, salescycle, winloss, herkomst, monthly) from the latest non-expired telemetry snapshots, with snapshot_dates and stale (>26h) per block. Missing block => null with a reason.",
+    inputSchema: {
+      type: "object",
+      properties: { tenant: { type: "string", description: "Organization slug or name (ignored for tenant-scoped API keys)" } },
+      required: orgLock ? [] : ["tenant"],
+    },
+    handler: async ({ tenant }: { tenant?: string }) => {
+      const resolved = await resolveOrg(tenant);
+      if ("error" in resolved) return resolved.error;
+      const org = resolved.org;
+
+      const { data: snaps, error } = await supabase
+        .from("rt_snapshots")
+        .select("skill_key, payload, created_at, expires_at")
+        .eq("organization_id", org.id)
+        .in("skill_key", TELEMETRY_SKILLS.map((s) => s.skillKey))
+        .gt("expires_at", new Date().toISOString())
+        .order("created_at", { ascending: false })
+        .limit(25);
+      if (error) return toolError("db_error", `Snapshot-lookup mislukt: ${error.message}`);
+
+      const composition = composeTelemetry((snaps ?? []) as TelemetrySnapshotRow[]);
+
+      await auditLog(org.id, "telemetry_viewed", null, null, {
+        blocks_present: Object.entries(composition.data).filter(([, v]) => v !== null).map(([k]) => k),
+      });
+
+      return ok({ tenant: org.slug ?? org.name, ...composition });
+    },
+  });
+
+  // ── 10. provision_tenant (internal-only) ───────────────────────────────
 
   if (!orgLock) mcp.tool("provision_tenant", {
     description:
@@ -833,7 +1127,7 @@ export function registerRtTools(
     },
   });
 
-  // ── 8. set_tenant_context (internal-only) ──────────────────────────────
+  // ── 11. set_tenant_context (internal-only) ─────────────────────────────
 
   if (!orgLock) mcp.tool("set_tenant_context", {
     description:

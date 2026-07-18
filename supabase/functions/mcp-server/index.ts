@@ -847,11 +847,13 @@ async function validateApiKey(token: string | undefined): Promise<ApiKeyValidati
   };
 }
 
-// Tenant-scoped keys krijgen een eigen MCP-server met UITSLUITEND de vier
-// tenant-tools, hard vergrendeld op de organisatie van de key — geen
-// execute_skill, geen start_workflow_run, geen provisioning en geen
-// site/SEO/blog-tools. Dit geldt voor tool-listing én tool-calls: de andere
-// tools bestaan simpelweg niet op deze server.
+// Tenant-scoped keys krijgen een eigen MCP-server met uitsluitend de
+// tenant-tools (get_run_status, list_pending_approvals, decide_approval,
+// get_tenant_costs, get_snapshot, get_daily_brief, get_telemetry en
+// execute_skill beperkt tot tenant_callable-skills met dag-limiet), hard
+// vergrendeld op de organisatie van de key — geen start_workflow_run, geen
+// provisioning en geen site/SEO/blog-tools. Dit geldt voor tool-listing én
+// tool-calls: de andere tools bestaan simpelweg niet op deze server.
 function tenantHttpHandler(organizationId: string, keyName: string) {
   const tenantMcp = new McpServer({ name: "b2bgroeimachine-tenant", version: "1.0.0" });
   registerRtTools(tenantMcp, supabaseAdmin, { orgLock: { organizationId, keyName } });
