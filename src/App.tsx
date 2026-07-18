@@ -80,6 +80,7 @@ import PortalService from "./pages/app/Service.tsx";
 import PortalSettings from "./pages/app/Settings.tsx";
 import PortalApprovals from "./pages/app/Approvals.tsx";
 import PortalRuns from "./pages/app/Runs.tsx";
+import PortalTelemetry from "./pages/app/Telemetry.tsx";
 import TrackingScriptInjector from "./components/TrackingScriptInjector";
 import CookieConsent from "./components/CookieConsent";
 import { BookingModalHost } from "./components/booking/GlobalBookingModal";
@@ -210,6 +211,7 @@ const AnimatedRoutes = () => {
             <Route path="sales-acties" element={<PortalSalesActions />} />
             <Route path="goedkeuringen" element={<PortalApprovals />} />
             <Route path="runs" element={<PortalRuns />} />
+            <Route path="telemetry" element={<PortalTelemetry />} />
             <Route path="campagnes" element={<PortalCampaigns />} />
             <Route path="resultaten" element={<PortalResults />} />
             <Route path="service" element={<PortalService />} />

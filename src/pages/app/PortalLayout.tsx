@@ -2,7 +2,7 @@ import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { PortalProvider, usePortal, useRequireAuth } from "./PortalContext";
 import {
   LayoutDashboard, ListChecks, Radio, Target, Megaphone, BarChart3, HeadphonesIcon, Settings, LogOut, Building2,
-  ClipboardCheck, Workflow,
+  ClipboardCheck, Workflow, Gauge,
 } from "lucide-react";
 import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarMenu, SidebarMenuItem, SidebarMenuButton,
@@ -17,6 +17,7 @@ const nav = [
   { to: "/app/sales-acties", label: "Sales acties", icon: Target },
   { to: "/app/goedkeuringen", label: "Goedkeuringen", icon: ClipboardCheck },
   { to: "/app/runs", label: "Workflow runs", icon: Workflow },
+  { to: "/app/telemetry", label: "Telemetrie", icon: Gauge },
   { to: "/app/campagnes", label: "Campagnes", icon: Megaphone },
   { to: "/app/resultaten", label: "Resultaten", icon: BarChart3 },
   { to: "/app/service", label: "Service", icon: HeadphonesIcon },
