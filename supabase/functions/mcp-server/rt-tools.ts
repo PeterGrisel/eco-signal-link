@@ -670,4 +670,258 @@ export function registerRtTools(
       });
     },
   });
+
+  // ── 7. provision_tenant (internal-only) ────────────────────────────────
+
+  if (!orgLock) mcp.tool("provision_tenant", {
+    description:
+      "Internal-only. Provision a new tenant: creates gp_organizations, activates the template playbook in rt_tenant_playbooks (with default policies) and creates an onboarding project with tasks. Returns a checklist of manual follow-ups (Vault secrets to set, tenant API key to create).",
+    inputSchema: {
+      type: "object",
+      properties: {
+        name: { type: "string", description: "Organization display name, e.g. 'Core-Vision B.V.'" },
+        slug: { type: "string", description: "URL-safe slug, e.g. 'core-vision'" },
+        template_key: { type: "string", enum: ["standard_b2b_outbound"], description: "Provisioning template" },
+      },
+      required: ["name", "slug", "template_key"],
+    },
+    handler: async ({ name, slug, template_key }: { name: string; slug: string; template_key: string }) => {
+      if (typeof name !== "string" || name.trim().length === 0) {
+        return toolError("invalid_name", "'name' is verplicht");
+      }
+      if (typeof slug !== "string" || !/^[a-z0-9][a-z0-9-]{1,62}$/.test(slug)) {
+        return toolError("invalid_slug", "'slug' moet lowercase zijn: letters, cijfers en streepjes");
+      }
+      if (template_key !== "standard_b2b_outbound") {
+        return toolError("unknown_template", `Onbekende template "${template_key}"`, {
+          available: ["standard_b2b_outbound"],
+        });
+      }
+
+      const { data: existing, error: exErr } = await supabase
+        .from("gp_organizations")
+        .select("id")
+        .eq("slug", slug)
+        .maybeSingle();
+      if (exErr) return toolError("db_error", `Slug-check mislukt: ${exErr.message}`);
+      if (existing) return toolError("tenant_exists", `Er bestaat al een organisatie met slug "${slug}"`);
+
+      // Template 'standard_b2b_outbound': outbound_market_activation v1.0.0
+      // met conservatieve default policies (alles achter approval, geen
+      // auto-launch, max 50 contacten per dag).
+      const { data: playbook, error: pbErr } = await supabase
+        .from("rt_playbooks")
+        .select("id")
+        .eq("playbook_key", "outbound_market_activation")
+        .maybeSingle();
+      if (pbErr || !playbook) {
+        return toolError("template_playbook_missing", "Playbook outbound_market_activation ontbreekt; draai de rt_-migrations eerst");
+      }
+      const { data: pv, error: pvErr } = await supabase
+        .from("rt_playbook_versions")
+        .select("id, version")
+        .eq("playbook_id", playbook.id)
+        .eq("version", "1.0.0")
+        .maybeSingle();
+      if (pvErr || !pv) {
+        return toolError("template_playbook_missing", "Versie 1.0.0 van outbound_market_activation ontbreekt");
+      }
+
+      const { data: org, error: orgErr } = await supabase
+        .from("gp_organizations")
+        .insert({ name: name.trim(), slug, status: "active" })
+        .select("id")
+        .single();
+      if (orgErr) return toolError("db_error", `Organisatie aanmaken mislukt: ${orgErr.message}`);
+
+      const { error: tpErr } = await supabase.from("rt_tenant_playbooks").insert({
+        organization_id: org.id,
+        playbook_id: playbook.id,
+        pinned_version_id: pv.id,
+        is_active: true,
+        config: {
+          template_key,
+          policies: {
+            require_account_approval: true,
+            require_message_approval: true,
+            auto_launch: false,
+            daily_contact_limit: 50,
+          },
+        },
+      });
+      if (tpErr) return toolError("db_error", `Tenant-playbook aanmaken mislukt: ${tpErr.message}`);
+
+      const { data: project, error: prErr } = await supabase
+        .from("gp_onboarding_projects")
+        .insert({ organization_id: org.id, status: "in_progress" })
+        .select("id")
+        .single();
+      if (prErr) return toolError("db_error", `Onboarding-project aanmaken mislukt: ${prErr.message}`);
+
+      const vaultSecrets = [
+        `tenants/${slug}/apollo`,
+        `tenants/${slug}/pipedrive`,
+        `tenants/${slug}/heyreach`,
+      ];
+      const tasks = [
+        {
+          step_order: 1,
+          title: "Vault-secrets zetten",
+          description: `Provider-keys van de tenant in Supabase Vault: ${vaultSecrets.join(", ")}`,
+          deliverable: "Vault-secrets aanwezig",
+        },
+        {
+          step_order: 2,
+          title: "Provider-credentials registreren",
+          description: "rt_provider_credentials records aanmaken met de vault://-referenties (organization_id = tenant)",
+          deliverable: "Credentials in rt_provider_credentials",
+        },
+        {
+          step_order: 3,
+          title: "Tenant API key aanmaken",
+          description: "mcp_api_keys record met organization_id van deze tenant en tool_scope 'tenant'",
+          deliverable: "Tenant-key voor de klantconsole",
+        },
+        {
+          step_order: 4,
+          title: "ICP-context zetten",
+          description: "Via set_tenant_context: icp_context, proposities, tone of voice en exclusions",
+          deliverable: "gp_icps + rt_tenant_playbooks.config.context gevuld",
+        },
+        {
+          step_order: 5,
+          title: "Testrun skill-executor",
+          description: "execute_skill met score_account tegen een echt account; rt_provider_calls controleren op call + cost",
+          deliverable: "Geslaagde testcall in rt_provider_calls",
+        },
+        {
+          step_order: 6,
+          title: "Playbook activeren",
+          description: "Playbook-versie op active zetten en eerste workflow run starten via start_workflow_run",
+          deliverable: "Eerste rt_workflow_runs record",
+        },
+      ];
+      const { error: taskErr } = await supabase.from("gp_onboarding_tasks").insert(
+        tasks.map((t) => ({ ...t, project_id: project.id, organization_id: org.id, owner: "rebel_force", status: "pending" })),
+      );
+      if (taskErr) return toolError("db_error", `Onboarding-taken aanmaken mislukt: ${taskErr.message}`);
+
+      await auditLog(org.id, "tenant_provisioned", "gp_organizations", org.id, {
+        slug,
+        template_key,
+        playbook_version: pv.version,
+        onboarding_tasks: tasks.length,
+      });
+
+      return ok({
+        organization_id: org.id,
+        slug,
+        template_key,
+        playbook: { key: "outbound_market_activation", pinned_version: pv.version, status: "active" },
+        onboarding: { project_id: project.id, tasks: tasks.length },
+        checklist: {
+          vault_secrets_to_set: vaultSecrets,
+          tenant_key_to_create: {
+            table: "mcp_api_keys",
+            name: `${name.trim()} Console`,
+            organization_id: org.id,
+            tool_scope: "tenant",
+          },
+          next: "Zet de Vault-secrets en credentials, dan set_tenant_context, dan een execute_skill-testrun.",
+        },
+      });
+    },
+  });
+
+  // ── 8. set_tenant_context (internal-only) ──────────────────────────────
+
+  if (!orgLock) mcp.tool("set_tenant_context", {
+    description:
+      "Internal-only. Set or update the tenant's GTM context: writes the ICP context to gp_icps and merges icp_context/propositions/tone_of_voice/exclusions into rt_tenant_playbooks.config.context. The previous values are preserved in rt_audit_logs (action 'context_updated').",
+    inputSchema: {
+      type: "object",
+      properties: {
+        tenant: { type: "string", description: "Organization slug or name" },
+        icp_context: { type: "string", description: "Distilled ICP filter context (RELEVANT/RUIS criteria)" },
+        propositions: { type: "array", items: { type: "string" }, description: "Optional value propositions" },
+        tone_of_voice: { type: "string", description: "Optional tone of voice for messaging" },
+        exclusions: { type: "array", items: { type: "string" }, description: "Optional hard exclusions (companies, segments)" },
+      },
+      required: ["tenant", "icp_context"],
+    },
+    handler: async ({ tenant, icp_context, propositions, tone_of_voice, exclusions }: {
+      tenant: string;
+      icp_context: string;
+      propositions?: string[];
+      tone_of_voice?: string;
+      exclusions?: string[];
+    }) => {
+      if (typeof icp_context !== "string" || icp_context.trim().length === 0) {
+        return toolError("invalid_icp_context", "'icp_context' is verplicht");
+      }
+      const resolved = await resolveTenant(supabase, tenant);
+      if ("error" in resolved) return resolved.error;
+      const org = resolved.org;
+
+      // Oudste ICP-record van de tenant is het canonieke runtime-record.
+      const { data: icps, error: icpErr } = await supabase
+        .from("gp_icps")
+        .select("id, name, description")
+        .eq("organization_id", org.id)
+        .order("created_at", { ascending: true })
+        .limit(1);
+      if (icpErr) return toolError("db_error", `ICP-lookup mislukt: ${icpErr.message}`);
+      const previousIcp = (icps ?? [])[0] ?? null;
+
+      if (previousIcp) {
+        const { error } = await supabase.from("gp_icps").update({ description: icp_context }).eq("id", previousIcp.id);
+        if (error) return toolError("db_error", `ICP bijwerken mislukt: ${error.message}`);
+      } else {
+        const { error } = await supabase
+          .from("gp_icps")
+          .insert({ organization_id: org.id, name: "GTM Runtime ICP", description: icp_context });
+        if (error) return toolError("db_error", `ICP aanmaken mislukt: ${error.message}`);
+      }
+
+      const context: Record<string, unknown> = { icp_context };
+      if (propositions !== undefined) context.propositions = propositions;
+      if (tone_of_voice !== undefined) context.tone_of_voice = tone_of_voice;
+      if (exclusions !== undefined) context.exclusions = exclusions;
+
+      const { data: tenantPlaybooks, error: tpErr } = await supabase
+        .from("rt_tenant_playbooks")
+        .select("id, config")
+        .eq("organization_id", org.id)
+        .eq("is_active", true);
+      if (tpErr) return toolError("db_error", `Tenant-playbook-lookup mislukt: ${tpErr.message}`);
+
+      const previousContexts: unknown[] = [];
+      for (const tp of (tenantPlaybooks ?? []) as { id: string; config: Record<string, unknown> | null }[]) {
+        previousContexts.push({ tenant_playbook_id: tp.id, context: tp.config?.context ?? null });
+        const { error } = await supabase
+          .from("rt_tenant_playbooks")
+          .update({ config: { ...(tp.config ?? {}), context } })
+          .eq("id", tp.id);
+        if (error) return toolError("db_error", `Tenant-playbook bijwerken mislukt: ${error.message}`);
+      }
+
+      // Oude context expliciet bewaren in de audit trail.
+      await auditLog(org.id, "context_updated", "rt_tenant_playbooks", null, {
+        previous: {
+          icp: previousIcp ? { id: previousIcp.id, name: previousIcp.name, description: previousIcp.description } : null,
+          playbook_contexts: previousContexts,
+        },
+        fields_set: Object.keys(context),
+      });
+
+      return ok({
+        tenant: org.slug ?? org.name,
+        icp_record: previousIcp ? "updated" : "created",
+        tenant_playbooks_updated: (tenantPlaybooks ?? []).length,
+        ...(tenantPlaybooks && tenantPlaybooks.length === 0
+          ? { warning: "Geen actieve rt_tenant_playbooks voor deze tenant; alleen gp_icps is bijgewerkt" }
+          : {}),
+      });
+    },
+  });
 }
