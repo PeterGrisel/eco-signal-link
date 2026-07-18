@@ -7,7 +7,7 @@ import {
   compareVersions,
   extractProviderPreferences,
   hashInput,
-  parseBearerToken,
+  checkInternalToken,
   parseExecuteRequest,
   parseVaultRef,
   pickHighestVersion,
@@ -199,13 +199,15 @@ Deno.test("unwrapProviderResponse", () => {
 
 // ============ autorisatie ============
 
-Deno.test("parseBearerToken", () => {
-  assertEquals(parseBearerToken("Bearer abc.def.ghi"), "abc.def.ghi");
-  assertEquals(parseBearerToken("bearer abc"), "abc", "scheme is case-insensitive");
-  assertEquals(parseBearerToken("Basic abc"), null);
-  assertEquals(parseBearerToken("Bearer "), null);
-  assertEquals(parseBearerToken("Bearer a b"), null, "token mag geen spaties bevatten");
-  assertEquals(parseBearerToken(null), null);
+Deno.test("checkInternalToken", () => {
+  assertEquals(checkInternalToken("geheim-token", "geheim-token"), true);
+  assertEquals(checkInternalToken("fout-token!!", "geheim-token"), false);
+  assertEquals(checkInternalToken("geheim-toke", "geheim-token"), false, "andere lengte");
+  assertEquals(checkInternalToken(null, "geheim-token"), false, "header ontbreekt");
+  assertEquals(checkInternalToken("", "geheim-token"), false);
+  assertEquals(checkInternalToken("x", ""), false, "niet-geconfigureerde token weigert alles");
+  assertEquals(checkInternalToken("x", undefined), false, "env niet gezet weigert alles");
+  assertEquals(checkInternalToken("", ""), false, "leeg == leeg is geen toegang");
 });
 
 // ============ request parsing ============

@@ -1,6 +1,7 @@
 import { Hono } from "hono";
 import { McpServer, StreamableHttpTransport } from "mcp-lite";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
+import { registerRtTools } from "./rt-tools.ts";
 
 const app = new Hono();
 
@@ -794,6 +795,10 @@ mcp.tool("list_bucket_leads", {
     return { content: [{ type: "text" as const, text: JSON.stringify(data, null, 2) }] };
   },
 });
+
+// ─── GTM RUNTIME (rt_*) ───
+
+registerRtTools(mcp, supabaseAdmin);
 
 // ─── AUTH: DB-based API key validation ───
 

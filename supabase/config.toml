@@ -11,6 +11,10 @@ project_id = "snymrcialncxkcsibkjv"
     verify_jwt = false
   [functions.payments-webhook]
     verify_jwt = false
+  [functions.rt-execute-skill]
+    # Intern-only: autorisatie loopt via de x-rt-internal-token header
+    # (env RT_INTERNAL_TOKEN), niet via Supabase-JWT's.
+    verify_jwt = false
   [functions.mcp-server]
     verify_jwt = false
   [functions.process-email-queue]

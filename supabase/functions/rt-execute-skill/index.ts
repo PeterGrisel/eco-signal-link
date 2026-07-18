@@ -7,9 +7,9 @@ import {
   ProviderResult,
   RouteCandidate,
   SkillError,
+  checkInternalToken,
   extractProviderPreferences,
   hashInput,
-  parseBearerToken,
   parseExecuteRequest,
   parseVaultRef,
   pickHighestVersion,
@@ -74,28 +74,11 @@ async function fetchWithTimeout(url: string, init: RequestInit, timeoutSeconds: 
   }
 }
 
-// De caller is geautoriseerd als hij de service-role key voert (interne
-// orchestrator), of als zijn user-JWT via gp_can_access_org toegang heeft
-// tot de opgegeven tenant.
-async function authorizeCaller(supabase: SupabaseClient, req: Request, tenantId: string): Promise<void> {
-  const token = parseBearerToken(req.headers.get("Authorization"));
-  if (!token) {
-    throw new SkillError("unauthorized", "Authorization Bearer-token ontbreekt", false, 401);
-  }
-  if (token === Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")) return;
-
-  const { data: userData, error: userErr } = await supabase.auth.getUser(token);
-  const userId = userData?.user?.id;
-  if (userErr || !userId) {
-    throw new SkillError("unauthorized", "Ongeldig of verlopen token", false, 401);
-  }
-  const { data: allowed, error: accessErr } = await supabase.rpc("gp_can_access_org", {
-    _user_id: userId,
-    _org_id: tenantId,
-  });
-  if (accessErr) throw new SkillError("internal_error", "Autorisatie-check mislukt", true, 500);
-  if (allowed !== true) {
-    throw new SkillError("forbidden", "Geen toegang tot deze tenant", false, 403);
+// Alleen interne services (mcp-server, toekomstige workflow-runner) kennen
+// RT_INTERNAL_TOKEN; alle andere callers krijgen 401.
+function authorizeCaller(req: Request): void {
+  if (!checkInternalToken(req.headers.get("x-rt-internal-token"), Deno.env.get("RT_INTERNAL_TOKEN"))) {
+    throw new SkillError("unauthorized", "Ongeldige of ontbrekende x-rt-internal-token header", false, 401);
   }
 }
 
@@ -107,10 +90,11 @@ async function dispatch(
 ): Promise<DispatchOutcome> {
   const impl = skillVersion.implementation;
   const implType = impl?.type;
-  // Bewust géén gedecrypte secret in de payload: downstream (n8n-workflow of
-  // Edge Function) resolvet de credential_reference zelf — n8n via eigen
-  // credentials, Edge Functions via de rt_resolve_secret RPC.
-  const payload = {
+  // n8n-webhooks krijgen alleen de vault-referentie: n8n resolvet die naar
+  // zijn eigen credential store, de secret verlaat ons systeem dus niet.
+  // Voor supabase_edge_function (blijft binnen ons eigen systeem) resolvet de
+  // executor de secret wél en stuurt die als `credential` mee.
+  const payload: Record<string, unknown> = {
     tenantId: req.tenantId,
     skillKey: req.skillKey,
     skillVersion: skillVersion.version,
@@ -125,6 +109,7 @@ async function dispatch(
   if (implType === "n8n_webhook") {
     url = await resolveSecret(supabase, impl.url_secret as string);
   } else if (implType === "supabase_edge_function") {
+    payload.credential = credentialReference ? await resolveSecret(supabase, credentialReference) : null;
     const fn = impl.function;
     if (typeof fn !== "string" || fn.length === 0) {
       throw new SkillError("invalid_implementation", "implementation.function ontbreekt", false, 500);
@@ -183,6 +168,16 @@ serve(async (req) => {
   if (req.method !== "POST") return json(405, { error: { code: "method_not_allowed", message: "Gebruik POST", retryable: false } });
 
   const startedAt = Date.now();
+
+  // Autorisatie vóór alles: zonder geldige interne token geen parse, geen
+  // database-werk en geen idempotency-lookup.
+  try {
+    authorizeCaller(req);
+  } catch (e) {
+    const err = e as SkillError;
+    return json(err.httpStatus, { status: "failed", error: err.toExecError() });
+  }
+
   const supabase = serviceClient();
 
   let request: ExecuteRequest;
@@ -227,9 +222,6 @@ serve(async (req) => {
   };
 
   try {
-    // 0. Caller autoriseren: service-role, of user-JWT met toegang tot tenant
-    await authorizeCaller(supabase, req, request.tenantId);
-
     // 1. Tenant valideren
     const { data: tenant, error: tenantErr } = await supabase
       .from("gp_organizations")

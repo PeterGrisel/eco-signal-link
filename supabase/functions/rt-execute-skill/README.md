@@ -11,16 +11,19 @@ Vault-helper: `supabase/migrations/20260718090100_rt_resolve_secret.sql`
 
 ## Autorisatie
 
-Elke request vereist een `Authorization: Bearer <token>`-header:
+Deze functie is **intern-only**. Elke request vereist de header
+`x-rt-internal-token` met exact de waarde van de env-variabele
+`RT_INTERNAL_TOKEN` (zet via `supabase secrets set RT_INTERNAL_TOKEN=...`).
+Ontbrekende of foute token → `401` met gestructureerde error
+`{ code: "unauthorized", retryable: false }`; is de env-variabele niet gezet,
+dan weigert de functie álle requests.
 
-- **Service-role key** — volledige toegang; dit is het pad voor de interne
-  orchestrator (workflow-runner, cron, n8n).
-- **User-JWT** — de user wordt via `auth.getUser` geverifieerd en moet via
-  `gp_can_access_org(user_id, tenantId)` toegang hebben tot de opgegeven
-  tenant; anders `403 forbidden`.
-
-De anon key is dus niet voldoende: die passeert weliswaar de JWT-verificatie
-van de Edge Runtime, maar strandt op de user-check (`401 unauthorized`).
+Alleen de **mcp-server** en de **toekomstige workflow-runner** (Sprint 2)
+kennen deze token. Deel hem nooit met tenants, frontends of externe systemen;
+eindgebruikers bereiken de runtime uitsluitend via de MCP-tools, die hun eigen
+`mcp_api_keys`-autorisatie hebben. In `config.toml` staat voor deze functie
+`verify_jwt = false`: de interne token is de enige poort, zodat ook callers
+zonder Supabase-JWT (n8n, de runner) er doorheen kunnen.
 
 ## Contract
 
@@ -83,9 +86,11 @@ orchestrator de step opnieuw mag proberen (timeouts, 429, 5xx, netwerkfouten →
 - **Provider-payload**: de downstream webhook/functie ontvangt
   `{ tenantId, skillKey, skillVersion, input, credential_reference, context }`.
   `credential_reference` is de `vault://`-referentie van de tenant- of
-  platform-credential (of `null`); de executor stuurt **nooit** een gedecrypte
-  secret mee. n8n-workflows resolven de referentie naar hun eigen n8n
-  credentials, Edge Functions gebruiken de `rt_resolve_secret` RPC.
+  platform-credential (of `null`). Naar **n8n-webhooks** gaat nooit een
+  gedecrypte secret: n8n-workflows mappen de referentie op hun eigen
+  credential store. Voor **supabase_edge_function**-implementaties (blijft
+  binnen ons eigen systeem) resolvet de executor de secret wél en stuurt die
+  extra mee als `credential`.
 - **Provider-response**: óf een envelope `{ "data": ..., "confidence"?: n,
   "cost"?: n }`, óf een kaal object dat zelf de data is. `data` wordt
   gevalideerd tegen `output_schema`; ontbreekt `cost`, dan valt de executor
@@ -104,8 +109,7 @@ orchestrator de step opnieuw mag proberen (timeouts, 429, 5xx, netwerkfouten →
 | Code | Retryable | Betekenis |
 |---|---|---|
 | `invalid_request` | nee | Body/velden ongeldig |
-| `unauthorized` | nee | Bearer-token ontbreekt of is ongeldig |
-| `forbidden` | nee | User heeft geen toegang tot deze tenant |
+| `unauthorized` | nee | `x-rt-internal-token` ontbreekt of is fout |
 | `tenant_not_found` / `tenant_inactive` | nee | Tenant onbekend of niet actief |
 | `skill_not_found` / `skill_version_not_found` | nee | Skill(-versie) onbekend of niet actief |
 | `input_validation_failed` | nee | Input matcht `input_schema` niet |
@@ -123,7 +127,7 @@ orchestrator de step opnieuw mag proberen (timeouts, 429, 5xx, netwerkfouten →
 
 ```bash
 curl -sS -X POST "https://<project-ref>.supabase.co/functions/v1/rt-execute-skill" \
-  -H "Authorization: Bearer $SUPABASE_SERVICE_ROLE_KEY" \
+  -H "x-rt-internal-token: $RT_INTERNAL_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
     "tenantId": "0b7e1a52-9f6e-4b1c-8f0d-2f9f8a3f6c1e",
@@ -136,7 +140,7 @@ Met workflow-context en idempotency:
 
 ```bash
 curl -sS -X POST "https://<project-ref>.supabase.co/functions/v1/rt-execute-skill" \
-  -H "Authorization: Bearer $SUPABASE_SERVICE_ROLE_KEY" \
+  -H "x-rt-internal-token: $RT_INTERNAL_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
     "tenantId": "0b7e1a52-9f6e-4b1c-8f0d-2f9f8a3f6c1e",
