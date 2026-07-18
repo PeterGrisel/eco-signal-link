@@ -802,25 +802,60 @@ registerRtTools(mcp, supabaseAdmin);
 
 // ─── AUTH: DB-based API key validation ───
 
-async function validateApiKey(token: string | undefined): Promise<{ valid: boolean; permissions: string[] | null }> {
-  if (!token) return { valid: false, permissions: null };
+interface ApiKeyValidation {
+  valid: boolean;
+  permissions: string[] | null;
+  keyName: string | null;
+  organizationId: string | null;
+  toolScope: "internal" | "tenant";
+}
+
+const INVALID_KEY: ApiKeyValidation = {
+  valid: false,
+  permissions: null,
+  keyName: null,
+  organizationId: null,
+  toolScope: "internal",
+};
+
+async function validateApiKey(token: string | undefined): Promise<ApiKeyValidation> {
+  if (!token) return INVALID_KEY;
 
   const { data, error } = await supabaseAdmin
     .from("mcp_api_keys")
-    .select("id, is_master, permissions, is_active")
+    .select("id, name, is_master, permissions, is_active, organization_id, tool_scope")
     .eq("api_key", token)
     .eq("is_active", true)
     .single();
 
-  if (error || !data) return { valid: false, permissions: null };
+  if (error || !data) return INVALID_KEY;
+
+  // Een tenant-scoped key zonder organisatie is een misconfiguratie: weigeren.
+  if (data.tool_scope === "tenant" && !data.organization_id) return INVALID_KEY;
 
   await supabaseAdmin
     .from("mcp_api_keys")
     .update({ last_used_at: new Date().toISOString() })
     .eq("id", data.id);
 
-  if (data.is_master) return { valid: true, permissions: null };
-  return { valid: true, permissions: data.permissions as string[] | null };
+  return {
+    valid: true,
+    permissions: data.is_master ? null : (data.permissions as string[] | null),
+    keyName: data.name as string,
+    organizationId: (data.organization_id as string | null) ?? null,
+    toolScope: data.tool_scope === "tenant" ? "tenant" : "internal",
+  };
+}
+
+// Tenant-scoped keys krijgen een eigen MCP-server met UITSLUITEND de vier
+// tenant-tools, hard vergrendeld op de organisatie van de key — geen
+// execute_skill, geen start_workflow_run, geen provisioning en geen
+// site/SEO/blog-tools. Dit geldt voor tool-listing én tool-calls: de andere
+// tools bestaan simpelweg niet op deze server.
+function tenantHttpHandler(organizationId: string, keyName: string) {
+  const tenantMcp = new McpServer({ name: "b2bgroeimachine-tenant", version: "1.0.0" });
+  registerRtTools(tenantMcp, supabaseAdmin, { orgLock: { organizationId, keyName } });
+  return new StreamableHttpTransport().bind(tenantMcp);
 }
 
 const transport = new StreamableHttpTransport();
@@ -847,14 +882,17 @@ app.all("/*", async (c) => {
   const apiKeyHeader = c.req.header("x-api-key");
   const authHeader = c.req.header("Authorization");
   const token = apiKeyHeader || authHeader?.replace("Bearer ", "");
-  const { valid } = await validateApiKey(token);
-  if (!valid) {
+  const validation = await validateApiKey(token);
+  if (!validation.valid) {
     return new Response(JSON.stringify({ error: "Unauthorized" }), {
       status: 401,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   }
-  const res = await httpHandler(c.req.raw);
+  const handler = validation.toolScope === "tenant"
+    ? tenantHttpHandler(validation.organizationId!, validation.keyName ?? "unknown")
+    : httpHandler;
+  const res = await handler(c.req.raw);
   return withCors(res);
 });
 

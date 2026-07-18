@@ -81,10 +81,52 @@ async function audit(
   if (error) console.error("rt_audit_logs insert failed:", error.message);
 }
 
-export function registerRtTools(mcp: McpRegistry, supabase: SupabaseClient): void {
-  // ── 1. start_workflow_run ──────────────────────────────────────────────
+export interface RtToolsOptions {
+  // Gezet voor tenant-scoped API keys: alle tools werken dan uitsluitend op
+  // deze organisatie (de tenant-parameter wordt genegeerd) en elke call wordt
+  // met de key-naam ge-audit. Internal-only tools worden niet geregistreerd.
+  orgLock?: { organizationId: string; keyName: string };
+}
 
-  mcp.tool("start_workflow_run", {
+export function registerRtTools(
+  mcp: McpRegistry,
+  supabase: SupabaseClient,
+  opts: RtToolsOptions = {},
+): void {
+  const orgLock = opts.orgLock ?? null;
+
+  const auditLog = (
+    organizationId: string | null,
+    action: string,
+    entityType: string | null,
+    entityId: string | null,
+    detail: Record<string, unknown>,
+  ) =>
+    audit(
+      supabase,
+      organizationId,
+      action,
+      entityType,
+      entityId,
+      orgLock ? { ...detail, api_key_name: orgLock.keyName } : detail,
+    );
+
+  // Bij een org-lock wordt de door de caller opgegeven tenant genegeerd en
+  // altijd de organisatie van de key gebruikt.
+  const resolveOrg = async (tenant: unknown): Promise<TenantResolution> => {
+    if (!orgLock) return resolveTenant(supabase, tenant);
+    const { data: org, error } = await supabase
+      .from("gp_organizations")
+      .select("id, name, slug, status")
+      .eq("id", orgLock.organizationId)
+      .maybeSingle();
+    if (error) return { error: toolError("db_error", `Tenant-lookup mislukt: ${error.message}`) };
+    if (!org) return { error: toolError("tenant_not_found", "Organisatie van deze API key bestaat niet meer") };
+    return { org: org as OrgRow };
+  };
+  // ── 1. start_workflow_run (internal-only) ──────────────────────────────
+
+  if (!orgLock) mcp.tool("start_workflow_run", {
     description:
       "Start a GTM Runtime workflow run for a tenant: validates the input against the playbook version's input_schema and creates rt_workflow_runs + rt_step_runs (all queued). The runner that processes queued runs is Sprint 2 — this tool only queues.",
     inputSchema: {
@@ -202,7 +244,7 @@ export function registerRtTools(mcp: McpRegistry, supabase: SupabaseClient): voi
         return toolError("db_error", `Step-runs aanmaken mislukt: ${srErr.message}`);
       }
 
-      await audit(supabase, org.id, "run_queued", "rt_workflow_runs", run.id, {
+      await auditLog(org.id, "run_queued", "rt_workflow_runs", run.id, {
         playbook_key,
         version: pv.version,
         steps: steps.length,
@@ -237,7 +279,9 @@ export function registerRtTools(mcp: McpRegistry, supabase: SupabaseClient): voi
         .eq("id", run_id)
         .maybeSingle();
       if (runErr) return toolError("db_error", `Run-lookup mislukt: ${runErr.message}`);
-      if (!run) return toolError("run_not_found", `Geen workflow run met id "${run_id}"`);
+      if (!run || (orgLock && run.organization_id !== orgLock.organizationId)) {
+        return toolError("run_not_found", `Geen workflow run met id "${run_id}"`);
+      }
 
       const { data: stepRuns, error: srErr } = await supabase
         .from("rt_step_runs")
@@ -283,7 +327,7 @@ export function registerRtTools(mcp: McpRegistry, supabase: SupabaseClient): voi
         .eq("status", "pending");
       if (apErr) return toolError("db_error", `Approvals-lookup mislukt: ${apErr.message}`);
 
-      await audit(supabase, run.organization_id, "run_status_viewed", "rt_workflow_runs", run.id, {});
+      await auditLog(run.organization_id, "run_status_viewed", "rt_workflow_runs", run.id, {});
 
       return ok({
         run: {
@@ -316,8 +360,8 @@ export function registerRtTools(mcp: McpRegistry, supabase: SupabaseClient): voi
     handler: async ({ tenant }: { tenant?: string }) => {
       let orgId: string | null = null;
       let orgLabel: string | null = null;
-      if (tenant !== undefined) {
-        const resolved = await resolveTenant(supabase, tenant);
+      if (orgLock || tenant !== undefined) {
+        const resolved = await resolveOrg(tenant);
         if ("error" in resolved) return resolved.error;
         orgId = resolved.org.id;
         orgLabel = resolved.org.slug ?? resolved.org.name;
@@ -358,7 +402,7 @@ export function registerRtTools(mcp: McpRegistry, supabase: SupabaseClient): voi
         };
       });
 
-      await audit(supabase, orgId, "approvals_viewed", "rt_approvals", null, {
+      await auditLog(orgId, "approvals_viewed", "rt_approvals", null, {
         tenant: orgLabel,
         count: approvals.length,
       });
@@ -391,7 +435,9 @@ export function registerRtTools(mcp: McpRegistry, supabase: SupabaseClient): voi
         .eq("id", approval_id)
         .maybeSingle();
       if (apErr) return toolError("db_error", `Approval-lookup mislukt: ${apErr.message}`);
-      if (!approval) return toolError("approval_not_found", `Geen approval met id "${approval_id}"`);
+      if (!approval || (orgLock && approval.organization_id !== orgLock.organizationId)) {
+        return toolError("approval_not_found", `Geen approval met id "${approval_id}"`);
+      }
       if (approval.status !== "pending") {
         return toolError("approval_already_decided", `Approval heeft al status "${approval.status}"`);
       }
@@ -435,7 +481,7 @@ export function registerRtTools(mcp: McpRegistry, supabase: SupabaseClient): voi
       const { error: wrErr } = await supabase.from("rt_workflow_runs").update(runPatch).eq("id", approval.workflow_run_id);
       if (wrErr) return toolError("db_error", `Workflow run bijwerken mislukt: ${wrErr.message}`);
 
-      await audit(supabase, approval.organization_id, "approval_decided", "rt_approvals", approval.id, {
+      await auditLog(approval.organization_id, "approval_decided", "rt_approvals", approval.id, {
         decision,
         approval_type: approval.approval_type,
         workflow_run_id: approval.workflow_run_id,
@@ -453,9 +499,9 @@ export function registerRtTools(mcp: McpRegistry, supabase: SupabaseClient): voi
     },
   });
 
-  // ── 5. execute_skill ───────────────────────────────────────────────────
+  // ── 5. execute_skill (internal-only) ───────────────────────────────────
 
-  mcp.tool("execute_skill", {
+  if (!orgLock) mcp.tool("execute_skill", {
     description: "Execute a single GTM Runtime skill for a tenant via the rt-execute-skill executor (input/output validation, provider routing, logging). Returns the full skill execution result.",
     inputSchema: {
       type: "object",
@@ -505,7 +551,7 @@ export function registerRtTools(mcp: McpRegistry, supabase: SupabaseClient): voi
       }
 
       const r = result as { status?: string; provider?: string; latencyMs?: number; cost?: number } | null;
-      await audit(supabase, org.id, "skill_executed", "rt_skills", null, {
+      await auditLog(org.id, "skill_executed", "rt_skills", null, {
         skill_key,
         version: version ?? null,
         step_run_id: step_run_id ?? null,
@@ -526,14 +572,14 @@ export function registerRtTools(mcp: McpRegistry, supabase: SupabaseClient): voi
     inputSchema: {
       type: "object",
       properties: {
-        tenant: { type: "string", description: "Organization slug or name" },
+        tenant: { type: "string", description: "Organization slug or name (ignored for tenant-scoped API keys)" },
         from: { type: "string", description: "ISO start date/time (inclusive); default: first day of the current month" },
         to: { type: "string", description: "ISO end date/time (exclusive); default: now" },
       },
-      required: ["tenant"],
+      required: orgLock ? [] : ["tenant"],
     },
-    handler: async ({ tenant, from, to }: { tenant: string; from?: string; to?: string }) => {
-      const resolved = await resolveTenant(supabase, tenant);
+    handler: async ({ tenant, from, to }: { tenant?: string; from?: string; to?: string }) => {
+      const resolved = await resolveOrg(tenant);
       if ("error" in resolved) return resolved.error;
       const org = resolved.org;
 
@@ -608,7 +654,7 @@ export function registerRtTools(mcp: McpRegistry, supabase: SupabaseClient): voi
         add(bySkill.get(sk)!, c);
       }
 
-      await audit(supabase, org.id, "costs_viewed", "rt_provider_calls", null, {
+      await auditLog(org.id, "costs_viewed", "rt_provider_calls", null, {
         from: fromIso,
         to: toIso,
         calls: total.calls,
