@@ -317,24 +317,111 @@ async function pullConfiguredJson(url: unknown, credential: string, providerName
   return await res.json();
 }
 
+// Planable Public API (base https://api.planable.io/api/v1, token pln_...,
+// Bearer-auth). Vereist planable.workspace_id in source_context; optioneel
+// blijft planable.stats_url als escape hatch voor een kant-en-klaar blok.
+async function planableGet(base: string, path: string, token: string, params: Record<string, string> = {}): Promise<Json> {
+  const url = new URL(`${base}${path}`);
+  for (const [k, v] of Object.entries(params)) url.searchParams.set(k, v);
+  const res = await fetch(url.toString(), {
+    headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+  });
+  if (!res.ok) throw new Error(`Planable ${path} gaf HTTP ${res.status} — check api.planable.io/api/v1/docs`);
+  return await res.json();
+}
+
+function planableList(body: Json): Json[] {
+  if (Array.isArray(body)) return body as Json[];
+  for (const key of ["data", "items", "pages", "posts", "results"]) {
+    if (Array.isArray(body[key])) return body[key] as Json[];
+  }
+  return [];
+}
+
 async function pullPlanable(credential: string, tenantConfig: Json): Promise<Json> {
   const cfg = (tenantConfig.planable ?? {}) as Json;
-  const s = await pullConfiguredJson(cfg.stats_url, credential, "Planable");
-  const likes = num(s.likes);
-  const comments = num(s.comments);
-  const shares = num(s.shares);
-  const engagement = num(s.engagement, likes + comments + shares);
-  const impressions = num(s.impressions);
+  const since = daysAgoIso(30);
+  const until = daysAgoIso(0);
+
+  if (typeof cfg.stats_url === "string" && cfg.stats_url.length > 0) {
+    const s = await pullConfiguredJson(cfg.stats_url, credential, "Planable");
+    const likes = num(s.likes);
+    const comments = num(s.comments);
+    const shares = num(s.shares);
+    const engagement = num(s.engagement, likes + comments + shares);
+    const impressions = num(s.impressions);
+    return {
+      posts: num(s.posts),
+      impressions,
+      engagement,
+      likes,
+      comments,
+      shares,
+      engagementRate: typeof s.engagementRate === "number" ? round1(s.engagementRate) : pct(engagement, impressions),
+      pages: Array.isArray(s.pages) ? s.pages : [],
+      since: typeof s.since === "string" ? s.since : since,
+    };
+  }
+
+  const base = typeof cfg.base_url === "string" && cfg.base_url ? cfg.base_url : "https://api.planable.io/api/v1";
+  const workspaceId = cfg.workspace_id;
+  if (typeof workspaceId !== "string" || workspaceId.length === 0) {
+    throw new Error("Planable: zet planable.workspace_id in rt_tenant_playbooks.config.source_context");
+  }
+
+  // Pagina's van de workspace; parameternaam defensief (workspaceId | workspace).
+  let pagesBody: Json;
+  try {
+    pagesBody = await planableGet(base, "/pages", credential, { workspaceId });
+  } catch {
+    pagesBody = await planableGet(base, "/pages", credential, { workspace: workspaceId });
+  }
+  const pages = planableList(pagesBody);
+
+  const totals = { impressions: 0, likes: 0, comments: 0, shares: 0, engagement: 0 };
+  const pageSummaries: Json[] = [];
+  for (const p of pages.slice(0, 10)) {
+    const id = String(p.id ?? p._id ?? "");
+    const name = String(p.name ?? p.title ?? id);
+    if (!id) continue;
+    try {
+      const a = await planableGet(base, `/pages/${id}/analytics`, credential, { from: since, to: until });
+      const m = ((a.data ?? a.metrics ?? a) as Json) ?? {};
+      const impressions = num(m.impressions ?? m.totalImpressions ?? m.reach);
+      const likes = num(m.likes ?? m.reactions);
+      const comments = num(m.comments);
+      const shares = num(m.shares ?? m.reposts);
+      const engagement = num(m.engagement ?? m.totalEngagement, likes + comments + shares);
+      totals.impressions += impressions;
+      totals.likes += likes;
+      totals.comments += comments;
+      totals.shares += shares;
+      totals.engagement += engagement;
+      pageSummaries.push({ name, impressions, engagement });
+    } catch {
+      pageSummaries.push({ name, error: "analytics niet beschikbaar" });
+    }
+  }
+
+  // Aantal posts in de periode (best-effort; telling mag ontbreken).
+  let posts = 0;
+  try {
+    const postsBody = await planableGet(base, "/posts", credential, { workspaceId, from: since, to: until });
+    const list = planableList(postsBody);
+    posts = list.length > 0 ? list.length : num(postsBody.total);
+  } catch { /* optioneel */ }
+
+  const engagement = totals.engagement || totals.likes + totals.comments + totals.shares;
   return {
-    posts: num(s.posts),
-    impressions,
+    posts,
+    impressions: totals.impressions,
     engagement,
-    likes,
-    comments,
-    shares,
-    engagementRate: typeof s.engagementRate === "number" ? round1(s.engagementRate) : pct(engagement, impressions),
-    pages: Array.isArray(s.pages) ? s.pages : [],
-    since: typeof s.since === "string" ? s.since : daysAgoIso(30),
+    likes: totals.likes,
+    comments: totals.comments,
+    shares: totals.shares,
+    engagementRate: pct(engagement, totals.impressions),
+    pages: pageSummaries,
+    since,
   };
 }
 
