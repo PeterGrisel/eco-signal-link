@@ -1,7 +1,7 @@
 import { usePortal } from "./PortalContext";
-import { supabase, useOrgQuery, fmtEUR, priorityColor } from "./lib";
+import { supabase, useOrgQuery, priorityColor } from "./lib";
 import { PageHeader } from "./PageHeader";
-import { Activity, TrendingUp, Users, Radio, Target, Briefcase, Sparkles } from "lucide-react";
+import { Activity, TrendingUp, Users, Radio, Target, Flame, Sparkles } from "lucide-react";
 
 type Stats = {
   markets: number;
@@ -9,11 +9,10 @@ type Stats = {
   signalsThisMonth: number;
   salesReady: number;
   openActions: number;
-  pipelineValue: number;
   warmAccounts: number;
   topSignals: any[];
   topActions: any[];
-  funnel: { active: number; engaged: number; warm: number; ready: number; opportunities: number };
+  funnel: { active: number; engaged: number; warm: number; ready: number };
 };
 
 async function loadStats(orgId: string): Promise<Stats> {
@@ -42,11 +41,10 @@ async function loadStats(orgId: string): Promise<Stats> {
     signalsThisMonth: sigs.count ?? 0,
     salesReady: ready.count ?? 0,
     openActions: actions.count ?? 0,
-    pipelineValue: readyCount * 23000 + warm * 4000,
     warmAccounts: warm,
     topSignals: (topSigs.data as any[]) ?? [],
     topActions: (topActs.data as any[]) ?? [],
-    funnel: { active, engaged, warm, ready: readyCount, opportunities: Math.max(1, Math.round(readyCount * 0.4)) },
+    funnel: { active, engaged, warm, ready: readyCount },
   };
 }
 
@@ -95,7 +93,7 @@ export default function Dashboard() {
         <KpiCard icon={Radio} label="Nieuwe signalen" value={data.signalsThisMonth} sub="Deze maand" />
         <KpiCard icon={Sparkles} label="Sales-ready" value={data.salesReady} sub="Contacten" />
         <KpiCard icon={Target} label="Openstaand" value={data.openActions} sub="Sales acties" />
-        <KpiCard icon={Briefcase} label="Pipeline" value={fmtEUR(data.pipelineValue)} sub="Geraamd" />
+        <KpiCard icon={Flame} label="Warm" value={data.warmAccounts} sub="Accounts" />
       </div>
 
       <div className="grid lg:grid-cols-3 gap-6">
@@ -123,7 +121,6 @@ export default function Dashboard() {
               { label: "Betrokken", value: data.funnel.engaged },
               { label: "Warm", value: data.funnel.warm },
               { label: "Sales-ready", value: data.funnel.ready },
-              { label: "Opportunities", value: data.funnel.opportunities },
             ].map((row) => {
               const pct = Math.max(4, Math.round((row.value / Math.max(1, data.funnel.active)) * 100));
               return (

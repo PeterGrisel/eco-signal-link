@@ -29,4 +29,16 @@ export const statusColor = (s: string) =>
   : ["lost", "not_relevant"].includes(s) ? "bg-red-500/15 text-red-500 border-red-500/30"
   : "bg-muted text-muted-foreground border-border";
 
+// De rt_*-tabellen (GTM Runtime) zitten nog niet in de gegenereerde
+// Supabase-types; tot `supabase gen types` opnieuw is gedraaid gaan queries
+// naar die tabellen via deze untyped client.
+export const rtdb = supabase as any;
+
+export const runStatusColor = (s: string) =>
+  ["completed", "succeeded", "approved"].includes(s) ? "bg-emerald-500/15 text-emerald-500 border-emerald-500/30"
+  : ["running", "queued"].includes(s) ? "bg-primary/15 text-primary border-primary/30"
+  : ["waiting_for_approval", "revision_required", "pending"].includes(s) ? "bg-yellow-500/15 text-yellow-500 border-yellow-500/30"
+  : ["failed", "rejected", "cancelled"].includes(s) ? "bg-red-500/15 text-red-500 border-red-500/30"
+  : "bg-muted text-muted-foreground border-border";
+
 export { supabase };
