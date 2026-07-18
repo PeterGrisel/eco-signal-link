@@ -338,15 +338,15 @@ async function pullPlanable(credential: string, tenantConfig: Json): Promise<Jso
   };
 }
 
-async function pullStairoids(credential: string, tenantConfig: Json): Promise<Json> {
-  const cfg = (tenantConfig.stairoids ?? {}) as Json;
-  const s = await pullConfiguredJson(cfg.scores_url, credential, "Stairoids");
+function mapStairoidsPayload(raw: unknown): Json {
+  // Accepteert {scored, stages, top} of een kale array van scores.
+  const s = (Array.isArray(raw) ? { top: raw } : (raw ?? {})) as Json;
   const top = (Array.isArray(s.top) ? s.top : []) as Json[];
   return {
     scored: num(s.scored, top.length),
     stages: Array.isArray(s.stages) ? s.stages : [],
     top: top.slice(0, 8).map((t) => ({
-      company: String(t.company ?? ""),
+      company: String(t.company ?? t.name ?? t.organization ?? ""),
       score: Math.round(num(t.score)),
       segment: (t.segment as string | undefined) ?? null,
       person: (t.person as string | undefined) ?? null,
@@ -356,6 +356,85 @@ async function pullStairoids(credential: string, tenantConfig: Json): Promise<Js
       fit: (t.fit as string | undefined) ?? null,
     })),
   };
+}
+
+// Stairoids levert alleen een MCP-server. Minimale Streamable-HTTP MCP-client:
+// initialize -> tools/list -> beste scores-tool aanroepen. De mcpKey (de
+// vault-credential) wordt aan de URL toegevoegd; de URL zelf staat zonder key
+// in source_context (stairoids.mcp_url).
+async function mcpRpc(url: string, body: Json, sessionId?: string): Promise<{ json: Json | null; sessionId?: string }> {
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+    "Accept": "application/json, text/event-stream",
+  };
+  if (sessionId) headers["Mcp-Session-Id"] = sessionId;
+  const res = await fetch(url, { method: "POST", headers, body: JSON.stringify(body) });
+  if (!res.ok) throw new Error(`Stairoids MCP gaf HTTP ${res.status}`);
+  const sid = res.headers.get("mcp-session-id") ?? sessionId;
+  const text = await res.text();
+  if (!text) return { json: null, sessionId: sid };
+  if ((res.headers.get("content-type") ?? "").includes("text/event-stream")) {
+    let last: Json | null = null;
+    for (const line of text.split("\n")) {
+      const m = line.match(/^data:\s*(.+)$/);
+      if (m) {
+        try { last = JSON.parse(m[1]); } catch { /* geen JSON-regel */ }
+      }
+    }
+    return { json: last, sessionId: sid };
+  }
+  return { json: JSON.parse(text), sessionId: sid };
+}
+
+async function pullStairoidsViaMcp(mcpUrl: string, mcpKey: string): Promise<Json> {
+  const url = mcpUrl.includes("mcpKey=") ? mcpUrl : `${mcpUrl}${mcpUrl.includes("?") ? "&" : "?"}mcpKey=${encodeURIComponent(mcpKey)}`;
+
+  const init = await mcpRpc(url, {
+    jsonrpc: "2.0",
+    id: 1,
+    method: "initialize",
+    params: {
+      protocolVersion: "2025-03-26",
+      capabilities: {},
+      clientInfo: { name: "rt-telemetry-pull", version: "1.0.0" },
+    },
+  });
+  const sid = init.sessionId;
+  await mcpRpc(url, { jsonrpc: "2.0", method: "notifications/initialized" }, sid).catch(() => null);
+
+  const listed = await mcpRpc(url, { jsonrpc: "2.0", id: 2, method: "tools/list", params: {} }, sid);
+  const tools = (((listed.json?.result as Json | undefined)?.tools ?? []) as { name: string; description?: string }[]);
+  if (tools.length === 0) throw new Error("Stairoids MCP heeft geen tools");
+  const tool = tools.find((t) => /score|stair|top|lead|signal/i.test(`${t.name} ${t.description ?? ""}`)) ?? tools[0];
+
+  const called = await mcpRpc(url, {
+    jsonrpc: "2.0",
+    id: 3,
+    method: "tools/call",
+    params: { name: tool.name, arguments: {} },
+  }, sid);
+  const result = (called.json?.result ?? {}) as Json;
+  if (called.json?.error) throw new Error(`Stairoids MCP tool "${tool.name}" gaf een fout`);
+
+  let raw: unknown = result.structuredContent ?? null;
+  if (raw == null) {
+    const textBlock = ((result.content ?? []) as { type: string; text?: string }[]).find((c) => c.type === "text");
+    if (!textBlock?.text) throw new Error(`Stairoids MCP tool "${tool.name}" gaf geen bruikbare content`);
+    try {
+      raw = JSON.parse(textBlock.text);
+    } catch {
+      throw new Error(`Stairoids MCP tool "${tool.name}" gaf geen JSON terug`);
+    }
+  }
+  return mapStairoidsPayload(raw);
+}
+
+async function pullStairoids(credential: string, tenantConfig: Json): Promise<Json> {
+  const cfg = (tenantConfig.stairoids ?? {}) as Json;
+  if (typeof cfg.mcp_url === "string" && cfg.mcp_url.length > 0) {
+    return await pullStairoidsViaMcp(cfg.mcp_url, credential);
+  }
+  return mapStairoidsPayload(await pullConfiguredJson(cfg.scores_url, credential, "Stairoids"));
 }
 
 // ============ Dispatcher ============
