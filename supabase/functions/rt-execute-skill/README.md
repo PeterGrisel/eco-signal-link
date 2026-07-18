@@ -60,6 +60,26 @@ zonder Supabase-JWT (n8n, de runner) er doorheen kunnen.
 orchestrator de step opnieuw mag proberen (timeouts, 429, 5xx, netwerkfouten →
 `true`; validatie- en configuratiefouten → `false`).
 
+## Snapshot-cache
+
+Voor skills met `rt_skills.persist_snapshot = true` werkt de executor als
+cache rond `rt_snapshots`:
+
+- **Vóór dispatch**: bestaat er een snapshot met dezelfde `organization_id` +
+  `input_hash` die nog niet verlopen is, dan komt het antwoord daaruit —
+  `{cached: true, snapshot_id, cost: 0}`, geen provider-call, geen credits.
+- **Na een geslaagde dispatch** wordt het resultaat gepersisteerd: payload
+  inline tot ~1 MB, daarboven als JSON in de private Storage bucket
+  `rt-snapshots` (pad `{org}/{skill}/{snapshot_id}.json`). TTL uit
+  `rt_skills.snapshot_ttl_hours` (NULL = 168 uur). De response bevat dan
+  `{cached: false, snapshot_id}`.
+- **`forceRefresh: true`** in de request slaat de cache over en schrijft een
+  nieuwe snapshot.
+
+Verlopen snapshots worden dagelijks (03:00 UTC) opgeruimd door
+`rt-snapshot-cleanup` (pg_cron; logt in `job_runs` onder
+`rt_snapshot_cleanup`).
+
 ## Flow
 
 1. Tenant-check (`gp_organizations`, status `active`)
