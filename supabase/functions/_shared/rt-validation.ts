@@ -1,6 +1,7 @@
-// Gedeelde JSON Schema-validatie voor de Rebel Force GTM Runtime.
+// Gedeelde pure helpers voor de Rebel Force GTM Runtime: JSON Schema-
+// validatie, canonieke JSON + idempotency-hash en versievergelijking.
 // Gebruikt door rt-execute-skill (input/output van skills) en mcp-server
-// (playbook-input bij start_workflow_run).
+// (playbook-input bij start_workflow_run, versie-selectie).
 //
 // Ajv gebruikt runtime-codegeneratie (`new Function`) en werkt niet in de
 // Supabase Edge Runtime. Deze pure validator dekt de subset die de
@@ -72,4 +73,43 @@ export function validateSchema(schema: unknown, value: unknown, path = "$"): str
   }
 
   return errors;
+}
+
+// ============ Versievergelijking ============
+
+export function compareVersions(a: string, b: string): number {
+  const pa = a.split(".").map((n) => parseInt(n, 10) || 0);
+  const pb = b.split(".").map((n) => parseInt(n, 10) || 0);
+  for (let i = 0; i < Math.max(pa.length, pb.length); i++) {
+    const d = (pa[i] ?? 0) - (pb[i] ?? 0);
+    if (d !== 0) return d;
+  }
+  return 0;
+}
+
+export function pickHighestVersion<T extends { version: string }>(versions: T[]): T | null {
+  if (versions.length === 0) return null;
+  return [...versions].sort((a, b) => compareVersions(b.version, a.version))[0];
+}
+
+// ============ Canonieke JSON + idempotency-hash ============
+
+// Deterministische JSON-serialisatie (gesorteerde keys) zodat dezelfde input
+// altijd dezelfde hash geeft, ongeacht key-volgorde.
+export function canonicalJson(value: unknown): string {
+  if (value === null || typeof value !== "object") return JSON.stringify(value);
+  if (Array.isArray(value)) return `[${value.map(canonicalJson).join(",")}]`;
+  const entries = Object.entries(value as Record<string, unknown>)
+    .filter(([, v]) => v !== undefined)
+    .sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0))
+    .map(([k, v]) => `${JSON.stringify(k)}:${canonicalJson(v)}`);
+  return `{${entries.join(",")}}`;
+}
+
+export async function hashInput(skillKey: string, skillVersion: string, input: unknown): Promise<string> {
+  const payload = new TextEncoder().encode(`${skillKey}@${skillVersion}:${canonicalJson(input)}`);
+  const digest = await crypto.subtle.digest("SHA-256", payload);
+  return Array.from(new Uint8Array(digest))
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
 }

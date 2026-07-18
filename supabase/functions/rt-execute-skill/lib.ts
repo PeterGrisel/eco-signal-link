@@ -26,28 +26,18 @@ export class SkillError extends Error {
   }
 }
 
-// ============ JSON Schema validatie ============
-// Verplaatst naar _shared/rt-validation.ts zodat ook de mcp-server dezelfde
-// validator gebruikt; hier ge-re-exporteerd voor bestaande imports en tests.
+// ============ Gedeelde helpers ============
+// validateSchema, compareVersions/pickHighestVersion en canonicalJson/hashInput
+// staan in _shared/rt-validation.ts zodat ook de mcp-server ze gebruikt;
+// hier ge-re-exporteerd voor bestaande imports.
 
-export { validateSchema } from "../_shared/rt-validation.ts";
-
-// ============ Versie-selectie ============
-
-export function compareVersions(a: string, b: string): number {
-  const pa = a.split(".").map((n) => parseInt(n, 10) || 0);
-  const pb = b.split(".").map((n) => parseInt(n, 10) || 0);
-  for (let i = 0; i < Math.max(pa.length, pb.length); i++) {
-    const d = (pa[i] ?? 0) - (pb[i] ?? 0);
-    if (d !== 0) return d;
-  }
-  return 0;
-}
-
-export function pickHighestVersion<T extends { version: string }>(versions: T[]): T | null {
-  if (versions.length === 0) return null;
-  return [...versions].sort((a, b) => compareVersions(b.version, a.version))[0];
-}
+export {
+  canonicalJson,
+  compareVersions,
+  hashInput,
+  pickHighestVersion,
+  validateSchema,
+} from "../_shared/rt-validation.ts";
 
 // ============ Provider-routing ============
 
@@ -97,28 +87,6 @@ export function parseVaultRef(ref: unknown): string {
     throw new SkillError("invalid_secret_reference", "implementation bevat geen geldige vault:// referentie", false, 500);
   }
   return ref.slice("vault://".length);
-}
-
-// ============ Idempotency-hash ============
-
-// Deterministische JSON-serialisatie (gesorteerde keys) zodat dezelfde input
-// altijd dezelfde hash geeft, ongeacht key-volgorde.
-export function canonicalJson(value: unknown): string {
-  if (value === null || typeof value !== "object") return JSON.stringify(value);
-  if (Array.isArray(value)) return `[${value.map(canonicalJson).join(",")}]`;
-  const entries = Object.entries(value as Record<string, unknown>)
-    .filter(([, v]) => v !== undefined)
-    .sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0))
-    .map(([k, v]) => `${JSON.stringify(k)}:${canonicalJson(v)}`);
-  return `{${entries.join(",")}}`;
-}
-
-export async function hashInput(skillKey: string, skillVersion: string, input: unknown): Promise<string> {
-  const payload = new TextEncoder().encode(`${skillKey}@${skillVersion}:${canonicalJson(input)}`);
-  const digest = await crypto.subtle.digest("SHA-256", payload);
-  return Array.from(new Uint8Array(digest))
-    .map((b) => b.toString(16).padStart(2, "0"))
-    .join("");
 }
 
 // ============ Provider-response envelope ============
