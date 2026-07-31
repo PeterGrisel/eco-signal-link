@@ -56,7 +56,6 @@ serve(async (req) => {
       for (const page of sitePages) {
         xml += `  <url>\n`;
         xml += `    <loc>${SITE_URL}${page.path}</loc>\n`;
-        xml += `    <lastmod>${today}</lastmod>\n`;
         xml += `    <changefreq>${page.changefreq}</changefreq>\n`;
         xml += `    <priority>${page.priority}</priority>\n`;
         xml += `  </url>\n`;
