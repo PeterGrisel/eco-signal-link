@@ -5,9 +5,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Spotlight, Meteors } from "@/components/hhwv2/ui/magic";
 import {
   ArrowRight,
-  ArrowDown,
+  CalendarDays,
   Sparkles,
-  Users,
   CheckCircle2,
   Banknote,
   Briefcase,
