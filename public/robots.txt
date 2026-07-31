@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
+Disallow: /admin
+Disallow: /app
+Disallow: /icons-preview
 
 Sitemap: https://www.b2bgroeimachine.io/sitemap.xml
