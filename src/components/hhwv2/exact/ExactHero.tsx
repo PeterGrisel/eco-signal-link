@@ -227,42 +227,44 @@ const ExactHero = () => {
       {/* Transparent — shares the page-level AmbientBackdrop */}
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-10 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
           {/* Left Column - Copy & Action */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
-            className="lg:col-span-5 flex flex-col items-start text-left"
+            className="flex flex-col items-start text-left space-y-8"
           >
-            {/* Badge */}
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-primary/20 bg-primary/5 text-primary text-xs font-display font-semibold uppercase tracking-wider mb-6">
-              <Sparkles className="h-3 w-3 animate-pulse" />
-              AI-native omzetsysteem
+            <div className="space-y-6">
+              {/* Badge */}
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/30 bg-primary/10 text-primary text-sm font-display font-semibold tracking-wide">
+                <Sparkles className="h-3.5 w-3.5" />
+                Voor B2B bedrijven
+              </div>
+
+              {/* Heading */}
+              <h1 className="font-serif font-bold text-5xl lg:text-6xl xl:text-7xl tracking-tight leading-[1.1]">
+                Laat omzet groeien zonder{" "}
+                <span className="text-primary">extra personeel.</span>
+              </h1>
+
+              {/* Subtitle */}
+              <p className="text-muted-foreground text-lg md:text-xl leading-relaxed max-w-xl">
+                Wij bouwen één systeem dat signalen, content en outreach omzet in live gesprekken.
+              </p>
             </div>
-
-            {/* Heading */}
-            <h1 className="font-display font-bold text-4xl md:text-5xl lg:text-6xl tracking-tight leading-[1.08] mb-5">
-              Laat omzet groeien zonder{" "}
-              <span className="font-serif italic text-gradient-animate">extra personeel.</span>
-            </h1>
-
-            {/* Subtitle */}
-            <p className="text-muted-foreground text-base md:text-lg leading-relaxed mb-8 max-w-xl">
-              Wij bouwen één systeem dat signalen, content en outreach omzet in live gesprekken.
-            </p>
 
             {/* Email capture + separate booking CTA */}
             {submitted ? (
-              <div className="w-full max-w-lg liquid-glass rounded-lg px-4 py-3 mb-3 flex items-center gap-2 text-sm">
+              <div className="w-full max-w-lg liquid-glass rounded-lg px-4 py-3 flex items-center gap-2 text-sm">
                 <CheckCircle2 className="h-4 w-4 text-primary shrink-0" />
                 <span className="text-foreground font-display font-medium">
                   Bedankt — we nemen binnen 24 uur contact op.
                 </span>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="w-full max-w-lg flex flex-col sm:flex-row gap-3 mb-3">
+              <form onSubmit={handleSubmit} className="w-full max-w-lg flex flex-col sm:flex-row gap-4">
                 <div className="flex-1 relative">
                   <input
                     type="email"
@@ -270,52 +272,26 @@ const ExactHero = () => {
                     placeholder="Jouw werk e-mail"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full h-12 px-4 rounded-lg liquid-glass text-foreground placeholder:text-muted-foreground/60 transition-all text-sm font-display font-medium"
+                    className="w-full h-14 px-6 rounded-lg bg-foreground/5 border border-foreground/10 text-foreground placeholder:text-muted-foreground/60 outline-none focus:border-primary transition-colors text-base font-display font-medium"
                   />
                 </div>
-                <Button type="submit" disabled={submitting} variant="hero" size="lg" className="group relative h-12 overflow-hidden px-6 font-display font-semibold shrink-0">
-                  <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/25 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
+                <Button type="submit" disabled={submitting} variant="hero" size="lg" className="h-14 px-8 rounded-lg font-display font-bold shrink-0 shadow-xl shadow-primary/20 transition-transform hover:scale-[1.02]">
                   {submitting ? "Versturen…" : "Stuur mij info"}
                   <ArrowRight className="h-4 w-4 ml-2" />
                 </Button>
               </form>
             )}
-            <button
-              type="button"
-              onClick={() => openBookingModal()}
-              className="inline-flex items-center gap-2 text-sm font-display font-semibold text-primary hover:underline mb-6"
-            >
-              Of plan direct een afspraak in de agenda
-              <ArrowRight className="h-3.5 w-3.5" />
-            </button>
-
-            {/* Alternative link */}
-            <a
-              href="#aanpak"
-              onClick={(e) => {
-                e.preventDefault();
-                document.getElementById("aanpak")?.scrollIntoView({ behavior: "smooth" });
-              }}
-              className="inline-flex items-center gap-2 text-sm font-display font-semibold text-muted-foreground hover:text-foreground transition-colors mb-10"
-            >
-              Bekijk hoe het werkt
-              <ArrowDown className="h-4 w-4 animate-bounce" />
-            </a>
-
-            {/* Highlights Bar */}
-            <div className="grid grid-cols-3 gap-3 md:gap-4 w-full pt-4">
-              <div className="liquid-glass rounded-lg px-2.5 py-2 flex items-center gap-1.5 text-primary">
-                <Sparkles className="h-3.5 w-3.5 shrink-0" />
-                <span className="font-display font-bold text-xs md:text-sm text-foreground">AI-native</span>
-              </div>
-              <div className="liquid-glass rounded-lg px-2.5 py-2 flex items-center gap-1.5 text-primary">
-                <CheckCircle2 className="h-3.5 w-3.5 shrink-0" />
-                <span className="font-display font-bold text-xs md:text-sm text-foreground">In 90 dagen live</span>
-              </div>
-              <div className="liquid-glass rounded-lg px-2.5 py-2 flex items-center gap-1.5 text-primary">
-                <Users className="h-3.5 w-3.5 shrink-0" />
-                <span className="font-display font-bold text-xs md:text-sm text-foreground">Zonder headcount</span>
-              </div>
+            <div className="flex flex-wrap items-center gap-4 md:gap-6">
+              <button
+                type="button"
+                onClick={() => openBookingModal()}
+                className="inline-flex items-center gap-2 text-sm font-display font-medium text-muted-foreground hover:text-primary transition-colors"
+              >
+                <CalendarDays className="h-5 w-5" strokeWidth={1.8} />
+                Plan een kennismaking
+              </button>
+              <span className="h-1 w-1 rounded-full bg-foreground/20" />
+              <span className="text-sm italic text-muted-foreground/70">Geen verplichtingen</span>
             </div>
           </motion.div>
 
@@ -324,15 +300,15 @@ const ExactHero = () => {
             initial={{ opacity: 0, scale: 0.97 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.1 }}
-            className="lg:col-span-7 relative w-full select-none"
+            className="relative w-full select-none"
           >
+            <div className="absolute -inset-4 rounded-3xl bg-primary/10 blur-3xl pointer-events-none" aria-hidden />
             <div
               ref={panelRef}
-              className="relative mx-auto w-full max-w-xl rounded-2xl border border-primary/20 card-gradient p-4 sm:p-6 shadow-[0_0_80px_-20px_hsl(var(--primary)/0.35)] overflow-hidden"
+              className="relative mx-auto w-full max-w-xl rounded-2xl border border-foreground/10 card-gradient p-4 sm:p-6 shadow-2xl overflow-hidden"
             >
               {/* Grid background */}
               <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(to_right,rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:40px_40px]" />
-              <Meteors number={10} />
               <Spotlight />
 
               <div className="relative flex flex-col">
