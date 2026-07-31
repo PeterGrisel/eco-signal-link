@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Spotlight, Meteors } from "@/components/hhwv2/ui/magic";
+import { Spotlight } from "@/components/hhwv2/ui/magic";
 import {
   ArrowRight,
   CalendarDays,
