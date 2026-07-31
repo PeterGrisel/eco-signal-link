@@ -46,8 +46,6 @@ serve(async (req) => {
       .eq("status", "published")
       .order("published_at", { ascending: false });
 
-    const today = new Date().toISOString().split("T")[0];
-
     let xml = `<?xml version="1.0" encoding="UTF-8"?>\n`;
     xml += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
 
@@ -56,7 +54,6 @@ serve(async (req) => {
       for (const page of sitePages) {
         xml += `  <url>\n`;
         xml += `    <loc>${SITE_URL}${page.path}</loc>\n`;
-        xml += `    <lastmod>${today}</lastmod>\n`;
         xml += `    <changefreq>${page.changefreq}</changefreq>\n`;
         xml += `    <priority>${page.priority}</priority>\n`;
         xml += `  </url>\n`;
@@ -66,10 +63,10 @@ serve(async (req) => {
     // Blog posts
     if (posts) {
       for (const post of posts) {
-        const lastmod = (post.updated_at || post.published_at || today).split("T")[0];
+        const lastmodRaw = post.updated_at || post.published_at;
         xml += `  <url>\n`;
         xml += `    <loc>${SITE_URL}/blog/${post.slug}</loc>\n`;
-        xml += `    <lastmod>${lastmod}</lastmod>\n`;
+        if (lastmodRaw) xml += `    <lastmod>${lastmodRaw.split("T")[0]}</lastmod>\n`;
         xml += `    <changefreq>weekly</changefreq>\n`;
         xml += `    <priority>0.8</priority>\n`;
         xml += `  </url>\n`;
@@ -78,10 +75,10 @@ serve(async (req) => {
 
     if (playbooks) {
       for (const pb of playbooks) {
-        const lastmod = (pb.updated_at || pb.published_at || today).split("T")[0];
+        const lastmodRaw = pb.updated_at || pb.published_at;
         xml += `  <url>\n`;
         xml += `    <loc>${SITE_URL}/playbooks/${pb.slug}</loc>\n`;
-        xml += `    <lastmod>${lastmod}</lastmod>\n`;
+        if (lastmodRaw) xml += `    <lastmod>${lastmodRaw.split("T")[0]}</lastmod>\n`;
         xml += `    <changefreq>weekly</changefreq>\n`;
         xml += `    <priority>0.8</priority>\n`;
         xml += `  </url>\n`;
@@ -90,10 +87,10 @@ serve(async (req) => {
 
     if (glossary) {
       for (const g of glossary) {
-        const lastmod = (g.updated_at || g.published_at || today).split("T")[0];
+        const lastmodRaw = g.updated_at || g.published_at;
         xml += `  <url>\n`;
         xml += `    <loc>${SITE_URL}/woordenboek/${g.slug}</loc>\n`;
-        xml += `    <lastmod>${lastmod}</lastmod>\n`;
+        if (lastmodRaw) xml += `    <lastmod>${lastmodRaw.split("T")[0]}</lastmod>\n`;
         xml += `    <changefreq>monthly</changefreq>\n`;
         xml += `    <priority>0.7</priority>\n`;
         xml += `  </url>\n`;
