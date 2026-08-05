@@ -26,6 +26,16 @@ use `LOVABLE_API_KEY`. Public-URL-aware functions use `PUBLIC_SITE_URL`.
 | `rss` | seo | blog_posts | Env: `SITE_NAME`, `SITE_DESCRIPTION`, `SITE_LANGUAGE`. |
 | `sitemap` | seo | blog_posts, (others) | Env: `PUBLIC_SITE_URL`. May reference pages your site lacks — trim. |
 | `og-image` | abm (optional) | abm_pages | **Not blog** — OG cards for ABM pages. Keep only with ABM. Env: `SITE_NAME`. |
+| `autopilot-run` | **autopilot** | content_topics, content_queue, blog_posts, indexing_requests, seo_settings | Orchestrator. Modes: `full_pipeline`, `nightly`, `approve_publish`. |
+| `strategy-agent` | autopilot | gsc_snapshots, blog_posts, content_topics, seo_settings | Proposes topic clusters. |
+| `gap-keyword-miner` | autopilot | gsc_snapshots, site_pages, blog_posts, content_queue, seo_settings | Long-tail gap → queue item. |
+| `request-indexing` | autopilot | indexing_requests | Needs Google Indexing API creds to do real work. |
+| `validate-external-links` | autopilot | — | Checks external links in a post. Internal hosts from `PUBLIC_SITE_URL` + `INTERNAL_HOSTS_EXTRA`. |
+
+> **`prerender` was intentionally excluded** — the origin version hard-codes the
+> full b2bgroeimachine marketing sitemap (100+ site-specific routes). autopilot
+> calls it best-effort (try/catch), so its absence is harmless. If you want SSR
+> prerendering, bring your own.
 
 ---
 
@@ -44,8 +54,17 @@ use `LOVABLE_API_KEY`. Public-URL-aware functions use `PUBLIC_SITE_URL`.
 | `content_buckets`, `content_bucket_items`, `content_bucket_leads` | give-aways | Gated content + leads. |
 | `link_targets`, `link_suggestions` | linking | Internal-link engine. |
 | `page_embeddings` | linking | pgvector semantic index. |
+| `job_runs` | autopilot | Run log (AdminJobs). |
+| `gsc_snapshots` | autopilot | Search Console data feeding strategy/headlines/gap. |
+| `indexing_requests` | autopilot | Google indexing request log. |
+| `site_pages` | autopilot | Fixed pages for sitemap + gap-dedup. |
 
-Enums: `blog_post_status`, `content_type`, `content_queue_status`.
+Enums: `blog_post_status`, `content_type`, `content_queue_status`, `indexing_status`.
+
+**Autopilot needs a GSC feed.** `strategy-agent`, `generate-headlines`, and
+`gap-keyword-miner` read `gsc_snapshots`. Populating it needs a `fetch-gsc-data`
+function with Google Search Console OAuth — **not included**. Without it autopilot
+still runs, just with weaker keyword targeting.
 
 ---
 

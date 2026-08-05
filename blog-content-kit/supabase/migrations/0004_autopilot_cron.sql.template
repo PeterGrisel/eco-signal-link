@@ -1,0 +1,63 @@
+-- ============================================================================
+-- Blog & Content Kit — Autopilot scheduling (pg_cron + pg_net)
+-- ----------------------------------------------------------------------------
+-- This is a TEMPLATE. Replace ONE placeholder before running:
+--   __PROJECT_REF__  -> your Supabase project ref (e.g. abcdefghijklmnop)
+--
+-- Auth: this uses the canonical Supabase pattern — the service_role key is read
+-- from Vault at call time and sent as a Bearer token, so the functions keep
+-- their default `verify_jwt = true` and the key never appears in this file or
+-- in cron.job. No edge-function code change required.
+--
+-- One-time setup (run once, with your real key, NOT committed):
+--   select vault.create_secret('<YOUR_SERVICE_ROLE_KEY>', 'service_role_key');
+--
+-- The functions must be deployed and reachable at
+--   https://__PROJECT_REF__.supabase.co/functions/v1/<name>
+--
+-- Cron times are UTC — adjust to your timezone and volume.
+-- ============================================================================
+
+create extension if not exists pg_cron;
+create extension if not exists pg_net with schema extensions;
+
+-- Helper: current service_role key from Vault.
+-- (Inlined per job below via a scalar subquery.)
+
+-- Nightly: generate + publish the next scheduled article, then post-process.
+do $$ begin perform cron.unschedule('autopilot-nightly'); exception when others then null; end $$;
+select cron.schedule(
+  'autopilot-nightly',
+  '0 4 * * *',                       -- 04:00 UTC daily
+  $$
+  select net.http_post(
+    url     := 'https://__PROJECT_REF__.supabase.co/functions/v1/autopilot-run',
+    headers := jsonb_build_object(
+                 'Content-Type', 'application/json',
+                 'Authorization', 'Bearer ' || (select decrypted_secret from vault.decrypted_secrets where name = 'service_role_key')
+               ),
+    body    := jsonb_build_object('mode', 'nightly')
+  );
+  $$
+);
+
+-- Weekly: refresh strategy -> topics -> headline backlog (full pipeline planning).
+do $$ begin perform cron.unschedule('autopilot-weekly-pipeline'); exception when others then null; end $$;
+select cron.schedule(
+  'autopilot-weekly-pipeline',
+  '0 3 * * 1',                       -- Monday 03:00 UTC
+  $$
+  select net.http_post(
+    url     := 'https://__PROJECT_REF__.supabase.co/functions/v1/autopilot-run',
+    headers := jsonb_build_object(
+                 'Content-Type', 'application/json',
+                 'Authorization', 'Bearer ' || (select decrypted_secret from vault.decrypted_secrets where name = 'service_role_key')
+               ),
+    body    := jsonb_build_object('mode', 'full_pipeline')
+  );
+  $$
+);
+
+-- Inspect / remove later:
+--   select jobname, schedule, active from cron.job;
+--   select cron.unschedule('autopilot-nightly');

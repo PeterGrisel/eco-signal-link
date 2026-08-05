@@ -1,0 +1,94 @@
+{
+  "name": "blog-content-kit",
+  "version": "0.2.0",
+  "description": "Portable, config-driven AI blog + content engine with a self-driving autopilot backend, for Lovable/Vite + React + Supabase sites.",
+  "stack": {
+    "frontend": "Vite + React + TypeScript + shadcn/ui",
+    "backend": "Supabase (Postgres + RLS + Deno edge functions + pg_cron)",
+    "ai_gateway": "Lovable AI Gateway (LOVABLE_API_KEY) — swap the fetch URL to use another provider"
+  },
+  "agent_entrypoint": "AGENTS.md",
+  "config_contract": "src/types/seoSettings.ts",
+  "identity_resolution": "seo_settings.config.<key>  ->  env var  ->  neutral placeholder",
+
+  "deploy_order": [
+    "supabase/migrations/0001_blog_content_kit_schema.sql",
+    "supabase/migrations/0002_rls_policies.sql",
+    "supabase/migrations/0003_autopilot_module.sql   (only if installing the autopilot module)",
+    "config/seed-seo-settings.sql   (edit values first)",
+    "set edge-function secrets",
+    "deploy edge functions",
+    "supabase/migrations/0004_autopilot_cron.sql.template   (fill __PROJECT_REF__, set Vault secret; autopilot only)",
+    "wire frontend routes + swap Navbar/Footer",
+    "run the frontend de-brand checklist (docs/INVENTORY.md)"
+  ],
+
+  "modules": {
+    "core": {
+      "required": true,
+      "functions": ["generate-article", "generate-headlines", "generate-blog-image", "reschedule-by-topic"],
+      "tables": ["seo_settings", "content_topics", "blog_categories", "blog_posts", "content_queue"],
+      "secrets": ["SUPABASE_URL", "SUPABASE_SERVICE_ROLE_KEY", "LOVABLE_API_KEY", "PUBLIC_SITE_URL", "SITE_NAME"]
+    },
+    "glossary": {
+      "required": false,
+      "functions": ["generate-glossary"],
+      "tables": ["glossary_terms", "glossary_runs"]
+    },
+    "give_aways": {
+      "required": false,
+      "functions": ["generate-bucket-item", "content-bucket-request", "content-bucket-confirm"],
+      "tables": ["content_buckets", "content_bucket_items", "content_bucket_leads"],
+      "extra_dependency": "Needs an `enqueue_email` RPC + a transactional email queue (NOT included). Omit this module if you have no email infra.",
+      "secrets": ["MAIL_FROM"]
+    },
+    "internal_linking": {
+      "required": false,
+      "functions": ["smart-internal-linker", "generate-page-embeddings"],
+      "tables": ["link_targets", "link_suggestions", "page_embeddings"],
+      "extra_dependency": "generate-page-embeddings needs pgvector (enabled by 0001) + an embeddings provider."
+    },
+    "seo_plumbing": {
+      "required": false,
+      "functions": ["rss", "sitemap", "og-image"],
+      "tables": [],
+      "notes": "og-image renders OG cards for `abm_pages` (an ABM feature) and is optional; keep only with ABM. sitemap reads site_pages (autopilot module) + blog_posts."
+    },
+    "autopilot": {
+      "required": false,
+      "functions": ["autopilot-run", "strategy-agent", "gap-keyword-miner", "request-indexing", "validate-external-links"],
+      "tables": ["job_runs", "gsc_snapshots", "indexing_requests", "site_pages"],
+      "cron": "supabase/migrations/0004_autopilot_cron.sql.template",
+      "modes": {
+        "full_pipeline": "strategy-agent -> upsert content_topics -> generate-headlines -> schedule into content_queue",
+        "nightly": "generate + publish the next scheduled queue item, then best-effort request-indexing / validate-external-links / (prerender if present)",
+        "approve_publish": "publish approved queue items"
+      },
+      "extra_dependency": "strategy/headlines/gap read gsc_snapshots. Populate it with a fetch-gsc-data function (needs Google Search Console OAuth) — NOT included. Everything degrades gracefully when gsc_snapshots is empty.",
+      "notes": "The origin project also had a `prerender` function; it was excluded because it hard-codes a marketing sitemap. autopilot calls it best-effort, so its absence is harmless. request-indexing needs Google Indexing API creds to do anything real."
+    }
+  },
+
+  "secrets": {
+    "SUPABASE_URL": {"required": true, "source": "Supabase project"},
+    "SUPABASE_SERVICE_ROLE_KEY": {"required": true, "source": "Supabase project", "sensitive": true},
+    "LOVABLE_API_KEY": {"required": true, "source": "user", "note": "AI gateway key"},
+    "PUBLIC_SITE_URL": {"required": true, "source": "user", "example": "https://yoursite.com"},
+    "SITE_NAME": {"required": false, "source": "user", "recommended": true},
+    "SITE_DESCRIPTION": {"required": false, "source": "user"},
+    "SITE_LANGUAGE": {"required": false, "source": "user", "default": "nl"},
+    "MAIL_FROM": {"required": false, "source": "user", "module": "give_aways"},
+    "TOOL_LIBRARY_TABLE": {"required": false, "source": "user", "module": "core", "note": "only if seo_settings.config.tool_library_enabled = true"},
+    "INTERNAL_HOSTS_EXTRA": {"required": false, "source": "user", "module": "autopilot", "note": "comma-separated extra internal hosts for link validation (e.g. lovable preview domain)"}
+  },
+
+  "ask_user_when_missing": [
+    {"key": "supabase_project", "question": "Which Supabase project should this deploy to? (project ref or link the project)"},
+    {"key": "LOVABLE_API_KEY", "question": "What is the AI gateway API key (LOVABLE_API_KEY)? If you're not on Lovable, which LLM provider should I target instead?"},
+    {"key": "PUBLIC_SITE_URL", "question": "What is the site's canonical URL (e.g. https://yoursite.com)?"},
+    {"key": "SITE_NAME", "question": "What is the site/brand name and one-line description, and who is the target audience? (steers all generated content)"},
+    {"key": "primary_language", "question": "What language should content be written in? (default: Nederlands)"},
+    {"key": "modules", "question": "Which optional modules do you want: glossary, give-aways (needs email infra), internal-linking (needs embeddings), autopilot (self-driving cron)?"},
+    {"key": "autopilot_schedule", "question": "For autopilot: how often should it publish (e.g. daily 04:00), and is a fetch-gsc-data / Search Console integration available to feed it?"}
+  ]
+}

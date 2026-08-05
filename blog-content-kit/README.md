@@ -9,7 +9,17 @@ b2bgroeimachine project. Drop it into any Lovable/Vite + Supabase site to get:
 - **Gated content "give-aways"** with double-opt-in lead capture
 - **Internal-linking + semantic embeddings** (smart linker, orphan detection)
 - **SEO plumbing**: RSS, sitemap, OG images
+- **Autopilot**: a self-driving backend (strategy → topics → headlines → schedule
+  → generate → publish → index) on a `pg_cron` schedule
 - **Admin UI** for all of the above
+
+## Deploying with an AI agent
+
+This kit is built to be installed by a coding agent. Point Claude Code (or any
+agent) at **`AGENTS.md`** — a phase-by-phase deploy runbook with explicit
+"ask the user when a value is missing" checkpoints — backed by the machine-readable
+**`plugin.json`** manifest (modules, tables, secrets, deploy order). The rest of
+this README is the human version of the same process.
 
 The engine is **not hardcoded to any brand**. Every piece of site identity is
 read from a single `seo_settings.config` row (see `src/types/seoSettings.ts`),
@@ -21,11 +31,15 @@ so making it "yours" is mostly filling in config + secrets.
 
 ```
 blog-content-kit/
+├── AGENTS.md                 # agent deploy runbook (start here for AI install)
+├── plugin.json               # machine-readable manifest: modules/tables/secrets
 ├── supabase/
-│   ├── functions/            # 14 Deno edge functions (the engine) — de-branded
+│   ├── functions/            # 19 Deno edge functions (engine + autopilot) — de-branded
 │   └── migrations/
-│       ├── 0001_blog_content_kit_schema.sql   # 15 tables, enums, triggers
-│       └── 0002_rls_policies.sql              # public-read / service-write RLS
+│       ├── 0001_blog_content_kit_schema.sql   # 15 core tables, enums, triggers
+│       ├── 0002_rls_policies.sql              # public-read / service-write RLS
+│       ├── 0003_autopilot_module.sql          # job_runs, gsc_snapshots, indexing, site_pages
+│       └── 0004_autopilot_cron.sql.template   # pg_cron schedule (fill in project ref)
 ├── config/
 │   └── seed-seo-settings.sql # one config row to fill in per site
 ├── src/                      # frontend: pages, admin, hooks, rendering components
