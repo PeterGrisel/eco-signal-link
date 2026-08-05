@@ -160,8 +160,14 @@ Expect a JSON list of headlines. Then generate ONE article end-to-end and check 
 
 ---
 
-## Phase 7 — Wire the frontend & de-brand
+## Phase 7 — Wire the frontend, adopt the design & de-brand
 
+0. **Adopt the site's design.** The kit's UI is token-only, so re-skinning is one
+   file. Follow **`theme/THEME.md`**: if the host already has a shadcn token layer
+   (most Lovable sites), the kit inherits it automatically — just align the fonts.
+   Otherwise extract the target site's brand color, neutrals, radius, and fonts
+   into `theme/theme.css`. If the brand color or font files aren't discoverable,
+   **ask the user**. This is what keeps every site unique.
 1. Add routes for the pages you copied (see README "Wire the routes"). Admin
    routes: AdminBlog, AdminBlogEditor, AdminBlogGenerate, AdminContentHub,
    AdminSettings, AdminTaxonomy, AdminQueueManager, AdminCalendar (+ AdminGlossary,

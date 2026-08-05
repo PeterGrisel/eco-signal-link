@@ -17,7 +17,7 @@ const phaseColors = [
   { bg: "bg-blue-500/10", border: "border-blue-500/30", accent: "text-blue-400", dot: "bg-blue-400" },
   { bg: "bg-emerald-500/10", border: "border-emerald-500/30", accent: "text-emerald-400", dot: "bg-emerald-400" },
   { bg: "bg-purple-500/10", border: "border-purple-500/30", accent: "text-purple-400", dot: "bg-purple-400" },
-  { bg: "bg-amber-500/10", border: "border-amber-500/30", accent: "text-amber-400", dot: "bg-amber-400" },
+  { bg: "bg-primary/10", border: "border-primary/30", accent: "text-primary", dot: "bg-primary" },
 ];
 
 interface Phase {

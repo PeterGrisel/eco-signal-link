@@ -98,6 +98,10 @@ you provide equivalents):
 
 ## Frontend de-brand checklist
 
+**Visual styling is already handled** — the frontend is token-only (see
+`theme/THEME.md`); it adopts the host site's theme automatically. What remains
+below is *textual* brand (names, titles, URLs, pillar slugs), not colors/fonts.
+
 The engine is fully de-branded. The frontend still carries ~39 brand strings
 (page titles, canonical URLs, hardcoded pillar slugs, the lead widget). Find them:
 

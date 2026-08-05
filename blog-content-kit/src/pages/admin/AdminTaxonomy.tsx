@@ -140,7 +140,7 @@ const TopicNode = ({
               {queued > 0 && <span className="text-primary"> +{queued}</span>}
             </span>
             {gap > 0 && (
-              <Badge variant="outline" className="text-xs text-amber-400 border-amber-500/20 bg-amber-500/5">
+              <Badge variant="outline" className="text-xs text-primary border-primary/20 bg-primary/5">
                 {gap} gap
               </Badge>
             )}
@@ -429,7 +429,7 @@ export const TaxonomyTabContent = () => {
             <p className="text-xs text-muted-foreground">Gepubliceerd</p>
           </div>
           <div className="p-4 rounded-lg bg-card border border-border">
-            <p className="text-2xl font-bold text-amber-400">{totalGap}</p>
+            <p className="text-2xl font-bold text-primary">{totalGap}</p>
             <p className="text-xs text-muted-foreground">Content gap</p>
           </div>
         </div>
@@ -617,8 +617,8 @@ export const TaxonomyTabContent = () => {
                     )}
 
                     {cluster.content_gaps?.length > 0 && (
-                      <div className="mt-2 p-2 rounded bg-amber-500/5 border border-amber-500/10">
-                        <span className="text-[10px] uppercase tracking-wider text-amber-400 mb-1 block">Content gaps:</span>
+                      <div className="mt-2 p-2 rounded bg-primary/5 border border-primary/10">
+                        <span className="text-[10px] uppercase tracking-wider text-primary mb-1 block">Content gaps:</span>
                         <ul className="text-xs text-muted-foreground space-y-0.5">
                           {cluster.content_gaps.map((gap: string, g: number) => (
                             <li key={g}>• {gap}</li>

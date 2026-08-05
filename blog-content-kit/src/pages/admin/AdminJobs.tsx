@@ -53,7 +53,7 @@ interface CalItem { date: string; type: string; title: string; }
 const sb = supabase as any;
 
 const statusColor = (s: string) =>
-  s === "success" ? "text-emerald-500" : s === "error" ? "text-destructive" : "text-amber-500";
+  s === "success" ? "text-emerald-500" : s === "error" ? "text-destructive" : "text-primary";
 
 export const JobsTabContent = () => {
   const { toast } = useToast();

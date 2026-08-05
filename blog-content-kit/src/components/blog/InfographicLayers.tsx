@@ -17,7 +17,7 @@ const layerColors = [
   { bg: "bg-primary/10", border: "border-primary/30", text: "text-primary", bar: "bg-primary" },
   { bg: "bg-blue-500/10", border: "border-blue-500/30", text: "text-blue-400", bar: "bg-blue-400" },
   { bg: "bg-emerald-500/10", border: "border-emerald-500/30", text: "text-emerald-400", bar: "bg-emerald-400" },
-  { bg: "bg-amber-500/10", border: "border-amber-500/30", text: "text-amber-400", bar: "bg-amber-400" },
+  { bg: "bg-primary/10", border: "border-primary/30", text: "text-primary", bar: "bg-primary" },
   { bg: "bg-purple-500/10", border: "border-purple-500/30", text: "text-purple-400", bar: "bg-purple-400" },
 ];
 

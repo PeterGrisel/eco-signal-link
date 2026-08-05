@@ -42,6 +42,10 @@ blog-content-kit/
 │       └── 0004_autopilot_cron.sql.template   # pg_cron schedule (fill in project ref)
 ├── config/
 │   └── seed-seo-settings.sql # one config row to fill in per site
+├── theme/                    # the modular design layer (skin per site)
+│   ├── theme.css             # semantic design tokens (colors/fonts/radius)
+│   ├── tailwind.theme.ts     # token→utility mapping to merge into tailwind config
+│   └── THEME.md              # agent runbook: adopt the target site's design
 ├── src/                      # frontend: pages, admin, hooks, rendering components
 │   └── types/seoSettings.ts  # the config contract (edit defaults here)
 └── docs/
@@ -57,6 +61,24 @@ blog-content-kit/
 | **Frontend** — pages/admin | **Reference implementation.** Assumes the host project provides its own design system (shadcn/ui, Navbar, Footer). Adapt per site — see the checklist in `docs/INVENTORY.md`. |
 
 ---
+
+## Design: modular, unique per site
+
+The frontend is **token-only** — every component styles itself with shadcn
+semantic tokens (`bg-card`, `text-primary`, `border-border`, `font-display`) and
+carries **no hardcoded brand colors**. Consequences:
+
+- Drop the kit into a Lovable/shadcn site and the blog + admin **automatically
+  adopt that site's existing `index.css` theme** — zero design work.
+- For a site without a token layer, `theme/theme.css` is the single file you
+  swap, and `theme/THEME.md` is an agent runbook that **extracts the target
+  site's brand** (colors, fonts, radius) into it.
+- Each site is unique by construction (its own brand drives the tokens); knobs
+  like `--radius`, the display/body font pairing, and `--prose-max-width` keep
+  two sites from ever feeling templated.
+
+(The give-away *print assets* keep an intentional standalone document look — see
+`theme/THEME.md`.)
 
 ## Prerequisites on the host project
 

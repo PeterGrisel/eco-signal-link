@@ -1,0 +1,100 @@
+/* ============================================================================
+   Blog & Content Kit — THEME (the one file that makes the kit look like the site)
+   ----------------------------------------------------------------------------
+   This is the single, swappable design layer. Every kit component styles itself
+   with these semantic tokens (text-foreground, bg-card, text-primary, …) and
+   NOTHING hardcoded, so replacing the values here re-skins the entire blog +
+   admin to match the host site — while each site stays unique.
+
+   Token names are the standard shadcn/ui set. If your host project already
+   defines these in its own index.css, you do NOT need this file at all — the kit
+   inherits the host theme automatically. Use this file only when the host has no
+   token layer, or let the theme extractor (theme/THEME.md) overwrite the values
+   from the target website's brand.
+
+   Colors are HSL *channels* ("H S% L%") — shadcn wraps them as hsl(var(--x)).
+   ============================================================================ */
+
+:root {
+  /* Surfaces & text */
+  --background: 0 0% 100%;
+  --foreground: 222 20% 12%;
+  --card: 0 0% 100%;
+  --card-foreground: 222 20% 12%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222 20% 12%;
+
+  /* Brand — the extractor overwrites --primary with the site's brand color */
+  --primary: 222 47% 40%;
+  --primary-foreground: 0 0% 100%;
+
+  --secondary: 220 14% 96%;
+  --secondary-foreground: 222 20% 20%;
+  --muted: 220 14% 96%;
+  --muted-foreground: 220 9% 46%;
+  --accent: 220 14% 94%;
+  --accent-foreground: 222 20% 20%;
+
+  --destructive: 0 72% 51%;
+  --destructive-foreground: 0 0% 100%;
+
+  /* Lines & focus */
+  --border: 220 13% 91%;
+  --input: 220 13% 91%;
+  --ring: 222 47% 40%;
+
+  /* Shape */
+  --radius: 0.5rem;
+
+  /* Typography — set these to the site's fonts (also load them in index.html) */
+  --font-display: ui-sans-serif, system-ui, sans-serif;
+  --font-body: ui-sans-serif, system-ui, sans-serif;
+
+  /* Sidebar (admin) — default to the main tokens */
+  --sidebar-background: 220 14% 98%;
+  --sidebar-foreground: 222 20% 20%;
+  --sidebar-primary: var(--primary);
+  --sidebar-primary-foreground: var(--primary-foreground);
+  --sidebar-accent: 220 14% 94%;
+  --sidebar-accent-foreground: 222 20% 20%;
+  --sidebar-border: 220 13% 91%;
+  --sidebar-ring: var(--ring);
+
+  /* Kit-specific tokens (all default to a shadcn token so they always work) */
+  --brand: var(--primary);                 /* alias used by some kit chrome  */
+  --brand-foreground: var(--primary-foreground);
+  --surface-2: var(--muted);               /* nested cards / subtle panels    */
+  --prose-max-width: 46rem;                /* article reading measure         */
+}
+
+.dark {
+  --background: 222 22% 8%;
+  --foreground: 220 14% 92%;
+  --card: 222 20% 11%;
+  --card-foreground: 220 14% 92%;
+  --popover: 222 20% 11%;
+  --popover-foreground: 220 14% 92%;
+
+  --primary: 222 60% 62%;
+  --primary-foreground: 222 30% 10%;
+
+  --secondary: 222 16% 16%;
+  --secondary-foreground: 220 14% 92%;
+  --muted: 222 16% 16%;
+  --muted-foreground: 220 10% 65%;
+  --accent: 222 16% 18%;
+  --accent-foreground: 220 14% 92%;
+
+  --destructive: 0 62% 50%;
+  --destructive-foreground: 0 0% 100%;
+
+  --border: 222 16% 20%;
+  --input: 222 16% 20%;
+  --ring: 222 60% 62%;
+
+  --sidebar-background: 222 22% 9%;
+  --sidebar-foreground: 220 14% 92%;
+  --sidebar-accent: 222 16% 16%;
+  --sidebar-accent-foreground: 220 14% 92%;
+  --sidebar-border: 222 16% 20%;
+}

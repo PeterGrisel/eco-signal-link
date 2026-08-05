@@ -9,7 +9,10 @@
   },
   "agent_entrypoint": "AGENTS.md",
   "config_contract": "src/types/seoSettings.ts",
+  "theme_contract": "theme/theme.css",
+  "theme_runbook": "theme/THEME.md",
   "identity_resolution": "seo_settings.config.<key>  ->  env var  ->  neutral placeholder",
+  "design_model": "Token-only UI (shadcn semantic tokens). The frontend inherits the host site's index.css theme automatically; theme/THEME.md derives theme/theme.css from the target site's brand when the host has no token layer. Each site is unique by construction.",
 
   "deploy_order": [
     "supabase/migrations/0001_blog_content_kit_schema.sql",
