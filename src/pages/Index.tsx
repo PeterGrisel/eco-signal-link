@@ -4,6 +4,7 @@ import Hero from "@/components/Hero";
 import PageLoader from "@/components/PageLoader";
 import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 import Footer from "@/components/Footer";
+import { usePageMeta } from "@/hooks/usePageMeta";
 
 import AmbientBackdrop from "@/components/homepage/AmbientBackdrop";
 import FaqSection from "@/components/FaqSection";
@@ -17,6 +18,13 @@ import GroeistackSection from "@/components/GroeistackSection";
 import Chapter11Bewegingen from "@/components/homepage/chapters/Chapter11Bewegingen";
 
 const Index = () => {
+  usePageMeta({
+    title: "B2B Groeimachine | Van signaal naar live gesprekken",
+    description:
+      "Wij bouwen één systeem dat signalen, content en outreach omzet in live gesprekken. Meer pipeline, minder handwerk. Plan een kennismaking van 20 minuten.",
+    canonical: "https://www.b2bgroeimachine.io/",
+  });
+
   // Scroll to hash after entrance animation completes (300ms fade)
   useEffect(() => {
     if (!window.location.hash || window.location.hash === '#') return;
