@@ -124,13 +124,13 @@ const AnimatedRoutes = () => {
         transition={{ duration: 0.3, ease: "easeInOut" }}
       >
         <Routes location={location}>
-          <Route path="/" element={<HoeHetWerktV2 />} />
+          <Route path="/" element={<Index />} />
           {/* 301 redirects for removed routes (client-side fallback; worker handles server-side 301) */}
           <Route path="/datahub" element={<Navigate to="/pipeline-equation" replace />} />
           <Route path="/over-ons" element={<OverOns />} />
           <Route path="/ons-team" element={<OnsTeam />} />
           <Route path="/sectoren/:slug" element={<SectorPage />} />
-          <Route path="/hoe-het-werkt" element={<Index />} />
+          <Route path="/hoe-het-werkt" element={<HoeHetWerktV2 />} />
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/hoe-het-werkt-v2" element={<Navigate to="/hoe-het-werkt" replace />} />
           <Route path="/groeistack" element={<Groeistack />} />

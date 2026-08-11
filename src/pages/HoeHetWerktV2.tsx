@@ -18,10 +18,10 @@ import AmbientBackdrop from "@/components/homepage/AmbientBackdrop";
 
 const HoeHetWerktV2 = () => {
   usePageMeta({
-    title: "B2B Groeimachine | Van signaal naar live gesprekken",
+    title: "Hoe het werkt | B2B Groeimachine",
     description:
-      "Wij bouwen één systeem dat signalen, content en outreach omzet in live gesprekken. Meer pipeline, minder handwerk. Plan een kennismaking van 20 minuten.",
-    canonical: "https://www.b2bgroeimachine.io/",
+      "Zo werkt de B2B Groeimachine: van signaal naar gesprek. Signalen, content en outreach in één systeem. Bekijk de aanpak stap voor stap.",
+    canonical: "https://www.b2bgroeimachine.io/hoe-het-werkt",
   });
 
   return (
@@ -32,6 +32,7 @@ const HoeHetWerktV2 = () => {
         <BreadcrumbJsonLd
           items={[
             { name: "Home", url: "https://www.b2bgroeimachine.io/" },
+            { name: "Hoe het werkt", url: "https://www.b2bgroeimachine.io/hoe-het-werkt" },
           ]}
         />
         <Navbar />
