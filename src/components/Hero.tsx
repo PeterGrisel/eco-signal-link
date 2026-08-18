@@ -308,7 +308,7 @@ const Hero = () => {
           <div className="flex flex-col items-center sm:items-start gap-3">
             <div className="flex -space-x-2">
               {trustClients.map((c) => (
-                <LogoCircle key={c.name} name={c.name} url={c.url} />
+                <LogoCircle key={c.name} name={c.name} url={c.url} src={(c as { src?: string }).src} />
               ))}
             </div>
             <div className="text-center sm:text-left">
