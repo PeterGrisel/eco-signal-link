@@ -25,11 +25,19 @@ const trustClients = [
   { name: "Yaskawa", url: "https://www.yaskawa.nl/" },
   { name: "Leister Benelux", url: "https://www.leister.com/" },
   { name: "Excelsior Rotterdam", url: "https://excelsiorrotterdam.nl/" },
-  { name: "Nexer", url: "https://nexer.nl/" },
-  { name: "RTC Group", url: "https://www.rtc-group.nl/" },
+  {
+    name: "Censo",
+    url: "https://www.censo.nl/",
+    src: "https://cdn.prod.website-files.com/697c60d251a609987efd0be3/699c168c4fa37174d625e6af_Webclip%20Censo%20Ruby.png",
+  },
+  {
+    name: "De Media Groep",
+    url: "https://www.demediagroep.nl/",
+    src: "https://www.demediagroep.nl/wp-content/uploads/2025/04/cropped-De-Media-Groep-Favicon-192x192.jpg",
+  },
 ];
 
-const LogoCircle = ({ name, url }: { name: string; url: string }) => {
+const LogoCircle = ({ name, url, src }: { name: string; url: string; src?: string }) => {
   const [err, setErr] = useState(false);
   let domain = "";
   try {
@@ -37,17 +45,18 @@ const LogoCircle = ({ name, url }: { name: string; url: string }) => {
   } catch {
     domain = "";
   }
+  const logoSrc = src || (domain ? `https://www.google.com/s2/favicons?domain=${domain}&sz=64` : "");
   return (
     <span className="w-9 h-9 rounded-full border-2 border-background bg-white overflow-hidden flex items-center justify-center ring-1 ring-foreground/10 shrink-0">
-      {err || !domain ? (
+      {err || !logoSrc ? (
         <span className="text-[11px] font-display font-bold text-neutral-700">
           {name[0]}
         </span>
       ) : (
         <img
-          src={`https://www.google.com/s2/favicons?domain=${domain}&sz=64`}
+          src={logoSrc}
           alt={`${name} client logo`}
-          className="w-5 h-5 object-contain"
+          className="w-7 h-7 object-contain"
           loading="lazy"
           onError={() => setErr(true)}
         />
