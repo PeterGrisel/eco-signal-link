@@ -1,0 +1,2 @@
+update public.client_logos set logo_url='https://cdn.prod.website-files.com/697c60d251a609987efd0be3/6989b5ae34556ce4eaab9cfc_Group%201.svg', sector='Energie & Tech', description='Censo maakt energie slim stuurbaar. Zij helpen bedrijven met batterijopslag, laden en handel op de onbalansmarkt.' where domain='censo.nl';
+update public.client_logos set sector='Marketing & Media', description='De Media Groep is een full service marketingbureau. Zij bouwen aan merken met strategie, campagnes en online media.' where domain='demediagroep.nl';
