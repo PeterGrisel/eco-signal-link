@@ -7,7 +7,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { CurrencyProvider } from "@/contexts/CurrencyContext";
 import { AnimatePresence, motion } from "framer-motion";
-import Index from "./pages/Index.tsx";
+import Home from "./pages/Home.tsx";
 import OverOns from "./pages/OverOns.tsx";
 import OnsTeam from "./pages/OnsTeam.tsx";
 import SectorPage from "./pages/SectorPage.tsx";
@@ -124,7 +124,7 @@ const AnimatedRoutes = () => {
         transition={{ duration: 0.3, ease: "easeInOut" }}
       >
         <Routes location={location}>
-          <Route path="/" element={<Index />} />
+          <Route path="/" element={<Home />} />
           {/* 301 redirects for removed routes (client-side fallback; worker handles server-side 301) */}
           <Route path="/datahub" element={<Navigate to="/pipeline-equation" replace />} />
           <Route path="/over-ons" element={<OverOns />} />

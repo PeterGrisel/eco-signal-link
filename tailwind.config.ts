@@ -30,6 +30,20 @@ export default {
         serif: ["Fraunces", "Georgia", "serif"],
       },
       colors: {
+        /* B2B Groeimachine brand kit (zie /brandbook) — vaste hex-tokens voor
+           het v2-designsysteem, naast de bestaande shadcn HSL-variabelen. */
+        brand: {
+          ground: "#121212",
+          surface: "#1A1A1A",
+          raise: "#242424",
+          line: "#2E2E2E",
+          ink: "#EEEAE4",
+          "ink-2": "#B4AA9D",
+          "ink-3": "#998D7D",
+          accent: "#E8945A",
+          "accent-2": "#F5B267",
+          paper: "#EEEAE4",
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

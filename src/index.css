@@ -387,3 +387,87 @@
   height: 34px;
 }
 .gw-input:focus { outline: none; border-color: #E8945A; }
+
+/* ══════════════════════════════════════════════════════════════════════
+   V2 DESIGNSYSTEEM — b2bgroeimachine.io
+   Bouwstijl naar het model van vidai-fctry (secties, reveals, marquee,
+   split-headline, giant word), uitgevoerd in de B2B Groeimachine-huisstijl
+   uit /brandbook: donkere grond #121212, accent #E8945A, Space Grotesk +
+   Inter. Alle animaties eindigen met `both` in zichtbare staat, zodat de
+   pagina ook zonder JS en voor crawlers volledig leesbaar is.
+   ══════════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* Vloeiende typeschaal uit het brandbook. */
+  --v2-h1: clamp(2.4rem, 5.5vw, 4.4rem);
+  --v2-h2: clamp(1.8rem, 3.5vw, 2.8rem);
+}
+
+/* Hero-entree: puur CSS, gestaffeld via --enter. */
+@keyframes v2-enter-up {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+.v2-enter {
+  animation: v2-enter-up 0.6s ease-out both;
+  animation-delay: calc(var(--enter, 0) * 0.12s);
+}
+
+/* Split-headline: elke letter rolt gestaffeld omhoog. De volledige tekst
+   staat in de DOM (SEO/GEO); de spans zijn aria-hidden. */
+@keyframes v2-letter-rise {
+  from { opacity: 0; transform: translateY(0.6em); }
+  to { opacity: 1; transform: none; }
+}
+.v2-rise-word { display: inline-block; white-space: nowrap; }
+.v2-rise-letter {
+  display: inline-block;
+  animation: v2-letter-rise 0.55s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: calc(var(--i, 0) * 0.026s + 0.1s);
+}
+
+/* Doorlopende band: de track bevat de inhoud twee keer en schuift 50%. */
+@keyframes v2-marquee {
+  to { transform: translateX(-50%); }
+}
+.v2-marquee-track { animation: v2-marquee 28s linear infinite; }
+
+/* Reusachtig outline-woord dat met de scroll meedrijft. */
+@keyframes v2-giant-drift {
+  from { transform: translateX(5%); }
+  to { transform: translateX(-5%); }
+}
+/* Contrastsecties schuiven als een "curtain" in: scale + ronde hoeken naar strak. */
+@keyframes v2-curtain-in {
+  from { transform: scale(0.94); border-radius: 28px; }
+  to { transform: scale(1); border-radius: 0; }
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .v2-curtain {
+      animation: v2-curtain-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 60%;
+    }
+    .v2-giant-word {
+      animation: v2-giant-drift linear both;
+      animation-timeline: view();
+    }
+  }
+}
+
+/* Rasterachtergrond voor de hero: fijne lijnen die naar de randen wegvallen. */
+.v2-grid-bg {
+  background-image:
+    linear-gradient(to right, rgba(232, 148, 90, 0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(232, 148, 90, 0.07) 1px, transparent 1px);
+  background-size: 64px 64px;
+  -webkit-mask-image: radial-gradient(ellipse 80% 65% at 50% 30%, #000 20%, transparent 78%);
+  mask-image: radial-gradient(ellipse 80% 65% at 50% 30%, #000 20%, transparent 78%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v2-enter,
+  .v2-rise-letter,
+  .v2-marquee-track { animation: none; }
+}
