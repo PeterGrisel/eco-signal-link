@@ -1,36 +1,59 @@
 import { Link } from "react-router-dom";
 import { Container } from "./Container";
+import { sectors } from "@/data/sectors";
 
 const cols = [
   {
-    title: "De engine",
+    title: "Diensten",
     links: [
-      ["De opportunity-engine", "/#engine"],
-      ["Referentiearchitectuur", "/#architectuur"],
-      ["Diensten", "/#diensten"],
-      ["Veelgestelde vragen", "/#vragen"],
+      ["Outbound, ABM, RevOps, Nurturing", "/#diensten"],
+      ["De engine", "/de-engine"],
+      ["Groeistack", "/groeistack"],
+      ["Prijzen", "/pricing"],
+      ["Hoe het werkt", "/hoe-het-werkt"],
     ],
   },
   {
-    title: "Verdiepen",
+    title: "Bewijs",
     links: [
-      ["Groeistack", "/groeistack"],
+      ["Klanten", "/klanten"],
+      ["Partners", "/partners"],
+      ["Over ons", "/over-ons"],
+      ["Ons team", "/ons-team"],
+      ["Contact", "/contact"],
+    ],
+  },
+  {
+    title: "Kennis",
+    links: [
       ["Playbooks", "/playbooks"],
       ["Cheatsheets", "/cheatsheets"],
+      ["Tools en calculators", "/tools"],
       ["Woordenboek", "/woordenboek"],
       ["Blog", "/blog"],
     ],
   },
-  {
-    title: "Bedrijf",
-    links: [
-      ["Over ons", "/over-ons"],
-      ["Ons team", "/ons-team"],
-      ["Klanten", "/klanten"],
-      ["Partners", "/partners"],
-      ["Contact", "/contact"],
-    ],
-  },
+] as const;
+
+/**
+ * Veelgezochte zoekpagina's. Deze dertien landingspagina's staan live maar zijn
+ * alleen via Google bereikbaar; een eigen footerrij geeft ze interne links en
+ * houdt ze uit de hoofdnavigatie, waar ze niet thuishoren.
+ */
+const VEELGEZOCHT = [
+  ["B2B leadgeneratie", "/b2b-leadgeneratie"],
+  ["Leadgeneratie uitbesteden", "/leadgeneratie-uitbesteden"],
+  ["Acquisitie uitbesteden", "/acquisitie-uitbesteden"],
+  ["Koude acquisitie", "/koude-acquisitie"],
+  ["Cold email uitbesteden", "/cold-email-uitbesteden"],
+  ["Zakelijke leads", "/zakelijke-leads"],
+  ["Online leadgeneratie", "/online-leadgeneratie"],
+  ["Leads genereren B2B", "/leads-genereren-b2b"],
+  ["Sales automation mkb", "/sales-automation-mkb"],
+  ["Leadgeneratie maakindustrie", "/leadgeneratie-maakindustrie"],
+  ["Leadgeneratie tech services", "/leadgeneratie-tech-services"],
+  ["Leadgeneratie zakelijke dienstverlening", "/leadgeneratie-zakelijke-dienstverlening"],
+  ["Apollo.io partner Nederland", "/apollo-io-partner-nederland"],
 ] as const;
 
 const legal = [
@@ -39,11 +62,29 @@ const legal = [
   ["Cookies", "/cookies"],
 ] as const;
 
+const linkClass =
+  "text-brand-ink-2 transition-colors duration-200 hover:text-brand-accent";
+
+function FooterLink({ href, children }: { href: string; children: React.ReactNode }) {
+  if (href.includes("#")) {
+    return (
+      <a href={href} className={linkClass}>
+        {children}
+      </a>
+    );
+  }
+  return (
+    <Link to={href} className={linkClass}>
+      {children}
+    </Link>
+  );
+}
+
 export function Footer() {
   return (
     <footer className="overflow-hidden border-t border-brand-line bg-brand-surface pt-16 text-brand-ink">
       <Container>
-        <div className="grid gap-12 pb-16 md:grid-cols-[1.3fr_1fr_1fr_1fr]">
+        <div className="grid gap-12 pb-14 md:grid-cols-[1.25fr_1fr_1fr_1fr]">
           <div>
             <p className="mb-4 font-display text-[22px] font-bold tracking-tight">
               <span className="text-brand-ink">B2B</span>
@@ -64,27 +105,40 @@ export function Footer() {
               <ul className="space-y-2.5 text-[13.5px]">
                 {col.links.map(([label, href]) => (
                   <li key={label}>
-                    {href.startsWith("/#") ? (
-                      <a
-                        href={href}
-                        className="text-brand-ink-2 transition-colors duration-200 hover:text-brand-accent"
-                      >
-                        {label}
-                      </a>
-                    ) : (
-                      <Link
-                        to={href}
-                        className="text-brand-ink-2 transition-colors duration-200 hover:text-brand-accent"
-                      >
-                        {label}
-                      </Link>
-                    )}
+                    <FooterLink href={href}>{label}</FooterLink>
                   </li>
                 ))}
               </ul>
             </nav>
           ))}
         </div>
+
+        {/* Branche-as: dezelfde elf pagina's als in het menu, hier compleet. */}
+        <nav aria-label="Branches" className="border-t border-brand-line py-8">
+          <p className="mb-4 font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-accent">
+            Voor wie
+          </p>
+          <ul className="flex flex-wrap gap-x-6 gap-y-2.5 text-[13.5px]">
+            {sectors.map((sector) => (
+              <li key={sector.slug}>
+                <FooterLink href={`/sectoren/${sector.slug}`}>{sector.title}</FooterLink>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <nav aria-label="Veelgezocht" className="border-t border-brand-line py-8">
+          <p className="mb-4 font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-ink-3">
+            Veelgezocht
+          </p>
+          <ul className="flex flex-wrap gap-x-6 gap-y-2.5 text-[13px]">
+            {VEELGEZOCHT.map(([label, href]) => (
+              <li key={href}>
+                <FooterLink href={href}>{label}</FooterLink>
+              </li>
+            ))}
+          </ul>
+        </nav>
       </Container>
 
       {/* Signatuur: het merk als reusachtige outline-wordmark, half uit beeld. */}

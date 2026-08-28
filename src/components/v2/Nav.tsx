@@ -1,34 +1,146 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { ChevronDown, Menu, X } from "lucide-react";
 import { Button } from "./Button";
 import { Container } from "./Container";
 import { ScrollProgress } from "./ScrollProgress";
 import { openBookingModal } from "@/components/booking/GlobalBookingModal";
+import { sectors } from "@/data/sectors";
 import { trackCTA } from "@/lib/tracking";
 
-const links = [
-  ["De engine", "/#engine"],
-  ["Architectuur", "/#architectuur"],
-  ["Diensten", "/#diensten"],
-  ["Prijzen", "/pricing"],
-  ["Playbooks", "/playbooks"],
-  ["Blog", "/blog"],
-] as const;
+type Item = { label: string; href: string; note?: string };
+type Group = { label: string; href?: string; items?: Item[] };
 
-const linkClass =
-  "relative py-1 font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-ink-2 transition-colors duration-200 after:absolute after:bottom-0 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-brand-accent after:transition-transform after:duration-200 hover:text-brand-ink hover:after:scale-x-100";
+/**
+ * Twee assen, zoals elk serieus B2B-bureau ze voert: wat wij doen, maal voor
+ * wie het is. Daarachter hangen de bewijs- en kennispagina's die anders
+ * onvindbaar blijven.
+ */
+const GROUPS: Group[] = [
+  {
+    label: "Diensten",
+    items: [
+      { label: "Outbound", href: "/#diensten", note: "Nieuwe accounts openen" },
+      { label: "ABM", href: "/#diensten", note: "De accounts die er echt toe doen" },
+      { label: "RevOps", href: "/#diensten", note: "Het proces onder de motorkap" },
+      { label: "Nurturing", href: "/#diensten", note: "Top of mind bij wie nog niet koopt" },
+      { label: "De engine", href: "/de-engine", note: "De volledige architectuur" },
+      { label: "Groeistack", href: "/groeistack", note: "Onze modulaire B2B groeistack" },
+    ],
+  },
+  {
+    label: "Voor wie",
+    items: [
+      ...sectors.map((s) => ({
+        label: s.title,
+        href: `/sectoren/${s.slug}`,
+        note: s.tagline,
+      })),
+      { label: "Alle branches", href: "/#voor-wie", note: "Bekijk de volledige lijst" },
+    ],
+  },
+  {
+    label: "Bewijs",
+    items: [
+      { label: "Klanten", href: "/klanten", note: "Wie er met de engine werkt" },
+      { label: "Partners", href: "/partners", note: "Het Signal Certified netwerk" },
+      { label: "Over ons", href: "/over-ons", note: "Onze missie en aanpak" },
+      { label: "Ons team", href: "/ons-team", note: "De mensen achter de engine" },
+    ],
+  },
+  {
+    label: "Kennis",
+    items: [
+      { label: "Playbooks", href: "/playbooks", note: "Bewezen werkstromen" },
+      { label: "Cheatsheets", href: "/cheatsheets", note: "Templates en frameworks" },
+      { label: "Tools", href: "/tools", note: "Funnel-, pipeline- en value calculators" },
+      { label: "Woordenboek", href: "/woordenboek", note: "De begrippen uit het model" },
+      { label: "Blog", href: "/blog", note: "Wat wij onderweg leren" },
+    ],
+  },
+  { label: "Prijzen", href: "/pricing" },
+];
+
+const triggerClass =
+  "flex items-center gap-1.5 py-1 font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-ink-2 transition-colors duration-200 hover:text-brand-ink";
+
+/** Interne link of anker: react-router voor routes, gewone anchor voor #hashes. */
+function Go({
+  href,
+  className,
+  onClick,
+  children,
+}: {
+  href: string;
+  className?: string;
+  onClick?: () => void;
+  children: React.ReactNode;
+}) {
+  if (href.includes("#")) {
+    return (
+      <a href={href} className={className} onClick={onClick}>
+        {children}
+      </a>
+    );
+  }
+  return (
+    <Link to={href} className={className} onClick={onClick}>
+      {children}
+    </Link>
+  );
+}
 
 export function Nav() {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<string | null>(null);
+  const [mobile, setMobile] = useState(false);
+  const navRef = useRef<HTMLElement>(null);
+  /**
+   * Na Escape mag hover het menu niet meteen heropenen: het paneel verdwijnt,
+   * de layout schuift op en de browser vuurt opnieuw een mouseenter op de knop.
+   * Deze vlag houdt het menu dicht tot de muis de balk echt verlaat.
+   */
+  const hoverGeblokkeerd = useRef(false);
+  const location = useLocation();
+
+  // Menu's sluiten bij navigatie, bij Escape en bij een klik buiten de balk.
+  useEffect(() => {
+    setOpen(null);
+    setMobile(false);
+  }, [location.pathname, location.hash]);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        hoverGeblokkeerd.current = true;
+        setOpen(null);
+        setMobile(false);
+      }
+    };
+    const onClick = (e: MouseEvent) => {
+      if (navRef.current && !navRef.current.contains(e.target as Node)) setOpen(null);
+    };
+    document.addEventListener("keydown", onKey);
+    document.addEventListener("click", onClick);
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.removeEventListener("click", onClick);
+    };
+  }, []);
 
   function book() {
-    trackCTA("nav_plan_gesprek", "navbar");
+    trackCTA("nav_plan_kennismaking", "navbar");
     openBookingModal();
   }
 
   return (
-    <nav className="sticky top-0 z-50 border-b border-brand-line bg-brand-ground/90 backdrop-blur-[10px]">
+    <nav
+      ref={navRef}
+      className="sticky top-0 z-50 border-b border-brand-line bg-brand-ground/95 backdrop-blur-[10px]"
+      onMouseLeave={() => {
+        hoverGeblokkeerd.current = false;
+        setOpen(null);
+      }}
+    >
       <Container className="flex items-center justify-between gap-7 py-4">
         <Link to="/" aria-label="B2B Groeimachine, home" className="shrink-0">
           <span className="font-display text-lg font-bold tracking-tight">
@@ -37,15 +149,36 @@ export function Nav() {
           </span>
         </Link>
 
-        <div className="hidden gap-7 lg:flex">
-          {links.map(([label, href]) =>
-            href.startsWith("/#") ? (
-              <a key={label} href={href} className={linkClass}>
-                {label}
-              </a>
+        <div className="hidden items-center gap-7 lg:flex">
+          {GROUPS.map((group) =>
+            group.items ? (
+              <div
+                key={group.label}
+                onMouseEnter={() => {
+                  if (!hoverGeblokkeerd.current) setOpen(group.label);
+                }}
+              >
+                <button
+                  type="button"
+                  className={triggerClass}
+                  aria-expanded={open === group.label}
+                  onClick={() => {
+                    hoverGeblokkeerd.current = false;
+                    setOpen(open === group.label ? null : group.label);
+                  }}
+                >
+                  {group.label}
+                  <ChevronDown
+                    aria-hidden
+                    className={`size-3 transition-transform duration-200 ${
+                      open === group.label ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+              </div>
             ) : (
-              <Link key={label} to={href} className={linkClass}>
-                {label}
+              <Link key={group.label} to={group.href!} className={triggerClass}>
+                {group.label}
               </Link>
             ),
           )}
@@ -53,46 +186,80 @@ export function Nav() {
 
         <div className="flex items-center gap-3">
           <span className="hidden md:block">
-            <Button onClick={book}>Plan een kennismaking</Button>
+            <Button onClick={book}>Boek gratis scan</Button>
           </span>
           <button
             type="button"
-            aria-label={open ? "Sluit menu" : "Open menu"}
-            aria-expanded={open}
-            onClick={() => setOpen((v) => !v)}
+            aria-label={mobile ? "Sluit menu" : "Open menu"}
+            aria-expanded={mobile}
+            onClick={() => setMobile((v) => !v)}
             className="rounded-md border border-brand-line p-2 text-brand-ink lg:hidden"
           >
-            {open ? <X className="size-4" /> : <Menu className="size-4" />}
+            {mobile ? <X className="size-4" /> : <Menu className="size-4" />}
           </button>
         </div>
       </Container>
 
+      {/* Uitklapper op desktop: één rij kaarten binnen dezelfde contentwrap. */}
       {open && (
-        <div className="border-t border-brand-line bg-brand-ground lg:hidden">
-          <Container className="flex flex-col gap-1 py-4">
-            {links.map(([label, href]) =>
-              href.startsWith("/#") ? (
-                <a
-                  key={label}
-                  href={href}
-                  onClick={() => setOpen(false)}
-                  className="py-2.5 font-display text-sm font-semibold text-brand-ink"
-                >
-                  {label}
-                </a>
-              ) : (
-                <Link
-                  key={label}
-                  to={href}
-                  onClick={() => setOpen(false)}
-                  className="py-2.5 font-display text-sm font-semibold text-brand-ink"
-                >
-                  {label}
-                </Link>
-              ),
-            )}
-            <span className="pt-3 md:hidden">
-              <Button onClick={book}>Plan een kennismaking</Button>
+        <div className="hidden border-t border-brand-line bg-brand-surface lg:block">
+          <Container className="grid grid-cols-3 gap-x-8 gap-y-1 py-6">
+            {GROUPS.find((g) => g.label === open)?.items?.map((item) => (
+              <Go
+                key={item.label + item.href}
+                href={item.href}
+                className="group rounded-md px-3 py-2.5 transition-colors duration-200 hover:bg-brand-ground"
+                onClick={() => setOpen(null)}
+              >
+                <span className="block font-display text-[14px] font-semibold tracking-tight text-brand-ink transition-colors duration-200 group-hover:text-brand-accent">
+                  {item.label}
+                </span>
+                {item.note && (
+                  <span className="mt-0.5 block text-[12.5px] text-brand-ink-3">{item.note}</span>
+                )}
+              </Go>
+            ))}
+          </Container>
+        </div>
+      )}
+
+      {/* Mobiel: alles uitgeklapt onder elkaar, geen tweede niveau om te missen. */}
+      {mobile && (
+        <div className="max-h-[75svh] overflow-y-auto border-t border-brand-line bg-brand-ground lg:hidden">
+          <Container className="flex flex-col gap-6 py-5">
+            {GROUPS.map((group) => (
+              <div key={group.label}>
+                {group.items ? (
+                  <>
+                    <p className="mb-2 font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-accent">
+                      {group.label}
+                    </p>
+                    <div className="flex flex-col">
+                      {group.items.map((item) => (
+                        <Go
+                          key={item.label + item.href}
+                          href={item.href}
+                          className="border-b border-brand-line py-2.5 font-display text-sm font-medium text-brand-ink last:border-b-0"
+                          onClick={() => setMobile(false)}
+                        >
+                          {item.label}
+                        </Go>
+                      ))}
+                    </div>
+                  </>
+                ) : (
+                  <Link
+                    to={group.href!}
+                    className="font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-accent"
+                    onClick={() => setMobile(false)}
+                  >
+                    {group.label}
+                  </Link>
+                )}
+              </div>
+            ))}
+            <span className="md:hidden">
+              <Button onClick={book}>Boek gratis scan</Button>
             </span>
           </Container>
         </div>

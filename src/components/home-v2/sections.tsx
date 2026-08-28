@@ -1,17 +1,255 @@
+import { Link } from "react-router-dom";
 import { Button } from "@/components/v2/Button";
 import { Card } from "@/components/v2/Card";
+import { Container } from "@/components/v2/Container";
 import { Faq } from "@/components/v2/Faq";
-import { FAQ_ITEMS } from "./faq";
 import { GiantWord } from "@/components/v2/GiantWord";
 import { Reveal } from "@/components/v2/Reveal";
 import { Section } from "@/components/v2/Section";
 import { SectionHeader } from "@/components/v2/SectionHeader";
 import { openBookingModal } from "@/components/booking/GlobalBookingModal";
+import { sectors } from "@/data/sectors";
 import { trackCTA } from "@/lib/tracking";
+import { FAQ_ITEMS } from "./faq";
 
-/* ── 1 · Fit, opportunity, intentie ─────────────────────────────────────── */
+/**
+ * De secties van de homepage, in de volgorde waarin ze op de pagina staan.
+ *
+ * De opbouw volgt de blauwdruk van augustus 2026: de eerste blokken
+ * beantwoorden wat dit is, van wie en wat je koopt; de diepgang komt daarna.
+ * De zwaarste theorie staat op /de-engine (`src/components/engine-v2`).
+ */
 
-export function DrieLagen() {
+/* ── 01 · Bewijsstrook ──────────────────────────────────────────────────── */
+
+/**
+ * Drie van de vier logo's zijn vierkante tegels met een eigen bijna-zwarte
+ * ondergrond; Eurofast is een breed wit woordmerk op transparant. Vandaar een
+ * eigen hoogte per logo, en de strook op de grondkleur zodat de tegels erin
+ * wegvallen in plaats van als donkere blokjes op te vallen.
+ */
+const KLANTLOGOS = [
+  { naam: "Leister", src: "/logos/leister-logo.png", klasse: "h-11" },
+  { naam: "Core-Vision", src: "/logos/core-vision-logo.png", klasse: "h-11" },
+  { naam: "Excelsior", src: "/logos/excelsior-logo.png", klasse: "h-11" },
+  { naam: "Eurofast", src: "/logos/eurofast-logo.png", klasse: "h-5" },
+] as const;
+
+/**
+ * Smalle band direct onder de hero: de bezoeker moet binnen één scroll zien dat
+ * anderen hem voorgingen. Zodra de eerste case is vrijgegeven
+ * (`src/data/caseStudies.ts`) hoort hier een resultaatcijfer bij.
+ */
+export function Klantbewijs() {
+  return (
+    <section className="border-y border-brand-line bg-brand-ground py-7">
+      <Container className="flex flex-col items-center gap-6 md:flex-row md:justify-between">
+        <p className="shrink-0 font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-ink-3">
+          Draait bij onder andere
+        </p>
+        <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-5">
+          {KLANTLOGOS.map((logo) => (
+            <img
+              key={logo.naam}
+              src={logo.src}
+              alt={logo.naam}
+              loading="lazy"
+              className={`${logo.klasse} w-auto max-w-[150px] object-contain opacity-75 transition-opacity duration-200 hover:opacity-100`}
+            />
+          ))}
+        </div>
+        <Link
+          to="/klanten"
+          className="shrink-0 font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-accent transition-colors duration-200 hover:text-brand-accent-2"
+        >
+          Bekijk de klanten →
+        </Link>
+      </Container>
+    </section>
+  );
+}
+
+/* ── 02 · Wat u koopt ───────────────────────────────────────────────────── */
+
+export function Diensten() {
+  const diensten = [
+    {
+      label: "Outbound",
+      title: "Nieuwe accounts openen",
+      body: "Markt in kaart, hypotheses per segment, multichannel activatie en opvolging. Voor groei buiten uw bestaande klantenbestand.",
+      highlight: true,
+    },
+    {
+      label: "ABM",
+      title: "Gericht op de accounts die tellen",
+      body: "Een afgebakende lijst met accounts, per account een eigen opportunity-hypothese, content en route naar de juiste beslisser.",
+    },
+    {
+      label: "RevOps",
+      title: "Het proces onder de motorkap",
+      body: "Datamodel, CRM-inrichting, routing, rapportage en de wekelijkse learning review. Zonder dit blijft de rest handwerk.",
+    },
+    {
+      label: "Nurturing",
+      title: "Waarde houden bij wie nog niet klaar is",
+      body: "Accounts met fit maar zonder timing blijven in beeld. Zodra het bewijs stapelt, komen ze terug bovenaan de lijst.",
+    },
+  ];
+  return (
+    <Section id="diensten">
+      <SectionHeader
+        eyebrow="Wat u koopt"
+        title="Vier diensten, één engine."
+        lead="Dit is het aanbod. De infrastructuur blijft staan, de hypothese verandert: dezelfde engine gaat door naar een nieuwe propositie, cross-sell, een nieuw land of een nieuwe partnerroute."
+      />
+      <div className="grid items-stretch gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {diensten.map((d, i) => (
+          <Reveal key={d.label} index={i} className="h-full">
+            <Card label={d.label} title={d.title} highlight={d.highlight}>
+              {d.body}
+            </Card>
+          </Reveal>
+        ))}
+      </div>
+      <Reveal className="mt-8 flex flex-wrap items-center gap-3">
+        <Button href="/groeistack" variant="outline">
+          Bekijk de volledige groeistack
+        </Button>
+        <Button href="#prijzen" variant="outline">
+          Wat het kost
+        </Button>
+      </Reveal>
+    </Section>
+  );
+}
+
+/* ── 03 · Voor wie ──────────────────────────────────────────────────────── */
+
+/** Branchekiezer. De sectorpagina's bestaan al; dit maakt ze eindelijk vindbaar. */
+export function VoorWie() {
+  return (
+    <Section id="voor-wie" tone="surface">
+      <SectionHeader
+        eyebrow="Voor wie"
+        title="Elke markt heeft eigen signalen."
+        lead="Een vacature betekent iets anders in de maakindustrie dan bij een accountantskantoor. Per branche werken wij met andere opportunity-hypotheses, andere databronnen en andere beslissers."
+      />
+      <div className="grid gap-px overflow-hidden rounded-lg border border-brand-line bg-brand-line sm:grid-cols-2 lg:grid-cols-3">
+        {sectors.map((sector, i) => (
+          <Reveal key={sector.slug} index={i} className="h-full bg-brand-ground">
+            <Link
+              to={`/sectoren/${sector.slug}`}
+              className="group flex h-full flex-col p-5 transition-colors duration-200 hover:bg-brand-surface"
+            >
+              <div className="mb-2 flex items-center gap-3">
+                <sector.icon className="size-4 shrink-0 text-brand-accent" aria-hidden />
+                <h3 className="font-display text-[15px] font-semibold tracking-tight">
+                  {sector.title}
+                </h3>
+              </div>
+              <p className="text-[13px] leading-relaxed text-brand-ink-2">{sector.tagline}</p>
+              <span
+                aria-hidden
+                className="mt-auto pt-4 font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-ink-3 transition-colors duration-200 group-hover:text-brand-accent"
+              >
+                Bekijk de aanpak →
+              </span>
+            </Link>
+          </Reveal>
+        ))}
+        {/* Elf branches in een raster van drie laat één cel over; die vullen we
+            met de uitnodiging voor markten die er nog niet bij staan. */}
+        <Reveal index={sectors.length} className="h-full bg-brand-ground">
+          <div className="flex h-full flex-col justify-center p-5">
+            <h3 className="font-display text-[15px] font-semibold tracking-tight">
+              Staat uw markt er niet bij?
+            </h3>
+            <p className="mt-2 text-[13px] leading-relaxed text-brand-ink-2">
+              De engine is niet aan een branche gebonden. Wij bouwen de hypothese
+              op uw markt.
+            </p>
+            <button
+              type="button"
+              onClick={() => {
+                trackCTA("voor_wie_gratis_scan", "voor-wie");
+                openBookingModal();
+              }}
+              className="mt-auto pt-4 text-left font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-accent transition-colors duration-200 hover:text-brand-accent-2"
+            >
+              Boek een gratis scan →
+            </button>
+          </div>
+        </Reveal>
+      </div>
+    </Section>
+  );
+}
+
+/* ── 04 · De trechter ───────────────────────────────────────────────────── */
+
+export function Trechter() {
+  const stages = [
+    { n: "4.000", label: "bedrijven in de markt" },
+    { n: "1.200", label: "met voldoende fit" },
+    { n: "350", label: "concrete opportunity-hypotheses" },
+    { n: "70", label: "accounts met zichtbare beweging" },
+  ];
+  return (
+    <Section
+      tone="invert"
+      className="v2-curtain relative overflow-hidden"
+    >
+      <GiantWord color="rgba(18,18,18,0.10)" className="-right-10 top-4 text-[17vw]">
+        PRIORITY
+      </GiantWord>
+      <div className="relative z-10">
+        <SectionHeader
+          invert
+          eyebrow="De trechter"
+          title="Sales hoeft de markt niet meer zelf te zoeken."
+          lead="De engine bewaakt de hele markt en laat uit duizenden accounts een beweging ontstaan. Wij automatiseren niet het gesprek, maar het zoeken, observeren, activeren en prioriteren dat eraan voorafgaat."
+        />
+
+        <div className="grid gap-y-8 sm:grid-cols-4 sm:gap-x-8 sm:gap-y-0">
+          {stages.map((s, i) => (
+            <Reveal
+              key={s.n}
+              index={i}
+              className={`border-t-[3px] pt-5 ${
+                i === stages.length - 1 ? "border-brand-accent" : "border-brand-ground/20"
+              }`}
+            >
+              <div className="font-display text-[clamp(2rem,4vw,3rem)] font-bold leading-none tracking-tight text-brand-ground">
+                {s.n}
+              </div>
+              <p className="mt-2 text-sm text-brand-ground/70">{s.label}</p>
+            </Reveal>
+          ))}
+        </div>
+
+        <Reveal className="mt-12 border-t border-brand-ground/15 pt-8">
+          <p className="max-w-[46ch] font-display text-[clamp(1.3rem,2.4vw,1.9rem)] font-semibold leading-snug tracking-tight text-brand-ground">
+            Farming geautomatiseerd. Sales gaat hunten.
+          </p>
+          <p className="mt-3 max-w-[62ch] text-sm leading-relaxed text-brand-ground/70">
+            Uw specialist hoeft niet iedere ochtend te bedenken wie hij kan
+            bellen. Hij krijgt de accounts waar fit, opportunity en timing
+            samenkomen, met de reden erbij.
+          </p>
+        </Reveal>
+      </div>
+    </Section>
+  );
+}
+
+/* ── 05 · Hoe het werkt ─────────────────────────────────────────────────── */
+
+/**
+ * De drie lagen en de sales routing stonden eerder als losse secties op de
+ * pagina en bouwden hetzelfde idee twee keer op. Ze zijn samengevoegd: eerst
+ * waar een opportunity uit bestaat, dan wat de verkoper ervan krijgt.
+ */
+export function HoeHetWerkt() {
   const lagen = [
     {
       label: "Laag 1",
@@ -26,22 +264,23 @@ export function DrieLagen() {
     },
     {
       label: "Laag 3",
-      title: "Intentie",
-      body: "Is dit het juiste moment? Intentie vertelt wanneer een opportunity interessant genoeg is om er verkoopcapaciteit op in te zetten.",
+      title: "Timing",
+      body: "Is dit het juiste moment? Timing vertelt wanneer een opportunity interessant genoeg is om er verkoopcapaciteit op in te zetten.",
     },
   ];
+  const niveaus = [
+    ["Qualified", "Alleen fit. Hoort bij de bedienbare markt, gaat in nurture."],
+    ["Target", "Fit plus een opportunity-hypothese. Het account wordt actief bewerkt."],
+    ["Priority", "Fit, opportunity en timing komen samen. Nu naar de specialist."],
+  ];
   return (
-    <Section id="engine" tone="surface">
+    <Section id="engine">
       <SectionHeader
-        eyebrow="Wat een opportunity is"
-        title={
-          <>
-            Een opportunity is meer
-            <br className="hidden sm:block" /> dan interesse.
-          </>
-        }
-        lead="Een bedrijf in uw doelgroep is nog geen opportunity. Een websitebezoek, een vacature of een geopende e-mail evenmin. Wij werken in drie lagen. De opportunity zit vóór de intentie."
+        eyebrow="Hoe het werkt"
+        title="Een opportunity is meer dan interesse."
+        lead="Een bedrijf in uw doelgroep is nog geen opportunity. Een websitebezoek, een vacature of een geopende e-mail evenmin. Wij werken in drie lagen, en die drie bepalen samen wat uw verkoper krijgt."
       />
+
       <div className="grid items-stretch gap-6 md:grid-cols-3">
         {lagen.map((l, i) => (
           <Reveal key={l.title} index={i} className="h-full">
@@ -51,56 +290,64 @@ export function DrieLagen() {
           </Reveal>
         ))}
       </div>
-    </Section>
-  );
-}
 
-/* ── 2 · De opportunity-taxonomie ───────────────────────────────────────── */
-
-export function Taxonomie() {
-  const routes = [
-    ["Acquisition", "Bestaand aanbod, nieuw account."],
-    ["Market expansion", "Bestaand aanbod, nieuwe sector, regio of land."],
-    ["Product expansion", "Nieuwe propositie voor een bestaande markt."],
-    ["Account expansion", "Cross-sell, upsell of een nieuwe toepassing bij bestaande klanten."],
-    ["Operational trigger", "Groei, verhuizing, investering, nieuwe vestiging of capaciteit."],
-    ["Replacement", "Een systeem, contract of technologie bereikt een vervangingsmoment."],
-    ["Regulatory", "Nieuwe wetgeving, normering of compliance creëert noodzaak."],
-    ["Technology", "Nieuwe technologie verandert de businesscase of het probleem."],
-    ["Partner", "Een partner creëert een nieuwe route naar accounts of use cases."],
-    ["New use case", "Een bestaand probleem wordt met een nieuwe oplossing relevant."],
-  ];
-  return (
-    <Section>
-      <SectionHeader
-        eyebrow="De opportunity-taxonomie"
-        title="Tien routes naar waarde."
-        lead="Wie groei ziet als het converteren van bestaande vraag, vist steeds efficiënter in dezelfde vijver. Opportunities zijn veel minder begrensd. De taxonomie is geen eindlijst: per klant en per markt breiden wij hem uit. Juist daar zit uw commerciële IP."
-      />
-      <div className="grid gap-x-10 gap-y-0 border-t border-brand-line md:grid-cols-2">
-        {routes.map(([name, body], i) => (
-          <Reveal
-            key={name}
-            index={i}
-            className="flex gap-5 border-b border-brand-line py-5"
-          >
-            <span className="w-7 shrink-0 pt-0.5 font-display text-[11px] font-semibold tracking-[0.14em] text-brand-accent">
-              {String(i + 1).padStart(2, "0")}
-            </span>
-            <div>
-              <h3 className="mb-1 font-display text-[16px] font-semibold tracking-tight">
-                {name}
-              </h3>
+      <Reveal className="mt-12">
+        <p className="mb-6 font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-accent">
+          De drie kwalificatieniveaus
+        </p>
+        <div className="grid gap-y-6 sm:grid-cols-3 sm:gap-x-8 sm:gap-y-0">
+          {niveaus.map(([naam, body], i) => (
+            <div
+              key={naam}
+              className={`border-t-[3px] pt-5 ${
+                i === niveaus.length - 1 ? "border-brand-accent" : "border-brand-line"
+              }`}
+            >
+              <h3 className="mb-2 font-display text-[19px] font-semibold tracking-tight">{naam}</h3>
               <p className="text-sm leading-relaxed text-brand-ink-2">{body}</p>
             </div>
-          </Reveal>
-        ))}
-      </div>
+          ))}
+        </div>
+      </Reveal>
+
+      {/* Voorbeeld van een priority hand-off: dit is wat de verkoper ziet. */}
+      <Reveal className="mt-10 overflow-hidden rounded-lg border border-brand-line bg-brand-surface">
+        <div className="border-b border-brand-line px-6 py-3.5">
+          <span className="font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-accent">
+            Voorbeeld van een priority hand-off
+          </span>
+        </div>
+        <dl className="grid gap-x-10 gap-y-0 px-6 py-2 sm:grid-cols-2">
+          {[
+            ["Account", "Van Dijk Logistics"],
+            ["Fit", "High"],
+            ["Opportunity", "Expansion"],
+            ["Evidence", "Nieuwe locatie, drie operationele vacatures, recente websiteactiviteit"],
+            ["Timing", "High"],
+            ["Aanbevolen actie", "Bel de Operations Director binnen 24 uur"],
+          ].map(([k, v]) => (
+            <div
+              key={k}
+              className="flex flex-col gap-1 border-b border-brand-line py-4 last:border-b-0 sm:flex-row sm:gap-5 sm:[&:nth-last-child(2)]:border-b-0"
+            >
+              <dt className="w-40 shrink-0 font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-ink-3">
+                {k}
+              </dt>
+              <dd className="text-sm text-brand-ink">{v}</dd>
+            </div>
+          ))}
+        </dl>
+      </Reveal>
+
+      <Reveal className="mt-8">
+        <Button href="/hoe-het-werkt" variant="outline">
+          Het volledige model in acht stappen
+        </Button>
+      </Reveal>
     </Section>
   );
 }
-
-/* ── 3 · Bewijs stapelt, en vervalt ─────────────────────────────────────── */
+/* ── 06 · Bewijs stapelt, en vervalt ────────────────────────────────────── */
 
 export function Bewijs() {
   const lagen = [
@@ -199,286 +446,64 @@ export function Bewijs() {
   );
 }
 
-/* ── 4 · De trechter ────────────────────────────────────────────────────── */
+/* ── 07 · Onder de motorkap ─────────────────────────────────────────────── */
 
-export function Trechter() {
-  const stages = [
-    { n: "4.000", label: "bedrijven in de markt" },
-    { n: "1.200", label: "met voldoende fit" },
-    { n: "350", label: "concrete opportunity-hypotheses" },
-    { n: "70", label: "accounts met zichtbare beweging" },
-  ];
-  return (
-    <Section
-      tone="invert"
-      className="v2-curtain relative overflow-hidden"
-    >
-      <GiantWord color="rgba(18,18,18,0.10)" className="-right-10 top-4 text-[17vw]">
-        PRIORITY
-      </GiantWord>
-      <div className="relative z-10">
-        <SectionHeader
-          invert
-          eyebrow="De trechter"
-          title="Sales hoeft de markt niet meer zelf te zoeken."
-          lead="De engine bewaakt de hele markt en laat uit duizenden accounts een beweging ontstaan. Wij automatiseren niet het gesprek, maar het zoeken, observeren, activeren en prioriteren dat eraan voorafgaat."
-        />
-
-        <div className="grid gap-y-8 sm:grid-cols-4 sm:gap-x-8 sm:gap-y-0">
-          {stages.map((s, i) => (
-            <Reveal
-              key={s.n}
-              index={i}
-              className={`border-t-[3px] pt-5 ${
-                i === stages.length - 1 ? "border-brand-accent" : "border-brand-ground/20"
-              }`}
-            >
-              <div className="font-display text-[clamp(2rem,4vw,3rem)] font-bold leading-none tracking-tight text-brand-ground">
-                {s.n}
-              </div>
-              <p className="mt-2 text-sm text-brand-ground/70">{s.label}</p>
-            </Reveal>
-          ))}
-        </div>
-
-        <Reveal className="mt-12 border-t border-brand-ground/15 pt-8">
-          <p className="max-w-[46ch] font-display text-[clamp(1.3rem,2.4vw,1.9rem)] font-semibold leading-snug tracking-tight text-brand-ground">
-            Farming geautomatiseerd. Sales gaat hunten.
-          </p>
-          <p className="mt-3 max-w-[62ch] text-sm leading-relaxed text-brand-ground/70">
-            Uw specialist hoeft niet iedere ochtend te bedenken wie hij kan
-            bellen. Hij krijgt de accounts waar fit, opportunity en timing
-            samenkomen, met de reden erbij.
-          </p>
-        </Reveal>
-      </div>
-    </Section>
-  );
-}
-
-/* ── 5 · De sales routing ───────────────────────────────────────────────── */
-
-export function Routing() {
-  const niveaus = [
-    {
-      label: "Qualified",
-      body: "Het account voldoet aan de fitcriteria, maar er is nog geen sterke actieve opportunity. Nurture of passieve observatie.",
-    },
-    {
-      label: "Target",
-      body: "Fit plus een concrete opportunity-hypothese. Het account mag actief bewerkt worden.",
-    },
-    {
-      label: "Priority",
-      body: "Opportunity en timing komen samen. Hier zetten wij menselijke verkoopcapaciteit in.",
-      highlight: true,
-    },
-  ];
-  return (
-    <Section tone="surface">
-      <SectionHeader
-        eyebrow="De sales routing"
-        title="Qualified, target, priority."
-        lead="Uw verkoper krijgt geen kale lead en geen ondoorzichtige score. De hand-off legt uit wie, wat, waarom, waarom nu en welke actie wordt aanbevolen."
-      />
-
-      <div className="grid gap-6 md:grid-cols-3">
-        {niveaus.map((n, i) => (
-          <Reveal key={n.label} index={i} className="h-full">
-            <div
-              className={`flex h-full flex-col rounded-lg border bg-brand-ground p-6 ${
-                n.highlight ? "border-brand-accent/40" : "border-brand-line"
-              }`}
-            >
-              <div className="mb-3 flex items-center gap-2">
-                <span
-                  className={`font-display text-[11px] font-semibold uppercase tracking-[0.14em] ${
-                    n.highlight ? "text-brand-accent" : "text-brand-ink-3"
-                  }`}
-                >
-                  Niveau {i + 1}
-                </span>
-              </div>
-              <h3 className="mb-2 font-display text-xl font-bold tracking-tight">
-                {n.label}
-              </h3>
-              <p className="text-sm leading-relaxed text-brand-ink-2">{n.body}</p>
-            </div>
-          </Reveal>
-        ))}
-      </div>
-
-      {/* Voorbeeld van een priority hand-off: dit is wat de verkoper ziet. */}
-      <Reveal className="mt-10 overflow-hidden rounded-lg border border-brand-line bg-brand-ground">
-        <div className="border-b border-brand-line px-6 py-3.5">
-          <span className="font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-accent">
-            Voorbeeld van een priority hand-off
-          </span>
-        </div>
-        <dl className="grid gap-x-10 gap-y-0 px-6 py-2 sm:grid-cols-2">
-          {[
-            ["Account", "Van Dijk Logistics"],
-            ["Fit", "High"],
-            ["Opportunity", "Expansion"],
-            ["Evidence", "Nieuwe locatie, drie operationele vacatures, recente websiteactiviteit"],
-            ["Timing", "High"],
-            ["Aanbevolen actie", "Bel de Operations Director binnen 24 uur"],
-          ].map(([k, v]) => (
-            <div
-              key={k}
-              className="flex flex-col gap-1 border-b border-brand-line py-4 last:border-b-0 sm:flex-row sm:gap-5 sm:[&:nth-last-child(2)]:border-b-0"
-            >
-              <dt className="w-40 shrink-0 font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-ink-3">
-                {k}
-              </dt>
-              <dd className="text-sm text-brand-ink">{v}</dd>
-            </div>
-          ))}
-        </dl>
-      </Reveal>
-    </Section>
-  );
-}
-
-/* ── 6 · De referentiearchitectuur ──────────────────────────────────────── */
-
-export function Architectuur() {
+/**
+ * Samenvatting van drie verdiepingssecties (architectuur, de digitale
+ * medewerker en de capability-map) die nu voluit op /de-engine staan. Op de
+ * homepage volstaat één blik op de machine plus een duidelijke doorverwijzing.
+ */
+export function OnderDeMotorkap() {
   const lagen = [
-    {
-      n: "1",
-      title: "Data",
-      body: "Acquisitie uit registers zoals de KvK, plus Apollo, Clay, LinkedIn, websites, vacatures, sectorbronnen en uw eigen klantdata.",
-    },
-    {
-      n: "2",
-      title: "Context",
-      body: "Normaliseren, personen koppelen, technologie herkennen, classificeren en ontdubbelen, rond de objecten account en opportunity.",
-    },
-    {
-      n: "3",
-      title: "Intelligence",
-      body: "Fit, opportunity-hypotheses, evidence, timing en probability. Hier wordt bepaald wat de data betekent.",
-    },
-    {
-      n: "4",
-      title: "Orchestratie",
-      body: "Workflows en agents die events omzetten in acties: verrijken, sequences starten, taken maken, het CRM muteren en follow-up bewaken.",
-    },
-    {
-      n: "5",
-      title: "Activatie",
-      body: "E-mail, LinkedIn, advertenties, content en belafspraken. De resultaten komen als nieuwe signalen het systeem weer in.",
-    },
-    {
-      n: "6",
-      title: "Mens",
-      body: "Uw verkoper stapt in zodra een drempel wordt bereikt: complexe context, advies, relatie, onderhandeling en closing.",
-    },
+    ["Data", "Registers, Apollo, Clay, LinkedIn, websites, vacatures en uw eigen klantdata."],
+    ["Context", "Normaliseren, koppelen, classificeren en ontdubbelen rond account en opportunity."],
+    ["Intelligence", "Fit, hypotheses, evidence, timing en probability. Wat betekent dit?"],
+    ["Orchestratie", "Events omzetten in acties: verrijken, activeren, taken maken, CRM muteren."],
+    ["Activatie", "E-mail, LinkedIn, advertenties, content en belafspraken."],
+    ["Mens", "Uw verkoper stapt in zodra de drempel wordt bereikt."],
   ];
   return (
     <Section id="architectuur">
       <SectionHeader
-        eyebrow="De referentiearchitectuur"
-        title="Zes lagen, één loop."
-        lead="De kracht zit niet in één applicatie, maar in de orchestratie ertussen. Elke klik, vacature, reply of bedrijfswijziging is geen informatie maar een event dat de volgende processtap start."
+        eyebrow="Onder de motorkap"
+        title="Zes lagen, één gesloten loop."
+        lead="De kracht zit niet in één applicatie, maar in de orchestratie ertussen. Elke klik, vacature, reply of bedrijfswijziging is geen informatie maar een event dat de volgende processtap start. De uitkomst gaat terug het systeem in."
       />
 
-      <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-        {lagen.map((l, i) => (
-          <Reveal key={l.n} index={i} className="h-full">
-            <div className="flex h-full flex-col rounded-lg border border-brand-line bg-brand-surface p-6">
-              <span className="mb-4 font-display text-[44px] font-bold leading-none tracking-tight text-brand-accent">
-                {l.n}
+      <div className="grid gap-px overflow-hidden rounded-lg border border-brand-line bg-brand-line sm:grid-cols-2 lg:grid-cols-3">
+        {lagen.map(([naam, body], i) => (
+          <Reveal key={naam} index={i} className="h-full bg-brand-surface p-5">
+            <div className="mb-2 flex items-baseline gap-3">
+              <span className="font-display text-[11px] font-semibold tracking-[0.14em] text-brand-accent">
+                0{i + 1}
               </span>
-              <h3 className="mb-2 font-display text-[19px] font-semibold tracking-tight">
-                {l.title}
-              </h3>
-              <p className="text-sm leading-relaxed text-brand-ink-2">{l.body}</p>
+              <h3 className="font-display text-[15px] font-semibold tracking-tight">{naam}</h3>
             </div>
-          </Reveal>
-        ))}
-      </div>
-
-      <Reveal className="mt-8 rounded-lg border border-brand-accent/30 bg-brand-accent/[0.07] px-6 py-5">
-        <p className="font-display text-sm font-semibold uppercase tracking-[0.14em] text-brand-accent">
-          Outcome → learning → terug naar intelligence
-        </p>
-        <p className="mt-2 max-w-[70ch] text-sm leading-relaxed text-brand-ink-2">
-          De uitkomst van elk gesprek gaat terug het systeem in. Welke signalen
-          bleken ruis, welke hypothese leverde deals op, welke regels moeten
-          worden aangepast. Zo wordt de loop gesloten.
-        </p>
-      </Reveal>
-    </Section>
-  );
-}
-
-/* ── 7 · De digitale commerciële medewerker ─────────────────────────────── */
-
-export function DigitaleMedewerker() {
-  const capabilities = [
-    ["Observe", "Continu marktdata, accountwijzigingen en gedrag verzamelen."],
-    ["Understand", "Data interpreteren in de context van ICP, propositie en hypotheses."],
-    ["Decide", "Bepalen welke accounts, opportunities en acties prioriteit krijgen."],
-    ["Act", "Verrijken, sequences starten, taken maken, het CRM bijwerken en routeren."],
-    ["Learn", "Feedback uit sales verwerken en de weging van signalen bijstellen."],
-  ];
-  return (
-    <Section tone="surface">
-      <SectionHeader
-        eyebrow="De digitale commerciële medewerker"
-        title="Automation zegt: als X, doe Y."
-        lead="Intelligence zegt iets anders: op basis van alles wat wij over dit account weten, wat is nu waarschijnlijk de beste commerciële actie? Dat verschil is de kern van wat wij installeren."
-      />
-
-      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
-        {capabilities.map(([name, body], i) => (
-          <Reveal
-            key={name}
-            index={i}
-            className="h-full border-t-[3px] border-brand-line pt-5 first:border-brand-accent"
-          >
-            <h3 className="mb-2 font-display text-[17px] font-semibold tracking-tight">
-              {name}
-            </h3>
             <p className="text-[13px] leading-relaxed text-brand-ink-2">{body}</p>
           </Reveal>
         ))}
       </div>
 
-      {/* Concreet beslismoment: dit is hoe intelligence anders kiest dan een regel. */}
-      <Reveal className="mt-10 grid gap-0 overflow-hidden rounded-lg border border-brand-line bg-brand-ground md:grid-cols-2">
-        <div className="border-b border-brand-line p-6 md:border-b-0 md:border-r">
-          <p className="mb-4 font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-ink-3">
-            Wat het systeem ziet
+      <Reveal className="mt-8 grid gap-6 rounded-lg border border-brand-accent/30 bg-brand-accent/[0.07] px-6 py-6 lg:grid-cols-[1.15fr_.85fr]">
+        <div>
+          <p className="font-display text-sm font-semibold uppercase tracking-[0.14em] text-brand-accent">
+            Automation zegt: als X, doe Y
           </p>
-          <ul className="space-y-2 text-sm text-brand-ink-2">
-            {[
-              "92% ICP-fit",
-              "Tweede locatie in aantocht",
-              "Drie relevante vacatures",
-              "Pricingpagina bezocht",
-              "Geen reply op de laatste twee mails",
-            ].map((item) => (
-              <li key={item} className="flex items-start gap-2.5">
-                <span aria-hidden className="mt-1.5 size-1.5 shrink-0 rounded-full bg-brand-accent" />
-                {item}
-              </li>
-            ))}
-          </ul>
+          <p className="mt-2 max-w-[62ch] text-sm leading-relaxed text-brand-ink-2">
+            Intelligence zegt iets anders: op basis van alles wat wij over dit
+            account weten, wat is nu waarschijnlijk de beste commerciële actie?
+            Bij 92% fit, een tweede locatie in aantocht en drie vacatures, maar
+            geen reply, is het antwoord niet een vierde mail. Het is een
+            salescall naar de Operations Director.
+          </p>
         </div>
-        <div className="p-6">
-          <p className="mb-4 font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-accent">
-            Wat het systeem besluit
-          </p>
-          <p className="font-display text-[17px] font-semibold leading-snug tracking-tight text-brand-ink">
-            Geen vierde geautomatiseerde mail. Een salescall naar de Operations
-            Director.
-          </p>
-          <p className="mt-3 text-sm leading-relaxed text-brand-ink-2">
-            Reden: expansion event, hoge fit, engagement over meerdere kanalen.
-            De reden gaat mee naar het CRM, zodat de verkoper weet waarom hij
-            belt.
+        <div className="flex flex-col items-start justify-center gap-3">
+          <Button href="/de-engine" variant="outline">
+            De volledige architectuur
+          </Button>
+          <p className="text-[13px] text-brand-ink-3">
+            Inclusief de tien opportunity-types, de capability-map, de KPI-set en
+            hoe wij autonomie begrenzen.
           </p>
         </div>
       </Reveal>
@@ -486,175 +511,146 @@ export function DigitaleMedewerker() {
   );
 }
 
-/* ── 8 · Connectors als capabilities ────────────────────────────────────── */
+/* ── 08 · Wat het kost ──────────────────────────────────────────────────── */
 
-export function Capabilities() {
-  const map = [
-    ["Apollo of andere databron", "Bedrijven en contactpersonen vinden."],
-    ["Clay", "Data verrijken, transformeren en classificeren."],
-    ["HeyReach", "LinkedIn-outreach uitvoeren en terugkoppelen."],
-    ["E-mailplatform", "Outbound en nurturing uitvoeren."],
-    ["Planable", "Social content plannen en publiceren."],
-    ["CRM", "Accounts, activiteiten en uitkomsten lezen en schrijven."],
-    ["Web analytics", "Intentie en engagement detecteren."],
-    ["Calendar", "Afspraken lezen en plannen."],
-    ["Voice of Telli", "Bellen, kwalificeren en gesprekken verwerken."],
-    ["ERP", "Klant-, order- en omzetcontext toevoegen."],
+/**
+ * Prijssignaal op de homepage. De bedragen volgen `BASE_PRICES_EUR` in
+ * `PricingSection.tsx`; werk ze daar én hier bij als ze wijzigen.
+ */
+export function Prijzen() {
+  const pakketten = [
+    {
+      badge: "Instap",
+      naam: "Start Engine",
+      prijs: "€ 1.500",
+      voor: "Uw outbound basis neerzetten.",
+      punten: ["1 doelgroep", "1 campagneflow", "4 uur GTM-service per maand"],
+    },
+    {
+      badge: "Meest gekozen",
+      naam: "Growth Engine",
+      prijs: "€ 2.250",
+      voor: "Structureel nieuwe kansen creëren.",
+      punten: ["2 doelgroepen", "Signaal-gedreven lijsten", "8 uur GTM-service per maand"],
+      highlight: true,
+    },
+    {
+      badge: "Managed groei",
+      naam: "Scale Engine",
+      prijs: "€ 3.500",
+      voor: "Meerdere doelgroepen en kanalen.",
+      punten: ["3 tot 4 doelgroepen", "CRM-sync en scoring", "16 uur GTM-service per maand"],
+    },
+  ];
+  return (
+    <Section id="prijzen" tone="surface">
+      <SectionHeader
+        eyebrow="Wat het kost"
+        title="De prijzen staan gewoon op de site."
+        lead="Nul opstartkosten, minimaal drie maanden, daarna maandelijks opzegbaar. Draait u al omzet maar mist u het systeem? Dan is er een performance partnership met lage techkosten en een gedeelde upside."
+      />
+      <div className="grid gap-6 md:grid-cols-3">
+        {pakketten.map((p, i) => (
+          <Reveal key={p.naam} index={i} className="h-full">
+            <div
+              className={`flex h-full flex-col rounded-lg border bg-brand-ground p-6 ${
+                p.highlight ? "border-brand-accent/40" : "border-brand-line"
+              }`}
+            >
+              <span
+                className={`mb-3 font-display text-[11px] font-semibold uppercase tracking-[0.14em] ${
+                  p.highlight ? "text-brand-accent" : "text-brand-ink-3"
+                }`}
+              >
+                {p.badge}
+              </span>
+              <h3 className="font-display text-[19px] font-semibold tracking-tight">{p.naam}</h3>
+              <p className="mt-1 text-sm text-brand-ink-3">{p.voor}</p>
+              <p className="mt-5 font-display text-3xl font-bold tracking-tight text-brand-ink">
+                {p.prijs}
+                <span className="ml-1.5 text-sm font-medium text-brand-ink-3">/ maand</span>
+              </p>
+              <ul className="mt-5 space-y-2 border-t border-brand-line pt-5 text-[13.5px] text-brand-ink-2">
+                {p.punten.map((punt) => (
+                  <li key={punt} className="flex items-start gap-2.5">
+                    <span
+                      aria-hidden
+                      className="mt-1.5 size-1.5 shrink-0 rounded-full bg-brand-accent"
+                    />
+                    {punt}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </Reveal>
+        ))}
+      </div>
+      <Reveal className="mt-8 flex flex-wrap items-center gap-3">
+        <Button href="/pricing" variant="outline">
+          Vergelijk alle pakketten
+        </Button>
+        <Button href="/tools/pipeline-value" variant="outline">
+          Bereken uw pipelinewaarde
+        </Button>
+      </Reveal>
+    </Section>
+  );
+}
+
+/* ── 09 · In vier weken live ────────────────────────────────────────────── */
+
+/** De negen leveringsstappen samengevat; de stappen zelf staan op /de-engine. */
+export function Tijdlijn() {
+  const weken = [
+    {
+      w: "Week 1",
+      titel: "Proces en hypotheses",
+      body: "Wij modelleren uw commerciële proces en stellen samen met sales de eerste opportunity-hypotheses vast.",
+    },
+    {
+      w: "Week 2",
+      titel: "Data en connectors",
+      body: "Het datamodel staat, uw bronnen en kanalen worden aangesloten en de markt wordt in kaart gebracht.",
+    },
+    {
+      w: "Week 3",
+      titel: "Activatie live",
+      body: "De eerste campagneflows draaien, de signalen komen binnen en de scoring wordt gekalibreerd.",
+    },
+    {
+      w: "Week 4",
+      titel: "Routing naar sales",
+      body: "De eerste priority-accounts landen in uw CRM, met reason codes en een aanbevolen actie.",
+    },
+    {
+      w: "Daarna",
+      titel: "De wekelijkse review",
+      body: "Uitkomsten uit sales gaan terug het systeem in. Elke week wordt de engine een stukje scherper.",
+    },
   ];
   return (
     <Section>
       <SectionHeader
-        eyebrow="Connectors als capabilities"
-        title="Elke koppeling is een nieuwe vaardigheid."
-        lead="Wij zeggen niet: wij koppelen HeyReach. Wij zeggen: de digitale medewerker krijgt de vaardigheid om LinkedIn-outreach uit te voeren en terug te koppelen. Elke databron voegt context toe, elke workflow voegt autonomie toe."
+        eyebrow="De levering"
+        title="In vier weken staat de engine."
+        lead="Geen implementatietraject van een half jaar. Nul opstartkosten, en na vier weken landen de eerste accounts met een reden in uw CRM."
       />
-      <div className="grid gap-px overflow-hidden rounded-lg border border-brand-line bg-brand-line sm:grid-cols-2 lg:grid-cols-3">
-        {map.map(([name, body], i) => (
-          <Reveal key={name} index={i} className="h-full bg-brand-surface p-5">
-            <h3 className="mb-1.5 font-display text-[15px] font-semibold tracking-tight">
-              {name}
-            </h3>
-            <p className="text-[13px] leading-relaxed text-brand-ink-2">{body}</p>
-          </Reveal>
-        ))}
-      </div>
-      <Reveal className="mt-8 max-w-[70ch] text-sm leading-relaxed text-brand-ink-2">
-        <p>
-          De AI hoeft niet te weten welke leverancier onder een commando zit.
-          Achter <span className="text-brand-ink">sequence activate</span> kan
-          HeyReach zitten, achter <span className="text-brand-ink">crm sync</span>{" "}
-          HubSpot of Salesforce. Dat is de abstractielaag die de engine
-          onafhankelijk maakt van uw huidige tooling.
-        </p>
-      </Reveal>
-    </Section>
-  );
-}
-
-/* ── 9 · Gecontroleerde autonomie ───────────────────────────────────────── */
-
-export function Autonomie() {
-  const niveaus = [
-    {
-      label: "Autonoom",
-      body: "Data verzamelen, verrijken, scores bijwerken, signalen monitoren en rapporteren.",
-    },
-    {
-      label: "Binnen regels",
-      body: "E-mail en LinkedIn binnen goedgekeurde sequences en volumes, nurturing en CRM-updates.",
-    },
-    {
-      label: "Met goedkeuring",
-      body: "Persoonlijke high-value outreach, content buiten de standaardkaders en afwijkende acties.",
-    },
-  ];
-  return (
-    <Section tone="surface">
-      <SectionHeader
-        eyebrow="Human in the loop"
-        title="Gecontroleerde autonomie."
-        lead="Een digitale medewerker hoeft niet alles zelfstandig te mogen doen. Wij richten autonomie in per vaardigheid en per risico. Autonomie zonder grenzen is geen volwassen automatisering."
-      />
-      <div className="grid gap-6 md:grid-cols-3">
-        {niveaus.map((n, i) => (
-          <Reveal key={n.label} index={i} className="h-full">
-            <div className="flex h-full flex-col rounded-lg border border-brand-line bg-brand-ground p-6">
-              <span className="mb-3 font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-accent">
-                Niveau {i + 1}
-              </span>
-              <h3 className="mb-2 font-display text-[19px] font-semibold tracking-tight">
-                {n.label}
-              </h3>
-              <p className="text-sm leading-relaxed text-brand-ink-2">{n.body}</p>
+      <div className="grid gap-y-6 lg:grid-cols-5 lg:gap-y-0">
+        {weken.map((k, i) => (
+          <Reveal
+            key={k.w}
+            index={i}
+            className={`border-t-[3px] py-5 lg:pr-5 ${
+              i === 0 ? "border-brand-accent" : "border-brand-line"
+            }`}
+          >
+            <div className="mb-2 font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-accent">
+              {k.w}
             </div>
-          </Reveal>
-        ))}
-      </div>
-      <Reveal className="mt-8 max-w-[74ch] text-sm leading-relaxed text-brand-ink-2">
-        <p>
-          Iedere vaardigheid krijgt expliciete rechten, guardrails, logging en
-          escalatieregels. Operationele waarborgen horen daar nadrukkelijk bij:
-          een eigen subdomein, SPF, DKIM en DMARC, warm-up, volumelimieten,
-          monitoring op deliverability en een werkende opt-out.
-        </p>
-      </Reveal>
-    </Section>
-  );
-}
-
-/* ── 10 · De vier diensten ──────────────────────────────────────────────── */
-
-export function Diensten() {
-  const diensten = [
-    {
-      label: "Outbound",
-      title: "Nieuwe accounts openen",
-      body: "Markt in kaart, hypotheses per segment, multichannel activatie en opvolging. Voor groei buiten uw bestaande klantenbestand.",
-      highlight: true,
-    },
-    {
-      label: "ABM",
-      title: "Gericht op de accounts die tellen",
-      body: "Een afgebakende lijst met accounts, per account een eigen opportunity-hypothese, content en route naar de juiste beslisser.",
-    },
-    {
-      label: "RevOps",
-      title: "Het proces onder de motorkap",
-      body: "Datamodel, CRM-inrichting, routing, rapportage en de wekelijkse learning review. Zonder dit blijft de rest handwerk.",
-    },
-    {
-      label: "Nurturing",
-      title: "Waarde houden bij wie nog niet klaar is",
-      body: "Accounts met fit maar zonder timing blijven in beeld. Zodra het bewijs stapelt, komen ze terug bovenaan de lijst.",
-    },
-  ];
-  return (
-    <Section id="diensten">
-      <SectionHeader
-        eyebrow="Vier diensten, één engine"
-        title="GTM as a Service."
-        lead="De infrastructuur blijft staan, de hypothese verandert. Dezelfde engine gaat door naar nieuwe proposities, cross-sell, een nieuw land of een nieuwe partnerroute."
-      />
-      <div className="grid items-stretch gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        {diensten.map((d, i) => (
-          <Reveal key={d.label} index={i} className="h-full">
-            <Card label={d.label} title={d.title} highlight={d.highlight}>
-              {d.body}
-            </Card>
-          </Reveal>
-        ))}
-      </div>
-    </Section>
-  );
-}
-
-/* ── 11 · De KPI's ──────────────────────────────────────────────────────── */
-
-export function Kpis() {
-  const kpis = [
-    ["Growth output", "Omzet, nieuwe deals, expansion revenue en gerealiseerde waarde."],
-    ["Opportunity flow", "Nieuwe opportunities per periode, de commerciële TAK en coverage."],
-    ["Opportunity quality", "Target naar priority, priority naar gesprek, gesprek naar opportunity."],
-    ["Probability", "Win rate, stage conversion en de correlatie tussen signaal en uitkomst."],
-    ["Market coverage", "Accounts observed, qualified, target en actieve opportunities."],
-    ["Activation", "Bereik, engagement, reply rate en prestaties per kanaal."],
-    ["Speed", "Time to detect, time to priority en time to human action."],
-    ["Learning", "False positives, false negatives, reason codes en aangepaste hypotheses."],
-  ];
-  return (
-    <Section tone="surface">
-      <SectionHeader
-        eyebrow="Sturen op de machine"
-        title="KPI's die verder gaan dan opens en clicks."
-        lead="Als dit een opportunity-engine is, moeten de cijfers meer meten dan een campagne. Uw managementlaag moet zien of de machine genoeg output produceert en waar de bottleneck zit."
-      />
-      <div className="grid gap-x-10 gap-y-0 border-t border-brand-line sm:grid-cols-2">
-        {kpis.map(([name, body], i) => (
-          <Reveal key={name} index={i} className="border-b border-brand-line py-5">
-            <h3 className="mb-1 font-display text-[16px] font-semibold tracking-tight">
-              {name}
+            <h3 className="mb-1.5 font-display text-[15px] font-semibold tracking-tight">
+              {k.titel}
             </h3>
-            <p className="text-sm leading-relaxed text-brand-ink-2">{body}</p>
+            <p className="text-[13px] leading-relaxed text-brand-ink-2">{k.body}</p>
           </Reveal>
         ))}
       </div>
@@ -662,63 +658,7 @@ export function Kpis() {
   );
 }
 
-/* ── 12 · De levering in negen stappen ──────────────────────────────────── */
-
-export function Levering() {
-  const stappen = [
-    ["Process design", "Wij modelleren eerst uw commerciële proces, niet de tools."],
-    ["Context model", "Een eigen datamodel met account en opportunity als kernobjecten."],
-    ["Capability design", "Welke vaardigheden de digitale medewerker moet krijgen."],
-    ["Connectors", "Uw databronnen, kanalen en systemen worden aangesloten."],
-    ["Workflow-orchestratie", "Events worden omgezet in acties en opvolging."],
-    ["Intelligence", "Fit, opportunity, evidence, timing en probability."],
-    ["AI-interface", "Toegang via MCP en CLI, zodat de engine aanstuurbaar is."],
-    ["Human in the loop", "Rechten, guardrails, goedkeuringen en escalaties."],
-    ["Learning loop", "De wekelijkse review die de regels bijstelt."],
-  ];
-  return (
-    <Section tone="invert" className="v2-curtain relative overflow-hidden">
-      <GiantWord color="rgba(18,18,18,0.10)" className="-right-10 top-2 text-[16vw]">
-        INSTALLATIE
-      </GiantWord>
-      <div className="relative z-10">
-        <SectionHeader
-          invert
-          eyebrow="De levering"
-          title="Negen stappen, van proces tot lerende loop."
-          lead="Wij beginnen niet bij Apollo, Clay of uw CRM. Wij beginnen bij het proces dat uw organisatie nodig heeft, en maken daar een machine-leesbare workflow van."
-        />
-        <div className="grid gap-x-10 gap-y-0 border-t border-brand-ground/20 md:grid-cols-2 lg:grid-cols-3">
-          {stappen.map(([name, body], i) => (
-            <Reveal
-              key={name}
-              index={i}
-              className="flex gap-4 border-b border-brand-ground/15 py-5"
-            >
-              <span className="w-6 shrink-0 pt-0.5 font-display text-[11px] font-semibold tracking-[0.14em] text-brand-ground/50">
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <div>
-                <h3 className="mb-1 font-display text-[15px] font-semibold tracking-tight text-brand-ground">
-                  {name}
-                </h3>
-                <p className="text-[13px] leading-relaxed text-brand-ground/70">{body}</p>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-        <Reveal className="mt-10">
-          <p className="max-w-[54ch] font-display text-[clamp(1.1rem,2vw,1.5rem)] font-semibold leading-snug tracking-tight text-brand-ground">
-            Proces, context, intelligence, capabilities, connectors en een
-            AI-interface. Samen: een digitale commerciële medewerker.
-          </p>
-        </Reveal>
-      </div>
-    </Section>
-  );
-}
-
-/* ── 13 · Wat het wel en niet is ────────────────────────────────────────── */
+/* ── 10 · Wat het wel en niet is ────────────────────────────────────────── */
 
 export function WelNiet() {
   const pairs: [string, string][] = [
@@ -730,7 +670,7 @@ export function WelNiet() {
     ["Geen eenmalige campagne", "Maar een permanent lerende loop"],
   ];
   return (
-    <Section>
+    <Section tone="surface">
       <SectionHeader
         eyebrow="Verwachtingen scherp"
         title="Wat wij wel en niet zijn."
@@ -769,60 +709,7 @@ export function WelNiet() {
   );
 }
 
-/* ── 14 · De formule ────────────────────────────────────────────────────── */
-
-export function Formule() {
-  const terms = [
-    {
-      name: "Opportunities",
-      body: "Hoeveel relevante kansen kan de organisatie produceren?",
-    },
-    {
-      name: "Probability",
-      body: "Hoe groot is de kans dat een opportunity converteert?",
-    },
-    {
-      name: "Value",
-      body: "Hoeveel waarde vertegenwoordigt een gewonnen opportunity?",
-    },
-  ];
-  return (
-    <Section tone="surface" className="relative overflow-hidden">
-      <GiantWord className="-right-8 bottom-0 text-[15vw]">GROWTH</GiantWord>
-      <div className="relative z-10">
-        <SectionHeader
-          eyebrow="Daarmee wordt groei bestuurbaar"
-          title="Opportunities × Probability × Value = Growth."
-          lead="Traditionele salesoptimalisatie richt zich op probability: betere verkopers, betere scripts, betere voorstellen. Wij beginnen één stap eerder, bij de opportunity flow zelf."
-        />
-        <div className="grid gap-6 md:grid-cols-3">
-          {terms.map((t, i) => (
-            <Reveal
-              key={t.name}
-              index={i}
-              className={`border-t-[3px] pt-5 ${i === 0 ? "border-brand-accent" : "border-brand-line"}`}
-            >
-              <h3 className="mb-2 font-display text-[19px] font-semibold tracking-tight">
-                {t.name}
-              </h3>
-              <p className="text-sm leading-relaxed text-brand-ink-2">{t.body}</p>
-            </Reveal>
-          ))}
-        </div>
-        <Reveal className="mt-10 max-w-[74ch] text-sm leading-relaxed text-brand-ink-2">
-          <p>
-            Niet elke deal wordt voorspelbaar. Het commerciële systeem wordt wel
-            meetbaar: u weet hoeveel opportunities u nodig heeft, hoeveel u er
-            produceert, waar ze verloren gaan en wanneer u nieuwe hypotheses
-            moet toevoegen.
-          </p>
-        </Reveal>
-      </div>
-    </Section>
-  );
-}
-
-/* ── 15 · Vragen ────────────────────────────────────────────────────────── */
+/* ── 11 · Vragen ────────────────────────────────────────────────────────── */
 
 export function Vragen() {
   return (
@@ -836,7 +723,7 @@ export function Vragen() {
   );
 }
 
-/* ── 16 · Contact ───────────────────────────────────────────────────────── */
+/* ── 12 · Contact ───────────────────────────────────────────────────────── */
 
 export function Contact() {
   return (

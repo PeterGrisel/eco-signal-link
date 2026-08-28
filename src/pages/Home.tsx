@@ -8,20 +8,16 @@ import { Marquee } from "@/components/v2/Marquee";
 import { Nav } from "@/components/v2/Nav";
 import { Hero } from "@/components/home-v2/Hero";
 import {
-  Architectuur,
-  Autonomie,
   Bewijs,
-  Capabilities,
   Contact,
   Diensten,
-  DigitaleMedewerker,
-  DrieLagen,
-  Formule,
-  Kpis,
-  Levering,
-  Routing,
-  Taxonomie,
+  HoeHetWerkt,
+  Klantbewijs,
+  OnderDeMotorkap,
+  Prijzen,
+  Tijdlijn,
   Trechter,
+  VoorWie,
   Vragen,
   WelNiet,
 } from "@/components/home-v2/sections";
@@ -96,6 +92,9 @@ const Home = () => {
         <Nav />
         <main>
           <Hero />
+          <Klantbewijs />
+          <Diensten />
+          <VoorWie />
           <Marquee
             items={[
               "Opportunity-engine",
@@ -106,20 +105,13 @@ const Home = () => {
               "GTM as a Service",
             ]}
           />
-          <DrieLagen />
-          <Taxonomie />
-          <Bewijs />
           <Trechter />
-          <Routing />
-          <Architectuur />
-          <DigitaleMedewerker />
-          <Capabilities />
-          <Autonomie />
-          <Diensten />
-          <Kpis />
-          <Levering />
+          <HoeHetWerkt />
+          <Bewijs />
+          <OnderDeMotorkap />
+          <Prijzen />
+          <Tijdlijn />
           <WelNiet />
-          <Formule />
           <Vragen />
           <Contact />
         </main>
