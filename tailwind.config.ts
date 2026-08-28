@@ -32,17 +32,20 @@ export default {
       colors: {
         /* B2B Groeimachine brand kit (zie /brandbook) — vaste hex-tokens voor
            het v2-designsysteem, naast de bestaande shadcn HSL-variabelen. */
+        /* B2B Groeimachine huisstijl, licht en oranje-voorwaarts.
+           Het merkoranje draagt de pagina; het diepe zwart is de accentband. */
         brand: {
-          ground: "#121212",
-          surface: "#1A1A1A",
-          raise: "#242424",
-          line: "#2E2E2E",
-          ink: "#EEEAE4",
-          "ink-2": "#B4AA9D",
-          "ink-3": "#998D7D",
+          ground: "#FBF8F4",
+          surface: "#F4EBE0",
+          raise: "#EDE2D4",
+          line: "#E3D6C5",
+          ink: "#17140F",
+          "ink-2": "#544B40",
+          "ink-3": "#7A6F62",
           accent: "#E8945A",
-          "accent-2": "#F5B267",
-          paper: "#EEEAE4",
+          "accent-2": "#D97B3A",
+          "accent-ink": "#A85410",
+          deep: "#17140F",
         },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

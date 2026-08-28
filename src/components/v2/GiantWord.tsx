@@ -5,7 +5,7 @@
  */
 export function GiantWord({
   children,
-  color = "rgba(238,234,228,0.10)",
+  color = "rgba(23,20,15,0.10)",
   className = "",
 }: {
   children: string;

@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/v2/Button";
 import { Card } from "@/components/v2/Card";
@@ -8,7 +9,9 @@ import { Reveal } from "@/components/v2/Reveal";
 import { Section } from "@/components/v2/Section";
 import { SectionHeader } from "@/components/v2/SectionHeader";
 import { openBookingModal } from "@/components/booking/GlobalBookingModal";
+import { faviconFor } from "@/data/groeistack";
 import { sectors } from "@/data/sectors";
+import { supabase } from "@/integrations/supabase/client";
 import { trackCTA } from "@/lib/tracking";
 import { FAQ_ITEMS } from "./faq";
 
@@ -22,45 +25,84 @@ import { FAQ_ITEMS } from "./faq";
 
 /* ── 01 · Bewijsstrook ──────────────────────────────────────────────────── */
 
-/**
- * Drie van de vier logo's zijn vierkante tegels met een eigen bijna-zwarte
- * ondergrond; Eurofast is een breed wit woordmerk op transparant. Vandaar een
- * eigen hoogte per logo, en de strook op de grondkleur zodat de tegels erin
- * wegvallen in plaats van als donkere blokjes op te vallen.
- */
-const KLANTLOGOS = [
-  { naam: "Leister", src: "/logos/leister-logo.png", klasse: "h-11" },
-  { naam: "Core-Vision", src: "/logos/core-vision-logo.png", klasse: "h-11" },
-  { naam: "Excelsior", src: "/logos/excelsior-logo.png", klasse: "h-11" },
-  { naam: "Eurofast", src: "/logos/eurofast-logo.png", klasse: "h-5" },
-] as const;
+interface KlantLogo {
+  id: string;
+  name: string;
+  domain: string;
+  logo_url: string | null;
+  scale: number | null;
+  padding: number | null;
+  website: string | null;
+}
+
+/** Eén logo, met de schaal en padding die in de admin per klant zijn ingesteld. */
+function Logo({ klant }: { klant: KlantLogo }) {
+  const [mislukt, setMislukt] = useState(false);
+  const src = klant.logo_url || faviconFor(klant.website || klant.domain);
+  if (mislukt || !src) {
+    return (
+      <span className="font-display text-sm font-semibold text-brand-ink-3">{klant.name}</span>
+    );
+  }
+  return (
+    <img
+      src={src}
+      alt={klant.name}
+      loading="lazy"
+      onError={() => setMislukt(true)}
+      className="h-9 w-auto max-w-[150px] object-contain opacity-80 transition-opacity duration-200 hover:opacity-100"
+      style={{
+        transform: `scale(${klant.scale ?? 1})`,
+        padding: `${klant.padding ?? 0}px`,
+      }}
+    />
+  );
+}
 
 /**
  * Smalle band direct onder de hero: de bezoeker moet binnen één scroll zien dat
- * anderen hem voorgingen. Zodra de eerste case is vrijgegeven
- * (`src/data/caseStudies.ts`) hoort hier een resultaatcijfer bij.
+ * anderen hem voorgingen.
+ *
+ * De logo's komen uit dezelfde `client_logos`-tabel als /klanten en de
+ * orbit-visual, inclusief de per klant ingestelde schaal en padding. Niet uit
+ * een eigen lijstje, zodat de admin de enige plek blijft waar je ze beheert.
+ * Zodra de eerste case is vrijgegeven (`src/data/caseStudies.ts`) hoort hier
+ * een resultaatcijfer bij.
  */
 export function Klantbewijs() {
+  const [klanten, setKlanten] = useState<KlantLogo[]>([]);
+
+  useEffect(() => {
+    let actief = true;
+    supabase
+      .from("client_logos")
+      .select("id, name, domain, logo_url, scale, padding, website")
+      .eq("is_visible", true)
+      .order("sort_order")
+      .then(({ data }) => {
+        if (actief) setKlanten((data as KlantLogo[]) ?? []);
+      });
+    return () => {
+      actief = false;
+    };
+  }, []);
+
+  if (klanten.length === 0) return null;
+
   return (
-    <section className="border-y border-brand-line bg-brand-ground py-7">
+    <section className="border-y border-brand-line bg-brand-ground py-8">
       <Container className="flex flex-col items-center gap-6 md:flex-row md:justify-between">
         <p className="shrink-0 font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-ink-3">
           Draait bij onder andere
         </p>
         <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-5">
-          {KLANTLOGOS.map((logo) => (
-            <img
-              key={logo.naam}
-              src={logo.src}
-              alt={logo.naam}
-              loading="lazy"
-              className={`${logo.klasse} w-auto max-w-[150px] object-contain opacity-75 transition-opacity duration-200 hover:opacity-100`}
-            />
+          {klanten.map((klant) => (
+            <Logo key={klant.id} klant={klant} />
           ))}
         </div>
         <Link
           to="/klanten"
-          className="shrink-0 font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-accent transition-colors duration-200 hover:text-brand-accent-2"
+          className="shrink-0 font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-accent-ink transition-colors duration-200 hover:text-brand-accent-2"
         >
           Bekijk de klanten →
         </Link>
@@ -142,7 +184,7 @@ export function VoorWie() {
               className="group flex h-full flex-col p-5 transition-colors duration-200 hover:bg-brand-surface"
             >
               <div className="mb-2 flex items-center gap-3">
-                <sector.icon className="size-4 shrink-0 text-brand-accent" aria-hidden />
+                <sector.icon className="size-4 shrink-0 text-brand-accent-ink" aria-hidden />
                 <h3 className="font-display text-[15px] font-semibold tracking-tight">
                   {sector.title}
                 </h3>
@@ -150,7 +192,7 @@ export function VoorWie() {
               <p className="text-[13px] leading-relaxed text-brand-ink-2">{sector.tagline}</p>
               <span
                 aria-hidden
-                className="mt-auto pt-4 font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-ink-3 transition-colors duration-200 group-hover:text-brand-accent"
+                className="mt-auto pt-4 font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-ink-3 transition-colors duration-200 group-hover:text-brand-accent-ink"
               >
                 Bekijk de aanpak →
               </span>
@@ -174,7 +216,7 @@ export function VoorWie() {
                 trackCTA("voor_wie_gratis_scan", "voor-wie");
                 openBookingModal();
               }}
-              className="mt-auto pt-4 text-left font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-accent transition-colors duration-200 hover:text-brand-accent-2"
+              className="mt-auto pt-4 text-left font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-accent-ink transition-colors duration-200 hover:text-brand-accent-2"
             >
               Boek een gratis scan →
             </button>
@@ -199,7 +241,7 @@ export function Trechter() {
       tone="invert"
       className="v2-curtain relative overflow-hidden"
     >
-      <GiantWord color="rgba(18,18,18,0.10)" className="-right-10 top-4 text-[17vw]">
+      <GiantWord color="rgba(251,248,244,0.16)" className="-right-10 top-4 text-[17vw]">
         PRIORITY
       </GiantWord>
       <div className="relative z-10">
@@ -292,7 +334,7 @@ export function HoeHetWerkt() {
       </div>
 
       <Reveal className="mt-12">
-        <p className="mb-6 font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-accent">
+        <p className="mb-6 font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-accent-ink">
           De drie kwalificatieniveaus
         </p>
         <div className="grid gap-y-6 sm:grid-cols-3 sm:gap-x-8 sm:gap-y-0">
@@ -313,7 +355,7 @@ export function HoeHetWerkt() {
       {/* Voorbeeld van een priority hand-off: dit is wat de verkoper ziet. */}
       <Reveal className="mt-10 overflow-hidden rounded-lg border border-brand-line bg-brand-surface">
         <div className="border-b border-brand-line px-6 py-3.5">
-          <span className="font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-accent">
+          <span className="font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-accent-ink">
             Voorbeeld van een priority hand-off
           </span>
         </div>
@@ -381,7 +423,7 @@ export function Bewijs() {
           {lagen.map((l, i) => (
             <Reveal key={l.title} index={i} className="border-b border-brand-line py-5">
               <div className="flex items-baseline gap-4">
-                <span className="font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-accent">
+                <span className="font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-accent-ink">
                   0{i + 1}
                 </span>
                 <h3 className="font-display text-[17px] font-semibold tracking-tight">
@@ -403,7 +445,7 @@ export function Bewijs() {
             </p>
             <p className="text-sm text-brand-ink-2">Eén geopende e-mail.</p>
 
-            <p className="mb-4 mt-8 font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-accent">
+            <p className="mb-4 mt-8 font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-accent-ink">
               Commercieel relevant → priority
             </p>
             <ul className="space-y-2 text-sm text-brand-ink-2">
@@ -474,7 +516,7 @@ export function OnderDeMotorkap() {
         {lagen.map(([naam, body], i) => (
           <Reveal key={naam} index={i} className="h-full bg-brand-surface p-5">
             <div className="mb-2 flex items-baseline gap-3">
-              <span className="font-display text-[11px] font-semibold tracking-[0.14em] text-brand-accent">
+              <span className="font-display text-[11px] font-semibold tracking-[0.14em] text-brand-accent-ink">
                 0{i + 1}
               </span>
               <h3 className="font-display text-[15px] font-semibold tracking-tight">{naam}</h3>
@@ -484,9 +526,9 @@ export function OnderDeMotorkap() {
         ))}
       </div>
 
-      <Reveal className="mt-8 grid gap-6 rounded-lg border border-brand-accent/30 bg-brand-accent/[0.07] px-6 py-6 lg:grid-cols-[1.15fr_.85fr]">
+      <Reveal className="mt-8 grid gap-6 rounded-lg border border-brand-accent/50 bg-brand-accent/[0.16] px-6 py-6 lg:grid-cols-[1.15fr_.85fr]">
         <div>
-          <p className="font-display text-sm font-semibold uppercase tracking-[0.14em] text-brand-accent">
+          <p className="font-display text-sm font-semibold uppercase tracking-[0.14em] text-brand-accent-ink">
             Automation zegt: als X, doe Y
           </p>
           <p className="mt-2 max-w-[62ch] text-sm leading-relaxed text-brand-ink-2">
@@ -559,7 +601,7 @@ export function Prijzen() {
             >
               <span
                 className={`mb-3 font-display text-[11px] font-semibold uppercase tracking-[0.14em] ${
-                  p.highlight ? "text-brand-accent" : "text-brand-ink-3"
+                  p.highlight ? "text-brand-accent-ink" : "text-brand-ink-3"
                 }`}
               >
                 {p.badge}
@@ -644,7 +686,7 @@ export function Tijdlijn() {
               i === 0 ? "border-brand-accent" : "border-brand-line"
             }`}
           >
-            <div className="mb-2 font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-accent">
+            <div className="mb-2 font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-accent-ink">
               {k.w}
             </div>
             <h3 className="mb-1.5 font-display text-[15px] font-semibold tracking-tight">
@@ -696,7 +738,7 @@ export function WelNiet() {
                 {niet}
               </div>
               <div className="flex items-start gap-2 px-5 py-4 text-[13.5px] text-brand-ink sm:px-7">
-                <span aria-hidden className="mt-px font-semibold text-brand-accent">
+                <span aria-hidden className="mt-px font-semibold text-brand-accent-ink">
                   →
                 </span>
                 <span>{wel}</span>
@@ -728,7 +770,7 @@ export function Vragen() {
 export function Contact() {
   return (
     <Section id="contact" tone="invert" fill className="relative overflow-hidden">
-      <GiantWord color="rgba(18,18,18,0.10)" className="-right-10 bottom-4 text-[16vw]">
+      <GiantWord color="rgba(251,248,244,0.16)" className="-right-10 bottom-4 text-[16vw]">
         OPPORTUNITY
       </GiantWord>
       <div className="relative z-10 grid gap-12 lg:grid-cols-[1.1fr_.9fr]">

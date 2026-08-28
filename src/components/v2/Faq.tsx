@@ -10,7 +10,7 @@ export function Faq({ items }: { items: FaqItem[] }) {
             {item.question}
             <span
               aria-hidden
-              className="shrink-0 text-xl text-brand-accent transition-transform duration-200 group-open:rotate-45"
+              className="shrink-0 text-xl text-brand-accent-ink transition-transform duration-200 group-open:rotate-45"
             >
               +
             </span>

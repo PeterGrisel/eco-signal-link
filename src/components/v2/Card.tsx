@@ -23,7 +23,7 @@ export function Card({
         className={`h-[3px] w-full ${highlight ? "bg-brand-accent" : "bg-brand-ink-3/45"}`}
       />
       <div className="flex grow flex-col px-6 pb-7 pt-6">
-        <span className="mb-3 block font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-accent">
+        <span className="mb-3 block font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-accent-ink">
           {label}
         </span>
         <h3 className="mb-2 font-display text-lg font-semibold leading-snug tracking-tight text-brand-ink">
@@ -33,7 +33,7 @@ export function Card({
         {href && (
           <Link
             to={href}
-            className="mt-auto inline-flex items-center gap-1.5 pt-5 font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-accent transition-colors duration-200 hover:text-brand-accent-2"
+            className="mt-auto inline-flex items-center gap-1.5 pt-5 font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-accent-ink transition-colors duration-200 hover:text-brand-accent-2"
           >
             {linkLabel} <span aria-hidden>→</span>
           </Link>

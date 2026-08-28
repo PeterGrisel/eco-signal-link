@@ -45,7 +45,7 @@ export function Hero() {
       <div aria-hidden className="v2-grid-bg pointer-events-none absolute inset-0" />
       <div
         aria-hidden
-        className="pointer-events-none absolute -right-24 -top-20 size-[560px] rounded-full bg-[radial-gradient(circle,rgba(232,148,90,0.20),transparent_62%)]"
+        className="pointer-events-none absolute -right-24 -top-20 size-[560px] rounded-full bg-[radial-gradient(circle,rgba(232,148,90,0.38),transparent_64%)]"
       />
 
       <Container className="relative z-10 grid items-center gap-14 lg:grid-cols-[1.05fr_.95fr]">
@@ -86,7 +86,7 @@ export function Hero() {
         </div>
 
         <div className="v2-enter" style={{ "--enter": 2 } as React.CSSProperties}>
-          <div className="rounded-lg border border-brand-line bg-brand-surface p-6">
+          <div className="rounded-lg border border-brand-line bg-brand-ground p-6 shadow-[0_18px_50px_-28px_rgba(23,20,15,0.35)]">
             <p className="mb-5 font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-ink-3">
               De rekensom
             </p>
@@ -102,7 +102,7 @@ export function Hero() {
                   </div>
                   <div className="flex items-center gap-3" aria-hidden>
                     <span className="h-px grow bg-brand-line" />
-                    <span className="font-display text-sm font-semibold text-brand-accent">
+                    <span className="font-display text-sm font-semibold text-brand-accent-ink">
                       {OPS[i]}
                     </span>
                     <span className="h-px grow bg-brand-line" />
@@ -111,8 +111,8 @@ export function Hero() {
               ))}
             </div>
 
-            <div className="mt-5 rounded-md border border-brand-accent/30 bg-brand-accent/[0.07] px-5 py-4">
-              <p className="font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-accent">
+            <div className="mt-5 rounded-md border border-brand-accent/50 bg-brand-accent/[0.16] px-5 py-4">
+              <p className="font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-accent-ink">
                 80 opportunities per jaar
               </p>
               <p className="mt-1.5 text-sm leading-relaxed text-brand-ink-2">

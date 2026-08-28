@@ -3,11 +3,11 @@ import { Container } from "./Container";
 /**
  * Volle-breedte kleurbaan met de content in de 1200px-wrap.
  *
- * De site staat op een donkere grond, dus het ritme loopt van donker naar
- * lichter en één keer volledig omgekeerd:
- *  - `ground`  #121212, de standaardgrond
- *  - `surface` #1A1A1A, een verhoogd vlak voor afwisseling
- *  - `invert`  het merkzand #EEEAE4 met donkere inkt, voor de zwaarste sectie
+ * De site staat op warm papier, dus het ritme loopt van licht naar warm en
+ * één keer volledig omgekeerd:
+ *  - `ground`  #FBF8F4, het basispapier
+ *  - `surface` #F4EBE0, een warm getint vlak dat het oranje ambient maakt
+ *  - `invert`  #17140F met lichte inkt, de zwarte accentband
  *
  * `fill` centreert de inhoud verticaal in vrijwel de hele viewport.
  */
@@ -16,7 +16,7 @@ type Tone = "ground" | "surface" | "invert";
 const tones: Record<Tone, string> = {
   ground: "bg-brand-ground text-brand-ink",
   surface: "bg-brand-surface text-brand-ink",
-  invert: "bg-brand-paper text-brand-ground",
+  invert: "bg-brand-deep text-brand-ground",
 };
 
 export function Section({

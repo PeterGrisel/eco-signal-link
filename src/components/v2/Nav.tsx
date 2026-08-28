@@ -145,7 +145,7 @@ export function Nav() {
         <Link to="/" aria-label="B2B Groeimachine, home" className="shrink-0">
           <span className="font-display text-lg font-bold tracking-tight">
             <span className="text-brand-ink">B2B</span>
-            <span className="text-brand-accent">GroeiMachine</span>
+            <span className="text-brand-accent-ink">GroeiMachine</span>
           </span>
         </Link>
 
@@ -211,7 +211,7 @@ export function Nav() {
                 className="group rounded-md px-3 py-2.5 transition-colors duration-200 hover:bg-brand-ground"
                 onClick={() => setOpen(null)}
               >
-                <span className="block font-display text-[14px] font-semibold tracking-tight text-brand-ink transition-colors duration-200 group-hover:text-brand-accent">
+                <span className="block font-display text-[14px] font-semibold tracking-tight text-brand-ink transition-colors duration-200 group-hover:text-brand-accent-ink">
                   {item.label}
                 </span>
                 {item.note && (
@@ -231,7 +231,7 @@ export function Nav() {
               <div key={group.label}>
                 {group.items ? (
                   <>
-                    <p className="mb-2 font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-accent">
+                    <p className="mb-2 font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-accent-ink">
                       {group.label}
                     </p>
                     <div className="flex flex-col">
@@ -250,7 +250,7 @@ export function Nav() {
                 ) : (
                   <Link
                     to={group.href!}
-                    className="font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-accent"
+                    className="font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-accent-ink"
                     onClick={() => setMobile(false)}
                   >
                     {group.label}

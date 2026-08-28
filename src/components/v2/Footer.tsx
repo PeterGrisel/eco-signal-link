@@ -63,7 +63,7 @@ const legal = [
 ] as const;
 
 const linkClass =
-  "text-brand-ink-2 transition-colors duration-200 hover:text-brand-accent";
+  "text-brand-ink-2 transition-colors duration-200 hover:text-brand-accent-ink";
 
 function FooterLink({ href, children }: { href: string; children: React.ReactNode }) {
   if (href.includes("#")) {
@@ -88,7 +88,7 @@ export function Footer() {
           <div>
             <p className="mb-4 font-display text-[22px] font-bold tracking-tight">
               <span className="text-brand-ink">B2B</span>
-              <span className="text-brand-accent">GroeiMachine</span>
+              <span className="text-brand-accent-ink">GroeiMachine</span>
             </p>
             <p className="max-w-[38ch] text-[13px] leading-relaxed text-brand-ink-3">
               B2B Groeimachine bouwt commerciële opportunity-engines voor
@@ -99,7 +99,7 @@ export function Footer() {
           </div>
           {cols.map((col) => (
             <nav key={col.title} aria-label={col.title}>
-              <p className="mb-4 font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-accent">
+              <p className="mb-4 font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-accent-ink">
                 {col.title}
               </p>
               <ul className="space-y-2.5 text-[13.5px]">
@@ -115,7 +115,7 @@ export function Footer() {
 
         {/* Branche-as: dezelfde elf pagina's als in het menu, hier compleet. */}
         <nav aria-label="Branches" className="border-t border-brand-line py-8">
-          <p className="mb-4 font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-accent">
+          <p className="mb-4 font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-accent-ink">
             Voor wie
           </p>
           <ul className="flex flex-wrap gap-x-6 gap-y-2.5 text-[13.5px]">
@@ -143,7 +143,7 @@ export function Footer() {
 
       {/* Signatuur: het merk als reusachtige outline-wordmark, half uit beeld. */}
       <div aria-hidden className="pointer-events-none select-none">
-        <p className="v2-giant-word -mb-[2.2vw] whitespace-nowrap text-center font-display text-[10.5vw] font-bold leading-none tracking-[-0.04em] text-transparent [-webkit-text-stroke:1.5px_rgba(238,234,228,0.09)]">
+        <p className="v2-giant-word -mb-[2.2vw] whitespace-nowrap text-center font-display text-[10.5vw] font-bold leading-none tracking-[-0.04em] text-transparent [-webkit-text-stroke:1.5px_rgba(23,20,15,0.10)]">
           B2BGROEIMACHINE
         </p>
       </div>
@@ -155,7 +155,7 @@ export function Footer() {
               <Link
                 key={label}
                 to={href}
-                className="transition-colors duration-200 hover:text-brand-accent"
+                className="transition-colors duration-200 hover:text-brand-accent-ink"
               >
                 {label}
               </Link>
@@ -164,7 +164,7 @@ export function Footer() {
               href="https://rebelforce.nl"
               target="_blank"
               rel="noopener noreferrer"
-              className="transition-colors duration-200 hover:text-brand-accent"
+              className="transition-colors duration-200 hover:text-brand-accent-ink"
             >
               rebelforce.nl ↗
             </a>

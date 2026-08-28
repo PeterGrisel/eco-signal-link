@@ -5,11 +5,12 @@ import { motion, useMotionValue, useReducedMotion, useSpring } from "framer-moti
 type Variant = "primary" | "outline" | "invert";
 
 const variants: Record<Variant, string> = {
-  primary: "bg-brand-accent text-brand-ground hover:bg-brand-accent-2",
+  primary: "bg-brand-accent text-brand-ink hover:bg-brand-accent-2 hover:text-brand-ground",
   outline:
-    "border-[1.5px] border-brand-line text-brand-ink hover:border-brand-accent hover:text-brand-accent",
+    "border-[1.5px] border-brand-ink/25 text-brand-ink hover:border-brand-accent-ink hover:bg-brand-accent hover:text-brand-ink",
+  /** Voor gebruik op de zwarte accentband. */
   invert:
-    "border-[1.5px] border-brand-ground/25 text-brand-ground hover:bg-brand-ground hover:text-brand-paper",
+    "border-[1.5px] border-brand-ground/35 text-brand-ground hover:bg-brand-ground hover:text-brand-ink",
 };
 
 const base =

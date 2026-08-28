@@ -15,7 +15,7 @@ export function SectionHeader({
 }) {
   return (
     <Reveal>
-      <Eyebrow tone={invert ? "ground" : "accent"}>{eyebrow}</Eyebrow>
+      <Eyebrow tone={invert ? "onDark" : "paper"}>{eyebrow}</Eyebrow>
       <h2 className="mb-4 max-w-[20ch] font-display text-[length:var(--v2-h2)] font-bold leading-[1.14] tracking-tight">
         {title}
       </h2>

@@ -41,7 +41,7 @@ export function Taxonomie() {
             index={i}
             className="flex gap-5 border-b border-brand-line py-5"
           >
-            <span className="w-7 shrink-0 pt-0.5 font-display text-[11px] font-semibold tracking-[0.14em] text-brand-accent">
+            <span className="w-7 shrink-0 pt-0.5 font-display text-[11px] font-semibold tracking-[0.14em] text-brand-accent-ink">
               {String(i + 1).padStart(2, "0")}
             </span>
             <div>
@@ -104,7 +104,7 @@ export function Architectuur() {
         {lagen.map((l, i) => (
           <Reveal key={l.n} index={i} className="h-full">
             <div className="flex h-full flex-col rounded-lg border border-brand-line bg-brand-surface p-6">
-              <span className="mb-4 font-display text-[44px] font-bold leading-none tracking-tight text-brand-accent">
+              <span className="mb-4 font-display text-[44px] font-bold leading-none tracking-tight text-brand-accent-ink">
                 {l.n}
               </span>
               <h3 className="mb-2 font-display text-[19px] font-semibold tracking-tight">
@@ -116,8 +116,8 @@ export function Architectuur() {
         ))}
       </div>
 
-      <Reveal className="mt-8 rounded-lg border border-brand-accent/30 bg-brand-accent/[0.07] px-6 py-5">
-        <p className="font-display text-sm font-semibold uppercase tracking-[0.14em] text-brand-accent">
+      <Reveal className="mt-8 rounded-lg border border-brand-accent/50 bg-brand-accent/[0.16] px-6 py-5">
+        <p className="font-display text-sm font-semibold uppercase tracking-[0.14em] text-brand-accent-ink">
           Outcome → learning → terug naar intelligence
         </p>
         <p className="mt-2 max-w-[70ch] text-sm leading-relaxed text-brand-ink-2">
@@ -185,7 +185,7 @@ export function DigitaleMedewerker() {
           </ul>
         </div>
         <div className="p-6">
-          <p className="mb-4 font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-accent">
+          <p className="mb-4 font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-accent-ink">
             Wat het systeem besluit
           </p>
           <p className="font-display text-[17px] font-semibold leading-snug tracking-tight text-brand-ink">
@@ -276,7 +276,7 @@ export function Autonomie() {
         {niveaus.map((n, i) => (
           <Reveal key={n.label} index={i} className="h-full">
             <div className="flex h-full flex-col rounded-lg border border-brand-line bg-brand-ground p-6">
-              <span className="mb-3 font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-accent">
+              <span className="mb-3 font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-accent-ink">
                 Niveau {i + 1}
               </span>
               <h3 className="mb-2 font-display text-[19px] font-semibold tracking-tight">
@@ -349,7 +349,7 @@ export function Levering() {
   ];
   return (
     <Section tone="invert" className="v2-curtain relative overflow-hidden">
-      <GiantWord color="rgba(18,18,18,0.10)" className="-right-10 top-2 text-[16vw]">
+      <GiantWord color="rgba(251,248,244,0.16)" className="-right-10 top-2 text-[16vw]">
         INSTALLATIE
       </GiantWord>
       <div className="relative z-10">

@@ -31,7 +31,7 @@ export function SplitHeadline({
                 {words.map((word, wi) => (
                   <Fragment key={wi}>
                     <span
-                      className={`v2-rise-word${seg.accent ? " text-brand-accent" : ""}`}
+                      className={`v2-rise-word${seg.accent ? " text-brand-accent-ink" : ""}`}
                     >
                       {Array.from(word).map((ch, ci) => (
                         <span

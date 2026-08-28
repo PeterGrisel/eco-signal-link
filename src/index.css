@@ -391,10 +391,11 @@
 /* ══════════════════════════════════════════════════════════════════════
    V2 DESIGNSYSTEEM — b2bgroeimachine.io
    Bouwstijl naar het model van vidai-fctry (secties, reveals, marquee,
-   split-headline, giant word), uitgevoerd in de B2B Groeimachine-huisstijl
-   uit /brandbook: donkere grond #121212, accent #E8945A, Space Grotesk +
-   Inter. Alle animaties eindigen met `both` in zichtbare staat, zodat de
-   pagina ook zonder JS en voor crawlers volledig leesbaar is.
+   split-headline, giant word), uitgevoerd in de B2B Groeimachine-huisstijl:
+   warm papier #FBF8F4 als grond, merkoranje #E8945A dat de pagina draagt, en
+   diep zwart #17140F als accentband. Space Grotesk plus Inter. Alle animaties
+   eindigen met `both` in zichtbare staat, zodat de pagina ook zonder JS en
+   voor crawlers volledig leesbaar is.
    ══════════════════════════════════════════════════════════════════════ */
 
 :root {
@@ -456,11 +457,12 @@
   }
 }
 
-/* Rasterachtergrond voor de hero: fijne lijnen die naar de randen wegvallen. */
+/* Rasterachtergrond voor de hero: fijne oranje lijnen die naar de randen
+   wegvallen. Op papier mag het raster iets steviger staan dan op donker. */
 .v2-grid-bg {
   background-image:
-    linear-gradient(to right, rgba(232, 148, 90, 0.07) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(232, 148, 90, 0.07) 1px, transparent 1px);
+    linear-gradient(to right, rgba(216, 123, 58, 0.16) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(216, 123, 58, 0.16) 1px, transparent 1px);
   background-size: 64px 64px;
   -webkit-mask-image: radial-gradient(ellipse 80% 65% at 50% 30%, #000 20%, transparent 78%);
   mask-image: radial-gradient(ellipse 80% 65% at 50% 30%, #000 20%, transparent 78%);
