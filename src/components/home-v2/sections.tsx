@@ -344,7 +344,7 @@ export function Diensten() {
   );
 }
 
-/* ── 02 · Logobalk ─────────────────────────────────────────────────────── */
+/* ── 02 · Klantenraster ────────────────────────────────────────────────── */
 
 interface KlantLogo {
   id: string;
@@ -354,14 +354,17 @@ interface KlantLogo {
   scale: number | null;
   padding: number | null;
   website: string | null;
+  sector: string | null;
 }
 
-function Logo({ klant }: { klant: KlantLogo }) {
+function Logo({ klant, hoogte = 34 }: { klant: KlantLogo; hoogte?: number }) {
   const [mislukt, setMislukt] = useState(false);
   const src = klant.logo_url || faviconFor(klant.website || klant.domain);
   if (mislukt || !src) {
     return (
-      <span className="font-display text-[15px] font-bold text-[#8C8378]">{klant.name}</span>
+      <span className="text-center font-display text-[14px] font-bold leading-tight text-brand-ink-3">
+        {klant.name}
+      </span>
     );
   }
   return (
@@ -370,72 +373,119 @@ function Logo({ klant }: { klant: KlantLogo }) {
       alt={klant.name}
       loading="lazy"
       onError={() => setMislukt(true)}
-      className="h-8 w-auto max-w-[132px] object-contain opacity-70 transition duration-[180ms] hover:opacity-100"
-      style={{ transform: `scale(${klant.scale ?? 1})`, padding: `${klant.padding ?? 0}px` }}
+      className="w-auto max-w-[120px] object-contain opacity-70 transition duration-[180ms] group-hover:opacity-100"
+      style={{
+        height: hoogte,
+        transform: `scale(${klant.scale ?? 1})`,
+        padding: `${klant.padding ?? 0}px`,
+      }}
     />
   );
 }
 
 /**
- * Balk direct onder de hero: links het label in een eigen cel, rechts de
- * doorlopende rij logo's. De logo's komen uit dezelfde `client_logos`-tabel als
- * /klanten en de orbit-visual, inclusief de per klant ingestelde schaal en
- * padding. De admin blijft de enige plek waar je ze beheert.
+ * Klantenraster met een voorbeeldkaart die de cursor volgt, naar het model van
+ * daliagents.com. De logo's komen uit dezelfde `client_logos`-tabel als
+ * /klanten, inclusief de per klant ingestelde schaal en padding; de admin
+ * blijft de enige plek waar je ze beheert. De kaart is puur decoratief en
+ * verschijnt alleen op een apparaat met een muis.
  */
-export function Logobalk() {
+export function Klantenraster() {
   const [klanten, setKlanten] = useState<KlantLogo[]>([]);
+  const [actief, setActief] = useState<number | null>(null);
+  const [muis, setMuis] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
-    let actief = true;
+    let levend = true;
     supabase
       .from("client_logos")
-      .select("id, name, domain, logo_url, scale, padding, website")
+      .select("id, name, domain, logo_url, scale, padding, website, sector")
       .eq("is_visible", true)
       .order("sort_order")
       .then(({ data }) => {
-        if (actief) setKlanten((data as KlantLogo[]) ?? []);
+        if (levend) setKlanten((data as KlantLogo[]) ?? []);
       });
     return () => {
-      actief = false;
+      levend = false;
     };
   }, []);
 
   if (klanten.length === 0) return null;
-
-  const rij = (verborgen: boolean) => (
-    <div aria-hidden={verborgen || undefined} className="flex shrink-0 items-center gap-14 pr-14">
-      {klanten.map((k) => (
-        <Logo key={k.id + (verborgen ? "-b" : "")} klant={k} />
-      ))}
-    </div>
-  );
+  const getoond = klanten[actief ?? 0];
 
   return (
-    <section className="bg-brand-deep pb-16" aria-label="Klanten">
-      <Container>
-        <div className="grid overflow-hidden rounded-brand border border-white/[.14] md:grid-cols-[minmax(0,220px)_1fr]">
-          <div className="flex items-center border-b border-white/[.14] px-6 py-5 md:border-b-0 md:border-r">
-            <p className="font-mono text-[11px] font-bold uppercase leading-[1.6] tracking-[0.12em] text-white">
-              Bouwden groei&shy;systemen voor
+    <Section id="klanten">
+      <SectionHeader
+        eyebrow="Vertrouwd door"
+        title="Draait bij B2B-organisaties die hun markt kennen."
+        lead="Industriële toeleveranciers, technische dienstverleners en zakelijke dienstverleners in de Benelux. Bekijk per klant welke hypothese we hebben getest en wat eruit kwam."
+      />
+
+      <div
+        className="grid grid-cols-2 border-l border-t border-brand-line md:grid-cols-4"
+        onMouseLeave={() => setActief(null)}
+      >
+        {klanten.map((klant, i) => (
+          <Link
+            key={klant.id}
+            to="/klanten"
+            aria-label={klant.name}
+            onMouseEnter={() => setActief(i)}
+            onMouseMove={(e) => setMuis({ x: e.clientX, y: e.clientY })}
+            className="group relative flex min-h-[124px] min-w-0 flex-col justify-between border-b border-r border-brand-line p-4 transition-colors duration-[350ms] hover:bg-brand-mist md:min-h-[160px] md:p-5"
+          >
+            <div className="flex items-start justify-between gap-3">
+              <span className="font-mono text-[10px] tabular-nums text-brand-ink-3">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <span
+                aria-hidden
+                className="text-brand-ink-3 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+              >
+                ↗
+              </span>
+            </div>
+            <div className="flex flex-1 items-center justify-center px-1 py-3">
+              <Logo klant={klant} />
+            </div>
+            <p className="hidden truncate font-mono text-[9.5px] text-brand-ink-3 md:block">
+              {klant.sector || "Klant"}
+            </p>
+          </Link>
+        ))}
+      </div>
+
+      {/* Voorbeeldkaart die met de cursor meebeweegt. */}
+      <div
+        aria-hidden
+        className="pointer-events-none fixed left-0 top-0 z-40 hidden w-[min(320px,28vw)] md:block"
+        style={{
+          transform: `translate3d(${muis.x + 24}px, ${muis.y - 40}px, 0)`,
+          opacity: actief === null ? 0 : 1,
+          transition: "opacity 320ms ease",
+        }}
+      >
+        <div className="overflow-hidden rounded-brand border border-brand-line bg-brand-paper shadow-[0_24px_60px_rgba(23,20,15,0.22)]">
+          <div className="flex h-[112px] items-center justify-center bg-brand-mist px-6">
+            <Logo klant={getoond} hoogte={44} />
+          </div>
+          <div className="border-t border-brand-line p-4">
+            <p className="truncate font-display text-[14px] font-bold tracking-[-0.01em]">
+              {getoond.name}
+            </p>
+            <p className="mt-1 truncate font-mono text-[10px] uppercase tracking-[0.12em] text-brand-ink-3">
+              {getoond.sector || "Bekijk de case"}
             </p>
           </div>
-          <div className="overflow-x-clip py-5">
-            <div className="v2-marquee-track flex w-max items-center [animation-duration:46s]">
-              {rij(false)}
-              {rij(true)}
-            </div>
-          </div>
         </div>
-        <div className="mt-4 flex justify-end">
-          <Link
-            to="/klanten"
-            className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-brand-accent transition-colors duration-[180ms] hover:text-brand-accent-2"
-          >
-            Bekijk de klanten →
-          </Link>
-        </div>
-      </Container>
-    </section>
+      </div>
+
+      <Reveal className="mt-10">
+        <Button href="/klanten" variant="outline">
+          Bekijk de klanten
+        </Button>
+      </Reveal>
+    </Section>
   );
 }
 

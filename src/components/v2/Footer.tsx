@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Container } from "./Container";
 import { sectors } from "@/data/sectors";
@@ -80,10 +81,75 @@ function FooterLink({ href, children }: { href: string; children: React.ReactNod
   );
 }
 
+/**
+ * De groet wisselt van taal, naar het model van daliagents.com. Bij ons zegt
+ * dat ook iets: dezelfde engine gaat mee naar een nieuwe markt, alleen de
+ * hypothese en de taal veranderen. Puur decoratief, dus aria-hidden op de
+ * regels die niet aan de beurt zijn.
+ */
+const GROETEN = [
+  { taal: "nl", woord: "Hallo" },
+  { taal: "en", woord: "Hello" },
+  { taal: "de", woord: "Hallo" },
+  { taal: "fr", woord: "Bonjour" },
+  { taal: "es", woord: "Hola" },
+];
+
+function Groet() {
+  const [i, setI] = useState(0);
+
+  useEffect(() => {
+    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
+    const t = setInterval(() => setI((v) => (v + 1) % GROETEN.length), 2600);
+    return () => clearInterval(t);
+  }, []);
+
+  return (
+    <p className="relative h-[1.25em] font-display text-[clamp(38px,6vw,72px)] font-black leading-none tracking-[-0.04em]">
+      {GROETEN.map((groet, index) => (
+        <span
+          key={groet.taal}
+          lang={groet.taal}
+          aria-hidden={index !== i}
+          className="absolute left-0 top-0 transition-[opacity,transform] duration-[600ms] ease-out"
+          style={{
+            opacity: index === i ? 1 : 0,
+            transform: index === i ? "translateY(0)" : "translateY(38%)",
+          }}
+        >
+          {groet.woord}
+        </span>
+      ))}
+    </p>
+  );
+}
+
 export function Footer() {
   return (
     <footer className="overflow-hidden bg-brand-deep pt-16 text-white">
       <Container>
+        {/* Aanhef: de groet wisselt, het adres blijft. */}
+        <div className="mb-16 grid gap-8 border-b border-white/[.12] pb-14 md:grid-cols-2 md:items-end">
+          <div>
+            <p className="mb-5 flex items-center gap-4 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-brand-accent">
+              Even sparren
+              <span aria-hidden className="h-px w-16 bg-brand-accent" />
+            </p>
+            <Groet />
+          </div>
+          <div className="md:text-right">
+            <a
+              href="mailto:info@rebelforce.nl"
+              className="font-display text-[clamp(18px,2.4vw,26px)] font-bold tracking-[-0.02em] text-white underline decoration-white/30 underline-offset-4 transition-colors duration-[180ms] hover:text-brand-accent hover:decoration-brand-accent"
+            >
+              info@rebelforce.nl
+            </a>
+            <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.14em] text-[#A29584]">
+              Reactie binnen één werkdag
+            </p>
+          </div>
+        </div>
+
         <div className="grid gap-12 pb-14 md:grid-cols-[1.25fr_1fr_1fr_1fr]">
           <div>
             <p className="mb-4 font-display text-[22px] font-black tracking-[-0.02em]">

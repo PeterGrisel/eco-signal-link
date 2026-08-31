@@ -14,7 +14,7 @@ import {
   Diensten,
   GebouwdMet,
   HoeHetWerkt,
-  Logobalk,
+  Klantenraster,
   Prijzen,
   Tijdlijn,
   VoorWie,
@@ -95,7 +95,6 @@ const Home = () => {
         <Nav />
         <main>
           <Hero />
-          <Logobalk />
           <HetProtocol />
           <Marquee
             items={[
@@ -112,6 +111,7 @@ const Home = () => {
           <WatOnsAndersMaakt />
           <Alternatieven />
           <Diensten />
+          <Klantenraster />
           <HoeHetWerkt />
           <Tijdlijn />
           <VoorWie />
