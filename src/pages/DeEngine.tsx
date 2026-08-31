@@ -40,7 +40,7 @@ const DeEngine = () => {
 
   return (
     <PageLoader>
-      <div className="min-h-screen bg-brand-ground">
+      <div className="min-h-screen bg-brand-paper">
         <BreadcrumbJsonLd
           items={[
             { name: "Home", url: "https://www.b2bgroeimachine.io/" },
@@ -49,14 +49,14 @@ const DeEngine = () => {
         />
         <Nav />
         <main>
-          <header className="relative overflow-hidden border-b border-brand-line bg-brand-ground py-20 text-brand-ink md:py-28">
+          <header className="relative overflow-hidden bg-brand-deep py-20 text-white md:py-28">
             <div aria-hidden className="v2-grid-bg pointer-events-none absolute inset-0" />
             <Container className="relative z-10">
-              <Eyebrow>Technische toelichting</Eyebrow>
-              <h1 className="max-w-[20ch] font-display text-[length:var(--v2-h1)] font-bold leading-[1.04] tracking-tight">
+              <Eyebrow tone="deep">Technische toelichting</Eyebrow>
+              <h1 className="max-w-[20ch] font-display text-[length:var(--v2-h1)] font-black leading-[1.04] tracking-[-0.035em]">
                 Wat wij installeren: een GTM System of Intelligence.
               </h1>
-              <p className="mt-6 max-w-[62ch] text-[17px] leading-relaxed text-brand-ink-2">
+              <p className="mt-6 max-w-[62ch] text-[17px] leading-relaxed text-[#D6CEC3]">
                 Wij leveren geen losse tooling en geen losse campagne. Wij
                 ontwerpen een commercieel proces, automatiseren de stappen,
                 verbinden de benodigde systemen en voegen intelligence toe aan de
@@ -65,7 +65,7 @@ const DeEngine = () => {
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <Button href="/#prijzen">Wat het kost</Button>
-                <Button href="/#diensten" variant="outline">
+                <Button href="/#diensten" variant="invert">
                   De vier diensten
                 </Button>
               </div>

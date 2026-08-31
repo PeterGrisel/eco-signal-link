@@ -1,4 +1,4 @@
-/** Vaste contentwrap: 1200px, met de horizontale padding uit het brandbook. */
+/** Contentwrap zoals vidai-fctry: 1200px met dezelfde horizontale marges. */
 export function Container({
   children,
   className = "",
@@ -7,7 +7,7 @@ export function Container({
   className?: string;
 }) {
   return (
-    <div className={`mx-auto w-full max-w-[1200px] px-6 md:px-10 ${className}`}>
+    <div className={`mx-auto w-full max-w-[1200px] px-5 sm:px-8 ${className}`}>
       {children}
     </div>
   );

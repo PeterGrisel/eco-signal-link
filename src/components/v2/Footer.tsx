@@ -63,7 +63,7 @@ const legal = [
 ] as const;
 
 const linkClass =
-  "text-brand-ink-2 transition-colors duration-200 hover:text-brand-accent-ink";
+  "text-[#CBC3B8] transition-colors duration-[180ms] hover:text-brand-accent";
 
 function FooterLink({ href, children }: { href: string; children: React.ReactNode }) {
   if (href.includes("#")) {
@@ -82,15 +82,15 @@ function FooterLink({ href, children }: { href: string; children: React.ReactNod
 
 export function Footer() {
   return (
-    <footer className="overflow-hidden border-t border-brand-line bg-brand-surface pt-16 text-brand-ink">
+    <footer className="overflow-hidden bg-brand-deep pt-16 text-white">
       <Container>
         <div className="grid gap-12 pb-14 md:grid-cols-[1.25fr_1fr_1fr_1fr]">
           <div>
-            <p className="mb-4 font-display text-[22px] font-bold tracking-tight">
-              <span className="text-brand-ink">B2B</span>
-              <span className="text-brand-accent-ink">GroeiMachine</span>
+            <p className="mb-4 font-display text-[22px] font-black tracking-[-0.02em]">
+              <span className="text-white">B2B</span>
+              <span className="text-brand-accent">GroeiMachine</span>
             </p>
-            <p className="max-w-[38ch] text-[13px] leading-relaxed text-brand-ink-3">
+            <p className="max-w-[38ch] text-[13px] leading-relaxed text-[#A29584]">
               B2B Groeimachine bouwt commerciële opportunity-engines voor
               B2B-organisaties in de Benelux. Wij vertalen uw verkoopproces naar
               software, koppelen uw systemen en leveren het geheel als een
@@ -99,7 +99,7 @@ export function Footer() {
           </div>
           {cols.map((col) => (
             <nav key={col.title} aria-label={col.title}>
-              <p className="mb-4 font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-accent-ink">
+              <p className="mb-4 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-brand-accent">
                 {col.title}
               </p>
               <ul className="space-y-2.5 text-[13.5px]">
@@ -114,8 +114,8 @@ export function Footer() {
         </div>
 
         {/* Branche-as: dezelfde elf pagina's als in het menu, hier compleet. */}
-        <nav aria-label="Branches" className="border-t border-brand-line py-8">
-          <p className="mb-4 font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-accent-ink">
+        <nav aria-label="Branches" className="border-t border-white/[.12] py-8">
+          <p className="mb-4 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-brand-accent">
             Voor wie
           </p>
           <ul className="flex flex-wrap gap-x-6 gap-y-2.5 text-[13.5px]">
@@ -127,8 +127,8 @@ export function Footer() {
           </ul>
         </nav>
 
-        <nav aria-label="Veelgezocht" className="border-t border-brand-line py-8">
-          <p className="mb-4 font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-ink-3">
+        <nav aria-label="Veelgezocht" className="border-t border-white/[.12] py-8">
+          <p className="mb-4 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#A29584]">
             Veelgezocht
           </p>
           <ul className="flex flex-wrap gap-x-6 gap-y-2.5 text-[13px]">
@@ -143,19 +143,19 @@ export function Footer() {
 
       {/* Signatuur: het merk als reusachtige outline-wordmark, half uit beeld. */}
       <div aria-hidden className="pointer-events-none select-none">
-        <p className="v2-giant-word -mb-[2.2vw] whitespace-nowrap text-center font-display text-[10.5vw] font-bold leading-none tracking-[-0.04em] text-transparent [-webkit-text-stroke:1.5px_rgba(23,20,15,0.10)]">
+        <p className="v2-giant-word -mb-[2.2vw] whitespace-nowrap text-center font-display text-[10.5vw] font-black leading-none tracking-[-0.04em] text-transparent [-webkit-text-stroke:1.5px_rgba(255,255,255,0.08)]">
           B2BGROEIMACHINE
         </p>
       </div>
 
-      <div className="border-t border-brand-line py-6 text-[11px] uppercase tracking-[0.12em] text-brand-ink-3">
+      <div className="border-t border-white/[.12] py-6 font-mono text-[10px] uppercase tracking-[0.12em] text-[#A29584]">
         <Container className="flex flex-col gap-3">
           <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
             {legal.map(([label, href]) => (
               <Link
                 key={label}
                 to={href}
-                className="transition-colors duration-200 hover:text-brand-accent-ink"
+                className="transition-colors duration-[180ms] hover:text-brand-accent"
               >
                 {label}
               </Link>
@@ -164,12 +164,12 @@ export function Footer() {
               href="https://rebelforce.nl"
               target="_blank"
               rel="noopener noreferrer"
-              className="transition-colors duration-200 hover:text-brand-accent-ink"
+              className="transition-colors duration-[180ms] hover:text-brand-accent"
             >
               rebelforce.nl ↗
             </a>
           </div>
-          <div className="flex flex-wrap justify-between gap-x-6 gap-y-2 border-t border-brand-line pt-3">
+          <div className="flex flex-wrap justify-between gap-x-6 gap-y-2 border-t border-white/[.12] pt-3">
             <span>© {new Date().getFullYear()} B2BGroeiMachine · b2bgroeimachine.io</span>
             <span>Rebel Force B.V. · KVK 94347778 · BTW NL866743856B01</span>
           </div>

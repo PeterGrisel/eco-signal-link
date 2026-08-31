@@ -62,7 +62,7 @@ const GROUPS: Group[] = [
 ];
 
 const triggerClass =
-  "flex items-center gap-1.5 py-1 font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-ink-2 transition-colors duration-200 hover:text-brand-ink";
+  "relative flex items-center gap-1.5 py-1 font-mono text-[10.5px] font-bold uppercase tracking-[0.14em] text-brand-ink-2 transition-colors duration-[180ms] hover:text-brand-ink";
 
 /** Interne link of anker: react-router voor routes, gewone anchor voor #hashes. */
 function Go({
@@ -135,15 +135,15 @@ export function Nav() {
   return (
     <nav
       ref={navRef}
-      className="sticky top-0 z-50 border-b border-brand-line bg-brand-ground/95 backdrop-blur-[10px]"
+      className="sticky top-0 z-50 border-b border-brand-line bg-brand-paper/[.94] backdrop-blur-[10px]"
       onMouseLeave={() => {
         hoverGeblokkeerd.current = false;
         setOpen(null);
       }}
     >
-      <Container className="flex items-center justify-between gap-7 py-4">
+      <Container className="flex items-center justify-between gap-7 py-3.5">
         <Link to="/" aria-label="B2B Groeimachine, home" className="shrink-0">
-          <span className="font-display text-lg font-bold tracking-tight">
+          <span className="font-display text-[17px] font-black tracking-[-0.02em]">
             <span className="text-brand-ink">B2B</span>
             <span className="text-brand-accent-ink">GroeiMachine</span>
           </span>
@@ -186,14 +186,14 @@ export function Nav() {
 
         <div className="flex items-center gap-3">
           <span className="hidden md:block">
-            <Button onClick={book}>Boek gratis scan</Button>
+            <Button onClick={book}>Boek een gratis scan</Button>
           </span>
           <button
             type="button"
             aria-label={mobile ? "Sluit menu" : "Open menu"}
             aria-expanded={mobile}
             onClick={() => setMobile((v) => !v)}
-            className="rounded-md border border-brand-line p-2 text-brand-ink lg:hidden"
+            className="rounded-btn border border-brand-line p-2 text-brand-ink lg:hidden"
           >
             {mobile ? <X className="size-4" /> : <Menu className="size-4" />}
           </button>
@@ -202,16 +202,16 @@ export function Nav() {
 
       {/* Uitklapper op desktop: één rij kaarten binnen dezelfde contentwrap. */}
       {open && (
-        <div className="hidden border-t border-brand-line bg-brand-surface lg:block">
+        <div className="hidden border-t border-brand-line bg-brand-mist lg:block">
           <Container className="grid grid-cols-3 gap-x-8 gap-y-1 py-6">
             {GROUPS.find((g) => g.label === open)?.items?.map((item) => (
               <Go
                 key={item.label + item.href}
                 href={item.href}
-                className="group rounded-md px-3 py-2.5 transition-colors duration-200 hover:bg-brand-ground"
+                className="group rounded-brand px-3 py-2.5 transition-colors duration-[180ms] hover:bg-brand-paper"
                 onClick={() => setOpen(null)}
               >
-                <span className="block font-display text-[14px] font-semibold tracking-tight text-brand-ink transition-colors duration-200 group-hover:text-brand-accent-ink">
+                <span className="block font-display text-[14px] font-bold tracking-[-0.01em] text-brand-ink transition-colors duration-[180ms] group-hover:text-brand-accent-ink">
                   {item.label}
                 </span>
                 {item.note && (
@@ -225,13 +225,13 @@ export function Nav() {
 
       {/* Mobiel: alles uitgeklapt onder elkaar, geen tweede niveau om te missen. */}
       {mobile && (
-        <div className="max-h-[75svh] overflow-y-auto border-t border-brand-line bg-brand-ground lg:hidden">
+        <div className="max-h-[75svh] overflow-y-auto border-t border-brand-line bg-brand-paper lg:hidden">
           <Container className="flex flex-col gap-6 py-5">
             {GROUPS.map((group) => (
               <div key={group.label}>
                 {group.items ? (
                   <>
-                    <p className="mb-2 font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-accent-ink">
+                    <p className="mb-2 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-brand-accent-ink">
                       {group.label}
                     </p>
                     <div className="flex flex-col">
@@ -239,7 +239,7 @@ export function Nav() {
                         <Go
                           key={item.label + item.href}
                           href={item.href}
-                          className="border-b border-brand-line py-2.5 font-display text-sm font-medium text-brand-ink last:border-b-0"
+                          className="border-b border-brand-line py-2.5 font-display text-sm font-semibold text-brand-ink last:border-b-0"
                           onClick={() => setMobile(false)}
                         >
                           {item.label}
@@ -250,7 +250,7 @@ export function Nav() {
                 ) : (
                   <Link
                     to={group.href!}
-                    className="font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-accent-ink"
+                    className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-brand-accent-ink"
                     onClick={() => setMobile(false)}
                   >
                     {group.label}
@@ -259,7 +259,7 @@ export function Nav() {
               </div>
             ))}
             <span className="md:hidden">
-              <Button onClick={book}>Boek gratis scan</Button>
+              <Button onClick={book}>Boek een gratis scan</Button>
             </span>
           </Container>
         </div>

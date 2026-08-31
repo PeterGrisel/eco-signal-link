@@ -28,7 +28,7 @@ export function Taxonomie() {
     ["New use case", "Een bestaand probleem wordt met een nieuwe oplossing relevant."],
   ];
   return (
-    <Section tone="surface">
+    <Section tone="mist">
       <SectionHeader
         eyebrow="De opportunity-taxonomie"
         title="Tien routes naar waarde."
@@ -103,7 +103,7 @@ export function Architectuur() {
       <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
         {lagen.map((l, i) => (
           <Reveal key={l.n} index={i} className="h-full">
-            <div className="flex h-full flex-col rounded-lg border border-brand-line bg-brand-surface p-6">
+            <div className="flex h-full flex-col rounded-brand border border-brand-line bg-brand-surface p-6">
               <span className="mb-4 font-display text-[44px] font-bold leading-none tracking-tight text-brand-accent-ink">
                 {l.n}
               </span>
@@ -116,7 +116,7 @@ export function Architectuur() {
         ))}
       </div>
 
-      <Reveal className="mt-8 rounded-lg border border-brand-accent/50 bg-brand-accent/[0.16] px-6 py-5">
+      <Reveal className="mt-8 rounded-brand border border-brand-accent/50 bg-brand-accent/[0.16] px-6 py-5">
         <p className="font-display text-sm font-semibold uppercase tracking-[0.14em] text-brand-accent-ink">
           Outcome → learning → terug naar intelligence
         </p>
@@ -141,7 +141,7 @@ export function DigitaleMedewerker() {
     ["Learn", "Feedback uit sales verwerken en de weging van signalen bijstellen."],
   ];
   return (
-    <Section tone="surface">
+    <Section tone="mist">
       <SectionHeader
         eyebrow="De digitale commerciële medewerker"
         title="Automation zegt: als X, doe Y."
@@ -164,7 +164,7 @@ export function DigitaleMedewerker() {
       </div>
 
       {/* Concreet beslismoment: dit is hoe intelligence anders kiest dan een regel. */}
-      <Reveal className="mt-10 grid gap-0 overflow-hidden rounded-lg border border-brand-line bg-brand-ground md:grid-cols-2">
+      <Reveal className="mt-10 grid gap-0 overflow-hidden rounded-brand border border-brand-line bg-brand-ground md:grid-cols-2">
         <div className="border-b border-brand-line p-6 md:border-b-0 md:border-r">
           <p className="mb-4 font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-ink-3">
             Wat het systeem ziet
@@ -225,7 +225,7 @@ export function Capabilities() {
         title="Elke koppeling is een nieuwe vaardigheid."
         lead="Wij zeggen niet: wij koppelen HeyReach. Wij zeggen: de digitale medewerker krijgt de vaardigheid om LinkedIn-outreach uit te voeren en terug te koppelen. Elke databron voegt context toe, elke workflow voegt autonomie toe."
       />
-      <div className="grid gap-px overflow-hidden rounded-lg border border-brand-line bg-brand-line sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-px overflow-hidden rounded-brand border border-brand-line bg-brand-line sm:grid-cols-2 lg:grid-cols-3">
         {map.map(([name, body], i) => (
           <Reveal key={name} index={i} className="h-full bg-brand-surface p-5">
             <h3 className="mb-1.5 font-display text-[15px] font-semibold tracking-tight">
@@ -266,7 +266,7 @@ export function Autonomie() {
     },
   ];
   return (
-    <Section tone="surface">
+    <Section tone="mist">
       <SectionHeader
         eyebrow="Human in the loop"
         title="Gecontroleerde autonomie."
@@ -275,7 +275,7 @@ export function Autonomie() {
       <div className="grid gap-6 md:grid-cols-3">
         {niveaus.map((n, i) => (
           <Reveal key={n.label} index={i} className="h-full">
-            <div className="flex h-full flex-col rounded-lg border border-brand-line bg-brand-ground p-6">
+            <div className="flex h-full flex-col rounded-brand border border-brand-line bg-brand-ground p-6">
               <span className="mb-3 font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-accent-ink">
                 Niveau {i + 1}
               </span>
@@ -348,38 +348,38 @@ export function Levering() {
     ["Learning loop", "De wekelijkse review die de regels bijstelt."],
   ];
   return (
-    <Section tone="invert" className="v2-curtain relative overflow-hidden">
-      <GiantWord color="rgba(251,248,244,0.16)" className="-right-10 top-2 text-[16vw]">
+    <Section tone="deep" className="v2-curtain relative overflow-hidden">
+      <GiantWord color="rgba(255,255,255,0.07)" className="-right-10 top-2 text-[16vw]">
         INSTALLATIE
       </GiantWord>
       <div className="relative z-10">
         <SectionHeader
-          invert
+          deep
           eyebrow="De levering"
           title="Negen stappen, van proces tot lerende loop."
           lead="Wij beginnen niet bij Apollo, Clay of uw CRM. Wij beginnen bij het proces dat uw organisatie nodig heeft, en maken daar een machine-leesbare workflow van."
         />
-        <div className="grid gap-x-10 gap-y-0 border-t border-brand-ground/20 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-x-10 gap-y-0 border-t border-white/20 md:grid-cols-2 lg:grid-cols-3">
           {stappen.map(([name, body], i) => (
             <Reveal
               key={name}
               index={i}
-              className="flex gap-4 border-b border-brand-ground/15 py-5"
+              className="flex gap-4 border-b border-white/15 py-5"
             >
-              <span className="w-6 shrink-0 pt-0.5 font-display text-[11px] font-semibold tracking-[0.14em] text-brand-ground/50">
+              <span className="w-6 shrink-0 pt-0.5 font-display text-[11px] font-semibold tracking-[0.14em] text-white/50">
                 {String(i + 1).padStart(2, "0")}
               </span>
               <div>
-                <h3 className="mb-1 font-display text-[15px] font-semibold tracking-tight text-brand-ground">
+                <h3 className="mb-1 font-display text-[15px] font-semibold tracking-tight text-white">
                   {name}
                 </h3>
-                <p className="text-[13px] leading-relaxed text-brand-ground/70">{body}</p>
+                <p className="text-[13px] leading-relaxed text-[#CBC3B8]">{body}</p>
               </div>
             </Reveal>
           ))}
         </div>
         <Reveal className="mt-10">
-          <p className="max-w-[54ch] font-display text-[clamp(1.1rem,2vw,1.5rem)] font-semibold leading-snug tracking-tight text-brand-ground">
+          <p className="max-w-[54ch] font-display text-[clamp(1.1rem,2vw,1.5rem)] font-semibold leading-snug tracking-tight text-white">
             Proces, context, intelligence, capabilities, connectors en een
             AI-interface. Samen: een digitale commerciële medewerker.
           </p>

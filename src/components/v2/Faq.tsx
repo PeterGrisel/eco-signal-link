@@ -6,7 +6,7 @@ export function Faq({ items }: { items: FaqItem[] }) {
     <div className="border-t border-brand-line">
       {items.map((item) => (
         <details key={item.question} className="group border-b border-brand-line py-6">
-          <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-display text-[17px] font-semibold tracking-tight text-brand-ink [&::-webkit-details-marker]:hidden">
+          <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-display text-[17px] font-bold tracking-[-0.015em] text-brand-ink [&::-webkit-details-marker]:hidden">
             {item.question}
             <span
               aria-hidden
@@ -15,7 +15,7 @@ export function Faq({ items }: { items: FaqItem[] }) {
               +
             </span>
           </summary>
-          <p className="mt-3 max-w-[70ch] text-sm leading-relaxed text-brand-ink-2">
+          <p className="mt-3 max-w-[70ch] text-[13.5px] leading-relaxed text-brand-ink-2">
             {item.answer}
           </p>
         </details>

@@ -5,7 +5,7 @@
  */
 export function GiantWord({
   children,
-  color = "rgba(23,20,15,0.10)",
+  color = "rgba(255,255,255,0.07)",
   className = "",
 }: {
   children: string;
@@ -15,7 +15,7 @@ export function GiantWord({
   return (
     <span
       aria-hidden
-      className={`v2-giant-word pointer-events-none absolute select-none whitespace-nowrap font-display font-bold leading-none tracking-[-0.05em] text-transparent ${className}`}
+      className={`v2-giant-word pointer-events-none absolute select-none whitespace-nowrap font-display font-black leading-none tracking-[-0.05em] text-transparent ${className}`}
       style={{ WebkitTextStroke: `1.5px ${color}` }}
     >
       {children}

@@ -400,8 +400,8 @@
 
 :root {
   /* Vloeiende typeschaal uit het brandbook. */
-  --v2-h1: clamp(2.4rem, 5.5vw, 4.4rem);
-  --v2-h2: clamp(1.8rem, 3.5vw, 2.8rem);
+  --v2-h1: clamp(38px, 5.2vw, 62px);
+  --v2-h2: clamp(27px, 3.3vw, 40px);
 }
 
 /* Hero-entree: puur CSS, gestaffeld via --enter. */
@@ -461,8 +461,8 @@
    wegvallen. Op papier mag het raster iets steviger staan dan op donker. */
 .v2-grid-bg {
   background-image:
-    linear-gradient(to right, rgba(216, 123, 58, 0.16) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(216, 123, 58, 0.16) 1px, transparent 1px);
+    linear-gradient(to right, rgba(216, 123, 58, 0.13) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(216, 123, 58, 0.13) 1px, transparent 1px);
   background-size: 64px 64px;
   -webkit-mask-image: radial-gradient(ellipse 80% 65% at 50% 30%, #000 20%, transparent 78%);
   mask-image: radial-gradient(ellipse 80% 65% at 50% 30%, #000 20%, transparent 78%);

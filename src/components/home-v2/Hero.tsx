@@ -11,27 +11,21 @@ const HEADLINE = [
   [{ text: "flow.", accent: true }],
 ];
 
-/**
- * De rekensom uit de explainer: het omzetdoel wordt teruggerekend naar het
- * aantal opportunities dat de organisatie moet produceren. Dit is de
- * signature-visual van de hero.
- */
-const SUM = [
-  { value: "€ 1 mln", label: "extra omzet" },
-  { value: "€ 50K", label: "orderwaarde" },
-  { value: "20", label: "nieuwe klanten" },
-  { value: "25%", label: "winkans" },
+/** De rekensom uit de explainer, de signature-visual van de hero. */
+const SOM = [
+  { waarde: "€ 1 mln", label: "extra omzet" },
+  { waarde: "€ 50K", label: "orderwaarde" },
+  { waarde: "20", label: "nieuwe klanten" },
+  { waarde: "25%", label: "winkans" },
 ];
-
-/** De operator staat op de scheidingslijn tussen twee regels, zoals in de explainer. */
 const OPS = ["÷", "=", "÷", "="];
 
 function Proof({ items }: { items: string[] }) {
   return (
-    <div className="flex flex-wrap gap-x-6 gap-y-2 font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-ink-3">
+    <div className="flex flex-wrap gap-5 font-mono text-[10.5px] uppercase tracking-[0.1em] text-[#A29584]">
       {items.map((item) => (
-        <span key={item} className="flex items-center gap-2">
-          <span aria-hidden className="size-1.5 rounded-full bg-brand-accent" />
+        <span key={item} className="flex items-center gap-[7px]">
+          <span aria-hidden className="size-[5px] rounded-full bg-brand-accent" />
           {item}
         </span>
       ))}
@@ -39,83 +33,78 @@ function Proof({ items }: { items: string[] }) {
   );
 }
 
+/** Hero vult de viewport; rechts de rekensom die het hele verhaal samenvat. */
 export function Hero() {
   return (
-    <header className="relative flex min-h-[calc(100svh-69px)] flex-col justify-center overflow-hidden bg-brand-ground py-20 text-brand-ink">
-      <div aria-hidden className="v2-grid-bg pointer-events-none absolute inset-0" />
+    <header className="relative flex min-h-[calc(100svh-63px)] flex-col justify-center overflow-hidden bg-brand-deep py-20 text-white">
+      <div aria-hidden className="v2-grid-bg pointer-events-none absolute inset-0 opacity-60" />
       <div
         aria-hidden
-        className="pointer-events-none absolute -right-24 -top-20 size-[560px] rounded-full bg-[radial-gradient(circle,rgba(232,148,90,0.38),transparent_64%)]"
+        className="pointer-events-none absolute -right-[90px] -top-[60px] size-[520px] rounded-full bg-[radial-gradient(circle,rgba(232,148,90,0.22),transparent_62%)]"
       />
 
-      <Container className="relative z-10 grid items-center gap-14 lg:grid-cols-[1.05fr_.95fr]">
+      <Container className="relative z-[2] grid items-center gap-14 lg:grid-cols-[1.05fr_.95fr]">
         <div className="v2-enter">
-          <Eyebrow>Commerciële opportunity-engine</Eyebrow>
+          <Eyebrow tone="deep">Commerciële opportunity-engine</Eyebrow>
           <h1
             aria-label={splitHeadlineText(HEADLINE)}
-            className="mb-6 font-display text-[length:var(--v2-h1)] font-bold leading-[1.04] tracking-tight"
+            className="mb-[22px] font-display text-[length:var(--v2-h1)] font-black leading-[1.02] tracking-[-0.035em]"
           >
-            <SplitHeadline lines={HEADLINE} />
+            <SplitHeadline lines={HEADLINE} accentClass="text-brand-accent" />
           </h1>
-          <p className="mb-8 max-w-[50ch] text-[17px] leading-relaxed text-brand-ink-2">
-            Omzet en pipeline vertellen wat er aan het einde gebeurt. Ze zeggen
-            niets over de voorkant. Wij bouwen het systeem dat structureel
-            nieuwe kansen produceert, ze rangschikt op bewijs en uw verkopers
-            stuurt naar het account dat nu telt.
+          <p className="mb-[30px] max-w-[48ch] text-[17px] text-[#D6CEC3]">
+            Omzet en pipeline vertellen wat er aan het einde gebeurt. Wij bouwen
+            het systeem dat aan de voorkant structureel nieuwe kansen
+            produceert, ze rangschikt op bewijs en uw verkopers stuurt naar het
+            account dat nu telt.
           </p>
-          <div className="mb-8 flex flex-wrap gap-3">
+          <div className="mb-7 flex flex-wrap gap-3">
             <Button
               onClick={() => {
-                trackCTA("hero_plan_kennismaking", "hero");
+                trackCTA("hero_gratis_scan", "hero");
                 openBookingModal();
               }}
             >
-              Plan een kennismaking
+              Boek een gratis scan
             </Button>
-            <Button href="#engine" variant="outline">
-              Bekijk de engine
+            <Button href="#prijzen" variant="invert">
+              Bekijk de prijzen
             </Button>
           </div>
           <Proof
-            items={[
-              "Een label van Rebel Force",
-              "Operationeel in 4 weken",
-              "Op uw eigen data en CRM",
-            ]}
+            items={["Nul opstartkosten", "Operationeel in 4 weken", "Op uw eigen data en CRM"]}
           />
         </div>
 
         <div className="v2-enter" style={{ "--enter": 2 } as React.CSSProperties}>
-          <div className="rounded-lg border border-brand-line bg-brand-ground p-6 shadow-[0_18px_50px_-28px_rgba(23,20,15,0.35)]">
-            <p className="mb-5 font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-ink-3">
+          <div className="rounded-brand border border-white/[.12] bg-brand-deep-2 p-6">
+            <p className="mb-5 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#A29584]">
               De rekensom
             </p>
-
             <div>
-              {SUM.map((row, i) => (
-                <div key={row.label}>
+              {SOM.map((rij, i) => (
+                <div key={rij.label}>
                   <div className="flex items-baseline gap-4 py-2">
-                    <span className="font-display text-2xl font-bold tracking-tight text-brand-ink">
-                      {row.value}
+                    <span className="font-display text-2xl font-black tracking-[-0.02em] text-white">
+                      {rij.waarde}
                     </span>
-                    <span className="text-[13px] text-brand-ink-3">{row.label}</span>
+                    <span className="text-[13px] text-[#A29584]">{rij.label}</span>
                   </div>
                   <div className="flex items-center gap-3" aria-hidden>
-                    <span className="h-px grow bg-brand-line" />
-                    <span className="font-display text-sm font-semibold text-brand-accent-ink">
+                    <span className="h-px grow bg-white/[.12]" />
+                    <span className="font-display text-sm font-bold text-brand-accent">
                       {OPS[i]}
                     </span>
-                    <span className="h-px grow bg-brand-line" />
+                    <span className="h-px grow bg-white/[.12]" />
                   </div>
                 </div>
               ))}
             </div>
-
-            <div className="mt-5 rounded-md border border-brand-accent/50 bg-brand-accent/[0.16] px-5 py-4">
-              <p className="font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-accent-ink">
+            <div className="mt-5 rounded-brand border border-brand-accent/40 bg-brand-accent/[0.10] px-5 py-4">
+              <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-brand-accent">
                 80 opportunities per jaar
               </p>
-              <p className="mt-1.5 text-sm leading-relaxed text-brand-ink-2">
+              <p className="mt-2 text-[13.5px] leading-relaxed text-[#D6CEC3]">
                 De commerciële TAK: elke 4 tot 5 werkdagen één nieuwe
                 opportunity. Haalt u er nu 40, dan lost harder bellen niets op.
               </p>

@@ -15,9 +15,12 @@ export function splitHeadlineText(lines: Segment[][]): string {
 export function SplitHeadline({
   lines,
   className,
+  accentClass = "text-brand-accent-ink",
 }: {
   lines: Segment[][];
   className?: string;
+  /** Op wit het diepere oranje, op de donkere band het merkoranje. */
+  accentClass?: string;
 }) {
   let i = 0;
   return (
@@ -31,7 +34,7 @@ export function SplitHeadline({
                 {words.map((word, wi) => (
                   <Fragment key={wi}>
                     <span
-                      className={`v2-rise-word${seg.accent ? " text-brand-accent-ink" : ""}`}
+                      className={`v2-rise-word${seg.accent ? ` ${accentClass}` : ""}`}
                     >
                       {Array.from(word).map((ch, ci) => (
                         <span

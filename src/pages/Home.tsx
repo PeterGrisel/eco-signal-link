@@ -8,18 +8,19 @@ import { Marquee } from "@/components/v2/Marquee";
 import { Nav } from "@/components/v2/Nav";
 import { Hero } from "@/components/home-v2/Hero";
 import {
-  Bewijs,
   Contact,
   Diensten,
+  GebouwdMet,
   HoeHetWerkt,
-  Klantbewijs,
-  OnderDeMotorkap,
   Prijzen,
   Tijdlijn,
-  Trechter,
+  VertrouwdDoor,
   VoorWie,
   Vragen,
-  WelNiet,
+  WaaromEenEngine,
+  WatOnsAndersMaakt,
+  WatWijBouwen,
+  WieZitErachter,
 } from "@/components/home-v2/sections";
 import { FAQ_ITEMS } from "@/components/home-v2/faq";
 
@@ -86,15 +87,12 @@ const Home = () => {
 
   return (
     <PageLoader>
-      <div className="min-h-screen bg-brand-ground">
+      <div className="min-h-screen bg-brand-paper">
         <BreadcrumbJsonLd items={[{ name: "Home", url: "https://www.b2bgroeimachine.io/" }]} />
         <JsonLd id="home-faq-jsonld" data={faqSchema} />
         <Nav />
         <main>
           <Hero />
-          <Klantbewijs />
-          <Diensten />
-          <VoorWie />
           <Marquee
             items={[
               "Opportunity-engine",
@@ -105,13 +103,17 @@ const Home = () => {
               "GTM as a Service",
             ]}
           />
-          <Trechter />
+          <WaaromEenEngine />
+          <WatWijBouwen />
+          <WatOnsAndersMaakt />
+          <Diensten />
+          <VertrouwdDoor />
           <HoeHetWerkt />
-          <Bewijs />
-          <OnderDeMotorkap />
-          <Prijzen />
           <Tijdlijn />
-          <WelNiet />
+          <VoorWie />
+          <Prijzen />
+          <GebouwdMet />
+          <WieZitErachter />
           <Vragen />
           <Contact />
         </main>

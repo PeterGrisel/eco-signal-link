@@ -5,16 +5,16 @@ import { motion, useMotionValue, useReducedMotion, useSpring } from "framer-moti
 type Variant = "primary" | "outline" | "invert";
 
 const variants: Record<Variant, string> = {
-  primary: "bg-brand-accent text-brand-ink hover:bg-brand-accent-2 hover:text-brand-ground",
+  primary: "bg-brand-accent text-brand-ink hover:bg-brand-accent-2",
   outline:
-    "border-[1.5px] border-brand-ink/25 text-brand-ink hover:border-brand-accent-ink hover:bg-brand-accent hover:text-brand-ink",
-  /** Voor gebruik op de zwarte accentband. */
+    "border-[1.5px] border-brand-ink text-brand-ink hover:bg-brand-ink hover:text-white",
+  /** Voor gebruik op de donkere accentband. */
   invert:
-    "border-[1.5px] border-brand-ground/35 text-brand-ground hover:bg-brand-ground hover:text-brand-ink",
+    "border-[1.5px] border-white/35 text-white hover:bg-white hover:text-brand-ink",
 };
 
 const base =
-  "inline-block rounded-md px-6 py-3 font-display text-sm font-semibold tracking-tight transition-[background-color,color,border-color,transform] duration-200 active:scale-[.96] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-accent";
+  "inline-block rounded-btn px-5 py-[11px] font-display text-[13.5px] font-bold tracking-[-0.01em] transition-[background-color,color,border-color,transform] duration-[180ms] active:scale-[.96] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-accent";
 
 /**
  * Magnetische knop: trekt licht naar de cursor en veert terug. `href` mag een

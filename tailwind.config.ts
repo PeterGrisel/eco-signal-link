@@ -27,6 +27,7 @@ export default {
       fontFamily: {
         display: ["Space Grotesk", "sans-serif"],
         body: ["Inter", "sans-serif"],
+        mono: ["JetBrains Mono", "ui-monospace", "monospace"],
         serif: ["Fraunces", "Georgia", "serif"],
       },
       colors: {
@@ -34,18 +35,23 @@ export default {
            het v2-designsysteem, naast de bestaande shadcn HSL-variabelen. */
         /* B2B Groeimachine huisstijl, licht en oranje-voorwaarts.
            Het merkoranje draagt de pagina; het diepe zwart is de accentband. */
+        /* Het v2-designsysteem volgt de opbouw van vidai-fctry (wit papier,
+           een tweede getint vlak en een donkere accentband) in de kleuren van
+           B2B Groeimachine. */
         brand: {
-          ground: "#FBF8F4",
-          surface: "#F4EBE0",
-          raise: "#EDE2D4",
-          line: "#E3D6C5",
+          paper: "#FFFFFF",
+          mist: "#F7F4EF",
+          tint: "#FDF1E8",
+          line: "#E5DFD5",
           ink: "#17140F",
-          "ink-2": "#544B40",
-          "ink-3": "#7A6F62",
-          accent: "#E8945A",
-          "accent-2": "#D97B3A",
-          "accent-ink": "#A85410",
+          "ink-2": "#5A5148",
+          "ink-3": "#8C8378",
           deep: "#17140F",
+          "deep-2": "#231F19",
+          accent: "#E8945A",
+          "accent-2": "#F0A972",
+          /* Oranje dat op wit genoeg contrast houdt voor kleine tekst. */
+          "accent-ink": "#A85410",
         },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -92,6 +98,8 @@ export default {
         },
       },
       borderRadius: {
+        brand: "3px",
+        btn: "2px",
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
