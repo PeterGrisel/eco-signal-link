@@ -14,6 +14,13 @@ import { sectors } from "@/data/sectors";
 import { supabase } from "@/integrations/supabase/client";
 import { trackCTA } from "@/lib/tracking";
 import { FAQ_ITEMS } from "./faq";
+import {
+  MockChecklist,
+  MockHandoff,
+  MockPipeline,
+  MockRadar,
+  MockSequence,
+} from "./mocks";
 
 /**
  * De homepagesecties, in de volgorde waarin ze op de pagina staan.
@@ -245,58 +252,94 @@ export function WatOnsAndersMaakt() {
   );
 }
 
-/* ── 04 · De vier diensten ──────────────────────────────────────────────── */
+/* ── 04 · De diensten als bento ────────────────────────────────────────── */
 
+const DIENSTEN = [
+  {
+    rol: "Nieuwe markten",
+    naam: "Outbound",
+    body: "Markt in kaart, hypotheses per segment, multichannel activatie en opvolging. Voor groei buiten uw bestaande klantenbestand.",
+    mock: <MockSequence />,
+    slot: "lg:col-span-2",
+  },
+  {
+    rol: "Named accounts",
+    naam: "ABM",
+    body: "Een afgebakende lijst, per account een eigen hypothese en een route naar de juiste beslisser.",
+    mock: <MockPipeline />,
+  },
+  {
+    rol: "Fundament",
+    naam: "RevOps",
+    body: "Datamodel, CRM-inrichting, routing en rapportage. Zonder dit blijft de rest handwerk.",
+    mock: <MockChecklist />,
+  },
+  {
+    rol: "Lange adem",
+    naam: "Nurturing",
+    body: "Accounts met fit maar zonder timing blijven in beeld tot het bewijs stapelt.",
+    mock: <MockRadar />,
+  },
+  {
+    rol: "Alles samen",
+    naam: "GTM as a Service",
+    body: "De vier diensten op één engine, van signaal tot hand-off met reason codes. Vanaf € 1.500 per maand.",
+    mock: <MockHandoff />,
+    slot: "lg:col-span-2",
+    highlight: true,
+  },
+];
+
+/**
+ * De diensten als bento-raster, elk met een miniatuur dat laat zien wat de
+ * dienst doet. Opbouw naar het model van daliagents.com: beeld boven, kopregel
+ * met pijl, korte omschrijving, en een gordijn dat de sectie openschuift.
+ */
 export function Diensten() {
-  const kaarten = [
-    {
-      label: "Outbound",
-      title: "Nieuwe accounts openen",
-      body: "Markt in kaart, hypotheses per segment, multichannel activatie en opvolging. Voor groei buiten uw bestaande klantenbestand.",
-      highlight: true,
-    },
-    {
-      label: "ABM",
-      title: "Gericht op de accounts die tellen",
-      body: "Een afgebakende lijst met accounts, per account een eigen opportunity-hypothese, content en route naar de juiste beslisser.",
-    },
-    {
-      label: "RevOps",
-      title: "Het proces onder de motorkap",
-      body: "Datamodel, CRM-inrichting, routing, rapportage en de wekelijkse learning review. Zonder dit blijft de rest handwerk.",
-    },
-    {
-      label: "Nurturing",
-      title: "Waarde houden bij wie nog niet klaar is",
-      body: "Accounts met fit maar zonder timing blijven in beeld. Zodra het bewijs stapelt, komen ze terug bovenaan de lijst.",
-    },
-  ];
   return (
-    <Section id="diensten">
-      {/* Sticky kop met de kaarten die ernaast langsscrollen. */}
-      <div className="grid gap-10 lg:grid-cols-[minmax(0,0.82fr)_minmax(0,1.18fr)] lg:gap-16">
-        <div className="lg:sticky lg:top-24 lg:self-start">
-          <SectionHeader
-            eyebrow="Wat u koopt"
-            title={
-              <>
-                Vier diensten,
-                <br className="hidden sm:block" /> één engine.
-              </>
-            }
-            lead="Kies waar u begint. Alle vier draaien op dezelfde infrastructuur, dus uitbreiden is een kwestie van een hypothese toevoegen, niet van opnieuw beginnen."
-          />
-        </div>
-        <div className="flex flex-col gap-5">
-          {kaarten.map((k, i) => (
-            <Reveal key={k.label} index={i}>
-              <Card label={k.label} title={k.title} highlight={k.highlight}>
-                {k.body}
-              </Card>
-            </Reveal>
-          ))}
-        </div>
+    <Section id="diensten" tone="mist" className="v2-gordijn">
+      <SectionHeader
+        eyebrow="Wat u koopt"
+        title="Kies waar u begint."
+        lead="Alle vier draaien op dezelfde engine, dus uitbreiden is een hypothese toevoegen en geen nieuw traject. Onderaan de volledige dienst, als u alles in één hand wilt."
+      />
+      <div className="grid gap-[18px] sm:grid-cols-2 lg:grid-cols-3">
+        {DIENSTEN.map((dienst, i) => (
+          <Reveal key={dienst.naam} index={i} className={`h-full ${dienst.slot ?? ""}`}>
+            <article
+              className={`flex h-full flex-col overflow-hidden rounded-brand border bg-brand-paper ${
+                dienst.highlight ? "border-brand-accent" : "border-brand-line"
+              }`}
+            >
+              <span
+                aria-hidden
+                className={`h-[3px] w-full ${dienst.highlight ? "bg-brand-accent" : "bg-brand-ink"}`}
+              />
+              <div className="p-4">{dienst.mock}</div>
+              <div className="flex grow flex-col px-6 pb-7 pt-1">
+                <p className="mb-3 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-brand-accent-ink">
+                  {dienst.rol}
+                </p>
+                <div className="mb-2 flex items-start justify-between gap-4">
+                  <h3 className="font-display text-lg font-bold leading-snug tracking-[-0.015em]">
+                    {dienst.naam}
+                  </h3>
+                  <span aria-hidden className="text-brand-ink-3">
+                    ↗
+                  </span>
+                </div>
+                <p className="text-[13.5px] text-brand-ink-2">{dienst.body}</p>
+              </div>
+            </article>
+          </Reveal>
+        ))}
       </div>
+      <Reveal className="mt-9 flex flex-wrap items-center gap-3">
+        <Button href="#prijzen">Wat het kost</Button>
+        <Button href="/groeistack" variant="outline">
+          Bekijk de groeistack
+        </Button>
+      </Reveal>
     </Section>
   );
 }

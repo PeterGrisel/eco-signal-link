@@ -475,3 +475,114 @@
   .v2-rise-letter,
   .v2-marquee-track { animation: none; }
 }
+
+/* ══════════════════════════════════════════════════════════════════════
+   BENTO-MOCKS — de kleine bewegende schermpjes in de dienstenkaarten.
+   Elke mock is een miniatuur van wat die dienst dóét. Alle animaties
+   staan uit bij prefers-reduced-motion en eindigen in een leesbare staat.
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* Sequence die zichzelf typt, met knipperende cursor. */
+@keyframes v2-typen {
+  0%, 8% { width: 0; }
+  55%, 100% { width: 100%; }
+}
+@keyframes v2-cursor {
+  0%, 45% { opacity: 1; }
+  46%, 100% { opacity: 0; }
+}
+.v2-typen {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  animation: v2-typen 5s steps(28, end) infinite;
+}
+.v2-cursor { animation: v2-cursor 1s steps(1, end) infinite; }
+
+/* Chips die om de beurt oplichten. */
+@keyframes v2-chip {
+  0%, 100% { border-color: var(--v2-chip-uit); color: var(--v2-chip-uit-tekst); }
+  18%, 32% { border-color: #E8945A; color: #A85410; }
+}
+.v2-chip {
+  --v2-chip-uit: #E5DFD5;
+  --v2-chip-uit-tekst: #8C8378;
+  animation: v2-chip 5s ease-in-out infinite;
+}
+
+/* Ticket dat door de banen Qualified → Target → Priority reist. */
+/* De sprong per baan is de baanbreedte plus de kolomafstand (gap-2 = 0.5rem). */
+@keyframes v2-ticket {
+  0%, 6% { transform: translateX(0); opacity: 0; }
+  10%, 28% { transform: translateX(0); opacity: 1; }
+  38%, 56% { transform: translateX(calc(100% + 0.5rem)); opacity: 1; }
+  66%, 88% { transform: translateX(calc(200% + 1rem)); opacity: 1; }
+  96%, 100% { transform: translateX(calc(200% + 1rem)); opacity: 0; }
+}
+.v2-ticket { animation: v2-ticket 6s ease-in-out infinite; }
+
+/* Vinkjes die één voor één worden gezet. */
+@keyframes v2-vink {
+  0%, 100% { stroke-dashoffset: 12; }
+  40%, 92% { stroke-dashoffset: 0; }
+}
+.v2-vink {
+  stroke-dasharray: 12;
+  stroke-dashoffset: 12;
+  animation: v2-vink 5s ease-in-out infinite;
+}
+@keyframes v2-vinkvak {
+  0%, 100% { background-color: transparent; border-color: #E5DFD5; }
+  40%, 92% { background-color: #E8945A; border-color: #E8945A; }
+}
+.v2-vinkvak { animation: v2-vinkvak 5s ease-in-out infinite; }
+
+/* Radar-bogen die zich vullen. */
+@keyframes v2-boog {
+  0% { stroke-dashoffset: var(--v2-boog-lengte); }
+  45%, 100% { stroke-dashoffset: var(--v2-boog-rest); }
+}
+.v2-boog { animation: v2-boog 4.5s cubic-bezier(0.2, 0.7, 0.2, 1) infinite; }
+
+/* Verbindingen in de hand-off die zich vullen, stap voor stap. */
+@keyframes v2-schakel {
+  0%, 100% { transform: scaleX(0); }
+  35%, 90% { transform: scaleX(1); }
+}
+.v2-schakel { transform-origin: left center; animation: v2-schakel 5s ease-in-out infinite; }
+
+@keyframes v2-stap-aan {
+  0%, 100% { border-color: #E5DFD5; }
+  35%, 90% { border-color: #E8945A; }
+}
+.v2-stap-aan { animation: v2-stap-aan 5s ease-in-out infinite; }
+
+/* Gordijn: de sectie schuift open vanaf de bovenrand tijdens het scrollen. */
+@keyframes v2-gordijn {
+  from { clip-path: inset(14% 0 0 0); opacity: 0.55; }
+  to { clip-path: inset(0 0 0 0); opacity: 1; }
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .v2-gordijn {
+      animation: v2-gordijn linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 55%;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v2-typen,
+  .v2-cursor,
+  .v2-chip,
+  .v2-ticket,
+  .v2-vink,
+  .v2-vinkvak,
+  .v2-boog,
+  .v2-schakel,
+  .v2-stap-aan { animation: none; }
+  .v2-typen { width: 100%; }
+  .v2-vink { stroke-dashoffset: 0; }
+  .v2-schakel { transform: scaleX(1); }
+}
