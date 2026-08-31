@@ -396,60 +396,245 @@ export function Logobalk() {
   );
 }
 
-/* ── 03 · De pilot ─────────────────────────────────────────────────────── */
+/* ── 03 · Het protocol ─────────────────────────────────────────────────── */
 
 /**
- * De vier voorwaarden van het aanbod, als eigen blok vlak onder de logobalk.
- * Dit is het risico wegnemen vóór de uitleg begint.
+ * De pilotvoorwaarden als protocol in plaats van als vier losse beloftes.
+ *
+ * Opbouw naar het model van daliagents.com: eerst wat er vooraf wordt
+ * vastgelegd, dan de twee uitkomsten naast elkaar, dan de tabel met wat er
+ * gemeten wordt. De exacte waarden per criterium spreken wij per klant af; die
+ * staan hier bewust niet ingevuld.
  */
-export function DePilot() {
-  const voorwaarden = [
+export function HetProtocol() {
+  const stappen = [
     {
-      kop: "90 dagen pilot",
-      body: "Eén afgebakende periode met een vooraf vastgelegde hypothese, een doel en een meetmoment. Daarna weet u of het werkt.",
+      stempel: "Vooraf vastgelegd",
+      regels: [
+        ["Doelmarkt en ICP", "vastgelegd"],
+        ["Opportunity-hypotheses", "vastgelegd"],
+        ["Definitie van live", "vastgelegd"],
+      ],
+      kop: "De afspraak",
+      body: "Voor er één regel wordt gebouwd, staat op papier wat 'live' betekent in uw situatie.",
     },
     {
-      kop: "Maandelijks opzegbaar",
-      body: "Geen jaarcontract en geen opzegtermijn van een kwartaal. Levert het niet op, dan stopt u aan het eind van de maand.",
+      stempel: "Dag 1 tot 30",
+      regels: [
+        ["Datamodel", "gebouwd"],
+        ["Connectors", "aangesloten"],
+        ["Eerste flow", "draait"],
+      ],
+      kop: "De bouw",
+      body: "Wij bouwen op uw eigen data en CRM. U ziet elke week wat er staat en wat er nog mist.",
     },
     {
-      kop: "Geen opstartkosten",
-      body: "Nul euro om te beginnen. Het bouwen van het datamodel, de connectors en de eerste flows zit in het maandbedrag.",
+      stempel: "Dag 30",
+      regels: [
+        ["Engine draait", "u bevestigt"],
+        ["Accounts in CRM", "u bevestigt"],
+        ["Reason codes kloppen", "u beoordeelt"],
+      ],
+      kop: "De toets",
+      body: "U legt de werkelijkheid naast de afspraak. Niet wij, u.",
     },
-    {
-      kop: "In 30 dagen live",
-      body: "Staat de engine na dertig dagen niet te draaien, dan krijgt u het betaalde bedrag terug. Zonder discussie.",
-      highlight: true,
-    },
+  ];
+  const meting = [
+    ["Engine live", "Datamodel, connectors en de eerste flow draaien", "Werkende omgeving op uw stack"],
+    ["Accounts geleverd", "Priority accounts landen in uw CRM", "CRM-export met reason codes"],
+    ["Doorlooptijd", "Binnen 30 kalenderdagen na kickoff", "Kickoffdatum en opleverdatum"],
+    ["Niet gehaald", "U krijgt het betaalde bedrag terug", "Creditfactuur"],
   ];
   return (
     <Section id="pilot" tone="mist">
       <SectionHeader
-        eyebrow="Het aanbod"
-        title="Negentig dagen om het te bewijzen."
-        lead="Wij vragen geen jaarcontract om iets te laten zien wat binnen een kwartaal zichtbaar hoort te zijn. Daarom draait het als pilot, met de voorwaarden op tafel."
+        eyebrow="Zo werkt de pilot"
+        title="Wij vragen u niet om vertrouwen. Wij leggen vast wanneer het geslaagd is."
+        lead="Negentig dagen om het te bewijzen, maandelijks opzegbaar en geen opstartkosten. Wat 'live' betekent, schrijven wij op vóór we beginnen. Op dag dertig legt u de werkelijkheid daarnaast."
       />
-      <div className="grid gap-px overflow-hidden rounded-brand border border-brand-line bg-brand-line sm:grid-cols-2 lg:grid-cols-4">
-        {voorwaarden.map((v, i) => (
-          <Reveal key={v.kop} index={i} className="h-full bg-brand-paper">
-            <div className="flex h-full flex-col p-6">
-              <span
-                aria-hidden
-                className={`mb-4 block h-[3px] w-8 ${v.highlight ? "bg-brand-accent" : "bg-brand-ink"}`}
-              />
-              <h3 className="mb-2 font-display text-[17px] font-bold tracking-[-0.015em]">
-                {v.kop}
-              </h3>
-              <p className="text-[13px] text-brand-ink-2">{v.body}</p>
+
+      <ol className="grid gap-[22px] md:grid-cols-3">
+        {stappen.map((stap, i) => (
+          <Reveal key={stap.kop} index={i} className="h-full">
+            <li className="flex h-full flex-col">
+              <article className="rounded-brand border border-brand-line bg-brand-paper p-5">
+                <p className="mb-4 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-brand-accent-ink">
+                  {stap.stempel}
+                </p>
+                <ul className="space-y-2.5 font-mono text-[11.5px]">
+                  {stap.regels.map(([wat, status]) => (
+                    <li
+                      key={wat}
+                      className="flex items-baseline justify-between gap-4 border-b border-brand-line pb-2.5 last:border-b-0 last:pb-0"
+                    >
+                      <span className="text-brand-ink-2">{wat}</span>
+                      <b className="shrink-0 font-bold text-brand-ink">{status}</b>
+                    </li>
+                  ))}
+                </ul>
+              </article>
+              <div className="pt-5">
+                <strong className="block font-display text-[17px] font-bold tracking-[-0.015em]">
+                  {stap.kop}
+                </strong>
+                <p className="mt-1.5 text-[13.5px] text-brand-ink-2">{stap.body}</p>
+              </div>
+            </li>
+          </Reveal>
+        ))}
+      </ol>
+
+      {/* De twee uitkomsten naast elkaar: dit is waar de garantie concreet wordt. */}
+      <Reveal className="mt-14">
+        <h3 className="mb-6 font-display text-[clamp(20px,2.4vw,28px)] font-extrabold tracking-[-0.025em]">
+          Staat de engine op dag dertig live?
+        </h3>
+        <div className="grid gap-[22px] md:grid-cols-2">
+          <article className="overflow-hidden rounded-brand border border-brand-accent bg-brand-paper">
+            <span aria-hidden className="block h-[3px] w-full bg-brand-accent" />
+            <div className="p-6">
+              <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-brand-ink-3">
+                Uitkomst
+              </p>
+              <p className="mt-2 font-display text-[26px] font-black tracking-[-0.03em]">Ja</p>
+              <p className="mt-2 text-[13.5px] text-brand-ink-2">
+                De pilot loopt door tot dag negentig. U betaalt per maand en kunt
+                elke maand stoppen.
+              </p>
+              <p className="mt-5 flex items-baseline justify-between gap-4 border-t border-brand-line pt-4 font-mono text-[11.5px]">
+                <span className="text-brand-ink-3">Uw risico</span>
+                <b className="font-bold text-brand-ink">Eén maand</b>
+              </p>
             </div>
+          </article>
+          <article className="overflow-hidden rounded-brand border border-brand-line bg-brand-paper">
+            <span aria-hidden className="block h-[3px] w-full bg-brand-ink" />
+            <div className="p-6">
+              <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-brand-ink-3">
+                Uitkomst
+              </p>
+              <p className="mt-2 font-display text-[26px] font-black tracking-[-0.03em]">Nee</p>
+              <p className="mt-2 text-[13.5px] text-brand-ink-2">
+                U krijgt het betaalde bedrag terug. Wat er tot dan toe gebouwd is,
+                blijft van u.
+              </p>
+              <p className="mt-5 flex items-baseline justify-between gap-4 border-t border-brand-line pt-4 font-mono text-[11.5px]">
+                <span className="text-brand-ink-3">Uw risico</span>
+                <b className="font-bold text-brand-ink">€ 0</b>
+              </p>
+            </div>
+          </article>
+        </div>
+      </Reveal>
+
+      <Reveal className="mt-14">
+        <div className="rounded-brand border border-brand-line bg-brand-paper p-6 sm:p-8">
+          <div className="mb-6 flex flex-wrap items-baseline justify-between gap-4">
+            <h3 className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-brand-accent-ink">
+              Wat wij meten
+            </h3>
+            <p className="text-[12.5px] text-brand-ink-3">
+              De exacte waarden spreken wij met u af
+            </p>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[560px] border-collapse text-[13px]">
+              <thead>
+                <tr>
+                  {["Criterium", "Vastgelegde voorwaarde", "Bewijs"].map((kop) => (
+                    <th
+                      key={kop}
+                      scope="col"
+                      className="border-b border-brand-ink-3 pb-3 pr-6 text-left font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-brand-ink-3"
+                    >
+                      {kop}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {meting.map(([criterium, voorwaarde, bewijs]) => (
+                  <tr key={criterium}>
+                    <th
+                      scope="row"
+                      className="border-b border-brand-line py-3.5 pr-6 text-left font-medium text-brand-ink"
+                    >
+                      {criterium}
+                    </th>
+                    <td className="border-b border-brand-line py-3.5 pr-6 text-brand-ink-2">
+                      {voorwaarde}
+                    </td>
+                    <td className="border-b border-brand-line py-3.5 text-brand-ink-2">
+                      <span className="font-mono text-[11.5px]">{bewijs}</span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </Reveal>
+
+      <Reveal className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-brand-line pt-8">
+        <span className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-brand-ink-3">
+          De afspraak
+        </span>
+        <strong className="font-display text-[clamp(18px,2vw,24px)] font-extrabold tracking-[-0.025em]">
+          In 30 dagen live. Anders geld terug.
+        </strong>
+      </Reveal>
+    </Section>
+  );
+}
+
+/* ── 04 · De alternatieven ─────────────────────────────────────────────── */
+
+/**
+ * Naast welke andere routes de bezoeker ons afweegt. Eerlijk over wat die
+ * routes opleveren, want het alternatief noemen werkt beter dan doen alsof het
+ * niet bestaat.
+ */
+export function Alternatieven() {
+  const routes = [
+    {
+      naam: "Zelf bouwen met tools",
+      body: "Apollo, een e-mailtool en een middag knutselen. Snel opgezet, en daarna niemand die de lijsten schoonhoudt, de signalen weegt of merkt dat de flow al drie weken stilstaat.",
+    },
+    {
+      naam: "Een SDR aannemen",
+      body: "Werving, inwerken en een vast salaris vanaf dag één. Na een half jaar weet u pas of het werkt, en vertrekt hij, dan begint u opnieuw. De kennis zat in zijn hoofd.",
+    },
+    {
+      naam: "B2B Groeimachine",
+      body: "De engine draait binnen dertig dagen op uw eigen data en CRM. Maandelijks opzegbaar, geen opstartkosten, en wat er gebouwd is blijft van u.",
+      ons: true,
+    },
+  ];
+  return (
+    <Section>
+      <SectionHeader
+        eyebrow="De afweging"
+        title="Drie manieren om aan nieuwe opportunities te komen."
+        lead="Wij zijn niet de enige route, en soms niet de juiste. Dit is wat de andere twee u kosten."
+      />
+      <div className="grid gap-[22px] md:grid-cols-3">
+        {routes.map((route, i) => (
+          <Reveal key={route.naam} index={i} className="h-full">
+            <article
+              className={`flex h-full flex-col overflow-hidden rounded-brand border p-6 ${
+                route.ons
+                  ? "border-brand-accent bg-brand-tint"
+                  : "border-brand-line bg-brand-paper"
+              }`}
+            >
+              <h3 className="mb-2.5 font-display text-[19px] font-bold tracking-[-0.02em]">
+                {route.naam}
+              </h3>
+              <p className="text-[13.5px] text-brand-ink-2">{route.body}</p>
+            </article>
           </Reveal>
         ))}
       </div>
-      <Reveal className="mt-8">
-        <Button href="#prijzen" variant="outline">
-          Wat de pilot kost
-        </Button>
-      </Reveal>
     </Section>
   );
 }
