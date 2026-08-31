@@ -420,7 +420,7 @@ const ExactHero = () => {
                       Volgende actie
                     </span>
                     <button
-                      onClick={openBookingModal}
+                      onClick={() => openBookingModal()}
                       className="px-3 py-1 rounded-md border border-primary/50 text-primary font-display font-semibold text-[10px] hover:bg-primary/10 transition-colors"
                     >
                       Bel vandaag

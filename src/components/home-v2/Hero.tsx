@@ -1,115 +1,101 @@
-import { Button } from "@/components/v2/Button";
+import { useState } from "react";
+import { ArrowRight, Check } from "lucide-react";
 import { Container } from "@/components/v2/Container";
-import { Eyebrow } from "@/components/v2/Eyebrow";
 import { SplitHeadline, splitHeadlineText } from "@/components/v2/SplitHeadline";
+import { SignaalDiagram } from "./SignaalDiagram";
 import { openBookingModal } from "@/components/booking/GlobalBookingModal";
 import { trackCTA } from "@/lib/tracking";
 
 const HEADLINE = [
-  [{ text: "Van omzetdoel" }],
-  [{ text: "naar opportunity" }],
-  [{ text: "flow.", accent: true }],
+  [{ text: "Meer omzet" }],
+  [{ text: "zonder extra" }],
+  [{ text: "verkopers.", accent: true }],
 ];
 
-/** De rekensom uit de explainer, de signature-visual van de hero. */
-const SOM = [
-  { waarde: "€ 1 mln", label: "extra omzet" },
-  { waarde: "€ 50K", label: "orderwaarde" },
-  { waarde: "20", label: "nieuwe klanten" },
-  { waarde: "25%", label: "winkans" },
-];
-const OPS = ["÷", "=", "÷", "="];
+/**
+ * E-mail plus knop in één veld: de bezoeker typt zijn adres en komt met dat
+ * adres al ingevuld in de agenda terecht. Zonder adres opent de modal gewoon.
+ */
+function AfspraakVeld() {
+  const [email, setEmail] = useState("");
 
-function Proof({ items }: { items: string[] }) {
+  function boek(e: React.FormEvent) {
+    e.preventDefault();
+    trackCTA("hero_gratis_scan", "hero");
+    openBookingModal(email.trim() ? { email: email.trim() } : undefined);
+  }
+
   return (
-    <div className="flex flex-wrap gap-5 font-mono text-[10.5px] uppercase tracking-[0.1em] text-[#A29584]">
-      {items.map((item) => (
-        <span key={item} className="flex items-center gap-[7px]">
-          <span aria-hidden className="size-[5px] rounded-full bg-brand-accent" />
-          {item}
-        </span>
-      ))}
-    </div>
+    <form
+      onSubmit={boek}
+      className="flex w-full max-w-[520px] flex-col gap-2 rounded-brand border border-white/[.14] bg-white/[.04] p-2 sm:flex-row sm:items-center"
+    >
+      <label htmlFor="hero-email" className="sr-only">
+        Uw zakelijke e-mailadres
+      </label>
+      <input
+        id="hero-email"
+        type="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        placeholder="u@bedrijf.nl"
+        autoComplete="email"
+        className="min-w-0 grow bg-transparent px-4 py-3 text-[15px] text-white placeholder:text-[#8C8378] focus:outline-none"
+      />
+      <button
+        type="submit"
+        className="inline-flex shrink-0 items-center justify-center gap-2 rounded-btn bg-brand-accent px-5 py-3 font-display text-[13.5px] font-bold tracking-[-0.01em] text-brand-ink transition-colors duration-[180ms] hover:bg-brand-accent-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-accent"
+      >
+        Boek een gratis scan
+        <ArrowRight aria-hidden className="size-4" />
+      </button>
+    </form>
   );
 }
 
-/** Hero vult de viewport; rechts de rekensom die het hele verhaal samenvat. */
 export function Hero() {
   return (
-    <header className="relative flex min-h-[calc(100svh-63px)] flex-col justify-center overflow-hidden bg-brand-deep py-20 text-white">
+    <header className="relative overflow-hidden bg-brand-deep py-16 text-white lg:py-24">
       <div aria-hidden className="v2-grid-bg pointer-events-none absolute inset-0 opacity-60" />
       <div
         aria-hidden
-        className="pointer-events-none absolute -right-[90px] -top-[60px] size-[520px] rounded-full bg-[radial-gradient(circle,rgba(232,148,90,0.22),transparent_62%)]"
+        className="pointer-events-none absolute -right-[120px] top-[80px] size-[560px] rounded-full bg-[radial-gradient(circle,rgba(232,148,90,0.20),transparent_64%)]"
       />
 
-      <Container className="relative z-[2] grid items-center gap-14 lg:grid-cols-[1.05fr_.95fr]">
+      <Container className="relative z-[2] grid items-center gap-14 lg:grid-cols-[1.02fr_.98fr]">
         <div className="v2-enter">
-          <Eyebrow tone="deep">Commerciële opportunity-engine</Eyebrow>
+          <p className="mb-6 font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-brand-accent">
+            [ Opportunity-engine voor B2B met bewezen propositie ]
+          </p>
           <h1
             aria-label={splitHeadlineText(HEADLINE)}
             className="mb-[22px] font-display text-[length:var(--v2-h1)] font-black leading-[1.02] tracking-[-0.035em]"
           >
             <SplitHeadline lines={HEADLINE} accentClass="text-brand-accent" />
           </h1>
-          <p className="mb-[30px] max-w-[48ch] text-[17px] text-[#D6CEC3]">
-            Omzet en pipeline vertellen wat er aan het einde gebeurt. Wij bouwen
-            het systeem dat aan de voorkant structureel nieuwe kansen
-            produceert, ze rangschikt op bewijs en uw verkopers stuurt naar het
-            account dat nu telt.
+          <p className="mb-8 max-w-[46ch] text-[17px] leading-relaxed text-[#D6CEC3]">
+            B2B Groeimachine bouwt het systeem achter uw sales, marketing en
+            RevOps. Wij draaien het negentig dagen als pilot, of u neemt het
+            daarna zelf in beheer.
           </p>
-          <div className="mb-7 flex flex-wrap gap-3">
-            <Button
-              onClick={() => {
-                trackCTA("hero_gratis_scan", "hero");
-                openBookingModal();
-              }}
-            >
-              Boek een gratis scan
-            </Button>
-            <Button href="#prijzen" variant="invert">
-              Bekijk de prijzen
-            </Button>
-          </div>
-          <Proof
-            items={["Nul opstartkosten", "Operationeel in 4 weken", "Op uw eigen data en CRM"]}
-          />
+
+          <AfspraakVeld />
+
+          <p className="mt-5 flex items-start gap-2.5 text-[14px] text-[#D6CEC3]">
+            <Check aria-hidden className="mt-0.5 size-4 shrink-0 text-brand-accent" />
+            In 30 dagen live, anders krijgt u uw geld terug.
+          </p>
+
+          <a
+            href="#hoe-het-werkt"
+            className="mt-5 inline-flex items-center gap-1.5 border-b border-white/30 pb-0.5 text-[14px] text-white transition-colors duration-[180ms] hover:border-brand-accent hover:text-brand-accent"
+          >
+            Bekijk hoe het werkt <span aria-hidden>→</span>
+          </a>
         </div>
 
         <div className="v2-enter" style={{ "--enter": 2 } as React.CSSProperties}>
-          <div className="rounded-brand border border-white/[.12] bg-brand-deep-2 p-6">
-            <p className="mb-5 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#A29584]">
-              De rekensom
-            </p>
-            <div>
-              {SOM.map((rij, i) => (
-                <div key={rij.label}>
-                  <div className="flex items-baseline gap-4 py-2">
-                    <span className="font-display text-2xl font-black tracking-[-0.02em] text-white">
-                      {rij.waarde}
-                    </span>
-                    <span className="text-[13px] text-[#A29584]">{rij.label}</span>
-                  </div>
-                  <div className="flex items-center gap-3" aria-hidden>
-                    <span className="h-px grow bg-white/[.12]" />
-                    <span className="font-display text-sm font-bold text-brand-accent">
-                      {OPS[i]}
-                    </span>
-                    <span className="h-px grow bg-white/[.12]" />
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className="mt-5 rounded-brand border border-brand-accent/40 bg-brand-accent/[0.10] px-5 py-4">
-              <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-brand-accent">
-                80 opportunities per jaar
-              </p>
-              <p className="mt-2 text-[13.5px] leading-relaxed text-[#D6CEC3]">
-                De commerciële TAK: elke 4 tot 5 werkdagen één nieuwe
-                opportunity. Haalt u er nu 40, dan lost harder bellen niets op.
-              </p>
-            </div>
-          </div>
+          <SignaalDiagram />
         </div>
       </Container>
     </header>

@@ -301,7 +301,7 @@ export function Diensten() {
   );
 }
 
-/* ── 05 · Vertrouwd door ────────────────────────────────────────────────── */
+/* ── 02 · Logobalk ─────────────────────────────────────────────────────── */
 
 interface KlantLogo {
   id: string;
@@ -318,7 +318,7 @@ function Logo({ klant }: { klant: KlantLogo }) {
   const src = klant.logo_url || faviconFor(klant.website || klant.domain);
   if (mislukt || !src) {
     return (
-      <span className="font-display text-[15px] font-bold text-brand-ink-3">{klant.name}</span>
+      <span className="font-display text-[15px] font-bold text-[#8C8378]">{klant.name}</span>
     );
   }
   return (
@@ -327,18 +327,19 @@ function Logo({ klant }: { klant: KlantLogo }) {
       alt={klant.name}
       loading="lazy"
       onError={() => setMislukt(true)}
-      className="h-9 w-auto max-w-[140px] object-contain opacity-70 transition duration-[180ms] hover:opacity-100"
+      className="h-8 w-auto max-w-[132px] object-contain opacity-70 transition duration-[180ms] hover:opacity-100"
       style={{ transform: `scale(${klant.scale ?? 1})`, padding: `${klant.padding ?? 0}px` }}
     />
   );
 }
 
 /**
- * De logo's komen uit dezelfde `client_logos`-tabel als /klanten en de
- * orbit-visual, inclusief de per klant ingestelde schaal en padding. De admin
- * blijft daarmee de enige plek waar je ze beheert.
+ * Balk direct onder de hero: links het label in een eigen cel, rechts de
+ * doorlopende rij logo's. De logo's komen uit dezelfde `client_logos`-tabel als
+ * /klanten en de orbit-visual, inclusief de per klant ingestelde schaal en
+ * padding. De admin blijft de enige plek waar je ze beheert.
  */
-export function VertrouwdDoor() {
+export function Logobalk() {
   const [klanten, setKlanten] = useState<KlantLogo[]>([]);
 
   useEffect(() => {
@@ -367,23 +368,86 @@ export function VertrouwdDoor() {
   );
 
   return (
-    <Section id="klanten">
-      <SectionHeader
-        eyebrow="Vertrouwd door"
-        title="Draait bij B2B-organisaties die hun markt kennen."
-        lead="Industriële toeleveranciers, technische dienstverleners en zakelijke dienstverleners in de Benelux. Bekijk per klant welke hypothese we hebben getest en wat eruit kwam."
-      />
-      <Reveal>
-        <div className="overflow-x-clip">
-          <div className="v2-marquee-track flex w-max items-center [animation-duration:46s]">
-            {rij(false)}
-            {rij(true)}
+    <section className="bg-brand-deep pb-16" aria-label="Klanten">
+      <Container>
+        <div className="grid overflow-hidden rounded-brand border border-white/[.14] md:grid-cols-[minmax(0,220px)_1fr]">
+          <div className="flex items-center border-b border-white/[.14] px-6 py-5 md:border-b-0 md:border-r">
+            <p className="font-mono text-[11px] font-bold uppercase leading-[1.6] tracking-[0.12em] text-white">
+              Bouwden groei&shy;systemen voor
+            </p>
+          </div>
+          <div className="overflow-x-clip py-5">
+            <div className="v2-marquee-track flex w-max items-center [animation-duration:46s]">
+              {rij(false)}
+              {rij(true)}
+            </div>
           </div>
         </div>
-      </Reveal>
-      <Reveal index={1} className="mt-10">
-        <Button href="/klanten" variant="outline">
-          Bekijk de klanten
+        <div className="mt-4 flex justify-end">
+          <Link
+            to="/klanten"
+            className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-brand-accent transition-colors duration-[180ms] hover:text-brand-accent-2"
+          >
+            Bekijk de klanten →
+          </Link>
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+/* ── 03 · De pilot ─────────────────────────────────────────────────────── */
+
+/**
+ * De vier voorwaarden van het aanbod, als eigen blok vlak onder de logobalk.
+ * Dit is het risico wegnemen vóór de uitleg begint.
+ */
+export function DePilot() {
+  const voorwaarden = [
+    {
+      kop: "90 dagen pilot",
+      body: "Eén afgebakende periode met een vooraf vastgelegde hypothese, een doel en een meetmoment. Daarna weet u of het werkt.",
+    },
+    {
+      kop: "Maandelijks opzegbaar",
+      body: "Geen jaarcontract en geen opzegtermijn van een kwartaal. Levert het niet op, dan stopt u aan het eind van de maand.",
+    },
+    {
+      kop: "Geen opstartkosten",
+      body: "Nul euro om te beginnen. Het bouwen van het datamodel, de connectors en de eerste flows zit in het maandbedrag.",
+    },
+    {
+      kop: "In 30 dagen live",
+      body: "Staat de engine na dertig dagen niet te draaien, dan krijgt u het betaalde bedrag terug. Zonder discussie.",
+      highlight: true,
+    },
+  ];
+  return (
+    <Section id="pilot" tone="mist">
+      <SectionHeader
+        eyebrow="Het aanbod"
+        title="Negentig dagen om het te bewijzen."
+        lead="Wij vragen geen jaarcontract om iets te laten zien wat binnen een kwartaal zichtbaar hoort te zijn. Daarom draait het als pilot, met de voorwaarden op tafel."
+      />
+      <div className="grid gap-px overflow-hidden rounded-brand border border-brand-line bg-brand-line sm:grid-cols-2 lg:grid-cols-4">
+        {voorwaarden.map((v, i) => (
+          <Reveal key={v.kop} index={i} className="h-full bg-brand-paper">
+            <div className="flex h-full flex-col p-6">
+              <span
+                aria-hidden
+                className={`mb-4 block h-[3px] w-8 ${v.highlight ? "bg-brand-accent" : "bg-brand-ink"}`}
+              />
+              <h3 className="mb-2 font-display text-[17px] font-bold tracking-[-0.015em]">
+                {v.kop}
+              </h3>
+              <p className="text-[13px] text-brand-ink-2">{v.body}</p>
+            </div>
+          </Reveal>
+        ))}
+      </div>
+      <Reveal className="mt-8">
+        <Button href="#prijzen" variant="outline">
+          Wat de pilot kost
         </Button>
       </Reveal>
     </Section>
@@ -599,7 +663,7 @@ export function Prijzen() {
       <SectionHeader
         eyebrow="Onze prijzen"
         title="De prijzen staan gewoon op de site."
-        lead="Nul opstartkosten, minimaal drie maanden, daarna maandelijks opzegbaar. Draait u al omzet maar mist u het systeem? Dan is er een performance partnership met lage techkosten en een gedeelde upside."
+        lead="Nul opstartkosten en maandelijks opzegbaar. Wij draaien negentig dagen als pilot; staat de engine na dertig dagen niet live, dan krijgt u uw geld terug. Draait u al omzet maar mist u het systeem? Dan is er een performance partnership met lage techkosten en een gedeelde upside."
       />
       <div className="grid items-stretch gap-[22px] md:grid-cols-3">
         {pakketten.map((p, i) => (

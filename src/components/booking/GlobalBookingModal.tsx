@@ -174,16 +174,25 @@ export function GlobalBookingModal({ open, onOpenChange, prefillData }: GlobalBo
   );
 }
 
+type BookingPrefill = { name?: string; email?: string; company?: string };
+
 export function BookingModalHost() {
   const [open, setOpen] = React.useState(false);
+  const [prefill, setPrefill] = React.useState<BookingPrefill | undefined>();
   React.useEffect(() => {
-    const handler = () => setOpen(true);
+    const handler = (e: Event) => {
+      const detail = (e as CustomEvent<BookingPrefill | undefined>).detail;
+      setPrefill(detail && Object.keys(detail).length ? detail : undefined);
+      setOpen(true);
+    };
     window.addEventListener("lovable:open-booking", handler);
     return () => window.removeEventListener("lovable:open-booking", handler);
   }, []);
-  return <GlobalBookingModal open={open} onOpenChange={setOpen} />;
+  return <GlobalBookingModal open={open} onOpenChange={setOpen} prefillData={prefill} />;
 }
 
-export function openBookingModal() {
-  window.dispatchEvent(new CustomEvent("lovable:open-booking"));
+/** `prefill` vult het HubSpot-formulier vast in, bijvoorbeeld het e-mailadres
+ *  dat de bezoeker in de hero heeft ingetypt. */
+export function openBookingModal(prefill?: BookingPrefill) {
+  window.dispatchEvent(new CustomEvent("lovable:open-booking", { detail: prefill }));
 }

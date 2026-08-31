@@ -9,12 +9,13 @@ import { Nav } from "@/components/v2/Nav";
 import { Hero } from "@/components/home-v2/Hero";
 import {
   Contact,
+  DePilot,
   Diensten,
   GebouwdMet,
   HoeHetWerkt,
+  Logobalk,
   Prijzen,
   Tijdlijn,
-  VertrouwdDoor,
   VoorWie,
   Vragen,
   WaaromEenEngine,
@@ -93,6 +94,8 @@ const Home = () => {
         <Nav />
         <main>
           <Hero />
+          <Logobalk />
+          <DePilot />
           <Marquee
             items={[
               "Opportunity-engine",
@@ -107,7 +110,6 @@ const Home = () => {
           <WatWijBouwen />
           <WatOnsAndersMaakt />
           <Diensten />
-          <VertrouwdDoor />
           <HoeHetWerkt />
           <Tijdlijn />
           <VoorWie />
