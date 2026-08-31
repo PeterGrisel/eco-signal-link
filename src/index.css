@@ -98,7 +98,9 @@
 @layer base {
   html {
     scroll-behavior: smooth;
-    overflow-x: hidden;
+    /* `clip` in plaats van `hidden`: hidden maakt van body een scroll-container
+       en dan werkt `position: sticky` nergens meer op de pagina. */
+    overflow-x: clip;
   }
 
   * {
@@ -108,7 +110,7 @@
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-body);
-    overflow-x: hidden;
+    overflow-x: clip;
   }
 
   h1, h2, h3, h4, h5, h6 {

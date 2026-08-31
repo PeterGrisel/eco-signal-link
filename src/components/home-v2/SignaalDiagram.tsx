@@ -1,3 +1,5 @@
+import { fase } from "@/hooks/useScrollProgress";
+
 /**
  * De hero-visual: het systeem in één beeld.
  *
@@ -5,6 +7,11 @@
  * een reden en een aanbevolen actie uit laat vallen. Volledig in SVG getekend
  * zodat de verhoudingen kloppen op elk formaat; de leesbare beschrijving staat
  * eronder voor schermlezers.
+ *
+ * `progress` (0 tot 1) laat het diagram zichzelf opbouwen tijdens het scrollen:
+ * eerst de bronnen, dan tekenen de lijnen zich naar de engine, dan landt het
+ * account. Zonder de prop staat alles meteen compleet, dus de sectie blijft
+ * bruikbaar buiten de scroll-hero.
  */
 
 const BRONNEN = [
@@ -27,14 +34,21 @@ const TILE_H = 32;
 const TILE_Y = 30;
 const ENGINE = { x: 200, y: 232, w: 80, h: 62 };
 
-export function SignaalDiagram() {
+export function SignaalDiagram({ progress = 1 }: { progress?: number }) {
   const engineTop = { x: ENGINE.x + ENGINE.w / 2, y: ENGINE.y };
+
+  // Vier fasen die elkaar licht overlappen, zodat de opbouw vloeiend leest.
+  const pBronnen = fase(progress, 0, 0.3);
+  const pLijnen = fase(progress, 0.22, 0.58);
+  const pEngine = fase(progress, 0.45, 0.68);
+  const pAccount = fase(progress, 0.62, 1);
 
   return (
     <figure className="m-0">
+      {/* Hoogte leidt, zodat het diagram altijd in de sticky viewport past. */}
       <svg
         viewBox="0 0 480 556"
-        className="block h-auto w-full"
+        className="mx-auto block h-[min(64svh,520px)] w-auto max-w-full"
         role="img"
         aria-labelledby="signaaldiagram-titel"
       >
@@ -60,8 +74,14 @@ export function SignaalDiagram() {
         </defs>
 
         {/* Bronnen: label plus tegel */}
-        {BRONNEN.map((bron) => (
-          <g key={bron.label}>
+        {BRONNEN.map((bron, i) => (
+          <g
+            key={bron.label}
+            style={{
+              opacity: fase(pBronnen, i * 0.11, i * 0.11 + 0.5),
+              transform: `translateY(${(1 - fase(pBronnen, i * 0.11, i * 0.11 + 0.5)) * -10}px)`,
+            }}
+          >
             <text
               x={bron.x + TILE_W / 2}
               y={TILE_Y - 8}
@@ -91,7 +111,7 @@ export function SignaalDiagram() {
         ))}
 
         {/* De bundel: elke bron buigt naar de engine toe */}
-        {BRONNEN.map((bron) => {
+        {BRONNEN.map((bron, i) => {
           const x1 = bron.x + TILE_W / 2;
           const y1 = TILE_Y + TILE_H;
           return (
@@ -101,11 +121,15 @@ export function SignaalDiagram() {
               fill="none"
               stroke="url(#sd-lijn)"
               strokeWidth="1"
+              pathLength={1}
+              strokeDasharray={1}
+              strokeDashoffset={1 - fase(pLijnen, i * 0.08, i * 0.08 + 0.62)}
             />
           );
         })}
 
         {/* De engine */}
+        <g style={{ opacity: pEngine }}>
         <g filter="url(#sd-glow)">
           <rect
             x={ENGINE.x}
@@ -136,8 +160,10 @@ export function SignaalDiagram() {
         >
           ENGINE
         </text>
+        </g>
 
         {/* Zijkaart: het menselijk oordeel blijft in de lus */}
+        <g style={{ opacity: fase(progress, 0.55, 0.75) }}>
         <rect x="304" y="236" width="164" height="60" rx="2" className="fill-[#1B1712] stroke-white/[.14]" strokeWidth="1" />
         <text x="314" y="252" className="fill-[#E8945A] font-mono text-[6.5px] font-bold tracking-[0.14em]">
           MENSELIJK OORDEEL
@@ -149,8 +175,10 @@ export function SignaalDiagram() {
           bepalen wat sales oppakt.
         </text>
         <path d="M 280 264 L 304 264" stroke="#E8945A" strokeWidth="1" strokeOpacity="0.55" fill="none" />
+        </g>
 
         {/* Naar de uitkomst */}
+        <g style={{ opacity: pAccount, transform: `translateY(${(1 - pAccount) * 16}px)` }}>
         <path
           d={`M ${engineTop.x} ${ENGINE.y + ENGINE.h} L ${engineTop.x} 336`}
           stroke="#E8945A"
@@ -204,6 +232,7 @@ export function SignaalDiagram() {
         <text x="374" y="516" textAnchor="middle" className="fill-[#17140F] font-mono text-[7.5px] font-bold tracking-[0.12em]">
           BEL VANDAAG
         </text>
+        </g>
       </svg>
     </figure>
   );
