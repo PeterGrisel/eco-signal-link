@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { ArrowRight, Check } from "lucide-react";
+import { Check } from "lucide-react";
 import { Container } from "@/components/v2/Container";
 import { SplitHeadline, splitHeadlineText } from "@/components/v2/SplitHeadline";
 import { SignaalDiagram } from "./SignaalDiagram";
 import { BlackHoleHeroSection } from "@/components/ui/blackhole-hero-section";
+import { FlowButton } from "@/components/ui/flow-button";
 import { PartnerBadges } from "./PartnerBadges";
 import { openBookingModal } from "@/components/booking/GlobalBookingModal";
 import { fase, useScrollProgress } from "@/hooks/useScrollProgress";
@@ -45,13 +46,9 @@ function AfspraakVeld() {
         autoComplete="email"
         className="min-w-0 grow bg-transparent px-4 py-2.5 text-[15px] text-white placeholder:text-[#8C8378] focus:outline-none"
       />
-      <button
-        type="submit"
-        className="inline-flex shrink-0 items-center justify-center gap-2 rounded-btn bg-brand-accent px-5 py-2.5 font-display text-[13.5px] font-bold tracking-[-0.01em] text-brand-ink transition-colors duration-[180ms] hover:bg-brand-accent-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-accent"
-      >
+      <FlowButton type="submit" className="shrink-0 justify-center">
         Boek een gratis scan
-        <ArrowRight aria-hidden className="size-4" />
-      </button>
+      </FlowButton>
     </form>
   );
 }

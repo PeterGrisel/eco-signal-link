@@ -1,85 +1,30 @@
-import { useRef } from "react";
-import { Link } from "react-router-dom";
-import { motion, useMotionValue, useReducedMotion, useSpring } from "framer-motion";
-
-type Variant = "primary" | "outline" | "invert";
-
-const variants: Record<Variant, string> = {
-  primary: "bg-brand-accent text-brand-ink hover:bg-brand-accent-2",
-  outline:
-    "border-[1.5px] border-brand-ink text-brand-ink hover:bg-brand-ink hover:text-white",
-  /** Voor gebruik op de donkere accentband. */
-  invert:
-    "border-[1.5px] border-white/35 text-white hover:bg-white hover:text-brand-ink",
-};
-
-const base =
-  "inline-block rounded-btn px-5 py-[11px] font-display text-[13.5px] font-bold tracking-[-0.01em] transition-[background-color,color,border-color,transform] duration-[180ms] active:scale-[.96] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-accent";
+import { FlowButton } from "@/components/ui/flow-button";
 
 /**
- * Magnetische knop: trekt licht naar de cursor en veert terug. `href` mag een
- * interne route, een anker of een externe URL zijn; `onClick` zonder `href`
- * levert een gewone knop op, bijvoorbeeld om de boekingsmodal te openen.
+ * De knop van de v2-site. Sinds de flow-knop is dit alleen nog de vertrouwde
+ * naam eromheen: alle bestaande aanroepen blijven werken en krijgen de nieuwe
+ * beweging vanzelf.
+ *
+ * De magnetische aantrekking die hier eerst in zat is vervallen. Twee
+ * hover-effecten op één element vechten om aandacht, en de pijlen die door de
+ * knop schuiven zijn het duidelijkere signaal.
  */
 export function Button({
   variant = "primary",
   href,
   onClick,
+  type,
   children,
 }: {
-  variant?: Variant;
+  variant?: "primary" | "outline" | "invert";
   href?: string;
   onClick?: () => void;
+  type?: "button" | "submit";
   children: React.ReactNode;
 }) {
-  const ref = useRef<HTMLSpanElement>(null);
-  const reduced = useReducedMotion();
-  const mx = useMotionValue(0);
-  const my = useMotionValue(0);
-  const x = useSpring(mx, { stiffness: 320, damping: 22 });
-  const y = useSpring(my, { stiffness: 320, damping: 22 });
-
-  function onMove(e: React.MouseEvent) {
-    const el = ref.current;
-    if (!el || reduced) return;
-    const r = el.getBoundingClientRect();
-    mx.set((e.clientX - (r.left + r.width / 2)) * 0.18);
-    my.set((e.clientY - (r.top + r.height / 2)) * 0.28);
-  }
-  function onLeave() {
-    mx.set(0);
-    my.set(0);
-  }
-
-  const cls = `${base} ${variants[variant]}`;
-  const isExternal = !!href && /^(https?:|mailto:|tel:)/.test(href);
-  const isAnchor = !!href && href.startsWith("#");
-
   return (
-    <motion.span
-      ref={ref}
-      onMouseMove={onMove}
-      onMouseLeave={onLeave}
-      style={{ x, y }}
-      className="inline-block"
-    >
-      {!href ? (
-        <button type="button" onClick={onClick} className={cls}>
-          {children}
-        </button>
-      ) : isExternal || isAnchor ? (
-        <a
-          href={href}
-          className={cls}
-          {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-        >
-          {children}
-        </a>
-      ) : (
-        <Link to={href} className={cls}>
-          {children}
-        </Link>
-      )}
-    </motion.span>
+    <FlowButton variant={variant} href={href} onClick={onClick} type={type}>
+      {children}
+    </FlowButton>
   );
 }
