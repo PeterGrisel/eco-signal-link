@@ -5,6 +5,7 @@ import { SplitHeadline, splitHeadlineText } from "@/components/v2/SplitHeadline"
 import { SignaalDiagram } from "./SignaalDiagram";
 import { BlackHoleHeroSection } from "@/components/ui/blackhole-hero-section";
 import { PartnerBadges } from "./PartnerBadges";
+import TalkCard from "@/components/TalkCard";
 import { openBookingModal } from "@/components/booking/GlobalBookingModal";
 import { fase, useScrollProgress } from "@/hooks/useScrollProgress";
 import { trackCTA } from "@/lib/tracking";
@@ -202,7 +203,10 @@ export function Hero() {
                 In 30 dagen live, anders krijgt u uw geld terug.
               </p>
 
+              <TalkCard className="mt-6" location="Home hero" />
+
               <PartnerBadges className="mt-8" />
+
             </div>
           </Container>
 
