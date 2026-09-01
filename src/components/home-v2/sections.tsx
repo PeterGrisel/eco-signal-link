@@ -582,7 +582,26 @@ export function HetProtocol() {
     ["Engine live", "Datamodel, connectors en de eerste flow draaien", "Werkende omgeving op uw stack"],
     ["Accounts geleverd", "Priority accounts landen in uw CRM", "CRM-export met reason codes"],
     ["Doorlooptijd", "Binnen 30 kalenderdagen na kickoff", "Kickoffdatum en opleverdatum"],
-    ["Niet gehaald", "U krijgt het betaalde bedrag terug", "Creditfactuur"],
+  ];
+  // De prijs is geen gok en geen weddenschap: het zijn onze uren, de tools die
+  // eronder draaien en het sturen ervan. Daarom staat de opbouw er gewoon.
+  const prijsopbouw = [
+    {
+      label: "Onderdeel",
+      kop: "Onze uren",
+      body: "Het bouwen, het wekelijks bijsturen en de twee uur die wij bij u aan tafel zitten. Het grootste deel van de prijs.",
+    },
+    {
+      label: "Onderdeel",
+      kop: "De tools",
+      body: "Data, verrijking, verzending en CRM-koppelingen. Wij rekenen de onkosten door die wij zelf voor uw engine maken.",
+    },
+    {
+      label: "Onderdeel",
+      kop: "Done for you",
+      body: "Wij sturen en ondersteunen. U hoeft geen tool te leren bedienen en geen operator aan te nemen om het draaiend te houden.",
+      ons: true,
+    },
   ];
   return (
     <Section id="pilot" tone="mist">
@@ -594,53 +613,45 @@ export function HetProtocol() {
           <SectionHeader
             eyebrow="Zo werkt de pilot"
             title="Wij vragen u niet om vertrouwen. Wij leggen vast wanneer het geslaagd is."
-            lead="Negentig dagen om het te bewijzen, maandelijks opzegbaar en geen opstartkosten. Wat 'live' betekent, schrijven wij op vóór we beginnen. Op dag dertig legt u de werkelijkheid daarnaast."
+            lead="Negentig dagen om het te bewijzen, zonder opstartkosten en daarna maandelijks opzegbaar. Wat 'live' betekent, schrijven wij op vóór we beginnen. Op dag dertig legt u de werkelijkheid daarnaast."
           />
         }
         className="max-w-[58rem]"
       />
 
-      {/* De twee uitkomsten naast elkaar: dit is waar de garantie concreet wordt. */}
+      {/* Waar het geld heen gaat. Geen garantieconstructie, gewoon de opbouw. */}
       <Reveal className="mt-14">
         <h3 className="mb-6 font-display text-[clamp(20px,2.4vw,28px)] font-extrabold tracking-[-0.025em]">
-          Staat de engine op dag dertig live?
+          Waar de prijs uit bestaat
         </h3>
-        <div className="grid gap-[22px] md:grid-cols-2">
-          <article className="overflow-hidden rounded-brand border border-brand-accent bg-brand-paper">
-            <span aria-hidden className="block h-[3px] w-full bg-brand-accent" />
-            <div className="p-6">
-              <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-brand-ink-3">
-                Uitkomst
-              </p>
-              <p className="mt-2 font-display text-[26px] font-black tracking-[-0.03em]">Ja</p>
-              <p className="mt-2 text-[13.5px] text-brand-ink-2">
-                De pilot loopt door tot dag negentig. U betaalt per maand en kunt
-                elke maand stoppen.
-              </p>
-              <p className="mt-5 flex items-baseline justify-between gap-4 border-t border-brand-line pt-4 font-mono text-[11.5px]">
-                <span className="text-brand-ink-3">Uw risico</span>
-                <b className="font-bold text-brand-ink">Eén maand</b>
-              </p>
-            </div>
-          </article>
-          <article className="overflow-hidden rounded-brand border border-brand-line bg-brand-paper">
-            <span aria-hidden className="block h-[3px] w-full bg-brand-ink" />
-            <div className="p-6">
-              <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-brand-ink-3">
-                Uitkomst
-              </p>
-              <p className="mt-2 font-display text-[26px] font-black tracking-[-0.03em]">Nee</p>
-              <p className="mt-2 text-[13.5px] text-brand-ink-2">
-                U krijgt het betaalde bedrag terug. Wat er tot dan toe gebouwd is,
-                blijft van u.
-              </p>
-              <p className="mt-5 flex items-baseline justify-between gap-4 border-t border-brand-line pt-4 font-mono text-[11.5px]">
-                <span className="text-brand-ink-3">Uw risico</span>
-                <b className="font-bold text-brand-ink">€ 0</b>
-              </p>
-            </div>
-          </article>
+        <div className="grid gap-[22px] md:grid-cols-3">
+          {prijsopbouw.map((p) => (
+            <article
+              key={p.kop}
+              className={`overflow-hidden rounded-brand border bg-brand-paper ${
+                p.ons ? "border-brand-accent" : "border-brand-line"
+              }`}
+            >
+              <span
+                aria-hidden
+                className={`block h-[3px] w-full ${p.ons ? "bg-brand-accent" : "bg-brand-ink"}`}
+              />
+              <div className="p-6">
+                <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-brand-ink-3">
+                  {p.label}
+                </p>
+                <p className="mt-2 font-display text-[22px] font-black tracking-[-0.03em]">
+                  {p.kop}
+                </p>
+                <p className="mt-2 text-[13.5px] text-brand-ink-2">{p.body}</p>
+              </div>
+            </article>
+          ))}
         </div>
+        <p className="mt-5 text-[13.5px] text-brand-ink-2">
+          Geen opstartkosten. De eerste negentig dagen draaien wij het samen op,
+          daarna is het maandelijks opzegbaar.
+        </p>
       </Reveal>
 
       <Reveal className="mt-14">
@@ -696,7 +707,7 @@ export function HetProtocol() {
           De afspraak
         </span>
         <strong className="font-display text-[clamp(18px,2vw,24px)] font-extrabold tracking-[-0.025em]">
-          In 30 dagen live. Anders geld terug.
+          Negentig dagen bouwen en draaien. Daarna maandelijks opzegbaar.
         </strong>
       </Reveal>
     </Section>
@@ -722,7 +733,7 @@ export function Alternatieven() {
     },
     {
       naam: "B2B Groeimachine",
-      body: "De engine draait binnen dertig dagen op uw eigen data en CRM. Maandelijks opzegbaar, geen opstartkosten, en wat er gebouwd is blijft van u.",
+      body: "De engine draait binnen dertig dagen op uw eigen data en CRM. Wij sturen en ondersteunen, na negentig dagen is het maandelijks opzegbaar, en wat er gebouwd is blijft van u.",
       ons: true,
     },
   ];
@@ -964,7 +975,7 @@ export function Prijzen() {
       <SectionHeader
         eyebrow="Onze prijzen"
         title="De prijzen staan gewoon op de site."
-        lead="Nul opstartkosten en maandelijks opzegbaar. Wij draaien negentig dagen als pilot; staat de engine na dertig dagen niet live, dan krijgt u uw geld terug. Draait u al omzet maar mist u het systeem? Dan is er een performance partnership met lage techkosten en een gedeelde upside."
+        lead="Nul opstartkosten. De prijs bestaat uit onze uren en de onkosten voor de tools die onder uw engine draaien; wij sturen en ondersteunen het geheel. Wij draaien negentig dagen als pilot, daarna is het maandelijks opzegbaar. Draait u al omzet maar mist u het systeem? Dan is er een performance partnership met lage techkosten en een gedeelde upside."
       />
       <div className="grid items-stretch gap-[22px] md:grid-cols-3">
         {pakketten.map((p, i) => (
