@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { fase } from "@/hooks/useScrollProgress";
 
 /**
@@ -56,7 +57,7 @@ const CHIP = 26;
 const LOGO = 20;
 const ENGINE = { x: 200, y: 232, w: 80, h: 62 };
 
-export function SignaalDiagram({ progress = 1 }: { progress?: number }) {
+function SignaalDiagramBase({ progress = 1 }: { progress?: number }) {
   const engineTop = { x: ENGINE.x + ENGINE.w / 2, y: ENGINE.y };
 
   // Vier fasen die elkaar licht overlappen, zodat de opbouw vloeiend leest.
@@ -331,3 +332,6 @@ export function SignaalDiagram({ progress = 1 }: { progress?: number }) {
     </figure>
   );
 }
+
+/** Het diagram is zwaar; alleen hertekenen als de voortgang echt verandert. */
+export const SignaalDiagram = memo(SignaalDiagramBase);
