@@ -909,7 +909,8 @@ export function BlackHoleHeroSection({
     let clock = reduced ? 6 : 0;
     let lastFrame = 0;
     let running = true;
-    let visible = true;
+    let inBeeld = true;
+    let tabActief = true;
     let raf = 0;
 
     function pass(prog: Prog, target: Target | null) {
@@ -1081,13 +1082,19 @@ export function BlackHoleHeroSection({
 
     /* --- loop ------------------------------------------------------------- */
 
+    /** Frames die een stilstaand beeld nodig heeft om schoon te zijn. */
+    const RUST = 24;
+
     function tick(now: number) {
       if (!running) return;
       raf = requestAnimationFrame(tick);
-      if (!visible) { lastFrame = now; return; }
+      if (!inBeeld || !tabActief) { lastFrame = now; return; }
+      const stil = props.current.paused || reduced;
+      // Stilstaand en uitgemiddeld: elk volgend frame is hetzelfde beeld.
+      if (stil && settled >= RUST) { lastFrame = now; return; }
       const dt = lastFrame ? Math.min(0.05, (now - lastFrame) / 1000) : 0;
       lastFrame = now;
-      if (!props.current.paused && !reduced) clock += dt;
+      if (!stil) clock += dt;
       render(clock);
     }
 
@@ -1097,23 +1104,29 @@ export function BlackHoleHeroSection({
     }
     resize();
     settle(reduced ? 16 : 1);
-    if (!reduced) raf = requestAnimationFrame(tick);
+    raf = requestAnimationFrame(tick);
 
     /* --- the world ------------------------------------------------------- */
 
+    // Een adresbalk die in- en uitschuift verandert de hoogte tientallen keren
+    // achter elkaar. Elke wissel gooide de buffers weg, maakte er drie nieuwe
+    // en rekende het beeld in één blokkerende lus opnieuw uit — dat is de
+    // stotter. Nu wachten we tot het schuiven klaar is en doet de gewone lus
+    // het bijwerken, verspreid over frames.
+    let roTimer = 0;
     const ro = new ResizeObserver(() => {
-      resize();
-      if (reduced || props.current.paused) settle(16);
+      clearTimeout(roTimer);
+      roTimer = window.setTimeout(resize, 120);
     });
     ro.observe(host);
 
     const io = new IntersectionObserver(
-      (entries) => { visible = entries[0]?.isIntersecting ?? true; },
+      (entries) => { inBeeld = entries[0]?.isIntersecting ?? true; },
       { threshold: 0 }
     );
     io.observe(host);
 
-    const onVisibility = () => { visible = !document.hidden; lastFrame = 0; };
+    const onVisibility = () => { tabActief = !document.hidden; lastFrame = 0; };
     const onLost = (e: Event) => {
       // Asking for the context back is only worth it if it comes back working.
       // Until it does the canvas is hidden, because a dead one paints white.
@@ -1134,7 +1147,7 @@ export function BlackHoleHeroSection({
       running = true;
       lastFrame = 0;
       settle(reduced ? 16 : 1);
-      if (!reduced) raf = requestAnimationFrame(tick);
+      raf = requestAnimationFrame(tick);
     };
 
     document.addEventListener("visibilitychange", onVisibility);
@@ -1144,6 +1157,7 @@ export function BlackHoleHeroSection({
     return () => {
       running = false;
       cancelAnimationFrame(raf);
+      clearTimeout(roTimer);
       ro.disconnect();
       io.disconnect();
       document.removeEventListener("visibilitychange", onVisibility);

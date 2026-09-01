@@ -1,7 +1,6 @@
 'use client';
 
 import type React from 'react';
-import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
 type FallingPatternProps = React.ComponentProps<'div'> & {
@@ -9,13 +8,60 @@ type FallingPatternProps = React.ComponentProps<'div'> & {
 	color?: string;
 	/** Background color (default: 'var(--background)') */
 	backgroundColor?: string;
-	/** Animation duration in seconds (default: 150) */
+	/** Seconden die een rij over zijn volle val doet (default: 150) */
 	duration?: number;
 	/** Blur intensity for the overlay effect (default: '1em') */
 	blurIntensity?: string;
 	/** Pattern density - affects spacing (default: 1) */
 	density?: number;
 };
+
+/**
+ * Twaalf rijen druppels, elk met een eigen valsnelheid.
+ *
+ * Het origineel legde alle zesendertig druppels als radial-gradients op één
+ * element en liet framer-motion daar `background-position` van animeren. Dat
+ * is per frame een hertekening van het hele scherm met zesendertig verlopen:
+ * op een stilstaande pagina mat dat driehonderd milliseconde per frame, en
+ * omdat deze laag `fixed` staat hield hij dat vol zolang de pagina open was.
+ *
+ * Nu heeft elke rij een eigen laag met een herhalende tegel, en zakt die laag
+ * met een transform. Dezelfde beweging, maar de compositor schuift alleen wat
+ * er al getekend is — er wordt niets opnieuw geverfd.
+ *
+ * Per rij: `h` is de tegelhoogte (de streep zit op de naad zodat hij over de
+ * herhaling doorloopt, de stip op de helft), `val` is hoe ver de rij zakte in
+ * de oorspronkelijke duur en `fase` waar hij begon. Uit `h` en `val` volgt hoe
+ * lang één tegel duurt, en dus de snelheid van die rij.
+ */
+const RIJEN = [
+	{ h: 235, val: 6580, fase: 220 },
+	{ h: 252, val: 13608, fase: 24 },
+	{ h: 150, val: 5400, fase: 16 },
+	{ h: 253, val: 16951, fase: 224 },
+	{ h: 204, val: 5100, fase: 19 },
+	{ h: 134, val: 8308, fase: 120 },
+	{ h: 179, val: 9845, fase: 31 },
+	{ h: 299, val: 13156, fase: 235 },
+	{ h: 215, val: 14620, fase: 121 },
+	{ h: 281, val: 18546, fase: 224 },
+	{ h: 158, val: 5056, fase: 26 },
+	{ h: 210, val: 6300, fase: 75 },
+];
+
+/**
+ * Eén tegel omlaag en weer opnieuw. Omdat de tegel zich herhaalt is dat naadloos,
+ * en omdat de afstand per rij verschilt komt hij uit een custom property.
+ */
+const KEYFRAMES = `
+@keyframes vp-val {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(0, var(--vp-h), 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vp-rij { animation: none !important; }
+}
+`;
 
 export function FallingPattern({
 	color = 'var(--primary)',
@@ -25,135 +71,40 @@ export function FallingPattern({
 	density = 1,
 	className,
 }: FallingPatternProps) {
-	// Generate background image style with customizable color
-	const generateBackgroundImage = () => {
-		const patterns = [
-			// Row 1
-			`radial-gradient(4px 100px at 0px 235px, ${color}, transparent)`,
-			`radial-gradient(4px 100px at 300px 235px, ${color}, transparent)`,
-			`radial-gradient(1.5px 1.5px at 150px 117.5px, ${color} 100%, transparent 150%)`,
-			// Row 2
-			`radial-gradient(4px 100px at 0px 252px, ${color}, transparent)`,
-			`radial-gradient(4px 100px at 300px 252px, ${color}, transparent)`,
-			`radial-gradient(1.5px 1.5px at 150px 126px, ${color} 100%, transparent 150%)`,
-			// Row 3
-			`radial-gradient(4px 100px at 0px 150px, ${color}, transparent)`,
-			`radial-gradient(4px 100px at 300px 150px, ${color}, transparent)`,
-			`radial-gradient(1.5px 1.5px at 150px 75px, ${color} 100%, transparent 150%)`,
-			// Row 4
-			`radial-gradient(4px 100px at 0px 253px, ${color}, transparent)`,
-			`radial-gradient(4px 100px at 300px 253px, ${color}, transparent)`,
-			`radial-gradient(1.5px 1.5px at 150px 126.5px, ${color} 100%, transparent 150%)`,
-			// Row 5
-			`radial-gradient(4px 100px at 0px 204px, ${color}, transparent)`,
-			`radial-gradient(4px 100px at 300px 204px, ${color}, transparent)`,
-			`radial-gradient(1.5px 1.5px at 150px 102px, ${color} 100%, transparent 150%)`,
-			// Row 6
-			`radial-gradient(4px 100px at 0px 134px, ${color}, transparent)`,
-			`radial-gradient(4px 100px at 300px 134px, ${color}, transparent)`,
-			`radial-gradient(1.5px 1.5px at 150px 67px, ${color} 100%, transparent 150%)`,
-			// Row 7
-			`radial-gradient(4px 100px at 0px 179px, ${color}, transparent)`,
-			`radial-gradient(4px 100px at 300px 179px, ${color}, transparent)`,
-			`radial-gradient(1.5px 1.5px at 150px 89.5px, ${color} 100%, transparent 150%)`,
-			// Row 8
-			`radial-gradient(4px 100px at 0px 299px, ${color}, transparent)`,
-			`radial-gradient(4px 100px at 300px 299px, ${color}, transparent)`,
-			`radial-gradient(1.5px 1.5px at 150px 149.5px, ${color} 100%, transparent 150%)`,
-			// Row 9
-			`radial-gradient(4px 100px at 0px 215px, ${color}, transparent)`,
-			`radial-gradient(4px 100px at 300px 215px, ${color}, transparent)`,
-			`radial-gradient(1.5px 1.5px at 150px 107.5px, ${color} 100%, transparent 150%)`,
-			// Row 10
-			`radial-gradient(4px 100px at 0px 281px, ${color}, transparent)`,
-			`radial-gradient(4px 100px at 300px 281px, ${color}, transparent)`,
-			`radial-gradient(1.5px 1.5px at 150px 140.5px, ${color} 100%, transparent 150%)`,
-			// Row 11
-			`radial-gradient(4px 100px at 0px 158px, ${color}, transparent)`,
-			`radial-gradient(4px 100px at 300px 158px, ${color}, transparent)`,
-			`radial-gradient(1.5px 1.5px at 150px 79px, ${color} 100%, transparent 150%)`,
-			// Row 12
-			`radial-gradient(4px 100px at 0px 210px, ${color}, transparent)`,
-			`radial-gradient(4px 100px at 300px 210px, ${color}, transparent)`,
-			`radial-gradient(1.5px 1.5px at 150px 105px, ${color} 100%, transparent 150%)`,
-		];
-
-		return patterns.join(', ');
-	};
-
-	const backgroundSizes = [
-		'300px 235px',
-		'300px 235px',
-		'300px 235px',
-		'300px 252px',
-		'300px 252px',
-		'300px 252px',
-		'300px 150px',
-		'300px 150px',
-		'300px 150px',
-		'300px 253px',
-		'300px 253px',
-		'300px 253px',
-		'300px 204px',
-		'300px 204px',
-		'300px 204px',
-		'300px 134px',
-		'300px 134px',
-		'300px 134px',
-		'300px 179px',
-		'300px 179px',
-		'300px 179px',
-		'300px 299px',
-		'300px 299px',
-		'300px 299px',
-		'300px 215px',
-		'300px 215px',
-		'300px 215px',
-		'300px 281px',
-		'300px 281px',
-		'300px 281px',
-		'300px 158px',
-		'300px 158px',
-		'300px 158px',
-		'300px 210px',
-	].join(', ');
-
-	const startPositions =
-		'0px 220px, 3px 220px, 151.5px 337.5px, 25px 24px, 28px 24px, 176.5px 150px, 50px 16px, 53px 16px, 201.5px 91px, 75px 224px, 78px 224px, 226.5px 230.5px, 100px 19px, 103px 19px, 251.5px 121px, 125px 120px, 128px 120px, 276.5px 187px, 150px 31px, 153px 31px, 301.5px 120.5px, 175px 235px, 178px 235px, 326.5px 384.5px, 200px 121px, 203px 121px, 351.5px 228.5px, 225px 224px, 228px 224px, 376.5px 364.5px, 250px 26px, 253px 26px, 401.5px 105px, 275px 75px, 278px 75px, 426.5px 180px';
-	const endPositions =
-		'0px 6800px, 3px 6800px, 151.5px 6917.5px, 25px 13632px, 28px 13632px, 176.5px 13758px, 50px 5416px, 53px 5416px, 201.5px 5491px, 75px 17175px, 78px 17175px, 226.5px 17301.5px, 100px 5119px, 103px 5119px, 251.5px 5221px, 125px 8428px, 128px 8428px, 276.5px 8495px, 150px 9876px, 153px 9876px, 301.5px 9965.5px, 175px 13391px, 178px 13391px, 326.5px 13540.5px, 200px 14741px, 203px 14741px, 351.5px 14848.5px, 225px 18770px, 228px 18770px, 376.5px 18910.5px, 250px 5082px, 253px 5082px, 401.5px 5161px, 275px 6375px, 278px 6375px, 426.5px 6480px';
 	return (
-		<div className={cn('relative h-full w-full p-1', className)}>
-			<motion.div
-				initial={{ opacity: 0 }}
-				animate={{ opacity: 1 }}
-				transition={{ duration: 0.2 }}
-				className="size-full"
-			>
-				<motion.div
-					className="relative size-full z-0"
-					style={{
-						backgroundColor,
-						backgroundImage: generateBackgroundImage(),
-						backgroundSize: backgroundSizes,
-					}}
-					variants={{
-						initial: {
-							backgroundPosition: startPositions,
-						},
-						animate: {
-							backgroundPosition: [startPositions, endPositions],
-							transition: {
-								duration: duration,
-								ease: 'linear',
-								repeat: Number.POSITIVE_INFINITY,
-							},
-						},
-					}}
-					initial="initial"
-					animate="animate"
-				/>
-			</motion.div>
+		<div className={cn('relative h-full w-full overflow-hidden p-1', className)}>
+			<style>{KEYFRAMES}</style>
+			<div className="absolute inset-0" style={{ backgroundColor }} />
+			{RIJEN.map((rij, i) => {
+				// De drie druppels van een rij staan naast elkaar; elke rij schuift
+				// vijfentwintig pixel op, net als in het origineel.
+				const x = 25 * i;
+				return (
+					<div
+						key={rij.h + '-' + i}
+						className="vp-rij absolute left-0 right-0"
+						style={{
+							// Een tegel extra boven beeld, zodat er tijdens het zakken
+							// altijd iets klaarstaat om binnen te vallen.
+							top: -rij.h,
+							height: `calc(100% + ${rij.h}px)`,
+							backgroundImage: [
+								`radial-gradient(4px 100px at 0px ${rij.h}px, ${color}, transparent)`,
+								`radial-gradient(4px 100px at 300px ${rij.h}px, ${color}, transparent)`,
+								`radial-gradient(1.5px 1.5px at 150px ${rij.h / 2}px, ${color} 100%, transparent 150%)`,
+							].join(', '),
+							backgroundSize: `300px ${rij.h}px`,
+							backgroundPosition: [
+								`${x}px ${rij.fase}px`,
+								`${x + 3}px ${rij.fase}px`,
+								`${x + 151.5}px ${rij.fase + rij.h / 2}px`,
+							].join(', '),
+							['--vp-h' as string]: `${rij.h}px`,
+							animation: `vp-val ${((duration * rij.h) / rij.val).toFixed(3)}s linear infinite`,
+						}}
+					/>
+				);
+			})}
 			<div
 				className="absolute inset-0 z-1 dark:brightness-600"
 				style={{
