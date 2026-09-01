@@ -6,7 +6,7 @@ import { Container } from "@/components/v2/Container";
 import { Faq } from "@/components/v2/Faq";
 import { GiantWord } from "@/components/v2/GiantWord";
 import peterGrisel from "@/assets/peter-grisel.png";
-import { Timeline, type TimelineItem } from "@/components/ui/modern-timeline";
+import { TimelineStack, type TimelineItem } from "@/components/ui/modern-timeline";
 import { Reveal } from "@/components/v2/Reveal";
 import { Section } from "@/components/v2/Section";
 import { SectionHeader } from "@/components/v2/SectionHeader";
@@ -543,8 +543,6 @@ export function HetProtocol() {
         "Voor er één regel wordt gebouwd, staat op papier wat 'live' betekent in uw situatie.",
       status: "completed",
       badge: "Vooraf",
-      image: peterGrisel,
-      imageAlt: "Peter Grisel",
       rows: [
         ["Doelmarkt en ICP", "vastgelegd"],
         ["Opportunity-hypotheses", "vastgelegd"],
@@ -591,7 +589,12 @@ export function HetProtocol() {
         lead="Negentig dagen om het te bewijzen, maandelijks opzegbaar en geen opstartkosten. Wat 'live' betekent, schrijven wij op vóór we beginnen. Op dag dertig legt u de werkelijkheid daarnaast."
       />
 
-      <Timeline items={stappen} className="max-w-[52rem]" />
+      <TimelineStack
+        items={stappen}
+        avatar={peterGrisel}
+        avatarAlt="Peter Grisel"
+        className="max-w-[52rem]"
+      />
 
       {/* De twee uitkomsten naast elkaar: dit is waar de garantie concreet wordt. */}
       <Reveal className="mt-14">

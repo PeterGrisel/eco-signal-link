@@ -6,6 +6,7 @@ import { BlackHoleHeroSection } from "@/components/ui/blackhole-hero-section";
 import { PartnerBadges } from "./PartnerBadges";
 import TalkCard from "@/components/TalkCard";
 import { fase, useScrollProgress } from "@/hooks/useScrollProgress";
+import { useBreedScherm } from "@/hooks/useBreedScherm";
 
 const HEADLINE = [
   [{ text: "Meer omzet" }],
@@ -32,25 +33,6 @@ const HEADLINE = [
  * Bij `prefers-reduced-motion` staat alles meteen in de eindstaat en houdt het
  * zwarte gat zichzelf stil.
  */
-/** Het scroll-verhaal draait alleen op breed scherm; daaronder één stilstaand beeld. */
-function useBreedScherm() {
-  // Meteen de juiste stand: anders bouwt het zwarte gat zich eerst in de
-  // smalle variant op en daarna nog eens in de brede ("twee keer laden").
-  const [breed, setBreed] = useState(() =>
-    typeof window !== "undefined" && typeof window.matchMedia === "function"
-      ? window.matchMedia("(min-width: 1024px)").matches
-      : false,
-  );
-  useEffect(() => {
-    const mq = window.matchMedia("(min-width: 1024px)");
-    const zet = () => setBreed(mq.matches);
-    zet();
-    mq.addEventListener("change", zet);
-    return () => mq.removeEventListener("change", zet);
-  }, []);
-  return breed;
-}
-
 /** Bij binnenkomst zonder anker altijd bovenaan starten. */
 function useStartBovenaan() {
   useEffect(() => {
@@ -61,7 +43,6 @@ function useStartBovenaan() {
     window.scrollTo(0, 0);
   }, []);
 }
-
 
 /**
  * Zet het snappen aan zolang `el` in beeld is, en weer uit zodra het weg is.
