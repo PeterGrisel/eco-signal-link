@@ -1,9 +1,8 @@
 /**
  * De partnerrij in de hero.
  *
- * Elke badge is een licht chipje met het merkicoon en de naam. Voor Stairoids
- * hebben we nog geen logobestand; die krijgt alleen de naam tot er een
- * `/logos/groeistack/stairoids.webp` naast de andere staat.
+ * Elke badge is een licht chipje met het merkicoon en de naam. Stairoids toont
+ * alleen het logo, zonder merknaam.
  */
 
 import stairoidsAsset from "@/assets/stairoids.png.asset.json";
