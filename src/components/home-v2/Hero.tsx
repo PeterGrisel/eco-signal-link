@@ -74,17 +74,22 @@ export function Hero() {
 
   // Op smal scherm is er geen scroll-verhaal: het gat staat achter de tekst en
   // het diagram krijgt eronder zijn eigen blok.
+  // Afronden op stappen van 1%: het oog ziet het verschil niet, maar het scheelt
+  // per scrollframe een volledige hertekening van het (zware) SVG-diagram.
+  const stap = (v: number) => Math.round(v * 100) / 100;
   const p = breed ? progress : 0;
-  const pTekst = breed ? 1 - fase(p, 0.06, 0.3) : 1;
+  const pTekst = breed ? stap(1 - fase(p, 0.06, 0.3)) : 1;
   // De sluier dekt het gat af zodra de engine het beeld overneemt. Zonder dat
   // vechten twee oranje beelden om dezelfde plek.
-  const sluier = breed ? fase(p, 0.16, 0.44) * 0.95 : 0.5;
-  const pDiagram = breed ? fase(p, 0.26, 0.86) : 1;
-  const pDiagramIn = breed ? fase(p, 0.24, 0.44) : 1;
+  const sluier = breed ? stap(fase(p, 0.16, 0.44) * 0.95) : 0.5;
+  const pDiagram = breed ? stap(fase(p, 0.26, 0.86)) : 1;
+  const pDiagramIn = breed ? stap(fase(p, 0.24, 0.44)) : 1;
+  // Zodra de sluier het gat vrijwel afdekt heeft doorrekenen geen zin meer.
+  const gatVerborgen = sluier > 0.88;
 
   return (
     <header className="relative bg-brand-deep text-white">
-      <div ref={ref} className="relative lg:h-[280svh]">
+      <div ref={ref} className="relative lg:h-[220svh]">
         <div className="relative flex min-h-[38rem] items-center overflow-hidden lg:sticky lg:top-0 lg:h-svh">
           {/* Het zwarte gat als achtergrond. Het scrim houdt de leeshelft vrij. */}
           <div aria-hidden className="absolute inset-0 z-0">
@@ -97,8 +102,9 @@ export function Hero() {
               midColor="#E8945A"
               coolColor="#A85410"
               glow={breed ? 1 : 0.85}
-              steps={breed ? 300 : 190}
-              resolution={breed ? 0.7 : 0.58}
+              steps={breed ? 210 : 170}
+              resolution={breed ? 0.6 : 0.52}
+              paused={gatVerborgen}
             />
           </div>
 
