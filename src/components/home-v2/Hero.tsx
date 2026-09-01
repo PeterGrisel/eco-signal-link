@@ -195,15 +195,8 @@ export function Hero() {
                 RevOps. Negentig dagen als pilot, of u neemt het daarna zelf in
                 beheer.
               </p>
+              <TalkCard location="Home hero" />
 
-              <AfspraakVeld />
-
-              <p className="mt-5 flex items-start gap-2.5 text-[14px] text-[#D6CEC3]">
-                <Check aria-hidden className="mt-0.5 size-4 shrink-0 text-brand-accent" />
-                In 30 dagen live, anders krijgt u uw geld terug.
-              </p>
-
-              <TalkCard className="mt-6" location="Home hero" />
 
               <PartnerBadges className="mt-8" />
 
