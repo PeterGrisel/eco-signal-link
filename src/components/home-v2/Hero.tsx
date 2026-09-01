@@ -69,7 +69,6 @@ export function Hero() {
   const { ref, progress } = useScrollProgress<HTMLDivElement>();
   const breed = useBreedScherm();
   useStartBovenaan();
-  useSnapTerwijlZichtbaar(ref);
 
 
   // Op smal scherm is er geen scroll-verhaal: het gat staat achter de tekst en
@@ -179,9 +178,6 @@ export function Hero() {
         <SignaalDiagram progress={1} />
       </div>
 
-      {/* Het snappunt: wie het einde van de track nadert wordt de volgende
-          sectie in getrokken, in één beweging in plaats van halverwege. */}
-      <div aria-hidden className="v2-snap h-px" />
     </header>
   );
 }
