@@ -586,3 +586,34 @@
   .v2-vink { stroke-dashoffset: 0; }
   .v2-schakel { transform: scaleX(1); }
 }
+
+/**
+ * Snappunt aan het einde van de hero.
+ *
+ * `proximity` en niet `mandatory`: er is precies één doel, onderaan de
+ * hero-track, en de bezoeker die daar in de buurt komt wordt in één beweging
+ * de volgende sectie in getrokken. Met `mandatory` zou elke scroll in de rest
+ * van de pagina naar datzelfde punt willen terugvallen.
+ *
+ * Alleen op breed scherm, want alleen daar bestaat de scroll-track. En niet
+ * voor wie minder beweging heeft gevraagd: een sprong die je niet zelf inzet
+ * is precies wat die voorkeur bedoelt te vermijden.
+ */
+@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+  /*
+   * Alleen aan zolang de hero in beeld is. `scroll-snap-type` op html maakt
+   * elk element met een `scroll-snap-align` verderop in het document — de
+   * `snap-center` van de zijwaartse scrollers bijvoorbeeld — óók een verticaal
+   * doel voor de pagina zelf. De hero zet de klasse aan bij binnenkomst en
+   * weer uit zodra hij het beeld verlaat, dus de rest van de site merkt er
+   * niets van.
+   */
+  html.v2-hero-snap {
+    scroll-snap-type: y proximity;
+  }
+
+  html.v2-hero-snap .v2-snap {
+    scroll-snap-align: start;
+    scroll-snap-stop: normal;
+  }
+}
