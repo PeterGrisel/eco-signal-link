@@ -233,11 +233,14 @@ export function TimelineStack({
   items,
   avatar,
   avatarAlt,
+  kop,
   className,
 }: TimelineProps & {
   /** Portret dat langs de rail meespringt. Zonder portret springt het statusteken mee. */
   avatar?: string;
   avatarAlt?: string;
+  /** Sectiekop. Die gaat mee de sticky in, anders staat hij los boven een gat. */
+  kop?: React.ReactNode;
 }) {
   const { ref, progress } = useScrollProgress<HTMLDivElement>();
   const breed = useBreedScherm();
@@ -250,7 +253,12 @@ export function TimelineStack({
     const lijst = avatar
       ? items.map((item, i) => (i === 0 ? { ...item, image: avatar, imageAlt: avatarAlt } : item))
       : items;
-    return <Timeline items={lijst} className={className} />;
+    return (
+      <>
+        {kop}
+        <Timeline items={lijst} className={className} />
+      </>
+    );
   }
 
   // Doorlopende positie tussen 0 en items.length - 1. De marges aan weerszijden
@@ -261,7 +269,11 @@ export function TimelineStack({
 
   return (
     <div ref={ref} className={cn("relative h-[200svh]", className)}>
-      <div className="sticky top-0 flex h-svh items-center">
+      {/* De kop staat mee in het sticky blok. Buiten dat blok zou hij bovenaan
+          blijven staan terwijl de kaart een half scherm lager centreert, en
+          daar zit dan een gat tussen tot de sticky aanslaat. */}
+      <div className="sticky top-0 flex h-svh flex-col justify-center gap-9 pt-20">
+        {kop}
         <div className="flex w-full items-center gap-8">
           {/* De rail met vaste haltes, en het portret dat ertussen springt. */}
           <div

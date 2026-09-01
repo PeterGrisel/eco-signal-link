@@ -583,16 +583,17 @@ export function HetProtocol() {
   ];
   return (
     <Section id="pilot" tone="mist">
-      <SectionHeader
-        eyebrow="Zo werkt de pilot"
-        title="Wij vragen u niet om vertrouwen. Wij leggen vast wanneer het geslaagd is."
-        lead="Negentig dagen om het te bewijzen, maandelijks opzegbaar en geen opstartkosten. Wat 'live' betekent, schrijven wij op vóór we beginnen. Op dag dertig legt u de werkelijkheid daarnaast."
-      />
-
       <TimelineStack
         items={stappen}
         avatar={peterGrisel}
         avatarAlt="Peter Grisel"
+        kop={
+          <SectionHeader
+            eyebrow="Zo werkt de pilot"
+            title="Wij vragen u niet om vertrouwen. Wij leggen vast wanneer het geslaagd is."
+            lead="Negentig dagen om het te bewijzen, maandelijks opzegbaar en geen opstartkosten. Wat 'live' betekent, schrijven wij op vóór we beginnen. Op dag dertig legt u de werkelijkheid daarnaast."
+          />
+        }
         className="max-w-[52rem]"
       />
 
