@@ -6,6 +6,8 @@
  * `/logos/groeistack/stairoids.webp` naast de andere staat.
  */
 
+import stairoidsAsset from "@/assets/stairoids.png.asset.json";
+
 interface Partner {
   naam: string;
   /** Pad onder /public, of weglaten als we het merk nog niet hebben. */
@@ -17,7 +19,7 @@ const PARTNERS: Partner[] = [
   { naam: "Pipedrive", logo: "/logos/groeistack/pipedrive.webp" },
   { naam: "Claude", logo: "/logos/groeistack/claude.webp" },
   { naam: "Apollo", logo: "/logos/groeistack/apollo.webp" },
-  { naam: "Stairoids" },
+  { naam: "Stairoids", logo: stairoidsAsset.url },
 ];
 
 export function PartnerBadges({ className = "" }: { className?: string }) {
