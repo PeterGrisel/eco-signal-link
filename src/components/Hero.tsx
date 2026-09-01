@@ -327,6 +327,8 @@ const Hero = () => {
               </Link>
             </div>
           </div>
+          <TalkCard />
+
         </motion.div>
       </div>
     </section>
