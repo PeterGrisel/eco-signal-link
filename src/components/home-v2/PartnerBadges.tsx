@@ -1,26 +1,22 @@
 /**
  * De partnerrij in de hero.
  *
- * Elke badge is een licht chipje met het echte woordmerk. Dat is bewust: de
- * woordmerken van HubSpot en Pipedrive staan in donkere letters en zouden op
- * onze donkere hero wegvallen.
- *
- * Voor Apollo en Stairoids bestaat geen vrij beschikbaar merkbestand; die
- * krijgen hun naam in de merktypografie tot de officiële partner-artwork in
- * `public/logos/partners/` staat. Zet dan `logo` en het beeld neemt het over.
+ * Elke badge is een licht chipje met het merkicoon en de naam. Voor Stairoids
+ * hebben we nog geen logobestand; die krijgt alleen de naam tot er een
+ * `/logos/groeistack/stairoids.webp` naast de andere staat.
  */
 
 interface Partner {
   naam: string;
-  /** Pad onder /public, bijvoorbeeld "/logos/partners/hubspot.svg". */
+  /** Pad onder /public, of weglaten als we het merk nog niet hebben. */
   logo?: string;
 }
 
 const PARTNERS: Partner[] = [
-  { naam: "HubSpot", logo: "/logos/partners/hubspot.svg" },
-  { naam: "Pipedrive", logo: "/logos/partners/pipedrive.svg" },
-  { naam: "Claude", logo: "/logos/partners/claude.svg" },
-  { naam: "Apollo" },
+  { naam: "HubSpot", logo: "/logos/groeistack/hubspot.webp" },
+  { naam: "Pipedrive", logo: "/logos/groeistack/pipedrive.webp" },
+  { naam: "Claude", logo: "/logos/groeistack/claude.webp" },
+  { naam: "Apollo", logo: "/logos/groeistack/apollo.webp" },
   { naam: "Stairoids" },
 ];
 
@@ -33,21 +29,21 @@ export function PartnerBadges({ className = "" }: { className?: string }) {
       <ul className="flex flex-wrap items-center gap-2">
         {PARTNERS.map((partner) => (
           <li key={partner.naam}>
-            <span className="inline-flex h-8 items-center justify-center rounded-btn bg-brand-mist px-3.5">
-              {partner.logo ? (
+            <span className="inline-flex h-8 items-center gap-2 rounded-btn bg-brand-mist px-3">
+              {partner.logo && (
                 <img
                   src={partner.logo}
-                  alt={partner.naam}
-                  width={96}
-                  height={16}
+                  alt=""
+                  aria-hidden
+                  width={18}
+                  height={18}
                   loading="lazy"
-                  className="h-4 w-auto"
+                  className="size-[18px] shrink-0 rounded-[3px] object-contain"
                 />
-              ) : (
-                <span className="font-display text-[13px] font-bold tracking-[-0.01em] text-brand-ink">
-                  {partner.naam}
-                </span>
               )}
+              <span className="font-display text-[13px] font-bold tracking-[-0.01em] text-brand-ink">
+                {partner.naam}
+              </span>
             </span>
           </li>
         ))}

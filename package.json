@@ -13,7 +13,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "logos:manifest": "node scripts/build-logo-manifest.mjs"
   },
   "dependencies": {
     "@fontsource/fraunces": "^5.2.9",

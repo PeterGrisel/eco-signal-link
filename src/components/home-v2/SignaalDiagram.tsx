@@ -29,18 +29,12 @@ interface Bron {
   x: number;
 }
 
-/**
- * De tegels zijn licht: HubSpot en Pipedrive bestaan alleen als woordmerk in
- * donkere letters, en die verdwijnen op onze donkere achtergrond. Eén licht
- * chipje per tool maakt ze allemaal leesbaar en zet de merken meteen op de
- * voorgrond.
- */
 const BRONNEN: Bron[] = [
-  { label: "FUNDING", tool: "Crunchbase", logo: "/logos/stack/crunchbase.svg", x: 12 },
-  { label: "VACATURES", tool: "LinkedIn", logo: "/logos/stack/linkedin.svg", x: 105 },
-  { label: "WEBSITE", tool: "Google Analytics", logo: "/logos/stack/google-analytics.svg", x: 198 },
-  { label: "CRM", tool: "HubSpot", logo: "/logos/stack/hubspot.svg", x: 291 },
-  { label: "PIJPLIJN", tool: "Pipedrive", logo: "/logos/stack/pipedrive.svg", x: 384 },
+  { label: "FUNDING", tool: "PredictLeads", logo: "/logos/groeistack/predictleads.webp", x: 12 },
+  { label: "VACATURES", tool: "TheirStack", logo: "/logos/groeistack/theirstack.webp", x: 105 },
+  { label: "WEBSITE", tool: "RB2B", logo: "/logos/groeistack/rb2b.webp", x: 198 },
+  { label: "TECHSTACK", tool: "BuiltWith", logo: "/logos/groeistack/builtwith.webp", x: 291 },
+  { label: "CRM", tool: "HubSpot", logo: "/logos/groeistack/hubspot.webp", x: 384 },
 ];
 
 const BEWIJS = [
@@ -50,11 +44,16 @@ const BEWIJS = [
 ];
 
 const TILE_W = 84;
-const TILE_H = 44;
+const TILE_H = 52;
 const TILE_Y = 26;
-/** Vak waarin elk logo past; `meet` schaalt en centreert het zelf. */
-const LOGO_W = 58;
-const LOGO_H = 22;
+/**
+ * De merklogo's zijn app-iconen met sterk uiteenlopende achtergronden: sommige
+ * transparant, sommige een vol gekleurd vlak, sommige wit. Eén licht chipje per
+ * icoon trekt dat gelijk, zodat de rij rustig blijft en de tegel zelf donker
+ * kan meelopen met de rest van het diagram.
+ */
+const CHIP = 26;
+const LOGO = 20;
 const ENGINE = { x: 200, y: 232, w: 80, h: 62 };
 
 export function SignaalDiagram({ progress = 1 }: { progress?: number }) {
@@ -76,11 +75,11 @@ export function SignaalDiagram({ progress = 1 }: { progress?: number }) {
         aria-labelledby="signaaldiagram-titel"
       >
         <title id="signaaldiagram-titel">
-          Signalen uit funding (Crunchbase), vacatures (LinkedIn), website
-          (Google Analytics), CRM (HubSpot) en pijplijn (Pipedrive) komen samen
-          in de opportunity-engine, die met Claude redeneert. Die levert één
-          account op, Van Dijk Logistics, met een score van 94, drie
-          bewijsregels en de aanbevolen actie om vandaag te bellen.
+          Signalen uit funding (PredictLeads), vacatures (TheirStack), website
+          (RB2B), techstack (BuiltWith) en CRM (HubSpot) komen samen in de
+          opportunity-engine, die met Claude redeneert. Die levert één account
+          op, Van Dijk Logistics, met een score van 94, drie bewijsregels en de
+          aanbevolen actie om vandaag te bellen.
         </title>
 
         <defs>
@@ -133,16 +132,33 @@ export function SignaalDiagram({ progress = 1 }: { progress?: number }) {
                 width={TILE_W}
                 height={TILE_H}
                 rx="2"
+                className="fill-[#231F19] stroke-white/[.14]"
+                strokeWidth="1"
+              />
+              <rect
+                x={bron.x + (TILE_W - CHIP) / 2}
+                y={TILE_Y + 6}
+                width={CHIP}
+                height={CHIP}
+                rx="3"
                 className="fill-brand-mist"
               />
               <image
                 href={bron.logo}
-                x={bron.x + (TILE_W - LOGO_W) / 2}
-                y={TILE_Y + (TILE_H - LOGO_H) / 2}
-                width={LOGO_W}
-                height={LOGO_H}
+                x={bron.x + (TILE_W - LOGO) / 2}
+                y={TILE_Y + 6 + (CHIP - LOGO) / 2}
+                width={LOGO}
+                height={LOGO}
                 preserveAspectRatio="xMidYMid meet"
               />
+              <text
+                x={bron.x + TILE_W / 2}
+                y={TILE_Y + TILE_H - 7}
+                textAnchor="middle"
+                className="fill-[#CBC3B8] font-mono text-[6.5px]"
+              >
+                {bron.tool}
+              </text>
             </g>
           );
         })}
@@ -217,13 +233,16 @@ export function SignaalDiagram({ progress = 1 }: { progress?: number }) {
           </text>
           <rect x="88" y="250" width="96" height="26" rx="2" className="fill-brand-mist" />
           <image
-            href="/logos/stack/claude.svg"
-            x="98"
-            y="256"
-            width="76"
-            height="14"
+            href="/logos/groeistack/claude.webp"
+            x="97"
+            y="255"
+            width="16"
+            height="16"
             preserveAspectRatio="xMidYMid meet"
           />
+          <text x="119" y="266" className="fill-brand-ink font-mono text-[8px] font-bold">
+            Claude
+          </text>
           <path d="M 184 263 L 200 263" stroke="#E8945A" strokeWidth="1" strokeOpacity="0.55" fill="none" />
         </g>
 

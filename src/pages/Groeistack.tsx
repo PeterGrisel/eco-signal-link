@@ -25,6 +25,7 @@ import {
   faviconFor,
   type GroeistackCategory,
 } from "@/data/groeistack";
+import { groeistackLogo } from "@/data/groeistackLogos";
 
 interface ToolRow {
   name: string;
@@ -47,7 +48,9 @@ const seedRows: ToolRow[] = groeistackSeed.map((t) => ({ ...t, logo_url: null })
 
 const LogoBadge = ({ tool }: { tool: ToolRow }) => {
   const [err, setErr] = useState(false);
-  const src = tool.logo_url || faviconFor(tool.website);
+  // Volgorde: wat de redactie zelf instelde, dan ons eigen merklogo, dan de
+  // favicon als laatste redmiddel.
+  const src = tool.logo_url || groeistackLogo(tool.name) || faviconFor(tool.website);
   return (
     <span className="w-10 h-10 rounded-xl border border-foreground/10 bg-white overflow-hidden flex items-center justify-center shrink-0">
       {err || !src ? (
