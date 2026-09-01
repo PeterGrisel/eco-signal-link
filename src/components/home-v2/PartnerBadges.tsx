@@ -38,12 +38,15 @@ export function PartnerBadges({ className = "" }: { className?: string }) {
                   src={partner.logo}
                   alt={partner.logoOnly ? partner.naam : ""}
                   aria-hidden={!partner.logoOnly}
-                  width={18}
-                  height={18}
                   loading="lazy"
-                  className="size-[18px] shrink-0 rounded-[3px] object-contain"
+                  className={
+                    partner.logoOnly
+                      ? "h-[18px] w-auto max-w-[104px] shrink-0 object-contain"
+                      : "size-[18px] shrink-0 rounded-[3px] object-contain"
+                  }
                 />
               )}
+
               {!partner.logoOnly && (
                 <span className="font-display text-[13px] font-bold tracking-[-0.01em] text-brand-ink">
                   {partner.naam}

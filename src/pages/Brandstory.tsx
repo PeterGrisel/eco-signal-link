@@ -383,7 +383,7 @@ const Brandstory = () => {
                 rel="noopener noreferrer"
                 className="group"
               >
-                Plan een Gesprek
+                Boek een gratis call
                 <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
               </a>
             </Button>

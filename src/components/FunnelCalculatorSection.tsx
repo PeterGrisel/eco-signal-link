@@ -289,7 +289,7 @@ const FunnelCalculatorSection = ({ defaults }: { defaults?: FunnelDefaults }) =>
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-8 py-4 rounded-lg bg-primary text-primary-foreground font-display font-bold text-base hover:opacity-90 transition-opacity shadow-lg shadow-primary/20"
           >
-            Plan een Demo →
+            Boek een gratis call →
           </a>
         </motion.div>
       </div>

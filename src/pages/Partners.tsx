@@ -350,7 +350,7 @@ const Partners = () => {
                     onClick={() => openBookingModal()}
                     className="w-full py-3.5 px-6 rounded-xl bg-primary text-black font-bold text-sm tracking-wide transition-all duration-300 flex items-center justify-center gap-2 hover:bg-primary/90 hover:shadow-[0_0_25px_rgba(232,148,90,0.2)] active:scale-[0.98]"
                   >
-                    Boek gratis scan →
+                    Boek een gratis call →
                   </button>
                 </div>
               </div>

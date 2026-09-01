@@ -302,7 +302,7 @@ export const WaitlistHero = ({ logoSrc, logoAlt, accentColor, language = "nl" }:
               className="relative w-full h-full flex items-center justify-center rounded-full font-medium text-white transition-all active:scale-95 hover:brightness-110 text-lg"
               style={{ backgroundColor: colors.bluePrimary }}
             >
-              {isEn ? "Book a meeting" : "Plan een meeting"}
+              {isEn ? "Book a meeting" : "Boek een gratis call"}
             </a>
           </div>
         </div>

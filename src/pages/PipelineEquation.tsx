@@ -65,7 +65,7 @@ const PipelineEquation = () => {
                     rel="noopener noreferrer"
                     onClick={() => trackCTA("Pipeline Equation Hero — Demo", "/pipeline-equation")}
                   >
-                    Plan een gesprek
+                    Boek een gratis call
                   </a>
                 </Button>
               </div>
@@ -310,7 +310,7 @@ const PipelineEquation = () => {
                 rel="noopener noreferrer"
                 onClick={() => trackCTA("Pipeline Equation CTA — Demo", "/pipeline-equation")}
               >
-                Plan een gesprek →
+                Boek een gratis call →
               </a>
             </Button>
           </div>

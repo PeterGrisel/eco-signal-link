@@ -153,7 +153,7 @@ const HcmArnhemPage = () => {
                 className="inline-flex items-center gap-2 px-6 py-3.5 text-sm font-display font-bold uppercase tracking-wider text-white transition hover:translate-x-0.5"
                 style={{ backgroundColor: ORANGE }}
               >
-                Plan een kennismaking <ArrowRight className="h-4 w-4" />
+                Boek een gratis call <ArrowRight className="h-4 w-4" />
               </a>
               <a
                 href="#zo-werkt-het"
@@ -440,7 +440,7 @@ const HcmArnhemPage = () => {
                 className="inline-flex items-center gap-3 bg-white px-8 py-4 text-sm md:text-base font-display font-bold uppercase tracking-wider transition hover:gap-5"
                 style={{ color: ORANGE }}
               >
-                Plan een gesprek <ArrowUpRight className="h-5 w-5" />
+                Boek een gratis call <ArrowUpRight className="h-5 w-5" />
               </a>
             </div>
 

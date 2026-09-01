@@ -3,6 +3,8 @@ import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import CtaLink from "@/components/CtaLink";
+import TalkCard from "@/components/TalkCard";
+
 import { CTA } from "@/content/copy";
 import { Compass, ArrowRight, ArrowDown, UserPlus, MapPin, Globe, Handshake, Briefcase, RotateCcw } from "lucide-react";
 import heroPoster from "@/assets/hero-poster.jpg.asset.json";
@@ -327,6 +329,8 @@ const Hero = () => {
               </Link>
             </div>
           </div>
+          <TalkCard />
+
         </motion.div>
       </div>
     </section>

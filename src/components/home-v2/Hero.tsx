@@ -1,14 +1,11 @@
 import { useEffect, useState } from "react";
-import { Check } from "lucide-react";
 import { Container } from "@/components/v2/Container";
 import { SplitHeadline, splitHeadlineText } from "@/components/v2/SplitHeadline";
 import { SignaalDiagram } from "./SignaalDiagram";
 import { BlackHoleHeroSection } from "@/components/ui/blackhole-hero-section";
-import { FlowButton } from "@/components/ui/flow-button";
 import { PartnerBadges } from "./PartnerBadges";
-import { openBookingModal } from "@/components/booking/GlobalBookingModal";
+import TalkCard from "@/components/TalkCard";
 import { fase, useScrollProgress } from "@/hooks/useScrollProgress";
-import { trackCTA } from "@/lib/tracking";
 
 const HEADLINE = [
   [{ text: "Meer omzet" }],
@@ -16,42 +13,8 @@ const HEADLINE = [
   [{ text: "verkopers.", accent: true }],
 ];
 
-/**
- * E-mail plus knop in één veld: de bezoeker typt zijn adres en komt met dat
- * adres al ingevuld in de agenda terecht. Zonder adres opent de modal gewoon.
- */
-function AfspraakVeld() {
-  const [email, setEmail] = useState("");
 
-  function boek(e: React.FormEvent) {
-    e.preventDefault();
-    trackCTA("hero_gratis_scan", "hero");
-    openBookingModal(email.trim() ? { email: email.trim() } : undefined);
-  }
 
-  return (
-    <form
-      onSubmit={boek}
-      className="flex w-full max-w-[480px] flex-col gap-2 rounded-brand border border-white/[.14] bg-white/[.04] p-2 sm:flex-row sm:items-center"
-    >
-      <label htmlFor="hero-email" className="sr-only">
-        Uw zakelijke e-mailadres
-      </label>
-      <input
-        id="hero-email"
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="u@bedrijf.nl"
-        autoComplete="email"
-        className="min-w-0 grow bg-transparent px-4 py-2.5 text-[15px] text-white placeholder:text-[#8C8378] focus:outline-none"
-      />
-      <FlowButton type="submit" className="shrink-0 justify-center">
-        Boek een gratis scan
-      </FlowButton>
-    </form>
-  );
-}
 
 /**
  * Scroll-gestuurde hero.
@@ -71,7 +34,13 @@ function AfspraakVeld() {
  */
 /** Het scroll-verhaal draait alleen op breed scherm; daaronder één stilstaand beeld. */
 function useBreedScherm() {
-  const [breed, setBreed] = useState(false);
+  // Meteen de juiste stand: anders bouwt het zwarte gat zich eerst in de
+  // smalle variant op en daarna nog eens in de brede ("twee keer laden").
+  const [breed, setBreed] = useState(() =>
+    typeof window !== "undefined" && typeof window.matchMedia === "function"
+      ? window.matchMedia("(min-width: 1024px)").matches
+      : false,
+  );
   useEffect(() => {
     const mq = window.matchMedia("(min-width: 1024px)");
     const zet = () => setBreed(mq.matches);
@@ -81,6 +50,18 @@ function useBreedScherm() {
   }, []);
   return breed;
 }
+
+/** Bij binnenkomst zonder anker altijd bovenaan starten. */
+function useStartBovenaan() {
+  useEffect(() => {
+    if (window.location.hash && window.location.hash !== "#") return;
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+    window.scrollTo(0, 0);
+  }, []);
+}
+
 
 /**
  * Zet het snappen aan zolang `el` in beeld is, en weer uit zodra het weg is.
@@ -106,7 +87,9 @@ function useSnapTerwijlZichtbaar(el: React.RefObject<HTMLElement>) {
 export function Hero() {
   const { ref, progress } = useScrollProgress<HTMLDivElement>();
   const breed = useBreedScherm();
+  useStartBovenaan();
   useSnapTerwijlZichtbaar(ref);
+
 
   // Op smal scherm is er geen scroll-verhaal: het gat staat achter de tekst en
   // het diagram krijgt eronder zijn eigen blok.
@@ -171,15 +154,11 @@ export function Hero() {
                 RevOps. Negentig dagen als pilot, of u neemt het daarna zelf in
                 beheer.
               </p>
+              <TalkCard location="Home hero" />
 
-              <AfspraakVeld />
-
-              <p className="mt-5 flex items-start gap-2.5 text-[14px] text-[#D6CEC3]">
-                <Check aria-hidden className="mt-0.5 size-4 shrink-0 text-brand-accent" />
-                In 30 dagen live, anders krijgt u uw geld terug.
-              </p>
 
               <PartnerBadges className="mt-8" />
+
             </div>
           </Container>
 

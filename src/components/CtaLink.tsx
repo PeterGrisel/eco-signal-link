@@ -14,7 +14,7 @@ type CtaLinkProps = {
 
 /**
  * Eén plek voor CTA-href, label en trackingnaam.
- * Voorkomt drift tussen "Plan de gratis scan", "Plan een gesprek", etc.
+ * Voorkomt drift tussen "Plan de gratis scan", "Boek een gratis call", etc.
  */
 const CtaLink = forwardRef<HTMLAnchorElement, CtaLinkProps>(
   ({ intent, location, children, ...rest }, ref) => {

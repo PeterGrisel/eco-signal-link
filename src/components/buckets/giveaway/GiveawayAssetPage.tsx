@@ -26,7 +26,7 @@ const splitTitle = (t: string) => {
   return [parts.join(" "), last];
 };
 
-export const GiveawayAssetPage = ({ item, ctaText = "Plan uw Groeiplan-sessie →", toolbar }: Props) => {
+export const GiveawayAssetPage = ({ item, ctaText = "Boek een gratis call →", toolbar }: Props) => {
   const [a, b] = splitTitle(item.title);
   const handleCta = () => trackCTA(`Give-Away · ${item.title}`, BOOKING_URL);
   return (

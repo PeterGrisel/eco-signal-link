@@ -7,6 +7,7 @@ import { ScrollProgress } from "./ScrollProgress";
 import { openBookingModal } from "@/components/booking/GlobalBookingModal";
 import { sectors } from "@/data/sectors";
 import { trackCTA } from "@/lib/tracking";
+import peterAsset from "@/assets/peter.gif.asset.json";
 
 type Item = { label: string; href: string; note?: string };
 type Group = { label: string; href?: string; items?: Item[] };
@@ -185,9 +186,16 @@ export function Nav() {
         </div>
 
         <div className="flex items-center gap-3">
-          <span className="hidden md:block">
-            <Button onClick={book}>Boek een gratis scan</Button>
+          <span className="hidden items-center gap-2 md:flex">
+            <img
+              src={peterAsset.url}
+              alt="Peter Grisel zwaait"
+              loading="lazy"
+              className="size-9 shrink-0 rounded-full object-cover object-[center_25%] ring-1 ring-brand-line"
+            />
+            <Button onClick={book}>Boek een gratis call</Button>
           </span>
+
           <button
             type="button"
             aria-label={mobile ? "Sluit menu" : "Open menu"}
@@ -259,7 +267,7 @@ export function Nav() {
               </div>
             ))}
             <span className="md:hidden">
-              <Button onClick={book}>Boek een gratis scan</Button>
+              <Button onClick={book}>Boek een gratis call</Button>
             </span>
           </Container>
         </div>

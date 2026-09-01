@@ -258,7 +258,7 @@ const Contact = () => {
                   <Button variant="hero" size="lg" className="w-full" asChild>
                     <a href="https://meetings-eu1.hubspot.com/peter-grisel" target="_blank" rel="noopener noreferrer"
                       onClick={() => trackCTA("Contact — Plan een Demo", "https://meetings-eu1.hubspot.com/peter-grisel")}>
-                      Plan een gratis Demo →
+                      Boek een gratis call →
                     </a>
                   </Button>
                 </div>
