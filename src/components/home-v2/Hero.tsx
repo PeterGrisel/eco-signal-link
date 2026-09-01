@@ -202,7 +202,10 @@ export function Hero() {
                 In 30 dagen live, anders krijgt u uw geld terug.
               </p>
 
+              <TalkCard className="mt-6" location="Home hero" />
+
               <PartnerBadges className="mt-8" />
+
             </div>
           </Container>
 
