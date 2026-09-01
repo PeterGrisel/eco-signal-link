@@ -74,7 +74,13 @@ function AfspraakVeld() {
  */
 /** Het scroll-verhaal draait alleen op breed scherm; daaronder één stilstaand beeld. */
 function useBreedScherm() {
-  const [breed, setBreed] = useState(false);
+  // Meteen de juiste stand: anders bouwt het zwarte gat zich eerst in de
+  // smalle variant op en daarna nog eens in de brede ("twee keer laden").
+  const [breed, setBreed] = useState(() =>
+    typeof window !== "undefined" && typeof window.matchMedia === "function"
+      ? window.matchMedia("(min-width: 1024px)").matches
+      : false,
+  );
   useEffect(() => {
     const mq = window.matchMedia("(min-width: 1024px)");
     const zet = () => setBreed(mq.matches);
@@ -84,6 +90,18 @@ function useBreedScherm() {
   }, []);
   return breed;
 }
+
+/** Bij binnenkomst zonder anker altijd bovenaan starten. */
+function useStartBovenaan() {
+  useEffect(() => {
+    if (window.location.hash && window.location.hash !== "#") return;
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+    window.scrollTo(0, 0);
+  }, []);
+}
+
 
 /**
  * Zet het snappen aan zolang `el` in beeld is, en weer uit zodra het weg is.
