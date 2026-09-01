@@ -3,6 +3,7 @@ import { ArrowRight, Check } from "lucide-react";
 import { Container } from "@/components/v2/Container";
 import { SplitHeadline, splitHeadlineText } from "@/components/v2/SplitHeadline";
 import { SignaalDiagram } from "./SignaalDiagram";
+import { PartnerBadges } from "./PartnerBadges";
 import { openBookingModal } from "@/components/booking/GlobalBookingModal";
 import { fase, useScrollProgress } from "@/hooks/useScrollProgress";
 import { trackCTA } from "@/lib/tracking";
@@ -82,9 +83,10 @@ export function Hero() {
   // Op smal scherm staat alles meteen in de eindstaat.
   const p = breed ? progress : 1;
   const pTekst = breed ? 1 - fase(p, 0.05, 0.34) : 1;
-  // Kleine voorsprong: wie niet scrollt ziet de bronnen al staan in plaats van
-  // een lege rechterhelft.
-  const pDiagram = Math.max(0.14, fase(p, 0, 0.72));
+  // Ondergrens: wie niet scrollt ziet de zes bronnen compleet staan, met de
+  // lijnen net op gang. Lager dan dit valt de rij half weg en oogt het beeld
+  // stuk in plaats van in opbouw.
+  const pDiagram = Math.max(0.34, fase(p, 0, 0.72));
   // Terwijl de tekst wegvalt schuift het beeld naar het midden en groeit het.
   const pNaarMidden = breed ? fase(p, 0.16, 0.62) : 0;
 
@@ -131,12 +133,14 @@ export function Hero() {
                 <Check aria-hidden className="mt-0.5 size-4 shrink-0 text-brand-accent" />
                 In 30 dagen live, anders krijgt u uw geld terug.
               </p>
+
+              <PartnerBadges className="mt-8" />
             </div>
 
             {/* Beeldlaag: het diagram bouwt zichzelf op terwijl de tekst wegvalt. */}
             <div
               style={{
-                transform: `translateX(${-34 * pNaarMidden}%) scale(${1 + pNaarMidden * 0.16})`,
+                transform: `translateX(${-52 * pNaarMidden}%) scale(${1 + pNaarMidden * 0.16})`,
                 transformOrigin: "center",
               }}
             >
