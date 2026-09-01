@@ -37,17 +37,19 @@ export function PartnerBadges({ className = "" }: { className?: string }) {
               {partner.logo && (
                 <img
                   src={partner.logo}
-                  alt=""
-                  aria-hidden
+                  alt={partner.logoOnly ? partner.naam : ""}
+                  aria-hidden={!partner.logoOnly}
                   width={18}
                   height={18}
                   loading="lazy"
                   className="size-[18px] shrink-0 rounded-[3px] object-contain"
                 />
               )}
-              <span className="font-display text-[13px] font-bold tracking-[-0.01em] text-brand-ink">
-                {partner.naam}
-              </span>
+              {!partner.logoOnly && (
+                <span className="font-display text-[13px] font-bold tracking-[-0.01em] text-brand-ink">
+                  {partner.naam}
+                </span>
+              )}
             </span>
           </li>
         ))}
