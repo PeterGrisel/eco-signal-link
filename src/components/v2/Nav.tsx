@@ -7,6 +7,7 @@ import { ScrollProgress } from "./ScrollProgress";
 import { openBookingModal } from "@/components/booking/GlobalBookingModal";
 import { sectors } from "@/data/sectors";
 import { trackCTA } from "@/lib/tracking";
+import peterAsset from "@/assets/peter.gif.asset.json";
 
 type Item = { label: string; href: string; note?: string };
 type Group = { label: string; href?: string; items?: Item[] };
