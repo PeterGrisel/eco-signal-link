@@ -12,6 +12,8 @@ interface Partner {
   naam: string;
   /** Pad onder /public, of weglaten als we het merk nog niet hebben. */
   logo?: string;
+  /** Verberg de naam; toon alleen het logo. */
+  logoOnly?: boolean;
 }
 
 const PARTNERS: Partner[] = [
@@ -19,7 +21,7 @@ const PARTNERS: Partner[] = [
   { naam: "Pipedrive", logo: "/logos/groeistack/pipedrive.webp" },
   { naam: "Claude", logo: "/logos/groeistack/claude.webp" },
   { naam: "Apollo", logo: "/logos/groeistack/apollo.webp" },
-  { naam: "Stairoids", logo: stairoidsAsset.url },
+  { naam: "Stairoids", logo: stairoidsAsset.url, logoOnly: true },
 ];
 
 export function PartnerBadges({ className = "" }: { className?: string }) {
