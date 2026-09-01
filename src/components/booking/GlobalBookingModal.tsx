@@ -17,6 +17,11 @@ const HUBSPOT_EMBED_SCRIPT = "https://static.hsappstatic.net/MeetingsEmbed/ex/Me
 export function GlobalBookingModal({ open, onOpenChange, prefillData }: GlobalBookingModalProps) {
   const containerRef = React.useRef<HTMLDivElement>(null);
   const g = COPY.groeiplan;
+  // Het Groeiplan-paneel hoort alleen bij de groeiplan-pagina; elders tonen we
+  // enkel de HubSpot-agenda.
+  const toonGroeiplan =
+    typeof window !== "undefined" && window.location.pathname.startsWith("/groeiplan");
+
 
   const meetingUrl = React.useMemo(() => {
     const url = new URL(HUBSPOT_MEETING_URL);
