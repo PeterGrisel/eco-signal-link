@@ -127,7 +127,9 @@ function useSnapTerwijlZichtbaar(el: React.RefObject<HTMLElement>) {
 export function Hero() {
   const { ref, progress } = useScrollProgress<HTMLDivElement>();
   const breed = useBreedScherm();
+  useStartBovenaan();
   useSnapTerwijlZichtbaar(ref);
+
 
   // Op smal scherm is er geen scroll-verhaal: het gat staat achter de tekst en
   // het diagram krijgt eronder zijn eigen blok.
