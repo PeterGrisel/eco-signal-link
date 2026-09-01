@@ -17,6 +17,11 @@ const HUBSPOT_EMBED_SCRIPT = "https://static.hsappstatic.net/MeetingsEmbed/ex/Me
 export function GlobalBookingModal({ open, onOpenChange, prefillData }: GlobalBookingModalProps) {
   const containerRef = React.useRef<HTMLDivElement>(null);
   const g = COPY.groeiplan;
+  // Het Groeiplan-paneel hoort alleen bij de groeiplan-pagina; elders tonen we
+  // enkel de HubSpot-agenda.
+  const toonGroeiplan =
+    typeof window !== "undefined" && window.location.pathname.startsWith("/groeiplan");
+
 
   const meetingUrl = React.useMemo(() => {
     const url = new URL(HUBSPOT_MEETING_URL);
@@ -62,11 +67,13 @@ export function GlobalBookingModal({ open, onOpenChange, prefillData }: GlobalBo
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[700px] lg:max-w-[1100px] max-h-[95vh] lg:h-[800px] p-0 overflow-y-auto lg:overflow-hidden bg-background border border-glow flex flex-col">
-        <div className="grid lg:grid-cols-[450px_1fr] lg:h-full lg:overflow-hidden">
+      <DialogContent className={`${toonGroeiplan ? "sm:max-w-[700px] lg:max-w-[1100px]" : "sm:max-w-[620px]"} max-h-[95vh] lg:h-[800px] p-0 overflow-y-auto lg:overflow-hidden bg-background border border-glow flex flex-col`}>
+        <div className={`grid ${toonGroeiplan ? "lg:grid-cols-[450px_1fr]" : ""} lg:h-full lg:overflow-hidden`}>
           
           {/* Left panel: What they get (Groeiplan overview) */}
+          {toonGroeiplan && (
           <div className="p-6 md:p-8 lg:p-10 bg-[#0d1321] border-b lg:border-b-0 lg:border-r border-glow flex flex-col justify-between overflow-y-auto lg:h-full">
+
             <div>
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-xs font-medium text-primary mb-4">
                 <Sparkles className="w-3.5 h-3.5" />
@@ -135,6 +142,8 @@ export function GlobalBookingModal({ open, onOpenChange, prefillData }: GlobalBo
               </p>
             </div>
           </div>
+          )}
+
 
           {/* Right panel: HubSpot Booking Form */}
           <div className="flex flex-col h-full lg:overflow-hidden">
