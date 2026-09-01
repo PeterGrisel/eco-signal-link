@@ -48,7 +48,7 @@ const VideoCaptureSection = () => {
               aria-label="Werk-email"
             />
             <Button type="submit" variant="hero" size="lg">
-              Plan groeisessie
+              Boek een gratis call
               <ArrowRight className="ml-1 h-4 w-4" />
             </Button>
           </form>

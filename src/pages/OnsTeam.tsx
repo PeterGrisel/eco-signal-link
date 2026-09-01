@@ -184,7 +184,7 @@ const OnsTeam = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Plan een kennismaking →
+                  Boek een gratis call →
                 </a>
               </Button>
             </motion.div>
@@ -490,7 +490,7 @@ const OnsTeam = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Plan een Gesprek →
+                  Boek een gratis call →
                 </a>
               </Button>
             </motion.div>

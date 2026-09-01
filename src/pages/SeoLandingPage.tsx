@@ -105,7 +105,7 @@ const SeoLandingPage = () => {
               </p>
               <div className="flex flex-wrap gap-3 mb-12">
                 <Button asChild size="lg">
-                  <Link to="/contact">Plan een strategiegesprek <ArrowRight className="w-4 h-4 ml-2" /></Link>
+                  <Link to="/contact">Boek een gratis call <ArrowRight className="w-4 h-4 ml-2" /></Link>
                 </Button>
                 <Button asChild size="lg" variant="outline">
                   <Link to="/pipeline-equation">Bereken je pipeline</Link>

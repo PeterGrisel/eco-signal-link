@@ -129,7 +129,7 @@ const SectorPage = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Plan een Demo →
+                  Boek een gratis call →
                 </a>
               </Button>
             </motion.div>

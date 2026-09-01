@@ -288,7 +288,7 @@ const ExactHero = () => {
                 className="inline-flex items-center gap-2 text-sm font-display font-medium text-muted-foreground hover:text-primary transition-colors"
               >
                 <CalendarDays className="h-5 w-5" strokeWidth={1.8} />
-                Plan een kennismaking
+                Boek een gratis call
               </button>
               <span className="h-1 w-1 rounded-full bg-foreground/20" />
               <span className="text-sm italic text-muted-foreground/70">Geen verplichtingen</span>

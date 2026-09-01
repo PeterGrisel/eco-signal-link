@@ -49,7 +49,7 @@ function AfspraakVeld() {
         type="submit"
         className="inline-flex shrink-0 items-center justify-center gap-2 rounded-btn bg-brand-accent px-5 py-2.5 font-display text-[13.5px] font-bold tracking-[-0.01em] text-brand-ink transition-colors duration-[180ms] hover:bg-brand-accent-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-accent"
       >
-        Boek een gratis scan
+        Boek een gratis call
         <ArrowRight aria-hidden className="size-4" />
       </button>
     </form>

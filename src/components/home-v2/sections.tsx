@@ -920,7 +920,7 @@ export function VoorWie() {
               }}
               className="mt-auto pt-4 text-left font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-brand-accent-ink transition-colors duration-[180ms] hover:text-brand-accent"
             >
-              Boek een gratis scan →
+              Boek een gratis call →
             </button>
           </div>
         </Reveal>
@@ -1145,7 +1145,7 @@ export function Contact() {
                 openBookingModal();
               }}
             >
-              Boek een gratis scan
+              Boek een gratis call
             </Button>
             <Button href="/contact" variant="invert">
               Liever eerst mailen
