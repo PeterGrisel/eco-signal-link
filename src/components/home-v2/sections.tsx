@@ -135,7 +135,7 @@ export function WatWijBouwen() {
     {
       label: "Schaal",
       title: "Elke propositie, elk land",
-      body: "De infrastructuur blijft staan, de hypothese verandert. Dezelfde engine gaat door naar cross-sell, een nieuwe markt of een partnerroute.",
+      body: "De infrastructuur blijft staan, de hypothese verandert. Dezelfde engine gaat door naar een nieuwe propositie, een nieuwe markt of een partnerroute.",
     },
   ];
   return (
@@ -148,7 +148,7 @@ export function WatWijBouwen() {
             <br className="hidden sm:block" /> bewaakt terwijl u verkoopt.
           </>
         }
-        lead="Wij leveren geen losse tooling en geen losse campagne. Wij ontwerpen uw commerciële proces, automatiseren de stappen, verbinden uw systemen en voegen intelligentie toe aan de beslismomenten."
+        lead="Wij leveren geen losse tooling en geen losse campagne. Wij beginnen bij uw commerciële werkelijkheid — uw klantprofielen, segmenten, proposities en wat vandaag al werkt — en bouwen daaromheen het proces, de koppelingen en de intelligentie op de beslismomenten."
       />
       <div className="grid items-stretch gap-[22px] md:grid-cols-3">
         {kaarten.map((k, i) => (
@@ -170,6 +170,10 @@ export function WatOnsAndersMaakt() {
     {
       title: "De opportunity zit vóór de intentie",
       body: "Een bedrijf in uw doelgroep is nog geen kans. Wij zoeken eerst de reden dat er waarde kan ontstaan, en pas daarna het moment.",
+    },
+    {
+      title: "Groei zit niet alleen in nieuwe klanten",
+      body: "Ook in bestaande klanten, cross-sell, upsell, een nieuwe propositie, een nieuwe markt of een partnerroute. Welke opportunity-types voor u gelden, brengen wij vooraf samen in kaart.",
     },
     {
       title: "Bewijs stapelt, en vervalt",
@@ -196,9 +200,8 @@ export function WatOnsAndersMaakt() {
         eyebrow="Wat ons anders maakt"
         title={
           <>
-            Wij zijn geen leadbureau.
-            <br className="hidden sm:block" /> Wij bouwen commerciële
-            infrastructuur.
+            Wij zijn geen platform.
+            <br className="hidden sm:block" /> Wij zijn engineers.
           </>
         }
         lead="Het verschil zit niet in de tools, die kan iedereen kopen. Het zit in het proces eromheen: welke kansen u formuleert, welk bewijs u telt en wanneer u een mens inzet."
@@ -833,14 +836,14 @@ export function Tijdlijn() {
     { d: "Week 2", title: "Data en connectors", body: "Datamodel staat, bronnen en kanalen aangesloten, de markt in kaart." },
     { d: "Week 3", title: "Activatie live", body: "De eerste flows draaien, signalen komen binnen, de scoring wordt gekalibreerd." },
     { d: "Week 4", title: "Routing naar sales", body: "De eerste priority-accounts landen in uw CRM, met reason codes en een actie." },
-    { d: "Daarna", title: "De wekelijkse review", body: "Uitkomsten uit sales gaan terug het systeem in. Elke week een stukje scherper." },
+    { d: "Daarna", title: "Twee uur per week bij u", body: "Wij zitten wekelijks bij u aan tafel met sales. Uitkomsten gaan terug het systeem in en elke week sturen we bij." },
   ];
   return (
     <Section>
       <SectionHeader
         eyebrow="Van eerste gesprek tot eerste account"
         title="Binnen vier weken staat de engine."
-        lead="Geen implementatietraject van een half jaar en nul opstartkosten. Na vier weken landen de eerste accounts met een reden in uw CRM."
+        lead="Na de kickoff staat de technische inrichting er in gemiddeld vijf werkdagen. Pas als alles actief staat en de motor draait, begint de facturatie. Na vier weken landen de eerste accounts met een reden in uw CRM."
       />
       <div className="grid gap-y-6 lg:grid-cols-5 lg:gap-y-0">
         {weken.map((kolom, i) => (
