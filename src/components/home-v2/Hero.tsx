@@ -1,14 +1,11 @@
 import { useEffect, useState } from "react";
-import { ArrowRight, Check } from "lucide-react";
 import { Container } from "@/components/v2/Container";
 import { SplitHeadline, splitHeadlineText } from "@/components/v2/SplitHeadline";
 import { SignaalDiagram } from "./SignaalDiagram";
 import { BlackHoleHeroSection } from "@/components/ui/blackhole-hero-section";
 import { PartnerBadges } from "./PartnerBadges";
 import TalkCard from "@/components/TalkCard";
-import { openBookingModal } from "@/components/booking/GlobalBookingModal";
 import { fase, useScrollProgress } from "@/hooks/useScrollProgress";
-import { trackCTA } from "@/lib/tracking";
 
 const HEADLINE = [
   [{ text: "Meer omzet" }],
@@ -16,46 +13,8 @@ const HEADLINE = [
   [{ text: "verkopers.", accent: true }],
 ];
 
-/**
- * E-mail plus knop in één veld: de bezoeker typt zijn adres en komt met dat
- * adres al ingevuld in de agenda terecht. Zonder adres opent de modal gewoon.
- */
-function AfspraakVeld() {
-  const [email, setEmail] = useState("");
 
-  function boek(e: React.FormEvent) {
-    e.preventDefault();
-    trackCTA("hero_gratis_scan", "hero");
-    openBookingModal(email.trim() ? { email: email.trim() } : undefined);
-  }
 
-  return (
-    <form
-      onSubmit={boek}
-      className="flex w-full max-w-[480px] flex-col gap-2 rounded-brand border border-white/[.14] bg-white/[.04] p-2 sm:flex-row sm:items-center"
-    >
-      <label htmlFor="hero-email" className="sr-only">
-        Uw zakelijke e-mailadres
-      </label>
-      <input
-        id="hero-email"
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="u@bedrijf.nl"
-        autoComplete="email"
-        className="min-w-0 grow bg-transparent px-4 py-2.5 text-[15px] text-white placeholder:text-[#8C8378] focus:outline-none"
-      />
-      <button
-        type="submit"
-        className="inline-flex shrink-0 items-center justify-center gap-2 rounded-btn bg-brand-accent px-5 py-2.5 font-display text-[13.5px] font-bold tracking-[-0.01em] text-brand-ink transition-colors duration-[180ms] hover:bg-brand-accent-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-accent"
-      >
-        Boek een gratis call
-        <ArrowRight aria-hidden className="size-4" />
-      </button>
-    </form>
-  );
-}
 
 /**
  * Scroll-gestuurde hero.
@@ -195,15 +154,8 @@ export function Hero() {
                 RevOps. Negentig dagen als pilot, of u neemt het daarna zelf in
                 beheer.
               </p>
+              <TalkCard location="Home hero" />
 
-              <AfspraakVeld />
-
-              <p className="mt-5 flex items-start gap-2.5 text-[14px] text-[#D6CEC3]">
-                <Check aria-hidden className="mt-0.5 size-4 shrink-0 text-brand-accent" />
-                In 30 dagen live, anders krijgt u uw geld terug.
-              </p>
-
-              <TalkCard className="mt-6" location="Home hero" />
 
               <PartnerBadges className="mt-8" />
 
