@@ -594,7 +594,7 @@ export function HetProtocol() {
             lead="Negentig dagen om het te bewijzen, maandelijks opzegbaar en geen opstartkosten. Wat 'live' betekent, schrijven wij op vóór we beginnen. Op dag dertig legt u de werkelijkheid daarnaast."
           />
         }
-        className="max-w-[52rem]"
+        className="max-w-[58rem]"
       />
 
       {/* De twee uitkomsten naast elkaar: dit is waar de garantie concreet wordt. */}

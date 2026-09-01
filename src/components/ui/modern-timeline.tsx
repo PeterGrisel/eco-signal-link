@@ -109,12 +109,22 @@ function Marker({
 }
 
 /** De kaart naast de marker. */
-function Kaart({ item, className }: { item: TimelineItem; className?: string }) {
+function Kaart({
+  item,
+  groot = false,
+  className,
+}: {
+  item: TimelineItem;
+  /** Ruimere maat, voor de stapel waar één kaart tegelijk in beeld is. */
+  groot?: boolean;
+  className?: string;
+}) {
   const stijl = MARKERING[item.status ?? "upcoming"];
   return (
     <article
       className={cn(
-        "rounded-brand border border-brand-line bg-brand-paper p-5 sm:p-6",
+        "rounded-brand border border-brand-line bg-brand-paper",
+        groot ? "p-7 sm:p-9" : "p-5 sm:p-6",
         className,
       )}
     >
@@ -127,7 +137,12 @@ function Kaart({ item, className }: { item: TimelineItem; className?: string }) 
             )}
             {item.date && <span>{item.date}</span>}
           </div>
-          <h3 className="font-display text-[17px] font-bold leading-snug tracking-[-0.015em] sm:text-lg">
+          <h3
+            className={cn(
+              "font-display font-bold leading-snug tracking-[-0.015em]",
+              groot ? "text-[22px] sm:text-[26px]" : "text-[17px] sm:text-lg",
+            )}
+          >
             {item.title}
           </h3>
         </div>
@@ -144,10 +159,22 @@ function Kaart({ item, className }: { item: TimelineItem; className?: string }) 
         )}
       </div>
 
-      <p className="text-[13.5px] leading-relaxed text-brand-ink-2">{item.description}</p>
+      <p
+        className={cn(
+          "leading-relaxed text-brand-ink-2",
+          groot ? "text-[15px]" : "text-[13.5px]",
+        )}
+      >
+        {item.description}
+      </p>
 
       {item.rows?.length ? (
-        <ul className="mt-4 space-y-2.5 border-t border-brand-line pt-4 font-mono text-[11.5px]">
+        <ul
+          className={cn(
+            "space-y-2.5 border-t border-brand-line font-mono",
+            groot ? "mt-6 pt-5 text-[12.5px]" : "mt-4 pt-4 text-[11.5px]",
+          )}
+        >
           {item.rows.map(([wat, uitkomst]) => (
             <li key={wat} className="flex items-baseline justify-between gap-4">
               <span className="text-brand-ink-2">{wat}</span>
@@ -261,9 +288,15 @@ export function TimelineStack({
     );
   }
 
-  // Doorlopende positie tussen 0 en items.length - 1. De marges aan weerszijden
-  // geven de eerste en laatste kaart even rust voor en na hun beurt.
-  const positie = fase(progress, 0.08, 0.92) * (items.length - 1);
+  // Positie tussen 0 en items.length - 1, maar niet lineair: elke kaart staat
+  // een tijdje stil en schuift dan in één keer door. Lineair meeschuiven laat
+  // je te lang halverwege hangen, en dan lijkt het rommelig in plaats van als
+  // een stap.
+  const ruw = fase(progress, 0.08, 0.92) * (items.length - 1);
+  const basis = Math.floor(ruw);
+  const rest = ruw - basis;
+  const deel = fase(rest, 0.34, 0.72);
+  const positie = Math.min(items.length - 1, basis + deel * deel * (3 - 2 * deel));
   const actief = Math.min(items.length - 1, Math.max(0, Math.round(positie)));
   const railHoogte = (items.length - 1) * RAIL_STAP + RAIL_MARKER;
 
@@ -321,37 +354,39 @@ export function TimelineStack({
 
           {/* De stapel. Alle kaarten in dezelfde rastercel, dus de hoogte volgt
               de langste en er is geen absolute positionering nodig. */}
-          <ol className="grid min-w-0 flex-1">
-            {items.map((item, i) => {
-              // Wat nog komt ligt iets lager en kleiner, zodat alleen de rand
-              // eronderuit piept — niet de tekst, want dan lijkt het een fout.
-              // Wat geweest is schuift omhoog het beeld uit.
-              const d = i - positie;
-              const komt = d > 0;
-              const y = komt ? d * 14 : d * 30;
-              const schaal = komt ? 1 - Math.min(d, 2) * 0.035 : 1;
-              const dekking = komt
-                ? Math.max(0, 0.5 - (d - 1) * 0.5)
-                : Math.max(0, 1 + d * 1.4);
-              return (
-                <li
-                  key={item.title}
-                  className="col-start-1 row-start-1"
-                  style={{
-                    transform: `translateY(${y}px) scale(${schaal})`,
-                    opacity: dekking,
-                    zIndex: 30 - Math.round(Math.abs(d) * 10),
-                    pointerEvents: Math.abs(d) < 0.5 ? undefined : "none",
-                  }}
-                >
-                  <Kaart
-                    item={item}
-                    className="shadow-[0_10px_40px_-24px_rgba(23,20,15,0.45)]"
-                  />
-                </li>
-              );
-            })}
-          </ol>
+          {/* De stapel. Alle kaarten liggen in dezelfde rastercel, dus de
+              hoogte volgt de langste. De ruimte bovenaan is voor de kaarten die
+              naar achteren zakken; wat nog moet komen staat eronder en wordt
+              door het kader afgesneden. */}
+          <div className="min-w-0 flex-1 overflow-hidden pt-7">
+            <ol className="grid">
+              {items.map((item, i) => {
+                // Kaarten zijn ondoorzichtig en liggen op z-volgorde: een
+                // latere kaart schuift van onderen over de vorige heen. Daarom
+                // is er nergens tekst door tekst zichtbaar — dat was precies
+                // wat een crossfade hier wél deed.
+                const d = i - positie;
+                const terug = Math.max(d, -2);
+                const transform =
+                  d >= 0
+                    ? `translateY(calc((100% + 28px) * ${d.toFixed(4)}))`
+                    : `translateY(${(terug * 18).toFixed(1)}px) scale(${(1 + terug * 0.045).toFixed(4)})`;
+                return (
+                  <li
+                    key={item.title}
+                    className="col-start-1 row-start-1"
+                    style={{ transform, zIndex: i, willChange: "transform" }}
+                  >
+                    <Kaart
+                      item={item}
+                      groot
+                      className="shadow-[0_12px_44px_-28px_rgba(23,20,15,0.5)]"
+                    />
+                  </li>
+                );
+              })}
+            </ol>
+          </div>
         </div>
       </div>
     </div>
