@@ -82,7 +82,9 @@ export function Hero() {
   // Op smal scherm staat alles meteen in de eindstaat.
   const p = breed ? progress : 1;
   const pTekst = breed ? 1 - fase(p, 0.05, 0.34) : 1;
-  const pDiagram = fase(p, 0.08, 0.8);
+  // Kleine voorsprong: wie niet scrollt ziet de bronnen al staan in plaats van
+  // een lege rechterhelft.
+  const pDiagram = Math.max(0.14, fase(p, 0, 0.72));
   // Terwijl de tekst wegvalt schuift het beeld naar het midden en groeit het.
   const pNaarMidden = breed ? fase(p, 0.16, 0.62) : 0;
 
