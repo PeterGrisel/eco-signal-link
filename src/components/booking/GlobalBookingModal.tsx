@@ -142,6 +142,8 @@ export function GlobalBookingModal({ open, onOpenChange, prefillData }: GlobalBo
               </p>
             </div>
           </div>
+          )}
+
 
           {/* Right panel: HubSpot Booking Form */}
           <div className="flex flex-col h-full lg:overflow-hidden">
