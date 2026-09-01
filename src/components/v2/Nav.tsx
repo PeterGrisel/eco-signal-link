@@ -185,9 +185,16 @@ export function Nav() {
         </div>
 
         <div className="flex items-center gap-3">
-          <span className="hidden md:block">
+          <span className="hidden items-center gap-2 md:flex">
+            <img
+              src={peterAsset.url}
+              alt="Peter Grisel zwaait"
+              loading="lazy"
+              className="size-9 shrink-0 rounded-full object-cover object-[center_25%] ring-1 ring-brand-line"
+            />
             <Button onClick={book}>Boek een gratis call</Button>
           </span>
+
           <button
             type="button"
             aria-label={mobile ? "Sluit menu" : "Open menu"}
