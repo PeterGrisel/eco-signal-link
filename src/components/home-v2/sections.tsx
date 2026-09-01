@@ -254,13 +254,18 @@ export function WatOnsAndersMaakt() {
 
 /* ── 04 · De diensten als bento ────────────────────────────────────────── */
 
+/**
+ * De diensten in drie lagen: bovenin de drie manieren om de markt in te gaan,
+ * daaronder het fundament waar ze alle drie op rusten, en onderaan alles bij
+ * elkaar. `breed` legt een kaart over de volle breedte met het beeld ernaast
+ * in plaats van erboven; dat leest als een band onder de drie erboven.
+ */
 const DIENSTEN = [
   {
     rol: "Nieuwe markten",
     naam: "Outbound",
     body: "Markt in kaart, hypotheses per segment, multichannel activatie en opvolging. Voor groei buiten uw bestaande klantenbestand.",
     mock: <MockSequence />,
-    slot: "lg:col-span-2",
   },
   {
     rol: "Named accounts",
@@ -269,23 +274,24 @@ const DIENSTEN = [
     mock: <MockPipeline />,
   },
   {
-    rol: "Fundament",
-    naam: "RevOps",
-    body: "Datamodel, CRM-inrichting, routing en rapportage. Zonder dit blijft de rest handwerk.",
-    mock: <MockChecklist />,
-  },
-  {
     rol: "Lange adem",
     naam: "Nurturing",
     body: "Accounts met fit maar zonder timing blijven in beeld tot het bewijs stapelt.",
     mock: <MockRadar />,
   },
   {
+    rol: "Fundament",
+    naam: "RevOps",
+    body: "Datamodel, CRM-inrichting, routing en rapportage. Hier rusten de drie hierboven op; zonder dit blijft de rest handwerk.",
+    mock: <MockChecklist />,
+    breed: true,
+  },
+  {
     rol: "Alles samen",
     naam: "GTM as a Service",
     body: "De vier diensten op één engine, van signaal tot hand-off met reason codes. Vanaf € 1.500 per maand.",
     mock: <MockHandoff />,
-    slot: "lg:col-span-2",
+    breed: true,
     highlight: true,
   },
 ];
@@ -295,17 +301,38 @@ const DIENSTEN = [
  * dienst doet. Opbouw naar het model van daliagents.com: beeld boven, kopregel
  * met pijl, korte omschrijving, en een gordijn dat de sectie openschuift.
  */
+function DienstKop({ rol, naam, body }: { rol: string; naam: string; body: string }) {
+  return (
+    <>
+      <p className="mb-3 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-brand-accent-ink">
+        {rol}
+      </p>
+      <div className="mb-2 flex items-start justify-between gap-4">
+        <h3 className="font-display text-lg font-bold leading-snug tracking-[-0.015em]">{naam}</h3>
+        <span aria-hidden className="text-brand-ink-3">
+          ↗
+        </span>
+      </div>
+      <p className="max-w-[52ch] text-[13.5px] text-brand-ink-2">{body}</p>
+    </>
+  );
+}
+
 export function Diensten() {
   return (
     <Section id="diensten" tone="mist" className="v2-gordijn">
       <SectionHeader
         eyebrow="Wat u koopt"
         title="Kies waar u begint."
-        lead="Alle vier draaien op dezelfde engine, dus uitbreiden is een hypothese toevoegen en geen nieuw traject. Onderaan de volledige dienst, als u alles in één hand wilt."
+        lead="Bovenin drie manieren om de markt in te gaan. Daaronder het fundament waar ze alle drie op rusten, en onderaan alles op één engine. Uitbreiden is een hypothese toevoegen, geen nieuw traject."
       />
       <div className="grid gap-[18px] sm:grid-cols-2 lg:grid-cols-3">
         {DIENSTEN.map((dienst, i) => (
-          <Reveal key={dienst.naam} index={i} className={`h-full ${dienst.slot ?? ""}`}>
+          <Reveal
+            key={dienst.naam}
+            index={i}
+            className={`h-full ${dienst.breed ? "sm:col-span-2 lg:col-span-3" : ""}`}
+          >
             <article
               className={`flex h-full flex-col overflow-hidden rounded-brand border bg-brand-paper ${
                 dienst.highlight ? "border-brand-accent" : "border-brand-line"
@@ -315,21 +342,21 @@ export function Diensten() {
                 aria-hidden
                 className={`h-[3px] w-full ${dienst.highlight ? "bg-brand-accent" : "bg-brand-ink"}`}
               />
-              <div className="p-4">{dienst.mock}</div>
-              <div className="flex grow flex-col px-6 pb-7 pt-1">
-                <p className="mb-3 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-brand-accent-ink">
-                  {dienst.rol}
-                </p>
-                <div className="mb-2 flex items-start justify-between gap-4">
-                  <h3 className="font-display text-lg font-bold leading-snug tracking-[-0.015em]">
-                    {dienst.naam}
-                  </h3>
-                  <span aria-hidden className="text-brand-ink-3">
-                    ↗
-                  </span>
+              {dienst.breed ? (
+                <div className="flex grow flex-col lg:flex-row lg:items-center">
+                  <div className="shrink-0 p-4 lg:w-[42%]">{dienst.mock}</div>
+                  <div className="flex grow flex-col px-6 pb-7 pt-1 lg:py-6 lg:pl-2 lg:pr-6">
+                    <DienstKop {...dienst} />
+                  </div>
                 </div>
-                <p className="text-[13.5px] text-brand-ink-2">{dienst.body}</p>
-              </div>
+              ) : (
+                <>
+                  <div className="p-4">{dienst.mock}</div>
+                  <div className="flex grow flex-col px-6 pb-7 pt-1">
+                    <DienstKop {...dienst} />
+                  </div>
+                </>
+              )}
             </article>
           </Reveal>
         ))}
