@@ -66,7 +66,7 @@ const ExactFinalCta = () => {
                 className="group"
               >
                 <Calendar className="h-4 w-4 mr-2" />
-                Plan afspraak in agenda
+                Boek een gratis call
                 <ArrowRight className="h-4 w-4 ml-2 transition-transform group-hover:translate-x-0.5" />
               </Button>
             </div>

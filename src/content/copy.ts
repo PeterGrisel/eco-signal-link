@@ -15,20 +15,20 @@ export const BOOKING_URL =
 export const CTA = {
   /** Hoofd-CTA: gebruikt in hero, navbar, sticky, sections */
   gratisScan: {
-    label: "Plan uw Groeiplan-sessie →",
-    labelShort: "Plan Groeiplan-sessie",
+    label: "Boek een gratis call →",
+    labelShort: "Boek een gratis call",
     href: "#boek-gratis-scan",
     external: false,
   },
   /** Tertiaire CTA: situatie bespreken (in body-tekst) */
   bespreekSituatie: {
-    label: "Plan uw Groeiplan-sessie →",
+    label: "Boek een gratis call →",
     href: "#boek-gratis-scan",
     external: false,
   },
   /** Enterprise: mag direct door naar de agenda, geen pre-check */
   enterpriseAgenda: {
-    label: "Plan direct in agenda →",
+    label: "Boek een gratis call →",
     href: BOOKING_URL,
     external: true,
   },

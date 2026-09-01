@@ -322,7 +322,7 @@ const GroeiplanInvullen = () => {
             >
               <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
                 <Calendar className="h-4 w-4 mr-2" />
-                Plan een gesprek
+                Boek een gratis call
               </a>
             </Button>
           </DialogFooter>
