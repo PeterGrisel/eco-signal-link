@@ -1,13 +1,13 @@
-import { BadgeCheck } from "lucide-react";
-
 /**
  * De partnerrij in de hero.
  *
- * Elke badge staat voor een leverancier waar wij officieel partner van zijn.
- * `logo` is optioneel: zodra de officiële partner-artwork in
- * `public/logos/partners/` staat, vervangt die het vinkje. Zolang dat er niet
- * is houden we één uniforme, typografische badge aan — een half ingevulde rij
- * met deels echte en deels nagetekende merken oogt onbetrouwbaar.
+ * Elke badge is een licht chipje met het echte woordmerk. Dat is bewust: de
+ * woordmerken van HubSpot en Pipedrive staan in donkere letters en zouden op
+ * onze donkere hero wegvallen.
+ *
+ * Voor Apollo en Stairoids bestaat geen vrij beschikbaar merkbestand; die
+ * krijgen hun naam in de merktypografie tot de officiële partner-artwork in
+ * `public/logos/partners/` staat. Zet dan `logo` en het beeld neemt het over.
  */
 
 interface Partner {
@@ -17,9 +17,9 @@ interface Partner {
 }
 
 const PARTNERS: Partner[] = [
-  { naam: "HubSpot" },
-  { naam: "Pipedrive" },
-  { naam: "Claude" },
+  { naam: "HubSpot", logo: "/logos/partners/hubspot.svg" },
+  { naam: "Pipedrive", logo: "/logos/partners/pipedrive.svg" },
+  { naam: "Claude", logo: "/logos/partners/claude.svg" },
   { naam: "Apollo" },
   { naam: "Stairoids" },
 ];
@@ -33,21 +33,21 @@ export function PartnerBadges({ className = "" }: { className?: string }) {
       <ul className="flex flex-wrap items-center gap-2">
         {PARTNERS.map((partner) => (
           <li key={partner.naam}>
-            <span className="inline-flex items-center gap-2 rounded-btn border border-white/[.14] bg-white/[.04] py-1.5 pl-2.5 pr-3">
+            <span className="inline-flex h-8 items-center justify-center rounded-btn bg-brand-mist px-3.5">
               {partner.logo ? (
                 <img
                   src={partner.logo}
-                  alt=""
-                  aria-hidden
+                  alt={partner.naam}
+                  width={96}
+                  height={16}
                   loading="lazy"
-                  className="size-[15px] shrink-0 object-contain"
+                  className="h-4 w-auto"
                 />
               ) : (
-                <BadgeCheck aria-hidden className="size-[15px] shrink-0 text-brand-accent" />
+                <span className="font-display text-[13px] font-bold tracking-[-0.01em] text-brand-ink">
+                  {partner.naam}
+                </span>
               )}
-              <span className="font-display text-[12.5px] font-bold tracking-[-0.01em] text-[#E7E0D6]">
-                {partner.naam}
-              </span>
             </span>
           </li>
         ))}

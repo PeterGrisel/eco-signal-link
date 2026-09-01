@@ -1,12 +1,3 @@
-import type { LucideIcon } from "lucide-react";
-import {
-  Briefcase,
-  Database,
-  Layers,
-  MousePointerClick,
-  Newspaper,
-  TrendingUp,
-} from "lucide-react";
 import { fase } from "@/hooks/useScrollProgress";
 
 /**
@@ -31,19 +22,25 @@ import { fase } from "@/hooks/useScrollProgress";
 interface Bron {
   /** Het signaaltype, boven de tegel. */
   label: string;
-  /** De tool uit de groeistack die dit signaal aanlevert. */
+  /** Naam van de tool, voor schermlezers en de <title>. */
   tool: string;
-  icon: LucideIcon;
+  /** Pad naar het merklogo onder /public. */
+  logo: string;
   x: number;
 }
 
+/**
+ * De tegels zijn licht: HubSpot en Pipedrive bestaan alleen als woordmerk in
+ * donkere letters, en die verdwijnen op onze donkere achtergrond. Eén licht
+ * chipje per tool maakt ze allemaal leesbaar en zet de merken meteen op de
+ * voorgrond.
+ */
 const BRONNEN: Bron[] = [
-  { label: "FUNDING", tool: "Crunchbase", icon: TrendingUp, x: 10 },
-  { label: "VACATURES", tool: "LinkedIn", icon: Briefcase, x: 88 },
-  { label: "WEBSITE", tool: "Koala", icon: MousePointerClick, x: 166 },
-  { label: "NIEUWS", tool: "Apollo", icon: Newspaper, x: 244 },
-  { label: "TECHSTACK", tool: "Clay", icon: Layers, x: 322 },
-  { label: "CRM", tool: "HubSpot", icon: Database, x: 400 },
+  { label: "FUNDING", tool: "Crunchbase", logo: "/logos/stack/crunchbase.svg", x: 12 },
+  { label: "VACATURES", tool: "LinkedIn", logo: "/logos/stack/linkedin.svg", x: 105 },
+  { label: "WEBSITE", tool: "Google Analytics", logo: "/logos/stack/google-analytics.svg", x: 198 },
+  { label: "CRM", tool: "HubSpot", logo: "/logos/stack/hubspot.svg", x: 291 },
+  { label: "PIJPLIJN", tool: "Pipedrive", logo: "/logos/stack/pipedrive.svg", x: 384 },
 ];
 
 const BEWIJS = [
@@ -52,9 +49,12 @@ const BEWIJS = [
   "Prijzenpagina 3× bezocht",
 ];
 
-const TILE_W = 70;
+const TILE_W = 84;
 const TILE_H = 44;
 const TILE_Y = 26;
+/** Vak waarin elk logo past; `meet` schaalt en centreert het zelf. */
+const LOGO_W = 58;
+const LOGO_H = 22;
 const ENGINE = { x: 200, y: 232, w: 80, h: 62 };
 
 export function SignaalDiagram({ progress = 1 }: { progress?: number }) {
@@ -77,10 +77,10 @@ export function SignaalDiagram({ progress = 1 }: { progress?: number }) {
       >
         <title id="signaaldiagram-titel">
           Signalen uit funding (Crunchbase), vacatures (LinkedIn), website
-          (Koala), nieuws (Apollo), techstack (Clay) en CRM (HubSpot) komen samen
-          in de opportunity-engine. Die levert één account op, Van Dijk
-          Logistics, met een score van 94, drie bewijsregels en de aanbevolen
-          actie om vandaag te bellen.
+          (Google Analytics), CRM (HubSpot) en pijplijn (Pipedrive) komen samen
+          in de opportunity-engine, die met Claude redeneert. Die levert één
+          account op, Van Dijk Logistics, met een score van 94, drie
+          bewijsregels en de aanbevolen actie om vandaag te bellen.
         </title>
 
         <defs>
@@ -111,7 +111,6 @@ export function SignaalDiagram({ progress = 1 }: { progress?: number }) {
         {/* Bronnen: signaaltype, pictogram en de tool die het aanlevert. */}
         {BRONNEN.map((bron, i) => {
           const zichtbaar = fase(pBronnen, i * 0.11, i * 0.11 + 0.5);
-          const Icon = bron.icon;
           return (
             <g
               key={bron.label}
@@ -134,26 +133,16 @@ export function SignaalDiagram({ progress = 1 }: { progress?: number }) {
                 width={TILE_W}
                 height={TILE_H}
                 rx="2"
-                className="fill-[#231F19] stroke-white/[.14]"
-                strokeWidth="1"
+                className="fill-brand-mist"
               />
-              <Icon
-                x={bron.x + TILE_W / 2 - 8}
-                y={TILE_Y + 8}
-                width={16}
-                height={16}
-                strokeWidth={1.6}
-                className="text-brand-accent"
-                aria-hidden
+              <image
+                href={bron.logo}
+                x={bron.x + (TILE_W - LOGO_W) / 2}
+                y={TILE_Y + (TILE_H - LOGO_H) / 2}
+                width={LOGO_W}
+                height={LOGO_H}
+                preserveAspectRatio="xMidYMid meet"
               />
-              <text
-                x={bron.x + TILE_W / 2}
-                y={TILE_Y + TILE_H - 9}
-                textAnchor="middle"
-                className="fill-[#CBC3B8] font-mono text-[6.5px]"
-              >
-                {bron.tool}
-              </text>
             </g>
           );
         })}
@@ -219,6 +208,23 @@ export function SignaalDiagram({ progress = 1 }: { progress?: number }) {
           >
             ENGINE
           </text>
+        </g>
+
+        {/* De redeneerlaag, als tegenhanger van het menselijk oordeel rechts */}
+        <g style={{ opacity: fase(progress, 0.5, 0.7) }}>
+          <text x="184" y="243" textAnchor="end" className="fill-[#8C8378] font-mono text-[6.5px] font-bold tracking-[0.14em]">
+            REDENEERT MET
+          </text>
+          <rect x="88" y="250" width="96" height="26" rx="2" className="fill-brand-mist" />
+          <image
+            href="/logos/stack/claude.svg"
+            x="98"
+            y="256"
+            width="76"
+            height="14"
+            preserveAspectRatio="xMidYMid meet"
+          />
+          <path d="M 184 263 L 200 263" stroke="#E8945A" strokeWidth="1" strokeOpacity="0.55" fill="none" />
         </g>
 
         {/* Zijkaart: het menselijk oordeel blijft in de lus */}
