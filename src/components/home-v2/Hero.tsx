@@ -44,26 +44,6 @@ function useStartBovenaan() {
   }, []);
 }
 
-/**
- * Zet het snappen aan zolang `el` in beeld is, en weer uit zodra het weg is.
- * Zie de toelichting bij `.v2-hero-snap` in index.css.
- */
-function useSnapTerwijlZichtbaar(el: React.RefObject<HTMLElement>) {
-  useEffect(() => {
-    const node = el.current;
-    if (!node) return;
-    const wortel = document.documentElement;
-    const io = new IntersectionObserver(
-      ([entry]) => wortel.classList.toggle("v2-hero-snap", entry.isIntersecting),
-      { threshold: 0 },
-    );
-    io.observe(node);
-    return () => {
-      io.disconnect();
-      wortel.classList.remove("v2-hero-snap");
-    };
-  }, [el]);
-}
 
 export function Hero() {
   const { ref, progress } = useScrollProgress<HTMLDivElement>();
