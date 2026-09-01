@@ -5,6 +5,8 @@ import { Card } from "@/components/v2/Card";
 import { Container } from "@/components/v2/Container";
 import { Faq } from "@/components/v2/Faq";
 import { GiantWord } from "@/components/v2/GiantWord";
+import peterGrisel from "@/assets/peter-grisel.png";
+import { Timeline, type TimelineItem } from "@/components/ui/modern-timeline";
 import { Reveal } from "@/components/v2/Reveal";
 import { Section } from "@/components/v2/Section";
 import { SectionHeader } from "@/components/v2/SectionHeader";
@@ -527,36 +529,52 @@ export function Klantenraster() {
  * staan hier bewust niet ingevuld.
  */
 export function HetProtocol() {
-  const stappen = [
+  /**
+   * De drie stappen als tijdlijn. Alleen bij de afspraak staat een portret,
+   * omdat dat gesprek er echt één met Peter is. Voor de bouw en de toets
+   * hebben wij geen foto van een echte collega; die stappen tonen zolang hun
+   * statusteken. Zet er een `image` bij zodra de portretten er zijn.
+   */
+  const stappen: TimelineItem[] = [
     {
-      stempel: "Vooraf vastgelegd",
-      regels: [
+      category: "Vooraf vastgelegd",
+      title: "De afspraak",
+      description:
+        "Voor er één regel wordt gebouwd, staat op papier wat 'live' betekent in uw situatie.",
+      status: "completed",
+      badge: "Vooraf",
+      image: peterGrisel,
+      imageAlt: "Peter Grisel",
+      rows: [
         ["Doelmarkt en ICP", "vastgelegd"],
         ["Opportunity-hypotheses", "vastgelegd"],
         ["Definitie van live", "vastgelegd"],
       ],
-      kop: "De afspraak",
-      body: "Voor er één regel wordt gebouwd, staat op papier wat 'live' betekent in uw situatie.",
     },
     {
-      stempel: "Dag 1 tot 30",
-      regels: [
+      category: "Dag 1 tot 30",
+      title: "De bouw",
+      description:
+        "Wij bouwen op uw eigen data en CRM. U ziet elke week wat er staat en wat er nog mist.",
+      status: "current",
+      badge: "Tijdens",
+      rows: [
         ["Datamodel", "gebouwd"],
         ["Connectors", "aangesloten"],
         ["Eerste flow", "draait"],
       ],
-      kop: "De bouw",
-      body: "Wij bouwen op uw eigen data en CRM. U ziet elke week wat er staat en wat er nog mist.",
     },
     {
-      stempel: "Dag 30",
-      regels: [
+      category: "Dag 30",
+      title: "De toets",
+      description: "U legt de werkelijkheid naast de afspraak. Niet wij, u.",
+      status: "upcoming",
+      badge: "U beoordeelt",
+      rows: [
         ["Engine draait", "u bevestigt"],
         ["Accounts in CRM", "u bevestigt"],
         ["Reason codes kloppen", "u beoordeelt"],
       ],
-      kop: "De toets",
-      body: "U legt de werkelijkheid naast de afspraak. Niet wij, u.",
     },
   ];
   const meting = [
@@ -573,36 +591,7 @@ export function HetProtocol() {
         lead="Negentig dagen om het te bewijzen, maandelijks opzegbaar en geen opstartkosten. Wat 'live' betekent, schrijven wij op vóór we beginnen. Op dag dertig legt u de werkelijkheid daarnaast."
       />
 
-      <ol className="grid gap-[22px] md:grid-cols-3">
-        {stappen.map((stap, i) => (
-          <Reveal key={stap.kop} index={i} className="h-full">
-            <li className="flex h-full flex-col">
-              <article className="rounded-brand border border-brand-line bg-brand-paper p-5">
-                <p className="mb-4 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-brand-accent-ink">
-                  {stap.stempel}
-                </p>
-                <ul className="space-y-2.5 font-mono text-[11.5px]">
-                  {stap.regels.map(([wat, status]) => (
-                    <li
-                      key={wat}
-                      className="flex items-baseline justify-between gap-4 border-b border-brand-line pb-2.5 last:border-b-0 last:pb-0"
-                    >
-                      <span className="text-brand-ink-2">{wat}</span>
-                      <b className="shrink-0 font-bold text-brand-ink">{status}</b>
-                    </li>
-                  ))}
-                </ul>
-              </article>
-              <div className="pt-5">
-                <strong className="block font-display text-[17px] font-bold tracking-[-0.015em]">
-                  {stap.kop}
-                </strong>
-                <p className="mt-1.5 text-[13.5px] text-brand-ink-2">{stap.body}</p>
-              </div>
-            </li>
-          </Reveal>
-        ))}
-      </ol>
+      <Timeline items={stappen} className="max-w-[52rem]" />
 
       {/* De twee uitkomsten naast elkaar: dit is waar de garantie concreet wordt. */}
       <Reveal className="mt-14">
