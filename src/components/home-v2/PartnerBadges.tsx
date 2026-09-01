@@ -1,15 +1,18 @@
 /**
  * De partnerrij in de hero.
  *
- * Elke badge is een licht chipje met het merkicoon en de naam. Voor Stairoids
- * hebben we nog geen logobestand; die krijgt alleen de naam tot er een
- * `/logos/groeistack/stairoids.webp` naast de andere staat.
+ * Elke badge is een licht chipje met het merkicoon en de naam. Stairoids toont
+ * alleen het logo, zonder merknaam.
  */
+
+import stairoidsAsset from "@/assets/stairoids.png.asset.json";
 
 interface Partner {
   naam: string;
   /** Pad onder /public, of weglaten als we het merk nog niet hebben. */
   logo?: string;
+  /** Verberg de naam; toon alleen het logo. */
+  logoOnly?: boolean;
 }
 
 const PARTNERS: Partner[] = [
@@ -17,7 +20,7 @@ const PARTNERS: Partner[] = [
   { naam: "Pipedrive", logo: "/logos/groeistack/pipedrive.webp" },
   { naam: "Claude", logo: "/logos/groeistack/claude.webp" },
   { naam: "Apollo", logo: "/logos/groeistack/apollo.webp" },
-  { naam: "Stairoids" },
+  { naam: "Stairoids", logo: stairoidsAsset.url, logoOnly: true },
 ];
 
 export function PartnerBadges({ className = "" }: { className?: string }) {
@@ -33,17 +36,19 @@ export function PartnerBadges({ className = "" }: { className?: string }) {
               {partner.logo && (
                 <img
                   src={partner.logo}
-                  alt=""
-                  aria-hidden
+                  alt={partner.logoOnly ? partner.naam : ""}
+                  aria-hidden={!partner.logoOnly}
                   width={18}
                   height={18}
                   loading="lazy"
                   className="size-[18px] shrink-0 rounded-[3px] object-contain"
                 />
               )}
-              <span className="font-display text-[13px] font-bold tracking-[-0.01em] text-brand-ink">
-                {partner.naam}
-              </span>
+              {!partner.logoOnly && (
+                <span className="font-display text-[13px] font-bold tracking-[-0.01em] text-brand-ink">
+                  {partner.naam}
+                </span>
+              )}
             </span>
           </li>
         ))}
