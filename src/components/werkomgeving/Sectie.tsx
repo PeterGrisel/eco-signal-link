@@ -30,10 +30,10 @@ export function WerkomgevingSectie() {
 
       <Reveal className="mt-8">
         <Link
-          to="/werkomgeving"
+          to="/groeistack"
           className="font-mono text-[11px] font-bold uppercase tracking-[0.14em] text-brand-accent transition-colors duration-[180ms] hover:text-brand-accent-2"
         >
-          Alle zes de stappen uitgeschreven <span aria-hidden>→</span>
+          Bekijk alle tools <span aria-hidden>→</span>
         </Link>
       </Reveal>
     </Section>
