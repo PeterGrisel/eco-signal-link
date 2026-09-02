@@ -597,7 +597,7 @@ export function HetProtocol() {
           <SectionHeader
             eyebrow="Zo werkt de pilot"
             title="Wij vragen u niet om vertrouwen. Wij leggen vast wanneer het geslaagd is."
-            lead="Wat 'live' betekent, schrijven wij op vóór we beginnen. Na de kickoff staat de technische inrichting er in gemiddeld vijf werkdagen, en pas als alles actief staat begint de facturatie. Op dag dertig legt u de werkelijkheid daarnaast."
+            lead="90 dagen bouwen eraan uw commerciële brein."
           />
         }
         className="max-w-[58rem]"
