@@ -17,7 +17,7 @@ import {
   Klantenraster,
   Prijzen,
   Vragen,
-  WaaromEenEngine,
+  
   WatOnsAndersMaakt,
   WieZitErachter,
 } from "@/components/home-v2/sections";
@@ -106,7 +106,7 @@ const Home = () => {
               "GTM as a Service",
             ]}
           />
-          <WaaromEenEngine />
+          
           <WatOnsAndersMaakt />
           <Alternatieven />
           <Diensten />
