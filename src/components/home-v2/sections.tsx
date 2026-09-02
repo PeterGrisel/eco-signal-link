@@ -579,9 +579,9 @@ export function HetProtocol() {
     },
   ];
   const meting = [
-    ["Engine live", "Datamodel, connectors en de eerste flow draaien", "Werkende omgeving op uw stack"],
-    ["Accounts geleverd", "Priority accounts landen in uw CRM", "CRM-export met reason codes"],
-    ["Doorlooptijd", "Binnen 30 kalenderdagen na kickoff", "Kickoffdatum en opleverdatum"],
+    ["Engine live", "Eerste end-to-end flow binnen 30 dagen", "Werkende omgeving"],
+    ["Markt getest", "Afgesproken aantal relevante accounts verwerkt", "Campagne- en CRM-data"],
+    ["Kansen geleverd", "Gekwalificeerde accounts naar sales met context", "CRM + reason codes"],
   ];
   // De prijs is geen gok en geen weddenschap: het zijn onze uren, de tools die
   // eronder draaien en het sturen ervan. Daarom staat de opbouw er gewoon.
@@ -649,8 +649,8 @@ export function HetProtocol() {
           ))}
         </div>
         <p className="mt-5 text-[13.5px] text-brand-ink-2">
-          Geen opstartkosten. De eerste negentig dagen draaien wij het samen op,
-          daarna is het maandelijks opzegbaar.
+          Geen opstartkosten. 90 dagen samen bouwen, testen en verbeteren.
+          Daarna maandelijks opzegbaar.
         </p>
       </Reveal>
 

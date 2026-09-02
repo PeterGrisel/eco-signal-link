@@ -110,6 +110,14 @@ export interface BlackHoleHeroSectionProps
   scrimStrength?: number;
   /** Freeze on the current frame. */
   paused?: boolean;
+  /**
+   * Beelden per seconde. Elk beeld is een volledige raymarch van de scene, dus
+   * dit is de goedkoopste knop die er is: de helft eraf is de helft van het
+   * werk. De camera staat stil en het gas draait traag, en het lopende
+   * gemiddelde smeert de tussenstappen alsnog uit — vandaar dertig. Hoger
+   * heeft alleen zin als de camera zelf gaat bewegen (`orbitSpeed`).
+   */
+  fps?: number;
   children?: React.ReactNode;
 }
 
@@ -637,6 +645,7 @@ export function BlackHoleHeroSection({
   scrim = "none",
   scrimStrength = 0.9,
   paused = false,
+  fps = 30,
   className = "",
   children,
   ...rest
@@ -648,13 +657,13 @@ export function BlackHoleHeroSection({
     distance, elevation, azimuth, orbitSpeed, roll, fov, diskInner, diskOuter,
     diskThickness, diskDensity, brightness, spinSpeed, grain, doppler, hotColor,
     midColor, coolColor, starBrightness, glow, exposure, vignette, steps,
-    resolution, maxDpr, focus, scrim, scrimStrength, paused,
+    resolution, maxDpr, focus, scrim, scrimStrength, paused, fps,
   });
   props.current = {
     distance, elevation, azimuth, orbitSpeed, roll, fov, diskInner, diskOuter,
     diskThickness, diskDensity, brightness, spinSpeed, grain, doppler, hotColor,
     midColor, coolColor, starBrightness, glow, exposure, vignette, steps,
-    resolution, maxDpr, focus, scrim, scrimStrength, paused,
+    resolution, maxDpr, focus, scrim, scrimStrength, paused, fps,
   };
 
   useEffect(() => {
@@ -1085,13 +1094,21 @@ export function BlackHoleHeroSection({
     /** Frames die een stilstaand beeld nodig heeft om schoon te zijn. */
     const RUST = 24;
 
+    /** Wanneer het volgende beeld op zijn vroegst mag. */
+    let volgende = 0;
+
     function tick(now: number) {
       if (!running) return;
       raf = requestAnimationFrame(tick);
       if (!inBeeld || !tabActief) { lastFrame = now; return; }
       const stil = props.current.paused || reduced;
-      // Stilstaand en uitgemiddeld: elk volgend frame is hetzelfde beeld.
+      // Stilstaand en uitgemiddeld: elk volgend beeld is hetzelfde beeld.
       if (stil && settled >= RUST) { lastFrame = now; return; }
+      // Op tempo houden. De klok telt de echte tijd op, dus het gas draait
+      // even snel door — er worden alleen minder beelden van gemaakt.
+      const tempo = Math.max(1, Math.min(120, props.current.fps));
+      if (now < volgende) return;
+      volgende = Math.max(now + 1000 / tempo - 4, now);
       const dt = lastFrame ? Math.min(0.05, (now - lastFrame) / 1000) : 0;
       lastFrame = now;
       if (!stil) clock += dt;
