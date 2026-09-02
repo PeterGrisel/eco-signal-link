@@ -108,7 +108,6 @@ const Home = () => {
 
           <WieZitErachter />
           <Alternatieven />
-          <HoeHetWerkt />
           <Vragen />
           <Contact />
         </main>

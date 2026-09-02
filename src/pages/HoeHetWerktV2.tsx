@@ -15,6 +15,7 @@ import ExactNinetyDays from "@/components/hhwv2/exact/ExactNinetyDays";
 import ExactTestimonials from "@/components/hhwv2/exact/ExactTestimonials";
 import ExactFinalCta from "@/components/hhwv2/exact/ExactFinalCta";
 import AmbientBackdrop from "@/components/homepage/AmbientBackdrop";
+import { HoeHetWerkt } from "@/components/home-v2/sections";
 
 const HoeHetWerktV2 = () => {
   usePageMeta({
@@ -43,6 +44,7 @@ const HoeHetWerktV2 = () => {
             <ExactFlowChart />
           </section>
           <ExactFlywheel />
+          <HoeHetWerkt />
           <ExactThreeWays />
           <ExactRevenueEngine />
           <ExactToolStack />
