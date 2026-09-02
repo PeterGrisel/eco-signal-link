@@ -17,8 +17,6 @@ import {
   Klantenraster,
   Prijzen,
   Vragen,
-  
-  WatOnsAndersMaakt,
   WieZitErachter,
 } from "@/components/home-v2/sections";
 import { FAQ_ITEMS } from "@/components/home-v2/faq";
@@ -106,12 +104,11 @@ const Home = () => {
               "GTM as a Service",
             ]}
           />
-          
-          <WatOnsAndersMaakt />
+
+          <WieZitErachter />
           <Alternatieven />
           <Diensten />
           <HoeHetWerkt />
-          <WieZitErachter />
           <Vragen />
           <Contact />
         </main>
