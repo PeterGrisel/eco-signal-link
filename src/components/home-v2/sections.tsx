@@ -6,7 +6,7 @@ import { Faq } from "@/components/v2/Faq";
 import { GiantWord } from "@/components/v2/GiantWord";
 import peterGrisel from "@/assets/peter-grisel.png";
 import { TimelineStack, type TimelineItem } from "@/components/ui/modern-timeline";
-import { PrincipeCarrousel } from "./Principes";
+import { MarktTrechter, PrincipeCarrousel } from "./Principes";
 import { Reveal } from "@/components/v2/Reveal";
 import { Section } from "@/components/v2/Section";
 import { SectionHeader } from "@/components/v2/SectionHeader";
@@ -246,12 +246,6 @@ export function WatOnsAndersMaakt() {
       body: "Elke uitkomst gaat terug het systeem in. Welke signalen bleken ruis, welke hypothese leverde deals op, welke regels moeten anders.",
     },
   ];
-  const trechter = [
-    { n: "4.000", label: "bedrijven in de markt" },
-    { n: "1.200", label: "met voldoende fit" },
-    { n: "350", label: "opportunity-hypotheses" },
-    { n: "70", label: "accounts met beweging" },
-  ];
   return (
     <Section tone="mist">
       <SectionHeader
@@ -266,38 +260,9 @@ export function WatOnsAndersMaakt() {
       />
       <PrincipeCarrousel items={items} />
 
-      {/* De trechter als bewijsregel: van de hele markt naar wat beweegt.
-          Liggend in plaats van staand, zodat hij de sectie niet verlengt. */}
-      <Reveal className="mt-14 rounded-brand border border-brand-line bg-brand-paper px-7 py-7">
-        <div className="mb-6 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
-          <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-brand-ink-3">
-            Van markt naar priority
-          </p>
-          <p className="max-w-[58ch] text-[13px] text-brand-ink-2">
-            Uw specialist hoeft niet iedere ochtend te bedenken wie hij kan
-            bellen. Hij krijgt de accounts waar fit, opportunity en timing
-            samenkomen.
-          </p>
-        </div>
-        <ol className="grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-4">
-          {trechter.map((stap, i) => (
-            <li key={stap.n}>
-              <div className="flex items-baseline justify-between gap-3">
-                <span className="font-display text-[clamp(24px,2.4vw,32px)] font-black leading-none tracking-[-0.03em]">
-                  {stap.n}
-                </span>
-              </div>
-              <div className="mt-2.5 h-1.5 w-full overflow-hidden bg-brand-mist">
-                <span
-                  aria-hidden
-                  className={`block h-full ${i === trechter.length - 1 ? "bg-brand-accent" : "bg-brand-ink/25"}`}
-                  style={{ width: `${[100, 45, 22, 9][i]}%` }}
-                />
-              </div>
-              <p className="mt-2 text-[12.5px] text-brand-ink-2">{stap.label}</p>
-            </li>
-          ))}
-        </ol>
+      {/* De trechter wisselt van markt: dezelfde vorm, andere maat. */}
+      <Reveal className="mt-14">
+        <MarktTrechter />
       </Reveal>
     </Section>
   );
