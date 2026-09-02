@@ -6,6 +6,7 @@ import { Faq } from "@/components/v2/Faq";
 import { GiantWord } from "@/components/v2/GiantWord";
 import peterGrisel from "@/assets/peter-grisel.png";
 import { TimelineStack, type TimelineItem } from "@/components/ui/modern-timeline";
+import { PrincipeCarrousel } from "./Principes";
 import { Reveal } from "@/components/v2/Reveal";
 import { Section } from "@/components/v2/Section";
 import { SectionHeader } from "@/components/v2/SectionHeader";
@@ -263,53 +264,41 @@ export function WatOnsAndersMaakt() {
         }
         lead="Het verschil zit niet in de tools, die kan iedereen kopen. Het zit in het proces eromheen: welke kansen u formuleert, welk bewijs u telt en wanneer u een mens inzet."
       />
-      <div className="grid items-center gap-x-16 gap-y-12 lg:grid-cols-[1fr_.85fr]">
-        <div className="border-t border-brand-line">
-          {items.map((item, i) => (
-            <Reveal key={item.title} index={i} className="border-b border-brand-line py-6">
-              <h3 className="mb-[7px] font-display text-[17px] font-bold tracking-[-0.015em]">
-                {item.title}
-              </h3>
-              <p className="text-[13.5px] text-brand-ink-2">{item.body}</p>
-            </Reveal>
-          ))}
-        </div>
+      <PrincipeCarrousel items={items} />
 
-        {/* De trechter als bewijsvisual: van de hele markt naar wat beweegt. */}
-        <Reveal index={2}>
-          <div className="rounded-brand border border-brand-line bg-brand-paper p-7">
-            <p className="mb-6 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-brand-ink-3">
-              Van markt naar priority
-            </p>
-            <div className="space-y-5">
-              {trechter.map((stap, i) => (
-                <div key={stap.n}>
-                  <div className="flex items-baseline justify-between gap-4">
-                    <span className="font-display text-[clamp(24px,2.6vw,34px)] font-black leading-none tracking-[-0.03em]">
-                      {stap.n}
-                    </span>
-                    <span className="text-right text-[12.5px] text-brand-ink-2">
-                      {stap.label}
-                    </span>
-                  </div>
-                  <div className="mt-2 h-1.5 w-full overflow-hidden bg-brand-mist">
-                    <span
-                      aria-hidden
-                      className={`block h-full ${i === trechter.length - 1 ? "bg-brand-accent" : "bg-brand-ink/25"}`}
-                      style={{ width: `${[100, 45, 22, 9][i]}%` }}
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
-            <p className="mt-6 border-t border-brand-line pt-5 text-[13px] text-brand-ink-2">
-              Uw specialist hoeft niet iedere ochtend te bedenken wie hij kan
-              bellen. Hij krijgt de accounts waar fit, opportunity en timing
-              samenkomen.
-            </p>
-          </div>
-        </Reveal>
-      </div>
+      {/* De trechter als bewijsregel: van de hele markt naar wat beweegt.
+          Liggend in plaats van staand, zodat hij de sectie niet verlengt. */}
+      <Reveal className="mt-14 rounded-brand border border-brand-line bg-brand-paper px-7 py-7">
+        <div className="mb-6 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
+          <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-brand-ink-3">
+            Van markt naar priority
+          </p>
+          <p className="max-w-[58ch] text-[13px] text-brand-ink-2">
+            Uw specialist hoeft niet iedere ochtend te bedenken wie hij kan
+            bellen. Hij krijgt de accounts waar fit, opportunity en timing
+            samenkomen.
+          </p>
+        </div>
+        <ol className="grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-4">
+          {trechter.map((stap, i) => (
+            <li key={stap.n}>
+              <div className="flex items-baseline justify-between gap-3">
+                <span className="font-display text-[clamp(24px,2.4vw,32px)] font-black leading-none tracking-[-0.03em]">
+                  {stap.n}
+                </span>
+              </div>
+              <div className="mt-2.5 h-1.5 w-full overflow-hidden bg-brand-mist">
+                <span
+                  aria-hidden
+                  className={`block h-full ${i === trechter.length - 1 ? "bg-brand-accent" : "bg-brand-ink/25"}`}
+                  style={{ width: `${[100, 45, 22, 9][i]}%` }}
+                />
+              </div>
+              <p className="mt-2 text-[12.5px] text-brand-ink-2">{stap.label}</p>
+            </li>
+          ))}
+        </ol>
+      </Reveal>
     </Section>
   );
 }
