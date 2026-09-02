@@ -597,7 +597,7 @@ export function HetProtocol() {
           <SectionHeader
             eyebrow="Zo werkt de pilot"
             title="Wij vragen u niet om vertrouwen. Wij leggen vast wanneer het geslaagd is."
-            lead="90 dagen bouwen eraan uw commerciële brein."
+            lead="90 dagen bouwen. Daarna onbeperkt schaalbaar."
           />
         }
         className="max-w-[58rem]"
