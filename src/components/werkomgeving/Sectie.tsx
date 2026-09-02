@@ -8,8 +8,7 @@ import { Film } from "./Film";
  * De werkomgeving op de homepage, direct onder de hero.
  *
  * De hero belooft een engine; hier ziet de bezoeker er meteen een draaien.
- * Kort gehouden: het filmpje en een doorverwijzing. De zes stappen staan
- * uitgeschreven op /werkomgeving, voor wie ze wil nalezen.
+ * Kort gehouden: het filmpje en een doorverwijzing naar de Groeistack.
  */
 export function WerkomgevingSectie() {
   return (
