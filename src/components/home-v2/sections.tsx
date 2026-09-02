@@ -1130,51 +1130,107 @@ export function GebouwdMet() {
 /* ── 11 · Wie zit erachter ──────────────────────────────────────────────── */
 
 export function WieZitErachter() {
+  // Waar de zoektocht naar een standaard concreet wordt. Drie beloftes die
+  // elkaar opvolgen: hetzelfde model, snel opgezet, en elke week hetzelfde.
+  const standaard = [
+    {
+      kop: "Eén model, elke klant",
+      body: "Dezelfde acht stappen van markt tot learning. Niet omdat elke markt hetzelfde is, maar omdat de manier van bouwen dat wel moet zijn.",
+    },
+    {
+      kop: "In dagen opgezet",
+      body: "Na de kickoff staat de technische inrichting er in gemiddeld vijf werkdagen. Geen half jaar implementatie voordat er iets draait.",
+    },
+    {
+      kop: "Elke week hetzelfde ritme",
+      body: "Twee uur per week bij u aan tafel met sales. Wat daar wordt besloten, gaat terug het systeem in. Dezelfde mensen, elke week.",
+    },
+  ];
   return (
     <Section tone="mist">
       <SectionHeader
         eyebrow="Wie zit erachter"
-        title="Een label van Rebel Force."
-        lead="B2B Groeimachine is het GTM-label van Rebel Force: een bureau dat commerciële processen naar software vertaalt. Geen marketingbureau dat er techniek bij doet, maar andersom."
+        title="Er zit een engineer achter, geen bureau."
+        lead="B2B Groeimachine is het GTM-label van Rebel Force. Wat u koopt is geen abonnement op software, maar een klein team dat het bij u komt bouwen en daarna elke week meekijkt."
       />
-      <div className="grid gap-[22px] md:grid-cols-2">
-        {[
-          {
-            label: "Commercie",
-            naam: "Het model",
-            body: "Acht stappen van markt tot learning, drie kwalificatieniveaus en een gesloten feedbackloop. Ontstaan uit trajecten bij industriële en technische B2B-organisaties, en bij elke klant opnieuw aangescherpt.",
-            href: "/de-engine",
-            linkLabel: "Lees de onderbouwing",
-          },
-          {
-            label: "Techniek",
-            naam: "De bouw",
-            body: "Eigen datamodel, workflow-orchestratie en connectors op uw bestaande stack. Wij bouwen het, draaien het en dragen het over zodra u het zelf wilt beheren.",
-            href: "/groeistack",
-            linkLabel: "Bekijk de groeistack",
-          },
-        ].map((blok, i) => (
+
+      {/* Peter aan het woord. Zijn foto is de enige die wij hebben; komen er
+          teamportretten bij, dan passen ze in dezelfde rij. */}
+      <Reveal>
+        <div className="overflow-hidden rounded-brand border border-brand-line bg-brand-paper">
+          <span aria-hidden className="block h-[3px] w-full bg-brand-accent" />
+          <div className="grid gap-8 px-7 py-[30px] md:grid-cols-[auto_1fr] md:gap-10 md:px-9 md:py-9">
+            <div className="flex items-center gap-4 md:block">
+              <img
+                src={peterGrisel}
+                alt="Peter Grisel"
+                width={120}
+                height={120}
+                loading="lazy"
+                className="h-[76px] w-[76px] rounded-brand object-cover md:h-[120px] md:w-[120px]"
+              />
+              <div className="md:mt-4">
+                <p className="font-display text-[17px] font-bold tracking-[-0.015em]">
+                  Peter Grisel
+                </p>
+                <p className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-brand-ink-3">
+                  Oprichter · Rebel Force
+                </p>
+              </div>
+            </div>
+            <blockquote className="space-y-4 text-[15px] leading-relaxed text-brand-ink-2">
+              <p>
+                &ldquo;Ik heb te veel commerciële trajecten gezien die bij elke
+                klant weer bij nul begonnen. Een andere tool, een andere lijst,
+                een ander draaiboek — en een half jaar later wist niemand meer
+                waarom iets had gewerkt. Dat is geen commercie, dat is
+                knutselen.&rdquo;
+              </p>
+              <p>
+                &ldquo;Ik ben op zoek gegaan naar een standaard. Iets dat in
+                dagen staat in plaats van in maanden, dat bij de volgende klant
+                hetzelfde werkt, en dat elke week een beetje scherper wordt
+                omdat de uitkomsten er weer in gaan. Die standaard is deze
+                engine geworden.&rdquo;
+              </p>
+            </blockquote>
+          </div>
+        </div>
+      </Reveal>
+
+      <div className="mt-12 grid gap-y-6 sm:grid-cols-3 sm:gap-x-10 sm:gap-y-0">
+        {standaard.map((s, i) => (
           <Reveal
-            key={blok.naam}
+            key={s.kop}
             index={i}
-            className="rounded-brand border border-brand-line bg-brand-paper px-7 py-[30px]"
+            className={`border-t-[3px] pt-[22px] ${i === 0 ? "border-brand-accent" : "border-brand-line"}`}
           >
-            <span className="mb-3 block font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-brand-accent-ink">
-              {blok.label}
-            </span>
-            <h3 className="mb-2.5 font-display text-[22px] font-extrabold tracking-[-0.02em]">
-              {blok.naam}
+            <h3 className="mb-2 font-display text-[19px] font-bold tracking-[-0.015em]">
+              {s.kop}
             </h3>
-            <p className="text-sm text-brand-ink-2">{blok.body}</p>
-            <Link
-              to={blok.href}
-              className="mt-5 inline-flex items-center gap-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-brand-accent-ink transition-colors duration-[180ms] hover:text-brand-accent"
-            >
-              {blok.linkLabel} <span aria-hidden>→</span>
-            </Link>
+            <p className="text-[13.5px] text-brand-ink-2">{s.body}</p>
           </Reveal>
         ))}
       </div>
+
+      <Reveal className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-3 border-t border-brand-line pt-8">
+        <p className="max-w-[46ch] text-[14px] text-brand-ink-2">
+          Achter de engine zit het model en de bouw. Allebei staan ze open ter
+          inzage.
+        </p>
+        <Link
+          to="/de-engine"
+          className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-brand-accent-ink transition-colors duration-[180ms] hover:text-brand-accent"
+        >
+          Lees de onderbouwing <span aria-hidden>→</span>
+        </Link>
+        <Link
+          to="/werkomgeving"
+          className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-brand-accent-ink transition-colors duration-[180ms] hover:text-brand-accent"
+        >
+          Kijk mee in de werkomgeving <span aria-hidden>→</span>
+        </Link>
+      </Reveal>
     </Section>
   );
 }
