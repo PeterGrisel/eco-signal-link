@@ -872,7 +872,7 @@ export function Prijzen() {
     <Section id="prijzen">
       <SectionHeader
         eyebrow="Onze prijzen"
-        title="De prijzen staan gewoon op de site."
+        title="Duidelijke prijzen, zonder kleine lettertjes."
         lead="Nul opstartkosten. De prijs bestaat uit onze uren en de onkosten voor de tools die onder uw engine draaien; wij sturen en ondersteunen het geheel. Wij draaien negentig dagen als pilot, daarna is het maandelijks opzegbaar. Draait u al omzet maar mist u het systeem? Dan is er een performance partnership met lage techkosten en een gedeelde upside."
       />
       <div className="grid items-stretch gap-[22px] md:grid-cols-3">
