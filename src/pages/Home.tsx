@@ -94,6 +94,8 @@ const Home = () => {
           <Hero />
           <WerkomgevingSectie />
           <Klantenraster />
+          <HetProtocol />
+          <Prijzen />
           <Marquee
             items={[
               "Opportunity-engine",
@@ -109,8 +111,6 @@ const Home = () => {
           <Alternatieven />
           <Diensten />
           <HoeHetWerkt />
-          <HetProtocol />
-          <Prijzen />
           <WieZitErachter />
           <Vragen />
           <Contact />
