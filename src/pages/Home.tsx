@@ -93,6 +93,7 @@ const Home = () => {
           <WerkomgevingSectie />
           <Klantenraster />
           <HetProtocol />
+          <Diensten />
           <Prijzen />
           <Marquee
             items={[
@@ -107,7 +108,6 @@ const Home = () => {
 
           <WieZitErachter />
           <Alternatieven />
-          <Diensten />
           <HoeHetWerkt />
           <Vragen />
           <Contact />
