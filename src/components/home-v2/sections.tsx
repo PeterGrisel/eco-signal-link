@@ -343,7 +343,7 @@ export function Diensten() {
     <Section id="diensten" tone="mist" className="v2-gordijn">
       <SectionHeader
         eyebrow="Wat u koopt"
-        title="Kies waar u begint."
+        title="Diensten die we leveren."
         lead="Bovenin drie manieren om de markt in te gaan. Daaronder het fundament waar ze alle drie op rusten, en onderaan alles op één engine. Uitbreiden is een hypothese toevoegen, geen nieuw traject."
       />
       <div className="grid gap-[18px] sm:grid-cols-2 lg:grid-cols-3">
