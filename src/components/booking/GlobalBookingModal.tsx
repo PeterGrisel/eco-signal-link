@@ -148,7 +148,7 @@ export function GlobalBookingModal({ open, onOpenChange, prefillData }: GlobalBo
           {/* Right panel: HubSpot Booking Form */}
           <div className="flex flex-col h-full lg:overflow-hidden">
             <div className="px-6 pt-6 pb-2 border-b border-glow/20 shrink-0">
-              <DialogTitle className="text-lg md:text-xl font-display font-bold">Plan uw 60-minuten Groeiplan-sessie</DialogTitle>
+              <DialogTitle className="text-lg md:text-xl font-display font-bold">Boek een gratis call</DialogTitle>
               <DialogDescription className="text-sm text-muted-foreground">
                 Kies een moment dat u uitkomt. Wij bevestigen de afspraak per e-mail.
               </DialogDescription>
