@@ -71,7 +71,7 @@ export const faviconFor = (website: string): string => {
   try {
     const url = website.startsWith("http") ? website : `https://${website}`;
     const host = new URL(url).hostname;
-    return `https://www.google.com/s2/favicons?domain=${host}&sz=64`;
+    return `https://www.google.com/s2/favicons?domain=${host}&sz=128`;
   } catch {
     return "";
   }

@@ -47,7 +47,7 @@ const LogoCircle = ({ name, url, src }: { name: string; url: string; src?: strin
   } catch {
     domain = "";
   }
-  const logoSrc = src || (domain ? `https://www.google.com/s2/favicons?domain=${domain}&sz=64` : "");
+  const logoSrc = src || (domain ? `https://www.google.com/s2/favicons?domain=${domain}&sz=128` : "");
   return (
     <span className="w-9 h-9 rounded-full border-2 border-background bg-white overflow-hidden flex items-center justify-center ring-1 ring-foreground/10 shrink-0">
       {err || !logoSrc ? (

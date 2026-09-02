@@ -186,7 +186,7 @@ const StreamsSection = () => {
                 title={client.name}
               >
                 <img
-                  src={client.logo || `https://www.google.com/s2/favicons?domain=${client.domain}&sz=64`}
+                  src={client.logo || `https://www.google.com/s2/favicons?domain=${client.domain}&sz=128`}
                   alt={client.name}
                   className="w-7 h-7 rounded-sm object-contain"
                   loading="lazy"
