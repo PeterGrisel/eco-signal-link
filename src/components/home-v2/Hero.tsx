@@ -10,8 +10,8 @@ import { useBreedScherm } from "@/hooks/useBreedScherm";
 
 const HEADLINE = [
   [{ text: "Eén systeem" }],
-  [{ text: "dat uw" }],
-  [{ text: "verkopers versterkt.", accent: true }],
+  [{ text: "dat verkopers" }],
+  [{ text: "versterkt.", accent: true }],
 ];
 
 
