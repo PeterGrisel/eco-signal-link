@@ -1012,23 +1012,25 @@ export function WieZitErachter() {
         ))}
       </div>
 
-      <Reveal className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-3 border-t border-brand-line pt-8">
+      <Reveal className="mt-10 flex flex-wrap items-center justify-between gap-x-8 gap-y-3 border-t border-brand-line pt-8">
         <p className="max-w-[46ch] text-[14px] text-brand-ink-2">
           Achter de engine zit het model en de bouw. Allebei staan ze open ter
           inzage.
         </p>
-        <Link
-          to="/de-engine"
-          className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-brand-accent-ink transition-colors duration-[180ms] hover:text-brand-accent"
-        >
-          Lees de onderbouwing <span aria-hidden>→</span>
-        </Link>
-        <Link
-          to="/werkomgeving"
-          className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-brand-accent-ink transition-colors duration-[180ms] hover:text-brand-accent"
-        >
-          Kijk mee in de werkomgeving <span aria-hidden>→</span>
-        </Link>
+        <div className="flex flex-wrap items-center gap-x-8 gap-y-3">
+          <Link
+            to="/de-engine"
+            className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-brand-accent-ink transition-colors duration-[180ms] hover:text-brand-accent"
+          >
+            Lees de onderbouwing <span aria-hidden>→</span>
+          </Link>
+          <Link
+            to="/werkomgeving"
+            className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-brand-accent-ink transition-colors duration-[180ms] hover:text-brand-accent"
+          >
+            Kijk mee in de werkomgeving <span aria-hidden>→</span>
+          </Link>
+        </div>
       </Reveal>
     </Section>
   );
