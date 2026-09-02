@@ -949,7 +949,7 @@ export function WieZitErachter() {
     <Section tone="mist">
       <SectionHeader
         eyebrow="Wie zit erachter"
-        title="Er zit een engineer achter, geen bureau."
+        title="Er zitten engineers achter, geen bureau."
         lead="B2B Groeimachine is het GTM-label van Rebel Force. Wat u koopt is geen abonnement op software, maar een klein team dat het bij u komt bouwen en daarna elke week meekijkt."
       />
 
