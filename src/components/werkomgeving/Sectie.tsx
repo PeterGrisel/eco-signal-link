@@ -27,7 +27,7 @@ export function WerkomgevingSectie() {
 
       <Film />
 
-      <Reveal className="mt-8">
+      <Reveal className="mt-8 flex justify-end">
         <Link
           to="/groeistack"
           className="font-mono text-[11px] font-bold uppercase tracking-[0.14em] text-brand-accent transition-colors duration-[180ms] hover:text-brand-accent-2"
