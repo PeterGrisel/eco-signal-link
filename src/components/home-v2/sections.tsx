@@ -573,11 +573,6 @@ export function HetProtocol() {
       ],
     },
   ];
-  const meting = [
-    ["Engine live", "Eerste end-to-end flow binnen 30 dagen", "Werkende omgeving"],
-    ["Markt getest", "Afgesproken aantal relevante accounts verwerkt", "Campagne- en CRM-data"],
-    ["Kansen geleverd", "Gekwalificeerde accounts naar sales met context", "CRM + reason codes"],
-  ];
   // De prijs is geen gok en geen weddenschap: het zijn onze uren, de tools die
   // eronder draaien en het sturen ervan. Daarom staat de opbouw er gewoon.
   const prijsopbouw = [
@@ -647,54 +642,6 @@ export function HetProtocol() {
           Geen opstartkosten. 90 dagen samen bouwen, testen en verbeteren.
           Daarna maandelijks opzegbaar.
         </p>
-      </Reveal>
-
-      <Reveal className="mt-14">
-        <div className="rounded-brand border border-brand-line bg-brand-paper p-6 sm:p-8">
-          <div className="mb-6 flex flex-wrap items-baseline justify-between gap-4">
-            <h3 className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-brand-accent-ink">
-              Wat wij meten
-            </h3>
-            <p className="text-[12.5px] text-brand-ink-3">
-              De exacte waarden spreken wij met u af
-            </p>
-          </div>
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[560px] border-collapse text-[13px]">
-              <thead>
-                <tr>
-                  {["Criterium", "Vastgelegde voorwaarde", "Bewijs"].map((kop) => (
-                    <th
-                      key={kop}
-                      scope="col"
-                      className="border-b border-brand-ink-3 pb-3 pr-6 text-left font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-brand-ink-3"
-                    >
-                      {kop}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {meting.map(([criterium, voorwaarde, bewijs]) => (
-                  <tr key={criterium}>
-                    <th
-                      scope="row"
-                      className="border-b border-brand-line py-3.5 pr-6 text-left font-medium text-brand-ink"
-                    >
-                      {criterium}
-                    </th>
-                    <td className="border-b border-brand-line py-3.5 pr-6 text-brand-ink-2">
-                      {voorwaarde}
-                    </td>
-                    <td className="border-b border-brand-line py-3.5 text-brand-ink-2">
-                      <span className="font-mono text-[11.5px]">{bewijs}</span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
       </Reveal>
 
       <Reveal className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-brand-line pt-8">

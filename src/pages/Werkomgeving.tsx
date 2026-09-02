@@ -11,6 +11,7 @@ import { Reveal } from "@/components/v2/Reveal";
 import { Section } from "@/components/v2/Section";
 import { SectionHeader } from "@/components/v2/SectionHeader";
 import { Film } from "@/components/werkomgeving/Film";
+import { Groeiplan } from "@/components/werkomgeving/Groeiplan";
 import { Toolflow } from "@/components/werkomgeving/Toolflow";
 
 /**
@@ -133,6 +134,25 @@ const Werkomgeving = () => {
                 </Reveal>
               ))}
             </ol>
+          </Section>
+
+          <Section id="groeiplan" tone="deep">
+            <SectionHeader
+              deep
+              eyebrow="Waar de signalen vandaan komen"
+              title={
+                <>
+                  Van groeiplan naar
+                  <br className="hidden sm:block" /> signalen in de markt.
+                </>
+              }
+              lead="Het filmpje hierboven begint bij binnenkomende signalen. Maar die ontstaan niet vanzelf. Ze beginnen bij uw eigen commerciële verhaal: negen vakken op één A4, vertaald naar thema's, naar een boodschap per kanaal, naar een week die klaarstaat. En een week later reageert de markt."
+            />
+            <Groeiplan />
+            <p className="mt-4 text-[12.5px] text-white/50">
+              Het 1-pagina groeiplan is echt en vullen wij samen met u in. De
+              antwoorden en cijfers in dit filmpje zijn een voorbeeld.
+            </p>
           </Section>
 
           <Section tone="mist">
