@@ -470,8 +470,6 @@ function Logo({ klant, hoogte = 34 }: { klant: KlantLogo; hoogte?: number }) {
  */
 export function Klantenraster() {
   const [klanten, setKlanten] = useState<KlantLogo[]>([]);
-  const [actief, setActief] = useState<number | null>(null);
-  const [muis, setMuis] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     let levend = true;
@@ -489,7 +487,6 @@ export function Klantenraster() {
   }, []);
 
   if (klanten.length === 0) return null;
-  const getoond = klanten[actief ?? 0];
 
   return (
     <Section id="klanten">
@@ -499,18 +496,13 @@ export function Klantenraster() {
         lead="Industriële toeleveranciers, technische dienstverleners en zakelijke dienstverleners in de Benelux. Bekijk per klant welke hypothese we hebben getest en wat eruit kwam."
       />
 
-      <div
-        className="grid grid-cols-2 border-l border-t border-brand-line md:grid-cols-4"
-        onMouseLeave={() => setActief(null)}
-      >
+      <div className="grid grid-cols-2 border-l border-t border-brand-line md:grid-cols-4">
         {klanten.map((klant, i) => (
           <Link
             key={klant.id}
             to="/klanten"
             aria-label={klant.name}
-            onMouseEnter={() => setActief(i)}
-            onMouseMove={(e) => setMuis({ x: e.clientX, y: e.clientY })}
-            className="group relative flex min-h-[124px] min-w-0 flex-col justify-between border-b border-r border-brand-line p-4 transition-colors duration-[350ms] hover:bg-brand-mist md:min-h-[160px] md:p-5"
+            className="group relative flex min-h-[152px] min-w-0 flex-col justify-between border-b border-r border-brand-line p-5 transition-colors duration-300 hover:bg-brand-mist md:min-h-[192px] md:p-6"
           >
             <div className="flex items-start justify-between gap-3">
               <span className="font-mono text-[10px] tabular-nums text-brand-ink-3">
@@ -523,39 +515,14 @@ export function Klantenraster() {
                 ↗
               </span>
             </div>
-            <div className="flex flex-1 items-center justify-center px-1 py-3">
-              <Logo klant={klant} />
+            <div className="flex flex-1 items-center justify-center px-2 py-4">
+              <Logo klant={klant} hoogte={42} />
             </div>
-            <p className="hidden truncate font-mono text-[9.5px] text-brand-ink-3 md:block">
+            <p className="truncate font-mono text-[10px] uppercase tracking-[0.12em] text-brand-ink-3">
               {klant.sector || "Klant"}
             </p>
           </Link>
         ))}
-      </div>
-
-      {/* Voorbeeldkaart die met de cursor meebeweegt. */}
-      <div
-        aria-hidden
-        className="pointer-events-none fixed left-0 top-0 z-40 hidden w-[min(320px,28vw)] md:block"
-        style={{
-          transform: `translate3d(${muis.x + 24}px, ${muis.y - 40}px, 0)`,
-          opacity: actief === null ? 0 : 1,
-          transition: "opacity 320ms ease",
-        }}
-      >
-        <div className="overflow-hidden rounded-brand border border-brand-line bg-brand-paper shadow-[0_24px_60px_rgba(23,20,15,0.22)]">
-          <div className="flex h-[112px] items-center justify-center bg-brand-mist px-6">
-            <Logo klant={getoond} hoogte={44} />
-          </div>
-          <div className="border-t border-brand-line p-4">
-            <p className="truncate font-display text-[14px] font-bold tracking-[-0.01em]">
-              {getoond.name}
-            </p>
-            <p className="mt-1 truncate font-mono text-[10px] uppercase tracking-[0.12em] text-brand-ink-3">
-              {getoond.sector || "Bekijk de case"}
-            </p>
-          </div>
-        </div>
       </div>
 
       <Reveal className="mt-10">
