@@ -104,12 +104,11 @@ const Home = () => {
               "GTM as a Service",
             ]}
           />
-          
-          <WatOnsAndersMaakt />
+
+          <WieZitErachter />
           <Alternatieven />
           <Diensten />
           <HoeHetWerkt />
-          <WieZitErachter />
           <Vragen />
           <Contact />
         </main>
