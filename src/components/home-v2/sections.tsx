@@ -36,45 +36,96 @@ import {
 /* ── 01 · Waarom een engine, geen campagne ──────────────────────────────── */
 
 export function WaaromEenEngine() {
+  // De weg die een klant echt aflegt. Vijf losse momenten waarvan er geen
+  // enkele op zichzelf de deal maakt — dat is precies het punt.
+  const reis = [
+    "Ziet u langskomen op LinkedIn",
+    "Bezoekt later uw website",
+    "Negeert een paar mails",
+    "Hoort uw naam ergens anders",
+    "Neemt op als het moment klopt",
+  ];
   const paren: [string, string][] = [
-    ["Leadlijst per campagne", "Doorlopend zicht op de hele markt"],
-    ["Sales bedenkt zelf wie hij belt", "De engine levert het account met de reden"],
-    ["Scoren op opens en clicks", "Scoren op fit, opportunity en timing"],
-    ["Elke campagne begint opnieuw", "Elke uitkomst maakt het systeem scherper"],
+    ["Mail moet zelf converteren", "Mail is één signaal"],
+    ["LinkedIn moet leads opleveren", "LinkedIn bouwt herkenning op"],
+    ["Een call moet direct een afspraak geven", "Een call komt als de timing beter is"],
+    ["Resultaat per kanaal meten", "Alle signalen bij elkaar optellen"],
   ];
   const pijlers = [
     {
-      title: "Opportunities",
-      body: "Niet wachten op bestaande vraag. Wij formuleren hypotheses over waar waarde kan ontstaan en testen die systematisch.",
+      title: "Zien waar kansen ontstaan",
+      body: "Niet wachten tot iemand een formulier invult. Wij kijken waar bedrijven bewegen, veranderen of interesse laten zien.",
     },
     {
-      title: "Probability",
-      body: "Signalen stapelen bewijs. Daarmee stijgt of daalt de kans dat een menselijke verkoopactie op dit moment waardevol is.",
+      title: "Weten wanneer u moet handelen",
+      body: "Eén klik zegt weinig. Meerdere signalen samen vertellen wanneer een account interessanter wordt.",
     },
     {
-      title: "Bestuurbaarheid",
-      body: "U weet hoeveel opportunities u nodig heeft, hoeveel u er produceert en waar ze verloren gaan. Groei wordt een stuurbaar getal.",
+      title: "Niet meer gokken wie u belt",
+      body: "Uw verkoper krijgt het bedrijf, de aanleiding en de context. Zodat hij weet waarom hij nú contact opneemt.",
     },
   ];
   return (
     <Section tone="mist">
       <SectionHeader
-        eyebrow="Waarom een engine, geen campagne"
+        eyebrow="Waarom één kanaal niet genoeg is"
         title={
           <>
-            U koopt geen leads meer.
-            <br className="hidden sm:block" /> U bouwt een opportunity-flow.
+            Geen enkel kanaal won de deal.
+            <br className="hidden sm:block" /> De combinatie deed dat.
           </>
         }
-        lead="Een campagne is een lijst, een sequence en een wachttijd, elke keer opnieuw. Een engine draait dat om: de markt blijft in beeld, kansen ontstaan doorlopend, en uw verkoper stapt in op het moment dat het uitmaakt."
+        lead="Een e-mail verkoopt niet. Een LinkedIn-post verkoopt niet. Een telefoontje verkoopt niet. En toch tekent uw klant uiteindelijk — niet door één van die drie, maar doordat ze elkaar opstapelden."
       />
 
+      {/* De vijf momenten los naast elkaar: pas samen leveren ze de opdracht op. */}
       <Reveal>
+        <p className="mb-6 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-brand-accent-ink">
+          Wat uw klant werkelijk doet
+        </p>
+        {/* Vijf naast elkaar past pas op een breed scherm; daaronder drie en
+            twee, zodat de stappen leesbaar blijven in plaats van te knijpen. */}
+        <ol className="grid gap-x-6 gap-y-7 sm:grid-cols-3 lg:grid-cols-5 lg:gap-y-0">
+          {reis.map((stap, i) => (
+            <li
+              key={stap}
+              className={`border-t-[3px] pt-[18px] ${
+                i === reis.length - 1 ? "border-brand-accent" : "border-brand-line"
+              }`}
+            >
+              <span className="mb-2 block font-mono text-[10px] font-bold tracking-[0.16em] text-brand-ink-3">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <p
+                className={`text-[13.5px] ${
+                  i === reis.length - 1 ? "font-medium text-brand-ink" : "text-brand-ink-2"
+                }`}
+              >
+                {stap}
+              </p>
+            </li>
+          ))}
+        </ol>
+      </Reveal>
+
+      <Reveal className="mt-14 max-w-[46rem]">
+        <h3 className="mb-3 font-display text-[clamp(20px,2.4vw,28px)] font-extrabold tracking-[-0.025em]">
+          Daarom bouwen wij geen campagne
+        </h3>
+        <p className="text-[15px] leading-relaxed text-brand-ink-2">
+          Een losse campagne begint elke keer bij nul en stelt steeds dezelfde
+          vier vragen: wie gaan we benaderen, via welk kanaal, wanneer bellen we,
+          en wie lijkt geïnteresseerd? Een opportunity-engine houdt het antwoord
+          doorlopend bij.
+        </p>
+      </Reveal>
+
+      <Reveal className="mt-8">
         <div className="overflow-hidden rounded-brand border border-brand-line bg-brand-paper">
           <div className="grid grid-cols-2">
             <div className="border-r border-brand-line px-5 py-3.5 sm:px-7">
               <span className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-brand-ink-3">
-                Losse campagne
+                Los kanaal
               </span>
             </div>
             <div className="bg-brand-deep px-5 py-3.5 sm:px-7">
@@ -113,6 +164,14 @@ export function WaaromEenEngine() {
           </Reveal>
         ))}
       </div>
+
+      {/* De zin waar de hele sectie op uitkomt. */}
+      <Reveal className="mt-12 border-t border-brand-line pt-8">
+        <p className="max-w-[42rem] font-display text-[clamp(19px,2.2vw,26px)] font-extrabold leading-[1.25] tracking-[-0.025em]">
+          Stop met vragen welk kanaal de lead heeft gemaakt. Kijk welke
+          combinatie van signalen de opportunity zichtbaar maakte.
+        </p>
+      </Reveal>
     </Section>
   );
 }
