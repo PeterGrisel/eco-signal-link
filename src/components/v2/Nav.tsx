@@ -37,7 +37,7 @@ const GROUPS: Group[] = [
         href: `/sectoren/${s.slug}`,
         note: s.tagline,
       })),
-      { label: "Alle branches", href: "/#voor-wie", note: "Bekijk de volledige lijst" },
+      { label: "Alle branches", href: "/signalen#branches", note: "Bekijk de volledige lijst" },
     ],
   },
   {

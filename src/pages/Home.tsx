@@ -7,17 +7,15 @@ import { Footer } from "@/components/v2/Footer";
 import { Marquee } from "@/components/v2/Marquee";
 import { Nav } from "@/components/v2/Nav";
 import { Hero } from "@/components/home-v2/Hero";
+import { WerkomgevingSectie } from "@/components/werkomgeving/Sectie";
 import {
   Contact,
   Alternatieven,
   HetProtocol,
   Diensten,
-  GebouwdMet,
   HoeHetWerkt,
   Klantenraster,
   Prijzen,
-  Tijdlijn,
-  VoorWie,
   Vragen,
   WaaromEenEngine,
   WatOnsAndersMaakt,
@@ -95,7 +93,7 @@ const Home = () => {
         <Nav />
         <main>
           <Hero />
-          <HetProtocol />
+          <WerkomgevingSectie />
           <Marquee
             items={[
               "Opportunity-engine",
@@ -113,10 +111,8 @@ const Home = () => {
           <Diensten />
           <Klantenraster />
           <HoeHetWerkt />
-          <Tijdlijn />
-          <VoorWie />
+          <HetProtocol />
           <Prijzen />
-          <GebouwdMet />
           <WieZitErachter />
           <Vragen />
           <Contact />

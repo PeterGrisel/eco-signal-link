@@ -95,7 +95,7 @@ const Werkomgeving = () => {
             </Container>
           </header>
 
-          <Section tone="deep">
+          <Section id="werkomgeving" tone="deep">
             <Film />
           </Section>
 

@@ -27,6 +27,8 @@ const cols = [
   {
     title: "Kennis",
     links: [
+      ["De werkomgeving", "/werkomgeving"],
+      ["Signalen per markt", "/signalen"],
       ["Playbooks", "/playbooks"],
       ["Cheatsheets", "/cheatsheets"],
       ["Tools en calculators", "/tools"],

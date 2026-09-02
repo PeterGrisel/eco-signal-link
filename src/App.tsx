@@ -10,6 +10,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import Home from "./pages/Home.tsx";
 import DeEngine from "./pages/DeEngine.tsx";
 import Werkomgeving from "./pages/Werkomgeving.tsx";
+import Signalen from "./pages/Signalen.tsx";
 import OverOns from "./pages/OverOns.tsx";
 import OnsTeam from "./pages/OnsTeam.tsx";
 import SectorPage from "./pages/SectorPage.tsx";
@@ -129,6 +130,7 @@ const AnimatedRoutes = () => {
           <Route path="/" element={<Home />} />
           <Route path="/de-engine" element={<DeEngine />} />
           <Route path="/werkomgeving" element={<Werkomgeving />} />
+          <Route path="/signalen" element={<Signalen />} />
           {/* 301 redirects for removed routes (client-side fallback; worker handles server-side 301) */}
           <Route path="/datahub" element={<Navigate to="/pipeline-equation" replace />} />
           <Route path="/over-ons" element={<OverOns />} />

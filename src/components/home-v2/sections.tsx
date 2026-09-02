@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/v2/Button";
 import { Card } from "@/components/v2/Card";
-import { Container } from "@/components/v2/Container";
 import { Faq } from "@/components/v2/Faq";
 import { GiantWord } from "@/components/v2/GiantWord";
 import peterGrisel from "@/assets/peter-grisel.png";
@@ -12,7 +11,6 @@ import { Section } from "@/components/v2/Section";
 import { SectionHeader } from "@/components/v2/SectionHeader";
 import { openBookingModal } from "@/components/booking/GlobalBookingModal";
 import { faviconFor } from "@/data/groeistack";
-import { sectors } from "@/data/sectors";
 import { supabase } from "@/integrations/supabase/client";
 import { trackCTA } from "@/lib/tracking";
 import { FAQ_ITEMS } from "./faq";
@@ -636,6 +634,19 @@ export function HetProtocol() {
         ["Reason codes kloppen", "u beoordeelt"],
       ],
     },
+    {
+      category: "Daarna",
+      title: "Twee uur per week bij u",
+      description:
+        "Wij zitten wekelijks bij u aan tafel met sales. Uitkomsten gaan terug het systeem in en elke week sturen we bij.",
+      status: "upcoming",
+      badge: "Doorlopend",
+      rows: [
+        ["Wekelijks overleg", "op locatie"],
+        ["Uitkomsten terug", "het systeem in"],
+        ["Na 90 dagen", "maandelijks opzegbaar"],
+      ],
+    },
   ];
   const meting = [
     ["Engine live", "Eerste end-to-end flow binnen 30 dagen", "Werkende omgeving"],
@@ -672,7 +683,7 @@ export function HetProtocol() {
           <SectionHeader
             eyebrow="Zo werkt de pilot"
             title="Wij vragen u niet om vertrouwen. Wij leggen vast wanneer het geslaagd is."
-            lead="Negentig dagen om het te bewijzen, zonder opstartkosten en daarna maandelijks opzegbaar. Wat 'live' betekent, schrijven wij op vóór we beginnen. Op dag dertig legt u de werkelijkheid daarnaast."
+            lead="Wat 'live' betekent, schrijven wij op vóór we beginnen. Na de kickoff staat de technische inrichting er in gemiddeld vijf werkdagen, en pas als alles actief staat begint de facturatie. Op dag dertig legt u de werkelijkheid daarnaast."
           />
         }
         className="max-w-[58rem]"
@@ -898,103 +909,6 @@ export function HoeHetWerkt() {
   );
 }
 
-/* ── 07 · In vier weken live ────────────────────────────────────────────── */
-
-export function Tijdlijn() {
-  const weken = [
-    { d: "Week 1", title: "Proces en hypotheses", body: "Uw commerciële proces gemodelleerd, de eerste hypotheses samen met sales vastgesteld." },
-    { d: "Week 2", title: "Data en connectors", body: "Datamodel staat, bronnen en kanalen aangesloten, de markt in kaart." },
-    { d: "Week 3", title: "Activatie live", body: "De eerste flows draaien, signalen komen binnen, de scoring wordt gekalibreerd." },
-    { d: "Week 4", title: "Routing naar sales", body: "De eerste priority-accounts landen in uw CRM, met reason codes en een actie." },
-    { d: "Daarna", title: "Twee uur per week bij u", body: "Wij zitten wekelijks bij u aan tafel met sales. Uitkomsten gaan terug het systeem in en elke week sturen we bij." },
-  ];
-  return (
-    <Section>
-      <SectionHeader
-        eyebrow="Van eerste gesprek tot eerste account"
-        title="Binnen vier weken staat de engine."
-        lead="Na de kickoff staat de technische inrichting er in gemiddeld vijf werkdagen. Pas als alles actief staat en de motor draait, begint de facturatie. Na vier weken landen de eerste accounts met een reden in uw CRM."
-      />
-      <div className="grid gap-y-6 lg:grid-cols-5 lg:gap-y-0">
-        {weken.map((kolom, i) => (
-          <Reveal
-            key={kolom.d}
-            index={i}
-            className={`border-t-[3px] py-[22px] lg:pr-[18px] ${i === 0 ? "border-brand-accent" : "border-brand-line"}`}
-          >
-            <div className="mb-[9px] font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-brand-accent-ink">
-              {kolom.d}
-            </div>
-            <h3 className="mb-1.5 font-display text-[15px] font-bold tracking-[-0.01em]">
-              {kolom.title}
-            </h3>
-            <p className="text-[12.5px] text-brand-ink-2">{kolom.body}</p>
-          </Reveal>
-        ))}
-      </div>
-    </Section>
-  );
-}
-
-/* ── 08 · Voor wie ──────────────────────────────────────────────────────── */
-
-export function VoorWie() {
-  return (
-    <Section id="voor-wie" tone="mist">
-      <SectionHeader
-        eyebrow="Voor wie"
-        title="Elke markt heeft eigen signalen."
-        lead="Een vacature betekent iets anders in de maakindustrie dan bij een accountantskantoor. Per branche werken wij met andere hypotheses, andere databronnen en andere beslissers."
-      />
-      <div className="grid gap-px overflow-hidden rounded-brand border border-brand-line bg-brand-line sm:grid-cols-2 lg:grid-cols-3">
-        {sectors.map((sector, i) => (
-          <Reveal key={sector.slug} index={i} className="h-full bg-brand-paper">
-            <Link
-              to={`/sectoren/${sector.slug}`}
-              className="group flex h-full flex-col p-5 transition-colors duration-[180ms] hover:bg-brand-mist"
-            >
-              <div className="mb-2 flex items-center gap-3">
-                <sector.icon className="size-4 shrink-0 text-brand-accent-ink" aria-hidden />
-                <h3 className="font-display text-[15px] font-bold tracking-[-0.01em]">
-                  {sector.title}
-                </h3>
-              </div>
-              <p className="text-[12.5px] text-brand-ink-2">{sector.tagline}</p>
-              <span
-                aria-hidden
-                className="mt-auto pt-4 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-brand-ink-3 transition-colors duration-[180ms] group-hover:text-brand-accent-ink"
-              >
-                Bekijk de aanpak →
-              </span>
-            </Link>
-          </Reveal>
-        ))}
-        <Reveal index={sectors.length} className="h-full bg-brand-paper">
-          <div className="flex h-full flex-col justify-center p-5">
-            <h3 className="font-display text-[15px] font-bold tracking-[-0.01em]">
-              Staat uw markt er niet bij?
-            </h3>
-            <p className="mt-2 text-[12.5px] text-brand-ink-2">
-              De engine is niet aan een branche gebonden. Wij bouwen de hypothese
-              op uw markt.
-            </p>
-            <button
-              type="button"
-              onClick={() => {
-                trackCTA("voor_wie_gratis_scan", "voor-wie");
-                openBookingModal();
-              }}
-              className="mt-auto pt-4 text-left font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-brand-accent-ink transition-colors duration-[180ms] hover:text-brand-accent"
-            >
-              Boek een gratis call →
-            </button>
-          </div>
-        </Reveal>
-      </div>
-    </Section>
-  );
-}
-
 /* ── 09 · Prijzen ───────────────────────────────────────────────────────── */
 
 /**
@@ -1081,46 +995,6 @@ export function Prijzen() {
         </Button>
         <Button href="/tools/pipeline-value" variant="outline">
           Bereken uw pipelinewaarde
-        </Button>
-      </Reveal>
-    </Section>
-  );
-}
-
-/* ── 10 · Gebouwd met ───────────────────────────────────────────────────── */
-
-export function GebouwdMet() {
-  const tools = [
-    { naam: "Apollo", body: "Bedrijven en contactpersonen vinden, plus de website visitors die uw markt verraden." },
-    { naam: "Clay", body: "Data verrijken, transformeren en classificeren tot de context waar de engine op stuurt." },
-    { naam: "HeyReach", body: "LinkedIn-outreach uitvoeren en de reacties terugkoppelen als signaal." },
-    { naam: "HubSpot of Pipedrive", body: "Uw CRM blijft het system of record; wij lezen en schrijven met reason codes." },
-  ];
-  return (
-    <Section tone="deep" className="v2-curtain">
-      <SectionHeader
-        deep
-        eyebrow="Gebouwd met"
-        title="Wij doen niet geheimzinnig over de stack."
-        lead="Iedereen kan dezelfde software kopen. Het verschil zit in de orchestratie ertussen, en in de intelligence-laag die bepaalt wat er met een signaal gebeurt."
-      />
-      <div className="grid gap-[18px] sm:grid-cols-2 lg:grid-cols-4">
-        {tools.map((tool, i) => (
-          <Reveal
-            key={tool.naam}
-            index={i}
-            className="rounded-brand border border-white/[.16] p-[22px]"
-          >
-            <h3 className="mb-2 font-display text-[17px] font-bold tracking-[-0.015em]">
-              {tool.naam}
-            </h3>
-            <p className="text-[12.5px] text-[#CBC3B8]">{tool.body}</p>
-          </Reveal>
-        ))}
-      </div>
-      <Reveal className="mt-9">
-        <Button href="/de-engine" variant="invert">
-          De volledige architectuur
         </Button>
       </Reveal>
     </Section>
