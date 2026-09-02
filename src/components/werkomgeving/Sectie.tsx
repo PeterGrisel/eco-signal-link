@@ -16,12 +16,7 @@ export function WerkomgevingSectie() {
       <SectionHeader
         deep
         eyebrow="Zo ziet het eruit"
-        title={
-          <>
-            U kijkt mee in de motorkap.
-            <br className="hidden sm:block" /> Van vraag tot afspraak.
-          </>
-        }
+        title="Van vraag tot afspraak."
         lead="Wij richten voor u een werkomgeving in waarin uw bronnen, uw CRM en het redeneren bij elkaar komen. U stelt er een vraag in gewone taal; er komen accounts uit met een reden en een aanbevolen actie."
       />
 

@@ -84,7 +84,7 @@ const Werkomgeving = () => {
             <Container className="relative z-10">
               <Eyebrow tone="deep">Zo ziet het eruit</Eyebrow>
               <h1 className="max-w-[20ch] font-display text-[length:var(--v2-h1)] font-black leading-[1.04] tracking-[-0.035em]">
-                U kijkt mee in de motorkap.
+                Van vraag tot afspraak.
               </h1>
               <p className="mt-6 max-w-[62ch] text-[17px] leading-relaxed text-[#D6CEC3]">
                 Wij richten voor u een werkomgeving in waarin uw bronnen, uw CRM
