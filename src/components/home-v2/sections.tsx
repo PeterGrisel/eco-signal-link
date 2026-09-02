@@ -413,12 +413,14 @@ function Logo({ klant, hoogte = 34 }: { klant: KlantLogo; hoogte?: number }) {
       src={src}
       alt={klant.name}
       loading="lazy"
+      decoding="async"
       onError={() => setMislukt(true)}
       className="w-auto max-w-[120px] object-contain opacity-70 transition duration-[180ms] group-hover:opacity-100"
       style={{
         height: hoogte,
         transform: `scale(${klant.scale ?? 1})`,
         padding: `${klant.padding ?? 0}px`,
+        imageRendering: "-webkit-optimize-contrast",
       }}
     />
   );
