@@ -381,12 +381,6 @@ export function Diensten() {
           </Reveal>
         ))}
       </div>
-      <Reveal className="mt-9 flex flex-wrap items-center gap-3">
-        <Button href="#prijzen">Wat het kost</Button>
-        <Button href="/groeistack" variant="outline">
-          Bekijk de groeistack
-        </Button>
-      </Reveal>
     </Section>
   );
 }
