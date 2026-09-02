@@ -104,7 +104,6 @@ const Home = () => {
             ]}
           />
           <WaaromEenEngine />
-          <WatWijBouwen />
           <WatOnsAndersMaakt />
           <Alternatieven />
           <Diensten />
