@@ -107,7 +107,7 @@ export function Hero() {
               }}
             >
               <p className="mb-6 font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-brand-accent">
-                [ Opportunity-engine voor B2B met bewezen propositie ]
+                [ Commercie hoeft geen zwart gat te zijn ]
               </p>
               <h1
                 aria-label={splitHeadlineText(HEADLINE)}
