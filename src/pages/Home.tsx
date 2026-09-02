@@ -19,7 +19,6 @@ import {
   Vragen,
   WaaromEenEngine,
   WatOnsAndersMaakt,
-  WatWijBouwen,
   WieZitErachter,
 } from "@/components/home-v2/sections";
 import { FAQ_ITEMS } from "@/components/home-v2/faq";
