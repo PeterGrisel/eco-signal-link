@@ -17,8 +17,6 @@ import {
   Klantenraster,
   Prijzen,
   Vragen,
-  WaaromEenEngine,
-  WatOnsAndersMaakt,
   WieZitErachter,
 } from "@/components/home-v2/sections";
 import { FAQ_ITEMS } from "@/components/home-v2/faq";
@@ -95,6 +93,7 @@ const Home = () => {
           <WerkomgevingSectie />
           <Klantenraster />
           <HetProtocol />
+          <Diensten />
           <Prijzen />
           <Marquee
             items={[
@@ -106,12 +105,9 @@ const Home = () => {
               "GTM as a Service",
             ]}
           />
-          <WaaromEenEngine />
-          <WatOnsAndersMaakt />
-          <Alternatieven />
-          <Diensten />
-          <HoeHetWerkt />
+
           <WieZitErachter />
+          <Alternatieven />
           <Vragen />
           <Contact />
         </main>

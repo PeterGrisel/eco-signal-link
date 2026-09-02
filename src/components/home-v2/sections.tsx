@@ -343,7 +343,7 @@ export function Diensten() {
     <Section id="diensten" tone="mist" className="v2-gordijn">
       <SectionHeader
         eyebrow="Wat u koopt"
-        title="Kies waar u begint."
+        title="Diensten die we leveren."
         lead="Bovenin drie manieren om de markt in te gaan. Daaronder het fundament waar ze alle drie op rusten, en onderaan alles op één engine. Uitbreiden is een hypothese toevoegen, geen nieuw traject."
       />
       <div className="grid gap-[18px] sm:grid-cols-2 lg:grid-cols-3">
@@ -381,12 +381,6 @@ export function Diensten() {
           </Reveal>
         ))}
       </div>
-      <Reveal className="mt-9 flex flex-wrap items-center gap-3">
-        <Button href="#prijzen">Wat het kost</Button>
-        <Button href="/groeistack" variant="outline">
-          Bekijk de groeistack
-        </Button>
-      </Reveal>
     </Section>
   );
 }
@@ -819,7 +813,7 @@ export function Prijzen() {
     <Section id="prijzen">
       <SectionHeader
         eyebrow="Onze prijzen"
-        title="De prijzen staan gewoon op de site."
+        title="Geen kleine lettertjes."
         lead="Nul opstartkosten. De prijs bestaat uit onze uren en de onkosten voor de tools die onder uw engine draaien; wij sturen en ondersteunen het geheel. Wij draaien negentig dagen als pilot, daarna is het maandelijks opzegbaar. Draait u al omzet maar mist u het systeem? Dan is er een performance partnership met lage techkosten en een gedeelde upside."
       />
       <div className="grid items-stretch gap-[22px] md:grid-cols-3">
@@ -896,7 +890,7 @@ export function WieZitErachter() {
     <Section tone="mist">
       <SectionHeader
         eyebrow="Wie zit erachter"
-        title="Er zit een engineer achter, geen bureau."
+        title="Er zitten proces engineers achter, geen marketing bureau."
         lead="B2B Groeimachine is het GTM-label van Rebel Force. Wat u koopt is geen abonnement op software, maar een klein team dat het bij u komt bouwen en daarna elke week meekijkt."
       />
 
@@ -959,23 +953,25 @@ export function WieZitErachter() {
         ))}
       </div>
 
-      <Reveal className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-3 border-t border-brand-line pt-8">
+      <Reveal className="mt-10 flex flex-wrap items-center justify-between gap-x-8 gap-y-3 border-t border-brand-line pt-8">
         <p className="max-w-[46ch] text-[14px] text-brand-ink-2">
           Achter de engine zit het model en de bouw. Allebei staan ze open ter
           inzage.
         </p>
-        <Link
-          to="/de-engine"
-          className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-brand-accent-ink transition-colors duration-[180ms] hover:text-brand-accent"
-        >
-          Lees de onderbouwing <span aria-hidden>→</span>
-        </Link>
-        <Link
-          to="/werkomgeving"
-          className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-brand-accent-ink transition-colors duration-[180ms] hover:text-brand-accent"
-        >
-          Kijk mee in de werkomgeving <span aria-hidden>→</span>
-        </Link>
+        <div className="flex flex-wrap items-center gap-x-8 gap-y-3">
+          <Link
+            to="/de-engine"
+            className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-brand-accent-ink transition-colors duration-[180ms] hover:text-brand-accent"
+          >
+            Lees de onderbouwing <span aria-hidden>→</span>
+          </Link>
+          <Link
+            to="/werkomgeving"
+            className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-brand-accent-ink transition-colors duration-[180ms] hover:text-brand-accent"
+          >
+            Kijk mee in de werkomgeving <span aria-hidden>→</span>
+          </Link>
+        </div>
       </Reveal>
     </Section>
   );
