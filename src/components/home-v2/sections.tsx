@@ -6,7 +6,7 @@ import { Faq } from "@/components/v2/Faq";
 import { GiantWord } from "@/components/v2/GiantWord";
 import peterGrisel from "@/assets/peter-grisel.png";
 import { TimelineStack, type TimelineItem } from "@/components/ui/modern-timeline";
-import { MarktTrechter, PrincipeCarrousel } from "./Principes";
+import { MarktTrechter, PrincipeScroller } from "./Principes";
 import { Reveal } from "@/components/v2/Reveal";
 import { Section } from "@/components/v2/Section";
 import { SectionHeader } from "@/components/v2/SectionHeader";
@@ -248,17 +248,21 @@ export function WatOnsAndersMaakt() {
   ];
   return (
     <Section tone="mist">
-      <SectionHeader
-        eyebrow="Wat ons anders maakt"
-        title={
-          <>
-            Wij zijn geen platform.
-            <br className="hidden sm:block" /> Wij zijn engineers.
-          </>
+      <PrincipeScroller
+        items={items}
+        kop={
+          <SectionHeader
+            eyebrow="Wat ons anders maakt"
+            title={
+              <>
+                Wij zijn geen platform.
+                <br className="hidden sm:block" /> Wij zijn engineers.
+              </>
+            }
+            lead="Het verschil zit niet in de tools, die kan iedereen kopen. Het zit in het proces eromheen: welke kansen u formuleert, welk bewijs u telt en wanneer u een mens inzet."
+          />
         }
-        lead="Het verschil zit niet in de tools, die kan iedereen kopen. Het zit in het proces eromheen: welke kansen u formuleert, welk bewijs u telt en wanneer u een mens inzet."
       />
-      <PrincipeCarrousel items={items} />
 
       {/* De trechter wisselt van markt: dezelfde vorm, andere maat. */}
       <Reveal className="mt-14">
