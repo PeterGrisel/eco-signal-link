@@ -11,7 +11,7 @@ import Home from "./pages/Home.tsx";
 import DeEngine from "./pages/DeEngine.tsx";
 import Werkomgeving from "./pages/Werkomgeving.tsx";
 import Signalen from "./pages/Signalen.tsx";
-import OverOns from "./pages/OverOns.tsx";
+
 import OnsTeam from "./pages/OnsTeam.tsx";
 import SectorPage from "./pages/SectorPage.tsx";
 import HoeHetWerktV2 from "./pages/HoeHetWerktV2.tsx";
@@ -142,7 +142,7 @@ const AnimatedRoutes = () => {
           <Route path="/signalen" element={<Signalen />} />
           {/* 301 redirects for removed routes (client-side fallback; worker handles server-side 301) */}
           <Route path="/datahub" element={<Navigate to="/pipeline-equation" replace />} />
-          <Route path="/over-ons" element={<OverOns />} />
+          <Route path="/over-ons" element={<Navigate to="/" replace />} />
           <Route path="/ons-team" element={<OnsTeam />} />
           <Route path="/sectoren/:slug" element={<SectorPage />} />
           <Route path="/hoe-het-werkt" element={<HoeHetWerktV2 />} />
