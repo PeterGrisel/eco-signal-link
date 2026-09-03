@@ -55,14 +55,17 @@ const Demo = () => {
             </p>
           </div>
 
-          <div className="rounded-2xl overflow-hidden border border-border bg-card">
-            <iframe
-              src={BOOKING_URL}
-              title="Plan uw Groeiplan-sessie"
-              className="w-full"
-              style={{ minHeight: 720, border: 0 }}
-            />
+          <div className="text-center">
+            <a
+              href={BOOKING_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center rounded-lg bg-[#E8945A] px-6 py-3 font-display font-semibold text-black hover:opacity-90 transition-opacity"
+            >
+              Open de agenda
+            </a>
           </div>
+
 
           <p className="text-center text-sm text-muted-foreground mt-6">
             Liever direct mailen? <a href="mailto:peter.grisel@rebelforce.nl" className="text-[#E8945A] hover:underline">peter.grisel@rebelforce.nl</a>
