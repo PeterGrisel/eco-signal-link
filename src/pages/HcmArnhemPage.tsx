@@ -35,7 +35,7 @@ const services = [
 
 const steps = [
   { title: "Dienst afnemen", desc: "U neemt een B2B Sales AI-dienst af bij B2B Groeimachine." },
-  { title: "Wij bouwen", desc: "Wij ontwerpen, bouwen en beheren uw AI-salesfunnel." },
+  { title: "Wij ontwerpen en bouwen", desc: "Wij ontwerpen, bouwen en beheren uw AI-salesfunnel." },
   { title: "Sales scoort", desc: "Uw sales krijgt warme kansen en meer grip op de pipeline." },
   { title: "Club groeit", desc: "20% van uw maandelijkse investering gaat naar HCM Arnhem." },
   { title: "U wordt gezien", desc: "Uw logo wordt zichtbaar op schermen en doeken bij HCM Arnhem." },
