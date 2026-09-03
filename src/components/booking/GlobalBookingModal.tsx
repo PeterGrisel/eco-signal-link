@@ -37,8 +37,7 @@ export function GlobalBookingModal({ open, onOpenChange, prefillData }: GlobalBo
   }, [open]);
 
 
-  // Luister naar boekings-events uit de agenda-iframe (Outlook Book with me),
-  // zodat we zien of een geopende kalender ook echt tot een afspraak leidt.
+  // Luister naar boekings-events uit de HubSpot-agenda in de iframe.
   React.useEffect(() => {
     const gezien = new Set<string>();
     const log = (naam: string, label: string) => {
@@ -49,11 +48,9 @@ export function GlobalBookingModal({ open, onOpenChange, prefillData }: GlobalBo
 
     const onMessage = (e: MessageEvent) => {
       const origin = typeof e.origin === "string" ? e.origin : "";
-      const vertrouwd =
-        origin.includes("outlook.office.com") ||
-        origin.includes("outlook.office365.com") ||
-        origin.includes("microsoft");
+      const vertrouwd = origin.includes("hubspot.com");
       if (!vertrouwd) return;
+
 
       const ruw = typeof e.data === "string" ? e.data : JSON.stringify(e.data ?? "");
       const tekst = ruw.toLowerCase();
@@ -164,34 +161,37 @@ export function GlobalBookingModal({ open, onOpenChange, prefillData }: GlobalBo
               </DialogDescription>
             </div>
             
-            <div ref={containerRef} className="p-6 md:p-8 flex-1 flex flex-col justify-center gap-6">
-              <div className="rounded-xl border border-glow/30 bg-[#0d1321] p-6 md:p-8 text-center">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-xs font-medium text-primary mb-4">
-                  <Sparkles className="w-3.5 h-3.5" />
-                  <span>30 minuten, vrijblijvend</span>
-                </div>
-                <h3 className="font-display font-bold text-xl md:text-2xl text-foreground mb-2">
-                  Kies direct een moment in de agenda
-                </h3>
-                <p className="text-sm text-muted-foreground leading-relaxed mb-6">
-                  De agenda opent in een nieuw tabblad. U kiest een tijd, wij bevestigen per e-mail.
-                </p>
+            <div ref={containerRef} className="flex-1 flex flex-col min-h-[560px] lg:min-h-0">
+              <iframe
+                src={meetingUrl}
+                title="Boek een gratis call"
+                className="w-full flex-1 min-h-[560px] border-0"
+                onLoad={() =>
+                  trackEvent("booking_calendar_loaded", "conversion", "Agenda geladen", {
+                    source: window.location.pathname,
+                  })
+                }
+              />
+              <div className="px-6 pb-3 text-center">
                 <a
                   href={meetingUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  onClick={() => {
+                  onClick={() =>
                     trackEvent("booking_open_new_tab", "conversion", "Agenda geopend", {
                       source: window.location.pathname,
-                    });
-                    onOpenChange(false);
-                  }}
-                  className="inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-6 py-3 font-display font-semibold text-primary-foreground hover:opacity-90 transition-opacity"
+                    })
+                  }
+                  className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-primary transition-colors"
                 >
-                  Open de agenda
-                  <ExternalLink className="w-4 h-4" />
+                  Ziet u geen agenda? Open in nieuw tabblad
+                  <ExternalLink className="w-3.5 h-3.5" />
                 </a>
               </div>
+            </div>
+
+            <div className="hidden">
+
 
               <ul className="space-y-2">
                 <li className="flex items-start gap-2 text-xs text-muted-foreground">
