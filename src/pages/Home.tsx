@@ -89,6 +89,7 @@ const Home = () => {
     <PageLoader>
       <div className="min-h-screen bg-brand-paper">
         <BreadcrumbJsonLd items={[{ name: "Home", url: "https://www.b2bgroeimachine.io/" }]} />
+        <JsonLd id="home-services-jsonld" data={servicesSchema} />
         <JsonLd id="home-faq-jsonld" data={faqSchema} />
         <Nav />
         <main>
