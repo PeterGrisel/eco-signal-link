@@ -227,6 +227,7 @@ const SphereImageGrid: React.FC<SphereImageGridProps> = ({
 
   const startDrag = (x: number, y: number) => {
     dragging.current = true;
+    moved.current = false;
     velocity.current = { x: 0, y: 0 };
     lastMousePos.current = { x, y };
   };
