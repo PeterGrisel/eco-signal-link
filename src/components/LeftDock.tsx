@@ -17,32 +17,24 @@ export default function LeftDock() {
   const [hidden, setHidden] = useState(false);
 
   useEffect(() => {
-    // Verberg de dock zodra hij visueel over tekst, kaarten of interactieve
-    // elementen valt. We vergelijken de bbox van de dock met die van zichtbare
-    // content-elementen en verbergen bij overlap.
-    const SELECTOR =
-      "h1,h2,h3,h4,h5,h6,p,a,button,input,textarea,label,li,blockquote,img,svg,[role='button'],[data-card],.card,article,figure";
+    // Verberg de dock alleen als er echt tekst of een knop onder ligt.
+    const SELECTOR = "h1,h2,h3,p,a,button,input,textarea,[role='button']";
 
     const check = () => {
       const dock = document.querySelector<HTMLElement>("[data-left-dock]");
       if (!dock) return;
       const r = dock.getBoundingClientRect();
-      // Iets ruimere zone zodat de dock al verdwijnt vóór hij raakt
-      const dockBox = {
-        left: r.left - 12,
-        right: r.right + 12,
-        top: r.top - 8,
-        bottom: r.bottom + 8,
-      };
+      const dockBox = { left: r.left, right: r.right, top: r.top, bottom: r.bottom };
 
       const nodes = document.querySelectorAll<HTMLElement>(SELECTOR);
       let overlap = false;
       for (const el of nodes) {
         if (el.closest("[data-left-dock]")) continue;
-        // Skip onzichtbare elementen
         if (!el.offsetParent && getComputedStyle(el).position !== "fixed") continue;
         const b = el.getBoundingClientRect();
         if (b.width === 0 || b.height === 0) continue;
+        // Alleen elementen die daadwerkelijk zichtbare inhoud hebben
+        if (!el.textContent?.trim() && el.tagName !== "INPUT") continue;
         if (b.bottom < dockBox.top || b.top > dockBox.bottom) continue;
         if (b.right < dockBox.left || b.left > dockBox.right) continue;
         overlap = true;
@@ -67,6 +59,7 @@ export default function LeftDock() {
       window.clearInterval(interval);
     };
   }, [location.pathname]);
+
 
   if (location.pathname.startsWith("/signaal") || location.pathname.startsWith("/admin")) return null;
   if (location.pathname.startsWith("/voor") && location.pathname !== "/voor/hego") return null;
