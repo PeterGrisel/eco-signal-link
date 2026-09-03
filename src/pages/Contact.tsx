@@ -97,59 +97,8 @@ const Contact = () => {
               </p>
             </motion.div>
 
-            {/* Intent cards */}
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="grid md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-16"
-            >
-              {[
-                {
-                  icon: TrendingUp,
-                  title: "Ik wil meer klanten",
-                  desc: "Bouw een commercieel systeem dat structureel pijplijn oplevert.",
-                  href: "#contact-form",
-                  intent: "meer-klanten",
-                },
-                {
-                  icon: Users,
-                  title: "Ik wil commercieel talent vinden",
-                  desc: "Vind, screen en onboard sales- en commercieel talent dat past.",
-                  href: "/full-service-recruitment",
-                  intent: "talent",
-                },
-                {
-                  icon: Workflow,
-                  title: "Ik wil mijn salesproces automatiseren",
-                  desc: "Van eerste signaal tot CRM-discipline en opvolging in één flow.",
-                  href: "/full-sales-management",
-                  intent: "automatisering",
-                },
-              ].map((c) => (
-                <a
-                  key={c.intent}
-                  href={c.href}
-                  onClick={() => {
-                    trackCTA(`Contact intent — ${c.title}`, c.href);
-                    if (c.href.startsWith("#")) {
-                      const el = document.getElementById(c.href.slice(1));
-                      el?.scrollIntoView({ behavior: "smooth" });
-                    }
-                  }}
-                  className="group bg-card border border-border rounded-lg p-6 hover:border-primary/40 transition-colors flex flex-col"
-                >
-                  <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
-                    <c.icon className="w-5 h-5 text-primary" />
-                  </div>
-                  <h3 className="font-display font-semibold text-base mb-2">{c.title}</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed mb-4">{c.desc}</p>
-                  <span className="inline-flex items-center gap-1.5 text-sm text-primary font-medium mt-auto">
-                    Verder <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
-                  </span>
-                </a>
-              ))}
-            </motion.div>
+
+
 
             <div id="contact-form" className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto scroll-mt-24">
               {/* Form */}
@@ -289,20 +238,6 @@ const Contact = () => {
                   </div>
                 </div>
 
-                {/* Quick links */}
-                <div className="bg-card border border-border rounded-lg p-6">
-                  <h3 className="font-display font-bold text-sm mb-3">Bekijk ook</h3>
-                  <div className="space-y-2">
-                    {[
-                      { to: "/full-sales-management", label: "Full Sales Management" },
-                      { to: "/full-service-recruitment", label: "Full Service Recruitment" },
-                    ].map(link => (
-                      <a key={link.to} href={link.to} className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors">
-                        <span>→</span> {link.label}
-                      </a>
-                    ))}
-                  </div>
-                </div>
               </motion.div>
             </div>
           </div>
