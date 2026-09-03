@@ -9,7 +9,7 @@ import { WeglotLanguageToggle } from "@/components/WeglotLanguageToggle";
 const EMAIL = "info@rebelforce.nl";
 const LINKEDIN = "https://www.linkedin.com/company/b2bgroeimachine/";
 const WHATSAPP = "https://wa.me/31852502925";
-const PHONE = "tel:+493075675721";
+const PHONE = "tel:+31852502925";
 
 export default function LeftDock() {
   const location = useLocation();
