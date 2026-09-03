@@ -598,7 +598,7 @@ export function HetProtocol() {
         kop={
           <SectionHeader
             eyebrow="Zo werkt de pilot"
-            title="90 dagen bouwen. Daarna onbeperkt schaalbaar."
+            title="Binnen 30 dagen live. 90 dagen testen, leren en optimaliseren. Daarna onbeperkt schaalbaar."
           />
         }
         className="max-w-[58rem]"
