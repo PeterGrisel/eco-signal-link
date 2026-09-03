@@ -2,7 +2,7 @@ import * as React from "react";
 import { Link } from "react-router-dom";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { ExternalLink, Check, Sparkles, Video } from "lucide-react";
-import { COPY } from "@/content/copy";
+import { COPY, BOOKING_URL } from "@/content/copy";
 import { trackEvent } from "@/lib/tracking";
 
 interface GlobalBookingModalProps {
@@ -11,89 +11,66 @@ interface GlobalBookingModalProps {
   prefillData?: { name?: string; email?: string; company?: string };
 }
 
-const HUBSPOT_MEETING_URL = "https://meetings-eu1.hubspot.com/peter-grisel";
-const HUBSPOT_EMBED_SCRIPT = "https://static.hsappstatic.net/MeetingsEmbed/ex/MeetingsEmbedCode.js";
+const MEETING_URL = BOOKING_URL;
 
 export function GlobalBookingModal({ open, onOpenChange, prefillData }: GlobalBookingModalProps) {
   const containerRef = React.useRef<HTMLDivElement>(null);
   const g = COPY.groeiplan;
   // Het Groeiplan-paneel hoort alleen bij de groeiplan-pagina; elders tonen we
-  // enkel de HubSpot-agenda.
+  // enkel de agenda.
   const toonGroeiplan =
     typeof window !== "undefined" && window.location.pathname.startsWith("/groeiplan");
 
-
   const meetingUrl = React.useMemo(() => {
-    const url = new URL(HUBSPOT_MEETING_URL);
-    if (prefillData?.name) {
-      const parts = prefillData.name.trim().split(" ");
-      url.searchParams.set("firstName", parts[0] || "");
-      if (parts.length > 1) url.searchParams.set("lastName", parts.slice(1).join(" "));
-    }
+    const url = new URL(MEETING_URL);
+    if (prefillData?.name) url.searchParams.set("name", prefillData.name);
     if (prefillData?.email) url.searchParams.set("email", prefillData.email);
-    if (prefillData?.company) url.searchParams.set("company", prefillData.company);
     return url.toString();
   }, [prefillData]);
 
   React.useEffect(() => {
     if (!open) return;
-    trackEvent("demo_modal_open", "conversion", "Groeiplan booking modal", {
+    trackEvent("demo_modal_open", "conversion", "Booking modal geopend", {
       source: window.location.pathname,
       has_prefill: !!(prefillData?.email || prefillData?.name),
     });
-    const timer = setTimeout(() => {
-      document.querySelectorAll(`script[src="${HUBSPOT_EMBED_SCRIPT}"]`).forEach((s) => s.remove());
-      const script = document.createElement("script");
-      script.src = HUBSPOT_EMBED_SCRIPT;
-      script.async = true;
-      document.body.appendChild(script);
-    }, 150);
-    return () => clearTimeout(timer);
   }, [open]);
 
-  // Luister naar alle HubSpot meetings-events zodat we de volledige trechter
-  // van de kalender meten: geladen, stap gezet, geboekt of mislukt.
+
+  // Luister naar boekings-events uit de agenda-iframe (Outlook Book with me),
+  // zodat we zien of een geopende kalender ook echt tot een afspraak leidt.
   React.useEffect(() => {
     const gezien = new Set<string>();
-    const log = (naam: string, label: string, extra?: Record<string, unknown>) => {
+    const log = (naam: string, label: string) => {
       if (gezien.has(naam)) return;
       gezien.add(naam);
-      trackEvent(naam, "conversion", label, {
-        source: window.location.pathname,
-        ...extra,
-      });
+      trackEvent(naam, "conversion", label, { source: window.location.pathname });
     };
 
     const onMessage = (e: MessageEvent) => {
-      if (typeof e.origin === "string" && !e.origin.includes("hubspot")) return;
-      const data = e.data as
-        | {
-            meetingBookSucceeded?: boolean;
-            meetingBookFailed?: boolean;
-            meetingsPayload?: { meetingBookSucceeded?: boolean; event?: string };
-          }
-        | undefined;
-      if (!data || typeof data !== "object") return;
+      const origin = typeof e.origin === "string" ? e.origin : "";
+      const vertrouwd =
+        origin.includes("outlook.office.com") ||
+        origin.includes("outlook.office365.com") ||
+        origin.includes("microsoft");
+      if (!vertrouwd) return;
 
-      const payload = data.meetingsPayload;
-      const gelukt = data.meetingBookSucceeded || payload?.meetingBookSucceeded;
+      const ruw = typeof e.data === "string" ? e.data : JSON.stringify(e.data ?? "");
+      const tekst = ruw.toLowerCase();
 
-      if (gelukt) {
-        log("demo_booked", "Afspraak geboekt via HubSpot-kalender");
+      if (tekst.includes("bookingconfirmed") || tekst.includes("bookingsuccess") || tekst.includes("meetingbooksucceeded")) {
+        log("demo_booked", "Afspraak geboekt via agenda");
         return;
       }
-      if (data.meetingBookFailed) {
-        log("booking_failed", "HubSpot-kalender boeking mislukt");
-        return;
-      }
-      if (payload?.event) {
-        log(`booking_${payload.event}`, `HubSpot-kalender: ${payload.event}`);
+      if (tekst.includes("bookingfailed") || tekst.includes("error")) {
+        log("booking_failed", "Boeking in agenda mislukt");
       }
     };
 
     window.addEventListener("message", onMessage);
     return () => window.removeEventListener("message", onMessage);
   }, []);
+
 
   // Meet of de kalender-iframe daadwerkelijk laadt (anders is een lege modal
   // niet te onderscheiden van een bezoeker die niet boekt).
@@ -106,7 +83,7 @@ export function GlobalBookingModal({ open, onOpenChange, prefillData }: GlobalBo
       if (iframe) {
         gemeld = true;
         window.clearInterval(check);
-        trackEvent("booking_calendar_loaded", "conversion", "HubSpot-kalender geladen", {
+        trackEvent("booking_calendar_loaded", "conversion", "Agenda geladen", {
           source: window.location.pathname,
         });
       }
@@ -114,7 +91,7 @@ export function GlobalBookingModal({ open, onOpenChange, prefillData }: GlobalBo
     const stop = window.setTimeout(() => {
       window.clearInterval(check);
       if (!gemeld) {
-        trackEvent("booking_calendar_failed", "conversion", "HubSpot-kalender niet geladen", {
+        trackEvent("booking_calendar_failed", "conversion", "Agenda niet geladen", {
           source: window.location.pathname,
         });
       }
@@ -205,7 +182,7 @@ export function GlobalBookingModal({ open, onOpenChange, prefillData }: GlobalBo
           )}
 
 
-          {/* Right panel: HubSpot Booking Form */}
+          {/* Right panel: Booking Form */}
           <div className="flex flex-col h-full lg:overflow-hidden">
             <div className="px-6 pt-6 pb-2 border-b border-glow/20 shrink-0">
               <DialogTitle className="text-lg md:text-xl font-display font-bold">Boek een gratis call</DialogTitle>
@@ -214,27 +191,34 @@ export function GlobalBookingModal({ open, onOpenChange, prefillData }: GlobalBo
               </DialogDescription>
             </div>
             
-            <div className="p-4 md:p-6 flex-1 overflow-y-auto min-h-[500px] lg:min-h-0 flex flex-col justify-between">
-              <div className="flex-1">
-                <div
-                  ref={containerRef}
-                  className="meetings-iframe-container"
-                  data-src={`${meetingUrl}?embed=true`}
+            <div className="p-4 md:p-6 flex-1 overflow-y-auto min-h-[520px] lg:min-h-0 flex flex-col justify-between gap-4">
+              <div ref={containerRef} className="flex-1 min-h-[460px]">
+                <iframe
+                  src={meetingUrl}
+                  title="Agenda van Peter"
+                  className="w-full h-full min-h-[460px] rounded-lg border border-glow/20 bg-background"
+                  allow="camera; microphone; clipboard-write"
                 />
               </div>
-              
+
               <div className="text-center pt-4 border-t border-glow/10 shrink-0">
                 <a
                   href={meetingUrl}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() =>
+                    trackEvent("booking_open_new_tab", "conversion", "Agenda in nieuw tabblad", {
+                      source: window.location.pathname,
+                    })
+                  }
                   className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-primary transition-colors"
                 >
                   <ExternalLink className="w-3.5 h-3.5" />
-                  Open in nieuw tabblad
+                  Ziet u geen agenda? Open in nieuw tabblad
                 </a>
               </div>
             </div>
+
           </div>
 
         </div>
@@ -260,7 +244,7 @@ export function BookingModalHost() {
   return <GlobalBookingModal open={open} onOpenChange={setOpen} prefillData={prefill} />;
 }
 
-/** `prefill` vult het HubSpot-formulier vast in, bijvoorbeeld het e-mailadres
+/** `prefill` vult het agenda-formulier vast in, bijvoorbeeld het e-mailadres
  *  dat de bezoeker in de hero heeft ingetypt. */
 export function openBookingModal(prefill?: BookingPrefill) {
   window.dispatchEvent(new CustomEvent("lovable:open-booking", { detail: prefill }));
