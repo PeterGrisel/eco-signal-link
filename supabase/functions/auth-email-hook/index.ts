@@ -15,7 +15,7 @@ const corsHeaders = {
 }
 
 // Configuration
-const SITE_NAME = "b2b signal based system"
+const SITE_NAME = "B2BGroeiMachine"
 const SENDER_DOMAIN = "notify.b2bgroeimachine.io"
 const ROOT_DOMAIN = "b2bgroeimachine.io"
 const FROM_DOMAIN = "b2bgroeimachine.io"
