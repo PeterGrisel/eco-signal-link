@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { Mail, Linkedin, HelpCircle, MessageCircle, Euro, BookOpen, Phone } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { trackCTA } from "@/lib/tracking";
+import { CurrencySwitcher } from "@/components/CurrencySwitcher";
+import { WeglotLanguageToggle } from "@/components/WeglotLanguageToggle";
 
 const EMAIL = "info@rebelforce.nl";
 const LINKEDIN = "https://www.linkedin.com/company/b2bgroeimachine/";
