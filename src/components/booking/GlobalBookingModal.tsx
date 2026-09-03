@@ -191,33 +191,47 @@ export function GlobalBookingModal({ open, onOpenChange, prefillData }: GlobalBo
               </DialogDescription>
             </div>
             
-            <div className="p-4 md:p-6 flex-1 overflow-y-auto min-h-[520px] lg:min-h-0 flex flex-col justify-between gap-4">
-              <div ref={containerRef} className="flex-1 min-h-[460px]">
-                <iframe
-                  src={meetingUrl}
-                  title="Agenda van Peter"
-                  className="w-full h-full min-h-[460px] rounded-lg border border-glow/20 bg-background"
-                  allow="camera; microphone; clipboard-write"
-                />
-              </div>
-
-              <div className="text-center pt-4 border-t border-glow/10 shrink-0">
+            <div ref={containerRef} className="p-6 md:p-8 flex-1 flex flex-col justify-center gap-6">
+              <div className="rounded-xl border border-glow/30 bg-[#0d1321] p-6 md:p-8 text-center">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-xs font-medium text-primary mb-4">
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>30 minuten, vrijblijvend</span>
+                </div>
+                <h3 className="font-display font-bold text-xl md:text-2xl text-foreground mb-2">
+                  Kies direct een moment in de agenda
+                </h3>
+                <p className="text-sm text-muted-foreground leading-relaxed mb-6">
+                  De agenda opent in een nieuw tabblad. U kiest een tijd, wij bevestigen per e-mail.
+                </p>
                 <a
                   href={meetingUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  onClick={() =>
-                    trackEvent("booking_open_new_tab", "conversion", "Agenda in nieuw tabblad", {
+                  onClick={() => {
+                    trackEvent("booking_open_new_tab", "conversion", "Agenda geopend", {
                       source: window.location.pathname,
-                    })
-                  }
-                  className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-primary transition-colors"
+                    });
+                    onOpenChange(false);
+                  }}
+                  className="inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-6 py-3 font-display font-semibold text-primary-foreground hover:opacity-90 transition-opacity"
                 >
-                  <ExternalLink className="w-3.5 h-3.5" />
-                  Ziet u geen agenda? Open in nieuw tabblad
+                  Open de agenda
+                  <ExternalLink className="w-4 h-4" />
                 </a>
               </div>
+
+              <ul className="space-y-2">
+                <li className="flex items-start gap-2 text-xs text-muted-foreground">
+                  <Check className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                  <span>Geen verkooppraatje. Wij kijken naar uw huidige proces.</span>
+                </li>
+                <li className="flex items-start gap-2 text-xs text-muted-foreground">
+                  <Check className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                  <span>U weet daarna waar groei nu blijft liggen.</span>
+                </li>
+              </ul>
             </div>
+
 
           </div>
 
