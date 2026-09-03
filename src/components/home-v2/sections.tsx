@@ -344,7 +344,7 @@ export function Diensten() {
       <SectionHeader
         eyebrow="Wat u koopt"
         title="Dit ontwerpen en activeren wij"
-        lead="Bovenin drie manieren om de markt in te gaan. Daaronder het fundament waar ze alle drie op rusten, en onderaan alles op één engine. Uitbreiden is een hypothese toevoegen, geen nieuw traject."
+        lead="B2B Groeimachine is het groeilabel van Rebel Force. U koopt geen software-abonnement. U krijgt een klein team. Wij bouwen het systeem bij u. Daarna kijken wij elke week mee. Zie ons als extra medewerkers. Wij zoeken naar slimmere processen."
       />
       <div className="grid gap-[18px] sm:grid-cols-2 lg:grid-cols-3">
         {DIENSTEN.map((dienst, i) => (
