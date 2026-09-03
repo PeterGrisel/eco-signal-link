@@ -43,7 +43,7 @@ const GROUPS: Group[] = [
     ],
   },
   {
-    label: "Bewijs",
+    label: "Over Ons",
     items: [
       { label: "Klanten", href: "/klanten", note: "Wie er met de engine werkt" },
       { label: "Partners", href: "/partners", note: "Het Signal Certified netwerk" },

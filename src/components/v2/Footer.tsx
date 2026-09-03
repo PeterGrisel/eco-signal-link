@@ -15,7 +15,7 @@ const cols = [
     ],
   },
   {
-    title: "Bewijs",
+    title: "Over Ons",
     links: [
       ["Klanten", "/klanten"],
       ["Partners", "/partners"],
