@@ -108,8 +108,9 @@ const Home = () => {
 
           <WieZitErachter />
           <Alternatieven />
-          <Vragen />
           <Contact />
+          <Vragen />
+
         </main>
         <Footer />
       </div>
