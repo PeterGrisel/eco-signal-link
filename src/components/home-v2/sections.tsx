@@ -11,6 +11,7 @@ import { MarktTrechter, PrincipeScroller } from "./Principes";
 import { Reveal } from "@/components/v2/Reveal";
 import { Section } from "@/components/v2/Section";
 import SphereImageGrid from "@/components/ui/img-sphere";
+import InfiniteSlider from "@/components/hhwv2/ui/InfiniteSlider";
 import { useBolMaten } from "@/hooks/useBolMaten";
 import { SectionHeader } from "@/components/v2/SectionHeader";
 import { openBookingModal } from "@/components/booking/GlobalBookingModal";
@@ -466,6 +467,22 @@ export function Klantenraster() {
         lead="Industriële toeleveranciers, technische dienstverleners en zakelijke dienstverleners in de Benelux. Bekijk per klant welke hypothese we hebben getest en wat eruit kwam."
       />
 
+      {bol.mobiel ? (
+        /* Op mobiel stottert de 3D-bol; toon dan de eenvoudige logo-slider. */
+        <InfiniteSlider
+          speed={38}
+          items={[...klanten, ...klanten, ...klanten].map((k, i) => (
+            <button
+              key={`${k.id}-${i}`}
+              type="button"
+              onClick={() => navigate("/klanten")}
+              className="flex h-20 w-32 items-center justify-center rounded-xl border border-black/10 bg-white/60 px-4"
+            >
+              <Logo klant={k} hoogte={40} />
+            </button>
+          ))}
+        />
+      ) : (
       <div className="flex justify-center">
         <SphereImageGrid
           className="mx-auto"
@@ -491,6 +508,7 @@ export function Klantenraster() {
           onImageClick={() => navigate("/klanten")}
         />
       </div>
+      )}
 
 
       <Reveal className="mt-10">
