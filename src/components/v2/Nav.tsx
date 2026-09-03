@@ -7,6 +7,7 @@ import { sectors } from "@/data/sectors";
 import peterAsset from "@/assets/peter.gif.asset.json";
 import { WeglotLanguageToggle } from "@/components/WeglotLanguageToggle";
 import { CurrencySwitcher } from "@/components/CurrencySwitcher";
+import { Logo } from "@/components/Logo";
 
 type Item = { label: string; href: string; note?: string };
 type Group = { label: string; href?: string; items?: Item[] };
@@ -138,10 +139,7 @@ export function Nav() {
     >
       <Container className="flex items-center justify-between gap-7 py-3.5">
         <Link to="/" aria-label="B2B Groeimachine, home" className="shrink-0">
-          <span className="font-display text-[17px] font-black tracking-[-0.02em]">
-            <span className="text-brand-ink">B2B</span>
-            <span className="text-brand-accent-ink">GroeiMachine</span>
-          </span>
+          <Logo toon="licht" className="h-[26px] w-auto" />
         </Link>
 
         <div className="hidden items-center gap-7 lg:flex">
