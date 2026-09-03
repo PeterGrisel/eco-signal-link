@@ -9,7 +9,7 @@
  */
 
 export const BOOKING_URL =
-  "https://outlook.office.com/bookwithme/user/e2f12db16f0a42659287959ed1c80bd1@rebelforce.nl/meetingtype/lCQgU7fD2k6bmiiw6gidDw2?anonymous&ismsaljsauthenabled&ep=mlink";
+  "https://meetings-eu1.hubspot.com/peter-grisel";
 
 /** CTA-labels en hun bijbehorende doel-URL */
 export const CTA = {

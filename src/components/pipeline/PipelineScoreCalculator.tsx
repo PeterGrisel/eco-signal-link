@@ -547,7 +547,7 @@ const PipelineScoreCalculator = () => {
                       </p>
                       <Button variant="hero" size="lg" asChild>
                         <a
-                          href="https://outlook.office.com/bookwithme/user/e2f12db16f0a42659287959ed1c80bd1@rebelforce.nl/meetingtype/lCQgU7fD2k6bmiiw6gidDw2?anonymous&ismsaljsauthenabled&ep=mlink"
+                          href="https://meetings-eu1.hubspot.com/peter-grisel"
                           target="_blank"
                           rel="noopener noreferrer"
                           onClick={() => trackCTA("Pipeline Score — Boek een gratis call na rapport", "/pipeline-equation")}
