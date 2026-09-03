@@ -17,7 +17,7 @@ export function WerkomgevingSectie() {
         deep
         eyebrow="Zo ziet het eruit"
         title="Van vraag tot afspraak."
-        lead="Wij richten voor u een werkomgeving in waarin uw bronnen, uw CRM en het redeneren bij elkaar komen. U stelt er een vraag in gewone taal; er komen accounts uit met een reden en een aanbevolen actie."
+        lead="Wij bouwen één werkomgeving voor uw bronnen, tools en proces. Het systeem werkt als uw commerciële brein. Het vindt kansen en voert taken uit. Zo worden kansen afspraken."
       />
 
       <Film />
