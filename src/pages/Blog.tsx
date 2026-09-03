@@ -79,14 +79,23 @@ const Blog = () => {
     fetchData();
   }, []);
 
-  const filtered = activeCategory
-    ? posts.filter((p) => p.category?.slug === activeCategory)
-    : posts;
-
   const pillarCategories = categories.filter((c) => PILLAR_SLUGS.includes(c.slug as any));
-  const featuredPosts = posts.filter((p) => p.is_featured).slice(0, 3);
+
+  // Uniek op slug: nooit twee keer hetzelfde artikel tonen.
+  const uniquePosts = posts.filter(
+    (p, i, arr) => arr.findIndex((q) => q.slug === p.slug) === i,
+  );
+  const featuredPosts = uniquePosts.filter((p) => p.is_featured).slice(0, 3);
+  const featuredSlugs = new Set(featuredPosts.map((p) => p.slug));
+
+  // "Alle artikelen" laat de uitgelichte posts weg zodat er geen dubbele kaart staat.
+  const filtered = uniquePosts
+    .filter((p) => !featuredSlugs.has(p.slug))
+    .filter((p) => (activeCategory ? p.category?.slug === activeCategory : true));
+
   const countPerCategory = (slug: string) =>
-    posts.filter((p) => p.category?.slug === slug).length;
+    uniquePosts.filter((p) => p.category?.slug === slug).length;
+
 
   return (
     <div className="min-h-screen bg-background">
@@ -243,7 +252,7 @@ const Blog = () => {
           ) : filtered.length === 0 ? (
             <p className="text-muted-foreground">Nog geen artikelen gepubliceerd.</p>
           ) : (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 items-start">
               {filtered.map((post) => (
                 <Link
                   key={post.id}
