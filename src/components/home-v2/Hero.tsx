@@ -114,9 +114,9 @@ export function Hero() {
                 <SplitHeadline lines={HEADLINE} accentClass="text-brand-accent" />
               </h1>
               <p className="mb-7 max-w-[44ch] text-[16.5px] leading-relaxed text-[#D6CEC3]">
-                B2B Groeimachine bouwt het systeem achter uw sales, marketing en
-                RevOps. Negentig dagen als pilot, daarna maandelijks
-                opzegbaar.
+                B2B Groeimachine ontwerpt en bouwt het systeem achter uw sales,
+                marketing en RevOps. Negentig dagen als pilot, daarna
+                maandelijks opzegbaar.
               </p>
               <TalkCard location="Home hero" />
 
