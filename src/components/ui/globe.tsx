@@ -97,6 +97,11 @@ export function Globe({
     let frame = 0;
     const teken = () => {
       if (sleepStartX.current === null && !stilzetten) phi.current += AUTO_ROTATIE;
+      // Oudere cobe-builds (v0.6) kennen geen update(); dan tekent de lib zelf.
+      if (typeof globe.update !== "function") {
+        frame = requestAnimationFrame(teken);
+        return;
+      }
       globe.update({
         phi: phi.current + rotatieOffset.current,
         width: breedte.current,
