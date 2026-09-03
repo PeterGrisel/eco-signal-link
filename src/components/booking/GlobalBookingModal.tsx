@@ -2,7 +2,7 @@ import * as React from "react";
 import { Link } from "react-router-dom";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { ExternalLink, Check, Sparkles, Video } from "lucide-react";
-import { COPY } from "@/content/copy";
+import { COPY, BOOKING_URL } from "@/content/copy";
 import { trackEvent } from "@/lib/tracking";
 
 interface GlobalBookingModalProps {
@@ -11,7 +11,7 @@ interface GlobalBookingModalProps {
   prefillData?: { name?: string; email?: string; company?: string };
 }
 
-const MEETING_URL = COPY_BOOKING_URL;
+const MEETING_URL = BOOKING_URL;
 
 export function GlobalBookingModal({ open, onOpenChange, prefillData }: GlobalBookingModalProps) {
   const containerRef = React.useRef<HTMLDivElement>(null);
