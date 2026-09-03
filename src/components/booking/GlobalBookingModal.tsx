@@ -83,7 +83,7 @@ export function GlobalBookingModal({ open, onOpenChange, prefillData }: GlobalBo
       if (iframe) {
         gemeld = true;
         window.clearInterval(check);
-        trackEvent("booking_calendar_loaded", "conversion", "HubSpot-kalender geladen", {
+        trackEvent("booking_calendar_loaded", "conversion", "Agenda geladen", {
           source: window.location.pathname,
         });
       }
@@ -91,7 +91,7 @@ export function GlobalBookingModal({ open, onOpenChange, prefillData }: GlobalBo
     const stop = window.setTimeout(() => {
       window.clearInterval(check);
       if (!gemeld) {
-        trackEvent("booking_calendar_failed", "conversion", "HubSpot-kalender niet geladen", {
+        trackEvent("booking_calendar_failed", "conversion", "Agenda niet geladen", {
           source: window.location.pathname,
         });
       }
