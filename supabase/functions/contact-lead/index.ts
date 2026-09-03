@@ -51,53 +51,30 @@ serve(async (req) => {
       });
     }
 
-    const html = `<!doctype html><html><body style="background:#121212;padding:24px;font-family:Arial,sans-serif;color:#eee;">
-      <div style="max-width:560px;margin:0 auto;background:#1b1b1b;border:1px solid #2a2a2a;border-radius:12px;padding:24px;">
-        <h2 style="color:#E8945A;margin:0 0 16px;">Nieuwe lead via /contact</h2>
-        <p style="margin:4px 0;"><strong>Naam:</strong> ${esc(name)}</p>
-        <p style="margin:4px 0;"><strong>E-mail:</strong> ${esc(email)}</p>
-        <p style="margin:4px 0;"><strong>Bedrijf:</strong> ${esc(company ?? "—")}</p>
-        <p style="margin:4px 0;"><strong>Telefoon:</strong> ${esc(phone ?? "—")}</p>
-        <p style="margin:16px 0 4px;"><strong>Bericht:</strong></p>
-        <p style="white-space:pre-wrap;margin:0;">${esc(message)}</p>
-        <p style="color:#888;font-size:12px;margin-top:20px;">Pagina: ${esc(pageUrl ?? "—")}</p>
-      </div>
-    </body></html>`;
+    const submissionId = inserted?.id ?? Date.now();
 
-    // Unsubscribe-token voor de ontvanger (vereist voor app-mails)
-    let unsubscribeToken: string | null = null;
-    const { data: existingToken } = await supabase
-      .from("email_unsubscribe_tokens")
-      .select("token")
-      .eq("email", NOTIFY_TO)
-      .maybeSingle();
-    if (existingToken?.token) {
-      unsubscribeToken = existingToken.token;
-    } else {
-      const newToken = crypto.randomUUID().replace(/-/g, "");
-      const { error: tokenError } = await supabase
-        .from("email_unsubscribe_tokens")
-        .insert({ email: NOTIFY_TO, token: newToken });
-      if (tokenError) console.error("unsubscribe token insert failed:", tokenError);
-      unsubscribeToken = newToken;
+    const logSend = async (status: string, errorMessage?: string) => {
+      const { error: logError } = await supabase.from("email_send_log").insert({
+        message_id: `contact-${submissionId}`,
+        template_name: "contact-lead",
+        recipient_email: NOTIFY_TO,
+        status,
+        error_message: errorMessage ?? null,
+      });
+      if (logError) console.error("email_send_log insert failed:", logError);
+    };
+
+    try {
+      const result = await sendTemplateEmail("contact-lead", NOTIFY_TO, {
+        templateData: { name, email, company, phone, message, pageUrl },
+        idempotencyKey: `contact-lead-${submissionId}`,
+      });
+      await logSend(result.sent ? "sent" : "suppressed");
+    } catch (mailError) {
+      console.error("send contact-lead email failed:", mailError);
+      await logSend("failed", mailError instanceof Error ? mailError.message : String(mailError));
     }
 
-    const { error: mailError } = await supabase.rpc("enqueue_email", {
-      queue_name: "transactional_emails",
-      payload: {
-        to: NOTIFY_TO,
-        subject: `Nieuwe lead: ${name}${company ? ` (${company})` : ""}`,
-        html,
-        text: `Nieuwe lead via /contact\n\nNaam: ${name}\nE-mail: ${email}\nBedrijf: ${company ?? "-"}\nTelefoon: ${phone ?? "-"}\n\nBericht:\n${message}\n\nPagina: ${pageUrl ?? "-"}`,
-        label: "contact-lead",
-        purpose: "transactional",
-        idempotency_key: `contact-lead-${inserted?.id ?? Date.now()}`,
-        message_id: `contact-${inserted?.id ?? Date.now()}`,
-        unsubscribe_token: unsubscribeToken,
-        from: "B2BGroeiMachine <hi@notify.b2bgroeimachine.io>",
-      },
-    });
-    if (mailError) console.error("enqueue_email failed:", mailError);
 
     return new Response(JSON.stringify({ ok: true }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
