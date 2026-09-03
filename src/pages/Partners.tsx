@@ -271,7 +271,7 @@ const Partners = () => {
                   </p>
                   
                   <p className="text-muted-foreground text-sm md:text-base leading-relaxed mb-8 max-w-xl">
-                    Voor wie al omzet draait, maar het systeem mist. Wij bouwen en draaien de groeimachine. U deelt mee in de upside die het systeem oplevert.
+                    Voor wie al omzet draait, maar het systeem mist. Wij ontwerpen, bouwen en draaien de groeimachine. U deelt mee in de upside die het systeem oplevert.
                   </p>
 
                   <div>

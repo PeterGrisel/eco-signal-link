@@ -455,7 +455,7 @@ const FunnelInfographic = () => {
             Geen leads. Geen lijsten. Geen tijdelijke trucs.
           </p>
           <p className="text-foreground font-display text-base md:text-xl leading-snug">
-            Wij bouwen het <span className="text-gradient">commerciële systeem</span> achter voorspelbare B2B groei.
+            Wij ontwerpen en bouwen het <span className="text-gradient">commerciële systeem</span> achter voorspelbare B2B groei.
           </p>
         </motion.div>
       </div>

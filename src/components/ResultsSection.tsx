@@ -39,7 +39,7 @@ const ResultsSection = () => {
               {
                 icon: Repeat,
                 title: "Opzetten of overnemen",
-                text: "Wij bouwen het systeem en beheren het. Of we zetten het op, trainen uw team en dragen het over. U kiest.",
+                text: "Wij ontwerpen en bouwen het systeem en beheren het. Of we zetten het op, trainen uw team en dragen het over. U kiest.",
               },
               {
                 icon: ShieldCheck,
