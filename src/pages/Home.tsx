@@ -90,9 +90,9 @@ const Home = () => {
         <Nav />
         <main>
           <Hero />
+          <HetProtocol />
           <WerkomgevingSectie />
           <Klantenraster />
-          <HetProtocol />
           <Diensten />
           <Prijzen />
           <Marquee
