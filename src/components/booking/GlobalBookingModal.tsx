@@ -51,19 +51,79 @@ export function GlobalBookingModal({ open, onOpenChange, prefillData }: GlobalBo
     return () => clearTimeout(timer);
   }, [open]);
 
-  // Listen for HubSpot meeting-booked postMessage and fire conversion event.
+  // Luister naar alle HubSpot meetings-events zodat we de volledige trechter
+  // van de kalender meten: geladen, stap gezet, geboekt of mislukt.
   React.useEffect(() => {
+    const gezien = new Set<string>();
+    const log = (naam: string, label: string, extra?: Record<string, unknown>) => {
+      if (gezien.has(naam)) return;
+      gezien.add(naam);
+      trackEvent(naam, "conversion", label, {
+        source: window.location.pathname,
+        ...extra,
+      });
+    };
+
     const onMessage = (e: MessageEvent) => {
-      const data = e.data as { meetingBookSucceeded?: boolean } | undefined;
-      if (data && data.meetingBookSucceeded) {
-        trackEvent("demo_booked", "conversion", "Groeiplan sessie geboekt", {
-          source: window.location.pathname,
-        });
+      if (typeof e.origin === "string" && !e.origin.includes("hubspot")) return;
+      const data = e.data as
+        | {
+            meetingBookSucceeded?: boolean;
+            meetingBookFailed?: boolean;
+            meetingsPayload?: { meetingBookSucceeded?: boolean; event?: string };
+          }
+        | undefined;
+      if (!data || typeof data !== "object") return;
+
+      const payload = data.meetingsPayload;
+      const gelukt = data.meetingBookSucceeded || payload?.meetingBookSucceeded;
+
+      if (gelukt) {
+        log("demo_booked", "Afspraak geboekt via HubSpot-kalender");
+        return;
+      }
+      if (data.meetingBookFailed) {
+        log("booking_failed", "HubSpot-kalender boeking mislukt");
+        return;
+      }
+      if (payload?.event) {
+        log(`booking_${payload.event}`, `HubSpot-kalender: ${payload.event}`);
       }
     };
+
     window.addEventListener("message", onMessage);
     return () => window.removeEventListener("message", onMessage);
   }, []);
+
+  // Meet of de kalender-iframe daadwerkelijk laadt (anders is een lege modal
+  // niet te onderscheiden van een bezoeker die niet boekt).
+  React.useEffect(() => {
+    if (!open) return;
+    let gemeld = false;
+    const check = window.setInterval(() => {
+      if (gemeld) return;
+      const iframe = containerRef.current?.querySelector("iframe");
+      if (iframe) {
+        gemeld = true;
+        window.clearInterval(check);
+        trackEvent("booking_calendar_loaded", "conversion", "HubSpot-kalender geladen", {
+          source: window.location.pathname,
+        });
+      }
+    }, 400);
+    const stop = window.setTimeout(() => {
+      window.clearInterval(check);
+      if (!gemeld) {
+        trackEvent("booking_calendar_failed", "conversion", "HubSpot-kalender niet geladen", {
+          source: window.location.pathname,
+        });
+      }
+    }, 8000);
+    return () => {
+      window.clearInterval(check);
+      window.clearTimeout(stop);
+    };
+  }, [open]);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
