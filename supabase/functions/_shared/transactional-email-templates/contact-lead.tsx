@@ -1,13 +1,6 @@
 import * as React from 'npm:react@18.3.1'
-import {
-  Body,
-  Container,
-  Head,
-  Heading,
-  Html,
-  Preview,
-  Text,
-} from 'npm:@react-email/components@0.0.22'
+import { Heading, Text } from 'npm:@react-email/components@0.0.22'
+import { BrandShell, footerText, h1, text } from '../email-templates/brand.tsx'
 import type { TemplateEntry } from './registry.ts'
 
 interface Props {
@@ -19,6 +12,8 @@ interface Props {
   pageUrl?: string | null
 }
 
+const row = { ...text, margin: '2px 0' }
+
 const ContactLeadEmail = ({
   name = '',
   email = '',
@@ -27,32 +22,26 @@ const ContactLeadEmail = ({
   message = '',
   pageUrl,
 }: Props) => (
-  <Html lang="nl" dir="ltr">
-    <Head />
-    <Preview>Nieuwe lead via /contact</Preview>
-    <Body style={main}>
-      <Container style={container}>
-        <Heading style={heading}>Nieuwe lead via /contact</Heading>
-        <Text style={row}>
-          <strong>Naam:</strong> {name}
-        </Text>
-        <Text style={row}>
-          <strong>E-mail:</strong> {email}
-        </Text>
-        <Text style={row}>
-          <strong>Bedrijf:</strong> {company || '—'}
-        </Text>
-        <Text style={row}>
-          <strong>Telefoon:</strong> {phone || '—'}
-        </Text>
-        <Text style={label}>
-          <strong>Bericht:</strong>
-        </Text>
-        <Text style={body}>{message}</Text>
-        <Text style={meta}>Pagina: {pageUrl || '—'}</Text>
-      </Container>
-    </Body>
-  </Html>
+  <BrandShell preview="Nieuwe lead via /contact">
+    <Heading style={h1}>Nieuwe lead via /contact</Heading>
+    <Text style={row}>
+      <strong>Naam:</strong> {name}
+    </Text>
+    <Text style={row}>
+      <strong>E-mail:</strong> {email}
+    </Text>
+    <Text style={row}>
+      <strong>Bedrijf:</strong> {company || '—'}
+    </Text>
+    <Text style={row}>
+      <strong>Telefoon:</strong> {phone || '—'}
+    </Text>
+    <Text style={{ ...row, margin: '16px 0 4px' }}>
+      <strong>Bericht:</strong>
+    </Text>
+    <Text style={{ ...text, whiteSpace: 'pre-wrap' as const, margin: '0' }}>{message}</Text>
+    <Text style={footerText}>Pagina: {pageUrl || '—'}</Text>
+  </BrandShell>
 )
 
 export const template = {
@@ -69,17 +58,3 @@ export const template = {
     pageUrl: 'https://www.b2bgroeimachine.io/contact',
   },
 } satisfies TemplateEntry
-
-const main = { backgroundColor: '#ffffff', fontFamily: 'Arial, sans-serif' }
-const container = {
-  maxWidth: '560px',
-  margin: '0 auto',
-  border: '1px solid #eeeeee',
-  borderRadius: '12px',
-  padding: '24px',
-}
-const heading = { color: '#E8945A', fontSize: '22px', margin: '0 0 16px' }
-const row = { margin: '4px 0', color: '#121212', fontSize: '14px' }
-const label = { margin: '16px 0 4px', color: '#121212', fontSize: '14px' }
-const body = { whiteSpace: 'pre-wrap' as const, margin: '0', color: '#121212', fontSize: '14px' }
-const meta = { color: '#888888', fontSize: '12px', marginTop: '20px' }
