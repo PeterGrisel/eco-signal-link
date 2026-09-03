@@ -296,8 +296,9 @@ const Klanten = () => {
             {loading ? (
               <div className="h-[500px] animate-pulse rounded-full bg-card/30 max-w-2xl mx-auto" />
             ) : (
-              <div className="flex justify-center">
+              <div className="flex justify-center overflow-hidden">
                 <SphereImageGrid
+                  key={containerSize}
                   className="mx-auto"
                   images={clients
                     .map((c) => ({
@@ -308,14 +309,14 @@ const Klanten = () => {
                       description: c.sector || undefined,
                     }))
                     .filter((i) => i.src)}
-                  containerSize={typeof window !== "undefined" && window.innerWidth < 768 ? 320 : 560}
-                  sphereRadius={typeof window !== "undefined" && window.innerWidth < 768 ? 130 : 210}
-                  baseImageScale={0.2}
-                  hoverScale={1.15}
-                  dragSensitivity={0.6}
+                  containerSize={containerSize}
+                  sphereRadius={sphereRadius}
+                  baseImageScale={isMobile ? 0.26 : 0.2}
+                  hoverScale={isMobile ? 1 : 1.15}
+                  dragSensitivity={isMobile ? 0.4 : 0.6}
                   momentumDecay={0.96}
                   autoRotate
-                  autoRotateSpeed={0.18}
+                  autoRotateSpeed={isMobile ? 0.12 : 0.18}
                   showModal={false}
                   onImageClick={(img) => {
                     const el = document.getElementById(`klant-${img.id}`);
