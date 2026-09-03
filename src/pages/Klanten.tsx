@@ -7,6 +7,8 @@ import Footer from "@/components/Footer";
 import PageLoader from "@/components/PageLoader";
 import CtaSection from "@/components/CtaSection";
 import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
+import JsonLd from "@/components/JsonLd";
+import { buildClientsSchema } from "@/data/schemaOrg";
 import { supabase } from "@/integrations/supabase/client";
 import { faviconFor } from "@/data/groeistack";
 import { usePageMeta } from "@/hooks/usePageMeta";
