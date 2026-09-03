@@ -37,8 +37,7 @@ export function GlobalBookingModal({ open, onOpenChange, prefillData }: GlobalBo
   }, [open]);
 
 
-  // Luister naar boekings-events uit de agenda-iframe (Outlook Book with me),
-  // zodat we zien of een geopende kalender ook echt tot een afspraak leidt.
+  // Luister naar boekings-events uit de HubSpot-agenda in de iframe.
   React.useEffect(() => {
     const gezien = new Set<string>();
     const log = (naam: string, label: string) => {
@@ -49,11 +48,9 @@ export function GlobalBookingModal({ open, onOpenChange, prefillData }: GlobalBo
 
     const onMessage = (e: MessageEvent) => {
       const origin = typeof e.origin === "string" ? e.origin : "";
-      const vertrouwd =
-        origin.includes("outlook.office.com") ||
-        origin.includes("outlook.office365.com") ||
-        origin.includes("microsoft");
+      const vertrouwd = origin.includes("hubspot.com");
       if (!vertrouwd) return;
+
 
       const ruw = typeof e.data === "string" ? e.data : JSON.stringify(e.data ?? "");
       const tekst = ruw.toLowerCase();
