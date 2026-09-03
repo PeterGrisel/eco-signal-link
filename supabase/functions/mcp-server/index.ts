@@ -53,8 +53,9 @@ mcp.tool("get_blog_post", {
     if (id) q = q.eq("id", id);
     else if (slug) q = q.eq("slug", slug);
     else return { content: [{ type: "text" as const, text: "Provide either id or slug" }] };
-    const { data, error } = await q.single();
+    const { data, error } = await q.maybeSingle();
     if (error) return { content: [{ type: "text" as const, text: `Error: ${error.message}` }] };
+    if (!data) return { content: [{ type: "text" as const, text: `Not found: geen blogpost met ${id ? `id '${id}'` : `slug '${slug}'`}.` }] };
     return { content: [{ type: "text" as const, text: JSON.stringify(data, null, 2) }] };
   },
 });
