@@ -39,6 +39,13 @@ project_id = "sdhsblejnzfacqafzbuc"
     verify_jwt = false
   [functions.og-image]
     verify_jwt = false
+  [functions.social-image]
+    # Publiek: Planable en de social-kanalen halen het beeld zelf op.
+    verify_jwt = false
+  [functions.social-generate]
+    verify_jwt = true
+  [functions.social-planable-push]
+    verify_jwt = true
   [functions.authority-analyze-context]
     verify_jwt = true
   [functions.authority-generate-queries]
