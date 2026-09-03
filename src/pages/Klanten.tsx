@@ -249,6 +249,12 @@ const Klanten = () => {
             { name: "Klanten", url: "https://www.b2bgroeimachine.io/klanten" },
           ]}
         />
+        {clients.length > 0 && (
+          <JsonLd
+            id="klanten-itemlist-jsonld"
+            data={buildClientsSchema(clients, "https://www.b2bgroeimachine.io/klanten")}
+          />
+        )}
         <Navbar />
 
         {/* Hero */}
