@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import Navbar from "@/components/Navbar";
+import { Globe } from "@/components/ui/globe";
 import Footer from "@/components/Footer";
 import { Send, Loader2, Calendar, Mail, Phone, Building2 } from "lucide-react";
 import { z } from "zod";
@@ -236,6 +237,15 @@ const Contact = () => {
                       <span className="text-muted-foreground">Powered by Rebel Force™</span>
                     </div>
                   </div>
+                </div>
+
+                {/* Wereldwijd */}
+                <div className="bg-card border border-border rounded-lg p-6">
+                  <h3 className="font-display font-bold text-lg mb-1">Wij werken wereldwijd</h3>
+                  <p className="text-sm text-muted-foreground mb-2 leading-relaxed">
+                    Vanuit Nederland bouwen wij groeimachines voor B2B-organisaties over de hele wereld.
+                  </p>
+                  <Globe className="max-w-[320px]" />
                 </div>
 
               </motion.div>
