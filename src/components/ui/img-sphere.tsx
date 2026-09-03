@@ -87,6 +87,7 @@ const SphereImageGrid: React.FC<SphereImageGridProps> = ({
   const animationFrame = useRef<number | null>(null);
   const velocity = useRef({ x: 0, y: 0 });
   const dragging = useRef(false);
+  const moved = useRef(false);
 
   const actualSphereRadius = sphereRadius || containerSize * 0.5;
   const baseImageSize = containerSize * baseImageScale;
