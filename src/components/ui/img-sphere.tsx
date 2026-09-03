@@ -279,6 +279,7 @@ const SphereImageGrid: React.FC<SphereImageGridProps> = ({
               onMouseEnter={() => setHoveredIndex(index)}
               onMouseLeave={() => setHoveredIndex(null)}
               onClick={() => {
+                if (moved.current) return;
                 if (onImageClick) onImageClick(image);
                 else if (showModal) setSelectedImage(image);
               }}
