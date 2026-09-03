@@ -182,7 +182,7 @@ export function GlobalBookingModal({ open, onOpenChange, prefillData }: GlobalBo
           )}
 
 
-          {/* Right panel: HubSpot Booking Form */}
+          {/* Right panel: Booking Form */}
           <div className="flex flex-col h-full lg:overflow-hidden">
             <div className="px-6 pt-6 pb-2 border-b border-glow/20 shrink-0">
               <DialogTitle className="text-lg md:text-xl font-display font-bold">Boek een gratis call</DialogTitle>
@@ -244,7 +244,7 @@ export function BookingModalHost() {
   return <GlobalBookingModal open={open} onOpenChange={setOpen} prefillData={prefill} />;
 }
 
-/** `prefill` vult het HubSpot-formulier vast in, bijvoorbeeld het e-mailadres
+/** `prefill` vult het agenda-formulier vast in, bijvoorbeeld het e-mailadres
  *  dat de bezoeker in de hero heeft ingetypt. */
 export function openBookingModal(prefill?: BookingPrefill) {
   window.dispatchEvent(new CustomEvent("lovable:open-booking", { detail: prefill }));
