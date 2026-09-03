@@ -9,7 +9,7 @@ import { fase, useScrollProgress } from "@/hooks/useScrollProgress";
 import { useBreedScherm } from "@/hooks/useBreedScherm";
 
 const HEADLINE = [
-  [{ text: "Ben je klaar om te schalen?", accent: true }],
+  [{ text: "Klaar om te schalen?", accent: true }],
 ];
 
 
