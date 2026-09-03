@@ -46,13 +46,16 @@ const Contact = () => {
     }
 
     setSubmitting(true);
-    const { error } = await supabase.from("contact_submissions").insert({
-      name: result.data.name,
-      email: result.data.email,
-      company: result.data.company || null,
-      phone: result.data.phone || null,
-      message: result.data.message,
-      session_id: sessionStorage.getItem("b2b_session_id") || null,
+    const { error } = await supabase.functions.invoke("contact-lead", {
+      body: {
+        name: result.data.name,
+        email: result.data.email,
+        company: result.data.company || null,
+        phone: result.data.phone || null,
+        message: result.data.message,
+        session_id: sessionStorage.getItem("b2b_session_id") || null,
+        page_url: window.location.href,
+      },
     });
 
     if (error) {
@@ -70,7 +73,6 @@ const Contact = () => {
 
   return (
     <>
-      <ApolloFormEnrichment />
       <Navbar />
       <main className="pt-16">
         <section className="py-16 md:py-24 relative">
