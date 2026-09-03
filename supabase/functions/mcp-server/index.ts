@@ -638,6 +638,110 @@ mcp.tool("get_blog_visual_result", {
   },
 });
 
+mcp.tool("lovart_chat", {
+  description:
+    "Free-form Lovart control: send any prompt to the Lovart agent (default project odODxVnkpG). Use this when you want a custom blog image instead of the fixed brand template. Optionally continue an existing thread, attach reference images, or force a specific model. Returns thread_id immediately - poll with get_blog_visual_result (works for any Lovart thread) to fetch and mirror the image.",
+  inputSchema: {
+    type: "object",
+    properties: {
+      prompt: { type: "string", description: "The instruction for the Lovart agent, verbatim. Do not over-engineer it." },
+      thread_id: { type: "string", description: "Continue an existing Lovart conversation (e.g. 'make the background darker')." },
+      project_id: { type: "string", description: "Lovart project id. Defaults to the B2BGroeiMachine project." },
+      attachments: { type: "array", items: { type: "string" }, description: "Reference image URLs (style refs, logo, existing image to edit)." },
+      use_brand_refs: { type: "boolean", description: "Prepend the B2BGroeiMachine style + logo reference images. Default false." },
+      prefer_models: {
+        type: "array",
+        items: { type: "string" },
+        description: "Preferred image tools, e.g. generate_image_gpt_image_2, generate_image_nano_banana_pro, generate_image_midjourney, generate_image_flux_pro, generate_image_seedream_3_0.",
+      },
+      include_tools: { type: "array", items: { type: "string" }, description: "Hard constraint on tools, e.g. ['upscale_image']." },
+    },
+    required: ["prompt"],
+  },
+  handler: async (input: {
+    prompt: string;
+    thread_id?: string;
+    project_id?: string;
+    attachments?: string[];
+    use_brand_refs?: boolean;
+    prefer_models?: string[];
+    include_tools?: string[];
+  }) => {
+    try {
+      const projectId = input.project_id ?? LOVART_PROJECT_ID;
+      const attachments = [
+        ...(input.use_brand_refs ? [LOVART_STYLE_REF, LOVART_LOGO_REF] : []),
+        ...(input.attachments ?? []),
+      ];
+      const body: Record<string, unknown> = {
+        prompt: input.prompt,
+        project_id: projectId,
+      };
+      if (input.thread_id) body.thread_id = input.thread_id;
+      if (attachments.length) body.attachments = attachments;
+      const toolConfig: Record<string, unknown> = {};
+      if (input.include_tools?.length) toolConfig.include_tools = input.include_tools;
+      if (input.prefer_models?.length) toolConfig.prefer_models = { IMAGE: input.prefer_models };
+      if (Object.keys(toolConfig).length) body.tool_config = toolConfig;
+
+      const data = await lovartRequest("POST", `${LOVART_PREFIX}/chat`, body);
+      const threadId = data.thread_id;
+      return {
+        content: [
+          {
+            type: "text" as const,
+            text: JSON.stringify(
+              {
+                thread_id: threadId,
+                project_id: projectId,
+                status: data.status ?? "running",
+                canvas_url: `https://www.lovart.ai/canvas?projectId=${projectId}`,
+                next: `Call get_blog_visual_result with thread_id="${threadId}" in 60-120s. It mirrors the image to the blog-images bucket and returns a public URL you can set with update_blog_post.`,
+              },
+              null,
+              2,
+            ),
+          },
+        ],
+      };
+    } catch (e) {
+      return { content: [{ type: "text" as const, text: `Error: ${(e as Error).message}` }] };
+    }
+  },
+});
+
+mcp.tool("lovart_upload_reference", {
+  description:
+    "Upload an image URL (e.g. an existing blog featured_image or a storage URL) to Lovart and get back a Lovart CDN URL you can pass as an attachment to lovart_chat.",
+  inputSchema: {
+    type: "object",
+    properties: { url: { type: "string", description: "Publicly reachable image URL to upload." } },
+    required: ["url"],
+  },
+  handler: async ({ url }: { url: string }) => {
+    try {
+      const r = await fetch(url);
+      if (!r.ok) return { content: [{ type: "text" as const, text: `Error: could not fetch ${url} (${r.status})` }] };
+      const blob = await r.blob();
+      const name = url.split("?")[0].split("/").pop() || "reference.png";
+      const form = new FormData();
+      form.append("file", blob, name);
+      const path = `${LOVART_PREFIX}/file/upload`;
+      const headers = await lovartSign("POST", path);
+      delete headers["Content-Type"];
+      const res = await fetch(`${LOVART_BASE}${path}`, { method: "POST", headers, body: form });
+      const text = await res.text();
+      if (!res.ok) return { content: [{ type: "text" as const, text: `Error: Lovart ${res.status}: ${text}` }] };
+      const json = JSON.parse(text);
+      const cdn = json?.data?.url ?? json?.url ?? null;
+      return { content: [{ type: "text" as const, text: JSON.stringify({ url: cdn, raw: json }, null, 2) }] };
+    } catch (e) {
+      return { content: [{ type: "text" as const, text: `Error: ${(e as Error).message}` }] };
+    }
+  },
+});
+
+
 // ─── CONTENT BUCKETS ───
 
 mcp.tool("list_content_buckets", {
