@@ -54,27 +54,28 @@ serve(async (req) => {
 
     const confirmUrl = `${SITE_URL}/give-aways/${item.slug}?u=1&t=${lead.confirm_token}`;
 
-    const html = `<!DOCTYPE html><html><body style="font-family:Inter,Arial,sans-serif;background:#fff;color:#121212;padding:24px;">
-      <div style="max-width:520px;margin:0 auto;border:1px solid #eee;border-radius:12px;padding:32px;">
-        <div style="font-family:'Space Grotesk',Arial,sans-serif;font-weight:700;font-size:18px;">B2B<span style="color:#E8945A">GroeiMachine</span></div>
-        <h1 style="font-family:'Space Grotesk',Arial,sans-serif;font-weight:700;font-size:22px;margin:18px 0 6px;">Bevestig je aanvraag</h1>
-        <p style="color:#555;line-height:1.6;margin:0 0 18px;">Klik op de knop om <strong>${item.title}</strong> te ontvangen.</p>
-        <p style="margin:24px 0;"><a href="${confirmUrl}" style="background:#E8945A;color:#121212;text-decoration:none;padding:12px 20px;border-radius:8px;font-family:'Space Grotesk',Arial,sans-serif;font-weight:600;display:inline-block;">Bevestig en open template</a></p>
-        <p style="color:#888;font-size:12px;line-height:1.5;">Heb je deze niet aangevraagd? Negeer dan deze mail.</p>
-      </div>
-    </body></html>`;
-
-    await supabase.rpc("enqueue_email", {
-      queue_name: "transactional_emails",
-      payload: {
-        to: cleanEmail,
-        subject: `Bevestig: ${item.title}`,
-        html,
-        label: "give-away-confirm",
+    const logSend = async (status: string, errorMessage?: string) => {
+      const { error: logError } = await supabase.from("email_send_log").insert({
         message_id: `give-${lead.id}`,
-        from: "B2BGroeiMachine <hi@notify.b2bgroeimachine.io>",
-      },
-    });
+        template_name: "give-away-confirm",
+        recipient_email: cleanEmail,
+        status,
+        error_message: errorMessage ?? null,
+      });
+      if (logError) console.error("email_send_log insert failed:", logError);
+    };
+
+    try {
+      const result = await sendTemplateEmail("give-away-confirm", cleanEmail, {
+        templateData: { title: item.title, confirmUrl },
+        idempotencyKey: `give-away-confirm-${lead.id}`,
+      });
+      await logSend(result.sent ? "sent" : "suppressed");
+    } catch (mailError) {
+      console.error("send give-away-confirm email failed:", mailError);
+      await logSend("failed", mailError instanceof Error ? mailError.message : String(mailError));
+    }
+
 
     return new Response(JSON.stringify({ ok: true }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
