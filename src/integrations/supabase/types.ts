@@ -2497,7 +2497,9 @@ export type Database = {
           is_master: boolean
           last_used_at: string | null
           name: string
+          organization_id: string | null
           permissions: Json | null
+          tool_scope: string
         }
         Insert: {
           api_key: string
@@ -2507,7 +2509,9 @@ export type Database = {
           is_master?: boolean
           last_used_at?: string | null
           name: string
+          organization_id?: string | null
           permissions?: Json | null
+          tool_scope?: string
         }
         Update: {
           api_key?: string
@@ -2517,7 +2521,9 @@ export type Database = {
           is_master?: boolean
           last_used_at?: string | null
           name?: string
+          organization_id?: string | null
           permissions?: Json | null
+          tool_scope?: string
         }
         Relationships: []
       }
