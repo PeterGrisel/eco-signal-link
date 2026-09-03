@@ -228,7 +228,7 @@ const GroeiplanInvullen = () => {
           <div className="overflow-x-auto">
             <div
               ref={planRef}
-              className="bg-white text-neutral-900 rounded-2xl p-8 md:p-12 min-w-[1000px] shadow-2xl"
+              className="bg-white text-neutral-900 rounded-2xl p-5 sm:p-8 md:p-12 md:min-w-[1000px] shadow-2xl"
               style={{ width: "100%" }}
             >
               <div className="text-[#E8945A] font-mono text-[11px] tracking-[0.25em] uppercase mb-3">
@@ -243,7 +243,7 @@ const GroeiplanInvullen = () => {
 
               <div className="space-y-5">
                 {(["voor","tijdens","na"] as const).map((phase) => (
-                  <div key={phase} className="grid grid-cols-[110px_1fr] gap-6 items-start">
+                  <div key={phase} className="grid grid-cols-1 sm:grid-cols-[110px_1fr] gap-3 sm:gap-6 items-start">
                     <div>
                       <div className="text-[#E8945A] font-mono text-xs tracking-[0.2em] font-semibold">
                         {PHASE_LABEL[phase].label}
