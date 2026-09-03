@@ -96,7 +96,7 @@ export default function LeftDock() {
     },
     {
       icon: Phone,
-      label: "Bel AI Assistent (+49 30 75675721)",
+      label: "Bel ons (085 250 2925)",
       href: PHONE,
       external: true,
       onClick: () => trackCTA("LeftDock — Phone", PHONE),
