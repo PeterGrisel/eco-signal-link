@@ -5,7 +5,7 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Send, Loader2, Calendar, Mail, Phone, Building2, TrendingUp, Users, Workflow, ArrowRight } from "lucide-react";
+import { Send, Loader2, Calendar, Mail, Phone, Building2 } from "lucide-react";
 import { z } from "zod";
 import { trackCTA, trackFormSubmit } from "@/lib/tracking";
 import { usePageMeta } from "@/hooks/usePageMeta";
