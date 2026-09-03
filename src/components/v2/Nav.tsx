@@ -1,12 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { ChevronDown, Menu, X } from "lucide-react";
-import { Button } from "./Button";
 import { Container } from "./Container";
 import { ScrollProgress } from "./ScrollProgress";
-import { openBookingModal } from "@/components/booking/GlobalBookingModal";
 import { sectors } from "@/data/sectors";
-import { trackCTA } from "@/lib/tracking";
 import peterAsset from "@/assets/peter.gif.asset.json";
 import { WeglotLanguageToggle } from "@/components/WeglotLanguageToggle";
 import { CurrencySwitcher } from "@/components/CurrencySwitcher";
@@ -130,11 +127,6 @@ export function Nav() {
     };
   }, []);
 
-  function book() {
-    trackCTA("nav_plan_kennismaking", "navbar");
-    openBookingModal();
-  }
-
   return (
     <nav
       ref={navRef}
@@ -195,7 +187,12 @@ export function Nav() {
               loading="lazy"
               className="size-9 shrink-0 rounded-full object-cover object-[center_25%] ring-1 ring-brand-line"
             />
-            <Button onClick={book}>Boek een gratis call</Button>
+            <Link
+              to="/contact"
+              className="inline-flex items-center rounded-full bg-brand-ink px-5 py-2.5 font-display text-sm font-semibold text-brand-paper transition-colors duration-[180ms] hover:bg-brand-accent-ink"
+            >
+              Naar contact
+            </Link>
           </span>
 
           <button
@@ -273,7 +270,13 @@ export function Nav() {
               <WeglotLanguageToggle />
             </div>
             <span className="md:hidden">
-              <Button onClick={book}>Boek een gratis call</Button>
+              <Link
+                to="/contact"
+                onClick={() => setMobile(false)}
+                className="inline-flex items-center rounded-full bg-brand-ink px-5 py-2.5 font-display text-sm font-semibold text-brand-paper"
+              >
+                Naar contact
+              </Link>
             </span>
           </Container>
         </div>
