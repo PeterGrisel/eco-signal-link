@@ -200,6 +200,18 @@ const Klanten = () => {
   const [blogs, setBlogs] = useState<Record<string, RelatedBlog>>({});
   const [loading, setLoading] = useState(true);
 
+  // Bolgrootte mee laten schalen met het scherm (ook bij rotatie/resize).
+  const [vw, setVw] = useState(() => (typeof window !== "undefined" ? window.innerWidth : 1024));
+  useEffect(() => {
+    const onResize = () => setVw(window.innerWidth);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+  const isMobile = vw < 768;
+  // Container nooit breder dan de beschikbare ruimte (px-6 = 48px totaal).
+  const containerSize = isMobile ? Math.max(260, Math.min(340, vw - 48)) : 560;
+  const sphereRadius = Math.round(containerSize * 0.375);
+
   usePageMeta({
     title: "Klanten | B2BGroeiMachine",
     description:
