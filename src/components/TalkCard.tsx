@@ -22,7 +22,7 @@ const TalkCard = ({ className = "", location = "Hero" }: { className?: string; l
       <p className="text-[11px] uppercase tracking-[0.08em] text-muted-foreground">Oprichter · B2B Groeimachine</p>
       <Button variant="hero" size="sm" className="mt-1 w-full rounded-full" asChild>
         <CtaLink intent="gratisScan" location={location}>
-          Boek een gratis call
+          Ik wil schalen!
         </CtaLink>
       </Button>
     </div>
