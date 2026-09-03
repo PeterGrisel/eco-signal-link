@@ -37,49 +37,40 @@ export function GlobalBookingModal({ open, onOpenChange, prefillData }: GlobalBo
   }, [open]);
 
 
-  // Luister naar alle HubSpot meetings-events zodat we de volledige trechter
-  // van de kalender meten: geladen, stap gezet, geboekt of mislukt.
+  // Luister naar boekings-events uit de agenda-iframe (Outlook Book with me),
+  // zodat we zien of een geopende kalender ook echt tot een afspraak leidt.
   React.useEffect(() => {
     const gezien = new Set<string>();
-    const log = (naam: string, label: string, extra?: Record<string, unknown>) => {
+    const log = (naam: string, label: string) => {
       if (gezien.has(naam)) return;
       gezien.add(naam);
-      trackEvent(naam, "conversion", label, {
-        source: window.location.pathname,
-        ...extra,
-      });
+      trackEvent(naam, "conversion", label, { source: window.location.pathname });
     };
 
     const onMessage = (e: MessageEvent) => {
-      if (typeof e.origin === "string" && !e.origin.includes("hubspot")) return;
-      const data = e.data as
-        | {
-            meetingBookSucceeded?: boolean;
-            meetingBookFailed?: boolean;
-            meetingsPayload?: { meetingBookSucceeded?: boolean; event?: string };
-          }
-        | undefined;
-      if (!data || typeof data !== "object") return;
+      const origin = typeof e.origin === "string" ? e.origin : "";
+      const vertrouwd =
+        origin.includes("outlook.office.com") ||
+        origin.includes("outlook.office365.com") ||
+        origin.includes("microsoft");
+      if (!vertrouwd) return;
 
-      const payload = data.meetingsPayload;
-      const gelukt = data.meetingBookSucceeded || payload?.meetingBookSucceeded;
+      const ruw = typeof e.data === "string" ? e.data : JSON.stringify(e.data ?? "");
+      const tekst = ruw.toLowerCase();
 
-      if (gelukt) {
-        log("demo_booked", "Afspraak geboekt via HubSpot-kalender");
+      if (tekst.includes("bookingconfirmed") || tekst.includes("bookingsuccess") || tekst.includes("meetingbooksucceeded")) {
+        log("demo_booked", "Afspraak geboekt via agenda");
         return;
       }
-      if (data.meetingBookFailed) {
-        log("booking_failed", "HubSpot-kalender boeking mislukt");
-        return;
-      }
-      if (payload?.event) {
-        log(`booking_${payload.event}`, `HubSpot-kalender: ${payload.event}`);
+      if (tekst.includes("bookingfailed") || tekst.includes("error")) {
+        log("booking_failed", "Boeking in agenda mislukt");
       }
     };
 
     window.addEventListener("message", onMessage);
     return () => window.removeEventListener("message", onMessage);
   }, []);
+
 
   // Meet of de kalender-iframe daadwerkelijk laadt (anders is een lege modal
   // niet te onderscheiden van een bezoeker die niet boekt).
