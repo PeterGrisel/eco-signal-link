@@ -100,7 +100,7 @@ const T = {
     ppEyebrow: "Voor gekwalificeerde klanten",
     ppTitleA: "Performance Partnership.",
     ppTitleB: "Lage techkosten. Gedeelde upside.",
-    ppBody: "Voor wie al omzet draait, maar het systeem mist. Wij bouwen en draaien de groeimachine. U deelt mee in de upside die het systeem oplevert.",
+    ppBody: "Voor wie al omzet draait, maar het systeem mist. Wij ontwerpen, bouwen en draaien de groeimachine. U deelt mee in de upside die het systeem oplevert.",
     ppAdmit: "Toelating",
     ppAdmitList: ["Bewezen B2B-propositie met klanten", "Gezonde marges en dealwaarde", "Transparante CRM- en salesdata", "Heldere attributie-afspraken vooraf"],
     ppTechLabel: "Min. techkosten",

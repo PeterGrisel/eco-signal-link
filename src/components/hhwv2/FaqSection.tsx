@@ -11,11 +11,11 @@ const FAQS = [
   },
   {
     q: "Vervangen jullie onze tools of ons team?",
-    a: "Nee. Wij bouwen in jouw stack en dragen het over. Jouw team blijft eigenaar en ziet hoe alles werkt. Niets om uit te rukken, geen black box.",
+    a: "Nee. Wij ontwerpen en bouwen in jouw stack en dragen het over. Jouw team blijft eigenaar en ziet hoe alles werkt. Niets om uit te rukken, geen black box.",
   },
   {
     q: "Hoe verschilt dit van een SDR inhuren of nog een tool kopen?",
-    a: "Een SDR of tool is één extra ding om te managen. Wij bouwen het systeem eronder: schone data, gescoorde signalen en plays die van signaal naar afspraak gaan.",
+    a: "Een SDR of tool is één extra ding om te managen. Wij ontwerpen en bouwen het systeem eronder: schone data, gescoorde signalen en plays die van signaal naar afspraak gaan.",
   },
   {
     q: "Wat gebeurt er in de 90-dagen build?",

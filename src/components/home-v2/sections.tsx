@@ -182,7 +182,7 @@ export function WatWijBouwen() {
     {
       label: "Fundament",
       title: "Uw commerciële datamodel",
-      body: "Eén centrale laag met account en opportunity als kernobjecten. Uw CRM blijft het system of record; wij bouwen de laag die bepaalt wat data betekent.",
+      body: "Eén centrale laag met account en opportunity als kernobjecten. Uw CRM blijft het system of record; wij ontwerpen en bouwen de laag die bepaalt wat data betekent.",
       highlight: true,
     },
     {
@@ -344,7 +344,7 @@ export function Diensten() {
       <SectionHeader
         eyebrow="Wat u koopt"
         title="Ontwerpt en bouwt"
-        lead="B2B Groeimachine bouwt het systeem achter uw sales, marketing en RevOps. 90 dagen als pilot. Daarna maandelijks opzegbaar."
+        lead="B2B Groeimachine ontwerpt en bouwt het systeem achter uw sales, marketing en RevOps. 90 dagen als pilot. Daarna maandelijks opzegbaar."
       />
       <div className="grid gap-[18px] sm:grid-cols-2 lg:grid-cols-3">
         {DIENSTEN.map((dienst, i) => (
@@ -534,7 +534,7 @@ export function HetProtocol() {
       category: "Dag 1 tot 30",
       title: "De bouw",
       description:
-        "Wij bouwen op uw eigen data en CRM. U ziet elke week wat er staat en wat er nog mist.",
+        "Wij ontwerpen en bouwen op uw eigen data en CRM. U ziet elke week wat er staat en wat er nog mist.",
       status: "current",
       badge: "Tijdens",
       rows: [

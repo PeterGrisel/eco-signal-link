@@ -23,7 +23,7 @@ import { FAQ_ITEMS } from "@/components/home-v2/faq";
 
 const TITLE = "B2B Groeimachine | Van omzetdoel naar opportunity flow";
 const DESCRIPTION =
-  "Wij bouwen een commerciële opportunity-engine: een digitale medewerker die nieuwe kansen creëert, bewijs stapelt en uw verkopers stuurt naar het account dat nu telt.";
+  "Wij ontwerpen en bouwen een commerciële opportunity-engine: een digitale medewerker die nieuwe kansen creëert, bewijs stapelt en uw verkopers stuurt naar het account dat nu telt.";
 
 /**
  * De homepage van b2bgroeimachine.io.

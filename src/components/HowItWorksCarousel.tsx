@@ -401,7 +401,7 @@ const HowItWorksCarousel = () => {
             <span className="text-gradient">commerciële uitvoering.</span>
           </h2>
           <p className="text-muted-foreground text-lg leading-relaxed mt-6">
-            Wij bouwen een B2B Engine die uw markt zichtbaar maakt, doelgroepen
+            Wij ontwerpen en bouwen een B2B Engine die uw markt zichtbaar maakt, doelgroepen
             activeert en signalen omzet in concrete opvolging. Niet als losse
             campagne, maar als doorlopend groeisysteem.
           </p>

@@ -21,7 +21,7 @@ const Index = () => {
   usePageMeta({
     title: "B2B Groeimachine | Van signaal naar live gesprekken",
     description:
-      "Wij bouwen één systeem dat signalen, content en outreach omzet in live gesprekken. Meer pipeline, minder handwerk. Boek een gratis call van 20 minuten.",
+      "Wij ontwerpen en bouwen één systeem dat signalen, content en outreach omzet in live gesprekken. Meer pipeline, minder handwerk. Boek een gratis call van 20 minuten.",
     canonical: "https://www.b2bgroeimachine.io/",
   });
 

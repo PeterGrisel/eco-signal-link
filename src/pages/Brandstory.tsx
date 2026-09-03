@@ -148,7 +148,7 @@ const Brandstory = () => {
       <motion.section {...fadeIn} className="px-6 md:px-16 lg:px-[72px] py-20 md:py-24 border-b border-border">
         <SectionLabel>Onze aanpak</SectionLabel>
         <h2 className="font-display font-bold text-[clamp(1.8rem,3.5vw,2.8rem)] leading-[1.18] tracking-tight max-w-[680px] mb-10">
-          Wij bouwen systemen.
+          Wij ontwerpen en bouwen systemen.
           <br />
           <span className="text-primary italic font-medium">U plukt de vruchten.</span>
         </h2>
@@ -249,7 +249,7 @@ const Brandstory = () => {
 
         <div className="max-w-[620px] space-y-5 text-foreground/80 leading-relaxed">
           <p>
-            Fase 1: wij bouwen het systeem en de eerste signalen worden opgepakt. Directe waarde, binnen vier weken operationeel.
+            Fase 1: wij ontwerpen en bouwen het systeem en de eerste signalen worden opgepakt. Directe waarde, binnen vier weken operationeel.
           </p>
           <p>
             Fase 2: het systeem begint zelf te signaleren. Proactief, contextueel, actiegericht. Het moment dat het systeem een opportunity detecteert die u zelf nog niet zag, dát is het omslagpunt.
@@ -363,7 +363,7 @@ const Brandstory = () => {
           className="flex flex-col gap-10"
         >
           <h2 className="font-display font-bold text-[clamp(1.5rem,3vw,2.4rem)] leading-[1.3] tracking-tight max-w-[600px]">
-            Wij bouwen systemen die{" "}
+            Wij ontwerpen en bouwen systemen die{" "}
             <span className="text-primary italic font-medium">compounding</span> zijn,
             waarbij elk signaal, elke interactie en elk resultaat de volgende stap sterker maakt.
           </h2>

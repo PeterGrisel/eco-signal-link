@@ -5,12 +5,12 @@ export const FAQ_ITEMS: FaqItem[] = [
   {
     question: "Vervangt dit ons CRM?",
     answer:
-      "Nee. Uw CRM blijft het system of record: wie is de klant en wat is er gebeurd. Wij bouwen de intelligence-laag daarboven, die bepaalt wat data betekent en welke actie nu waarde heeft. Wij schrijven terug naar het CRM, inclusief de reden.",
+      "Nee. Uw CRM blijft het system of record: wie is de klant en wat is er gebeurd. Wij ontwerpen en bouwen de intelligence-laag daarboven, die bepaalt wat data betekent en welke actie nu waarde heeft. Wij schrijven terug naar het CRM, inclusief de reden.",
   },
   {
     question: "Wij hebben al Apollo en een e-mailtool. Wat voegt dit toe?",
     answer:
-      "Die tools zijn vaardigheden, geen systeem. Zolang de intelligence alleen in Apollo, Clay of het CRM zit, is er geen centrale plek die weet wat een account betekent. Wij bouwen die laag en sluiten uw bestaande tools erop aan.",
+      "Die tools zijn vaardigheden, geen systeem. Zolang de intelligence alleen in Apollo, Clay of het CRM zit, is er geen centrale plek die weet wat een account betekent. Wij ontwerpen en bouwen die laag en sluiten uw bestaande tools erop aan.",
   },
   {
     question: "Hoe snel staat dit operationeel?",

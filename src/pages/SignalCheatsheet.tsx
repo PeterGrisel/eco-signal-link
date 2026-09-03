@@ -152,7 +152,7 @@ const SignalCheatsheet = () => {
                 een nieuwe operations manager aanstellen{"\n"}
                 lopen vaak tegen datasilo's aan die beslissen{"\n"}
                 vertragen.{"\n\n"}
-                Wij bouwen systemen die dat in weken oplossen.{"\n\n"}
+                Wij ontwerpen en bouwen systemen die dat in weken oplossen.{"\n\n"}
                 Herkenbaar?
               </div>
             </div>

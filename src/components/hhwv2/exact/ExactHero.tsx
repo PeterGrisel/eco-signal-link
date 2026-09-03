@@ -251,7 +251,7 @@ const ExactHero = () => {
 
               {/* Subtitle */}
               <p className="text-muted-foreground text-lg md:text-xl leading-relaxed max-w-xl">
-                Wij bouwen één systeem dat signalen, content en outreach omzet in live gesprekken.
+                Wij ontwerpen en bouwen één systeem dat signalen, content en outreach omzet in live gesprekken.
               </p>
             </div>
 
@@ -372,7 +372,7 @@ const ExactHero = () => {
                     </div>
                   </div>
                   <p className="text-[11px] text-muted-foreground leading-snug">
-                    Wij bouwen het systeem, zetten de logica en draaien de plays{" "}
+                    Wij ontwerpen en bouwen het systeem, zetten de logica en draaien de plays{" "}
                     <span className="text-primary font-medium">voor je.</span>
                   </p>
                 </div>

@@ -198,7 +198,7 @@ const Groeistack = () => {
                 Wij adviseren u graag persoonlijk over wat echt werkt voor uw pijplijn.
               </p>
               <p className="text-[11px] text-muted-foreground/60 pt-4">
-                Onze gecureerde selectie. Geen lock-in: wij bouwen het in uw eigen
+                Onze gecureerde selectie. Geen lock-in: wij ontwerpen en bouwen het in uw eigen
                 stack en u blijft eigenaar van uw data.
               </p>
             </div>
