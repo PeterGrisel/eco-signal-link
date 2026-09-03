@@ -191,6 +191,7 @@ const SphereImageGrid: React.FC<SphereImageGridProps> = ({
       if (!dragging.current) return;
       const deltaX = clientX - lastMousePos.current.x;
       const deltaY = clientY - lastMousePos.current.y;
+      if (Math.abs(deltaX) + Math.abs(deltaY) > 3) moved.current = true;
       const rx = -deltaY * dragSensitivity;
       const ry = deltaX * dragSensitivity;
       setRotation((prev) => ({
