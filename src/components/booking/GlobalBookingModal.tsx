@@ -72,35 +72,8 @@ export function GlobalBookingModal({ open, onOpenChange, prefillData }: GlobalBo
   }, []);
 
 
-  // Meet of de kalender-iframe daadwerkelijk laadt (anders is een lege modal
-  // niet te onderscheiden van een bezoeker die niet boekt).
-  React.useEffect(() => {
-    if (!open) return;
-    let gemeld = false;
-    const check = window.setInterval(() => {
-      if (gemeld) return;
-      const iframe = containerRef.current?.querySelector("iframe");
-      if (iframe) {
-        gemeld = true;
-        window.clearInterval(check);
-        trackEvent("booking_calendar_loaded", "conversion", "Agenda geladen", {
-          source: window.location.pathname,
-        });
-      }
-    }, 400);
-    const stop = window.setTimeout(() => {
-      window.clearInterval(check);
-      if (!gemeld) {
-        trackEvent("booking_calendar_failed", "conversion", "Agenda niet geladen", {
-          source: window.location.pathname,
-        });
-      }
-    }, 8000);
-    return () => {
-      window.clearInterval(check);
-      window.clearTimeout(stop);
-    };
-  }, [open]);
+
+
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
