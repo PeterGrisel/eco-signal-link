@@ -78,7 +78,7 @@ async function weeklyReindex(supabase: any) {
 
   if (!posts || posts.length === 0) return { count: 0, urls: [] as string[] };
 
-  const urls = posts.map((p: any) => `https://b2bgroeimachine.io/blog/${p.slug}`);
+  const urls = posts.map((p: any) => `https://www.b2bgroeimachine.io/blog/${p.slug}`);
 
   const res = await fetch(`${SUPABASE_URL}/functions/v1/request-indexing`, {
     method: "POST",
@@ -96,7 +96,7 @@ async function sitemapSync(supabase: any, dailyCap = 50) {
   // Fetch sitemap and extract all URLs
   let xml: string;
   try {
-    const res = await fetch("https://b2bgroeimachine.io/sitemap.xml", {
+    const res = await fetch("https://www.b2bgroeimachine.io/sitemap.xml", {
       headers: { "User-Agent": "B2BGM-IndexingSync/1.0" },
     });
     if (!res.ok) throw new Error(`sitemap fetch ${res.status}`);
@@ -222,7 +222,7 @@ serve(async (req) => {
     blocks.push({
       type: "context",
       elements: [
-        { type: "mrkdwn", text: `<https://b2bgroeimachine.io/admin/seo|Open SEO dashboard> · automatisch om 18:00 CET` },
+        { type: "mrkdwn", text: `<https://www.b2bgroeimachine.io/admin/seo|Open SEO dashboard> · automatisch om 18:00 CET` },
       ],
     });
 

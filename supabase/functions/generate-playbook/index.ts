@@ -39,7 +39,7 @@ serve(async (req) => {
     const { data: settings } = await supabase
       .from("seo_settings").select("config").limit(1).single();
     const cfg = settings?.config || {};
-    const siteUrl = cfg.site_url || "https://b2bgroeimachine.io";
+    const siteUrl = cfg.site_url || "https://www.b2bgroeimachine.io";
     const lang = cfg.primary_language || "Nederlands";
 
     const { data: tools } = await supabase

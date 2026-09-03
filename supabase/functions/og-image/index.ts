@@ -111,7 +111,7 @@ Deno.serve(async (req) => {
       try {
         const logoAbs = data.logo_url.startsWith("http")
           ? data.logo_url
-          : `https://b2bgroeimachine.io${data.logo_url}`;
+          : `https://www.b2bgroeimachine.io${data.logo_url}`;
         const lr = await fetch(logoAbs);
         if (lr.ok) {
           const ct = lr.headers.get("content-type") || "image/png";

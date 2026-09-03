@@ -33,7 +33,7 @@ serve(async (req) => {
     if (lead.item_id) {
       const { data: it } = await supabase.from("content_bucket_items").select("slug,title").eq("id", lead.item_id).maybeSingle();
       if (it) {
-        const link = `${Deno.env.get("PUBLIC_SITE_URL") || "https://b2bgroeimachine.io"}/give-aways/${it.slug}?u=1`;
+        const link = `${Deno.env.get("PUBLIC_SITE_URL") || "https://www.b2bgroeimachine.io"}/give-aways/${it.slug}?u=1`;
         await supabase.rpc("enqueue_email", {
           queue_name: "transactional_emails",
           payload: {

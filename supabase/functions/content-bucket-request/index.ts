@@ -6,7 +6,7 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-const SITE_URL = Deno.env.get("PUBLIC_SITE_URL") || "https://b2bgroeimachine.io";
+const SITE_URL = Deno.env.get("PUBLIC_SITE_URL") || "https://www.b2bgroeimachine.io";
 
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });

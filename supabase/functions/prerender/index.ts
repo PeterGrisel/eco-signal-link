@@ -6,7 +6,7 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type",
 };
 
-const SITE_URL = "https://b2bgroeimachine.io";
+const SITE_URL = "https://www.b2bgroeimachine.io";
 const SITE_NAME = "B2BGroeiMachine";
 // De site-brede social preview: 1200x630 PNG, gegenereerd met `npm run og`.
 const DEFAULT_OG_IMAGE = `${SITE_URL}/og/default.png`;

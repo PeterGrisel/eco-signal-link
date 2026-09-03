@@ -8,7 +8,7 @@
 // De canonieke host van de site. Staat hier als losse constante zodat een
 // eventuele overstap naar www (of terug) op één plek gebeurt -- let op: de
 // sitemap, index.html en de prerender-functie moeten dan mee.
-const SITE_ORIGIN          = "https://b2bgroeimachine.io";
+const SITE_ORIGIN          = "https://www.b2bgroeimachine.io";
 const DEFAULT_OG_IMAGE     = `${SITE_ORIGIN}/og/default.png`;
 
 const PRERENDER_URL        = "https://sdhsblejnzfacqafzbuc.supabase.co/functions/v1/prerender";
@@ -58,7 +58,7 @@ class LangInjector {
   element(element) {
     if (element.tagName === 'head' && !this.injectedHead) {
       this.injectedHead = true;
-      const base = 'https://b2bgroeimachine.io';
+      const base = SITE_ORIGIN;
       element.prepend(
         `<script>window.__WG_LANG=${JSON.stringify(this.lang)};</script>` +
         `<link rel="alternate" hreflang="nl" href="${base}${this.path}">` +
@@ -69,7 +69,7 @@ class LangInjector {
     }
     if (element.tagName === 'link' && element.getAttribute('rel') === 'canonical' && !this.replacedCanonical) {
       this.replacedCanonical = true;
-      const base = 'https://b2bgroeimachine.io';
+      const base = SITE_ORIGIN;
       element.setAttribute('href', `${base}/${this.lang}${this.path === '/' ? '' : this.path}`);
     }
     if (element.tagName === 'html') {
@@ -191,7 +191,7 @@ async function fetchPrerendered(pathname, userAgent, anonKey, secret) {
           'User-Agent': userAgent,
           'Accept': 'text/html',
           'Authorization': `Bearer ${anonKey}`,
-          'X-Forwarded-Host': 'b2bgroeimachine.io',
+          'X-Forwarded-Host': 'www.b2bgroeimachine.io',
           'X-Original-Path': pathname,
           ...(secret ? { 'X-Prerender-Secret': secret } : {}),
         },
@@ -207,6 +207,13 @@ export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
     const userAgent = request.headers.get('user-agent') || '';
+
+    // 0-pre-pre. Alles naar www. Google indexeert www, en zolang de kale host
+    // ook antwoordt verdeelt hij zijn signalen over twee hosts. Kan niet lussen:
+    // het doel heeft altijd www.
+    if (url.hostname === 'b2bgroeimachine.io') {
+      return Response.redirect(`${SITE_ORIGIN}${url.pathname}${url.search}`, 301);
+    }
 
     // 0-pre. Language subdirectory handling (Weglot subdirectory mode)
     // /en/foo -> origin /foo + injected EN language + SEO tags.

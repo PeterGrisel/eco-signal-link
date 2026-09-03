@@ -26,7 +26,7 @@ Deno.serve(async () => {
     ? new Date(posts[0].updated_at).toUTCString()
     : new Date().toUTCString();
 
-  const siteUrl = "https://b2bgroeimachine.io";
+  const siteUrl = "https://www.b2bgroeimachine.io";
   const items = (posts || [])
     .map((p) => {
       const desc = p.excerpt || p.meta_description || "";

@@ -154,7 +154,7 @@ serve(async (req) => {
 
     // Load site URL from settings
     const { data: settings } = await supabase.from("seo_settings").select("config").limit(1).single();
-    const rawSiteUrl = settings?.config?.site_url || "https://b2bgroeimachine.io";
+    const rawSiteUrl = settings?.config?.site_url || "https://www.b2bgroeimachine.io";
 
     const accessToken = await getAccessToken();
 

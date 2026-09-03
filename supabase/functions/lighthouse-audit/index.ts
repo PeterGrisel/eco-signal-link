@@ -10,7 +10,7 @@ serve(async (req) => {
 
   try {
     const body = await req.json().catch(() => ({}));
-    const url = body.url || "https://b2bgroeimachine.io";
+    const url = body.url || "https://www.b2bgroeimachine.io";
     const strategy = body.strategy || "mobile";
 
     const apiKey = Deno.env.get("GOOGLE_PSI_API_KEY") || "";

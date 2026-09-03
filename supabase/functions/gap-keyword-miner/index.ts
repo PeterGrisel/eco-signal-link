@@ -62,7 +62,7 @@ serve(async (req) => {
 
     const config = (settingsRow?.config || {}) as Record<string, any>;
     const competitorReports = config.competitor_reports || {};
-    const siteUrl: string = config.site_url || "https://b2bgroeimachine.io";
+    const siteUrl: string = config.site_url || "https://www.b2bgroeimachine.io";
 
     const existingSlugs = new Set<string>([
       ...((posts || []).map((p: any) => p.slug)),

@@ -6,8 +6,8 @@ const corsHeaders = {
 };
 
 const GATEWAY = "https://connector-gateway.lovable.dev/google_search_console";
-const SITE_URL = "https://b2bgroeimachine.io/";
-const SITEMAP_URL = "https://b2bgroeimachine.io/sitemap.xml";
+const SITE_URL = "https://www.b2bgroeimachine.io/";
+const SITEMAP_URL = "https://www.b2bgroeimachine.io/sitemap.xml";
 
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
