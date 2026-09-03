@@ -236,17 +236,23 @@ const Contact = () => {
                   </div>
                 </div>
 
-                {/* Wereldwijd */}
-                <div className="bg-card border border-border rounded-lg p-6">
-                  <h3 className="font-display font-bold text-lg mb-1">Wij werken wereldwijd</h3>
-                  <p className="text-sm text-muted-foreground mb-2 leading-relaxed">
-                    Vanuit Nederland bouwen wij groeimachines voor B2B-organisaties over de hele wereld.
-                  </p>
-                  <Globe className="max-w-[320px]" />
-                </div>
-
               </motion.div>
             </div>
+
+            {/* Wereldwijd — onder de kaarten */}
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="mt-12 bg-card border border-border rounded-lg p-8 md:p-12 text-center"
+            >
+              <h3 className="font-display font-bold text-2xl mb-2">Wij werken wereldwijd</h3>
+              <p className="text-sm text-muted-foreground max-w-xl mx-auto leading-relaxed">
+                Vanuit Nederland bouwen wij groeimachines voor B2B-organisaties over de hele wereld.
+              </p>
+              <Globe className="mt-8 max-w-[560px]" />
+            </motion.div>
           </div>
         </section>
       </main>
