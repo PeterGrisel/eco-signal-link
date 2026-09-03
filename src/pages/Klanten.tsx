@@ -7,6 +7,8 @@ import Footer from "@/components/Footer";
 import PageLoader from "@/components/PageLoader";
 import CtaSection from "@/components/CtaSection";
 import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
+import JsonLd from "@/components/JsonLd";
+import { buildClientsSchema } from "@/data/schemaOrg";
 import { supabase } from "@/integrations/supabase/client";
 import { faviconFor } from "@/data/groeistack";
 import { usePageMeta } from "@/hooks/usePageMeta";
@@ -249,6 +251,12 @@ const Klanten = () => {
             { name: "Klanten", url: "https://www.b2bgroeimachine.io/klanten" },
           ]}
         />
+        {clients.length > 0 && (
+          <JsonLd
+            id="klanten-itemlist-jsonld"
+            data={buildClientsSchema(clients, "https://www.b2bgroeimachine.io/klanten")}
+          />
+        )}
         <Navbar />
 
         {/* Hero */}

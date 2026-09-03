@@ -20,6 +20,7 @@ import {
   WieZitErachter,
 } from "@/components/home-v2/sections";
 import { FAQ_ITEMS } from "@/components/home-v2/faq";
+import { buildServicesSchema } from "@/data/schemaOrg";
 
 const TITLE = "B2B Groeimachine | Van omzetdoel naar opportunity flow";
 const DESCRIPTION =
@@ -40,6 +41,8 @@ const Home = () => {
     description: DESCRIPTION,
     canonical: "https://www.b2bgroeimachine.io/",
   });
+
+  const servicesSchema = useMemo(() => buildServicesSchema(), []);
 
   const faqSchema = useMemo(
     () => ({
@@ -86,6 +89,7 @@ const Home = () => {
     <PageLoader>
       <div className="min-h-screen bg-brand-paper">
         <BreadcrumbJsonLd items={[{ name: "Home", url: "https://www.b2bgroeimachine.io/" }]} />
+        <JsonLd id="home-services-jsonld" data={servicesSchema} />
         <JsonLd id="home-faq-jsonld" data={faqSchema} />
         <Nav />
         <main>
