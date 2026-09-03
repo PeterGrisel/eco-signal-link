@@ -19,7 +19,6 @@ const cols = [
     links: [
       ["Klanten", "/klanten"],
       ["Partners", "/partners"],
-      ["Over ons", "/over-ons"],
       ["Ons team", "/ons-team"],
       ["Contact", "/contact"],
     ],
