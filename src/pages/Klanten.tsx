@@ -10,6 +10,7 @@ import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 import { supabase } from "@/integrations/supabase/client";
 import { faviconFor } from "@/data/groeistack";
 import { usePageMeta } from "@/hooks/usePageMeta";
+import { useBolMaten } from "@/hooks/useBolMaten";
 import SphereImageGrid from "@/components/ui/img-sphere";
 
 interface Client {
@@ -201,16 +202,7 @@ const Klanten = () => {
   const [loading, setLoading] = useState(true);
 
   // Bolgrootte mee laten schalen met het scherm (ook bij rotatie/resize).
-  const [vw, setVw] = useState(() => (typeof window !== "undefined" ? window.innerWidth : 1024));
-  useEffect(() => {
-    const onResize = () => setVw(window.innerWidth);
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-  }, []);
-  const isMobile = vw < 768;
-  // Container nooit breder dan de beschikbare ruimte (px-6 = 48px totaal).
-  const containerSize = isMobile ? Math.max(260, Math.min(340, vw - 48)) : 560;
-  const sphereRadius = Math.round(containerSize * 0.375);
+  const bol = useBolMaten();
 
   usePageMeta({
     title: "Klanten | B2BGroeiMachine",
@@ -298,7 +290,7 @@ const Klanten = () => {
             ) : (
               <div className="flex justify-center overflow-hidden">
                 <SphereImageGrid
-                  key={containerSize}
+                  key={bol.containerSize}
                   className="mx-auto"
                   images={clients
                     .map((c) => ({
@@ -309,14 +301,14 @@ const Klanten = () => {
                       description: c.sector || undefined,
                     }))
                     .filter((i) => i.src)}
-                  containerSize={containerSize}
-                  sphereRadius={sphereRadius}
-                  baseImageScale={isMobile ? 0.26 : 0.2}
-                  hoverScale={isMobile ? 1 : 1.15}
-                  dragSensitivity={isMobile ? 0.4 : 0.6}
+                  containerSize={bol.containerSize}
+                  sphereRadius={bol.sphereRadius}
+                  baseImageScale={bol.baseImageScale}
+                  hoverScale={bol.hoverScale}
+                  dragSensitivity={bol.dragSensitivity}
                   momentumDecay={0.96}
                   autoRotate
-                  autoRotateSpeed={isMobile ? 0.12 : 0.18}
+                  autoRotateSpeed={bol.autoRotateSpeed}
                   showModal={false}
                   onImageClick={(img) => {
                     const el = document.getElementById(`klant-${img.id}`);

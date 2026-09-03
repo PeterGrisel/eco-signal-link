@@ -11,6 +11,7 @@ import { MarktTrechter, PrincipeScroller } from "./Principes";
 import { Reveal } from "@/components/v2/Reveal";
 import { Section } from "@/components/v2/Section";
 import SphereImageGrid from "@/components/ui/img-sphere";
+import { useBolMaten } from "@/hooks/useBolMaten";
 import { SectionHeader } from "@/components/v2/SectionHeader";
 import { openBookingModal } from "@/components/booking/GlobalBookingModal";
 import { faviconFor } from "@/data/groeistack";
@@ -438,6 +439,7 @@ function Logo({ klant, hoogte = 34 }: { klant: KlantLogo; hoogte?: number }) {
 export function Klantenraster() {
   const navigate = useNavigate();
   const [klanten, setKlanten] = useState<KlantLogo[]>([]);
+  const bol = useBolMaten();
 
   useEffect(() => {
     let levend = true;
@@ -476,14 +478,15 @@ export function Klantenraster() {
               description: k.sector || undefined,
             }))
             .filter((i) => i.src)}
-          containerSize={typeof window !== "undefined" && window.innerWidth < 768 ? 320 : 560}
-          sphereRadius={typeof window !== "undefined" && window.innerWidth < 768 ? 130 : 210}
-          baseImageScale={0.2}
-          hoverScale={1.15}
-          dragSensitivity={0.6}
+          key={bol.containerSize}
+          containerSize={bol.containerSize}
+          sphereRadius={bol.sphereRadius}
+          baseImageScale={bol.baseImageScale}
+          hoverScale={bol.hoverScale}
+          dragSensitivity={bol.dragSensitivity}
           momentumDecay={0.96}
           autoRotate
-          autoRotateSpeed={0.18}
+          autoRotateSpeed={bol.autoRotateSpeed}
           showModal={false}
           onImageClick={() => navigate("/klanten")}
         />
