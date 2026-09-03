@@ -102,6 +102,15 @@ const AnimatedRoutes = () => {
     return () => { stopScrollDepth(); };
   }, [location.pathname]);
 
+  // Elke routewissel begint bovenaan; anders opent een pagina soms bij de footer.
+  useEffect(() => {
+    if (location.hash) return;
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+    window.scrollTo(0, 0);
+  }, [location.pathname, location.search, location.hash]);
+
   // Smooth scroll to hash after route transition animation completes
   useEffect(() => {
     const hash = location.hash.replace("#", "");

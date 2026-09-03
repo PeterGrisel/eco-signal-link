@@ -8,6 +8,8 @@ import { openBookingModal } from "@/components/booking/GlobalBookingModal";
 import { sectors } from "@/data/sectors";
 import { trackCTA } from "@/lib/tracking";
 import peterAsset from "@/assets/peter.gif.asset.json";
+import { WeglotLanguageToggle } from "@/components/WeglotLanguageToggle";
+import { CurrencySwitcher } from "@/components/CurrencySwitcher";
 
 type Item = { label: string; href: string; note?: string };
 type Group = { label: string; href?: string; items?: Item[] };
@@ -186,6 +188,10 @@ export function Nav() {
         </div>
 
         <div className="flex items-center gap-3">
+          <span className="hidden items-center gap-2 lg:flex [&_button]:!text-brand-ink [&_button]:!bg-brand-ink/[0.06] [&_button:hover]:!bg-brand-ink/[0.12]">
+            <CurrencySwitcher />
+            <WeglotLanguageToggle />
+          </span>
           <span className="hidden items-center gap-2 md:flex">
             <img
               src={peterAsset.url}
@@ -266,6 +272,10 @@ export function Nav() {
                 )}
               </div>
             ))}
+            <div className="flex items-center gap-2 [&_button]:!text-brand-ink [&_button]:!bg-brand-ink/[0.06]">
+              <CurrencySwitcher />
+              <WeglotLanguageToggle />
+            </div>
             <span className="md:hidden">
               <Button onClick={book}>Boek een gratis call</Button>
             </span>
