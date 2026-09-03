@@ -11,45 +11,31 @@ interface GlobalBookingModalProps {
   prefillData?: { name?: string; email?: string; company?: string };
 }
 
-const HUBSPOT_MEETING_URL = "https://meetings-eu1.hubspot.com/peter-grisel";
-const HUBSPOT_EMBED_SCRIPT = "https://static.hsappstatic.net/MeetingsEmbed/ex/MeetingsEmbedCode.js";
+const MEETING_URL = COPY_BOOKING_URL;
 
 export function GlobalBookingModal({ open, onOpenChange, prefillData }: GlobalBookingModalProps) {
   const containerRef = React.useRef<HTMLDivElement>(null);
   const g = COPY.groeiplan;
   // Het Groeiplan-paneel hoort alleen bij de groeiplan-pagina; elders tonen we
-  // enkel de HubSpot-agenda.
+  // enkel de agenda.
   const toonGroeiplan =
     typeof window !== "undefined" && window.location.pathname.startsWith("/groeiplan");
 
-
   const meetingUrl = React.useMemo(() => {
-    const url = new URL(HUBSPOT_MEETING_URL);
-    if (prefillData?.name) {
-      const parts = prefillData.name.trim().split(" ");
-      url.searchParams.set("firstName", parts[0] || "");
-      if (parts.length > 1) url.searchParams.set("lastName", parts.slice(1).join(" "));
-    }
+    const url = new URL(MEETING_URL);
+    if (prefillData?.name) url.searchParams.set("name", prefillData.name);
     if (prefillData?.email) url.searchParams.set("email", prefillData.email);
-    if (prefillData?.company) url.searchParams.set("company", prefillData.company);
     return url.toString();
   }, [prefillData]);
 
   React.useEffect(() => {
     if (!open) return;
-    trackEvent("demo_modal_open", "conversion", "Groeiplan booking modal", {
+    trackEvent("demo_modal_open", "conversion", "Booking modal geopend", {
       source: window.location.pathname,
       has_prefill: !!(prefillData?.email || prefillData?.name),
     });
-    const timer = setTimeout(() => {
-      document.querySelectorAll(`script[src="${HUBSPOT_EMBED_SCRIPT}"]`).forEach((s) => s.remove());
-      const script = document.createElement("script");
-      script.src = HUBSPOT_EMBED_SCRIPT;
-      script.async = true;
-      document.body.appendChild(script);
-    }, 150);
-    return () => clearTimeout(timer);
   }, [open]);
+
 
   // Luister naar alle HubSpot meetings-events zodat we de volledige trechter
   // van de kalender meten: geladen, stap gezet, geboekt of mislukt.
