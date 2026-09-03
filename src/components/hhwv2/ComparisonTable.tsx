@@ -59,7 +59,7 @@ const ComparisonTable = () => {
             <span className="text-gradient">Geen fixt het systeem eronder.</span>
           </h2>
           <p className="text-muted-foreground text-lg leading-relaxed mt-5">
-            Elk van die opties voegt een laag toe om te managen. Wij bouwen het systeem onder je revenue. Eerlijke vergelijking.
+            Elk van die opties voegt een laag toe om te managen. Wij ontwerpen en bouwen het systeem onder je revenue. Eerlijke vergelijking.
           </p>
         </div>
 

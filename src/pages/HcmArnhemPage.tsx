@@ -35,7 +35,7 @@ const services = [
 
 const steps = [
   { title: "Dienst afnemen", desc: "U neemt een B2B Sales AI-dienst af bij B2B Groeimachine." },
-  { title: "Wij bouwen", desc: "Wij bouwen en beheren uw AI-salesfunnel." },
+  { title: "Wij bouwen", desc: "Wij ontwerpen, bouwen en beheren uw AI-salesfunnel." },
   { title: "Sales scoort", desc: "Uw sales krijgt warme kansen en meer grip op de pipeline." },
   { title: "Club groeit", desc: "20% van uw maandelijkse investering gaat naar HCM Arnhem." },
   { title: "U wordt gezien", desc: "Uw logo wordt zichtbaar op schermen en doeken bij HCM Arnhem." },
@@ -223,7 +223,7 @@ const HcmArnhemPage = () => {
 
           <div className="grid lg:grid-cols-[1fr_2fr] gap-10 lg:gap-16">
             <p className="text-lg md:text-xl leading-relaxed text-muted-foreground lg:sticky lg:top-28 self-start">
-              Wij bouwen en beheren digitale salesfunnels met AI.{" "}
+              Wij ontwerpen, bouwen en beheren digitale salesfunnels met AI.{" "}
               <em style={{ fontFamily: SERIF, color: "hsl(var(--foreground))" }}>
                 Volledig gericht op structurele groei.
               </em>

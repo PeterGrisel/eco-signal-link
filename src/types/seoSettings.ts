@@ -126,7 +126,7 @@ export const defaultSeoConfig: SeoConfig = {
   cta_button_text: "Bekijk de mogelijkheden",
   cta_text_color: "#f5f5f5",
   cta_primary_color: "#f97316",
-  cta_note: "P.S. Wij zijn géén leadgenerator. Wij bouwen systemen.",
+  cta_note: "P.S. Wij zijn géén leadgenerator. Wij ontwerpen en bouwen systemen.",
 
   // Prompts
   prompt_style_tone: "",

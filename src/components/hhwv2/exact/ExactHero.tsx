@@ -372,7 +372,7 @@ const ExactHero = () => {
                     </div>
                   </div>
                   <p className="text-[11px] text-muted-foreground leading-snug">
-                    Wij bouwen het systeem, zetten de logica en draaien de plays{" "}
+                    Wij ontwerpen en bouwen het systeem, zetten de logica en draaien de plays{" "}
                     <span className="text-primary font-medium">voor je.</span>
                   </p>
                 </div>

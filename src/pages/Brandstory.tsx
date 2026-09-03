@@ -249,7 +249,7 @@ const Brandstory = () => {
 
         <div className="max-w-[620px] space-y-5 text-foreground/80 leading-relaxed">
           <p>
-            Fase 1: wij bouwen het systeem en de eerste signalen worden opgepakt. Directe waarde, binnen vier weken operationeel.
+            Fase 1: wij ontwerpen en bouwen het systeem en de eerste signalen worden opgepakt. Directe waarde, binnen vier weken operationeel.
           </p>
           <p>
             Fase 2: het systeem begint zelf te signaleren. Proactief, contextueel, actiegericht. Het moment dat het systeem een opportunity detecteert die u zelf nog niet zag, dát is het omslagpunt.
