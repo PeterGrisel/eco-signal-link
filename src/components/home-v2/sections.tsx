@@ -639,14 +639,6 @@ export function HetProtocol() {
         </p>
       </Reveal>
 
-      <Reveal className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-brand-line pt-8">
-        <span className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-brand-ink-3">
-          De afspraak
-        </span>
-        <strong className="font-display text-[clamp(18px,2vw,24px)] font-extrabold tracking-[-0.025em]">
-          Negentig dagen bouwen en draaien. Daarna maandelijks opzegbaar.
-        </strong>
-      </Reveal>
     </Section>
   );
 }
