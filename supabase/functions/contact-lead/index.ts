@@ -70,6 +70,7 @@ serve(async (req) => {
         to: NOTIFY_TO,
         subject: `Nieuwe lead: ${name}${company ? ` (${company})` : ""}`,
         html,
+        text: `Nieuwe lead via /contact\n\nNaam: ${name}\nE-mail: ${email}\nBedrijf: ${company ?? "-"}\nTelefoon: ${phone ?? "-"}\n\nBericht:\n${message}\n\nPagina: ${pageUrl ?? "-"}`,
         label: "contact-lead",
         purpose: "transactional",
         idempotency_key: `contact-lead-${inserted?.id ?? Date.now()}`,
