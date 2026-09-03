@@ -1,30 +1,43 @@
 # B2BGroeiMachine
 
-> Wij bouwen schaalbare B2B sales engines: van prospecting tot geboekte afspraken. Twee groeistromen (nieuwe klanten en talent) in één data-gedreven systeem met signaalgebaseerde targeting, omnichannel outreach en intent-scoring.
+> B2BGroeiMachine is het GTM-label van Rebel Force. Wij ontwerpen en bouwen een managed growth infrastructure portal: het systeem achter uw sales, marketing en RevOps dat signalen omzet in live gesprekken en sales-ready activiteiten.
 
-Platform-agnostisch en integreert met bestaande CRM's en tools (HubSpot, Salesforce, Clay, Zapier). Focus op MKB en midmarket bedrijven in Nederland en België.
+U koopt geen Apollo, geen inboxen en geen losse workflows. U koopt een werkende B2B-groeimachine: een klein team dat het bij u komt bouwen en daarna elke week meekijkt. De portal is de commerciële en operationele laag tussen u, ons team en de onderliggende tooling.
 
-## Pages
+## Wat wij doen
 
-- [Home](/): Schaalbare sales automation & prospecting voor ambitieuze B2B-bedrijven.
-- [Over Ons](/over-ons): Wie we zijn en waarom we systemen bouwen, geen leads leveren.
-- [Ons Team](/ons-team): Het team achter B2BGroeiMachine.
-- [Pricing](/pricing): Pakketten, uurtarieven en add-ons.
-- [Datahub](/datahub): AI-gedreven sales tooling en datacontext.
-- [Pipeline Equation](/pipeline-equation): Hoe wij voorspelbare pipeline berekenen.
-- [Full Sales Management](/full-sales-management): Volledig uitbesteed salesteam.
-- [Full Service Recruitment](/full-service-recruitment): Commerciële en digitale rollen invullen.
-- [Signaal](/signaal): Mission control voor signaalgebaseerde prospecting.
-- [Blog](/blog): Frameworks en cases over B2B groei.
-- [Cheatsheets](/cheatsheets): Praktische gidsen voor sales en prospecting.
-- [Trainingen](/trainingen): Trainingen voor sales- en recruitmentteams.
+- Ontwerpen en bouwen één commercieel brein voor uw markt.
+- Verbinden bronnen, CRM en proces in één werkomgeving.
+- Vinden accounts op fit, context, intent en timing.
+- Zetten signalen, content en outreach om in live gesprekken.
+- Geven sales de volgende beste actie in uw eigen workflow.
+- Optimaliseren iedere cyclus met data en lerende loops.
+
+## Hoe wij werken
+
+- Platform-agnostisch: geen vendor lock-in, geen partnerlogo's op de site.
+- 90 dagen pilot: bouwen, testen, leren en optimaliseren.
+- Daarna maandelijks opzegbaar.
+- B1-Nederlands, directe communicatie, transparante afspraken.
+- Focus op voorspelbare B2B-groei met data; geen non-profits of healthcare.
+
+## Belangrijkste pagina's
+
+- [Home](/): Klaar om te schalen? Ontwerp en bouw van uw commerciële groeimachine.
+- [Hoe het werkt](/hoe-het-werkt): Drie lagen — fit, opportunity en timing — die sales vertellen waar hij moet zijn.
+- [Pricing](/pricing): Geen kleine lettertjes. Duidelijke prijzen voor de pilot en doorloop.
+- [Klanten](/klanten): Bedrijven die met ons groeien.
+- [Contact](/contact): Naar contact gaan en een gratis call inplannen.
+- [Groeistack](/groeistack): De tools en modules die we inzetten.
+- [Pipeline Equation](/pipeline-equation): Van markt naar pijplijn in een rekenmodel.
+- [Blog](/blog): Frameworks, cases en praktische gidsen over B2B-groei.
+- [Cheatsheets](/cheatsheets): Downloadbare playbooks voor sales en prospecting.
 - [Partners](/partners): Signal Certified partner-netwerk.
-- [Contact](/contact): Plan een gesprek.
+- [App](/app): Klantomgeving voor bestaande klanten.
 
-## Optional
+## Optioneel / juridisch
 
 - [Brandstory](/brandstory): Achtergrond en visie.
-- [Brandbook](/brandbook): Visuele identiteit.
 - [Privacy](/privacy)
 - [Voorwaarden](/terms)
 - [Cookies](/cookies)

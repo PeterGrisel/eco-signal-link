@@ -4,6 +4,7 @@ import { Button } from "@/components/v2/Button";
 import { Card } from "@/components/v2/Card";
 import { Faq } from "@/components/v2/Faq";
 import { GiantWord } from "@/components/v2/GiantWord";
+import { Globe } from "@/components/ui/globe";
 import peterGrisel from "@/assets/peter-grisel.png";
 import { TimelineStack, type TimelineItem } from "@/components/ui/modern-timeline";
 import { MarktTrechter, PrincipeScroller } from "./Principes";
@@ -986,6 +987,13 @@ export function Contact() {
   return (
     <Section id="contact" tone="deep" fill className="v2-curtain relative overflow-hidden">
       <GiantWord className="-right-10 bottom-4 text-[16vw]">OPPORTUNITY</GiantWord>
+      {/* Sfeerlaag: de bol komt links onderaan het kader in, tegenover het
+          woord rechts. Decoratief, dus niet sleepbaar en klikken gaan er
+          doorheen naar de knoppen. */}
+      <Globe
+        interactief={false}
+        className="pointer-events-none absolute -bottom-40 -left-32 hidden opacity-[0.28] mix-blend-screen lg:block lg:size-[540px] lg:max-w-none"
+      />
       <div className="relative z-10 grid items-center gap-14 lg:grid-cols-[1.1fr_.9fr]">
         <div>
           <SectionHeader

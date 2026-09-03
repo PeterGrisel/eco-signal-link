@@ -4,12 +4,12 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import Navbar from "@/components/Navbar";
+import { Globe } from "@/components/ui/globe";
 import Footer from "@/components/Footer";
 import { Send, Loader2, Calendar, Mail, Phone, Building2 } from "lucide-react";
 import { z } from "zod";
 import { trackCTA, trackFormSubmit } from "@/lib/tracking";
 import { usePageMeta } from "@/hooks/usePageMeta";
-import { Globe } from "@/components/ui/globe";
 
 const contactSchema = z.object({
   name: z.string().trim().min(1, "Naam is verplicht").max(100),
@@ -96,16 +96,6 @@ const Contact = () => {
               <p className="text-muted-foreground text-lg leading-relaxed">
                 Waar staat u? Kies wat het beste past, dan sturen we het gesprek de juiste kant op.
               </p>
-            </motion.div>
-
-            {/* Waar we werken: de Benelux als thuisbasis, West-Europa en Spanje eromheen. */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.15 }}
-              className="relative mx-auto mb-16 size-[300px] md:size-[400px]"
-            >
-              <Globe />
             </motion.div>
 
             <div id="contact-form" className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto scroll-mt-24">
@@ -244,6 +234,15 @@ const Contact = () => {
                       <span className="text-muted-foreground">Powered by Rebel Force™</span>
                     </div>
                   </div>
+                </div>
+
+                {/* Wereldwijd */}
+                <div className="bg-card border border-border rounded-lg p-6">
+                  <h3 className="font-display font-bold text-lg mb-1">Wij werken wereldwijd</h3>
+                  <p className="text-sm text-muted-foreground mb-2 leading-relaxed">
+                    Vanuit Nederland bouwen wij groeimachines voor B2B-organisaties over de hele wereld.
+                  </p>
+                  <Globe className="max-w-[320px]" />
                 </div>
 
               </motion.div>
