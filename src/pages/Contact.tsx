@@ -71,6 +71,7 @@ const Contact = () => {
 
   return (
     <>
+      <ApolloFormEnrichment />
       <Navbar />
       <main className="pt-16">
         <section className="py-16 md:py-24 relative">
