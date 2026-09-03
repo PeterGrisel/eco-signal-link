@@ -200,27 +200,34 @@ export function GlobalBookingModal({ open, onOpenChange, prefillData }: GlobalBo
               </DialogDescription>
             </div>
             
-            <div className="p-4 md:p-6 flex-1 overflow-y-auto min-h-[500px] lg:min-h-0 flex flex-col justify-between">
-              <div className="flex-1">
-                <div
-                  ref={containerRef}
-                  className="meetings-iframe-container"
-                  data-src={`${meetingUrl}?embed=true`}
+            <div className="p-4 md:p-6 flex-1 overflow-y-auto min-h-[520px] lg:min-h-0 flex flex-col justify-between gap-4">
+              <div ref={containerRef} className="flex-1 min-h-[460px]">
+                <iframe
+                  src={meetingUrl}
+                  title="Agenda van Peter"
+                  className="w-full h-full min-h-[460px] rounded-lg border border-glow/20 bg-background"
+                  allow="camera; microphone; clipboard-write"
                 />
               </div>
-              
+
               <div className="text-center pt-4 border-t border-glow/10 shrink-0">
                 <a
                   href={meetingUrl}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() =>
+                    trackEvent("booking_open_new_tab", "conversion", "Agenda in nieuw tabblad", {
+                      source: window.location.pathname,
+                    })
+                  }
                   className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-primary transition-colors"
                 >
                   <ExternalLink className="w-3.5 h-3.5" />
-                  Open in nieuw tabblad
+                  Ziet u geen agenda? Open in nieuw tabblad
                 </a>
               </div>
             </div>
+
           </div>
 
         </div>
