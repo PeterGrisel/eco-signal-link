@@ -136,7 +136,7 @@ const SphereImageGrid: React.FC<SphereImageGridProps> = ({
 
     const depth = (z + actualSphereRadius) / (2 * actualSphereRadius);
     const scale = 0.55 + depth * 0.6;
-    const fadeOpacity = 0.25 + depth * 0.75;
+    const fadeOpacity = 0.45 + depth * 0.55;
 
     return {
       x,
@@ -261,7 +261,7 @@ const SphereImageGrid: React.FC<SphereImageGridProps> = ({
           return (
             <div
               key={image.id}
-              className="absolute left-1/2 top-1/2 flex items-center justify-center rounded-xl border border-border bg-card p-3 transition-[box-shadow,border-color] duration-200"
+              className="absolute left-1/2 top-1/2 flex items-center justify-center rounded-xl border border-brand-line bg-white p-3 shadow-sm transition-[box-shadow,border-color] duration-200"
               style={{
                 width: size,
                 height: size,
