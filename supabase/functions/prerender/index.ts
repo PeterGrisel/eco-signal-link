@@ -8,7 +8,9 @@ const corsHeaders = {
 
 const SITE_URL = "https://b2bgroeimachine.io";
 const SITE_NAME = "B2BGroeiMachine";
-const DEFAULT_OG_IMAGE = `${SITE_URL}/og-image.png`;
+// De site-brede social preview: 1200x630 PNG, gegenereerd met `npm run og`.
+const DEFAULT_OG_IMAGE = `${SITE_URL}/og/default.png`;
+const DEFAULT_OG_SIZE = { width: 1200, height: 630 };
 
 // In-memory cache with TTL
 const CACHE_TTL_MS = 60 * 60 * 1000;
@@ -714,6 +716,7 @@ const CLIENT_PAGES: Record<string, {
   title: string;
   description: string;
   ogImage: string;
+  ogImageSize: { width: number; height: number };
   h1: string;
   intro: string;
 }> = {
@@ -722,6 +725,7 @@ const CLIENT_PAGES: Record<string, {
     title: "HEGO × B2BGroeiMachine — Market Activation Playbook",
     description: "Persoonlijk playbook voor HEGO: hoe wij groothandel, traders en producenten activeren rond RVS, aluminium en maatwerk bewerkingen.",
     ogImage: `${SITE_URL}/og/hego.jpg`,
+    ogImageSize: { width: 1536, height: 1024 },
     h1: "HEGO × B2BGroeiMachine — Market Activation Playbook",
     intro: "Persoonlijk playbook voor HEGO. Onze analyse, aanpak en eerste plan voor RVS, aluminium en maatwerk bewerkingen.",
   },
@@ -730,8 +734,18 @@ const CLIENT_PAGES: Record<string, {
     title: "SealEco × B2BGroeiMachine — Market Activation Playbook",
     description: "Persoonlijk playbook voor SealEco: hoe wij installateurs, architecten, prefabricators en distributeurs activeren rond roofing, facade, lining en geo.",
     ogImage: `${SITE_URL}/og/sealeco.jpg`,
+    ogImageSize: { width: 1536, height: 1024 },
     h1: "SealEco × B2BGroeiMachine — Market Activation Playbook",
     intro: "Persoonlijk playbook voor SealEco. Onze analyse, aanpak en eerste plan voor roofing, facade, lining en geo markten.",
+  },
+  shots: {
+    clientName: "Shots",
+    title: "Shots × B2BGroeiMachine — Market Activation Playbook",
+    description: "Persoonlijk playbook voor Shots: hoe wij retailers, wholesalers, distributeurs en e-commerce partners activeren in de internationale B2B adult markt.",
+    ogImage: `${SITE_URL}/og/shots.png`,
+    ogImageSize: { width: 1200, height: 630 },
+    h1: "Shots × B2BGroeiMachine — Market Activation Playbook",
+    intro: "Persoonlijk playbook voor Shots. Onze analyse, aanpak en eerste plan voor retail, wholesale, distributie en e-commerce.",
   },
 };
 
@@ -744,10 +758,19 @@ function buildHtml(meta: {
   h1: string;
   bodyContent: string;
   extraHead?: string;
+  ogType?: string;
   ogImage?: string;
+  ogImageSize?: { width: number; height: number };
   noindex?: boolean;
 }): string {
   const ogImage = meta.ogImage || DEFAULT_OG_IMAGE;
+  // Afmetingen alleen meegeven als we ze kennen; anders meet de scraper zelf.
+  const ogSize = meta.ogImage ? meta.ogImageSize : DEFAULT_OG_SIZE;
+  const ogMimeType = /\.jpe?g$/i.test(ogImage)
+    ? "image/jpeg"
+    : /\.webp$/i.test(ogImage)
+      ? "image/webp"
+      : "image/png";
   return `<!DOCTYPE html>
 <html lang="nl">
 <head>
@@ -757,17 +780,21 @@ function buildHtml(meta: {
   <meta name="description" content="${escapeHtml(meta.description)}">
   ${meta.noindex ? `<meta name="robots" content="noindex, nofollow">` : ""}
   <link rel="canonical" href="${escapeHtml(meta.url)}">
-  <meta property="og:type" content="website">
+  <meta property="og:type" content="${meta.ogType || "website"}">
   <meta property="og:title" content="${escapeHtml(meta.title)}">
   <meta property="og:description" content="${escapeHtml(meta.description)}">
   <meta property="og:url" content="${escapeHtml(meta.url)}">
   <meta property="og:image" content="${escapeHtml(ogImage)}">
-  <meta property="og:locale" content="nl_NL">
+  <meta property="og:image:secure_url" content="${escapeHtml(ogImage)}">
+  <meta property="og:image:type" content="${ogMimeType}">
+  <meta property="og:image:alt" content="${escapeHtml(meta.title)}">
+${ogSize ? `  <meta property="og:image:width" content="${ogSize.width}">\n  <meta property="og:image:height" content="${ogSize.height}">\n` : ""}  <meta property="og:locale" content="nl_NL">
   <meta property="og:site_name" content="${SITE_NAME}">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="${escapeHtml(meta.title)}">
   <meta name="twitter:description" content="${escapeHtml(meta.description)}">
   <meta name="twitter:image" content="${escapeHtml(ogImage)}">
+  <meta name="twitter:image:alt" content="${escapeHtml(meta.title)}">
   ${meta.extraHead || ""}
 </head>
 <body>
@@ -866,9 +893,6 @@ Deno.serve(async (req) => {
 
         const ogImage = post.featured_image || DEFAULT_OG_IMAGE;
         const extraHead = `
-          <meta property="og:type" content="article">
-          <meta property="og:image" content="${escapeHtml(ogImage)}">
-          <meta name="twitter:image" content="${escapeHtml(ogImage)}">
           ${post.published_at ? `<meta property="article:published_time" content="${post.published_at}">` : ""}
           <script type="application/ld+json">
           ${JSON.stringify({
@@ -890,6 +914,7 @@ Deno.serve(async (req) => {
           h1: post.title,
           bodyContent: `<p>${plainContent}</p>`,
           extraHead,
+          ogType: "article",
           ogImage,
         });
         setCache(path, html);
@@ -1057,6 +1082,7 @@ Deno.serve(async (req) => {
           h1: client.h1,
           bodyContent: body,
           ogImage: client.ogImage,
+          ogImageSize: client.ogImageSize,
           noindex: true,
         });
         setCache(path, html);
@@ -1087,6 +1113,9 @@ Deno.serve(async (req) => {
 <p><a href="${SITE_URL}/">Terug naar ${SITE_NAME}</a></p>`;
             const html = buildHtml({
               title, description, url: pageUrl, h1, bodyContent: body, noindex: true,
+              ogType: "article",
+              ogImage: `${supabaseUrl}/functions/v1/og-image?slug=${encodeURIComponent(slug)}`,
+              ogImageSize: { width: 1200, height: 630 },
             });
             setCache(path, html);
             return new Response(html, { headers: { ...cacheHeaders, "X-Cache": "MISS" } });

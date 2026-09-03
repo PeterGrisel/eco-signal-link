@@ -5,6 +5,12 @@
 //   SUPABASE_ANON_KEY  -- Supabase project API key (anon/public)
 //   PRERENDER_SECRET   -- optional shared secret validated by your Supabase function
 
+// De canonieke host van de site. Staat hier als losse constante zodat een
+// eventuele overstap naar www (of terug) op één plek gebeurt -- let op: de
+// sitemap, index.html en de prerender-functie moeten dan mee.
+const SITE_ORIGIN          = "https://b2bgroeimachine.io";
+const DEFAULT_OG_IMAGE     = `${SITE_ORIGIN}/og/default.png`;
+
 const PRERENDER_URL        = "https://sdhsblejnzfacqafzbuc.supabase.co/functions/v1/prerender";
 const SITEMAP_URL          = "https://sdhsblejnzfacqafzbuc.supabase.co/functions/v1/sitemap";
 const RSS_URL              = "https://sdhsblejnzfacqafzbuc.supabase.co/functions/v1/rss";
@@ -93,6 +99,22 @@ function isBot(userAgent) {
   return BOT_AGENTS.some(bot => ua.includes(bot));
 }
 
+// Scrapers die alleen een linkpreview bouwen. Voor hen is een 503 het einde
+// van het verhaal -- ze tonen dan niets en onthouden dat ook nog even. Zoek-
+// crawlers krijgen bij een storing juist wel een 503, zodat er geen dunne
+// pagina in de index belandt.
+const SOCIAL_AGENTS = [
+  'facebookexternalhit', 'facebot', 'twitterbot', 'linkedinbot', 'whatsapp',
+  'telegrambot', 'slackbot', 'discordbot', 'embedly', 'pinterest',
+  'quora link preview', 'showyoubot', 'applebot',
+];
+
+function isSocialScraper(userAgent) {
+  if (!userAgent) return false;
+  const ua = userAgent.toLowerCase();
+  return SOCIAL_AGENTS.some(bot => ua.includes(bot));
+}
+
 function isStaticAsset(pathname) {
   return (
     STATIC_EXTENSIONS.test(pathname) ||
@@ -116,24 +138,37 @@ function toOrigin(request, url) {
 }
 
 // Minimal fallback for bots when prerender is unavailable.
-function botFallback(pathname) {
+function botFallback(pathname, userAgent) {
   return new Response(
     `<!DOCTYPE html>
 <html lang="nl">
 <head>
   <meta charset="utf-8">
   <meta name="robots" content="noindex">
-  <title>B2BGroeiMachine - Schaalbare Sales Automation &amp; Prospecting</title>
-  <meta name="description" content="Schaalbare B2B sales automation en prospecting systemen voor groeiende bedrijven.">
-  <link rel="canonical" href="https://b2bgroeimachine.io${pathname}">
+  <title>B2B Groeimachine | Van omzetdoel naar opportunity flow</title>
+  <meta name="description" content="Wij bouwen een commerciële opportunity-engine: een digitale medewerker die nieuwe kansen creëert, bewijs stapelt en uw verkopers stuurt naar het account dat nu telt.">
+  <link rel="canonical" href="${SITE_ORIGIN}${pathname}">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="B2B Groeimachine | Van omzetdoel naar opportunity flow">
+  <meta property="og:description" content="Wij bouwen een commerciële opportunity-engine: een digitale medewerker die nieuwe kansen creëert, bewijs stapelt en uw verkopers stuurt naar het account dat nu telt.">
+  <meta property="og:url" content="${SITE_ORIGIN}${pathname}">
+  <meta property="og:image" content="${DEFAULT_OG_IMAGE}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:locale" content="nl_NL">
+  <meta property="og:site_name" content="B2BGroeiMachine">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="${DEFAULT_OG_IMAGE}">
 </head>
 <body>
-  <h1>B2BGroeiMachine</h1>
-  <p>Schaalbare Sales Automation &amp; Prospecting Systemen</p>
+  <h1>B2B Groeimachine</h1>
+  <p>Van omzetdoel naar opportunity flow</p>
 </body>
 </html>`,
     {
-      status: 503,
+      // 200 voor een linkpreview, 503 voor een zoekcrawler: zie SOCIAL_AGENTS.
+      status: isSocialScraper(userAgent) ? 200 : 503,
       headers: {
         'Content-Type': 'text/html; charset=utf-8',
         'X-Prerendered': 'fallback',
@@ -187,7 +222,7 @@ export default {
     const redirectTarget = REDIRECTS_301[internalPath];
     if (redirectTarget) {
       const prefix = activeLang ? `/${activeLang}` : '';
-      return Response.redirect(`https://b2bgroeimachine.io${prefix}${redirectTarget}`, 301);
+      return Response.redirect(`${SITE_ORIGIN}${prefix}${redirectTarget}`, 301);
     }
 
     // 0. Proxy /sitemap.xml to dynamic Edge Function
@@ -265,7 +300,7 @@ export default {
     // 4. Cache miss: fetch from Supabase prerender function
     if (!env.SUPABASE_ANON_KEY) {
       console.error('[prerender] SUPABASE_ANON_KEY is not set');
-      return botFallback(url.pathname);
+      return botFallback(url.pathname, userAgent);
     }
 
     let prerenderResponse;
@@ -278,18 +313,18 @@ export default {
       );
     } catch (err) {
       console.error(`[prerender] fetch error for ${url.pathname}:`, err?.message ?? err);
-      return botFallback(url.pathname);
+      return botFallback(url.pathname, userAgent);
     }
 
     if (!prerenderResponse.ok) {
       console.warn(`[prerender] non-OK ${prerenderResponse.status} for ${url.pathname}`);
-      return botFallback(url.pathname);
+      return botFallback(url.pathname, userAgent);
     }
 
     const html = await prerenderResponse.text();
     if (!html || html.trim().length < 100) {
       console.warn(`[prerender] empty body for ${url.pathname}`);
-      return botFallback(url.pathname);
+      return botFallback(url.pathname, userAgent);
     }
 
     let response = new Response(html, {

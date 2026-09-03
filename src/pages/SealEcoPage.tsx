@@ -54,6 +54,8 @@ const SealEcoPage = () => {
       "Persoonlijk playbook voor SealEco: hoe wij installateurs, architecten, prefabricators en distributeurs activeren rond roofing, facade, lining en geo.",
     canonical: "https://www.b2bgroeimachine.io/voor/sealeco",
     ogImage: "https://www.b2bgroeimachine.io/og/sealeco.jpg",
+    ogImageWidth: 1536,
+    ogImageHeight: 1024,
   });
 
   useEffect(() => {

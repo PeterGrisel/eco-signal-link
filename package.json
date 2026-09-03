@@ -14,7 +14,8 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
-    "logos:manifest": "node scripts/build-logo-manifest.mjs"
+    "logos:manifest": "node scripts/build-logo-manifest.mjs",
+    "og": "node scripts/build-og.mjs"
   },
   "dependencies": {
     "@fontsource/fraunces": "^5.2.9",

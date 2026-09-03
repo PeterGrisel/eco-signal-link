@@ -53,7 +53,9 @@ const ShotsPage = () => {
     description:
       "Persoonlijk playbook voor Shots: hoe wij retailers, wholesalers, distributeurs en e-commerce partners activeren in de internationale B2B adult markt.",
     canonical: "https://www.b2bgroeimachine.io/voor/shots",
-    ogImage: "https://www.b2bgroeimachine.io/og/shots.jpg",
+    ogImage: "https://www.b2bgroeimachine.io/og/shots.png",
+    ogImageWidth: 1200,
+    ogImageHeight: 630,
   });
 
   useEffect(() => {

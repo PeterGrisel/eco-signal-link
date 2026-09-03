@@ -82,6 +82,8 @@ const HegoPage = () => {
       "Persoonlijk playbook voor HEGO: hoe wij groothandel, traders en producenten activeren rond RVS, aluminium en maatwerk bewerkingen.",
     canonical: "https://www.b2bgroeimachine.io/voor/hego",
     ogImage: "https://www.b2bgroeimachine.io/og/hego.jpg",
+    ogImageWidth: 1536,
+    ogImageHeight: 1024,
   });
 
   useEffect(() => {

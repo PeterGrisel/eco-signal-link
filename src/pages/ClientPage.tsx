@@ -143,6 +143,10 @@ const ClientPage = () => {
     ogImage: row
       ? (row.og_image_url || `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/og-image?slug=${row.slug}`)
       : undefined,
+    // De gegenereerde kaart is altijd 1200x630; van een zelf geüploade
+    // `og_image_url` kennen we de maten niet, dus claimen we ze ook niet.
+    ogImageWidth: row && !row.og_image_url ? 1200 : undefined,
+    ogImageHeight: row && !row.og_image_url ? 630 : undefined,
     themeColor: row?.brand_primary_hex || undefined,
     ogSiteName: row ? `${row.company_name} × B2BGroeiMachine` : "B2BGroeiMachine",
     ogLocale: isEn ? "en_US" : "nl_NL",
