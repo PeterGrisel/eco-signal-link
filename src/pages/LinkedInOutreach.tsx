@@ -177,7 +177,7 @@ const LinkedInOutreach = () => {
         {/* CTA */}
         <Card title="Wil je dit structureel aanpakken?" full accent>
           <p className="text-xs text-[#BFBFBF] mb-3">
-            Wij bouwen LinkedIn outreach systemen die elke week automatisch prospects vinden, berichten personaliseren en follow-ups plannen.
+            Wij ontwerpen en bouwen LinkedIn outreach systemen die elke week automatisch prospects vinden, berichten personaliseren en follow-ups plannen.
           </p>
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
             <a href="/contact" className="inline-block bg-[#E3874F] text-[#0B0B0B] px-5 py-2 rounded font-bold text-xs no-underline hover:opacity-90 transition-opacity">Stuur een bericht →</a>

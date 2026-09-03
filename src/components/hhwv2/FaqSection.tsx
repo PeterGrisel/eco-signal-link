@@ -11,7 +11,7 @@ const FAQS = [
   },
   {
     q: "Vervangen jullie onze tools of ons team?",
-    a: "Nee. Wij bouwen in jouw stack en dragen het over. Jouw team blijft eigenaar en ziet hoe alles werkt. Niets om uit te rukken, geen black box.",
+    a: "Nee. Wij ontwerpen en bouwen in jouw stack en dragen het over. Jouw team blijft eigenaar en ziet hoe alles werkt. Niets om uit te rukken, geen black box.",
   },
   {
     q: "Hoe verschilt dit van een SDR inhuren of nog een tool kopen?",

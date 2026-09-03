@@ -48,7 +48,7 @@ const HeroFlow = () => {
             <span className="font-serif italic font-semibold text-gradient">morgen, vandaag gebouwd.</span>
           </h1>
           <p className="text-muted-foreground text-lg md:text-xl leading-relaxed mb-8 max-w-2xl mx-auto">
-            Wij bouwen B2B-revenue-engines die voor je verkopen. In je eigen stack.
+            Wij ontwerpen en bouwen B2B-revenue-engines die voor je verkopen. In je eigen stack.
           </p>
           <div className="flex flex-wrap justify-center items-center gap-4">
             <Button variant="hero" size="lg" asChild>

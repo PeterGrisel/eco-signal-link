@@ -26,14 +26,14 @@ const ServiceStackSection = () => {
               title: "Wij draaien de engine",
               pitch: "Volledig ontzorgd. Jullie krijgen de afspraken.",
               body:
-                "Wij bouwen de signalen, lijsten, sequences en routes in jullie eigen stack. Maandelijks fee. Geen tooling-marge. Eigenaarschap blijft bij jullie.",
+                "Wij ontwerpen en bouwen de signalen, lijsten, sequences en routes in jullie eigen stack. Maandelijks fee. Geen tooling-marge. Eigenaarschap blijft bij jullie.",
               icon: <Workflow className="w-5 h-5 text-primary" strokeWidth={1.6} />,
               href: "/",
               cta: "Bekijk levering",
             },
             {
               eyebrow: "Build & transfer · CapEx",
-              title: "Wij bouwen, jullie nemen over",
+              title: "Wij ontwerpen en bouwen, jullie nemen over",
               pitch: "90 dagen samen bouwen. Daarna jullie eigendom.",
               body:
                 "Fundament, playbooks en draaiboeken. Wij trainen jullie team en dragen volledig over.",

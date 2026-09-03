@@ -59,7 +59,7 @@ const PlaysSection = () => {
           </h2>
           <p className="text-muted-foreground text-lg leading-relaxed mt-5">
             Een bibliotheek van <span className="text-primary font-semibold">36 plays</span> over{" "}
-            <span className="text-primary font-semibold">6 categorieën</span>. Wij bouwen de 4 tot 6 die bij jouw ICP passen.
+            <span className="text-primary font-semibold">6 categorieën</span>. Wij ontwerpen en bouwen de 4 tot 6 die bij jouw ICP passen.
           </p>
         </div>
 

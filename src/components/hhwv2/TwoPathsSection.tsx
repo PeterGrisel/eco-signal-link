@@ -9,7 +9,7 @@ const PATHS = [
     icon: Wrench,
     description:
       "Voor rommelige data, losse tools, zwakke signalen of veel handwerk. In 90 dagen bouwen we het fundament. Daarna is het van jou.",
-    badge: "Wij bouwen het",
+    badge: "Wij ontwerpen en bouwen het",
     sub: "Jij wordt eigenaar",
     chips: ["Datafundament", "Signaal-laag", "Routering"],
     cta: "Bouw het fundament",
