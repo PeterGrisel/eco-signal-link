@@ -64,14 +64,36 @@ serve(async (req) => {
       </div>
     </body></html>`;
 
+    // Unsubscribe-token voor de ontvanger (vereist voor app-mails)
+    let unsubscribeToken: string | null = null;
+    const { data: existingToken } = await supabase
+      .from("email_unsubscribe_tokens")
+      .select("token")
+      .eq("email", NOTIFY_TO)
+      .maybeSingle();
+    if (existingToken?.token) {
+      unsubscribeToken = existingToken.token;
+    } else {
+      const newToken = crypto.randomUUID().replace(/-/g, "");
+      const { error: tokenError } = await supabase
+        .from("email_unsubscribe_tokens")
+        .insert({ email: NOTIFY_TO, token: newToken });
+      if (tokenError) console.error("unsubscribe token insert failed:", tokenError);
+      unsubscribeToken = newToken;
+    }
+
     const { error: mailError } = await supabase.rpc("enqueue_email", {
       queue_name: "transactional_emails",
       payload: {
         to: NOTIFY_TO,
         subject: `Nieuwe lead: ${name}${company ? ` (${company})` : ""}`,
         html,
+        text: `Nieuwe lead via /contact\n\nNaam: ${name}\nE-mail: ${email}\nBedrijf: ${company ?? "-"}\nTelefoon: ${phone ?? "-"}\n\nBericht:\n${message}\n\nPagina: ${pageUrl ?? "-"}`,
         label: "contact-lead",
+        purpose: "transactional",
+        idempotency_key: `contact-lead-${inserted?.id ?? Date.now()}`,
         message_id: `contact-${inserted?.id ?? Date.now()}`,
+        unsubscribe_token: unsubscribeToken,
         from: "B2BGroeiMachine <hi@notify.b2bgroeimachine.io>",
       },
     });
