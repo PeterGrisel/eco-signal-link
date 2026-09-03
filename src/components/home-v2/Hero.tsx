@@ -120,6 +120,15 @@ export function Hero() {
               </p>
               <TalkCard location="Home hero" />
 
+              {/* Secundair pad: wie nog niet wil bellen, kijkt eerst de pilot in. */}
+              <div className="mt-4 flex justify-end">
+                <a
+                  href="#pilot"
+                  className="font-mono text-[10.5px] font-bold uppercase tracking-[0.18em] text-brand-accent transition-colors duration-[180ms] hover:text-brand-accent-ink"
+                >
+                  Bekijk de pilot →
+                </a>
+              </div>
 
               <PartnerBadges className="mt-8" />
 
