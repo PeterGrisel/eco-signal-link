@@ -163,7 +163,7 @@ const Signalen = () => {
                     Staat uw markt er niet bij?
                   </h3>
                   <p className="mt-2 text-[12.5px] text-brand-ink-2">
-                    De engine is niet aan een branche gebonden. Wij bouwen de
+                    De engine is niet aan een branche gebonden. Wij ontwerpen en bouwen de
                     hypothese op uw markt.
                   </p>
                   <button

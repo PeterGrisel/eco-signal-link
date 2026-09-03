@@ -141,7 +141,7 @@ const SectorPage = () => {
           <div className="container mx-auto px-6 max-w-3xl">
             <motion.div {...fadeUp} className="space-y-5 text-muted-foreground text-base md:text-lg leading-relaxed">
               <p>
-                {sector.title} draait op timing. Wie te vroeg belt, krijgt geen gehoor. Wie te laat belt, is de deal kwijt. Wij bouwen een systeem dat het juiste moment voor u herkent. Geen losse outreach, maar een herhaalbaar proces met data als basis.
+                {sector.title} draait op timing. Wie te vroeg belt, krijgt geen gehoor. Wie te laat belt, is de deal kwijt. Wij ontwerpen en bouwen een systeem dat het juiste moment voor u herkent. Geen losse outreach, maar een herhaalbaar proces met data als basis.
               </p>
               <p>
                 De motor bestaat uit drie lagen. Eerst <Link to="/b2b-leadgeneratie" className="text-primary hover:underline">b2b leadgeneratie</Link> op basis van signalen. Daarna een gestructureerde vorm van <Link to="/koude-acquisitie" className="text-primary hover:underline">koude acquisitie</Link> via meerdere kanalen. Tot slot een complete <Link to="/groeistack" className="text-primary hover:underline">groeistack</Link> die alles aan elkaar knoopt. U houdt de regie en wij houden het systeem scherp.

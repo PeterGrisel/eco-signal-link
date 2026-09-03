@@ -306,7 +306,7 @@ const Brandbook = () => {
           <div className="space-y-6 border-t border-border pt-6">
             {[
               { label: "H1", size: "clamp(2.4rem, 5.5vw, 5rem)", weight: "700", example: "Voorspelbare Groei." },
-              { label: "H2", size: "clamp(1.8rem, 3.5vw, 2.8rem)", weight: "700", example: "Wij bouwen systemen." },
+              { label: "H2", size: "clamp(1.8rem, 3.5vw, 2.8rem)", weight: "700", example: "Wij ontwerpen en bouwen systemen." },
               { label: "H3", size: "1.125rem (18px)", weight: "600", example: "Directe waarde" },
               { label: "Body", size: "1rem (16px)", weight: "400", example: "De meeste B2B-bedrijven groeien op geluk, niet op systeem." },
               { label: "Small / Caption", size: "0.875rem (14px)", weight: "400", example: "Labels en secundaire tekst" },
@@ -347,7 +347,7 @@ const Brandbook = () => {
               <li>Getallen voluit: "3 tot 5" in plaats van "3-5".</li>
               <li>Komma's en dubbele punten, geen em-dashes (—).</li>
               <li>Concrete voorbeelden boven abstracte beloftes.</li>
-              <li>"Wij bouwen systemen" niet "wij bieden oplossingen".</li>
+              <li>"Wij ontwerpen en bouwen systemen" niet "wij bieden oplossingen".</li>
               <li>Aanspreking met 'u' en 'uw'.</li>
             </ul>
           </div>
@@ -368,7 +368,7 @@ const Brandbook = () => {
           <h3 className="font-display font-semibold text-sm mb-4">Kernboodschappen</h3>
           <div className="grid md:grid-cols-3 gap-4">
             {[
-              { label: "Positionering", text: "Wij bouwen systemen, geen campagnes." },
+              { label: "Positionering", text: "Wij ontwerpen en bouwen systemen, geen campagnes." },
               { label: "Instap", text: "€0 opstartkosten, operationeel in 4 weken." },
               { label: "Pricing", text: "Transparante uurtarieven, startend bij €100/u." },
             ].map((msg) => (
