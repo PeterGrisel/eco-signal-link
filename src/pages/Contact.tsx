@@ -9,6 +9,7 @@ import { Send, Loader2, Calendar, Mail, Phone, Building2, TrendingUp, Users, Wor
 import { z } from "zod";
 import { trackCTA, trackFormSubmit } from "@/lib/tracking";
 import { usePageMeta } from "@/hooks/usePageMeta";
+import ApolloFormEnrichment from "@/components/ApolloFormEnrichment";
 
 const contactSchema = z.object({
   name: z.string().trim().min(1, "Naam is verplicht").max(100),
