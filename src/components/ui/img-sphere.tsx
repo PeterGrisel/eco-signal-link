@@ -87,6 +87,7 @@ const SphereImageGrid: React.FC<SphereImageGridProps> = ({
   const animationFrame = useRef<number | null>(null);
   const velocity = useRef({ x: 0, y: 0 });
   const dragging = useRef(false);
+  const moved = useRef(false);
 
   const actualSphereRadius = sphereRadius || containerSize * 0.5;
   const baseImageSize = containerSize * baseImageScale;
@@ -190,6 +191,7 @@ const SphereImageGrid: React.FC<SphereImageGridProps> = ({
       if (!dragging.current) return;
       const deltaX = clientX - lastMousePos.current.x;
       const deltaY = clientY - lastMousePos.current.y;
+      if (Math.abs(deltaX) + Math.abs(deltaY) > 3) moved.current = true;
       const rx = -deltaY * dragSensitivity;
       const ry = deltaX * dragSensitivity;
       setRotation((prev) => ({
@@ -225,6 +227,7 @@ const SphereImageGrid: React.FC<SphereImageGridProps> = ({
 
   const startDrag = (x: number, y: number) => {
     dragging.current = true;
+    moved.current = false;
     velocity.current = { x: 0, y: 0 };
     lastMousePos.current = { x, y };
   };
@@ -276,6 +279,7 @@ const SphereImageGrid: React.FC<SphereImageGridProps> = ({
               onMouseEnter={() => setHoveredIndex(index)}
               onMouseLeave={() => setHoveredIndex(null)}
               onClick={() => {
+                if (moved.current) return;
                 if (onImageClick) onImageClick(image);
                 else if (showModal) setSelectedImage(image);
               }}
