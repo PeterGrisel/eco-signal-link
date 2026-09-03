@@ -245,13 +245,19 @@ const Contact = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="mt-12 bg-card border border-border rounded-lg p-8 md:p-12 text-center"
+              className="mx-auto mt-8 max-w-4xl overflow-hidden rounded-lg border border-border bg-card"
             >
-              <h3 className="font-display font-bold text-2xl mb-2">Wij werken wereldwijd</h3>
-              <p className="text-sm text-muted-foreground max-w-xl mx-auto leading-relaxed">
-                Vanuit Nederland bouwen wij groeimachines voor B2B-organisaties over de hele wereld.
-              </p>
-              <Globe className="mt-8 max-w-[560px]" />
+              {/* Tekst links, bol rechts: op brede schermen vult dat de kaart,
+                  in plaats van een kleine bol midden in veel leegte. */}
+              <div className="grid items-center gap-8 p-6 sm:grid-cols-[1fr_auto] sm:gap-10 sm:p-8">
+                <div>
+                  <h3 className="mb-2 font-display text-2xl font-bold">Wij werken wereldwijd</h3>
+                  <p className="text-sm leading-relaxed text-muted-foreground">
+                    Vanuit Nederland bouwen wij groeimachines voor B2B-organisaties over de hele wereld.
+                  </p>
+                </div>
+                <Globe className="w-[200px] shrink-0 md:w-[240px]" />
+              </div>
             </motion.div>
           </div>
         </section>

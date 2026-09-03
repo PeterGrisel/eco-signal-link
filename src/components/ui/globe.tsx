@@ -39,6 +39,18 @@ export const GLOBE_CONFIG: Omit<COBEOptions, "width" | "height"> = {
   ],
 };
 
+/**
+ * Variant voor decoratief gebruik achter tekst: geen markers en een zachtere
+ * gloed. De stippen van de landmassa's geven genoeg textuur; de oranje markers
+ * gaan op dat formaat als blobs door de kop heen lopen.
+ */
+export const GLOBE_SFEER_CONFIG: Omit<COBEOptions, "width" | "height"> = {
+  ...GLOBE_CONFIG,
+  markers: [],
+  glowColor: [0.42, 0.26, 0.16],
+  mapBrightness: 4,
+};
+
 /** Zo staat West-Europa meteen naar de kijker toe in plaats van de Stille Oceaan. */
 const START_PHI = 4.6;
 /** Radialen per frame; op 60fps een rondje in ongeveer veertig seconden. */
