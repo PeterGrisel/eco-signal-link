@@ -169,6 +169,11 @@ export default function LeftDock() {
               </Tooltip>
             );
           })}
+          {/* Taal- en valutaswitchers horen in de dock, niet in het menu. */}
+          <div className="mt-1 flex flex-col items-center gap-1.5 border-t border-border/50 pt-2 [&_button]:!h-8 [&_button]:!px-2 [&_button]:!bg-transparent [&_button:hover]:!bg-primary/10 [&_button]:!text-foreground/70 [&_button:hover]:!text-primary">
+            <CurrencySwitcher />
+            <WeglotLanguageToggle />
+          </div>
         </div>
       </TooltipProvider>
     </>
