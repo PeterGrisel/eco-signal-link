@@ -130,7 +130,7 @@ export const COPY = {
       },
       {
         q: "Wat als ik al een leadbureau heb?",
-        a: "Dat blijft draaien. Wij bouwen het proces eronder. Lijsten worden lijsten in een systeem dat leert.",
+        a: "Dat blijft draaien. Wij ontwerpen en bouwen het proces eronder. Lijsten worden lijsten in een systeem dat leert.",
       },
       {
         q: "Hoeveel tijd kost het mij intern?",
@@ -146,7 +146,7 @@ export const COPY = {
     eyebrow: "Geen leadbureau",
     heading: "Geen lijsten. Geen trucje.",
     headingAccent: "Een systeem dat blijft staan.",
-    body: "Een leadbureau levert lijsten. Wij bouwen het commerciële proces achter voorspelbare groei. Op uw eigen tools, in uw eigen CRM, met uw eigen data.",
+    body: "Een leadbureau levert lijsten. Wij ontwerpen en bouwen het commerciële proces achter voorspelbare groei. Op uw eigen tools, in uw eigen CRM, met uw eigen data.",
     contrasts: [
       { from: "Losse lijsten en campagnes", to: "Eén systeem dat elke week leert" },
       { from: "Afhankelijk van personen", to: "Proces, data en discipline" },
