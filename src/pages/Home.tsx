@@ -20,6 +20,7 @@ import {
   WieZitErachter,
 } from "@/components/home-v2/sections";
 import { FAQ_ITEMS } from "@/components/home-v2/faq";
+import { buildServicesSchema } from "@/data/schemaOrg";
 
 const TITLE = "B2B Groeimachine | Van omzetdoel naar opportunity flow";
 const DESCRIPTION =
