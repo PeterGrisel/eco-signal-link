@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/v2/Button";
 import { Card } from "@/components/v2/Card";
 import { Faq } from "@/components/v2/Faq";
@@ -9,6 +9,7 @@ import { TimelineStack, type TimelineItem } from "@/components/ui/modern-timelin
 import { MarktTrechter, PrincipeScroller } from "./Principes";
 import { Reveal } from "@/components/v2/Reveal";
 import { Section } from "@/components/v2/Section";
+import SphereImageGrid from "@/components/ui/img-sphere";
 import { SectionHeader } from "@/components/v2/SectionHeader";
 import { openBookingModal } from "@/components/booking/GlobalBookingModal";
 import { faviconFor } from "@/data/groeistack";
@@ -434,6 +435,7 @@ function Logo({ klant, hoogte = 34 }: { klant: KlantLogo; hoogte?: number }) {
  * verschijnt alleen op een apparaat met een muis.
  */
 export function Klantenraster() {
+  const navigate = useNavigate();
   const [klanten, setKlanten] = useState<KlantLogo[]>([]);
 
   useEffect(() => {
