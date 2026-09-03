@@ -12,6 +12,7 @@ import { faviconFor } from "@/data/groeistack";
 import { usePageMeta } from "@/hooks/usePageMeta";
 import { useBolMaten } from "@/hooks/useBolMaten";
 import SphereImageGrid from "@/components/ui/img-sphere";
+import InfiniteSlider from "@/components/hhwv2/ui/InfiniteSlider";
 
 interface Client {
   id: string;
@@ -287,6 +288,20 @@ const Klanten = () => {
           <div className="container mx-auto px-6">
             {loading ? (
               <div className="h-[500px] animate-pulse rounded-full bg-card/30 max-w-2xl mx-auto" />
+            ) : bol.mobiel ? (
+              /* Op mobiel stottert de 3D-bol; toon dan de eenvoudige logo-slider. */
+              <InfiniteSlider
+                speed={38}
+                items={[...clients, ...clients, ...clients].map((c, i) => (
+                  <a
+                    key={`${c.id}-${i}`}
+                    href={`#klant-${c.id}`}
+                    className="flex h-20 w-32 items-center justify-center rounded-xl border border-border/60 bg-card/40 px-4"
+                  >
+                    <ClientLogo client={c} size={48} />
+                  </a>
+                ))}
+              />
             ) : (
               <div className="flex justify-center overflow-hidden">
                 <SphereImageGrid
