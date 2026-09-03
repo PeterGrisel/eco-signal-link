@@ -71,6 +71,8 @@ serve(async (req) => {
         subject: `Nieuwe lead: ${name}${company ? ` (${company})` : ""}`,
         html,
         label: "contact-lead",
+        purpose: "transactional",
+        idempotency_key: `contact-lead-${inserted?.id ?? Date.now()}`,
         message_id: `contact-${inserted?.id ?? Date.now()}`,
         from: "B2BGroeiMachine <hi@notify.b2bgroeimachine.io>",
       },
