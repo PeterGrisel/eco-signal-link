@@ -188,7 +188,7 @@ export function Nav() {
         </div>
 
         <div className="flex items-center gap-3">
-          <span className="hidden items-center gap-2 lg:flex">
+          <span className="hidden items-center gap-2 lg:flex [&_button]:!text-brand-ink [&_button]:!bg-brand-ink/[0.06] [&_button:hover]:!bg-brand-ink/[0.12]">
             <CurrencySwitcher />
             <WeglotLanguageToggle />
           </span>
@@ -272,7 +272,7 @@ export function Nav() {
                 )}
               </div>
             ))}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 [&_button]:!text-brand-ink [&_button]:!bg-brand-ink/[0.06]">
               <CurrencySwitcher />
               <WeglotLanguageToggle />
             </div>
