@@ -121,7 +121,7 @@ export function Hero() {
               <TalkCard location="Home hero" />
 
               {/* Secundair pad: wie nog niet wil bellen, kijkt eerst de pilot in. */}
-              <div className="mt-4 flex justify-end">
+              <div className="mt-4 flex justify-start">
                 <a
                   href="#pilot"
                   className="font-mono text-[10.5px] font-bold uppercase tracking-[0.18em] text-brand-accent transition-colors duration-[180ms] hover:text-brand-accent-ink"
