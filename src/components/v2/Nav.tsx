@@ -139,7 +139,7 @@ export function Nav() {
     >
       <Container className="flex items-center justify-between gap-7 py-3.5">
         <Link to="/" aria-label="B2B Groeimachine, home" className="shrink-0">
-          <Logo toon="licht" className="h-[26px] w-auto" />
+          <Logo toon="licht" className="h-[22px] w-auto" />
         </Link>
 
         <div className="hidden items-center gap-7 lg:flex">

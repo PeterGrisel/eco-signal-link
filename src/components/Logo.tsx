@@ -1,48 +1,27 @@
 /**
- * Het merk van B2B GroeiMachine.
+ * Het merk van B2B GroeiMachine als React-component.
  *
- * Beeldmerk "Het Blok": een schuin vlak met een B die met de hand is getekend,
- * geen letter uit een lettertype. Het woordmerk is Anton, omgezet naar
- * vectorvormen en onder dezelfde dertien graden gezet. Beide staan hier als
- * pad, zodat het logo nergens van een geïnstalleerd lettertype afhangt en op
- * elk formaat scherp blijft.
- *
- * De losse bestanden voor extern gebruik staan in `public/merk/`.
+ * De vormen en verhoudingen staan in `@/lib/merk`; dat is de enige bron, zodat
+ * dit logo en de losse bestanden in `public/merk/` gelijk blijven. Alles is
+ * pad, dus het merk hangt nergens van een geïnstalleerd lettertype af.
  */
-
-/** Het schuine vlak. */
-const BLOK = "M26,8 L94,8 L74,92 L6,92 Z";
-/** Hetzelfde vlak, maar aflopend. Met marge valt het merk weg op faviconformaat. */
-const BLOK_VOL = "M22,-2 L104,-2 L78,102 L-4,102 Z";
-/** De B: twee gelijke bogen op één stam, counters als halve stadions. */
-const LETTER =
-  "M32,20 H58 A15,15 0 0 1 58,50 A15,15 0 0 1 58,80 H32 Z " +
-  "M47,27.5 H54 A7.5,7.5 0 0 1 54,42.5 H47 Z " +
-  "M47,57.5 H54 A7.5,7.5 0 0 1 54,72.5 H47 Z";
-/** Optisch gecentreerd, niet wiskundig: de bogen rechts wegen zwaarder dan de stam. */
-const LETTER_PLAATSING = "skewX(-13) translate(9,0)";
-
-/** Woordmerk in drie delen, zodat GROEI zijn eigen kleur houdt. */
-const WOORD = {
-  b2b: "M27.10 0L3.81 0L23.65-85.94L46.94-85.94Q56.31-85.94 59.53-81.37Q62.75-76.81 60.33-66.31L59.46-62.55Q58.06-56.49 55.02-52.73Q51.98-48.97 47.27-47.80Q52.74-46.34 53.47-40.94Q54.20-35.55 52.41-27.78Q50.48-19.43 47.48-13.18Q44.47-6.93 39.57-3.47Q34.67 0 27.10 0M37.38-72.66L32.97-53.56L36.49-53.56Q38.88-53.56 39.99-55.42Q41.10-57.28 41.70-59.86L43.70-68.51Q44.65-72.66 40.99-72.66L37.38-72.66M25.81-15.14Q32.50-15.14 33.96-21.48L36.44-32.23Q37.29-35.89 36.68-38.01Q36.07-40.14 33.05-40.14L29.87-40.14L24.12-15.23Q25.17-15.14 25.81-15.14M95.46 0L50.88 0L51.83-4.10Q53.30-10.50 56.46-15.60Q59.61-20.70 63.75-25.07Q67.88-29.44 72.32-33.64Q76.63-37.74 80.68-42.07Q84.73-46.39 87.83-51.44Q90.92-56.49 92.38-62.79Q93.08-65.82 92.67-67.99Q92.27-70.17 89.44-70.17Q85.14-70.17 83.37-62.50L80.95-52L62.88-52Q63.09-53.12 63.35-54.54Q63.60-55.96 63.91-57.28Q66.05-66.55 69.50-73.02Q72.94-79.49 78.68-82.89Q84.42-86.28 93.41-86.28Q104.10-86.28 108.64-80.27Q113.19-74.27 110.62-63.13Q108.87-55.57 105.61-49.88Q102.34-44.19 98.04-39.53Q93.74-34.86 88.81-30.22Q85.32-26.95 81.97-23.54Q78.62-20.12 75.76-16.21L99.20-16.21L95.46 0M124.37 0L101.07 0L120.91-85.94L144.21-85.94Q153.58-85.94 156.80-81.37Q160.02-76.81 157.59-66.31L156.73-62.55Q155.33-56.49 152.29-52.73Q149.25-48.97 144.53-47.80Q150-46.34 150.74-40.94Q151.47-35.55 149.68-27.78Q147.75-19.43 144.74-13.18Q141.74-6.93 136.84-3.47Q131.93 0 124.37 0M134.65-72.66L130.24-53.56L133.75-53.56Q136.15-53.56 137.26-55.42Q138.37-57.28 138.97-59.86L140.96-68.51Q141.92-72.66 138.26-72.66L134.65-72.66M123.07-15.14Q129.76-15.14 131.23-21.48L133.71-32.23Q134.56-35.89 133.95-38.01Q133.34-40.14 130.31-40.14L127.14-40.14L121.39-15.23Q122.44-15.14 123.07-15.14",
-  groei: "M166.47 0.78Q148.06 0.78 154.15-25.59L162.71-62.65Q168.26-86.72 189.36-86.72Q198.05-86.72 201.88-83.23Q205.71-79.74 205.93-73.05Q206.14-66.36 203.92-56.74L187.12-56.74L188.88-64.36Q189.52-67.14 189.20-69.02Q188.88-70.90 186.49-70.90Q183.51-70.90 182.09-68.90Q180.68-66.89 180.13-64.50L170.51-22.85Q169.71-19.38 170.11-17.21Q170.51-15.04 173.15-15.04Q175.88-15.04 177.29-17.21Q178.69-19.38 179.52-22.95L182.35-35.21L177.76-35.21L181.18-50.05L202.18-50.05L190.63 0L183.74 0L182.48-7.23Q176.14 0.78 166.47 0.78M214.79 0L197.41 0L217.25-85.94L243.62-85.94Q250.21-85.94 252.89-82.93Q255.56-79.93 255.46-74.54Q255.37-69.14 253.69-61.87Q252.06-54.83 249.31-50.63Q246.56-46.44 241.26-44.82Q245.12-43.99 246.02-40.80Q246.91-37.60 245.74-32.52L238.23 0L221.29 0L229.06-33.64Q229.92-37.40 228.59-38.31Q227.26-39.21 223.85-39.21L214.79 0M231.06-70.02L227.38-54.10L231.53-54.10Q235.10-54.10 236.89-61.87Q238.05-66.89 237.63-68.46Q237.21-70.02 235.06-70.02L231.06-70.02M265.40 0.78Q255.09 0.78 251.09-5.44Q247.08-11.67 249.80-23.44L259.22-64.26Q261.77-75.29 268.48-81.01Q275.20-86.72 285.60-86.72Q296-86.72 300.07-81.01Q304.15-75.29 301.60-64.26L292.18-23.44Q289.46-11.67 282.58-5.44Q275.70 0.78 265.40 0.78M269.19-15.04Q273.10-15.04 274.85-22.61L284.53-64.55Q286-70.90 282.19-70.90Q277.89-70.90 276.39-64.40L266.72-22.51Q265.80-18.51 266.37-16.77Q266.95-15.04 269.19-15.04M329.20 0L293.70 0L313.54-85.94L347.92-85.94L344.08-69.34L327.19-69.34L323.32-52.59L339.53-52.59L335.80-36.43L319.59-36.43L315.05-16.75L333.07-16.75L329.20 0M350.68 0L334.08 0L353.92-85.94L370.52-85.94",
-  machine: "M373.05 0L357.52 0L377.36-85.94L403.53-85.94L398.66-33.54L417.94-85.94L444.35-85.94L424.51 0L408.79 0L423.08-61.91L398.93 0L383.50 0L387.34-61.91L373.05 0M446.48 0L429.79 0L457.93-85.94L487.08-85.94L475.39 0L459.13 0L461.11-13.87L450.76-13.87L446.48 0M468.51-71.29L455.15-27.59L462.96-27.59L469.29-71.29L468.51-71.29M500.50 0.78Q491.18 0.78 486.83-5.03Q482.48-10.84 484.90-21.29L494.05-60.94Q496.93-73.44 503.42-80.08Q509.91-86.72 521.09-86.72Q527.20-86.72 531.44-84.47Q535.68-82.23 537.39-77.76Q539.09-73.29 537.52-66.50L534.09-51.66L517-51.66L519.94-64.36Q520.83-68.21 520.16-69.56Q519.49-70.90 517.44-70.90Q515.05-70.90 513.82-69.17Q512.59-67.43 511.92-64.55L501.99-21.53Q501.17-17.97 501.88-16.50Q502.59-15.04 504.55-15.04Q506.74-15.04 508.06-16.85Q509.38-18.65 510.05-21.53L513.62-37.01L530.91-37.01L527.15-20.75Q524.54-9.42 517.65-4.32Q510.76 0.78 500.50 0.78M545.17 0L528.08 0L547.92-85.94L565.01-85.94L557.92-55.22L566.02-55.22L573.11-85.94L590.20-85.94L570.36 0L553.27 0L562.27-38.96L554.16-38.96L545.17 0M593.80 0L577.20 0L597.04-85.94L613.64-85.94L593.80 0M617.43 0L600.63 0L620.48-85.94L638.15-85.94L636.56-44.78L646.06-85.94L662.66-85.94L642.82 0L626.03 0L627.35-42.97L617.43 0M685.94 0L650.44 0L670.28-85.94L704.65-85.94L700.82-69.34L683.93-69.34L680.06-52.59L696.27-52.59L692.54-36.43L676.33-36.43L671.79-16.75L689.80-16.75",
-};
-/** Kader van het woordmerk, gemeten op de vormen hierboven. */
-const WOORD_VAK = { x0: 3.8, x1: 704.6, y0: -86.7, y1: 0.8 };
-
-const KLEUR = {
-  donker: { vlak: "#E8945A", letter: "#17140F", woord: "#F7F4EF", accent: "#E8945A" },
-  licht: { vlak: "#17140F", letter: "#F7F4EF", woord: "#17140F", accent: "#A85410" },
-} as const;
-
-type Toon = keyof typeof KLEUR;
+import {
+  BLOK,
+  BLOK_VOL,
+  LETTER,
+  LETTER_PLAATSING,
+  TONEN,
+  WOORD,
+  lockupMaten,
+  type Toon,
+} from "@/lib/merk";
 
 /**
  * Alleen het beeldmerk.
  *
- * `aflopend` laat het vlak tot de rand lopen; gebruik dat zodra het merk onder
- * de veertig pixels komt, anders verdwijnt het in zijn eigen witruimte.
+ * `aflopend` laat het vlak tot buiten het kader lopen; gebruik dat zodra het
+ * merk onder de veertig pixels komt, anders verdwijnt het in zijn eigen
+ * witruimte.
  */
 export function Merk({
   toon = "donker",
@@ -53,7 +32,7 @@ export function Merk({
   aflopend?: boolean;
   className?: string;
 }) {
-  const k = KLEUR[toon];
+  const k = TONEN[toon];
   return (
     <svg viewBox="0 0 100 100" className={className} role="img" aria-label="B2B GroeiMachine">
       <path d={aflopend ? BLOK_VOL : BLOK} fill={k.vlak} />
@@ -64,18 +43,16 @@ export function Merk({
   );
 }
 
-/** Het beeldmerk met de naam ernaast. De hoogte volgt uit de `className`. */
+/**
+ * Het beeldmerk met de naam ernaast. De hoogte volgt uit de `className`; op
+ * 22 pixels hoog zijn de kapitalen 16, wat in een navigatiebalk prettig leest.
+ */
 export function Logo({ toon = "donker", className }: { toon?: Toon; className?: string }) {
-  const k = KLEUR[toon];
-  const kapH = WOORD_VAK.y1 - WOORD_VAK.y0;
-  const s = 56 / kapH;
-  const gat = 26;
-  const wx = 100 + gat - WOORD_VAK.x0 * s;
-  const wy = 50 + 28 - WOORD_VAK.y1 * s;
-  const breedte = 100 + gat + (WOORD_VAK.x1 - WOORD_VAK.x0) * s;
+  const k = TONEN[toon];
+  const m = lockupMaten();
   return (
     <svg
-      viewBox={`0 0 ${breedte.toFixed(1)} 100`}
+      viewBox={`0 0 ${m.breedte.toFixed(1)} 100`}
       className={className}
       role="img"
       aria-label="B2B GroeiMachine"
@@ -84,7 +61,7 @@ export function Logo({ toon = "donker", className }: { toon?: Toon; className?: 
       <g transform={LETTER_PLAATSING}>
         <path d={LETTER} fill={k.letter} fillRule="evenodd" />
       </g>
-      <g transform={`translate(${wx.toFixed(2)},${wy.toFixed(2)}) scale(${s.toFixed(4)})`}>
+      <g transform={`translate(${m.x.toFixed(2)},${m.y.toFixed(2)}) scale(${m.schaal.toFixed(4)})`}>
         <path d={WOORD.b2b} fill={k.woord} />
         <path d={WOORD.groei} fill={k.accent} />
         <path d={WOORD.machine} fill={k.woord} />

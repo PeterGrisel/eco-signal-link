@@ -15,7 +15,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "logos:manifest": "node scripts/build-logo-manifest.mjs",
-    "og": "node scripts/build-og.mjs"
+    "og": "node scripts/build-og.mjs",
+    "merk": "bunx tsx scripts/build-merk.ts"
   },
   "dependencies": {
     "@fontsource/fraunces": "^5.2.9",

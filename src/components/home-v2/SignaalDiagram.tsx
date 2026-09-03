@@ -1,5 +1,6 @@
 import { memo } from "react";
 import { fase } from "@/hooks/useScrollProgress";
+import { BLOK, LETTER, LETTER_PLAATSING, TONEN } from "@/lib/merk";
 
 /**
  * De hero-visual: het systeem in één beeld.
@@ -206,16 +207,12 @@ function SignaalDiagramBase({ progress = 1 }: { progress?: number }) {
             className="fill-[#1D1913] stroke-[#E8945A]"
             strokeWidth="1.25"
           />
-          <g transform={`translate(${ENGINE.x + ENGINE.w / 2 - 11} ${ENGINE.y + 14})`}>
-            {[
-              [0, 0],
-              [11, 0],
-              [5.5, 9],
-              [0, 18],
-              [11, 18],
-            ].map(([dx, dy]) => (
-              <rect key={`${dx}-${dy}`} x={dx} y={dy} width="8" height="8" rx="1" className="fill-[#E8945A]" />
-            ))}
+          {/* Het merk zelf als de engine: dit is waar het systeem zit. */}
+          <g transform={`translate(${ENGINE.x + ENGINE.w / 2 - 13} ${ENGINE.y + 10}) scale(0.26)`}>
+            <path d={BLOK} fill={TONEN.donker.vlak} />
+            <g transform={LETTER_PLAATSING}>
+              <path d={LETTER} fill={TONEN.donker.letter} fillRule="evenodd" />
+            </g>
           </g>
           <text
             x={ENGINE.x + ENGINE.w / 2}

@@ -1,0 +1,71 @@
+/**
+ * De geometrie van het merk, als enige bron.
+ *
+ * Zowel `src/components/Logo.tsx` als `scripts/build-merk.ts` rekent hiermee,
+ * zodat het logo in de app en de losse bestanden in `public/merk/` niet uit
+ * elkaar kunnen lopen. Verander je hier iets, draai dan `npm run merk`.
+ *
+ * Beeldmerk "Het Blok": een schuin vlak met een B die met de hand is getekend,
+ * geen letter uit een lettertype. Het woordmerk is Anton, omgezet naar
+ * vectorvormen en onder dezelfde dertien graden gezet. Beide staan hier als
+ * pad, zodat het merk nergens van een geïnstalleerd lettertype afhangt.
+ */
+
+/** Het schuine vlak. */
+export const BLOK = "M26,8 L94,8 L74,92 L6,92 Z";
+/** Hetzelfde vlak, maar aflopend. Met marge valt het merk weg op faviconformaat. */
+export const BLOK_VOL = "M22,-2 L104,-2 L78,102 L-4,102 Z";
+/** De B: twee gelijke bogen op één stam, counters als halve stadions. */
+export const LETTER =
+  "M32,20 H58 A15,15 0 0 1 58,50 A15,15 0 0 1 58,80 H32 Z " +
+  "M47,27.5 H54 A7.5,7.5 0 0 1 54,42.5 H47 Z " +
+  "M47,57.5 H54 A7.5,7.5 0 0 1 54,72.5 H47 Z";
+/** Optisch gecentreerd, niet wiskundig: de bogen rechts wegen zwaarder dan de stam. */
+export const LETTER_PLAATSING = "skewX(-13) translate(9,0)";
+
+/** Woordmerk in drie delen, zodat GROEI zijn eigen kleur houdt. */
+export const WOORD = {
+  b2b:
+    "M27.1 0L3.8 0L23.7-85.9L46.9-85.9Q56.3-85.9 59.5-81.4Q62.8-76.8 60.3-66.3L59.5-62.5Q58.1-56.5 55-52.7Q52-49 47.3-47.8Q52.7-46.3 53.5-40.9Q54.2-35.5 52.4-27.8Q50.5-19.4 47.5-13.2Q44.5-6.9 39.6-3.5Q34.7 0 27.1 0M37.4-72.7L33-53.6L36.5-53.6Q38.9-53.6 40-55.4Q41.1-57.3 41.7-59.9L43.7-68.5Q44.7-72.7 41-72.7L37.4-72.7M25.8-15.1Q32.5-15.1 34-21.5L36.4-32.2Q37.3-35.9 36.7-38Q36.1-40.1 33.1-40.1L29.9-40.1L24.1-15.2Q25.2-15.1 25.8-15.1M95.5 0L50.9 0L51.8-4.1Q53.3-10.5 56.5-15.6Q59.6-20.7 63.8-25.1Q67.9-29.4 72.3-33.6Q76.6-37.7 80.7-42.1Q84.7-46.4 87.8-51.4Q90.9-56.5 92.4-62.8Q93.1-65.8 92.7-68Q92.3-70.2 89.4-70.2Q85.1-70.2 83.4-62.5L81-52L62.9-52Q63.1-53.1 63.4-54.5Q63.6-56 63.9-57.3Q66.1-66.5 69.5-73Q72.9-79.5 78.7-82.9Q84.4-86.3 93.4-86.3Q104.1-86.3 108.6-80.3Q113.2-74.3 110.6-63.1Q108.9-55.6 105.6-49.9Q102.3-44.2 98-39.5Q93.7-34.9 88.8-30.2Q85.3-26.9 82-23.5Q78.6-20.1 75.8-16.2L99.2-16.2L95.5 0M124.4 0L101.1 0L120.9-85.9L144.2-85.9Q153.6-85.9 156.8-81.4Q160-76.8 157.6-66.3L156.7-62.5Q155.3-56.5 152.3-52.7Q149.3-49 144.5-47.8Q150-46.3 150.7-40.9Q151.5-35.5 149.7-27.8Q147.8-19.4 144.7-13.2Q141.7-6.9 136.8-3.5Q131.9 0 124.4 0M134.7-72.7L130.2-53.6L133.8-53.6Q136.2-53.6 137.3-55.4Q138.4-57.3 139-59.9L141-68.5Q141.9-72.7 138.3-72.7L134.7-72.7M123.1-15.1Q129.8-15.1 131.2-21.5L133.7-32.2Q134.6-35.9 134-38Q133.3-40.1 130.3-40.1L127.1-40.1L121.4-15.2Q122.4-15.1 123.1-15.1",
+  groei:
+    "M166.5 0.8Q148.1 0.8 154.2-25.6L162.7-62.6Q168.3-86.7 189.4-86.7Q198.1-86.7 201.9-83.2Q205.7-79.7 205.9-73Q206.1-66.4 203.9-56.7L187.1-56.7L188.9-64.4Q189.5-67.1 189.2-69Q188.9-70.9 186.5-70.9Q183.5-70.9 182.1-68.9Q180.7-66.9 180.1-64.5L170.5-22.8Q169.7-19.4 170.1-17.2Q170.5-15 173.2-15Q175.9-15 177.3-17.2Q178.7-19.4 179.5-22.9L182.4-35.2L177.8-35.2L181.2-50L202.2-50L190.6 0L183.7 0L182.5-7.2Q176.1 0.8 166.5 0.8M214.8 0L197.4 0L217.3-85.9L243.6-85.9Q250.2-85.9 252.9-82.9Q255.6-79.9 255.5-74.5Q255.4-69.1 253.7-61.9Q252.1-54.8 249.3-50.6Q246.6-46.4 241.3-44.8Q245.1-44 246-40.8Q246.9-37.6 245.7-32.5L238.2 0L221.3 0L229.1-33.6Q229.9-37.4 228.6-38.3Q227.3-39.2 223.9-39.2L214.8 0M231.1-70L227.4-54.1L231.5-54.1Q235.1-54.1 236.9-61.9Q238.1-66.9 237.6-68.5Q237.2-70 235.1-70L231.1-70M265.4 0.8Q255.1 0.8 251.1-5.4Q247.1-11.7 249.8-23.4L259.2-64.3Q261.8-75.3 268.5-81Q275.2-86.7 285.6-86.7Q296-86.7 300.1-81Q304.2-75.3 301.6-64.3L292.2-23.4Q289.5-11.7 282.6-5.4Q275.7 0.8 265.4 0.8M269.2-15Q273.1-15 274.9-22.6L284.5-64.5Q286-70.9 282.2-70.9Q277.9-70.9 276.4-64.4L266.7-22.5Q265.8-18.5 266.4-16.8Q267-15 269.2-15M329.2 0L293.7 0L313.5-85.9L347.9-85.9L344.1-69.3L327.2-69.3L323.3-52.6L339.5-52.6L335.8-36.4L319.6-36.4L315.1-16.7L333.1-16.7L329.2 0M350.7 0L334.1 0L353.9-85.9L370.5-85.9",
+  machine:
+    "M373.1 0L357.5 0L377.4-85.9L403.5-85.9L398.7-33.5L417.9-85.9L444.4-85.9L424.5 0L408.8 0L423.1-61.9L398.9 0L383.5 0L387.3-61.9L373.1 0M446.5 0L429.8 0L457.9-85.9L487.1-85.9L475.4 0L459.1 0L461.1-13.9L450.8-13.9L446.5 0M468.5-71.3L455.2-27.6L463-27.6L469.3-71.3L468.5-71.3M500.5 0.8Q491.2 0.8 486.8-5Q482.5-10.8 484.9-21.3L494.1-60.9Q496.9-73.4 503.4-80.1Q509.9-86.7 521.1-86.7Q527.2-86.7 531.4-84.5Q535.7-82.2 537.4-77.8Q539.1-73.3 537.5-66.5L534.1-51.7L517-51.7L519.9-64.4Q520.8-68.2 520.2-69.6Q519.5-70.9 517.4-70.9Q515.1-70.9 513.8-69.2Q512.6-67.4 511.9-64.5L502-21.5Q501.2-18 501.9-16.5Q502.6-15 504.6-15Q506.7-15 508.1-16.8Q509.4-18.6 510.1-21.5L513.6-37L530.9-37L527.2-20.7Q524.5-9.4 517.7-4.3Q510.8 0.8 500.5 0.8M545.2 0L528.1 0L547.9-85.9L565-85.9L557.9-55.2L566-55.2L573.1-85.9L590.2-85.9L570.4 0L553.3 0L562.3-39L554.2-39L545.2 0M593.8 0L577.2 0L597-85.9L613.6-85.9L593.8 0M617.4 0L600.6 0L620.5-85.9L638.2-85.9L636.6-44.8L646.1-85.9L662.7-85.9L642.8 0L626 0L627.4-43L617.4 0M685.9 0L650.4 0L670.3-85.9L704.7-85.9L700.8-69.3L683.9-69.3L680.1-52.6L696.3-52.6L692.5-36.4L676.3-36.4L671.8-16.7L689.8-16.7",
+};
+
+/** Kader van het woordmerk, gemeten op de vormen in `WOORD`. */
+export const WOORD_VAK = { x0: 3.8, x1: 704.6, y0: -86.7, y1: 0.8 };
+
+/**
+ * Verhouding binnen de lockup.
+ *
+ * De kapitalen zijn bijna net zo hoog als het vlak. Eerder stonden ze op 56
+ * van de 100 en dan torent het blok boven de naam uit: in een navigatiebalk
+ * van rond de twintig pixels leest dat als een blok mét een naam ernaast in
+ * plaats van als één merk.
+ */
+export const KAPITAALHOOGTE = 72.7;
+export const TUSSENRUIMTE = 45.5;
+
+/**
+ * Kleuren per ondergrond. Het vlak blijft in beide gevallen merkoranje; een
+ * inktzwart blok werd op een lichte balk een baksteen naast de naam. Voor druk
+ * in één kleur staat er een aparte variant in `public/merk/`.
+ */
+export const TONEN = {
+  donker: { vlak: "#E8945A", letter: "#17140F", woord: "#F7F4EF", accent: "#E8945A" },
+  licht: { vlak: "#E8945A", letter: "#17140F", woord: "#17140F", accent: "#A85410" },
+} as const;
+
+export type Toon = keyof typeof TONEN;
+
+/** Plaatsing en schaal van het woordmerk naast het beeldmerk. */
+export function lockupMaten() {
+  const schaal = KAPITAALHOOGTE / (WOORD_VAK.y1 - WOORD_VAK.y0);
+  return {
+    schaal,
+    x: 100 + TUSSENRUIMTE - WOORD_VAK.x0 * schaal,
+    y: 50 + KAPITAALHOOGTE / 2 - WOORD_VAK.y1 * schaal,
+    breedte: 100 + TUSSENRUIMTE + (WOORD_VAK.x1 - WOORD_VAK.x0) * schaal,
+  };
+}
