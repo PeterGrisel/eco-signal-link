@@ -71,33 +71,35 @@ export default function LeftDock() {
   if (location.pathname.startsWith("/signaal") || location.pathname.startsWith("/admin")) return null;
   if (location.pathname.startsWith("/voor") && location.pathname !== "/voor/hego") return null;
 
-  const scrollToId = (id: string) => {
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
-
-  const goToAnchor = (path: string, id: string, label: string) => {
+  const goToAnchor = (id: string, label: string) => {
     if (location.pathname === "/") {
-      scrollToId(id);
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+      else navigate(`/#${id}`);
     } else {
-      navigate(path);
+      navigate(`/#${id}`);
     }
-    trackCTA(`LeftDock — ${label}`, path);
+    trackCTA(`LeftDock — ${label}`, `/#${id}`);
   };
 
   const items = [
     {
-      icon: HelpCircle,
-      label: "FAQ",
-      onClick: () => goToAnchor("/#faq", "faq", "FAQ"),
+      icon: BookOpen,
+      label: "Wat wij leveren",
+      onClick: () => goToAnchor("diensten", "Diensten"),
     },
     {
       icon: Euro,
-      label: "Pricing",
+      label: "Prijzen",
       onClick: () => {
         navigate("/pricing");
         trackCTA("LeftDock — Pricing", "/pricing");
       },
+    },
+    {
+      icon: HelpCircle,
+      label: "Veelgestelde vragen",
+      onClick: () => goToAnchor("vragen", "Vragen"),
     },
     {
       icon: Phone,
@@ -128,6 +130,7 @@ export default function LeftDock() {
       onClick: () => trackCTA("LeftDock — LinkedIn", LINKEDIN),
     },
   ];
+
 
   return (
     <>
