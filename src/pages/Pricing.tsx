@@ -27,6 +27,14 @@ const Pricing = () => {
           />
           <Navbar />
           <main className="pt-24">
+            <header className="mx-auto max-w-5xl px-5 pt-10 pb-2 text-center">
+              <h1 className="font-display text-4xl md:text-6xl font-bold tracking-tight">
+                Geen kleine lettertjes.
+              </h1>
+              <p className="mt-4 text-base md:text-lg text-muted-foreground max-w-2xl mx-auto">
+                Transparante prijzen. Kies de fase die past bij uw groei.
+              </p>
+            </header>
             <PricingSection showPerformancePartnership={false} />
           </main>
           <Footer />
