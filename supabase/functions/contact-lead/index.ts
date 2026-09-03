@@ -93,6 +93,7 @@ serve(async (req) => {
         purpose: "transactional",
         idempotency_key: `contact-lead-${inserted?.id ?? Date.now()}`,
         message_id: `contact-${inserted?.id ?? Date.now()}`,
+        unsubscribe_token: unsubscribeToken,
         from: "B2BGroeiMachine <hi@notify.b2bgroeimachine.io>",
       },
     });
