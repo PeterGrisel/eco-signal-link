@@ -42,6 +42,8 @@ const Home = () => {
     canonical: "https://www.b2bgroeimachine.io/",
   });
 
+  const servicesSchema = useMemo(() => buildServicesSchema(), []);
+
   const faqSchema = useMemo(
     () => ({
       "@context": "https://schema.org",
