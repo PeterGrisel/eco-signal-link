@@ -10,6 +10,7 @@ import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 import { supabase } from "@/integrations/supabase/client";
 import { faviconFor } from "@/data/groeistack";
 import { usePageMeta } from "@/hooks/usePageMeta";
+import SphereImageGrid from "@/components/ui/img-sphere";
 
 interface Client {
   id: string;
