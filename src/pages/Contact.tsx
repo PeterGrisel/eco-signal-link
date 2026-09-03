@@ -9,7 +9,6 @@ import { Send, Loader2, Calendar, Mail, Phone, Building2, TrendingUp, Users, Wor
 import { z } from "zod";
 import { trackCTA, trackFormSubmit } from "@/lib/tracking";
 import { usePageMeta } from "@/hooks/usePageMeta";
-import ApolloFormEnrichment from "@/components/ApolloFormEnrichment";
 
 const contactSchema = z.object({
   name: z.string().trim().min(1, "Naam is verplicht").max(100),
@@ -47,13 +46,16 @@ const Contact = () => {
     }
 
     setSubmitting(true);
-    const { error } = await supabase.from("contact_submissions").insert({
-      name: result.data.name,
-      email: result.data.email,
-      company: result.data.company || null,
-      phone: result.data.phone || null,
-      message: result.data.message,
-      session_id: sessionStorage.getItem("b2b_session_id") || null,
+    const { error } = await supabase.functions.invoke("contact-lead", {
+      body: {
+        name: result.data.name,
+        email: result.data.email,
+        company: result.data.company || null,
+        phone: result.data.phone || null,
+        message: result.data.message,
+        session_id: sessionStorage.getItem("b2b_session_id") || null,
+        page_url: window.location.href,
+      },
     });
 
     if (error) {
@@ -71,7 +73,6 @@ const Contact = () => {
 
   return (
     <>
-      <ApolloFormEnrichment />
       <Navbar />
       <main className="pt-16">
         <section className="py-16 md:py-24 relative">
