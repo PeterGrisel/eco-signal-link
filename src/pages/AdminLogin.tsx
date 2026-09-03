@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,6 +11,9 @@ const AdminLogin = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [params] = useSearchParams();
+  const nextRaw = params.get("next");
+  const next = nextRaw && nextRaw.startsWith("/") && !nextRaw.startsWith("//") ? nextRaw : null;
   const { toast } = useToast();
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -21,7 +24,11 @@ const AdminLogin = () => {
     if (error) {
       toast({ title: "Fout", description: error.message, variant: "destructive" });
     } else {
-      navigate("/admin/dashboard");
+      if (next) {
+        window.location.href = next;
+      } else {
+        navigate("/admin/dashboard");
+      }
     }
   };
 

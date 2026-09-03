@@ -1,0 +1,203 @@
+{
+  "version": 1,
+  "sdk_version": "1.0.0",
+  "path": "/functions/v1/mcp",
+  "auth": {
+    "type": "oauth",
+    "issuer": "https://snymrcialncxkcsibkjv.supabase.co/auth/v1",
+    "accepted_audiences": [
+      "authenticated"
+    ]
+  },
+  "mcp": {
+    "server": {
+      "name": "b2b-signal-based-system",
+      "version": "0.1.0",
+      "title": "b2b signal based system"
+    },
+    "tools": [
+      {
+        "name": "list_blog_posts",
+        "title": "Lijst blogposts",
+        "description": "Geeft blogposts terug, optioneel gefilterd op status of zoekterm in de titel.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": [
+                "draft",
+                "published",
+                "archived"
+              ],
+              "description": "Filter op status."
+            },
+            "search": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Zoekterm in de titel."
+            },
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50,
+              "default": 20,
+              "description": "Maximum aantal posts."
+            }
+          },
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_blog_post",
+        "title": "Haal blogpost op",
+        "description": "Haalt één blogpost op inclusief volledige inhoud, op slug of id.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "slug": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Slug van de post."
+            },
+            "id": {
+              "type": "string",
+              "format": "uuid",
+              "description": "Id van de post."
+            }
+          },
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "create_blog_post",
+        "title": "Maak blogpost",
+        "description": "Maakt een nieuwe blogpost aan, standaard als concept.",
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": false,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Titel van de post."
+            },
+            "slug": {
+              "type": "string",
+              "minLength": 1,
+              "description": "URL-slug, kleine letters en streepjes."
+            },
+            "content": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Inhoud in markdown, zonder H1."
+            },
+            "excerpt": {
+              "type": "string",
+              "description": "Korte samenvatting."
+            },
+            "meta_description": {
+              "type": "string",
+              "description": "SEO meta description."
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "draft",
+                "published"
+              ],
+              "default": "draft",
+              "description": "Publicatiestatus."
+            }
+          },
+          "required": [
+            "title",
+            "slug",
+            "content"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_clients",
+        "title": "Lijst klanten",
+        "description": "Geeft de klanten (logo's) van B2BGroeiMachine terug met sector en website.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "only_visible": {
+              "type": "boolean",
+              "default": true,
+              "description": "Alleen zichtbare klanten tonen."
+            },
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 50,
+              "description": "Maximum aantal klanten."
+            }
+          },
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_contact_submissions",
+        "title": "Lijst contactaanvragen",
+        "description": "Geeft de meest recente aanvragen uit het contactformulier terug.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50,
+              "default": 20,
+              "description": "Maximum aantal aanvragen."
+            },
+            "search": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Zoekterm in naam of bedrijf."
+            }
+          },
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}

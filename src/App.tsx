@@ -41,6 +41,7 @@ import Contact from "./pages/Contact.tsx";
 import Privacy from "./pages/Privacy.tsx";
 import Terms from "./pages/Terms.tsx";
 import Cookies from "./pages/Cookies.tsx";
+import OAuthConsent from "./pages/OAuthConsent";
 import AdminLogin from "./pages/AdminLogin.tsx";
 import AdminDashboard from "./pages/admin/AdminDashboard.tsx";
 import AdminAnalyticsHub from "./pages/admin/AdminAnalyticsHub.tsx";
@@ -185,6 +186,7 @@ const AnimatedRoutes = () => {
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/terms" element={<Terms />} />
           <Route path="/cookies" element={<Cookies />} />
+          <Route path="/.lovable/oauth/consent" element={<OAuthConsent />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/admin/analytics" element={<AdminAnalyticsHub />} />
