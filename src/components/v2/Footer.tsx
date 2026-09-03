@@ -159,7 +159,7 @@ export function Footer() {
               <span className="text-brand-accent">GroeiMachine</span>
             </p>
             <p className="max-w-[38ch] text-[13px] leading-relaxed text-[#A29584]">
-              B2B Groeimachine bouwt commerciële opportunity-engines voor
+              B2B Groeimachine ontwerpt en bouwt commerciële opportunity-engines voor
               B2B-organisaties in de Benelux. Wij vertalen uw verkoopproces naar
               software, koppelen uw systemen en leveren het geheel als een
               digitale commerciële medewerker. Een label van Rebel Force.
