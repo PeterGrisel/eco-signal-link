@@ -461,34 +461,31 @@ export function Klantenraster() {
         lead="Industriële toeleveranciers, technische dienstverleners en zakelijke dienstverleners in de Benelux. Bekijk per klant welke hypothese we hebben getest en wat eruit kwam."
       />
 
-      <div className="grid grid-cols-2 border-l border-t border-brand-line md:grid-cols-4">
-        {klanten.map((klant, i) => (
-          <Link
-            key={klant.id}
-            to="/klanten"
-            aria-label={klant.name}
-            className="group relative flex min-h-[152px] min-w-0 flex-col justify-between border-b border-r border-brand-line p-5 transition-colors duration-300 hover:bg-brand-mist md:min-h-[192px] md:p-6"
-          >
-            <div className="flex items-start justify-between gap-3">
-              <span className="font-mono text-[10px] tabular-nums text-brand-ink-3">
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <span
-                aria-hidden
-                className="text-brand-ink-3 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-              >
-                ↗
-              </span>
-            </div>
-            <div className="flex flex-1 items-center justify-center px-2 py-4">
-              <Logo klant={klant} hoogte={42} />
-            </div>
-            <p className="truncate font-mono text-[10px] uppercase tracking-[0.12em] text-brand-ink-3">
-              {klant.sector || "Klant"}
-            </p>
-          </Link>
-        ))}
+      <div className="flex justify-center">
+        <SphereImageGrid
+          className="mx-auto"
+          images={klanten
+            .map((k) => ({
+              id: k.id,
+              src: k.logo_url || faviconFor(k.website || k.domain) || "",
+              alt: k.name,
+              title: k.name,
+              description: k.sector || undefined,
+            }))
+            .filter((i) => i.src)}
+          containerSize={typeof window !== "undefined" && window.innerWidth < 768 ? 320 : 560}
+          sphereRadius={typeof window !== "undefined" && window.innerWidth < 768 ? 130 : 210}
+          baseImageScale={0.2}
+          hoverScale={1.15}
+          dragSensitivity={0.6}
+          momentumDecay={0.96}
+          autoRotate
+          autoRotateSpeed={0.18}
+          showModal={false}
+          onImageClick={() => navigate("/klanten")}
+        />
       </div>
+
 
       <Reveal className="mt-10">
         <Button href="/klanten" variant="outline">
