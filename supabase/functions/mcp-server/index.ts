@@ -565,7 +565,7 @@ mcp.tool("generate_blog_visual", {
 
 mcp.tool("get_blog_visual_result", {
   description:
-    "Fetch the result of a generate_blog_visual call by thread_id. Returns artifact URLs when done, or status='running' if still generating.",
+    "Fetch the result of any Lovart thread (generate_blog_visual or lovart_chat) by thread_id. Returns artifact URLs plus a mirrored public storage URL when done, or status='running' if still generating.",
   inputSchema: {
     type: "object",
     properties: { thread_id: { type: "string" } },
