@@ -235,6 +235,13 @@ export function Footer() {
             >
               rebelforce.nl ↗
             </a>
+            <a
+              href="/llms.txt"
+              className="transition-colors duration-[180ms] hover:text-brand-accent"
+              title="Machine-leesbare samenvatting van deze site"
+            >
+              llms.txt
+            </a>
           </div>
           <div className="flex flex-wrap justify-between gap-x-6 gap-y-2 border-t border-white/[.12] pt-3">
             <span>© {new Date().getFullYear()} B2BGroeiMachine · b2bgroeimachine.io</span>
