@@ -296,6 +296,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://www.b2bgroeimachine.io/blog/datakwaliteit-voor-engineering-bureaus-b2b-prospectie-verbeteren</loc>
+    <lastmod>2026-09-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.b2bgroeimachine.io/blog/datakwaliteit-waarborgen-b2b-strategie-praktijk</loc>
     <lastmod>2026-09-03</lastmod>
     <changefreq>weekly</changefreq>
@@ -303,12 +309,6 @@
   </url>
   <url>
     <loc>https://www.b2bgroeimachine.io/blog/waarom-een-kanaal-niet-genoeg-is</loc>
-    <lastmod>2026-09-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.b2bgroeimachine.io/blog/b2b-datakwaliteit-audit-uitvoeren</loc>
     <lastmod>2026-09-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -1014,6 +1014,12 @@
     <lastmod>2026-05-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.b2bgroeimachine.io/woordenboek/revenue-signaal-ankerpunten</loc>
+    <lastmod>2026-09-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://www.b2bgroeimachine.io/woordenboek/pijplijn-intelligentie-mapping</loc>

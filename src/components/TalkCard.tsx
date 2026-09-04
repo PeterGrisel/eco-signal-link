@@ -18,11 +18,11 @@ const TalkCard = ({ className = "", location = "Hero" }: { className?: string; l
       />
     </div>
     <div className="flex flex-1 flex-col gap-1.5 py-2">
-      <h4 className="font-display text-base font-semibold tracking-tight text-foreground">Praat met Peter</h4>
+      <h4 className="font-display text-base font-semibold tracking-tight text-foreground">1 op 1 met Peter</h4>
       <p className="text-[11px] uppercase tracking-[0.08em] text-muted-foreground">Oprichter · B2B Groeimachine</p>
       <Button variant="hero" size="sm" className="mt-1 w-full rounded-full" asChild>
         <CtaLink intent="gratisScan" location={location}>
-          Ik wil schalen!
+          Laat mij zien hoe!
         </CtaLink>
       </Button>
     </div>
