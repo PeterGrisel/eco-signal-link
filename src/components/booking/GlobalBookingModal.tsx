@@ -190,6 +190,24 @@ export function GlobalBookingModal({ open, onOpenChange, prefillData }: GlobalBo
               </div>
             </div>
 
+            <div className="shrink-0 border-t border-glow/20 bg-primary/5 px-6 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                Zit Peter vol? Stuur een berichtje met je voorkeursdatum en tijdstip.
+              </p>
+              <Link
+                to="/contact"
+                onClick={() => {
+                  trackEvent("booking_fallback_contact", "conversion", "Contact via boekingsbalk", {
+                    source: window.location.pathname,
+                  });
+                  onOpenChange(false);
+                }}
+                className="inline-flex shrink-0 items-center justify-center rounded-full bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground hover:opacity-90 transition-opacity"
+              >
+                Stuur een berichtje
+              </Link>
+            </div>
+
             <div className="hidden">
 
 
