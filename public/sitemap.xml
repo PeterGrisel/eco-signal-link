@@ -31,6 +31,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.b2bgroeimachine.io/performance-partnership</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://www.b2bgroeimachine.io/over-ons</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
