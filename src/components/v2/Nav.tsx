@@ -27,6 +27,7 @@ const GROUPS: Group[] = [
       { label: "Nurturing", href: "/#diensten", note: "Top of mind bij wie nog niet koopt" },
       { label: "De engine", href: "/de-engine", note: "De volledige architectuur" },
       { label: "Groeistack", href: "/groeistack", note: "Onze modulaire B2B groeistack" },
+      { label: "Performance Partnership", href: "/performance-partnership", note: "Lage techkosten, gedeelde upside" },
     ],
   },
   {
