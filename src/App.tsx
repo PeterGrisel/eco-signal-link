@@ -16,6 +16,7 @@ import OnsTeam from "./pages/OnsTeam.tsx";
 import SectorPage from "./pages/SectorPage.tsx";
 import HoeHetWerktV2 from "./pages/HoeHetWerktV2.tsx";
 import Pricing from "./pages/Pricing.tsx";
+import PerformancePartnership from "./pages/PerformancePartnership.tsx";
 import Groeistack from "./pages/Groeistack.tsx";
 import AdminGroeistack from "./pages/admin/AdminGroeistack.tsx";
 import AdminGroeistackLeads from "./pages/admin/AdminGroeistackLeads.tsx";
@@ -148,6 +149,7 @@ const AnimatedRoutes = () => {
           <Route path="/sectoren/:slug" element={<SectorPage />} />
           <Route path="/hoe-het-werkt" element={<HoeHetWerktV2 />} />
           <Route path="/pricing" element={<Pricing />} />
+          <Route path="/performance-partnership" element={<PerformancePartnership />} />
           <Route path="/hoe-het-werkt-v2" element={<Navigate to="/hoe-het-werkt" replace />} />
           <Route path="/groeistack" element={<Groeistack />} />
           <Route path="/admin/groeistack" element={<AdminGroeistack />} />
