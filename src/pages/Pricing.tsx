@@ -35,7 +35,7 @@ const Pricing = () => {
                 Transparante prijzen. Kies de fase die past bij uw groei.
               </p>
             </header>
-            <PricingSection showPerformancePartnership={true} />
+            <PricingSection showPerformancePartnership={false} />
           </main>
           <Footer />
         </div>
