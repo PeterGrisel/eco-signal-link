@@ -1,3 +1,5 @@
+import { useEffect, useRef, useState } from "react";
+import { motion, useInView } from "framer-motion";
 import { ArrowRight, ArrowUpRight, Mail } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -118,16 +120,70 @@ const faqs = [
   },
 ];
 
-const SectionHeader = ({ index, title, light = false }: { index: string; title: string; light?: boolean }) => (
-  <div
-    className="flex items-baseline gap-4 border-t-2 pt-5 mb-10 md:mb-14"
-    style={{ borderColor: light ? "#fff" : RED }}
+/** Zachte scroll-reveal voor sectieblokken. */
+const Reveal = ({
+  children,
+  delay = 0,
+  className = "",
+}: {
+  children: React.ReactNode;
+  delay?: number;
+  className?: string;
+}) => (
+  <motion.div
+    className={className}
+    initial={{ opacity: 0, y: 22 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true, margin: "-70px" }}
+    transition={{ duration: 0.6, delay, ease: "easeOut" }}
   >
-    <span className="text-sm md:text-base" style={{ fontFamily: MONO, color: light ? "#fff" : RED }}>
-      {index}
+    {children}
+  </motion.div>
+);
+
+/** Telt numerieke scorebordwaarden op zodra ze in beeld schuiven. */
+const CountUp = ({ value }: { value: string }) => {
+  const match = value.match(/^(\d+)(.*)$/);
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-40px" });
+  const target = match ? parseInt(match[1], 10) : 0;
+  const [n, setN] = useState(0);
+
+  useEffect(() => {
+    if (!match || !inView) return;
+    const duration = 1300;
+    const start = performance.now();
+    let raf = 0;
+    const tick = (t: number) => {
+      const p = Math.min(1, (t - start) / duration);
+      setN(Math.round(target * (1 - Math.pow(1 - p, 3))));
+      if (p < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [match, inView, target]);
+
+  if (!match) return <span ref={ref}>{value}</span>;
+  return (
+    <span ref={ref}>
+      {n}
+      {match[2]}
     </span>
-    <h2 className="font-display font-bold uppercase tracking-tight text-3xl md:text-5xl leading-none">{title}</h2>
-  </div>
+  );
+};
+
+const SectionHeader = ({ index, title, light = false }: { index: string; title: string; light?: boolean }) => (
+  <Reveal>
+    <div
+      className="flex items-baseline gap-4 border-t-2 pt-5 mb-10 md:mb-14"
+      style={{ borderColor: light ? "#fff" : RED }}
+    >
+      <span className="text-sm md:text-base" style={{ fontFamily: MONO, color: light ? "#fff" : RED }}>
+        {index}
+      </span>
+      <h2 className="font-display font-bold uppercase tracking-tight text-3xl md:text-5xl leading-none">{title}</h2>
+    </div>
+  </Reveal>
 );
 
 const PsvPage = () => {
@@ -146,6 +202,14 @@ const PsvPage = () => {
       {/* HERO — rood-wit, poster-typografie */}
       <section className="relative pt-20 md:pt-24 overflow-hidden">
         <div className="relative py-16 md:py-24" style={STRIPES}>
+          {/* Floodlight-gloed en een lichtstreep die over het veld trekt */}
+          <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+            <div
+              className="psv-flood absolute -top-48 left-1/2 h-[34rem] w-[64rem] -translate-x-1/2 rounded-full blur-3xl"
+              style={{ background: `radial-gradient(closest-side, ${RED}2e, transparent 72%)` }}
+            />
+            <div className="psv-sweep absolute top-0 h-full w-32 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+          </div>
           <div className="container mx-auto px-4 md:px-6">
             <div className="flex items-center justify-between gap-4 mb-10 md:mb-14">
               <p className="uppercase text-[11px] md:text-xs tracking-[0.25em]" style={{ fontFamily: MONO, color: RED }}>
@@ -156,12 +220,27 @@ const PsvPage = () => {
               </p>
             </div>
 
-            <h1 className="font-display font-bold uppercase tracking-tight leading-[0.92] text-[11vw] sm:text-6xl md:text-7xl lg:text-8xl">
-              Heel Brainport.
-              <br />
-              Eén signaal van
-              <br />
-              <span style={{ color: RED }}>het Philips Stadion.</span>
+            <h1
+              aria-label="Heel Brainport. Eén signaal van het Philips Stadion."
+              className="font-display font-bold uppercase tracking-tight leading-[0.92] text-[11vw] sm:text-6xl md:text-7xl lg:text-8xl"
+            >
+              {[
+                { text: "Heel Brainport.", red: false },
+                { text: "Eén signaal van", red: false },
+                { text: "het Philips Stadion.", red: true },
+              ].map((line, i) => (
+                <motion.span
+                  key={line.text}
+                  aria-hidden
+                  className="block"
+                  style={line.red ? { color: RED } : undefined}
+                  initial={{ opacity: 0, y: 48 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.7, delay: 0.1 + i * 0.14, ease: [0.2, 0.7, 0.2, 1] }}
+                >
+                  {line.text}
+                </motion.span>
+              ))}
             </h1>
 
             <div className="mt-8 md:mt-10 grid md:grid-cols-[1fr_auto] gap-8 items-end">
@@ -175,10 +254,15 @@ const PsvPage = () => {
               <div className="flex flex-wrap gap-3">
                 <a
                   href="#contact"
-                  className="inline-flex items-center gap-2 px-6 py-3.5 text-sm font-display font-bold uppercase tracking-wider text-white transition hover:translate-x-0.5"
+                  className="relative inline-flex items-center gap-2 overflow-hidden px-6 py-3.5 text-sm font-display font-bold uppercase tracking-wider text-white transition hover:translate-x-0.5"
                   style={{ backgroundColor: RED }}
                 >
-                  Plan een gesprek <ArrowRight className="h-4 w-4" />
+                  <span
+                    aria-hidden
+                    className="psv-sweep pointer-events-none absolute inset-y-0 w-16 bg-gradient-to-r from-transparent via-white/35 to-transparent"
+                  />
+                  <span className="relative">Plan een gesprek</span>
+                  <ArrowRight className="relative h-4 w-4" />
                 </a>
                 <a
                   href="#excelsior"
@@ -221,17 +305,24 @@ const PsvPage = () => {
 
           <div className="grid md:grid-cols-3 gap-10 md:gap-8">
             {challenges.map((c, i) => (
-              <div key={c.title} className="relative pt-14 md:pt-20">
+              <motion.div
+                key={c.title}
+                className="psv-card relative pt-14 md:pt-20"
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.55, delay: i * 0.08, ease: "easeOut" }}
+              >
                 <span
-                  className="absolute top-0 left-0 font-display font-bold leading-none text-7xl md:text-8xl select-none"
-                  style={{ WebkitTextStroke: `1.5px ${RED}66`, color: "transparent" }}
+                  className="psv-num absolute top-0 left-0 font-display font-bold leading-none text-7xl md:text-8xl select-none"
+                  style={{ WebkitTextStroke: `1.5px ${RED}66` }}
                   aria-hidden
                 >
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <p className="font-display font-bold uppercase tracking-wide text-lg mb-3 relative">{c.title}</p>
                 <p className="text-sm md:text-base text-muted-foreground leading-relaxed relative">{c.desc}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -252,10 +343,14 @@ const PsvPage = () => {
 
             <ol>
               {tracks.map((t, i) => (
-                <li
+                <motion.li
                   key={t.title}
                   className="grid grid-cols-[3rem_1fr] md:grid-cols-[4rem_16rem_1fr] gap-x-4 md:gap-x-8 items-baseline border-b py-6 md:py-7"
                   style={{ borderColor: "hsl(var(--border))" }}
+                  initial={{ opacity: 0, y: 18 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-40px" }}
+                  transition={{ duration: 0.5, delay: i * 0.06, ease: "easeOut" }}
                 >
                   <span className="text-sm md:text-base" style={{ fontFamily: MONO, color: RED }}>
                     {String(i + 1).padStart(2, "0")}
@@ -269,7 +364,7 @@ const PsvPage = () => {
                   <p className="col-start-2 md:col-start-3 text-sm text-muted-foreground leading-relaxed mt-2 md:mt-0">
                     {t.desc}
                   </p>
-                </li>
+                </motion.li>
               ))}
             </ol>
           </div>
@@ -277,7 +372,17 @@ const PsvPage = () => {
       </section>
 
       {/* 03 — EXCELSIOR-CASE: donker, groot, trots */}
-      <section id="excelsior" className="py-16 md:py-28 text-white scroll-mt-24" style={{ backgroundColor: INK }}>
+      <section
+        id="excelsior"
+        className="relative overflow-hidden py-16 md:py-28 text-white scroll-mt-24"
+        style={{ backgroundColor: INK }}
+      >
+        {/* Floodlights boven het donkere veld */}
+        <div
+          aria-hidden
+          className="psv-flood pointer-events-none absolute inset-x-0 top-0 h-80"
+          style={{ background: `radial-gradient(60% 100% at 50% 0%, ${RED}30, transparent 75%)` }}
+        />
         <div className="container mx-auto px-4 md:px-6">
           <SectionHeader index="03" title="Bewezen bij Excelsior" light />
 
@@ -334,7 +439,7 @@ const PsvPage = () => {
                       </span>
                     </span>
                     <span className="text-4xl md:text-5xl" style={{ fontFamily: MONO, color: RED }}>
-                      {m.value}
+                      <CountUp value={m.value} />
                     </span>
                   </div>
                 ))}
@@ -376,14 +481,21 @@ const PsvPage = () => {
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px mb-16 md:mb-20" style={{ backgroundColor: "hsl(var(--border))" }}>
             {modelSteps.map((s, i) => (
-              <div key={s.title} className="bg-background p-6 md:p-7">
+              <motion.div
+                key={s.title}
+                className="bg-background p-6 md:p-7"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.5, delay: i * 0.05, ease: "easeOut" }}
+              >
                 <p className="text-sm mb-4" style={{ fontFamily: MONO, color: RED }}>
                   {String(i + 1).padStart(2, "0")}
                   {i === modelSteps.length - 1 ? " ↺" : " →"}
                 </p>
                 <p className="font-display font-bold uppercase tracking-wide text-lg mb-2">{s.title}</p>
                 <p className="text-sm text-muted-foreground leading-relaxed">{s.desc}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
 
@@ -459,7 +571,17 @@ const PsvPage = () => {
       </section>
 
       {/* 06 — CONTACT */}
-      <section id="contact" className="py-16 md:py-24 scroll-mt-24" style={{ backgroundColor: RED }}>
+      <section
+        id="contact"
+        className="relative overflow-hidden py-16 md:py-24 scroll-mt-24"
+        style={{ backgroundColor: RED }}
+      >
+        {/* Stadiongloed boven de afsluiter */}
+        <div
+          aria-hidden
+          className="psv-flood pointer-events-none absolute inset-x-0 top-0 h-72"
+          style={{ background: "radial-gradient(60% 100% at 50% 0%, rgba(255,255,255,0.22), transparent 75%)" }}
+        />
         <div className="container mx-auto px-4 md:px-6 text-white">
           <SectionHeader index="06" title="Aftrap?" light />
 
@@ -498,11 +620,17 @@ const PsvPage = () => {
               </a>
             </div>
 
-            <p className="font-display font-bold uppercase tracking-tight leading-[0.95] text-3xl md:text-5xl text-right hidden lg:block">
+            <motion.p
+              className="font-display font-bold uppercase tracking-tight leading-[0.95] text-3xl md:text-5xl text-right hidden lg:block"
+              initial={{ opacity: 0, x: 44 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.7, ease: "easeOut" }}
+            >
               Meer partners.
               <br /> Betere timing.
               <br /> Minder zoeken.
-            </p>
+            </motion.p>
           </div>
         </div>
       </section>

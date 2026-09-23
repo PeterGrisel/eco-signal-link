@@ -601,3 +601,23 @@
  */
 /* Scroll-snap in de hero is bewust weg: het vocht met trackpad-scroll en
    veroorzaakte hapering tussen hero en de engine-sectie. */
+
+/* ── PSV-pagina spektakel ────────────────────────────── */
+@keyframes psv-flood {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.85; }
+}
+.psv-flood { animation: psv-flood 6s ease-in-out infinite; }
+
+@keyframes psv-sweep {
+  0% { transform: translateX(-140%) skewX(-16deg); }
+  60%, 100% { transform: translateX(280%) skewX(-16deg); }
+}
+.psv-sweep { animation: psv-sweep 5.5s cubic-bezier(0.2, 0.7, 0.2, 1) infinite; }
+
+.psv-num { color: transparent; transition: color 0.35s ease; }
+.psv-card:hover .psv-num { color: #E30613; }
+
+@media (prefers-reduced-motion: reduce) {
+  .psv-flood, .psv-sweep { animation: none; }
+}
