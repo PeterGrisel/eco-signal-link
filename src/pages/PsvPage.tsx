@@ -197,8 +197,8 @@ const PsvCurtain = () => {
       setDone(true);
       return;
     }
-    const t1 = window.setTimeout(() => setOpen(true), 450);
-    const t2 = window.setTimeout(() => setDone(true), 2400);
+    const t1 = window.setTimeout(() => setOpen(true), 900);
+    const t2 = window.setTimeout(() => setDone(true), 4400);
     return () => {
       window.clearTimeout(t1);
       window.clearTimeout(t2);
@@ -209,7 +209,7 @@ const PsvCurtain = () => {
 
   const panel = (side: "left" | "right") => (
     <div
-      className={`absolute top-0 h-full w-[51%] overflow-hidden transition-transform duration-[1400ms] ease-[cubic-bezier(0.76,0,0.24,1)] ${
+      className={`absolute top-0 h-full w-[51%] overflow-hidden transition-transform duration-[2600ms] ease-[cubic-bezier(0.65,0,0.25,1)] ${
         side === "left" ? "left-0" : "right-0"
       }`}
       style={{
