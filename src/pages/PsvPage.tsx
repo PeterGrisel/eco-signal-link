@@ -216,9 +216,15 @@ const PsvPage = () => {
                 Brochure B2B — voor PSV Commercie
               </p>
               <div className="hidden sm:flex items-center gap-3">
-                <span className="uppercase text-[11px] md:text-xs tracking-[0.25em] text-muted-foreground" style={{ fontFamily: MONO }}>
-                  B2B Groeimachine ×
-                </span>
+                <img
+                  src="/favicon.svg"
+                  alt="B2B Groeimachine"
+                  width={44}
+                  height={44}
+                  loading="eager"
+                  decoding="async"
+                  className="w-9 h-9 md:w-11 md:h-11"
+                />
                 <img
                   src="/logos/psv-logo.png"
                   alt="PSV"
