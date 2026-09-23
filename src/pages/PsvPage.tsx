@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { usePageMeta } from "@/hooks/usePageMeta";
 import peterPhoto from "@/assets/peter-grisel.png";
+import psvHeroVideo from "@/assets/psv-hero.mp4";
 
 const RED = "#E30613"; // PSV-rood
 const INK = "#0B0F14";
@@ -187,6 +188,8 @@ const SectionHeader = ({ index, title, light = false }: { index: string; title: 
 );
 
 const PsvPage = () => {
+  const psvVideoRef = useRef<HTMLVideoElement>(null);
+
   usePageMeta({
     title: "PSV × B2B Groeimachine — Zo vullen we de business club met signalen",
     description:
@@ -201,6 +204,25 @@ const PsvPage = () => {
 
       {/* HERO — rood-wit, poster-typografie */}
       <section className="relative pt-20 md:pt-24 overflow-hidden">
+        {/* Voetbalvideo als achtergrond, met donkere overlay voor leesbaarheid */}
+        <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+          <video
+            ref={psvVideoRef}
+            className="absolute inset-0 h-full w-full object-cover opacity-40"
+            src={psvHeroVideo}
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="auto"
+          />
+          <div
+            className="absolute inset-0"
+            style={{
+              background: `linear-gradient(180deg, ${INK}cc 0%, ${INK}80 40%, ${INK}e6 100%)`,
+            }}
+          />
+        </div>
         <div className="relative py-16 md:py-24" style={STRIPES}>
           {/* Floodlight-gloed en een lichtstreep die over het veld trekt */}
           <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
