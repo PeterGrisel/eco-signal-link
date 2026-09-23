@@ -1,9 +1,11 @@
 {
   "version": 1,
-  "asset_id": "f27579a0-43f3-4923-94e5-9554e0e559b1",
+  "asset_id": "f920b99f-f291-4f8d-a209-420913d0158c",
   "project_id": "b8be2034-b241-4c9e-a46b-78ae7a9fb035",
-  "url": "/__l5e/assets-v1/f27579a0-43f3-4923-94e5-9554e0e559b1/psv-hero.mp4",
+  "url": "/__l5e/assets-v1/f920b99f-f291-4f8d-a209-420913d0158c/psv-hero.mp4",
+  "r2_key": "a/v1/b8be2034-b241-4c9e-a46b-78ae7a9fb035/f920b99f-f291-4f8d-a209-420913d0158c/psv-hero.mp4",
   "original_filename": "psv-hero.mp4",
   "size": 14960378,
-  "created_at": "2026-09-23T11:20:35Z"
+  "content_type": "video/mp4",
+  "created_at": "2026-09-23T11:22:16Z"
 }
