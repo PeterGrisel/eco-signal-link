@@ -187,6 +187,57 @@ const SectionHeader = ({ index, title, light = false }: { index: string; title: 
   </Reveal>
 );
 
+// Openingsgordijn: wit-rode vlakken die bij het laden opengaan als stadiumdeuren
+const PsvCurtain = () => {
+  const [open, setOpen] = useState(false);
+  const [done, setDone] = useState(false);
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setDone(true);
+      return;
+    }
+    const t1 = window.setTimeout(() => setOpen(true), 450);
+    const t2 = window.setTimeout(() => setDone(true), 2400);
+    return () => {
+      window.clearTimeout(t1);
+      window.clearTimeout(t2);
+    };
+  }, []);
+
+  if (done) return null;
+
+  const panel = (side: "left" | "right") => (
+    <div
+      className={`absolute top-0 h-full w-[51%] overflow-hidden transition-transform duration-[1400ms] ease-[cubic-bezier(0.76,0,0.24,1)] ${
+        side === "left" ? "left-0" : "right-0"
+      }`}
+      style={{
+        transform: open ? `translateX(${side === "left" ? "-102%" : "102%"})` : "translateX(0)",
+        backgroundImage: `repeating-linear-gradient(90deg, ${RED} 0 64px, #ffffff 64px 128px)`,
+      }}
+    >
+      {/* Lichtgloed langs de naad, alsof het veld erachter oplicht */}
+      <div
+        className={`absolute inset-y-0 w-24 ${side === "left" ? "right-0" : "left-0"}`}
+        style={{
+          background:
+            side === "left"
+              ? "linear-gradient(to right, transparent, rgba(11,15,20,0.55))"
+              : "linear-gradient(to left, transparent, rgba(11,15,20,0.55))",
+        }}
+      />
+    </div>
+  );
+
+  return (
+    <div aria-hidden className="fixed inset-0 z-[100] pointer-events-none">
+      {panel("left")}
+      {panel("right")}
+    </div>
+  );
+};
+
 const PsvPage = () => {
   const psvVideoRef = useRef<HTMLVideoElement>(null);
 
@@ -200,6 +251,7 @@ const PsvPage = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <PsvCurtain />
       <Navbar />
 
       {/* HERO — rood-wit, poster-typografie */}
