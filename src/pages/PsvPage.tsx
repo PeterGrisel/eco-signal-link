@@ -439,7 +439,7 @@ const PsvPage = () => {
                       </span>
                     </span>
                     <span className="text-4xl md:text-5xl" style={{ fontFamily: MONO, color: RED }}>
-                      {m.value}
+                      <CountUp value={m.value} />
                     </span>
                   </div>
                 ))}
@@ -481,14 +481,21 @@ const PsvPage = () => {
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px mb-16 md:mb-20" style={{ backgroundColor: "hsl(var(--border))" }}>
             {modelSteps.map((s, i) => (
-              <div key={s.title} className="bg-background p-6 md:p-7">
+              <motion.div
+                key={s.title}
+                className="bg-background p-6 md:p-7"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.5, delay: i * 0.05, ease: "easeOut" }}
+              >
                 <p className="text-sm mb-4" style={{ fontFamily: MONO, color: RED }}>
                   {String(i + 1).padStart(2, "0")}
                   {i === modelSteps.length - 1 ? " ↺" : " →"}
                 </p>
                 <p className="font-display font-bold uppercase tracking-wide text-lg mb-2">{s.title}</p>
                 <p className="text-sm text-muted-foreground leading-relaxed">{s.desc}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
 
@@ -564,7 +571,17 @@ const PsvPage = () => {
       </section>
 
       {/* 06 — CONTACT */}
-      <section id="contact" className="py-16 md:py-24 scroll-mt-24" style={{ backgroundColor: RED }}>
+      <section
+        id="contact"
+        className="relative overflow-hidden py-16 md:py-24 scroll-mt-24"
+        style={{ backgroundColor: RED }}
+      >
+        {/* Stadiongloed boven de afsluiter */}
+        <div
+          aria-hidden
+          className="psv-flood pointer-events-none absolute inset-x-0 top-0 h-72"
+          style={{ background: "radial-gradient(60% 100% at 50% 0%, rgba(255,255,255,0.22), transparent 75%)" }}
+        />
         <div className="container mx-auto px-4 md:px-6 text-white">
           <SectionHeader index="06" title="Aftrap?" light />
 
@@ -603,11 +620,17 @@ const PsvPage = () => {
               </a>
             </div>
 
-            <p className="font-display font-bold uppercase tracking-tight leading-[0.95] text-3xl md:text-5xl text-right hidden lg:block">
+            <motion.p
+              className="font-display font-bold uppercase tracking-tight leading-[0.95] text-3xl md:text-5xl text-right hidden lg:block"
+              initial={{ opacity: 0, x: 44 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.7, ease: "easeOut" }}
+            >
               Meer partners.
               <br /> Betere timing.
               <br /> Minder zoeken.
-            </p>
+            </motion.p>
           </div>
         </div>
       </section>
