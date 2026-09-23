@@ -209,12 +209,14 @@ const PsvCurtain = () => {
 
   const panel = (side: "left" | "right") => (
     <div
-      className={`absolute top-0 h-full w-[51%] overflow-hidden transition-transform duration-[2600ms] ease-[cubic-bezier(0.65,0,0.25,1)] ${
+      className={`absolute top-0 h-full w-[51%] overflow-hidden ${
         side === "left" ? "left-0" : "right-0"
       }`}
       style={{
         transform: open ? `translateX(${side === "left" ? "-102%" : "102%"})` : "translateX(0)",
         backgroundImage: `repeating-linear-gradient(90deg, ${RED} 0 64px, #ffffff 64px 128px)`,
+        transition: "transform 2600ms cubic-bezier(0.65,0,0.25,1)",
+        willChange: "transform",
       }}
     >
       {/* Lichtgloed langs de naad, alsof het veld erachter oplicht */}
