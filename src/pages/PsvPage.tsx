@@ -12,9 +12,9 @@ const INK = "#0B0F14";
 const SERIF = "'DM Serif Display', Georgia, serif";
 const MONO = "'JetBrains Mono', monospace";
 
-// Rood-witte baan als achtergrondtextuur, verwijzing naar het shirt
+// Brede ton-sur-ton baan als rustige verwijzing naar het PSV-shirt
 const STRIPES = {
-  backgroundImage: `repeating-linear-gradient(90deg, ${RED}0d 0 28px, transparent 28px 56px)`,
+  backgroundImage: `repeating-linear-gradient(90deg, transparent 0 120px, ${RED}08 160px 280px, transparent 320px 400px)`,
 };
 
 const tickerItems = [
@@ -254,12 +254,12 @@ const PsvPage = () => {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <PsvCurtain />
-      {/* Streepmotief van de gordijn-openingen, heel licht over de hele pagina */}
+      {/* Brede, zachte banen als rustige verwijzing naar het openingsgordijn */}
       <div
         aria-hidden
         className="pointer-events-none fixed inset-0 z-[1]"
         style={{
-          backgroundImage: `repeating-linear-gradient(90deg, rgba(255,255,255,0.028) 0 64px, rgba(227,6,19,0.018) 64px 128px)`,
+          backgroundImage: `repeating-linear-gradient(90deg, transparent 0 160px, ${RED}05 200px 360px, transparent 400px 560px)`,
         }}
       />
       <Navbar />
