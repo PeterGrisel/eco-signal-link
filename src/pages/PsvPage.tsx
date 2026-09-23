@@ -209,12 +209,12 @@ const PsvPage = () => {
           <video
             ref={psvVideoRef}
             className="absolute inset-0 h-full w-full object-cover opacity-40"
-            src={psvHeroVideo.url}
+            src={psvHeroVideo}
             autoPlay
             loop
             muted
             playsInline
-            preload="metadata"
+            preload="auto"
           />
           <div
             className="absolute inset-0"
