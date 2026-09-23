@@ -295,30 +295,31 @@ const PsvPage = () => {
             <div className="psv-sweep absolute top-0 h-full w-32 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
           </div>
           <div className="container mx-auto px-4 md:px-6">
-            <div className="flex items-center justify-between gap-4 mb-10 md:mb-14">
-              <p className="uppercase text-[11px] md:text-xs tracking-[0.25em]" style={{ fontFamily: MONO, color: RED }}>
-                Brochure B2B — voor PSV Commercie
-              </p>
-              <div className="hidden sm:flex items-center gap-3">
+            <div className="flex flex-col items-start gap-6 mb-10 md:mb-14">
+              <div className="flex items-center gap-4" aria-label="B2B Groeimachine en PSV">
                 <img
                   src="/favicon.svg"
                   alt="B2B Groeimachine"
-                  width={44}
-                  height={44}
+                  width={56}
+                  height={56}
                   loading="eager"
                   decoding="async"
-                  className="w-9 h-9 md:w-11 md:h-11"
+                  className="h-12 w-12 md:h-14 md:w-14 object-contain"
                 />
+                <span className="h-8 w-px bg-foreground/25" aria-hidden />
                 <img
                   src="/logos/psv-logo.png"
                   alt="PSV"
-                  width={44}
-                  height={44}
+                  width={56}
+                  height={56}
                   loading="eager"
                   decoding="async"
-                  className="w-9 h-9 md:w-11 md:h-11 drop-shadow-[0_2px_10px_rgba(227,6,19,0.35)]"
+                  className="h-12 w-12 md:h-14 md:w-14 object-contain drop-shadow-[0_2px_10px_rgba(227,6,19,0.35)]"
                 />
               </div>
+              <p className="uppercase text-[11px] md:text-xs tracking-[0.25em]" style={{ fontFamily: MONO, color: RED }}>
+                Brochure B2B · voor PSV Commercie
+              </p>
             </div>
 
             <h1
