@@ -364,7 +364,7 @@ const PsvPage = () => {
                   <p className="col-start-2 md:col-start-3 text-sm text-muted-foreground leading-relaxed mt-2 md:mt-0">
                     {t.desc}
                   </p>
-                </li>
+                </motion.li>
               ))}
             </ol>
           </div>
