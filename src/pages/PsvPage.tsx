@@ -251,6 +251,7 @@ const PsvPage = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <PsvCurtain />
       <Navbar />
 
       {/* HERO — rood-wit, poster-typografie */}
