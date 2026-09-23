@@ -197,8 +197,8 @@ const PsvCurtain = () => {
       setDone(true);
       return;
     }
-    const t1 = window.setTimeout(() => setOpen(true), 450);
-    const t2 = window.setTimeout(() => setDone(true), 2400);
+    const t1 = window.setTimeout(() => setOpen(true), 900);
+    const t2 = window.setTimeout(() => setDone(true), 4400);
     return () => {
       window.clearTimeout(t1);
       window.clearTimeout(t2);
@@ -209,12 +209,14 @@ const PsvCurtain = () => {
 
   const panel = (side: "left" | "right") => (
     <div
-      className={`absolute top-0 h-full w-[51%] overflow-hidden transition-transform duration-[1400ms] ease-[cubic-bezier(0.76,0,0.24,1)] ${
+      className={`absolute top-0 h-full w-[51%] overflow-hidden ${
         side === "left" ? "left-0" : "right-0"
       }`}
       style={{
         transform: open ? `translateX(${side === "left" ? "-102%" : "102%"})` : "translateX(0)",
         backgroundImage: `repeating-linear-gradient(90deg, ${RED} 0 64px, #ffffff 64px 128px)`,
+        transition: "transform 2600ms cubic-bezier(0.65,0,0.25,1)",
+        willChange: "transform",
       }}
     >
       {/* Lichtgloed langs de naad, alsof het veld erachter oplicht */}
@@ -252,6 +254,14 @@ const PsvPage = () => {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <PsvCurtain />
+      {/* Streepmotief van de gordijn-openingen, heel licht over de hele pagina */}
+      <div
+        aria-hidden
+        className="pointer-events-none fixed inset-0 z-[1]"
+        style={{
+          backgroundImage: `repeating-linear-gradient(90deg, rgba(255,255,255,0.028) 0 64px, rgba(227,6,19,0.018) 64px 128px)`,
+        }}
+      />
       <Navbar />
 
       {/* HERO — rood-wit, poster-typografie */}
