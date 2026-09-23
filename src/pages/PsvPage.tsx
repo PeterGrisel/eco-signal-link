@@ -254,10 +254,15 @@ const PsvPage = () => {
               <div className="flex flex-wrap gap-3">
                 <a
                   href="#contact"
-                  className="inline-flex items-center gap-2 px-6 py-3.5 text-sm font-display font-bold uppercase tracking-wider text-white transition hover:translate-x-0.5"
+                  className="relative inline-flex items-center gap-2 overflow-hidden px-6 py-3.5 text-sm font-display font-bold uppercase tracking-wider text-white transition hover:translate-x-0.5"
                   style={{ backgroundColor: RED }}
                 >
-                  Plan een gesprek <ArrowRight className="h-4 w-4" />
+                  <span
+                    aria-hidden
+                    className="psv-sweep pointer-events-none absolute inset-y-0 w-16 bg-gradient-to-r from-transparent via-white/35 to-transparent"
+                  />
+                  <span className="relative">Plan een gesprek</span>
+                  <ArrowRight className="relative h-4 w-4" />
                 </a>
                 <a
                   href="#excelsior"
@@ -300,17 +305,24 @@ const PsvPage = () => {
 
           <div className="grid md:grid-cols-3 gap-10 md:gap-8">
             {challenges.map((c, i) => (
-              <div key={c.title} className="relative pt-14 md:pt-20">
+              <motion.div
+                key={c.title}
+                className="psv-card relative pt-14 md:pt-20"
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.55, delay: i * 0.08, ease: "easeOut" }}
+              >
                 <span
-                  className="absolute top-0 left-0 font-display font-bold leading-none text-7xl md:text-8xl select-none"
-                  style={{ WebkitTextStroke: `1.5px ${RED}66`, color: "transparent" }}
+                  className="psv-num absolute top-0 left-0 font-display font-bold leading-none text-7xl md:text-8xl select-none"
+                  style={{ WebkitTextStroke: `1.5px ${RED}66` }}
                   aria-hidden
                 >
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <p className="font-display font-bold uppercase tracking-wide text-lg mb-3 relative">{c.title}</p>
                 <p className="text-sm md:text-base text-muted-foreground leading-relaxed relative">{c.desc}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -331,10 +343,14 @@ const PsvPage = () => {
 
             <ol>
               {tracks.map((t, i) => (
-                <li
+                <motion.li
                   key={t.title}
                   className="grid grid-cols-[3rem_1fr] md:grid-cols-[4rem_16rem_1fr] gap-x-4 md:gap-x-8 items-baseline border-b py-6 md:py-7"
                   style={{ borderColor: "hsl(var(--border))" }}
+                  initial={{ opacity: 0, y: 18 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-40px" }}
+                  transition={{ duration: 0.5, delay: i * 0.06, ease: "easeOut" }}
                 >
                   <span className="text-sm md:text-base" style={{ fontFamily: MONO, color: RED }}>
                     {String(i + 1).padStart(2, "0")}
@@ -356,7 +372,17 @@ const PsvPage = () => {
       </section>
 
       {/* 03 — EXCELSIOR-CASE: donker, groot, trots */}
-      <section id="excelsior" className="py-16 md:py-28 text-white scroll-mt-24" style={{ backgroundColor: INK }}>
+      <section
+        id="excelsior"
+        className="relative overflow-hidden py-16 md:py-28 text-white scroll-mt-24"
+        style={{ backgroundColor: INK }}
+      >
+        {/* Floodlights boven het donkere veld */}
+        <div
+          aria-hidden
+          className="psv-flood pointer-events-none absolute inset-x-0 top-0 h-80"
+          style={{ background: `radial-gradient(60% 100% at 50% 0%, ${RED}30, transparent 75%)` }}
+        />
         <div className="container mx-auto px-4 md:px-6">
           <SectionHeader index="03" title="Bewezen bij Excelsior" light />
 
