@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { usePageMeta } from "@/hooks/usePageMeta";
 import peterPhoto from "@/assets/peter-grisel.png";
+import psvHeroVideo from "@/assets/psv-hero.mp4.asset.json";
 
 const RED = "#E30613"; // PSV-rood
 const INK = "#0B0F14";
