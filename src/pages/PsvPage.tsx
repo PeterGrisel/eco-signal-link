@@ -1,3 +1,5 @@
+import { useEffect, useRef, useState } from "react";
+import { motion, useInView } from "framer-motion";
 import { ArrowRight, ArrowUpRight, Mail } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -118,16 +120,70 @@ const faqs = [
   },
 ];
 
-const SectionHeader = ({ index, title, light = false }: { index: string; title: string; light?: boolean }) => (
-  <div
-    className="flex items-baseline gap-4 border-t-2 pt-5 mb-10 md:mb-14"
-    style={{ borderColor: light ? "#fff" : RED }}
+/** Zachte scroll-reveal voor sectieblokken. */
+const Reveal = ({
+  children,
+  delay = 0,
+  className = "",
+}: {
+  children: React.ReactNode;
+  delay?: number;
+  className?: string;
+}) => (
+  <motion.div
+    className={className}
+    initial={{ opacity: 0, y: 22 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true, margin: "-70px" }}
+    transition={{ duration: 0.6, delay, ease: "easeOut" }}
   >
-    <span className="text-sm md:text-base" style={{ fontFamily: MONO, color: light ? "#fff" : RED }}>
-      {index}
+    {children}
+  </motion.div>
+);
+
+/** Telt numerieke scorebordwaarden op zodra ze in beeld schuiven. */
+const CountUp = ({ value }: { value: string }) => {
+  const match = value.match(/^(\d+)(.*)$/);
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-40px" });
+  const target = match ? parseInt(match[1], 10) : 0;
+  const [n, setN] = useState(0);
+
+  useEffect(() => {
+    if (!match || !inView) return;
+    const duration = 1300;
+    const start = performance.now();
+    let raf = 0;
+    const tick = (t: number) => {
+      const p = Math.min(1, (t - start) / duration);
+      setN(Math.round(target * (1 - Math.pow(1 - p, 3))));
+      if (p < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [match, inView, target]);
+
+  if (!match) return <span ref={ref}>{value}</span>;
+  return (
+    <span ref={ref}>
+      {n}
+      {match[2]}
     </span>
-    <h2 className="font-display font-bold uppercase tracking-tight text-3xl md:text-5xl leading-none">{title}</h2>
-  </div>
+  );
+};
+
+const SectionHeader = ({ index, title, light = false }: { index: string; title: string; light?: boolean }) => (
+  <Reveal>
+    <div
+      className="flex items-baseline gap-4 border-t-2 pt-5 mb-10 md:mb-14"
+      style={{ borderColor: light ? "#fff" : RED }}
+    >
+      <span className="text-sm md:text-base" style={{ fontFamily: MONO, color: light ? "#fff" : RED }}>
+        {index}
+      </span>
+      <h2 className="font-display font-bold uppercase tracking-tight text-3xl md:text-5xl leading-none">{title}</h2>
+    </div>
+  </Reveal>
 );
 
 const PsvPage = () => {
@@ -146,6 +202,14 @@ const PsvPage = () => {
       {/* HERO — rood-wit, poster-typografie */}
       <section className="relative pt-20 md:pt-24 overflow-hidden">
         <div className="relative py-16 md:py-24" style={STRIPES}>
+          {/* Floodlight-gloed en een lichtstreep die over het veld trekt */}
+          <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+            <div
+              className="psv-flood absolute -top-48 left-1/2 h-[34rem] w-[64rem] -translate-x-1/2 rounded-full blur-3xl"
+              style={{ background: `radial-gradient(closest-side, ${RED}2e, transparent 72%)` }}
+            />
+            <div className="psv-sweep absolute top-0 h-full w-32 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+          </div>
           <div className="container mx-auto px-4 md:px-6">
             <div className="flex items-center justify-between gap-4 mb-10 md:mb-14">
               <p className="uppercase text-[11px] md:text-xs tracking-[0.25em]" style={{ fontFamily: MONO, color: RED }}>
@@ -156,12 +220,27 @@ const PsvPage = () => {
               </p>
             </div>
 
-            <h1 className="font-display font-bold uppercase tracking-tight leading-[0.92] text-[11vw] sm:text-6xl md:text-7xl lg:text-8xl">
-              Heel Brainport.
-              <br />
-              Eén signaal van
-              <br />
-              <span style={{ color: RED }}>het Philips Stadion.</span>
+            <h1
+              aria-label="Heel Brainport. Eén signaal van het Philips Stadion."
+              className="font-display font-bold uppercase tracking-tight leading-[0.92] text-[11vw] sm:text-6xl md:text-7xl lg:text-8xl"
+            >
+              {[
+                { text: "Heel Brainport.", red: false },
+                { text: "Eén signaal van", red: false },
+                { text: "het Philips Stadion.", red: true },
+              ].map((line, i) => (
+                <motion.span
+                  key={line.text}
+                  aria-hidden
+                  className="block"
+                  style={line.red ? { color: RED } : undefined}
+                  initial={{ opacity: 0, y: 48 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.7, delay: 0.1 + i * 0.14, ease: [0.2, 0.7, 0.2, 1] }}
+                >
+                  {line.text}
+                </motion.span>
+              ))}
             </h1>
 
             <div className="mt-8 md:mt-10 grid md:grid-cols-[1fr_auto] gap-8 items-end">
