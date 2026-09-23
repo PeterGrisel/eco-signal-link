@@ -252,6 +252,14 @@ const PsvPage = () => {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <PsvCurtain />
+      {/* Streepmotief van de gordijn-openingen, heel licht over de hele pagina */}
+      <div
+        aria-hidden
+        className="pointer-events-none fixed inset-0 z-[1]"
+        style={{
+          backgroundImage: `repeating-linear-gradient(90deg, rgba(255,255,255,0.028) 0 64px, rgba(227,6,19,0.018) 64px 128px)`,
+        }}
+      />
       <Navbar />
 
       {/* HERO — rood-wit, poster-typografie */}
