@@ -31,11 +31,6 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.b2bgroeimachine.io/performance-partnership</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://www.b2bgroeimachine.io/over-ons</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -301,6 +296,84 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://www.b2bgroeimachine.io/blog/datakwaliteit-sales-optimaliseren-stappenplan</loc>
+    <lastmod>2026-09-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.b2bgroeimachine.io/blog/datakwaliteit-marketing-automatiseren</loc>
+    <lastmod>2026-09-22</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.b2bgroeimachine.io/blog/datakwaliteit-engineering-bureaus-groei-betrouwbare-leads</loc>
+    <lastmod>2026-09-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.b2bgroeimachine.io/blog/automatiseer-uw-b2b-data-integratie-stappenplan</loc>
+    <lastmod>2026-09-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.b2bgroeimachine.io/blog/datakwaliteit-voor-marketing-optimaliseren-b2b</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.b2bgroeimachine.io/blog/datakwaliteit-voor-salesteams-verhoog-conversie</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.b2bgroeimachine.io/blog/datakwaliteit-b2b-integratie-succesvolle-data-synchronisatie</loc>
+    <lastmod>2026-09-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.b2bgroeimachine.io/blog/b2b-datakwaliteit-strategie-betrouwbare-groei</loc>
+    <lastmod>2026-09-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.b2bgroeimachine.io/blog/datakwaliteit-voor-b2b-marketing-van-analyse-tot-actie</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.b2bgroeimachine.io/blog/datakwaliteit-voor-sales-verbeteren-praktische-aanpak-b2b</loc>
+    <lastmod>2026-09-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.b2bgroeimachine.io/blog/datakwaliteit-voor-sales-efficienter-leads-selecteren</loc>
+    <lastmod>2026-09-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.b2bgroeimachine.io/blog/marketing-data-kwaliteit-check-b2b</loc>
+    <lastmod>2026-09-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.b2bgroeimachine.io/blog/datakwaliteit-integratie-b2b-succes-betrouwbare-data</loc>
+    <lastmod>2026-09-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.b2bgroeimachine.io/blog/marketing-data-integreren-b2b-strategische-groei</loc>
     <lastmod>2026-09-09</lastmod>
     <changefreq>weekly</changefreq>
@@ -459,72 +532,6 @@
   <url>
     <loc>https://www.b2bgroeimachine.io/blog/b2b-koopsignalen-herkennen-van-data-naar-actie</loc>
     <lastmod>2026-08-12</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.b2bgroeimachine.io/blog/datakwaliteit-b2b-verbeteren-stappen-voor-betrouwbare-groei</loc>
-    <lastmod>2026-08-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.b2bgroeimachine.io/blog/b2b-klantretentie-strategie-winstgevende-klanten-behouden</loc>
-    <lastmod>2026-08-10</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.b2bgroeimachine.io/blog/leadopvolging-automatiseren-met-signalen</loc>
-    <lastmod>2026-08-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.b2bgroeimachine.io/blog/b2b-klantsegmentatie-automatisering-nieuwe-markten-aanboren</loc>
-    <lastmod>2026-08-07</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.b2bgroeimachine.io/blog/datakwaliteit-verbeteren-b2b-strategie-implementatie</loc>
-    <lastmod>2026-08-06</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.b2bgroeimachine.io/blog/b2b-prospecting-signalen-herkennen-acquisitie</loc>
-    <lastmod>2026-08-05</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.b2bgroeimachine.io/blog/groeipotentieel-meten-b2b-verborgen-kansen</loc>
-    <lastmod>2026-08-04</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.b2bgroeimachine.io/blog/website-personalisatie-b2b-conversie-signalen</loc>
-    <lastmod>2026-08-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.b2bgroeimachine.io/blog/b2b-intent-data-gebruiken-koopsignalen-herkennen</loc>
-    <lastmod>2026-08-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.b2bgroeimachine.io/blog/geautomatiseerde-leadopvolging-b2b-sales-succes</loc>
-    <lastmod>2026-07-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.b2bgroeimachine.io/blog/b2b-prospect-zoekmachine-nieuwe-klanten-systematisch-vinden</loc>
-    <lastmod>2026-07-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -1007,6 +1014,90 @@
     <lastmod>2026-05-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.b2bgroeimachine.io/woordenboek/growth-signal-orchestration-engine</loc>
+    <lastmod>2026-09-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.b2bgroeimachine.io/woordenboek/signaalgestuurde-account-enrichment</loc>
+    <lastmod>2026-09-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.b2bgroeimachine.io/woordenboek/revenue-pijplijn-segmentatie</loc>
+    <lastmod>2026-09-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.b2bgroeimachine.io/woordenboek/groeisignaal-engineering</loc>
+    <lastmod>2026-09-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.b2bgroeimachine.io/woordenboek/ai-gedreven-prospectie-automatisering</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.b2bgroeimachine.io/woordenboek/revenue-signaal-versterking</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.b2bgroeimachine.io/woordenboek/signaal-gedreven-data-harmonization</loc>
+    <lastmod>2026-09-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.b2bgroeimachine.io/woordenboek/signal-gedreven-segmentatie-engine</loc>
+    <lastmod>2026-09-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.b2bgroeimachine.io/woordenboek/pijplijn-intelligentie-scoring</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.b2bgroeimachine.io/woordenboek/signaal-gedreven-attributie</loc>
+    <lastmod>2026-09-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.b2bgroeimachine.io/woordenboek/ai-gedreven-kwalificatiesignalen</loc>
+    <lastmod>2026-09-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.b2bgroeimachine.io/woordenboek/ai-gedreven-pijplijn-segmentatie</loc>
+    <lastmod>2026-09-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.b2bgroeimachine.io/woordenboek/demand-unit-activering</loc>
+    <lastmod>2026-09-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.b2bgroeimachine.io/woordenboek/groeisignaal-orchestrator</loc>
+    <lastmod>2026-09-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://www.b2bgroeimachine.io/woordenboek/revenue-data-synthese</loc>
