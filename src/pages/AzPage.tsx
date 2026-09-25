@@ -5,7 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { usePageMeta } from "@/hooks/usePageMeta";
 import peterPhoto from "@/assets/peter-grisel.png";
-import psvHeroVideo from "@/assets/psv-hero.mp4";
+import azHeroVideo from "@/assets/psv-hero.mp4";
 
 const RED = "#E60012"; // AZ-rood
 const INK = "#0B0F14";
@@ -70,10 +70,10 @@ const excelsiorMetrics = [
   { value: "Live", label: "Vrouwenvoetbal-track", sub: "actief" },
 ];
 
-const excelsiorVsPsv = [
-  { label: "Markt", excelsior: "Regio Rotterdam", psv: "Noord-Holland + landelijk" },
-  { label: "Sporen", excelsior: "Sponsoring + vrouwenvoetbal", psv: "Werving, groei, Vrouwen, hospitality" },
-  { label: "Engine", excelsior: "Signalen → gesprekken", psv: "Dezelfde engine, groter bereik" },
+const excelsiorVsAz = [
+  { label: "Markt", excelsior: "Regio Rotterdam", az: "Noord-Holland + landelijk" },
+  { label: "Sporen", excelsior: "Sponsoring + vrouwenvoetbal", az: "Werving, groei, Vrouwen, hospitality" },
+  { label: "Engine", excelsior: "Signalen → gesprekken", az: "Dezelfde engine, groter bereik" },
 ];
 
 const modelSteps = [
@@ -271,7 +271,7 @@ const AzPage = () => {
           <video
             ref={azVideoRef}
             className="absolute inset-0 h-full w-full object-cover opacity-40"
-            src={psvHeroVideo}
+            src={azHeroVideo}
             autoPlay
             loop
             muted
@@ -556,13 +556,13 @@ const AzPage = () => {
                   <span />
                   <span className="uppercase text-[10px] tracking-[0.2em] text-white/50 pb-2" style={{ fontFamily: MONO }}>Excelsior</span>
                   <span className="uppercase text-[10px] tracking-[0.2em] pb-2" style={{ fontFamily: MONO, color: RED }}>AZ</span>
-                  {excelsiorVsPsv.map((r) => (
+                  {excelsiorVsAz.map((r) => (
                     <div key={r.label} className="contents">
                       <span className="uppercase text-[10px] tracking-[0.2em] text-white/50 border-t py-3" style={{ fontFamily: MONO, borderColor: "rgba(255,255,255,0.14)" }}>
                         {r.label}
                       </span>
                       <span className="border-t py-3 text-white/70" style={{ borderColor: "rgba(255,255,255,0.14)" }}>{r.excelsior}</span>
-                      <span className="border-t py-3 font-semibold" style={{ borderColor: "rgba(255,255,255,0.14)" }}>{r.psv}</span>
+                      <span className="border-t py-3 font-semibold" style={{ borderColor: "rgba(255,255,255,0.14)" }}>{r.az}</span>
                     </div>
                   ))}
                 </div>
@@ -744,7 +744,7 @@ const AzPage = () => {
         >
           <span className="text-white/60">b2bgroeimachine.io</span>
           <span className="uppercase" style={{ color: RED }}>Van Excelsior naar Alkmaar</span>
-          <span className="text-white/60">#GroeimetAI #Noord-Holland</span>
+          <span className="text-white/60">#GroeimetAI #NoordHolland</span>
         </div>
       </div>
 
