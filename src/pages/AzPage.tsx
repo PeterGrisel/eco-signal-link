@@ -68,7 +68,6 @@ const excelsiorMetrics = [
   { value: "5K+", label: "Bedrijven in kaart", sub: "TAM/SAM/SOM" },
   { value: "50%", label: "Open rate", sub: "op outbound" },
   { value: "25%", label: "Reply rate", sub: "op outbound" },
-  { value: "5.000+", label: "Bedrijven in scope", sub: "regio Rotterdam" },
   { value: "Live", label: "Vrouwenvoetbal-track", sub: "actief" },
 ];
 

@@ -57,7 +57,6 @@ const CASES: {
       { label: "Bedrijven in kaart", value: 5000, suffix: "+", delta: "TAM/SAM/SOM" },
       { label: "Open rate", value: 50, suffix: "%", delta: "Op outbound" },
       { label: "Reply rate", value: 25, suffix: "%", delta: "Op outbound" },
-      { label: "Bedrijven in scope", value: 5000, suffix: "+", delta: "Regionaal" },
       { label: "Vrouwenvoetbal-tracks", value: "Actief", delta: "Live" },
     ],
   },
