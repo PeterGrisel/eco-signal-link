@@ -71,6 +71,28 @@ const excelsiorMetrics = [
   { value: "Live", label: "Vrouwenvoetbal-track", sub: "actief" },
 ];
 
+const marketTiers = [
+  {
+    tag: "TAM",
+    value: "4.040",
+    title: "Brede pool Noord-Holland",
+    desc: "Alle bedrijven in Noord-Holland die qua omvang bij een Eredivisie-club passen. Dit is de totale markt.",
+  },
+  {
+    tag: "SAM",
+    value: "618",
+    title: "Sterke pool",
+    desc: "Grotere bedrijven met budget en zichtbaarheidsbehoefte. Dit is de pool die wij als eerste activeren.",
+  },
+  {
+    tag: "SOM",
+    value: "1.236",
+    title: "Beslissers in de eerste golven",
+    desc: "Twee beslissers per bedrijf uit de sterke pool, geactiveerd in cycli van 60 tot 90 dagen.",
+  },
+];
+
+
 const excelsiorVsAz = [
   { label: "Markt", excelsior: "Regio Rotterdam", az: "Noord-Holland + landelijk" },
   { label: "Sporen", excelsior: "Sponsoring + vrouwenvoetbal", az: "Werving, groei, Vrouwen, hospitality" },
