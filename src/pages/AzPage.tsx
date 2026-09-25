@@ -68,7 +68,7 @@ const excelsiorMetrics = [
   { value: "5K+", label: "Bedrijven in kaart", sub: "TAM/SAM/SOM" },
   { value: "50%", label: "Open rate", sub: "op outbound" },
   { value: "25%", label: "Reply rate", sub: "op outbound" },
-  { value: "480", label: "Bedrijven in scope", sub: "regio Rotterdam" },
+  { value: "5.000+", label: "Bedrijven in scope", sub: "regio Rotterdam" },
   { value: "Live", label: "Vrouwenvoetbal-track", sub: "actief" },
 ];
 
@@ -146,10 +146,10 @@ const Reveal = ({
 
 /** Telt numerieke scorebordwaarden op zodra ze in beeld schuiven. */
 const CountUp = ({ value }: { value: string }) => {
-  const match = value.match(/^(\d+)(.*)$/);
+  const match = value.match(/^([\d.]+)(.*)$/);
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, margin: "-40px" });
-  const target = match ? parseInt(match[1], 10) : 0;
+  const target = match ? parseInt(match[1].replace(/\./g, ""), 10) : 0;
   const hasMatch = !!match;
   const [n, setN] = useState(0);
 
@@ -170,7 +170,7 @@ const CountUp = ({ value }: { value: string }) => {
   if (!match) return <span ref={ref}>{value}</span>;
   return (
     <span ref={ref}>
-      {n}
+      {target >= 1000 ? n.toLocaleString("nl-NL") : n}
       {match[2]}
     </span>
   );
