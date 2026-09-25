@@ -71,6 +71,28 @@ const excelsiorMetrics = [
   { value: "Live", label: "Vrouwenvoetbal-track", sub: "actief" },
 ];
 
+const marketTiers = [
+  {
+    tag: "TAM",
+    value: "4.040",
+    title: "Brede pool Noord-Holland",
+    desc: "Alle bedrijven in Noord-Holland die qua omvang bij een Eredivisie-club passen. Dit is de totale markt.",
+  },
+  {
+    tag: "SAM",
+    value: "618",
+    title: "Sterke pool",
+    desc: "Grotere bedrijven met budget en zichtbaarheidsbehoefte. Dit is de pool die wij als eerste activeren.",
+  },
+  {
+    tag: "SOM",
+    value: "1.236",
+    title: "Beslissers in de eerste golven",
+    desc: "Twee beslissers per bedrijf uit de sterke pool, geactiveerd in cycli van 60 tot 90 dagen.",
+  },
+];
+
+
 const excelsiorVsAz = [
   { label: "Markt", excelsior: "Regio Rotterdam", az: "Noord-Holland + landelijk" },
   { label: "Sporen", excelsior: "Sponsoring + vrouwenvoetbal", az: "Werving, groei, Vrouwen, hospitality" },
@@ -485,6 +507,58 @@ const AzPage = () => {
         </div>
       </section>
 
+      {/* 03 — DE MARKT: TAM / SAM / SOM */}
+      <section className="py-16 md:py-24">
+        <div className="container mx-auto px-4 md:px-6">
+          <SectionHeader index="03" title="De markt van AZ" />
+
+          <p className="text-2xl md:text-4xl leading-snug max-w-3xl mb-14 md:mb-20" style={{ fontFamily: SERIF }}>
+            Wij hebben Noord-Holland al doorgerekend. Dit is{" "}
+            <span style={{ color: RED }}>de speelruimte</span> voor nieuwe partners.
+          </p>
+
+          <div className="grid md:grid-cols-3 gap-px" style={{ backgroundColor: "hsl(var(--border))" }}>
+            {marketTiers.map((t, i) => (
+              <motion.div
+                key={t.tag}
+                className="bg-background p-7 md:p-8"
+                initial={{ opacity: 0, y: 22 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.55, delay: i * 0.08, ease: "easeOut" }}
+              >
+                <p className="uppercase text-[10px] tracking-[0.3em] mb-4" style={{ fontFamily: MONO, color: RED }}>
+                  {t.tag}
+                </p>
+                <p className="text-5xl md:text-6xl mb-2" style={{ fontFamily: MONO }}>
+                  <CountUp value={t.value} />
+                </p>
+                <p className="font-display font-bold uppercase tracking-wide text-base mb-3">{t.title}</p>
+                <p className="text-sm text-muted-foreground leading-relaxed">{t.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+
+          <div className="mt-10 grid md:grid-cols-2 gap-8 md:gap-12">
+            <p className="text-lg md:text-xl leading-relaxed">
+              Per bedrijf benaderen wij{" "}
+              <em style={{ fontFamily: SERIF, color: RED }}>twee beslissers</em> (ICP), bijvoorbeeld de eigenaar en de
+              marketing- of commercieel verantwoordelijke. Zo raakt één signaal altijd de juiste persoon.
+            </p>
+            <p className="text-lg md:text-xl leading-relaxed">
+              Elke golf loopt een cyclus van{" "}
+              <em style={{ fontFamily: SERIF, color: RED }}>60 tot 90 dagen</em>: activeren, opvolgen, meten en
+              bijsturen. Daarna gaat de volgende groep bedrijven live.
+            </p>
+          </div>
+
+          <p className="mt-8 text-[11px] text-muted-foreground leading-relaxed" style={{ fontFamily: MONO }}>
+            Brede pool: 50 tot 5.000 medewerkers, exclusief de sportsector. Sterke pool: 250+ medewerkers en meer dan
+            €10 miljoen omzet.
+          </p>
+        </div>
+      </section>
+
       {/* 03 — EXCELSIOR-CASE: donker, groot, trots */}
       <section
         id="excelsior"
@@ -498,7 +572,7 @@ const AzPage = () => {
           style={{ background: `radial-gradient(60% 100% at 50% 0%, ${RED}30, transparent 75%)` }}
         />
         <div className="container mx-auto px-4 md:px-6">
-          <SectionHeader index="03" title="Bewezen bij Excelsior" light />
+          <SectionHeader index="04" title="Bewezen bij Excelsior" light />
 
           <div className="grid lg:grid-cols-[1.1fr_1fr] gap-12 lg:gap-20 items-start">
             <div>
@@ -591,7 +665,7 @@ const AzPage = () => {
       {/* 04 — DE ENGINE */}
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-4 md:px-6">
-          <SectionHeader index="04" title="De engine" />
+          <SectionHeader index="05" title="De engine" />
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px mb-16 md:mb-20" style={{ backgroundColor: "hsl(var(--border))" }}>
             {modelSteps.map((s, i) => (
@@ -671,7 +745,7 @@ const AzPage = () => {
       {/* 05 — GOED OM TE WETEN */}
       <section className="py-16 md:py-24" style={STRIPES}>
         <div className="container mx-auto px-4 md:px-6">
-          <SectionHeader index="05" title="Goed om te weten" />
+          <SectionHeader index="06" title="Goed om te weten" />
 
           <div className="grid md:grid-cols-2 gap-x-16">
             {faqs.map((f) => (
@@ -697,7 +771,7 @@ const AzPage = () => {
           style={{ background: "radial-gradient(60% 100% at 50% 0%, rgba(255,255,255,0.22), transparent 75%)" }}
         />
         <div className="container mx-auto px-4 md:px-6 text-white">
-          <SectionHeader index="06" title="Aftrap?" light />
+          <SectionHeader index="07" title="Aftrap?" light />
 
           <div className="grid lg:grid-cols-[1fr_auto] gap-10 lg:gap-20 items-end">
             <div>
