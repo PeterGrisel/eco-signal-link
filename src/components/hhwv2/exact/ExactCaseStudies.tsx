@@ -54,6 +54,8 @@ const CASES: {
     titleSub: "naar sponsor",
     body: "Voor Excelsior bouwden wij een sponsorsysteem. Wij mappen lokale bedrijven, activeren beslissers en zetten vrouwenvoetbal actief op de kaart. Elk signaal wordt een gesprek voor het commerciële team.",
     metrics: [
+      { label: "Bedrijven in kaart", value: 5000, suffix: "+", delta: "TAM/SAM/SOM" },
+      { label: "Open rate", value: 50, suffix: "%", delta: "Op outbound" },
       { label: "Reply rate", value: 25, suffix: "%", delta: "Op outbound" },
       { label: "Bedrijven in scope", value: 480, delta: "Regionaal" },
       { label: "Vrouwenvoetbal-tracks", value: "Actief", delta: "Live" },
