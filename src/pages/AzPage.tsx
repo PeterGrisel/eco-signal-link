@@ -148,10 +148,11 @@ const CountUp = ({ value }: { value: string }) => {
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, margin: "-40px" });
   const target = match ? parseInt(match[1], 10) : 0;
+  const hasMatch = !!match;
   const [n, setN] = useState(0);
 
   useEffect(() => {
-    if (!match || !inView) return;
+    if (!hasMatch || !inView) return;
     const duration = 1300;
     const start = performance.now();
     let raf = 0;
@@ -162,7 +163,7 @@ const CountUp = ({ value }: { value: string }) => {
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [match, inView, target]);
+  }, [hasMatch, inView, target]);
 
   if (!match) return <span ref={ref}>{value}</span>;
   return (
