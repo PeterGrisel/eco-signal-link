@@ -187,7 +187,8 @@ const SectionHeader = ({ index, title, light = false }: { index: string; title: 
   </Reveal>
 );
 
-// Openingsgordijn: wit-rode vlakken die bij het laden opengaan als stadiumdeuren
+// Openingsgordijn in de stijl van het AZ-logo: solide rood bovenlinks,
+// solide wit onderrechts, die langs een schuine naad openschuiven
 const AzCurtain = () => {
   const [open, setOpen] = useState(false);
   const [done, setDone] = useState(false);
@@ -214,28 +215,37 @@ const AzCurtain = () => {
       }`}
       style={{
         transform: open ? `translateX(${side === "left" ? "-102%" : "102%"})` : "translateX(0)",
-        backgroundImage: `repeating-linear-gradient(90deg, ${RED} 0 64px, #ffffff 64px 128px)`,
+        backgroundColor: side === "left" ? RED : "#ffffff",
         transition: "transform 2600ms cubic-bezier(0.65,0,0.25,1)",
         willChange: "transform",
       }}
     >
-      {/* Lichtgloed langs de naad, alsof het veld erachter oplicht */}
+      {/* Zachte naadgloed, alsof het veld erachter oplicht */}
       <div
         className={`absolute inset-y-0 w-24 ${side === "left" ? "right-0" : "left-0"}`}
         style={{
           background:
             side === "left"
-              ? "linear-gradient(to right, transparent, rgba(11,15,20,0.55))"
-              : "linear-gradient(to left, transparent, rgba(11,15,20,0.55))",
+              ? "linear-gradient(to right, transparent, rgba(11,15,20,0.45))"
+              : "linear-gradient(to left, transparent, rgba(11,15,20,0.25))",
         }}
       />
     </div>
   );
 
   return (
-    <div aria-hidden className="fixed inset-0 z-[100] pointer-events-none">
-      {panel("left")}
-      {panel("right")}
+    <div aria-hidden className="fixed inset-0 z-[100] overflow-hidden pointer-events-none">
+      {/* Overmaat + rotatie: de naad loopt schuin, zoals de rood-wit scheiding in het AZ-logo */}
+      <div
+        className="absolute"
+        style={{
+          inset: "-30%",
+          transform: "rotate(18deg)",
+        }}
+      >
+        {panel("left")}
+        {panel("right")}
+      </div>
     </div>
   );
 };
