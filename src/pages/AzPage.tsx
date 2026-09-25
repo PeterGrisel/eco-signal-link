@@ -572,7 +572,7 @@ const AzPage = () => {
           style={{ background: `radial-gradient(60% 100% at 50% 0%, ${RED}30, transparent 75%)` }}
         />
         <div className="container mx-auto px-4 md:px-6">
-          <SectionHeader index="03" title="Bewezen bij Excelsior" light />
+          <SectionHeader index="04" title="Bewezen bij Excelsior" light />
 
           <div className="grid lg:grid-cols-[1.1fr_1fr] gap-12 lg:gap-20 items-start">
             <div>
@@ -665,7 +665,7 @@ const AzPage = () => {
       {/* 04 — DE ENGINE */}
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-4 md:px-6">
-          <SectionHeader index="04" title="De engine" />
+          <SectionHeader index="05" title="De engine" />
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px mb-16 md:mb-20" style={{ backgroundColor: "hsl(var(--border))" }}>
             {modelSteps.map((s, i) => (
@@ -745,7 +745,7 @@ const AzPage = () => {
       {/* 05 — GOED OM TE WETEN */}
       <section className="py-16 md:py-24" style={STRIPES}>
         <div className="container mx-auto px-4 md:px-6">
-          <SectionHeader index="05" title="Goed om te weten" />
+          <SectionHeader index="06" title="Goed om te weten" />
 
           <div className="grid md:grid-cols-2 gap-x-16">
             {faqs.map((f) => (
@@ -771,7 +771,7 @@ const AzPage = () => {
           style={{ background: "radial-gradient(60% 100% at 50% 0%, rgba(255,255,255,0.22), transparent 75%)" }}
         />
         <div className="container mx-auto px-4 md:px-6 text-white">
-          <SectionHeader index="06" title="Aftrap?" light />
+          <SectionHeader index="07" title="Aftrap?" light />
 
           <div className="grid lg:grid-cols-[1fr_auto] gap-10 lg:gap-20 items-end">
             <div>
