@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { motion, useInView } from "framer-motion";
 import { ArrowRight, ArrowUpRight, Mail } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -28,11 +28,43 @@ const steps = [
 ];
 
 const metrics = [
-  { value: "5K+", label: "Bedrijven in kaart", note: "TAM / SAM / SOM" },
-  { value: "50%", label: "Open rate", note: "op outbound" },
-  { value: "25%", label: "Reply rate", note: "op outbound" },
-  { value: "Live", label: "Vrouwenvoetbal-track", note: "actief" },
+  { value: "5K+", label: "Bedrijven in kaart", sub: "TAM / SAM / SOM" },
+  { value: "50%", label: "Open rate", sub: "op outbound" },
+  { value: "25%", label: "Reply rate", sub: "op outbound" },
+  { value: "Live", label: "Vrouwenvoetbal-track", sub: "actief" },
 ];
+
+/** Telt numerieke scorebordwaarden op zodra ze in beeld schuiven (zelfde als PSV/AZ). */
+const CountUp = ({ value }: { value: string }) => {
+  const match = value.match(/^([\d.]+)(.*)$/);
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-40px" });
+  const target = match ? parseInt(match[1].replace(/\./g, ""), 10) : 0;
+  const hasMatch = !!match;
+  const [n, setN] = useState(0);
+
+  useEffect(() => {
+    if (!hasMatch || !inView) return;
+    const duration = 1300;
+    const start = performance.now();
+    let raf = 0;
+    const tick = (t: number) => {
+      const p = Math.min(1, (t - start) / duration);
+      setN(Math.round(target * (1 - Math.pow(1 - p, 3))));
+      if (p < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [hasMatch, inView, target]);
+
+  if (!match) return <span ref={ref}>{value}</span>;
+  return (
+    <span ref={ref}>
+      {target >= 1000 ? n.toLocaleString("nl-NL") : n}
+      {match[2]}
+    </span>
+  );
+};
 
 function WillemCurtain() {
   const [opening, setOpening] = useState(false);
@@ -141,22 +173,53 @@ const WillemIiPage = () => {
           </div>
         </section>
 
-        <section className="py-16 md:py-24">
+        <section id="excelsior" className="relative overflow-hidden py-16 md:py-28 text-white scroll-mt-24" style={{ backgroundColor: "#1D2851" }}>
+          <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-80" style={{ background: "radial-gradient(60% 100% at 50% 0%, rgba(188,25,25,0.28), transparent 75%)" }} />
           <div className="container mx-auto px-4 md:px-6">
             <p className="willem-kicker uppercase text-xs font-bold mb-4">03 / Bewezen in het voetbal</p>
-            <div className="flex flex-wrap items-center gap-5 mb-8">
-              <h2 className="font-display uppercase font-bold text-3xl md:text-5xl">De Excelsior-case.</h2>
-              <img src="/logos/klanten/excelsior.svg" alt="Excelsior Rotterdam" className="h-14 w-14 object-contain bg-foreground p-2 rounded-full" loading="lazy" />
-            </div>
-            <p className="max-w-2xl text-muted-foreground text-lg mb-10">Voor Excelsior brengen wij de zakelijke markt in kaart. De cijfers hieronder zijn een case, geen belofte voor Willem II.</p>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-border border border-border">
-              {metrics.map(metric => (
-                <div key={metric.label} className="bg-background px-6 py-8 min-h-40">
-                  <p className="font-display font-bold text-4xl md:text-5xl text-primary mb-4">{metric.value}</p>
-                  <p className="font-display font-bold uppercase">{metric.label}</p>
-                  <p className="text-muted-foreground text-xs mt-1">{metric.note}</p>
+            <div className="grid lg:grid-cols-[1.1fr_1fr] gap-12 lg:gap-20 items-start">
+              <div>
+                <div className="flex items-center gap-4 mb-8">
+                  <div className="h-16 w-16 md:h-20 md:w-20 bg-white rounded-full flex items-center justify-center p-2.5 shrink-0">
+                    <img src="/logos/klanten/excelsior.svg" alt="Excelsior Rotterdam" className="max-h-full max-w-full object-contain" loading="lazy" />
+                  </div>
+                  <div>
+                    <p className="uppercase text-[10px] md:text-xs tracking-[0.3em] text-white/60 font-mono">Sport & sponsoring</p>
+                    <p className="font-display font-bold uppercase tracking-wide text-xl md:text-2xl">Excelsior Rotterdam</p>
+                  </div>
                 </div>
-              ))}
+                <h2 className="font-display uppercase font-bold tracking-tight leading-[0.95] text-5xl md:text-7xl mb-8">
+                  Van club<br /><span style={{ color: "#F0A3A3" }}>naar sponsor.</span>
+                </h2>
+                <p className="text-base md:text-lg leading-relaxed text-white/80 max-w-xl mb-6">
+                  Voor Excelsior bouwden wij een sponsorsysteem. Wij mappen lokale bedrijven, activeren beslissers en zetten vrouwenvoetbal actief op de kaart. Elk signaal wordt een gesprek voor het commerciële team.
+                </p>
+                <p className="text-2xl md:text-3xl leading-snug max-w-xl" style={{ fontFamily: "'DM Serif Display', Georgia, serif" }}>
+                  Eén op de vier benaderde beslissers <span style={{ color: "#D29E27" }}>reageert.</span>
+                </p>
+                <p className="mt-8 text-[11px] text-white/50 leading-relaxed font-mono">De cijfers zijn de Excelsior-case. Geen belofte voor Willem II.</p>
+              </div>
+              <div>
+                <div className="border" style={{ borderColor: "rgba(255,255,255,0.14)" }}>
+                  <div className="px-6 py-3 border-b flex items-center justify-between" style={{ borderColor: "rgba(255,255,255,0.14)" }}>
+                    <span className="uppercase text-[10px] tracking-[0.3em] text-white/60 font-mono">Scorebord Excelsior</span>
+                    <span className="flex items-center gap-2 uppercase text-[10px] tracking-[0.3em] font-mono" style={{ color: "#D29E27" }}>
+                      <span className="h-2 w-2 rounded-full animate-pulse" style={{ backgroundColor: "#D29E27" }} /> Live
+                    </span>
+                  </div>
+                  {metrics.map(m => (
+                    <div key={m.label} className="px-6 py-6 border-b last:border-b-0 flex items-baseline justify-between gap-4" style={{ borderColor: "rgba(255,255,255,0.14)" }}>
+                      <span>
+                        <span className="block font-display font-bold uppercase tracking-wide text-sm md:text-base">{m.label}</span>
+                        <span className="block uppercase text-[10px] tracking-[0.2em] text-white/50 mt-1 font-mono">{m.sub}</span>
+                      </span>
+                      <span className="text-4xl md:text-5xl font-mono" style={{ color: "#F0A3A3" }}>
+                        <CountUp value={m.value} />
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </section>
