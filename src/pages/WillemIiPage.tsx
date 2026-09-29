@@ -158,7 +158,7 @@ const WillemIiPage = () => {
         </section>
 
         <div className="willem-pricing-brand border-t border-border">
-          <PricingSection showPerformancePartnership={false} currency="EUR" />
+          <PricingSection showPerformancePartnership={false} />
         </div>
 
         <section id="contact" className="willem-contact scroll-mt-24 py-16 md:py-24">

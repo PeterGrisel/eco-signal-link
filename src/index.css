@@ -276,6 +276,35 @@
     color: hsl(0 100% 75%);
   }
 
+  /* Willem II proposal: tricolore club palette, scoped to this page. */
+  .willem-page {
+    --primary: 0 75% 42%;
+    --primary-foreground: 0 0% 100%;
+    --accent: 0 75% 42%;
+    --ring: 0 75% 42%;
+  }
+  .willem-page .willem-kicker { color: #d29e27; letter-spacing: .22em; }
+  .willem-page .willem-hero-shade {
+    background: linear-gradient(90deg, rgba(8,14,37,.92), rgba(8,14,37,.64) 56%, rgba(8,14,37,.38)), linear-gradient(0deg, #101833 0%, transparent 65%);
+  }
+  .willem-page .willem-tricolor,
+  .willem-curtain-panel {
+    background: linear-gradient(90deg, #bc1919 0 32%, #fff 32% 35%, #1d2851 35% 65%, #fff 65% 68%, #bc1919 68% 100%);
+  }
+  .willem-curtain-panel { transition: transform 2600ms cubic-bezier(.65,0,.25,1); will-change: transform; }
+  .willem-page .willem-deep { background: #1d2851; }
+  .willem-page .willem-contact { background: #bc1919; color: #fff; }
+  .willem-page .willem-cta { background: #bc1919; color: #fff; }
+  .willem-page .willem-cta:hover { background: #981616; }
+  .willem-pricing-brand .text-gradient { background-image: linear-gradient(110deg, #d29e27, #bc1919); }
+  .willem-pricing-brand .glow-bg {
+    background: radial-gradient(ellipse 750px 500px at 50% 0%, rgba(188,25,25,.13), transparent 72%);
+  }
+  .willem-pricing-brand #pricing .text-primary { color: #f0a3a3; }
+  @media (prefers-reduced-motion: reduce) {
+    .willem-curtain-panel { transition: none; }
+  }
+
   .border-glow {
     border-color: hsl(24 75% 63% / 0.2);
   }

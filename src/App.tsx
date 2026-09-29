@@ -63,6 +63,7 @@ import ShotsPage from "./pages/ShotsPage.tsx";
 import HcmArnhemPage from "./pages/HcmArnhemPage.tsx";
 import PsvPage from "./pages/PsvPage.tsx";
 import AzPage from "./pages/AzPage.tsx";
+import WillemIiPage from "./pages/WillemIiPage.tsx";
 import SignalCheatsheet from "./pages/SignalCheatsheet.tsx";
 import LinkedInOutreach from "./pages/LinkedInOutreach.tsx";
 import HubSpotPipeline from "./pages/HubSpotPipeline.tsx";
@@ -207,6 +208,7 @@ const AnimatedRoutes = () => {
           <Route path="/voor/shots" element={<ShotsPage />} />
           <Route path="/voor/psv" element={<PsvPage />} />
           <Route path="/voor/az" element={<AzPage />} />
+          <Route path="/voor/willem-ii" element={<WillemIiPage />} />
           <Route path="/hcm-arnhem" element={<HcmArnhemPage />} />
           <Route path="/voor/hcm-arnhem" element={<Navigate to="/hcm-arnhem" replace />} />
           <Route path="/voor/:slug" element={<ClientPage />} />
