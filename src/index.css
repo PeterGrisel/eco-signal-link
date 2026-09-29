@@ -305,6 +305,35 @@
     .willem-curtain-panel { transition: none; }
   }
 
+  /* RKC Waalwijk proposal: geel-blauwe club palette, scoped to this page. */
+  .rkc-page {
+    --primary: 50 100% 50%;
+    --primary-foreground: 220 80% 15%;
+    --accent: 50 100% 50%;
+    --ring: 50 100% 50%;
+  }
+  .rkc-page .rkc-kicker { color: #ffd200; letter-spacing: .22em; }
+  .rkc-page .rkc-hero-shade {
+    background: linear-gradient(90deg, rgba(5,17,45,.92), rgba(5,17,45,.64) 56%, rgba(5,17,45,.38)), linear-gradient(0deg, #071a40 0%, transparent 65%);
+  }
+  .rkc-page .rkc-tricolor,
+  .rkc-curtain-panel {
+    background: linear-gradient(90deg, #ffd200 0 32%, #fff 32% 35%, #0a2a66 35% 65%, #fff 65% 68%, #ffd200 68% 100%);
+  }
+  .rkc-curtain-panel { transition: transform 2600ms cubic-bezier(.65,0,.25,1); will-change: transform; }
+  .rkc-page .rkc-deep { background: #0a2a66; }
+  .rkc-page .rkc-contact { background: #ffd200; color: #0a2a66; }
+  .rkc-page .rkc-cta { background: #ffd200; color: #0a2a66; }
+  .rkc-page .rkc-cta:hover { background: #e6bd00; }
+  .rkc-pricing-brand .text-gradient { background-image: linear-gradient(110deg, #ffd200, #0a2a66); }
+  .rkc-pricing-brand .glow-bg {
+    background: radial-gradient(ellipse 750px 500px at 50% 0%, rgba(255,210,0,.12), transparent 72%);
+  }
+  .rkc-pricing-brand #pricing .text-primary { color: #ffd200; }
+  @media (prefers-reduced-motion: reduce) {
+    .rkc-curtain-panel { transition: none; }
+  }
+
   .border-glow {
     border-color: hsl(24 75% 63% / 0.2);
   }
