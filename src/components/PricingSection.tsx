@@ -759,9 +759,10 @@ interface PricingSectionProps {
   language?: Lang;
   currency?: Currency;
   showPerformancePartnership?: boolean;
+  showAddOns?: boolean;
 }
 
-const PricingSection = ({ language = "nl", currency, showPerformancePartnership = true }: PricingSectionProps = {}) => {
+const PricingSection = ({ language = "nl", currency, showPerformancePartnership = true, showAddOns = true }: PricingSectionProps = {}) => {
   const [yearly, setYearly] = useState(false);
   const { currency: ctxCurrency, rates } = useCurrency();
   const lang: Lang = language;
@@ -810,10 +811,10 @@ const PricingSection = ({ language = "nl", currency, showPerformancePartnership 
         <ComparisonTable lang={lang} />
 
         {/* Boost packages */}
-        <BoostsGrid lang={lang} currency={cur} rate={rate} />
+        {showAddOns && <BoostsGrid lang={lang} currency={cur} rate={rate} />}
 
         {/* Call Boost */}
-        <CallBoostSection lang={lang} />
+        {showAddOns && <CallBoostSection lang={lang} />}
 
         {/* Performance Partnership */}
         {showPerformancePartnership && (
