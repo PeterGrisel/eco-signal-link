@@ -7,8 +7,8 @@ import PricingSection from "@/components/PricingSection";
 import { Button } from "@/components/ui/button";
 import { usePageMeta } from "@/hooks/usePageMeta";
 import peterPhoto from "@/assets/peter-grisel.png";
-import crest from "@/assets/willem-ii-logo.svg.asset.json";
-import stadium from "@/assets/willem-ii-stadion.webp.asset.json";
+import { willemIiCrest } from "./willemIiCrest";
+
 
 const opportunities = [
   { number: "01", title: "Nieuwe partners", copy: "Breng bedrijven in Midden-Brabant in beeld. Benader de juiste beslissers op het juiste moment." },
@@ -72,13 +72,13 @@ const WillemIiPage = () => {
       <Navbar />
       <main>
         <section className="willem-hero relative isolate min-h-[min(780px,92svh)] flex flex-col justify-end overflow-hidden pt-32 pb-14 md:pb-20">
-          <img src={stadium.url} alt="Koning Willem II Stadion vanuit de lucht" className="absolute inset-0 -z-20 h-full w-full object-cover" loading="eager" />
+          <img src="https://www.willem-ii.nl/sites/default/files/styles/header/public/2024-06/401-Willem-II-Media%20%281%29.jpg.webp?h=5725154c&itok=pHSSxc8a" alt="Koning Willem II Stadion vanuit de lucht" className="absolute inset-0 -z-20 h-full w-full object-cover" loading="eager" />
           <div className="willem-hero-shade absolute inset-0 -z-10" />
           <div className="container mx-auto px-4 md:px-6">
             <div className="flex items-center gap-6 mb-8 md:mb-12">
               <img src="/favicon.svg" alt="B2BGroeiMachine" className="w-12 h-12 md:w-14 md:h-14 object-contain" />
               <span className="w-px h-12 bg-foreground/40" aria-hidden="true" />
-              <img src={crest.url} alt="Willem II" className="w-12 h-20 md:w-16 md:h-24 object-contain" loading="eager" />
+              <img src={willemIiCrest} alt="Willem II" className="w-12 h-20 md:w-16 md:h-24 object-contain" loading="eager" />
             </div>
             <p className="willem-kicker uppercase text-xs md:text-sm font-semibold mb-5">Voor Willem II commercie · Tilburg</p>
             <h1 className="font-display uppercase font-bold text-5xl sm:text-6xl md:text-7xl lg:text-8xl leading-[0.96] max-w-5xl">
@@ -176,7 +176,7 @@ const WillemIiPage = () => {
               </Button>
               <a href="mailto:peter.grisel@rebelforce.nl" className="flex items-center gap-2 mt-5 text-sm underline break-all"><Mail className="size-4 shrink-0" />peter.grisel@rebelforce.nl</a>
             </div>
-            <img src={crest.url} alt="" aria-hidden="true" className="hidden lg:block h-52 w-32 object-contain" loading="lazy" />
+            <img src={willemIiCrest} alt="" aria-hidden="true" className="hidden lg:block h-52 w-32 object-contain" loading="lazy" />
           </div>
         </section>
       </main>
