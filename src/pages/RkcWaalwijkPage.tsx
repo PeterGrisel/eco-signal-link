@@ -7,7 +7,7 @@ import PricingSection from "@/components/PricingSection";
 import { Button } from "@/components/ui/button";
 import { usePageMeta } from "@/hooks/usePageMeta";
 import peterPhoto from "@/assets/peter-grisel.png";
-import crest from "@/assets/rkc-waalwijk-logo.png.asset.json";
+import crest from "@/assets/rkc-waalwijk-logo-transparent.png.asset.json";
 import stadium from "@/assets/rkc-waalwijk-stadion.jpg.asset.json";
 
 const stadiumFallback = "https://s.rkcwaalwijk.nl/fileadmin/user_upload/55508609764_dd61c414b7_k.jpg";
