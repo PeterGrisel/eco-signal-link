@@ -1,0 +1,2 @@
+- Keep bespoke football-club proposals in dedicated `/voor/<club>` page modules and reuse `PricingSection` for prices, so package amounts and billing options stay consistent across the site.
+- Store downloaded club imagery and logos with lovable-assets pointers, so media is served consistently without committing binary downloads.

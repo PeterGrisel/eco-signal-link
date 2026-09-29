@@ -1,0 +1,4 @@
+- [x] Controleer officiële Willem II-stijl en bestaande clubpagina’s.
+- [x] Maak een eigen Willem II-pagina met tricolore gordijn.
+- [x] Toon de bestaande actuele prijzen op de pagina.
+- [x] Controleer de pagina op desktop en mobiel.
