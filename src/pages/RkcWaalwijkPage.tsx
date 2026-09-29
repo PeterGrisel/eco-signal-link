@@ -14,7 +14,7 @@ const stadiumFallback = "https://s.rkcwaalwijk.nl/fileadmin/user_upload/55508609
 const crestFallback = "https://www.rkcwaalwijk.nl/_assets/dce96f2262a8f02d236267a99f07d33d/Icons/Favicons/RKCWaalwijk/apple-touch-icon.png";
 
 const opportunities = [
-  { number: "01", title: "Nieuwe partners", copy: "Breng bedrijven in Waalwijk en de Langstraat in beeld. Benader de juiste beslissers op het juiste moment." },
+  { number: "01", title: "Nieuwe partners", copy: "Breng bedrijven in Waalwijk en ver daarbuiten in beeld. Benader de juiste beslissers op het juiste moment." },
   { number: "02", title: "Bestaande relaties", copy: "Herken groeisignalen bij bestaande partners. Maak hospitality en zichtbaarheid bespreekbaar wanneer het past." },
   { number: "03", title: "Businessclub", copy: "Houd nieuwe contacten warm. Zet interesse om in een gesprek met het commerciële team." },
 ];
