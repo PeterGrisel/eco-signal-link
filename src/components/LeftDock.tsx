@@ -62,7 +62,7 @@ export default function LeftDock() {
 
 
   if (location.pathname.startsWith("/signaal") || location.pathname.startsWith("/admin")) return null;
-  if (location.pathname.startsWith("/voor") && location.pathname !== "/voor/hego") return null;
+  if (location.pathname.startsWith("/voor")) return null;
 
   const goToAnchor = (id: string, label: string) => {
     if (location.pathname === "/") {

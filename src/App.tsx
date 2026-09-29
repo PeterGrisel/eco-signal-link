@@ -56,10 +56,6 @@ import AdminAbmPages from "./pages/admin/AdminAbmPages.tsx";
 import AdminContentBuckets from "./pages/admin/AdminContentBuckets.tsx";
 import GiveAways from "./pages/GiveAways.tsx";
 import GiveAwayDetail from "./pages/GiveAwayDetail.tsx";
-import ClientPage from "./pages/ClientPage.tsx";
-import HegoPage from "./pages/HegoPage.tsx";
-import SealEcoPage from "./pages/SealEcoPage.tsx";
-import ShotsPage from "./pages/ShotsPage.tsx";
 import HcmArnhemPage from "./pages/HcmArnhemPage.tsx";
 import PsvPage from "./pages/PsvPage.tsx";
 import AzPage from "./pages/AzPage.tsx";
@@ -204,16 +200,14 @@ const AnimatedRoutes = () => {
           <Route path="/admin/content-buckets" element={<AdminContentBuckets />} />
           <Route path="/give-aways" element={<GiveAways />} />
           <Route path="/give-aways/:slug" element={<GiveAwayDetail />} />
-          <Route path="/voor/hego" element={<HegoPage />} />
-          <Route path="/voor/sealeco" element={<SealEcoPage />} />
-          <Route path="/voor/shots" element={<ShotsPage />} />
           <Route path="/voor/psv" element={<PsvPage />} />
           <Route path="/voor/az" element={<AzPage />} />
           <Route path="/voor/willem-ii" element={<WillemIiPage />} />
           <Route path="/voor/rkc-waalwijk" element={<RkcWaalwijkPage />} />
           <Route path="/hcm-arnhem" element={<HcmArnhemPage />} />
           <Route path="/voor/hcm-arnhem" element={<Navigate to="/hcm-arnhem" replace />} />
-          <Route path="/voor/:slug" element={<ClientPage />} />
+          {/* Niet-voetbal klantpagina's gearchiveerd in src/pages/_archief */}
+          <Route path="/voor/:slug" element={<Navigate to="/" replace />} />
           <Route path="/admin/blog/new" element={<AdminBlogEditor />} />
           <Route path="/admin/blog/edit/:id" element={<AdminBlogEditor />} />
           <Route path="/admin/blog/generate" element={<AdminBlogGenerate />} />
