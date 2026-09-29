@@ -7,7 +7,7 @@ import PricingSection from "@/components/PricingSection";
 import { Button } from "@/components/ui/button";
 import { usePageMeta } from "@/hooks/usePageMeta";
 import peterPhoto from "@/assets/peter-grisel.png";
-import crest from "@/assets/rkc-waalwijk-logo.png.asset.json";
+const crest = "/logos/rkc-waalwijk-logo.png";
 import stadium from "@/assets/rkc-waalwijk-stadion.jpg.asset.json";
 
 const stadiumFallback = "https://s.rkcwaalwijk.nl/fileadmin/user_upload/55508609764_dd61c414b7_k.jpg";
@@ -113,7 +113,7 @@ const RkcWaalwijkPage = () => {
             <div className="flex items-center gap-6 mb-8 md:mb-12">
               <img src="/favicon.svg" alt="B2BGroeiMachine" className="w-12 h-12 md:w-14 md:h-14 object-contain" />
               <span className="w-px h-12 bg-foreground/40" aria-hidden="true" />
-              <img src={crest.url} onError={event => { event.currentTarget.src = crestFallback; }} alt="RKC Waalwijk" className="w-14 h-14 md:w-20 md:h-20 object-contain" loading="eager" />
+              <img src={crest} onError={event => { event.currentTarget.src = crestFallback; }} alt="RKC Waalwijk" className="w-14 h-14 md:w-20 md:h-20 object-contain" loading="eager" />
             </div>
             <p className="rkc-kicker uppercase text-xs md:text-sm font-semibold mb-5">Voor RKC commercie · Waalwijk</p>
             <h1 className="font-display uppercase font-bold text-5xl sm:text-6xl md:text-7xl lg:text-8xl leading-[0.96] max-w-5xl">
@@ -242,7 +242,7 @@ const RkcWaalwijkPage = () => {
               </Button>
               <a href="mailto:peter.grisel@rebelforce.nl" className="flex items-center gap-2 mt-5 text-sm underline break-all"><Mail className="size-4 shrink-0" />peter.grisel@rebelforce.nl</a>
             </div>
-            <img src={crest.url} onError={event => { event.currentTarget.src = crestFallback; }} alt="" aria-hidden="true" className="hidden lg:block h-44 w-44 object-contain" loading="lazy" />
+            <img src={crest} onError={event => { event.currentTarget.src = crestFallback; }} alt="" aria-hidden="true" className="hidden lg:block h-44 w-44 object-contain" loading="lazy" />
           </div>
         </section>
       </main>
