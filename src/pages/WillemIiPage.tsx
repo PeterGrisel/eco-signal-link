@@ -161,8 +161,34 @@ const WillemIiPage = () => {
           </div>
         </section>
 
+        <section className="py-16 md:py-24">
+          <div className="container mx-auto px-4 md:px-6">
+            <p className="willem-kicker uppercase text-xs font-bold mb-4">04 / De business case</p>
+            <h2 className="font-display uppercase font-bold text-3xl md:text-5xl max-w-4xl leading-tight mb-6">Wat levert het op?</h2>
+            <p className="max-w-2xl text-muted-foreground text-lg mb-10">Een rekenvoorbeeld, geen belofte. Stel dat de machine elk jaar nieuwe zakelijke partners oplevert.</p>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-border border border-border mb-10">
+              {[
+                { value: "€10K", label: "Gemiddelde deal", note: "zakelijk partnerschap per jaar (rekenvoorbeeld)" },
+                { value: "2", label: "Partners voor break-even", note: "twee deals dekken de investering" },
+                { value: "4+", label: "Doel eerste jaar", note: "elke extra deal is winst" },
+                { value: "Jaar 2", label: "Verlengingen", note: "bestaande partners blijven vaak langer en hoger" },
+              ].map(item => (
+                <div key={item.label} className="bg-background px-6 py-8 min-h-40">
+                  <p className="font-display font-bold text-4xl md:text-5xl text-primary mb-4">{item.value}</p>
+                  <p className="font-display font-bold uppercase">{item.label}</p>
+                  <p className="text-muted-foreground text-xs mt-1">{item.note}</p>
+                </div>
+              ))}
+            </div>
+            <div className="max-w-3xl space-y-4 text-muted-foreground leading-relaxed">
+              <p>De investering loopt vanaf 1.500 euro per maand. Twee nieuwe partners betalen die in het eerste jaar terug.</p>
+              <p>Daarnaast levert het systeem waarde bij bestaande partners. Groeisignalen geven het commerciële team een reden om het gesprek aan te gaan. Dat maakt verlengingen makkelijker en hoger.</p>
+            </div>
+          </div>
+        </section>
+
         <div className="willem-pricing-brand border-t border-border">
-          <PricingSection showPerformancePartnership={false} />
+          <PricingSection showPerformancePartnership={false} showAddOns={false} />
         </div>
 
         <section id="contact" className="willem-contact scroll-mt-24 py-16 md:py-24">
