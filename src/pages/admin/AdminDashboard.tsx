@@ -258,7 +258,7 @@ const AdminDashboard = () => {
     cur.filter(isCta).forEach((e) => e.event_label && ctaMap.set(e.event_label, (ctaMap.get(e.event_label) || 0) + 1));
     const ctas = [...ctaMap.entries()].sort((a, b) => b[1] - a[1]).slice(0, 6).map(([label, value]) => ({ label, value }));
 
-    return { s, cta, ld, conv, daily, pages, clubs, sources, ctas, curLeads };
+    return { s, cta, ld, conv, daily, pages, clubs, sources, ctas, curLeads, funnel, botHits };
   }, [events, leads]);
 
   return (
@@ -280,7 +280,7 @@ const AdminDashboard = () => {
       ) : (
         <div className="space-y-6">
           <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3">
-            <Kpi icon={Users} label="Bezoekers" value={nf(m.s.cur)} cur={m.s.cur} prev={m.s.prev} />
+            <Kpi icon={Users} label="Echte bezoekers" value={nf(m.s.cur)} cur={m.s.cur} prev={m.s.prev} hint={`${nf(m.botHits)} bot-hits weggefilterd`} />
             <Kpi icon={Inbox} label="Leads" value={nf(m.ld.cur)} cur={m.ld.cur} prev={m.ld.prev} />
             <Kpi icon={Percent} label="Conversie" value={`${m.conv.cur.toFixed(1)}%`} cur={m.conv.cur} prev={m.conv.prev} hint="bezoekers → lead" />
             <Kpi icon={MousePointerClick} label="CTA-klikken" value={nf(m.cta.cur)} cur={m.cta.cur} prev={m.cta.prev} />
@@ -327,6 +327,13 @@ const AdminDashboard = () => {
                 )}
               </CardContent>
             </Card>
+            <Card className="bg-card border-border">
+              <CardHeader className="pb-2"><CardTitle className="text-base">Van klik tot afspraak</CardTitle></CardHeader>
+              <CardContent><RankList rows={m.funnel} empty="" /></CardContent>
+            </Card>
+          </div>
+
+          <div className="grid lg:grid-cols-3 gap-6">
             <Card className="bg-card border-border">
               <CardHeader className="pb-2"><CardTitle className="text-base">Waar komen bezoekers vandaan?</CardTitle></CardHeader>
               <CardContent>
