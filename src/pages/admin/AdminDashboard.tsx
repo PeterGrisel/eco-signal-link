@@ -189,13 +189,30 @@ const AdminDashboard = () => {
 
   const m = useMemo(() => {
     const cutoff = subDays(new Date(), DAYS).toISOString();
-    const cur = events.filter((e) => e.created_at >= cutoff);
-    const prev = events.filter((e) => e.created_at < cutoff);
+    // Losse hits (1 event, geen scroll/leestijd) zijn vrijwel altijd bots of linkvoorbeelden.
+    const perSession = new Map<string, number>();
+    events.forEach((e) => e.session_id && perSession.set(e.session_id, (perSession.get(e.session_id) || 0) + 1));
+    const real = events.filter((e) => e.session_id && (perSession.get(e.session_id) || 0) > 1);
+    const allCurSessions = new Set(events.filter((e) => e.created_at >= cutoff && e.session_id).map((e) => e.session_id)).size;
+    const cur = real.filter((e) => e.created_at >= cutoff);
+    const prev = real.filter((e) => e.created_at < cutoff);
     const sess = (arr: Ev[]) => new Set(arr.map((e) => e.session_id).filter(Boolean)).size;
     const cnt = (arr: Ev[], f: (e: Ev) => boolean) => arr.filter(f).length;
     const isCta = (e: Ev) => e.event_name === "cta_click";
-    const curLeads = leads.filter((l) => l.created_at >= cutoff);
-    const prevLeads = leads.filter((l) => l.created_at < cutoff);
+    const bookings: Lead[] = events
+      .filter((e) => e.event_name === "demo_booked")
+      .map((e) => ({ kind: "Afspraak", name: "Afspraak via agenda", email: null, company: e.metadata?.source ?? null, created_at: e.created_at }));
+    const allLeads = [...leads, ...bookings].sort((a, b) => b.created_at.localeCompare(a.created_at));
+    const curLeads = allLeads.filter((l) => l.created_at >= cutoff);
+    const prevLeads = allLeads.filter((l) => l.created_at < cutoff);
+    const funnel = [
+      { label: "Klik op een knop", value: cnt(cur, isCta) },
+      { label: "Agenda geopend", value: cnt(cur, (e) => e.event_name === "demo_modal_open") },
+      { label: "Agenda geladen", value: cnt(cur, (e) => e.event_name === "booking_calendar_loaded") },
+      { label: "Afspraak geboekt", value: cnt(cur, (e) => e.event_name === "demo_booked") },
+      { label: "Formulier verstuurd", value: cnt(cur, (e) => e.event_name === "form_submit") },
+    ];
+    const botHits = allCurSessions - sess(cur);
     const s = { cur: sess(cur), prev: sess(prev) };
     const cta = { cur: cnt(cur, isCta), prev: cnt(prev, isCta) };
     const ld = { cur: curLeads.length, prev: prevLeads.length };
@@ -241,7 +258,7 @@ const AdminDashboard = () => {
     cur.filter(isCta).forEach((e) => e.event_label && ctaMap.set(e.event_label, (ctaMap.get(e.event_label) || 0) + 1));
     const ctas = [...ctaMap.entries()].sort((a, b) => b[1] - a[1]).slice(0, 6).map(([label, value]) => ({ label, value }));
 
-    return { s, cta, ld, conv, daily, pages, clubs, sources, ctas, curLeads };
+    return { s, cta, ld, conv, daily, pages, clubs, sources, ctas, curLeads, funnel, botHits };
   }, [events, leads]);
 
   return (
@@ -263,7 +280,7 @@ const AdminDashboard = () => {
       ) : (
         <div className="space-y-6">
           <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3">
-            <Kpi icon={Users} label="Bezoekers" value={nf(m.s.cur)} cur={m.s.cur} prev={m.s.prev} />
+            <Kpi icon={Users} label="Echte bezoekers" value={nf(m.s.cur)} cur={m.s.cur} prev={m.s.prev} hint={`${nf(m.botHits)} bot-hits weggefilterd`} />
             <Kpi icon={Inbox} label="Leads" value={nf(m.ld.cur)} cur={m.ld.cur} prev={m.ld.prev} />
             <Kpi icon={Percent} label="Conversie" value={`${m.conv.cur.toFixed(1)}%`} cur={m.conv.cur} prev={m.conv.prev} hint="bezoekers → lead" />
             <Kpi icon={MousePointerClick} label="CTA-klikken" value={nf(m.cta.cur)} cur={m.cta.cur} prev={m.cta.prev} />
@@ -311,16 +328,18 @@ const AdminDashboard = () => {
               </CardContent>
             </Card>
             <Card className="bg-card border-border">
-              <CardHeader className="pb-2"><CardTitle className="text-base">Waar komen bezoekers vandaan?</CardTitle></CardHeader>
-              <CardContent>
-                {ga4?.traffic_sources?.length
-                  ? <RankList rows={ga4.traffic_sources.slice(0, 8).map((t: any) => ({ label: t.channel, value: t.sessions }))} empty="" />
-                  : <RankList rows={m.sources} empty="Geen bronnen bekend." />}
-              </CardContent>
+              <CardHeader className="pb-2"><CardTitle className="text-base">Van klik tot afspraak</CardTitle></CardHeader>
+              <CardContent><RankList rows={m.funnel} empty="" /></CardContent>
             </Card>
           </div>
 
-          <div className="grid lg:grid-cols-3 gap-6">
+          <div className="grid lg:grid-cols-2 xl:grid-cols-4 gap-6">
+            <Card className="bg-card border-border">
+              <CardHeader className="pb-2"><CardTitle className="text-base">Waar komen bezoekers vandaan?</CardTitle></CardHeader>
+              <CardContent>
+                <RankList rows={m.sources} empty="Geen bronnen bekend." />
+              </CardContent>
+            </Card>
             <Card className="bg-card border-border">
               <CardHeader className="pb-2"><CardTitle className="text-base">Best bezochte pagina's</CardTitle></CardHeader>
               <CardContent><RankList rows={m.pages.slice(0, 8).map((p) => ({ label: p.path, value: p.visitors, sub: p.cta ? `· ${p.cta} klik` : undefined }))} empty="Geen data." /></CardContent>
