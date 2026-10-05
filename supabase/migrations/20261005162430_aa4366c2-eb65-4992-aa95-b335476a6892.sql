@@ -1,0 +1,1 @@
+CREATE INDEX IF NOT EXISTS site_events_created_at_idx ON public.site_events (created_at DESC);

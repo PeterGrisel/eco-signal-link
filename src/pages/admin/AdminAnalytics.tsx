@@ -75,14 +75,22 @@ export const AnalyticsTabContent = () => {
     const since = new Date();
     since.setDate(since.getDate() - days);
 
-    const { data, error } = await supabase
-      .from("site_events")
-      .select("*")
-      .gte("created_at", since.toISOString())
-      .order("created_at", { ascending: false })
-      .limit(1000);
-
-    if (!error && data) setEvents(data as SiteEvent[]);
+    // Page through all events (server caps each response at 1000 rows)
+    const PAGE = 1000;
+    const MAX = 30000;
+    const all: SiteEvent[] = [];
+    for (let from = 0; from < MAX; from += PAGE) {
+      const { data, error } = await supabase
+        .from("site_events")
+        .select("*")
+        .gte("created_at", since.toISOString())
+        .order("created_at", { ascending: false })
+        .range(from, from + PAGE - 1);
+      if (error || !data) break;
+      all.push(...(data as SiteEvent[]));
+      if (data.length < PAGE) break;
+    }
+    setEvents(all);
     setLoading(false);
   };
 
