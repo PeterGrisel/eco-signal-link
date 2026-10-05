@@ -9,7 +9,6 @@ import { useIsMobile } from "@/hooks/use-mobile";
 
 const navItems = [
   { href: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/admin/analytics", label: "Analytics", icon: Activity },
   { href: "/admin/leads", label: "Leads", icon: Inbox },
   { href: "/admin/content", label: "Content", icon: FileText, showPilotBadge: true },
   { href: "/admin/content-buckets", label: "Content buckets", icon: Gift },
