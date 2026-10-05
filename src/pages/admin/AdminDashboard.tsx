@@ -333,18 +333,13 @@ const AdminDashboard = () => {
             </Card>
           </div>
 
-          <div className="grid lg:grid-cols-3 gap-6">
+          <div className="grid lg:grid-cols-2 xl:grid-cols-4 gap-6">
             <Card className="bg-card border-border">
               <CardHeader className="pb-2"><CardTitle className="text-base">Waar komen bezoekers vandaan?</CardTitle></CardHeader>
               <CardContent>
-                {ga4?.traffic_sources?.length
-                  ? <RankList rows={ga4.traffic_sources.slice(0, 8).map((t: any) => ({ label: t.channel, value: t.sessions }))} empty="" />
-                  : <RankList rows={m.sources} empty="Geen bronnen bekend." />}
+                <RankList rows={m.sources} empty="Geen bronnen bekend." />
               </CardContent>
             </Card>
-          </div>
-
-          <div className="grid lg:grid-cols-3 gap-6">
             <Card className="bg-card border-border">
               <CardHeader className="pb-2"><CardTitle className="text-base">Best bezochte pagina's</CardTitle></CardHeader>
               <CardContent><RankList rows={m.pages.slice(0, 8).map((p) => ({ label: p.path, value: p.visitors, sub: p.cta ? `· ${p.cta} klik` : undefined }))} empty="Geen data." /></CardContent>
