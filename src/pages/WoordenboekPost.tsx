@@ -5,6 +5,7 @@ import remarkGfm from "remark-gfm";
 import { ArrowLeft } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import NextStepBar from "@/components/NextStepBar";
 import PageLoader from "@/components/PageLoader";
 import AmbientBackdrop from "@/components/homepage/AmbientBackdrop";
 import CtaSection from "@/components/CtaSection";
@@ -137,6 +138,7 @@ const WoordenboekPost = () => {
 
           <CtaSection />
           <Footer />
+          <NextStepBar location="Woordenboek term" />
         </div>
       </div>
     </PageLoader>

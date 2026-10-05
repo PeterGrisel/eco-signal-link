@@ -3,6 +3,7 @@ import { motion, useInView } from "framer-motion";
 import { ArrowRight, ArrowUpRight, Mail } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import ClubCta from "@/components/ClubCta";
 import { usePageMeta } from "@/hooks/usePageMeta";
 import peterPhoto from "@/assets/peter-grisel.png";
 import psvHeroVideo from "@/assets/psv-hero.mp4";
@@ -577,6 +578,8 @@ const PsvPage = () => {
           </div>
         </div>
       </section>
+
+      <ClubCta club="PSV" accent="#E2001A" location="PSV" />
 
       {/* 04 — DE ENGINE */}
       <section className="py-16 md:py-24">
