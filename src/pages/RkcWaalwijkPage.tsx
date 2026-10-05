@@ -3,6 +3,7 @@ import { motion, useInView } from "framer-motion";
 import { ArrowRight, ArrowUpRight, Mail } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import ClubCta from "@/components/ClubCta";
 import PricingSection from "@/components/PricingSection";
 import { Button } from "@/components/ui/button";
 import { usePageMeta } from "@/hooks/usePageMeta";
@@ -224,6 +225,7 @@ const RkcWaalwijkPage = () => {
         </section>
 
         <div className="rkc-pricing-brand border-t border-border">
+          <ClubCta club="RKC" accent="#FFD200" location="RKC" />
           <PricingSection showPerformancePartnership={false} showAddOns={false} />
         </div>
 

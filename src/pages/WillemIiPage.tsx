@@ -3,6 +3,7 @@ import { motion, useInView } from "framer-motion";
 import { ArrowRight, ArrowUpRight, Mail } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import ClubCta from "@/components/ClubCta";
 import PricingSection from "@/components/PricingSection";
 import { Button } from "@/components/ui/button";
 import { usePageMeta } from "@/hooks/usePageMeta";
@@ -223,6 +224,8 @@ const WillemIiPage = () => {
             </div>
           </div>
         </section>
+
+        <ClubCta club="Willem II" accent="#C8102E" location="Willem II" />
 
         <div className="willem-pricing-brand border-t border-border">
           <PricingSection showPerformancePartnership={false} showAddOns={false} />

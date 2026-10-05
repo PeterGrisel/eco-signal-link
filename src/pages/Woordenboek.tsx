@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { BookOpen, Search } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import NextStepBar from "@/components/NextStepBar";
 import PageLoader from "@/components/PageLoader";
 import AmbientBackdrop from "@/components/homepage/AmbientBackdrop";
 import CtaSection from "@/components/CtaSection";
@@ -148,6 +149,7 @@ const Woordenboek = () => {
 
           <CtaSection />
           <Footer />
+          <NextStepBar location="Woordenboek" />
         </div>
       </div>
     </PageLoader>

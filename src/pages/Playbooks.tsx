@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import NextStepBar from "@/components/NextStepBar";
 import PageLoader from "@/components/PageLoader";
 import AmbientBackdrop from "@/components/homepage/AmbientBackdrop";
 import CtaSection from "@/components/CtaSection";
@@ -199,6 +200,7 @@ const Playbooks = () => {
 
           <CtaSection />
           <Footer />
+          <NextStepBar location="Playbooks" />
         </div>
       </div>
     </PageLoader>
