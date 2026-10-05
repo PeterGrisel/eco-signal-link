@@ -45,7 +45,6 @@ import Cookies from "./pages/Cookies.tsx";
 import OAuthConsent from "./pages/OAuthConsent";
 import AdminLogin from "./pages/AdminLogin.tsx";
 import AdminDashboard from "./pages/admin/AdminDashboard.tsx";
-import AdminAnalyticsHub from "./pages/admin/AdminAnalyticsHub.tsx";
 import AdminContentHub from "./pages/admin/AdminContentHub.tsx";
 import AdminSeoHub from "./pages/admin/AdminSeoHub.tsx";
 import AdminSystem from "./pages/admin/AdminSystem.tsx";
@@ -191,7 +190,7 @@ const AnimatedRoutes = () => {
           <Route path="/.lovable/oauth/consent" element={<OAuthConsent />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
-          <Route path="/admin/analytics" element={<AdminAnalyticsHub />} />
+          <Route path="/admin/analytics" element={<Navigate to="/admin/dashboard" replace />} />
           <Route path="/admin/content" element={<AdminContentHub />} />
           <Route path="/admin/seo" element={<AdminSeoHub />} />
           <Route path="/admin/system" element={<AdminSystem />} />
