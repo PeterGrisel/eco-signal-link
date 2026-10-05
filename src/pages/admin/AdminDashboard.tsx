@@ -189,13 +189,30 @@ const AdminDashboard = () => {
 
   const m = useMemo(() => {
     const cutoff = subDays(new Date(), DAYS).toISOString();
-    const cur = events.filter((e) => e.created_at >= cutoff);
-    const prev = events.filter((e) => e.created_at < cutoff);
+    // Losse hits (1 event, geen scroll/leestijd) zijn vrijwel altijd bots of linkvoorbeelden.
+    const perSession = new Map<string, number>();
+    events.forEach((e) => e.session_id && perSession.set(e.session_id, (perSession.get(e.session_id) || 0) + 1));
+    const real = events.filter((e) => e.session_id && (perSession.get(e.session_id) || 0) > 1);
+    const allCurSessions = new Set(events.filter((e) => e.created_at >= cutoff && e.session_id).map((e) => e.session_id)).size;
+    const cur = real.filter((e) => e.created_at >= cutoff);
+    const prev = real.filter((e) => e.created_at < cutoff);
     const sess = (arr: Ev[]) => new Set(arr.map((e) => e.session_id).filter(Boolean)).size;
     const cnt = (arr: Ev[], f: (e: Ev) => boolean) => arr.filter(f).length;
     const isCta = (e: Ev) => e.event_name === "cta_click";
-    const curLeads = leads.filter((l) => l.created_at >= cutoff);
-    const prevLeads = leads.filter((l) => l.created_at < cutoff);
+    const bookings: Lead[] = events
+      .filter((e) => e.event_name === "demo_booked")
+      .map((e) => ({ kind: "Afspraak", name: "Afspraak via agenda", email: null, company: e.metadata?.source ?? null, created_at: e.created_at }));
+    const allLeads = [...leads, ...bookings].sort((a, b) => b.created_at.localeCompare(a.created_at));
+    const curLeads = allLeads.filter((l) => l.created_at >= cutoff);
+    const prevLeads = allLeads.filter((l) => l.created_at < cutoff);
+    const funnel = [
+      { label: "Klik op een knop", value: cnt(cur, isCta) },
+      { label: "Agenda geopend", value: cnt(cur, (e) => e.event_name === "demo_modal_open") },
+      { label: "Agenda geladen", value: cnt(cur, (e) => e.event_name === "booking_calendar_loaded") },
+      { label: "Afspraak geboekt", value: cnt(cur, (e) => e.event_name === "demo_booked") },
+      { label: "Formulier verstuurd", value: cnt(cur, (e) => e.event_name === "form_submit") },
+    ];
+    const botHits = allCurSessions - sess(cur);
     const s = { cur: sess(cur), prev: sess(prev) };
     const cta = { cur: cnt(cur, isCta), prev: cnt(prev, isCta) };
     const ld = { cur: curLeads.length, prev: prevLeads.length };
