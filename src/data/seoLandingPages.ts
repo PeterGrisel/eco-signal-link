@@ -623,10 +623,10 @@ export const seoLandingPages: SeoLandingPage[] = [
     solutionTitle: "Zo richten wij sales automation in",
     solutionLead: "Wij automatiseren het handwerk rond je salesproces, zodat je team tijd overhoudt voor wat een mens moet doen: gesprekken voeren. Gebouwd voor bedrijven van 10 tot 250 medewerkers — zonder enterprise-processen en zonder corporate overhead.",
     features: [
-      { title: "Workflow-automatisering", description: "Terugkerende taken — van lead-invoer tot offerteopvolging — worden workflows die altijd draaien, onder andere met n8n." },
+      { title: "Workflow-automatisering", description: "Terugkerende taken — van lead-invoer tot opvolging — worden workflows die altijd draaien, onder andere met n8n." },
       { title: "Lead-routing en AI-filtering", description: "Binnenkomende signalen en leads worden automatisch beoordeeld, gelabeld en bij de juiste persoon neergelegd." },
       { title: "Sync tussen prospecting en CRM", description: "Apollo-data, outreach-status en pipeline blijven gelijk. Eén waarheid, geen losse exports en sheets." },
-      { title: "Notificaties en opvolgtaken", description: "Een reactie, een websitebezoek of een verlopen offerte triggert direct een taak. Niets blijft liggen." },
+      { title: "Notificaties en opvolgtaken", description: "Een reactie of een websitebezoek triggert direct een taak. Niets blijft liggen." },
     ],
     proofTitle: "Waar we op sturen",
     proof: [
@@ -636,7 +636,7 @@ export const seoLandingPages: SeoLandingPage[] = [
     ],
     faqs: [
       { q: "Wat is sales automation?", a: "Sales automation is het laten uitvoeren van terugkerend handwerk in je salesproces door software: lead-invoer, verrijking, routing, opvolgtaken, notificaties en het synchroon houden van systemen. Wat het níet is: het automatiseren van verkopen zelf. Het gesprek met een beslisser blijft mensenwerk — automation zorgt dat je team daar tijd voor heeft." },
-      { q: "Wat kun je automatiseren in een MKB-salesproces?", a: "Meer dan de meeste teams denken. Nieuwe leads automatisch verrijken en in het CRM zetten, binnenkomende signalen beoordelen en routeren naar de juiste persoon, opvolgtaken aanmaken bij een reactie of verlopen offerte, notificaties bij websitebezoek van een bestaande prospect, en wekelijkse rapportage. De vuistregel: alles wat een vast patroon volgt, kan een workflow worden." },
+      { q: "Wat kun je automatiseren in een MKB-salesproces?", a: "Meer dan de meeste teams denken. Nieuwe leads automatisch verrijken en in het CRM zetten, binnenkomende signalen beoordelen en routeren naar de juiste persoon, opvolgtaken aanmaken bij een reactie, notificaties bij websitebezoek van een bestaande prospect, en wekelijkse rapportage. De vuistregel: alles wat een vast patroon volgt, kan een workflow worden." },
       { q: "Wat kost sales automation voor het MKB?", a: "De tooling zelf valt mee: van enkele tientjes tot een paar honderd euro per maand, afhankelijk van je stack. De echte investering zit in de inrichting — het proces ontwerpen, de koppelingen bouwen en testen. Wij werken met een vast bedrag afhankelijk van de scope, en beginnen bewust klein: eerst de bottleneck die de meeste tijd kost, dan pas de rest." },
       { q: "Welke tools gebruiken jullie?", a: "Wij werken met een vaste, bewezen stack: Apollo.io voor prospect-data en verrijking, HeyReach voor LinkedIn-outreach, HubSpot voor pipeline en rapportage, en n8n voor de workflows daartussen. Maar de volgorde is belangrijker dan de tools: proces vóór tooling. Een workflow die een slecht proces versnelt, maakt het probleem alleen maar groter." },
       { q: "Vervangt sales automation onze verkopers?", a: "Nee. Het vervangt de taken die geen omzet opleveren: overtypen, zoeken, lijstjes bijwerken, achter opvolging aan zitten. Verkopers besteden een fors deel van hun week aan dit soort werk. Automation geeft die uren terug, zodat je team doet waar het voor is aangenomen: gesprekken voeren en deals sluiten." },

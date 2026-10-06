@@ -58,11 +58,11 @@ export const BREIN_DIENSTEN: BreinDienst[] = [
       punten: [
         {
           naam: "Overtypen en bijwerken",
-          body: "Gegevens van mail naar CRM, van CRM naar offerte, van offerte naar planning. Elke stap kost tijd en introduceert fouten.",
+          body: "Gegevens van mail naar CRM, van CRM naar planning. Elke stap kost tijd en introduceert fouten.",
         },
         {
           naam: "Opvolging die blijft liggen",
-          body: "Een lead die niet wordt teruggebeld, een offerte zonder reminder. Niet uit onwil, maar omdat niemand eraan dacht.",
+          body: "Een lead die niet wordt teruggebeld, een gesprek zonder vervolgactie. Niet uit onwil, maar omdat niemand eraan dacht.",
         },
         {
           naam: "Losse tools, geen geheel",
@@ -76,9 +76,8 @@ export const BREIN_DIENSTEN: BreinDienst[] = [
       taken: [
         { naam: "Leadverwerking", body: "Nieuwe aanvragen worden verrijkt, gekwalificeerd en direct bij de juiste verkoper neergelegd." },
         { naam: "CRM-hygiëne", body: "Dubbele records, lege velden en verouderde contactpersonen worden automatisch opgeschoond." },
-        { naam: "Opvolging en reminders", body: "Na elk gesprek staat de vervolgactie klaar. Na elke offerte loopt de opvolging vanzelf." },
+        { naam: "Opvolging en reminders", body: "Na elk gesprek staat de vervolgactie klaar." },
         { naam: "Gespreksverslagen", body: "Meetings worden samengevat, actiepunten komen in het CRM en de follow-upmail staat als concept klaar." },
-        { naam: "Offertes en voorstellen", body: "Op basis van het gesprek en uw prijslijst ligt een eerste versie klaar om te controleren." },
         { naam: "Interne overdracht", body: "Van marketing naar sales, van sales naar delivery. Niemand hoeft meer te vragen waar iets staat." },
       ],
     },

@@ -48,8 +48,8 @@ const FUNCTIES: { rol: string; naam: string; body: string }[] = [
   },
   {
     rol: "08",
-    naam: "Designer",
-    body: "Beeld, pagina's en campagnes in uw huisstijl. Zonder aparte ontwerper aan te nemen.",
+    naam: "Ads",
+    body: "Een volledige 360-analyse van uw ads. Uw hele funnel van a tot z in kaart, push en pull, zodat u erop kunt sturen.",
   },
 ];
 

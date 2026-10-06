@@ -33,10 +33,11 @@ export type BreinFunctie = {
 export const FUNCTIES: BreinFunctie[] = [
   { id: "leads", naam: "Leads", wat: "Lijsten bouwen, bedrijven en beslissers zoeken, verrijken", uren: 30, dienst: "outreach-as-a-service" },
   { id: "outreach", naam: "Outreach", wat: "Berichten schrijven, versturen, opvolgen en reacties sorteren via mail en LinkedIn", uren: 60, dienst: "outreach-as-a-service" },
-  { id: "taken", naam: "Taken", wat: "CRM bijwerken, opvolging, gespreksverslagen, offertes", uren: 40, dienst: "ai-automation" },
+  { id: "taken", naam: "Taken", wat: "CRM bijwerken, opvolging, gespreksverslagen", uren: 40, dienst: "ai-automation" },
   { id: "reporting", naam: "Reporting", wat: "Exports verzamelen, rapportages maken, cijfers uitzoeken", uren: 16, dienst: "reporting" },
   { id: "content", naam: "Content planning", wat: "Posts, nieuwsbrieven en campagnes bedenken en inplannen", uren: 24, dienst: "ai-automation" },
-  { id: "designer", naam: "Designer", wat: "Beeld en pagina's maken of laten maken", uren: 16, dienst: "ai-automation" },
+  // Uren gelijk aan de vervallen functie Designer, zodat de prijs van Brein Scale niet verandert.
+  { id: "ads", naam: "Ads", wat: "Volledige 360-analyse van ads: de hele funnel in kaart, push en pull", uren: 16, dienst: "reporting" },
   { id: "agents", naam: "Agents", wat: "Losse terugkerende taken die nu iemand handmatig doet", uren: 24, dienst: "ai-automation" },
   { id: "skilllab", naam: "Skilllab", wat: "Zelf uitzoeken, proberen en opnieuw beginnen met AI", uren: 10, dienst: "training" },
 ];
@@ -94,7 +95,7 @@ export const MENUS: BreinMenu[] = [
     opbouw: "Alles van Groei, plus",
     kern: "zichtbaarheid en eigen AI-vaardigheid.",
     wat: "Content gepland, terugkerende taken geautomatiseerd, en uw team leert zelf met AI werken.",
-    extra: "Inclusief een volledige 360-analyse van uw ads.",
+    extra: "Inclusief een volledige 360-analyse van uw ads. Zo heeft u uw hele funnel van a tot z in kaart, push en pull, en kunt u erop sturen.",
   },
 ];
 

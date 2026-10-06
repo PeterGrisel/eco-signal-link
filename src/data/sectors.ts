@@ -325,17 +325,17 @@ export const sectors: Sector[] = [
     icon: HardHat,
     title: "Bouw & Renovatie",
     tagline: "Procesautomatisering voor bouw en renovatie.",
-    description: "Bouw- en renovatiebedrijven die offertes, planning en opvolging willen stroomlijnen. Wij automatiseren wat handmatig loopt, van eerste vraag tot oplevering.",
+    description: "Bouw- en renovatiebedrijven die planning en opvolging willen stroomlijnen. Wij automatiseren wat handmatig loopt, van eerste vraag tot oplevering.",
     metaTitle: "Procesautomatisering Bouw & Renovatie — B2BGroeiMachine",
-    metaDescription: "Bouw- en renovatiebedrijven: automatiseer offertes, planning en opvolging. Wij brengen uw proces in kaart en zetten signalen om in nieuwe opdrachten.",
+    metaDescription: "Bouw- en renovatiebedrijven: automatiseer planning en opvolging. Wij brengen uw proces in kaart en zetten signalen om in nieuwe opdrachten.",
     challenges: [
-      "Offertes en opvolging slokken uren projectleiding op",
+      "Opvolging slokt uren projectleiding op",
       "Vergunningen, aanbestedingen en signalen blijven liggen",
       "Reactief werken aan binnenkomende vragen in plaats van vooruit plannen",
     ],
     solutions: [
       "Geautomatiseerde signaaldetectie op vergunningen en projectstarts",
-      "Offerte- en opvolgflows gekoppeld aan uw CRM",
+      "Opvolgflows gekoppeld aan uw CRM",
       "Strakke pipeline van eerste vraag tot opgeleverde opdracht",
     ],
     signals: [
@@ -345,10 +345,10 @@ export const sectors: Sector[] = [
       "Projectontwikkelaar koopt grond of pand",
       "Vacatures voor projectleiders of uitvoerders",
     ],
-    voorbeeldcampagne: "Een bouwbedrijf wilde af van pieken en dalen in opdrachten. Wij volgden vergunningen, aanbestedingen en grondtransacties in hun regio. Projectleiders kregen elke week een verse lijst, gekoppeld aan outreach- en offerteflows.",
+    voorbeeldcampagne: "Een bouwbedrijf wilde af van pieken en dalen in opdrachten. Wij volgden vergunningen, aanbestedingen en grondtransacties in hun regio. Projectleiders kregen elke week een verse lijst, gekoppeld aan outreach- en opvolgflows.",
     dataGebruikt: ["Omgevingsvergunningen en bestemmingsplannen","Aanbestedingsplatforms","KvK-mutaties bij projectontwikkelaars","Persberichten over investeringen en verhuizingen"],
     beslissers: ["Projectontwikkelaar","Vastgoeddirecteur","Facility Manager","Eigenaar of directie van bouw- en handelspartners"],
-    naVierWeken: ["Een wekelijkse lijst met concrete projectkansen in uw regio","Eerste oriënterende gesprekken met opdrachtgevers","Inzicht in welke projectsoorten het meest opleveren","Strakke offerteflow zonder verloren leads"],
+    naVierWeken: ["Een wekelijkse lijst met concrete projectkansen in uw regio","Eerste oriënterende gesprekken met opdrachtgevers","Inzicht in welke projectsoorten het meest opleveren","Strakke opvolging zonder verloren leads"],
     geenGoedeFit: ["Aannemers zonder duidelijke specialisatie","Organisaties die alleen onderaanneming willen blijven doen","Teams zonder capaciteit voor offertes binnen een week"],
     funnelDefaults: { monthlyRevenue: 220000, expenseRate: 30, marketingRate: 3, avgDealSize: 35000, optInRate: 2, optInToSqlRate: 18, sqlToCallRate: 55, salesConversionRate: 28, ltv: 12 },
   },
@@ -363,7 +363,7 @@ export const sectors: Sector[] = [
     challenges: [
       "Servicedata blijft in tickets hangen en wordt niet commercieel gebruikt",
       "Onderhoudscontracten lopen af zonder tijdige opvolging",
-      "Te veel handwerk in offertes, planning en facturatie",
+      "Te veel handwerk in planning en opvolging",
     ],
     solutions: [
       "Reparatiedata omzetten naar verkoopkansen voor vervanging of upgrade",

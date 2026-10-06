@@ -381,7 +381,7 @@ const STATIC_PAGES: Record<string, {
     title: "AI Automation voor sales en marketing | B2B Groeimachine",
     description: "Wij automatiseren de kostbare, repeterende processen in uw sales en marketing met AI-agents die op uw eigen tools en data draaien.",
     h1: "AI Automation",
-    bodyContent: `<p>Het werk dat niemand wil doen, doet het brein. Wij automatiseren leadverwerking, CRM-hygiëne, opvolging, gespreksverslagen en offertes, en houden het draaiende.</p>`,
+    bodyContent: `<p>Het werk dat niemand wil doen, doet het brein. Wij automatiseren leadverwerking, CRM-hygiëne, opvolging en gespreksverslagen, en houden het draaiende.</p>`,
   },
   "/diensten/outreach-as-a-service": {
     title: "Outreach as a Service: mail en LinkedIn | B2B Groeimachine",
