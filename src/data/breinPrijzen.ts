@@ -88,7 +88,7 @@ export const MENUS: BreinMenu[] = [
     opbouw: "Alles van Start, plus",
     kern: "opvolgen en overzicht.",
     wat: "CRM bijgewerkt, gespreksverslagen en rapportages.",
-    extra: "Inclusief een trainingsdag AI-geletterdheid en adoptie, t.w.v. € 2.450.",
+    extra: "Inclusief trainingen AI-geletterdheid en adoptie, t.w.v. € 2.450.",
     top: true,
   },
   {

@@ -183,7 +183,7 @@ const Pricing = () => {
                     Adoptie zit altijd in Brein Groei
                   </h3>
                   <p className="text-[14px] text-brand-ink-2">
-                    Een brein werkt pas als uw team ermee werkt. Daarom zit een trainingsdag AI-geletterdheid en
+                    Een brein werkt pas als uw team ermee werkt. Daarom zitten trainingen AI-geletterdheid en
                     adoptie op locatie altijd in Brein Groei, t.w.v. € 2.450. Wilt u meer trainen, dan kan dat los:
                   </p>
                   <ul className="mt-3 space-y-1.5 text-[13.5px]">
