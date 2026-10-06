@@ -318,7 +318,7 @@ const BreinDienstPage = () => {
                 <SectionHeader
                   eyebrow="Wat het kost"
                   title="Onderdeel van één brein, één vaste prijs."
-                  lead={`${dienst.naam} is een van de processen die het brein voor u standaardiseert, test en bijstuurt. Eén vaste prijs; een volgend proces start pas als het vorige zich terugverdient.`}
+                  lead={`${dienst.naam} is een van de processen die het brein voor u standaardiseert, test en bijstuurt. Eén vaste prijs, alles erin.`}
                 />
                 <MenuKaarten />
               </>

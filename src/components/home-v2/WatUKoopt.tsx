@@ -7,7 +7,7 @@ import { CYCLUS } from "@/data/breinAanpak";
 
 /**
  * Hoe we werken en wat het kost, in één oogopslag: het groeiplan als doel,
- * de cyclus die elk proces doorloopt, en de drie abonnementen. De volledige
+ * de cyclus van het brein, en de drie abonnementen. De volledige
  * uitleg staat op /pricing.
  */
 export function WatUKoopt() {
@@ -16,10 +16,10 @@ export function WatUKoopt() {
       <SectionHeader
         eyebrow="Hoe we werken"
         title="Uw doel trekt. Het brein stuurt."
-        lead="We beginnen bij uw groeiplan: één helder doel. Daarna pakken we uw commercie proces voor proces aan. Een volgend proces start pas als het vorige zich terugverdient. Eén vaste prijs, en de waarde stapelt."
+        lead="We beginnen bij uw groeiplan: één helder doel. Het brein helpt uw commercie te standaardiseren, te testen en makkelijk bij te sturen. Eén vaste prijs, alles erin."
       />
 
-      <ol className="mb-[18px] grid gap-[10px] sm:grid-cols-2 lg:grid-cols-5">
+      <ol className="mb-[18px] grid gap-[10px] sm:grid-cols-2 lg:grid-cols-4">
         {CYCLUS.map((c, i) => (
           <Reveal key={c.stap} index={i} className="h-full">
             <li

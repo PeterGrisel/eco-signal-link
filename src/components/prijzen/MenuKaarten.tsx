@@ -2,8 +2,7 @@ import { Reveal } from "@/components/v2/Reveal";
 import { MENUS, euro, reken } from "@/data/breinPrijzen";
 
 /**
- * De drie abonnementen als kaarten. Ze verschillen in hoeveel processen
- * tegelijk lopen en hoe vaak we bijsturen. Prijzen komen uit
+ * De drie abonnementen als kaarten. Prijzen komen uit
  * `src/data/breinPrijzen.ts`, dus homepage en prijspagina tonen hetzelfde.
  */
 export function MenuKaarten() {
@@ -20,9 +19,9 @@ export function MenuKaarten() {
             >
               <span aria-hidden className={`h-[3px] w-full ${menu.top ? "bg-brand-accent" : "bg-brand-ink"}`} />
               <div className="flex grow flex-col px-6 pb-7 pt-[23px]">
-                <span className="mb-3 block font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-brand-accent-ink">
-                  {menu.label}
-                </span>
+                {menu.label && (
+                  <span className="mb-3 block font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-brand-accent-ink">{menu.label}</span>
+                )}
                 <h3 className="mb-4 font-display text-xl font-bold tracking-[-0.015em]">{menu.naam}</h3>
                 <p className="font-display text-[clamp(30px,3vw,40px)] font-black leading-none tracking-[-0.03em]">
                   {euro(r.prijs)}
@@ -30,10 +29,7 @@ export function MenuKaarten() {
                 <p className="mt-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-brand-ink-3">
                   per maand, all-in
                 </p>
-                <p className="mt-4 border-y border-dashed border-brand-line py-3 font-mono text-[11px] font-bold uppercase tracking-[0.12em] text-brand-ink-2">
-                  {menu.ritme}
-                </p>
-                <ul className="mt-4 space-y-2 text-[13px] text-brand-ink-2">
+                <ul className="mt-5 space-y-2 text-[13px] text-brand-ink-2">
                   {menu.inhoud.map((punt) => (
                     <li key={punt} className="flex items-start gap-2.5">
                       <span aria-hidden className="mt-[7px] size-[5px] shrink-0 rounded-full bg-brand-accent" />

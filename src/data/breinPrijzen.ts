@@ -1,9 +1,8 @@
 /**
  * Het prijsmodel van het commerciële brein.
  *
- * Naar buiten: één vaste prijs per abonnement, de waarde stapelt proces voor
- * proces (zie /pricing). De rekensom hieronder is de interne onderbouwing van
- * de bedragen.
+ * Naar buiten: één vaste prijs per abonnement, all-in (zie /pricing). De
+ * rekensom hieronder is de interne onderbouwing van de bedragen.
  *
  * De redenering: elke functie neemt werk over. De uren die het team niet meer
  * hoeft te maken, maal wat een commerciële medewerker integraal kost, is de
@@ -54,51 +53,33 @@ export type BreinMenu = {
   label: string;
   /** Functies waarop de prijs is gebaseerd (interne rekensom). */
   ids: string[];
-  /** Hoe vaak we samen bijsturen. */
-  ritme: string;
   /** Korte inhoud voor op de kaart. */
   inhoud: string[];
   top?: boolean;
 };
 
 /**
- * De drie abonnementen. Ze verschillen niet in losse producten maar in hoeveel
- * processen tegelijk lopen en hoe vaak we bijsturen. Elk abonnement start bij
- * het groeiplan.
+ * De drie abonnementen. Elk abonnement start bij het groeiplan.
  */
 export const MENUS: BreinMenu[] = [
   {
     naam: "Brein Start",
-    label: "Eén proces",
+    label: "",
     ids: ["leads", "outreach"],
-    ritme: "Maandelijks bijsturen",
-    inhoud: [
-      "Groeiplan met één helder doel",
-      "Eén commercieel proces gestandaardiseerd en getest",
-    ],
+    inhoud: ["Start met het groeiplan"],
   },
   {
     naam: "Brein Groei",
-    label: "Proces voor proces",
+    label: "",
     ids: ["leads", "outreach", "taken", "reporting"],
-    ritme: "Elke twee weken bijsturen",
-    inhoud: [
-      "Groeiplan met doel en procesroute",
-      "Volgend proces zodra het vorige zich terugverdient",
-      "AI-geletterdheid en adoptie altijd inbegrepen, t.w.v. € 2.450",
-    ],
+    inhoud: ["Start met het groeiplan", "AI-geletterdheid en adoptie altijd inbegrepen, t.w.v. € 2.450"],
     top: true,
   },
   {
     naam: "Brein Scale",
-    label: "Meerdere processen tegelijk",
+    label: "",
     ids: FUNCTIES.map((f) => f.id),
-    ritme: "Wekelijks bijsturen",
-    inhoud: [
-      "Groeiplan met meerdere doelen en markten",
-      "Processen parallel, ook partners en nieuwe landen",
-      "Adoptie en begeleiding voor het hele team",
-    ],
+    inhoud: ["Start met het groeiplan"],
   },
 ];
 
@@ -135,7 +116,6 @@ export const LOSSE_POSTEN: { naam: string; uitleg: string; prijs: string }[] = [
 ];
 
 export const HUISREGELS: { kop: string; tekst: string }[] = [
-  { kop: "Eerst terugverdienen.", tekst: "Een volgend proces start pas als het vorige zich terugverdient." },
   { kop: "Nul opstartkosten.", tekst: "90 dagen pilot, daarna maandelijks opzegbaar." },
   { kop: "Tools en beheer zitten erin.", tekst: "12 maanden vooruit betalen geeft 20% korting." },
   { kop: "Wat gebouwd is, blijft van u.", tekst: "Ook als u stopt." },

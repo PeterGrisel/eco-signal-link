@@ -258,10 +258,11 @@ const STATIC_PAGES: Record<string, {
   },
   "/pricing": {
     title: "Prijzen | B2B Groeimachine",
-    description: "Eén vaste prijs, de waarde stapelt. We starten bij uw groeiplan en pakken uw commercie proces voor proces aan. Elk proces verdient zich terug voor het volgende start.",
-    h1: "Eén vaste prijs. De waarde stapelt.",
-    bodyContent: `<p>Het groeiplan legt het doel vast. Het brein standaardiseert, test en stuurt bij, proces voor proces. Een volgend proces start pas als het vorige zich terugverdient. Brein Start € 1.800 (één proces, maandelijks bijsturen), Brein Groei € 2.900 (proces voor proces, elke twee weken bijsturen, adoptie inbegrepen) en Brein Scale € 4.400 (meerdere processen tegelijk, wekelijks bijsturen) per maand, all-in. 90 dagen pilot, daarna maandelijks opzegbaar.</p>`,
+    description: "Eén vaste prijs, alles erin. We starten bij uw groeiplan. Het brein helpt uw commercie te standaardiseren, te testen en makkelijk bij te sturen.",
+    h1: "Eén vaste prijs. Alles erin.",
+    bodyContent: `<p>Elk abonnement start bij het groeiplan. Brein Start € 1.800, Brein Groei € 2.900 (AI-geletterdheid en adoptie inbegrepen) en Brein Scale € 4.400 per maand, all-in. 90 dagen pilot, daarna maandelijks opzegbaar.</p>`,
   },
+
 
 
   "/contact": {
