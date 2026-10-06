@@ -17,6 +17,18 @@ import { BREIN_DIENSTEN, vindBreinDienst } from "@/data/breinDiensten";
 import { OutreachVormen } from "@/components/home-v2/sections";
 import { MenuKaarten } from "@/components/prijzen/MenuKaarten";
 import { LOSSE_POSTEN } from "@/data/breinPrijzen";
+import { AutomationRun } from "@/components/dienst/AutomationRun";
+import { OutreachComposer } from "@/components/dienst/OutreachComposer";
+import { ReportingVraag } from "@/components/dienst/ReportingVraag";
+import { TrainingDag } from "@/components/dienst/TrainingDag";
+
+/** Per dienst een eigen beeld in de hero dat laat zien wat de dienst doet. */
+const HERO_BEELD: Record<string, () => JSX.Element> = {
+  "ai-automation": AutomationRun,
+  "outreach-as-a-service": OutreachComposer,
+  reporting: ReportingVraag,
+  training: TrainingDag,
+};
 import { Button } from "@/components/v2/Button";
 
 const BASIS = "https://www.b2bgroeimachine.io";
@@ -67,6 +79,7 @@ const BreinDienstPage = () => {
   if (!dienst) return <Navigate to="/#functies" replace />;
 
   const overige = BREIN_DIENSTEN.filter((d) => d.slug !== dienst.slug);
+  const Beeld = HERO_BEELD[dienst.slug];
 
   return (
     <PageLoader>
@@ -86,75 +99,78 @@ const BreinDienstPage = () => {
               aria-hidden
               className="pointer-events-none absolute -right-40 top-1/2 h-[640px] w-[640px] -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(232,148,90,0.28),transparent_65%)]"
             />
-            <Container className="relative flex min-h-[85svh] flex-col justify-center py-16 lg:min-h-[calc(100svh-63px)]">
-              <div className="v2-enter max-w-[42rem]">
+            <Container className="relative grid items-center gap-12 py-16 lg:min-h-[calc(100svh-63px)] lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:py-20">
+              <div className="v2-enter min-w-0">
                 <p className="mb-6 font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-brand-accent">
                   [ {dienst.hero.eyebrow} ]
                 </p>
                 <h1
                   aria-label={splitHeadlineText(dienst.hero.kop)}
-                  className="mb-[22px] font-display text-[length:var(--v2-h1)] font-black leading-[1.02] tracking-[-0.035em]"
+                  className="mb-[22px] font-display text-[clamp(38px,5vw,64px)] font-black leading-[1.02] tracking-[-0.035em]"
                 >
                   <SplitHeadline lines={dienst.hero.kop} accentClass="text-brand-accent" />
                 </h1>
-                <p className="mb-7 max-w-[52ch] text-[16.5px] leading-relaxed text-[#D6CEC3]">
+                <p className="mb-7 max-w-[50ch] text-[16.5px] leading-relaxed text-[#D6CEC3]">
                   {dienst.hero.lead}
                 </p>
                 <TalkCard location={`Dienst ${dienst.naam} hero`} />
-                <div className="mt-4 flex justify-start">
-                  <a
-                    href="/#functies"
-                    className="font-mono text-[10.5px] font-bold uppercase tracking-[0.18em] text-brand-accent transition-colors duration-[180ms] hover:text-white"
-                  >
-                    Alle functies van het brein →
-                  </a>
-                </div>
               </div>
+              {Beeld && (
+                <div className="v2-enter min-w-0 [animation-delay:200ms]">
+                  <Beeld />
+                </div>
+              )}
             </Container>
           </header>
 
-          {/* Het probleem dat deze functie oplost. */}
+          {/* Het probleem: drie stellingen onder elkaar, geen kaarten. */}
           <Section tone="paper">
-            <SectionHeader eyebrow="Het probleem" title={dienst.probleem.titel} lead={dienst.probleem.lead} />
-            <div className="grid gap-[18px] md:grid-cols-3">
-              {dienst.probleem.punten.map((punt, i) => (
-                <Reveal key={punt.naam} index={i} className="h-full">
-                  <article className="flex h-full flex-col rounded-brand border border-brand-line bg-brand-paper p-6">
-                    <span aria-hidden className="mb-5 h-[3px] w-8 bg-brand-ink" />
-                    <h3 className="mb-2 font-display text-lg font-bold leading-snug tracking-[-0.015em]">
-                      {punt.naam}
-                    </h3>
-                    <p className="text-[13.5px] text-brand-ink-2">{punt.body}</p>
-                  </article>
-                </Reveal>
-              ))}
+            <div className="grid gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-16">
+              <div className="lg:sticky lg:top-28 lg:self-start">
+                <SectionHeader eyebrow="Het probleem" title={dienst.probleem.titel} lead={dienst.probleem.lead} />
+              </div>
+              <ol className="border-t border-brand-ink">
+                {dienst.probleem.punten.map((punt, i) => (
+                  <Reveal key={punt.naam} index={i}>
+                    <li className="grid grid-cols-[48px_1fr] gap-4 border-b border-brand-line py-7">
+                      <span className="font-display text-[34px] font-black leading-none tracking-[-0.04em] text-brand-accent">
+                        {i + 1}
+                      </span>
+                      <span>
+                        <h3 className="mb-1.5 font-display text-[22px] font-bold leading-snug tracking-[-0.02em]">
+                          {punt.naam}
+                        </h3>
+                        <p className="max-w-[56ch] text-[15px] text-brand-ink-2">{punt.body}</p>
+                      </span>
+                    </li>
+                  </Reveal>
+                ))}
+              </ol>
             </div>
           </Section>
 
-          {/* Wat het brein overneemt. */}
-          <Section tone="mist" className="v2-gordijn">
+          {/* Wat het brein overneemt: een lijst die leest als een takenoverdracht. */}
+          <Section tone="mist">
             <SectionHeader eyebrow="Wat het brein doet" title={dienst.overname.titel} lead={dienst.overname.lead} />
-            <div className="grid gap-[18px] sm:grid-cols-2 lg:grid-cols-3">
+            <ul className="border-t border-brand-ink">
               {dienst.overname.taken.map((taak, i) => (
-                <Reveal key={taak.naam} index={i} className="h-full">
-                  <article className="flex h-full flex-col rounded-brand border border-brand-line bg-brand-paper p-6">
-                    <p className="mb-4 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-brand-accent-ink">
-                      {String(i + 1).padStart(2, "0")}
-                    </p>
-                    <h3 className="mb-2 font-display text-lg font-bold leading-snug tracking-[-0.015em]">
-                      {taak.naam}
-                    </h3>
-                    <p className="text-[13.5px] text-brand-ink-2">{taak.body}</p>
-                  </article>
+                <Reveal key={taak.naam} index={i}>
+                  <li className="group grid gap-1 border-b border-brand-line py-5 transition-colors hover:bg-brand-paper md:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)_auto] md:items-baseline md:gap-8 md:px-3">
+                    <h3 className="font-display text-[19px] font-bold tracking-[-0.015em]">{taak.naam}</h3>
+                    <p className="text-[14.5px] text-brand-ink-2">{taak.body}</p>
+                    <span className="hidden font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-brand-ink-3 transition-colors group-hover:text-brand-accent-ink md:block">
+                      Neemt het brein over
+                    </span>
+                  </li>
                 </Reveal>
               ))}
-            </div>
+            </ul>
           </Section>
 
           {dienst.slug === "outreach-as-a-service" && <OutreachVormen />}
 
           {/* Zo werkt het: vier stappen. */}
-          <Section tone="paper">
+          <Section tone={dienst.slug === "outreach-as-a-service" ? "mist" : "paper"}>
             <SectionHeader
               eyebrow="Zo werkt het"
               title={dienst.stappenKop?.titel ?? "U verzint het. Wij installeren en beheren het."}
@@ -182,7 +198,7 @@ const BreinDienstPage = () => {
 
           {/* Partners waarmee deze dienst geleverd wordt. */}
           {dienst.partners && (
-            <Section tone="paper">
+            <Section tone="mist">
               <SectionHeader eyebrow="Opleidingspartners" title={dienst.partners.titel} lead={dienst.partners.lead} />
               <div className={`grid gap-[18px] ${dienst.partners.lijst.length > 1 ? "md:grid-cols-2" : "max-w-[620px]"}`}>
                 {dienst.partners.lijst.map((partner, i) => (

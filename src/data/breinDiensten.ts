@@ -275,7 +275,7 @@ export const BREIN_DIENSTEN: BreinDienst[] = [
     hero: {
       eyebrow: "Dienst · Training",
       kop: [[{ text: "Een brein werkt pas" }], [{ text: "als uw team het snapt.", accent: true }]],
-      lead: "Wij trainen teams en leidinggevenden in AI-geletterdheid, AI-adoptie en het opzetten van AI-pilots. Geen tool-demo's, maar werken aan uw eigen processen. In-company, of via een van onze opleidingspartners.",
+      lead: "Wij trainen teams en leidinggevenden in AI-geletterdheid, AI-adoptie en het opzetten van AI-pilots. Geen tool-demo's, maar werken aan uw eigen processen. In-company, of via onze opleidingspartner Habeo+.",
     },
     probleem: {
       titel: "Tools aanschaffen is makkelijk. Ermee werken niet.",
