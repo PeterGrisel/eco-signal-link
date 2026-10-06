@@ -10,7 +10,6 @@ import { Hero } from "@/components/home-v2/Hero";
 import { BreinFuncties } from "@/components/home-v2/BreinFuncties";
 import { WerkomgevingSectie } from "@/components/werkomgeving/Sectie";
 import {
-  Alternatieven,
   HetProtocol,
   Diensten,
   HoeHetWerkt,
@@ -111,7 +110,6 @@ const Home = () => {
           />
 
           <WieZitErachter />
-          <Alternatieven />
           <Hero />
           <Vragen />
 
