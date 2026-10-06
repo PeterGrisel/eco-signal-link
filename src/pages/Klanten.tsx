@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
-import { Brain, ArrowRight, Building2 } from "lucide-react";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import { Brain, ArrowRight } from "lucide-react";
 import PageLoader from "@/components/PageLoader";
-import CtaSection from "@/components/CtaSection";
+import { KlantCases } from "@/components/cases/KlantCases";
+import { Container } from "@/components/v2/Container";
+import { Footer } from "@/components/v2/Footer";
+import { GroeiplanCta } from "@/components/v2/GroeiplanCta";
+import { Nav } from "@/components/v2/Nav";
+import { Section } from "@/components/v2/Section";
+import { SectionHeader } from "@/components/v2/SectionHeader";
 import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 import JsonLd from "@/components/JsonLd";
 import { buildClientsSchema } from "@/data/schemaOrg";
@@ -81,7 +84,7 @@ const ClientLogo = ({ client, size = 56 }: { client: Client; size?: number }) =>
       style={{ width: size, height: size, padding: client.padding ?? 0 }}
     >
       {showFallback ? (
-        <span className="font-display font-bold text-foreground/70" style={{ fontSize: size * 0.35 }}>
+        <span className="font-display font-bold text-brand-ink-3" style={{ fontSize: size * 0.35 }}>
           {client.name[0]}
         </span>
       ) : (
@@ -244,7 +247,7 @@ const Klanten = () => {
 
   return (
     <PageLoader>
-      <div className="min-h-screen">
+      <div className="min-h-screen bg-brand-paper">
         <BreadcrumbJsonLd
           items={[
             { name: "Home", url: "https://www.b2bgroeimachine.io/" },
@@ -257,158 +260,132 @@ const Klanten = () => {
             data={buildClientsSchema(clients, "https://www.b2bgroeimachine.io/klanten")}
           />
         )}
-        <Navbar />
+        <Nav />
 
-        {/* Hero */}
-        <section className="relative pt-32 pb-12 overflow-hidden">
-          <div className="absolute inset-0 glow-bg pointer-events-none" />
-          <div className="container mx-auto px-6 relative z-10 max-w-4xl text-center">
-            <motion.p
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-5"
-            >
-              Klanten
-            </motion.p>
-            <motion.h1
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="font-display font-bold text-4xl md:text-6xl lg:text-7xl leading-[0.95] tracking-tight mb-6"
-            >
-              Eén <span className="text-gradient">brein</span>, veel bewegingen
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-muted-foreground text-lg md:text-xl leading-relaxed max-w-2xl mx-auto"
-            >
-              Ambitieuze B2B-organisaties draaien op hetzelfde commerciële fundament. Verschillende
-              sectoren, dezelfde aanpak: data, signalen en herhaalbaar proces.
-            </motion.p>
-          </div>
-        </section>
-
-        {/* Klantenbol */}
-        <section className="py-12 md:py-20">
-          <div className="container mx-auto px-6">
-            {loading ? (
-              <div className="h-[500px] animate-pulse rounded-full bg-card/30 max-w-2xl mx-auto" />
-            ) : bol.mobiel ? (
-              /* Op mobiel stottert de 3D-bol; toon dan de eenvoudige logo-slider. */
-              <InfiniteSlider
-                speed={38}
-                items={[...clients, ...clients, ...clients].map((c, i) => (
-                  <a
-                    key={`${c.id}-${i}`}
-                    href={`#klant-${c.id}`}
-                    className="flex h-20 w-32 items-center justify-center rounded-xl border border-border/60 bg-card/40 px-4"
-                  >
-                    <ClientLogo client={c} size={48} />
-                  </a>
-                ))}
-              />
-            ) : (
-              <div className="flex justify-center overflow-hidden">
-                <SphereImageGrid
-                  key={bol.containerSize}
-                  className="mx-auto"
-                  images={clients
-                    .map((c) => ({
-                      id: c.id,
-                      src: c.logo_url || faviconFor(c.website || c.domain) || "",
-                      alt: c.name,
-                      title: c.name,
-                      description: c.sector || undefined,
-                    }))
-                    .filter((i) => i.src)}
-                  containerSize={bol.containerSize}
-                  sphereRadius={bol.sphereRadius}
-                  baseImageScale={bol.baseImageScale}
-                  hoverScale={bol.hoverScale}
-                  dragSensitivity={bol.dragSensitivity}
-                  momentumDecay={0.96}
-                  autoRotate
-                  autoRotateSpeed={bol.autoRotateSpeed}
-                  showModal={false}
-                  onImageClick={(img) => {
-                    const el = document.getElementById(`klant-${img.id}`);
-                    el?.scrollIntoView({ behavior: "smooth", block: "start" });
-                  }}
-                />
+        <main>
+          {/* Hero met de klantenbol. */}
+          <header className="bg-brand-deep text-white">
+            <Container className="pb-10 pt-16 lg:pt-24">
+              <div className="v2-enter max-w-[46rem]">
+                <p className="mb-6 font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-brand-accent">
+                  [ Klanten ]
+                </p>
+                <h1 className="mb-[22px] font-display text-[length:var(--v2-h1)] font-black leading-[1.02] tracking-[-0.035em]">
+                  Eén brein, <span className="text-brand-accent">veel bewegingen.</span>
+                </h1>
+                <p className="max-w-[56ch] text-[16.5px] leading-relaxed text-[#D6CEC3]">
+                  Ambitieuze B2B-organisaties draaien op hetzelfde commerciële fundament. Verschillende sectoren,
+                  dezelfde aanpak: data, signalen en herhaalbaar proces.
+                </p>
               </div>
-            )}
-          </div>
-        </section>
 
-        {/* Bento grid */}
-        <section className="py-20 border-t border-border">
-          <div className="container mx-auto px-6">
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="max-w-2xl mb-12"
-            >
-              <p className="text-primary font-display font-semibold text-sm tracking-[0.2em] uppercase mb-4">
-                Wie werkt met ons
-              </p>
-              <h2 className="font-display font-bold text-2xl md:text-4xl mb-4">
-                Klanten in <span className="text-gradient">het wild</span>
-              </h2>
-              <p className="text-muted-foreground leading-relaxed">
-                Korte schets per organisatie: sector, samenwerking en, waar relevant, een
-                achtergrondartikel.
-              </p>
-            </motion.div>
+              <div className="mt-10">
+                {loading ? (
+                  <div className="mx-auto h-[420px] max-w-2xl animate-pulse rounded-full bg-white/5" />
+                ) : bol.mobiel ? (
+                  /* Op mobiel stottert de 3D-bol; toon dan de eenvoudige logo-slider. */
+                  <InfiniteSlider
+                    speed={38}
+                    items={[...clients, ...clients, ...clients].map((c, i) => (
+                      <a
+                        key={`${c.id}-${i}`}
+                        href={`#klant-${c.id}`}
+                        className="flex h-20 w-32 items-center justify-center rounded-brand border border-white/[.14] bg-white px-4"
+                      >
+                        <ClientLogo client={c} size={48} />
+                      </a>
+                    ))}
+                  />
+                ) : (
+                  <div className="flex justify-center overflow-hidden">
+                    <SphereImageGrid
+                      key={bol.containerSize}
+                      className="mx-auto"
+                      images={clients
+                        .map((c) => ({
+                          id: c.id,
+                          src: c.logo_url || faviconFor(c.website || c.domain) || "",
+                          alt: c.name,
+                          title: c.name,
+                          description: c.sector || undefined,
+                        }))
+                        .filter((i) => i.src)}
+                      containerSize={bol.containerSize}
+                      sphereRadius={bol.sphereRadius}
+                      baseImageScale={bol.baseImageScale}
+                      hoverScale={bol.hoverScale}
+                      dragSensitivity={bol.dragSensitivity}
+                      momentumDecay={0.96}
+                      autoRotate
+                      autoRotateSpeed={bol.autoRotateSpeed}
+                      showModal={false}
+                      onImageClick={(img) => {
+                        const el = document.getElementById(`klant-${img.id}`);
+                        el?.scrollIntoView({ behavior: "smooth", block: "start" });
+                      }}
+                    />
+                  </div>
+                )}
+              </div>
+            </Container>
+          </header>
 
-            <div className="grid grid-cols-1 md:grid-cols-6 auto-rows-[minmax(180px,auto)] gap-4">
+          <KlantCases tone="mist" />
+
+          {/* Alle klanten. */}
+          <Section tone="paper" id="alle-klanten">
+            <SectionHeader
+              eyebrow="Wie werkt met ons"
+              title="Klanten in het wild."
+              lead="Korte schets per organisatie: sector, samenwerking en, waar relevant, een achtergrondartikel."
+            />
+            <div className="grid auto-rows-[minmax(180px,auto)] grid-cols-1 gap-[14px] md:grid-cols-6">
               {clients.map((c, i) => {
                 const span = bentoSpans[i % bentoSpans.length];
                 const blog = c.blog_slug ? blogs[c.blog_slug] : undefined;
                 const isLarge = span.includes("row-span-2");
                 return (
-                  <motion.article
+                  <article
                     key={c.id}
                     id={`klant-${c.id}`}
-                    initial={{ opacity: 0, y: 14 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-50px" }}
-                    transition={{ duration: 0.45, delay: (i % 6) * 0.05 }}
-                    className={`card-gradient border border-glow rounded-2xl p-6 flex flex-col justify-between hover:border-primary/40 transition-colors ${span}`}
+                    className={`flex scroll-mt-24 flex-col justify-between rounded-brand border border-brand-line bg-brand-mist p-6 transition-colors hover:border-brand-accent ${span}`}
                   >
                     <div>
-                      <div className="flex items-start justify-between gap-3 mb-4">
+                      <div className="mb-4 flex items-start justify-between gap-3">
                         <ClientLogo client={c} size={isLarge ? 56 : 40} />
                         {c.sector && (
-                          <span className="inline-flex items-center gap-1 text-[10px] uppercase tracking-[0.18em] text-primary/80 bg-primary/10 border border-primary/20 rounded-full px-2.5 py-1">
-                            <Building2 className="w-3 h-3" />
+                          <span className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-brand-accent-ink">
                             {c.sector}
                           </span>
                         )}
                       </div>
-                      <h3 className={`font-display font-semibold ${isLarge ? "text-2xl md:text-3xl" : "text-lg"} mb-2 leading-tight`}>
+                      <h3
+                        className={`mb-2 font-display font-bold leading-tight tracking-[-0.015em] ${
+                          isLarge ? "text-2xl md:text-3xl" : "text-lg"
+                        }`}
+                      >
                         {c.name}
                       </h3>
                       {c.description && (
-                        <p className={`text-muted-foreground leading-relaxed ${isLarge ? "text-base" : "text-sm line-clamp-3"}`}>
+                        <p
+                          className={`leading-relaxed text-brand-ink-2 ${
+                            isLarge ? "text-[15px]" : "line-clamp-3 text-[13.5px]"
+                          }`}
+                        >
                           {c.description}
                         </p>
                       )}
                     </div>
 
                     {(blog || c.website || c.domain) && (
-                      <div className="mt-4 pt-4 border-t border-border/40 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs">
+                      <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-brand-line pt-4 text-xs">
                         {blog && (
                           <Link
                             to={`/blog/${blog.slug}`}
-                            className="inline-flex items-center gap-1.5 text-primary hover:underline"
+                            className="inline-flex items-center gap-1.5 font-semibold text-brand-accent-ink hover:underline"
                           >
                             Lees: {blog.title}
-                            <ArrowRight className="w-3 h-3" />
+                            <ArrowRight className="h-3 w-3" />
                           </Link>
                         )}
                         {(c.website || c.domain) && (
@@ -416,21 +393,21 @@ const Klanten = () => {
                             href={`https://${(c.website || c.domain).replace(/^https?:\/\//, "")}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-muted-foreground hover:text-foreground transition-colors"
+                            className="text-brand-ink-3 transition-colors hover:text-brand-ink"
                           >
                             {(c.website || c.domain).replace(/^https?:\/\//, "")}
                           </a>
                         )}
                       </div>
                     )}
-                  </motion.article>
+                  </article>
                 );
               })}
             </div>
-          </div>
-        </section>
+          </Section>
 
-        <CtaSection />
+          <GroeiplanCta />
+        </main>
         <Footer />
       </div>
     </PageLoader>
