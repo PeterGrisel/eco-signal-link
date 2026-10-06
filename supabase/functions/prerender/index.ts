@@ -420,6 +420,12 @@ const STATIC_PAGES: Record<string, {
     h1: "Reporting",
     bodyContent: `<p>Eén verbonden datamodel voor sales en marketing, vastgelegde KPI-definities en dashboards in Claude die u in gewone taal kunt bevragen.</p>`,
   },
+  "/diensten/training": {
+    title: "AI-training: geletterdheid, adoptie en pilots | B2B Groeimachine",
+    description: "Trainingen in AI-geletterdheid, AI-adoptie en AI-pilots voor leidinggevenden. Opleidingspartner van Habeo+ en EuroCollege.",
+    h1: "Training",
+    bodyContent: `<p>Wij trainen teams en leidinggevenden in AI-geletterdheid, AI-adoptie en het opzetten van AI-pilots. In-company of via onze opleidingspartners Habeo+ (Avans+) en EuroCollege Hogeschool.</p>`,
+  },
   "/groeistack": {
     title: "Groeistack — Onze tools en methodes | B2BGroeiMachine",
     description: "Bekijk de complete groeistack: tools, integraties en methodes die wij inzetten voor signal-based prospecting en multichannel outreach. Agnostisch en modulair.",

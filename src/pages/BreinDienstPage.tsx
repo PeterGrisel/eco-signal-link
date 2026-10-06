@@ -151,8 +151,11 @@ const BreinDienstPage = () => {
           <Section tone="paper">
             <SectionHeader
               eyebrow="Zo werkt het"
-              title="U verzint het. Wij installeren en beheren het."
-              lead="Vier stappen, binnen de pilot van negentig dagen. Daarna maandelijks opzegbaar."
+              title={dienst.stappenKop?.titel ?? "U verzint het. Wij installeren en beheren het."}
+              lead={
+                dienst.stappenKop?.lead ??
+                "Vier stappen, binnen de pilot van negentig dagen. Daarna maandelijks opzegbaar."
+              }
             />
             <ol className="grid gap-[18px] md:grid-cols-2 lg:grid-cols-4">
               {dienst.stappen.map((stap, i) => (
@@ -170,6 +173,41 @@ const BreinDienstPage = () => {
               ))}
             </ol>
           </Section>
+
+          {/* Partners waarmee deze dienst geleverd wordt. */}
+          {dienst.partners && (
+            <Section tone="paper">
+              <SectionHeader eyebrow="Opleidingspartners" title={dienst.partners.titel} lead={dienst.partners.lead} />
+              <div className="grid gap-[18px] md:grid-cols-2">
+                {dienst.partners.lijst.map((partner, i) => (
+                  <Reveal key={partner.naam} index={i} className="h-full">
+                    <a
+                      href={partner.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex h-full flex-col rounded-brand border border-brand-line bg-brand-paper p-6 transition-colors duration-200 hover:border-brand-accent"
+                    >
+                      <span className="mb-4 flex items-center gap-3">
+                        <img
+                          src={`https://www.google.com/s2/favicons?domain=${partner.domein}&sz=128`}
+                          alt={`${partner.naam} logo`}
+                          width={40}
+                          height={40}
+                          loading="lazy"
+                          className="h-10 w-10 rounded-md border border-brand-line bg-white object-contain p-1"
+                        />
+                        <span className="font-display text-lg font-bold tracking-[-0.015em]">{partner.naam}</span>
+                      </span>
+                      <p className="text-[13.5px] text-brand-ink-2">{partner.body}</p>
+                    </a>
+                  </Reveal>
+                ))}
+              </div>
+              {dienst.partners.voet && (
+                <p className="mt-6 max-w-[62ch] text-[13.5px] text-brand-ink-2">{dienst.partners.voet}</p>
+              )}
+            </Section>
+          )}
 
           {/* Wat u krijgt, op de donkere band. */}
           <Section tone="deep">
@@ -202,7 +240,7 @@ const BreinDienstPage = () => {
               title="Eén brein, meerdere functies."
               lead="Elke dienst is een functie van hetzelfde systeem. Ze werken los, maar versterken elkaar."
             />
-            <div className="grid gap-[18px] md:grid-cols-3">
+            <div className="grid gap-[18px] sm:grid-cols-2 lg:grid-cols-4">
               {overige.map((d, i) => (
                 <Reveal key={d.slug} index={i} className="h-full">
                   <Link

@@ -32,6 +32,7 @@ const staticEntries: SitemapEntry[] = [
   { path: "/diensten/ai-automation", changefreq: "monthly", priority: "0.9" },
   { path: "/diensten/outreach-as-a-service", changefreq: "monthly", priority: "0.9" },
   { path: "/diensten/reporting", changefreq: "monthly", priority: "0.9" },
+  { path: "/diensten/training", changefreq: "monthly", priority: "0.9" },
   { path: "/klanten", changefreq: "monthly", priority: "0.6" },
   { path: "/tools", changefreq: "monthly", priority: "0.6" },
   { path: "/tools/funnel-calculator", changefreq: "monthly", priority: "0.7" },

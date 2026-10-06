@@ -23,6 +23,16 @@ export type BreinDienst = {
   probleem: { titel: string; lead: string; punten: { naam: string; body: string }[] };
   overname: { titel: string; lead: string; taken: { naam: string; body: string }[] };
   stappen: { naam: string; body: string }[];
+  /** Eigen kop boven de stappen; standaard de installeren-en-beherenbelofte. */
+  stappenKop?: { titel: string; lead: string };
+  /** Opleidingspartners of andere partijen waarmee deze dienst geleverd wordt. */
+  partners?: {
+    titel: string;
+    lead: string;
+    lijst: { naam: string; domein: string; href: string; body: string }[];
+    /** Regel onder de partnerkaarten, bijvoorbeeld over het bredere netwerk. */
+    voet?: string;
+  };
   oplevering: { titel: string; punten: string[] };
   faq: FaqItem[];
 };
@@ -250,6 +260,104 @@ export const BREIN_DIENSTEN: BreinDienst[] = [
       {
         question: "Hebben we hiervoor een datateam nodig?",
         answer: "Nee. Wij richten het in en beheren het. Uw team gebruikt de dashboards en stelt de vragen.",
+      },
+    ],
+  },
+  {
+    slug: "training",
+    naam: "Training",
+    note: "AI-geletterdheid, AI-adoptie en AI-pilots voor leidinggevenden",
+    meta: {
+      title: "AI-training: geletterdheid, adoptie en pilots | B2B Groeimachine",
+      description:
+        "Trainingen in AI-geletterdheid, AI-adoptie en AI-pilots voor leidinggevenden. Opleidingspartner van Habeo+ en EuroCollege, in-company of via een opleidingscentrum.",
+    },
+    hero: {
+      eyebrow: "Dienst · Training",
+      kop: [[{ text: "Een brein werkt pas" }], [{ text: "als uw team het snapt.", accent: true }]],
+      lead: "Wij trainen teams en leidinggevenden in AI-geletterdheid, AI-adoptie en het opzetten van AI-pilots. Geen tool-demo's, maar werken aan uw eigen processen. In-company, of via een van onze opleidingspartners.",
+    },
+    probleem: {
+      titel: "Tools aanschaffen is makkelijk. Ermee werken niet.",
+      lead: "De meeste AI-trajecten stranden niet op de techniek, maar op kennis, vertrouwen en eigenaarschap in het team.",
+      punten: [
+        {
+          naam: "Iedereen experimenteert los",
+          body: "Medewerkers gebruiken ieder hun eigen AI-tools, zonder afspraken over kwaliteit, data of privacy.",
+        },
+        {
+          naam: "Leidinggevenden twijfelen",
+          body: "Waar begin je, wat mag wel en niet, en hoe weet je of het iets oplevert? Zonder antwoord blijft het bij praten.",
+        },
+        {
+          naam: "Geletterdheid is nu verplicht",
+          body: "De Europese AI-verordening vraagt dat organisaties zorgen voor voldoende AI-geletterdheid bij wie met AI werkt.",
+        },
+      ],
+    },
+    overname: {
+      titel: "Drie programma's, één doel: AI die gebruikt wordt.",
+      lead: "Los te volgen of als leerlijn. Altijd met uw eigen werk als oefenmateriaal.",
+      taken: [
+        { naam: "AI-geletterdheid", body: "Wat AI is, wat het kan en waar het misgaat. De basis voor iedereen die met AI werkt, afgestemd op de AI-verordening." },
+        { naam: "AI-adoptie", body: "Van losse experimenten naar vaste werkwijzen. Teams passen AI toe op hun eigen processen en leggen afspraken vast." },
+        { naam: "AI-pilots voor leidinggevenden", body: "Leidinggevenden kiezen een kansrijk proces, zetten een pilot op en leren sturen op resultaat en risico." },
+        { naam: "Werken met agents", body: "Hoe je AI-agents taken laat uitvoeren, controleert en verbetert. Praktisch, op uw eigen tools." },
+        { naam: "Eigen skilllab", body: "Na de training bouwt uw team verder in een eigen lab. Wat werkt, schuift door naar de praktijk." },
+        { naam: "In-company of open inschrijving", body: "Op locatie voor uw team, of via een opleidingscentrum samen met professionals uit andere organisaties." },
+      ],
+    },
+    stappenKop: {
+      titel: "Van eerste sessie tot werkende pilot.",
+      lead: "Elke training eindigt met iets wat uw team maandag kan gebruiken.",
+    },
+    stappen: [
+      { naam: "Intake", body: "We bepalen wie er meedoet, wat het niveau is en welke processen als oefenmateriaal dienen." },
+      { naam: "Programma op maat", body: "We kiezen de modules en de vorm: in-company, open inschrijving of een combinatie." },
+      { naam: "Trainen op eigen werk", body: "Deelnemers passen AI direct toe op hun eigen taken, onder begeleiding van onze trainers." },
+      { naam: "Borgen in de praktijk", body: "Afspraken, werkwijzen en een eerste pilot liggen vast. Wij blijven beschikbaar voor vragen." },
+    ],
+    partners: {
+      titel: "Wij leiden ook op.",
+      lead: "B2B Groeimachine is opleidingspartner van Habeo+ en EuroCollege, en werkt samen met verschillende opleidingscentra. Zo is er altijd een passend aanbod.",
+      lijst: [
+        {
+          naam: "Habeo+ (Avans+)",
+          domein: "habeoplus.nl",
+          href: "https://habeoplus.nl/",
+          body: "Opleider voor professionals. Wij verzorgen trainingen waarin deelnemers AI toepassen op hun eigen processen.",
+        },
+        {
+          naam: "EuroCollege Hogeschool",
+          domein: "eurocollege.nl",
+          href: "https://www.eurocollege.nl/",
+          body: "Hogeschool met onder meer een vestiging in Amsterdam. Wij verzorgen de AI-inhoud, van praktijkcases tot werken met agents.",
+        },
+      ],
+      voet: "Daarnaast werken we samen met andere opleidingscentra, zodat we voor elk niveau en elke vorm een passend aanbod hebben.",
+    },
+    oplevering: {
+      titel: "Wat u krijgt",
+      punten: [
+        "Een programma op maat van uw team en niveau",
+        "Trainers die zelf dagelijks met AI bouwen",
+        "Oefenen op uw eigen processen en tools",
+        "Vastgelegde afspraken over AI-gebruik in uw organisatie",
+        "Certificaat van deelname, ook via onze opleidingspartners",
+      ],
+    },
+    faq: [
+      {
+        question: "Voor wie zijn de trainingen?",
+        answer: "Voor iedereen die met AI werkt of gaat werken: van medewerkers in sales en marketing tot directie. AI-pilots is specifiek gericht op leidinggevenden.",
+      },
+      {
+        question: "Helpt dit bij de verplichting tot AI-geletterdheid?",
+        answer: "Ja. De training AI-geletterdheid is opgezet rond wat de Europese AI-verordening van organisaties vraagt, en u krijgt vastgelegd wie welke training heeft gevolgd.",
+      },
+      {
+        question: "In-company of via een opleider?",
+        answer: "Allebei kan. In-company werken we met uw eigen processen. Via Habeo+, EuroCollege of een ander opleidingscentrum volgt u een open programma met professionals uit andere organisaties.",
       },
     ],
   },

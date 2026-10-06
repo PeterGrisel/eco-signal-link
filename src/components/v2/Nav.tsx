@@ -23,7 +23,6 @@ const GROUPS: Group[] = [
     label: "Diensten",
     items: [
       ...BREIN_DIENSTEN.map((d) => ({ label: d.naam, href: `/diensten/${d.slug}`, note: d.note })),
-      { label: "Functies van het brein", href: "/#functies", note: "Alles wat het brein voor u doet" },
       { label: "De engine", href: "/de-engine", note: "De volledige architectuur" },
       { label: "Groeistack", href: "/groeistack", note: "Onze modulaire B2B groeistack" },
     ],

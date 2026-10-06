@@ -31,6 +31,7 @@ U koopt geen Apollo, geen inboxen en geen losse workflows. U koopt een werkende 
 - [AI Automation](/diensten/ai-automation): Kostbare sales- en marketingprocessen automatiseren met AI-agents.
 - [Outreach as a Service](/diensten/outreach-as-a-service): Mail- en LinkedIn-campagnes op basis van het groeiplan.
 - [Reporting](/diensten/reporting): Data gestructureerd voor AI, dashboards samen ontwikkeld in Claude.
+- [Training](/diensten/training): AI-geletterdheid, AI-adoptie en AI-pilots voor leidinggevenden; opleidingspartner van Habeo+ en EuroCollege.
 - [Groeistack](/groeistack): De tools en modules die we inzetten.
 - [Pipeline Equation](/pipeline-equation): Van markt naar pijplijn in een rekenmodel.
 - [Blog](/blog): Frameworks, cases en praktische gidsen over B2B-groei.
