@@ -94,6 +94,7 @@ export const MENUS: BreinMenu[] = [
     opbouw: "Alles van Groei, plus",
     kern: "zichtbaarheid en eigen AI-vaardigheid.",
     wat: "Content gepland, terugkerende taken geautomatiseerd, en uw team leert zelf met AI werken.",
+    extra: "Inclusief een volledige 360-analyse van uw ads.",
   },
 ];
 
