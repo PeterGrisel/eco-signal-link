@@ -131,8 +131,9 @@ export function BreinFuncties() {
               </p>
             </div>
           )}
-        </div>
-      </Reveal>
+          </div>
+        </Reveal>
+      </div>
 
       <div className="mt-[18px] grid gap-[18px] sm:grid-cols-2 lg:grid-cols-4">
         {FUNCTIES.map((functie, i) => (
