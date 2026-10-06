@@ -137,9 +137,14 @@ export function Nav() {
         setOpen(null);
       }}
     >
-      <Container className="flex items-center justify-between gap-7 py-3.5">
+      <Container className="flex items-center justify-between gap-7 py-3">
         <Link to="/" aria-label="B2B Groeimachine, home" className="shrink-0">
-          <Logo toon="licht" className="h-[22px] w-auto" />
+          <span className="flex flex-col gap-0.5">
+            <Logo toon="licht" className="h-[22px] w-auto" />
+            <span className="font-display text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground">
+              Uw commerciële AI Brein.
+            </span>
+          </span>
         </Link>
 
         <div className="hidden items-center gap-7 lg:flex">
