@@ -89,15 +89,13 @@ export default function AgenticFactory3D({
       <header className="topbar debug-ui">
         <div className="identity">
           <div className="mark">
-            <svg width="17" height="17" viewBox="0 0 20 20" fill="none">
-              <path
-                d="M3 5l7 11 7-11M7 5l3 5 3-5"
-                stroke="currentColor"
-                strokeWidth="1.7"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            <img
+              src="/favicon.svg"
+              alt="B2BGroeiMachine logo"
+              width={19}
+              height={19}
+              style={{ width: 19, height: 19, display: "block", borderRadius: 3 }}
+            />
           </div>
           <div>
             <strong>Commercieel Brein</strong>
