@@ -94,6 +94,7 @@ const Home = () => {
         <Nav />
         <main>
           <WerkomgevingSectie />
+          <BreinFuncties />
           <HetProtocol />
           <Klantenraster />
           <Diensten />
