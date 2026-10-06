@@ -270,7 +270,7 @@ export const BREIN_DIENSTEN: BreinDienst[] = [
     meta: {
       title: "AI-training: geletterdheid, adoptie en pilots | B2B Groeimachine",
       description:
-        "Trainingen in AI-geletterdheid, AI-adoptie en AI-pilots voor leidinggevenden. Opleidingspartner van Habeo+ en EuroCollege, in-company of via een opleidingscentrum.",
+        "Trainingen in AI-geletterdheid, AI-adoptie en AI-pilots voor leidinggevenden. Opleidingspartner van Habeo+, in-company of via een opleidingscentrum.",
     },
     hero: {
       eyebrow: "Dienst · Training",
@@ -319,19 +319,13 @@ export const BREIN_DIENSTEN: BreinDienst[] = [
     ],
     partners: {
       titel: "Wij leiden ook op.",
-      lead: "B2B Groeimachine is opleidingspartner van Habeo+ en EuroCollege, en werkt samen met verschillende opleidingscentra. Zo is er altijd een passend aanbod.",
+      lead: "B2B Groeimachine is opleidingspartner van Habeo+ (Avans+) en werkt samen met verschillende opleidingscentra. Zo is er altijd een passend aanbod.",
       lijst: [
         {
           naam: "Habeo+ (Avans+)",
           domein: "habeoplus.nl",
           href: "https://habeoplus.nl/",
           body: "Opleider voor professionals. Wij verzorgen trainingen waarin deelnemers AI toepassen op hun eigen processen.",
-        },
-        {
-          naam: "EuroCollege Hogeschool",
-          domein: "eurocollege.nl",
-          href: "https://www.eurocollege.nl/",
-          body: "Hogeschool met onder meer een vestiging in Amsterdam. Wij verzorgen de AI-inhoud, van praktijkcases tot werken met agents.",
         },
       ],
       voet: "Daarnaast werken we samen met andere opleidingscentra, zodat we voor elk niveau en elke vorm een passend aanbod hebben.",
@@ -357,7 +351,7 @@ export const BREIN_DIENSTEN: BreinDienst[] = [
       },
       {
         question: "In-company of via een opleider?",
-        answer: "Allebei kan. In-company werken we met uw eigen processen. Via Habeo+, EuroCollege of een ander opleidingscentrum volgt u een open programma met professionals uit andere organisaties.",
+        answer: "Allebei kan. In-company werken we met uw eigen processen. Via Habeo+ of een ander opleidingscentrum volgt u een open programma met professionals uit andere organisaties.",
       },
     ],
   },

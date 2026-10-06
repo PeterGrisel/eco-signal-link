@@ -178,7 +178,7 @@ const BreinDienstPage = () => {
           {dienst.partners && (
             <Section tone="paper">
               <SectionHeader eyebrow="Opleidingspartners" title={dienst.partners.titel} lead={dienst.partners.lead} />
-              <div className="grid gap-[18px] md:grid-cols-2">
+              <div className={`grid gap-[18px] ${dienst.partners.lijst.length > 1 ? "md:grid-cols-2" : "max-w-[620px]"}`}>
                 {dienst.partners.lijst.map((partner, i) => (
                   <Reveal key={partner.naam} index={i} className="h-full">
                     <a

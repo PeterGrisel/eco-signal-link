@@ -422,9 +422,9 @@ const STATIC_PAGES: Record<string, {
   },
   "/diensten/training": {
     title: "AI-training: geletterdheid, adoptie en pilots | B2B Groeimachine",
-    description: "Trainingen in AI-geletterdheid, AI-adoptie en AI-pilots voor leidinggevenden. Opleidingspartner van Habeo+ en EuroCollege.",
+    description: "Trainingen in AI-geletterdheid, AI-adoptie en AI-pilots voor leidinggevenden. Opleidingspartner van Habeo+ (Avans+).",
     h1: "Training",
-    bodyContent: `<p>Wij trainen teams en leidinggevenden in AI-geletterdheid, AI-adoptie en het opzetten van AI-pilots. In-company of via onze opleidingspartners Habeo+ (Avans+) en EuroCollege Hogeschool.</p>`,
+    bodyContent: `<p>Wij trainen teams en leidinggevenden in AI-geletterdheid, AI-adoptie en het opzetten van AI-pilots. In-company of via onze opleidingspartner Habeo+ (Avans+) en andere opleidingscentra.</p>`,
   },
   "/groeistack": {
     title: "Groeistack — Onze tools en methodes | B2BGroeiMachine",
