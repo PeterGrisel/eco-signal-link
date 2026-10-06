@@ -4,6 +4,7 @@ import JsonLd from "@/components/JsonLd";
 import PageLoader from "@/components/PageLoader";
 import TalkCard from "@/components/TalkCard";
 import { usePageMeta } from "@/hooks/usePageMeta";
+import { Button } from "@/components/v2/Button";
 import { Container } from "@/components/v2/Container";
 import { Footer } from "@/components/v2/Footer";
 import { Nav } from "@/components/v2/Nav";
@@ -218,6 +219,11 @@ const Pricing = () => {
                 <h2 className="font-display text-[length:var(--v2-h2)] font-extrabold leading-[1.08] tracking-[-0.03em]">
                   Elk traject start met uw groeiplan.
                 </h2>
+                <div className="mt-6">
+                  <Button href="/groeiplan" variant="invert">
+                    Bekijk het groeiplan
+                  </Button>
+                </div>
               </div>
               <TalkCard location="Pricing afsluiter" />
             </Container>

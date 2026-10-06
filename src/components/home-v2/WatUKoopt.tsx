@@ -48,6 +48,7 @@ export function WatUKoopt() {
       <MenuKaarten />
 
       <Reveal className="mt-10 flex flex-wrap items-center gap-3">
+        <Button href="/groeiplan">Bekijk het groeiplan</Button>
         <Button href="/pricing" variant="outline">
           Zo werkt de prijs
         </Button>

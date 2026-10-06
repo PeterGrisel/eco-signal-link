@@ -256,6 +256,12 @@ const STATIC_PAGES: Record<string, {
     h1: "Over B2BGroeiMachine",
     bodyContent: `<p>B2BGroeiMachine is opgericht om ambitieuze B2B-bedrijven te helpen groeien met schaalbare sales systemen. Ons team combineert expertise in sales automation, data-gedreven prospecting en multichannel outreach.</p>`,
   },
+  "/groeiplan": {
+    title: "Het 1-pagina groeiplan | B2B Groeimachine",
+    description: "Negen vakken, drie fases: het hele commerciële verhaal van uw bedrijf op één A4. Vind waar uw commercie lekt. Vul het in en download het als PDF.",
+    h1: "Het 1-pagina groeiplan.",
+    bodyContent: `<p>Negen vakken in drie fases: voor (doelmarkt, boodschap, kanalen), tijdens (vangmechanisme, opwarmsysteem, conversiestrategie) en na (klantervaring, klantwaarde, referralmotor). Het groeiplan laat zien waar interesse weglekt. Eerst dichten, dan vullen.</p>`,
+  },
   "/pricing": {
     title: "Prijzen | B2B Groeimachine",
     description: "Eén vaste prijs, alles erin. We starten bij uw groeiplan. Het brein helpt uw commercie te standaardiseren, te testen en makkelijk bij te sturen.",
