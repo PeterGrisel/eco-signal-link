@@ -46,7 +46,7 @@ export const KLANT_BESCHRIJVINGEN: KlantBeschrijving[] = [
   { match: ["datahub"], omschrijving: "Helpt organisaties sneller betere beslissingen te nemen met data en AI.", behoefte: "Toepassingen die het platform in de praktijk laten werken.", brein: ["Agents"] },
   { match: ["gobytes"], omschrijving: "Verkoopt refurbished laptops, desktops, smartphones en tablets.", behoefte: "Zakelijke afnemers bereiken.", brein: ["Leads", "Outreach"] },
   { match: ["nexer"], omschrijving: "Levert cloudoplossingen, IT-beheer en security.", behoefte: "Het hele commerciële proces op één brein.", brein: ["Leads", "Outreach", "Taken", "Reporting", "Content planning", "Agents", "Skilllab", "Ads"] },
-  { match: ["exes"], omschrijving: "Engineeringbureau.", behoefte: "Nieuwe opdrachtgevers bereiken.", brein: ["Outreach"] },
+  { match: ["exes"], omschrijving: "Neemt routinematig engineeringwerk over voor de maakindustrie, uitgevoerd in India, zodat eigen engineers zich op R&D en innovatie richten.", behoefte: "Engineeringmanagers in de maakindustrie bereiken.", brein: ["Outreach"] },
   { match: ["krak"], omschrijving: "Juridisch adviesbureau voor ondernemers.", behoefte: "Nieuwe zakelijke cliënten bereiken.", brein: ["Leads", "Outreach"] },
 ];
 
