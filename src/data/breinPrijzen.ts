@@ -75,7 +75,6 @@ export const MENUS: BreinMenu[] = [
     inhoud: [
       "Groeiplan met één helder doel",
       "Eén commercieel proces gestandaardiseerd en getest",
-      "Terugverdienrapport elk kwartaal",
     ],
   },
   {
@@ -86,7 +85,6 @@ export const MENUS: BreinMenu[] = [
     inhoud: [
       "Groeiplan met doel en procesroute",
       "Volgend proces zodra het vorige zich terugverdient",
-      "Terugverdienrapport elk kwartaal",
       "AI-geletterdheid en adoptie altijd inbegrepen, t.w.v. € 2.450",
     ],
     top: true,
@@ -100,7 +98,6 @@ export const MENUS: BreinMenu[] = [
       "Groeiplan met meerdere doelen en markten",
       "Processen parallel, ook partners en nieuwe landen",
       "Adoptie en begeleiding voor het hele team",
-      "Terugverdienrapport elk kwartaal",
     ],
   },
 ];

@@ -197,14 +197,13 @@ const Pricing = () => {
             </div>
           </Section>
 
-          {/* Terugverdienrapport, adoptie en huisregels. */}
+          {/* Adoptie en huisregels. */}
           <Section tone="paper" id="huisregels">
             <div className="grid gap-12 lg:grid-cols-[1.2fr_1fr]">
               <div>
                 <SectionHeader
-                  eyebrow="Wat u elk kwartaal ziet"
-                  title="Het terugverdienrapport."
-                  lead="Per proces: het doel, wat we gestandaardiseerd en getest hebben, wat het oplevert en of het zich heeft terugverdiend. Dat rapport bepaalt het volgende proces, niet ons verkoopplan."
+                  eyebrow="Adoptie"
+                  title="Een brein werkt pas als uw team ermee werkt."
                 />
                 <div className="rounded-brand border border-brand-accent bg-brand-tint p-6">
                   <h3 className="mb-2 font-display text-lg font-bold tracking-[-0.015em]">
