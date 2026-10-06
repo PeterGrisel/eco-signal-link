@@ -42,7 +42,7 @@ const Pricing = () => {
         name: m.naam,
         price: reken(m.ids).prijs,
         priceCurrency: "EUR",
-        description: m.inhoud.join(". "),
+        description: `${m.voorWie} ${m.opbouw ? `${m.opbouw} ` : ""}${m.kern} ${m.wat}`,
       })),
     }),
     [],

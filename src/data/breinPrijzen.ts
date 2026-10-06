@@ -50,37 +50,60 @@ export const functieOpId = (id: string) => FUNCTIES.find((f) => f.id === id)!;
 
 export type BreinMenu = {
   naam: string;
-  label: string;
   /** Functies waarop de prijs is gebaseerd (interne rekensom). */
   ids: string[];
-  /** Korte inhoud voor op de kaart. */
-  inhoud: string[];
+  /** Voor wie dit abonnement is. */
+  voorWie: string;
+  /** "Alles van Start, plus", leeg bij het eerste abonnement. */
+  opbouw?: string;
+  /** Welk deel van het proces het brein overneemt. */
+  kern: string;
+  /** Wat dat concreet is. */
+  wat: string;
+  /** Wat er verder in zit. */
+  extra?: string;
   top?: boolean;
 };
 
 /**
  * De drie abonnementen. Elk abonnement start bij het groeiplan.
+ * Teksten zijn afgestemd met Peter; niets toevoegen zonder bevestiging.
  */
 export const MENUS: BreinMenu[] = [
   {
     naam: "Brein Start",
-    label: "",
     ids: ["leads", "outreach"],
-    inhoud: ["Start met het groeiplan"],
+    voorWie: "U wilt structureel nieuwe klanten vinden en benaderen.",
+    kern: "Vinden en benaderen.",
+    wat: "Doelgroep zoeken, lijsten verrijken, berichten via mail en LinkedIn, opvolgen en reacties sorteren.",
   },
   {
     naam: "Brein Groei",
-    label: "",
     ids: ["leads", "outreach", "taken", "reporting"],
-    inhoud: ["Start met het groeiplan", "AI-geletterdheid en adoptie altijd inbegrepen, t.w.v. € 2.450"],
+    voorWie: "Er komen gesprekken, maar opvolging en overzicht lopen achter.",
+    opbouw: "Alles van Start, plus",
+    kern: "opvolgen en overzicht.",
+    wat: "CRM bijgewerkt, gespreksverslagen en rapportages.",
+    extra: "Inclusief een trainingsdag AI-geletterdheid en adoptie, t.w.v. € 2.450.",
     top: true,
   },
   {
     naam: "Brein Scale",
-    label: "",
     ids: FUNCTIES.map((f) => f.id),
-    inhoud: ["Start met het groeiplan"],
+    voorWie: "U wilt het hele commerciële proces op één brein.",
+    opbouw: "Alles van Groei, plus",
+    kern: "zichtbaarheid en eigen AI-vaardigheid.",
+    wat: "Content gepland, terugkerende taken geautomatiseerd, en uw team leert zelf met AI werken.",
   },
+];
+
+/** De voorwaarden die bij elk abonnement horen, in één regel onder de kaarten. */
+export const BIJ_ELK_ABONNEMENT = [
+  "Start met het groeiplan",
+  "90 dagen pilot, daarna maandelijks opzegbaar",
+  "Tools en beheer erin",
+  "Wat gebouwd is, blijft van u",
+  "12 maanden vooruit: 20% korting",
 ];
 
 /** Uren, waarde, prijs en rendement van een set functies. */
