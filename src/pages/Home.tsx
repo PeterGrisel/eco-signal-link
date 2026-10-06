@@ -96,7 +96,6 @@ const Home = () => {
           <WerkomgevingSectie />
           <Klantenraster />
           <BreinFuncties />
-          <Hero />
           <HetProtocol />
           <Diensten />
           <Prijzen />
@@ -113,7 +112,9 @@ const Home = () => {
 
           <WieZitErachter />
           <Alternatieven />
+          <Hero />
           <Vragen />
+
 
         </main>
         <Footer />
