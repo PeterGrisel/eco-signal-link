@@ -37,7 +37,9 @@ interface RelatedBlog {
   title: string;
 }
 
-const ClientLogo = ({ client, size = 56 }: { client: Client; size?: number }) => {
+const ClientLogo = ({ client, size = 56, breed = false }: { client: Client; size?: number; breed?: boolean }) => {
+  // Breed: ruimte voor woordmerken, niet alleen vierkante beeldmerken.
+  const width = breed ? Math.round(size * 2) : size;
   const [err, setErr] = useState(false);
   const src = client.logo_url || faviconFor(client.website || client.domain);
   const showFallback = err || !src;
@@ -81,7 +83,7 @@ const ClientLogo = ({ client, size = 56 }: { client: Client; size?: number }) =>
   return (
     <div
       className="flex items-center justify-center overflow-hidden shrink-0"
-      style={{ width: size, height: size, padding: client.padding ?? 0 }}
+      style={{ width, height: size, padding: client.padding ?? 0 }}
     >
       {showFallback ? (
         <span className="font-display font-bold text-brand-ink-3" style={{ fontSize: size * 0.35 }}>
@@ -184,23 +186,6 @@ const BrainRadial = ({ clients }: { clients: Client[] }) => {
     </div>
   );
 };
-
-// Bento sizing rotation: 6 columns grid; mix of sizes for visual rhythm.
-const bentoSpans = [
-  "md:col-span-2 md:row-span-2", // large
-  "md:col-span-2",
-  "md:col-span-2",
-  "md:col-span-2",
-  "md:col-span-2 md:row-span-2",
-  "md:col-span-2",
-  "md:col-span-2",
-  "md:col-span-2",
-  "md:col-span-3",
-  "md:col-span-3",
-  "md:col-span-2",
-  "md:col-span-2",
-  "md:col-span-2",
-];
 
 const Klanten = () => {
   const [clients, setClients] = useState<Client[]>([]);
@@ -339,46 +324,38 @@ const Klanten = () => {
               title="Klanten in het wild."
               lead="Korte schets per organisatie: sector, samenwerking en, waar relevant, een achtergrondartikel."
             />
-            <div className="grid auto-rows-[minmax(180px,auto)] grid-cols-1 gap-[14px] md:grid-cols-6">
-              {clients.map((c, i) => {
-                const span = bentoSpans[i % bentoSpans.length];
+            <div className="grid grid-cols-1 gap-[14px] sm:grid-cols-2 lg:grid-cols-3">
+              {clients.map((c) => {
                 const blog = c.blog_slug ? blogs[c.blog_slug] : undefined;
-                const isLarge = span.includes("row-span-2");
+                const site = (c.website || c.domain || "").replace(/^https?:\/\//, "").replace(/\/$/, "");
                 return (
                   <article
                     key={c.id}
                     id={`klant-${c.id}`}
-                    className={`flex scroll-mt-24 flex-col justify-between rounded-brand border border-brand-line bg-brand-mist p-6 transition-colors hover:border-brand-accent ${span}`}
+                    className="flex scroll-mt-24 flex-col rounded-brand border border-brand-line bg-brand-mist p-5 transition-colors hover:border-brand-accent"
                   >
-                    <div>
-                      <div className="mb-4 flex items-start justify-between gap-3">
-                        <ClientLogo client={c} size={isLarge ? 56 : 40} />
+                    <div className="flex items-center gap-4">
+                      <div className="flex h-16 w-28 shrink-0 items-center justify-center rounded-brand border border-brand-line bg-white p-2.5">
+                        <ClientLogo client={c} size={44} breed />
+                      </div>
+                      <div className="min-w-0">
+                        <h3 className="truncate font-display text-lg font-bold leading-tight tracking-[-0.015em]">
+                          {c.name}
+                        </h3>
                         {c.sector && (
-                          <span className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-brand-accent-ink">
+                          <p className="mt-1 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-brand-accent-ink">
                             {c.sector}
-                          </span>
+                          </p>
                         )}
                       </div>
-                      <h3
-                        className={`mb-2 font-display font-bold leading-tight tracking-[-0.015em] ${
-                          isLarge ? "text-2xl md:text-3xl" : "text-lg"
-                        }`}
-                      >
-                        {c.name}
-                      </h3>
-                      {c.description && (
-                        <p
-                          className={`leading-relaxed text-brand-ink-2 ${
-                            isLarge ? "text-[15px]" : "line-clamp-3 text-[13.5px]"
-                          }`}
-                        >
-                          {c.description}
-                        </p>
-                      )}
                     </div>
 
-                    {(blog || c.website || c.domain) && (
-                      <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-brand-line pt-4 text-xs">
+                    {c.description && (
+                      <p className="mt-4 line-clamp-4 text-[13.5px] leading-relaxed text-brand-ink-2">{c.description}</p>
+                    )}
+
+                    {(blog || site) && (
+                      <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs">
                         {blog && (
                           <Link
                             to={`/blog/${blog.slug}`}
@@ -388,14 +365,14 @@ const Klanten = () => {
                             <ArrowRight className="h-3 w-3" />
                           </Link>
                         )}
-                        {(c.website || c.domain) && (
+                        {site && (
                           <a
-                            href={`https://${(c.website || c.domain).replace(/^https?:\/\//, "")}`}
+                            href={`https://${site}`}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-brand-ink-3 transition-colors hover:text-brand-ink"
                           >
-                            {(c.website || c.domain).replace(/^https?:\/\//, "")}
+                            {site}
                           </a>
                         )}
                       </div>
