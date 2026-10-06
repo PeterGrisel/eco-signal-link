@@ -1,10 +1,10 @@
 import { Reveal } from "@/components/v2/Reveal";
-import { MENUS, euro, keer, reken } from "@/data/breinPrijzen";
+import { MENUS, euro, reken } from "@/data/breinPrijzen";
 
 /**
- * De drie menu's van het brein als kaarten. Prijs en rendement komen uit
- * `src/data/breinPrijzen.ts`, dus homepage en prijspagina tonen altijd
- * hetzelfde.
+ * De drie abonnementen als kaarten. Ze verschillen in hoeveel processen
+ * tegelijk lopen en hoe vaak we bijsturen. Prijzen komen uit
+ * `src/data/breinPrijzen.ts`, dus homepage en prijspagina tonen hetzelfde.
  */
 export function MenuKaarten() {
   return (
@@ -30,11 +30,8 @@ export function MenuKaarten() {
                 <p className="mt-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-brand-ink-3">
                   per maand, all-in
                 </p>
-                <p className="mt-4 border-y border-dashed border-brand-line py-3 text-[13px] text-brand-ink-2">
-                  {menu.ids.length} functies · {Math.round(r.uren)} uur bespaard
-                  <br />
-                  Waarde {euro(r.waarde)} p/m ·{" "}
-                  <span className="font-mono font-bold text-emerald-700">ROI {keer(r.roi)}</span>
+                <p className="mt-4 border-y border-dashed border-brand-line py-3 font-mono text-[11px] font-bold uppercase tracking-[0.12em] text-brand-ink-2">
+                  {menu.ritme}
                 </p>
                 <ul className="mt-4 space-y-2 text-[13px] text-brand-ink-2">
                   {menu.inhoud.map((punt) => (

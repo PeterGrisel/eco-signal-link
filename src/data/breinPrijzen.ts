@@ -1,6 +1,10 @@
 /**
  * Het prijsmodel van het commerciële brein.
  *
+ * Naar buiten: één vaste prijs per abonnement, de waarde stapelt proces voor
+ * proces (zie /pricing). De rekensom hieronder is de interne onderbouwing van
+ * de bedragen.
+ *
  * De redenering: elke functie neemt werk over. De uren die het team niet meer
  * hoeft te maken, maal wat een commerciële medewerker integraal kost, is de
  * waarde. De klant betaalt daar een derde van, all-in. Homepage en /pricing
@@ -48,41 +52,55 @@ export const functieOpId = (id: string) => FUNCTIES.find((f) => f.id === id)!;
 export type BreinMenu = {
   naam: string;
   label: string;
-  /** Functies in dit menu. */
+  /** Functies waarop de prijs is gebaseerd (interne rekensom). */
   ids: string[];
+  /** Hoe vaak we samen bijsturen. */
+  ritme: string;
   /** Korte inhoud voor op de kaart. */
   inhoud: string[];
   top?: boolean;
 };
 
+/**
+ * De drie abonnementen. Ze verschillen niet in losse producten maar in hoeveel
+ * processen tegelijk lopen en hoe vaak we bijsturen. Elk abonnement start bij
+ * het groeiplan.
+ */
 export const MENUS: BreinMenu[] = [
   {
     naam: "Brein Start",
-    label: "Instap",
+    label: "Eén proces",
     ids: ["leads", "outreach"],
-    inhoud: ["Leads: dagelijks passende bedrijven en beslissers", "Outreach via mail, 1 doelgroep"],
+    ritme: "Maandelijks bijsturen",
+    inhoud: [
+      "Groeiplan met één helder doel",
+      "Eén commercieel proces gestandaardiseerd en getest",
+      "Terugverdienrapport elk kwartaal",
+    ],
   },
   {
     naam: "Brein Groei",
-    label: "Meest gekozen",
+    label: "Proces voor proces",
     ids: ["leads", "outreach", "taken", "reporting"],
+    ritme: "Elke twee weken bijsturen",
     inhoud: [
-      "Leads op basis van signalen",
-      "Outreach via mail en LinkedIn, 2 doelgroepen",
-      "Taken: AI-automatisering in sales en marketing",
-      "Reporting: dashboards in Claude",
+      "Groeiplan met doel en procesroute",
+      "Volgend proces zodra het vorige zich terugverdient",
+      "Terugverdienrapport elk kwartaal",
+      "AI-geletterdheid en adoptie altijd inbegrepen, t.w.v. € 2.450",
     ],
     top: true,
   },
   {
     naam: "Brein Scale",
-    label: "Het hele brein",
+    label: "Meerdere processen tegelijk",
     ids: FUNCTIES.map((f) => f.id),
+    ritme: "Wekelijks bijsturen",
     inhoud: [
-      "Alles uit Groei, 3 tot 4 doelgroepen",
-      "Content planning en Designer",
-      "Agents en een eigen skilllab",
-      "Tweewekelijkse sturing",
+      "Groeiplan met meerdere doelen en markten",
+      "Processen parallel, ook partners en nieuwe landen",
+      "Adoptie en begeleiding voor het hele team",
+      "Terugverdienrapport elk kwartaal",
     ],
   },
 ];
@@ -120,6 +138,7 @@ export const LOSSE_POSTEN: { naam: string; uitleg: string; prijs: string }[] = [
 ];
 
 export const HUISREGELS: { kop: string; tekst: string }[] = [
+  { kop: "Eerst terugverdienen.", tekst: "Een volgend proces start pas als het vorige zich terugverdient." },
   { kop: "Nul opstartkosten.", tekst: "90 dagen pilot, daarna maandelijks opzegbaar." },
   { kop: "Tools en beheer zitten erin.", tekst: "12 maanden vooruit betalen geeft 20% korting." },
   { kop: "Wat gebouwd is, blijft van u.", tekst: "Ook als u stopt." },

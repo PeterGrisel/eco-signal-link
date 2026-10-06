@@ -1,51 +1,47 @@
-import { Link } from "react-router-dom";
 import { Button } from "@/components/v2/Button";
 import { Reveal } from "@/components/v2/Reveal";
 import { Section } from "@/components/v2/Section";
 import { SectionHeader } from "@/components/v2/SectionHeader";
 import { MenuKaarten } from "@/components/prijzen/MenuKaarten";
-import { BREIN_DIENSTEN } from "@/data/breinDiensten";
+import { CYCLUS } from "@/data/breinAanpak";
 
 /**
- * Wat u koopt, in één oogopslag: de vier diensten als ingang en de drie
- * menu's met prijs. De volledige rekensom en de rekenhulp staan op /pricing.
+ * Hoe we werken en wat het kost, in één oogopslag: het groeiplan als doel,
+ * de cyclus die elk proces doorloopt, en de drie abonnementen. De volledige
+ * uitleg staat op /pricing.
  */
 export function WatUKoopt() {
   return (
     <Section id="prijzen" tone="mist" className="v2-gordijn">
       <SectionHeader
-        eyebrow="Wat u koopt"
-        title="Eén brein. Eén prijs, alles erin."
-        lead="U betaalt een derde van wat het brein uw team aan uren bespaart. Onze uren, de tools en het beheer zitten erin. 90 dagen pilot, daarna maandelijks opzegbaar."
+        eyebrow="Hoe we werken"
+        title="Uw doel trekt. Het brein stuurt."
+        lead="We beginnen bij uw groeiplan: één helder doel. Daarna pakken we uw commercie proces voor proces aan. Een volgend proces start pas als het vorige zich terugverdient. Eén vaste prijs, en de waarde stapelt."
       />
 
-      <div className="mb-[18px] grid gap-[10px] sm:grid-cols-2 lg:grid-cols-4">
-        {BREIN_DIENSTEN.map((dienst, i) => (
-          <Reveal key={dienst.slug} index={i} className="h-full">
-            <Link
-              to={`/diensten/${dienst.slug}`}
-              className="group flex h-full items-start justify-between gap-3 rounded-brand border border-brand-line bg-brand-paper px-5 py-4 transition-colors duration-200 hover:border-brand-accent"
+      <ol className="mb-[18px] grid gap-[10px] sm:grid-cols-2 lg:grid-cols-5">
+        {CYCLUS.map((c, i) => (
+          <Reveal key={c.stap} index={i} className="h-full">
+            <li
+              className={`flex h-full flex-col rounded-brand border px-5 py-4 ${
+                i === CYCLUS.length - 1 ? "border-brand-accent bg-brand-tint" : "border-brand-line bg-brand-paper"
+              }`}
             >
-              <span>
-                <span className="block font-display text-[15px] font-bold tracking-[-0.01em]">{dienst.naam}</span>
-                <span className="mt-1 block text-[12.5px] leading-snug text-brand-ink-2">{dienst.note}</span>
+              <span className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-brand-accent-ink">
+                {String(i + 1).padStart(2, "0")}
               </span>
-              <span aria-hidden className="text-brand-ink-3 transition-colors group-hover:text-brand-accent-ink">
-                ↗
-              </span>
-            </Link>
+              <span className="mt-1.5 font-display text-[15px] font-bold tracking-[-0.01em]">{c.stap}</span>
+              <span className="mt-1 text-[12.5px] leading-snug text-brand-ink-2">{c.uitleg}</span>
+            </li>
           </Reveal>
         ))}
-      </div>
+      </ol>
 
       <MenuKaarten />
 
       <Reveal className="mt-10 flex flex-wrap items-center gap-3">
         <Button href="/pricing" variant="outline">
-          Zo is de prijs opgebouwd
-        </Button>
-        <Button href="/pricing#rekenhulp" variant="outline">
-          Reken het uit voor uw team
+          Zo werkt de prijs
         </Button>
       </Reveal>
     </Section>

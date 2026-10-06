@@ -258,10 +258,11 @@ const STATIC_PAGES: Record<string, {
   },
   "/pricing": {
     title: "Prijzen | B2B Groeimachine",
-    description: "U betaalt een derde van wat het commerciële brein uw team aan uren bespaart. All-in: onze uren, de tools en het beheer.",
-    h1: "U betaalt een derde van wat het brein bespaart.",
-    bodyContent: `<p>Bespaarde uren per functie maal € 60 uurkosten is de waarde; de prijs is een derde daarvan. Brein Start € 1.800, Brein Groei € 2.900 en Brein Scale € 4.400 per maand, all-in. 90 dagen pilot, daarna maandelijks opzegbaar. Training in-company € 2.450 per dag.</p>`,
+    description: "Eén vaste prijs, de waarde stapelt. We starten bij uw groeiplan en pakken uw commercie proces voor proces aan. Elk proces verdient zich terug voor het volgende start.",
+    h1: "Eén vaste prijs. De waarde stapelt.",
+    bodyContent: `<p>Het groeiplan legt het doel vast. Het brein standaardiseert, test en stuurt bij, proces voor proces. Een volgend proces start pas als het vorige zich terugverdient. Brein Start € 1.800 (één proces, maandelijks bijsturen), Brein Groei € 2.900 (proces voor proces, elke twee weken bijsturen, adoptie inbegrepen) en Brein Scale € 4.400 (meerdere processen tegelijk, wekelijks bijsturen) per maand, all-in. 90 dagen pilot, daarna maandelijks opzegbaar.</p>`,
   },
+
 
   "/contact": {
     title: "Contact — B2BGroeiMachine",
