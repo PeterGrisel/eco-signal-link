@@ -228,7 +228,7 @@ const WillemIiPage = () => {
         <ClubCta club="Willem II" accent="#C8102E" location="Willem II" />
 
         <div className="willem-pricing-brand border-t border-border">
-          <PricingSection showPerformancePartnership={false} showAddOns={false} />
+          <PricingSection showAddOns={false} />
         </div>
 
         <section id="contact" className="willem-contact scroll-mt-24 py-16 md:py-24">
