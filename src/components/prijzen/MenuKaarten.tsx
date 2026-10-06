@@ -1,6 +1,6 @@
 import { Button } from "@/components/v2/Button";
 import { Reveal } from "@/components/v2/Reveal";
-import { BIJ_ELK_ABONNEMENT, MENUS, euro, reken } from "@/data/breinPrijzen";
+import { BIJ_ELK_ABONNEMENT, MENUS, euro, menuPrijs } from "@/data/breinPrijzen";
 
 /**
  * De drie abonnementen als kaarten: prijs, voor wie, wat het brein overneemt.
@@ -12,7 +12,6 @@ export function MenuKaarten() {
     <div>
       <div className="grid items-stretch gap-[18px] md:grid-cols-3">
         {MENUS.map((menu, i) => {
-          const r = reken(menu.ids);
           return (
             <Reveal key={menu.naam} index={i} className="h-full">
               <article
@@ -31,7 +30,7 @@ export function MenuKaarten() {
                     )}
                   </div>
                   <p className="font-display text-[clamp(30px,3vw,40px)] font-black leading-none tracking-[-0.03em]">
-                    {euro(r.prijs)}
+                    {euro(menuPrijs(menu))}
                   </p>
                   <p className="mt-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-brand-ink-3">
                     per maand, all-in

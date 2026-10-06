@@ -53,6 +53,8 @@ export type BreinMenu = {
   naam: string;
   /** Functies waarop de prijs is gebaseerd (interne rekensom). */
   ids: string[];
+  /** Vaste maandprijs, als die afwijkt van de rekensom. */
+  prijs?: number;
   /** Voor wie dit abonnement is. */
   voorWie: string;
   /** "Alles van Start, plus", leeg bij het eerste abonnement. */
@@ -74,6 +76,7 @@ export const MENUS: BreinMenu[] = [
   {
     naam: "Brein Start",
     ids: ["leads", "outreach"],
+    prijs: 2250,
     voorWie: "U wilt structureel nieuwe klanten vinden en benaderen.",
     kern: "Vinden en benaderen.",
     wat: "Doelgroep zoeken, lijsten verrijken, berichten via mail en LinkedIn, opvolgen en reacties sorteren.",
@@ -107,6 +110,9 @@ export const BIJ_ELK_ABONNEMENT = [
   "Wat gebouwd is, blijft van u",
   "12 maanden vooruit: 20% korting",
 ];
+
+/** De maandprijs die op de site staat: de vaste prijs, anders de rekensom. */
+export const menuPrijs = (m: BreinMenu) => m.prijs ?? reken(m.ids).prijs;
 
 /** Uren, waarde, prijs en rendement van een set functies. */
 export function reken(ids: string[], uurkosten = UURKOSTEN, team = BASISTEAM) {

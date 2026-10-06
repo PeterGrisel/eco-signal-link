@@ -12,7 +12,7 @@ import { Reveal } from "@/components/v2/Reveal";
 import { Section } from "@/components/v2/Section";
 import { SectionHeader } from "@/components/v2/SectionHeader";
 import { MenuKaarten } from "@/components/prijzen/MenuKaarten";
-import { HUISREGELS, LOSSE_POSTEN, MENUS, reken } from "@/data/breinPrijzen";
+import { HUISREGELS, LOSSE_POSTEN, MENUS, menuPrijs } from "@/data/breinPrijzen";
 import { CONTEXT_VERGELIJKING, CYCLUS, PUSH_PULL } from "@/data/breinAanpak";
 
 const URL = "https://www.b2bgroeimachine.io/pricing";
@@ -40,7 +40,7 @@ const Pricing = () => {
       itemListElement: MENUS.map((m) => ({
         "@type": "Offer",
         name: m.naam,
-        price: reken(m.ids).prijs,
+        price: menuPrijs(m),
         priceCurrency: "EUR",
         description: `${m.voorWie} ${m.opbouw ? `${m.opbouw} ` : ""}${m.kern} ${m.wat}`,
       })),
