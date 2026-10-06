@@ -14,6 +14,7 @@ import JsonLd from "@/components/JsonLd";
 import { buildClientsSchema } from "@/data/schemaOrg";
 import { supabase } from "@/integrations/supabase/client";
 import { faviconFor } from "@/data/groeistack";
+import { beschrijvingVoor } from "@/data/klantBeschrijvingen";
 import { usePageMeta } from "@/hooks/usePageMeta";
 import { useBolMaten } from "@/hooks/useBolMaten";
 import SphereImageGrid from "@/components/ui/img-sphere";
@@ -327,6 +328,7 @@ const Klanten = () => {
             <div className="grid grid-cols-1 gap-[14px] sm:grid-cols-2 lg:grid-cols-3">
               {clients.map((c) => {
                 const blog = c.blog_slug ? blogs[c.blog_slug] : undefined;
+                const info = beschrijvingVoor(c.name, c.domain);
                 const site = (c.website || c.domain || "").replace(/^https?:\/\//, "").replace(/\/$/, "");
                 return (
                   <article
@@ -350,12 +352,35 @@ const Klanten = () => {
                       </div>
                     </div>
 
-                    {c.description && (
-                      <p className="mt-4 line-clamp-4 text-[13.5px] leading-relaxed text-brand-ink-2">{c.description}</p>
+                    {info ? (
+                      <div className="mt-4 space-y-2.5 text-[13.5px] leading-relaxed">
+                        <p className="text-brand-ink-2">{info.omschrijving}</p>
+                        <p>
+                          <span className="font-semibold text-brand-ink">Behoefte: </span>
+                          <span className="text-brand-ink-2">{info.behoefte}</span>
+                        </p>
+                        <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
+                          <span className="mr-1 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-brand-ink-3">
+                            Het brein
+                          </span>
+                          {info.brein.map((f) => (
+                            <span
+                              key={f}
+                              className="rounded-full border border-brand-accent/50 bg-brand-tint px-2.5 py-0.5 text-[11.5px] font-semibold text-brand-accent-ink"
+                            >
+                              {f}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    ) : (
+                      c.description && (
+                        <p className="mt-4 line-clamp-4 text-[13.5px] leading-relaxed text-brand-ink-2">{c.description}</p>
+                      )
                     )}
 
                     {(blog || site) && (
-                      <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs">
+                      <div className="mt-auto flex pt-4 flex-wrap items-center gap-x-4 gap-y-2 text-xs">
                         {blog && (
                           <Link
                             to={`/blog/${blog.slug}`}
