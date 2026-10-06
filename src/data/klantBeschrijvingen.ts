@@ -45,6 +45,8 @@ export const KLANT_BESCHRIJVINGEN: KlantBeschrijving[] = [
   { match: ["yaskawa"], omschrijving: "Fabrikant van industriële robots, aandrijvingen en besturingen.", behoefte: "Een scherp ICP en nieuwe klanten in de Benelux.", brein: ["Leads", "Outreach"] },
   { match: ["datahub"], omschrijving: "Helpt organisaties sneller betere beslissingen te nemen met data en AI.", behoefte: "Toepassingen die het platform in de praktijk laten werken.", brein: ["Agents"] },
   { match: ["gobytes"], omschrijving: "Verkoopt refurbished laptops, desktops, smartphones en tablets.", behoefte: "Zakelijke afnemers bereiken.", brein: ["Leads", "Outreach"] },
+  { match: ["nexer"], omschrijving: "Levert cloudoplossingen, IT-beheer en security.", behoefte: "Het hele commerciële proces op één brein.", brein: ["Leads", "Outreach", "Taken", "Reporting", "Content planning", "Agents", "Skilllab", "Ads"] },
+  { match: ["exes"], omschrijving: "Engineeringbureau.", behoefte: "Nieuwe opdrachtgevers bereiken.", brein: ["Outreach"] },
   { match: ["krak"], omschrijving: "Juridisch adviesbureau voor ondernemers.", behoefte: "Nieuwe zakelijke cliënten bereiken.", brein: ["Leads", "Outreach"] },
 ];
 
