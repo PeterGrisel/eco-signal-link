@@ -65,7 +65,7 @@ export function Hero() {
   const gatVerborgen = sluier > 0.88;
 
   return (
-    <header className="relative bg-brand-deep text-white">
+    <header id="contact" className="relative bg-brand-deep text-white">
       <div ref={ref} className="relative lg:h-[220svh]">
         <div className="relative flex min-h-[38rem] items-center overflow-hidden lg:sticky lg:top-0 lg:h-svh">
           {/* Het zwarte gat als achtergrond. Het scrim houdt de leeshelft vrij. */}

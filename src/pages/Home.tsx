@@ -9,7 +9,6 @@ import { Nav } from "@/components/v2/Nav";
 import { Hero } from "@/components/home-v2/Hero";
 import { WerkomgevingSectie } from "@/components/werkomgeving/Sectie";
 import {
-  Contact,
   Alternatieven,
   HetProtocol,
   Diensten,
@@ -111,10 +110,10 @@ const Home = () => {
 
           <WieZitErachter />
           <Alternatieven />
-          <Contact />
           <Vragen />
 
-          {/* De oude hero als afsluiter: "Klaar om te schalen?" vlak voor de footer. */}
+          {/* De oude hero als afsluiter: "Klaar om te schalen?" vervangt de
+              oude Kennismaken-sectie en neemt het anker #contact over. */}
           <Hero />
         </main>
         <Footer />
