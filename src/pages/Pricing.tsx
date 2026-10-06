@@ -11,6 +11,7 @@ import { Nav } from "@/components/v2/Nav";
 import { Reveal } from "@/components/v2/Reveal";
 import { Section } from "@/components/v2/Section";
 import { SectionHeader } from "@/components/v2/SectionHeader";
+import { KlantCases } from "@/components/cases/KlantCases";
 import { MenuKaarten } from "@/components/prijzen/MenuKaarten";
 import { HUISREGELS, LOSSE_POSTEN, MENUS, menuPrijs } from "@/data/breinPrijzen";
 import { CONTEXT_VERGELIJKING, CYCLUS, PUSH_PULL } from "@/data/breinAanpak";
@@ -107,8 +108,10 @@ const Pricing = () => {
             <MenuKaarten />
           </Section>
 
+          <KlantCases title="Wat het brein bij klanten doet." />
+
           {/* Push of pull. */}
-          <Section tone="paper" id="pull">
+          <Section tone="mist" id="pull">
             <SectionHeader
               eyebrow="Sturen op een doel"
               title="Niet harder duwen. Gericht trekken."

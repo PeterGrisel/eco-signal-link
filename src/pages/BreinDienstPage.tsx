@@ -4,6 +4,7 @@ import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 import JsonLd from "@/components/JsonLd";
 import PageLoader from "@/components/PageLoader";
 import TalkCard from "@/components/TalkCard";
+import { KlantCases } from "@/components/cases/KlantCases";
 import { GroeiplanCta } from "@/components/v2/GroeiplanCta";
 import { usePageMeta } from "@/hooks/usePageMeta";
 import { Container } from "@/components/v2/Container";
@@ -331,6 +332,7 @@ const BreinDienstPage = () => {
             </Reveal>
           </Section>
 
+          <KlantCases dienst={dienst.slug} tone="mist" />
           <GroeiplanCta />
 
           {/* Vragen. */}

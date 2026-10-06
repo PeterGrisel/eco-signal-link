@@ -1,3 +1,4 @@
+import { KlantCases } from "@/components/cases/KlantCases";
 import { GroeiplanCta } from "@/components/v2/GroeiplanCta";
 import { useEffect, useMemo } from "react";
 import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
@@ -97,6 +98,7 @@ const Home = () => {
           <BreinFuncties />
           <HetProtocol />
           <WatUKoopt />
+          <KlantCases />
           <Marquee
             items={[
               "Commercieel brein",
