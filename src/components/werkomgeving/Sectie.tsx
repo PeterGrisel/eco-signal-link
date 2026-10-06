@@ -5,16 +5,18 @@ import { SectionHeader } from "@/components/v2/SectionHeader";
 import { Film } from "./Film";
 
 /**
- * De werkomgeving op de homepage, direct onder de hero.
+ * De werkomgeving als hero van de homepage.
  *
- * De hero belooft een engine; hier ziet de bezoeker er meteen een draaien.
- * Kort gehouden: het filmpje en een doorverwijzing naar de Groeistack.
+ * De bezoeker ziet meteen hoe het eruitziet: het filmpje van de draaiende
+ * engine, met een doorverwijzing naar de Groeistack. Staat bovenaan, dus de
+ * titel is de H1 van de pagina.
  */
 export function WerkomgevingSectie() {
   return (
-    <Section id="werkomgeving" tone="deep">
+    <Section id="werkomgeving" tone="deep" fill>
       <SectionHeader
         deep
+        titleAs="h1"
         eyebrow="Zo ziet het eruit"
         title="Van vraag tot afspraak."
         lead="Wij ontwerpen en bouwen één werkomgeving voor uw bronnen, tools en proces. Het systeem werkt als uw commerciële brein. Het vindt kansen en voert taken uit. Zo worden kansen afspraken."

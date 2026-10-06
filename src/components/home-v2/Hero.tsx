@@ -107,12 +107,12 @@ export function Hero() {
               <p className="mb-6 font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-brand-accent">
                 [ Commercie hoeft geen zwart gat te zijn ]
               </p>
-              <h1
+              <h2
                 aria-label={splitHeadlineText(HEADLINE)}
                 className="mb-[22px] font-display text-[length:var(--v2-h1)] font-black leading-[1.02] tracking-[-0.035em]"
               >
                 <SplitHeadline lines={HEADLINE} accentClass="text-brand-accent" />
-              </h1>
+              </h2>
               <p className="mb-7 max-w-[44ch] text-[16.5px] leading-relaxed text-[#D6CEC3]">
                 B2B Groeimachine ontwerpt en bouwt het systeem achter uw sales,
                 marketing en RevOps. Negentig dagen als pilot, daarna

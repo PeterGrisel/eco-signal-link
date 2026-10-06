@@ -93,9 +93,8 @@ const Home = () => {
         <JsonLd id="home-faq-jsonld" data={faqSchema} />
         <Nav />
         <main>
-          <Hero />
-          <HetProtocol />
           <WerkomgevingSectie />
+          <HetProtocol />
           <Klantenraster />
           <Diensten />
           <Prijzen />
@@ -115,6 +114,8 @@ const Home = () => {
           <Contact />
           <Vragen />
 
+          {/* De oude hero als afsluiter: "Klaar om te schalen?" vlak voor de footer. */}
+          <Hero />
         </main>
         <Footer />
       </div>
