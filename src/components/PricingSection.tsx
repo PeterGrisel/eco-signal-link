@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useCurrency } from "@/contexts/CurrencyContext";
 import { CurrencySwitcher } from "@/components/CurrencySwitcher";
 import { motion } from "framer-motion";
-import { Check, Minus, Handshake, Infinity as InfinityIcon, Phone, Clock, Target, Database, FileText, Rocket } from "lucide-react";
+import { Check, Minus, Infinity as InfinityIcon, Phone, Clock, Target, Database, FileText, Rocket } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import CtaLink from "@/components/CtaLink";
@@ -97,22 +97,6 @@ const T = {
     partnerDesc: "Multi-account, CRM-koppeling en custom reporting.",
     partnerFeatures: ["Multi-account omgeving", "Meerdere proposities", "Sales team enablement", "HubSpot of CRM-koppeling", "Custom reporting", "Dedicated GTM-architectuur"],
     bookCall: "Bespreek uw situatie",
-    ppEyebrow: "Voor gekwalificeerde klanten",
-    ppTitleA: "Performance Partnership.",
-    ppTitleB: "Lage techkosten. Gedeelde upside.",
-    ppBody: "Voor wie al omzet draait, maar het systeem mist. Wij ontwerpen, bouwen en draaien de groeimachine. U deelt mee in de upside die het systeem oplevert.",
-    ppAdmit: "Toelating",
-    ppAdmitList: ["Bewezen B2B-propositie met klanten", "Gezonde marges en dealwaarde", "Transparante CRM- en salesdata", "Heldere attributie-afspraken vooraf"],
-    ppTechLabel: "Min. techkosten",
-    ppTechValue: "€500 — 1.000",
-    ppTechSuffix: "/ maand",
-    ppShareLabel: "Revenue share",
-    ppShareValue: "5 — 15%",
-    ppShareSuffix: "van toegeschreven omzet",
-    ppFine1: "Alleen op duidelijk afgebakende, door het systeem gegenereerde of beïnvloede omzet. Attributie wordt vooraf vastgelegd.",
-    ppFine2a: "Wij investeren regelmatig in start-ups met een barter-constructie.",
-    ppFine2link: "Bekijk de voorwaarden",
-    ppFine2b: "en join onze hub.",
     addOnsEyebrow: "BOOST-PAKKETTEN",
     addOnsTitle: "Bouw uw B2B Engine verder uit.",
     addOnsSub: "Breid uw basispakket uit met extra capaciteit, bereik, CRM-inrichting of content. Zo groeit de engine mee met uw commerciële ambitie, zonder direct een groter sales- of marketingteam op te bouwen.",
@@ -167,22 +151,6 @@ const T = {
     partnerDesc: "Multi-account, CRM integration and custom reporting.",
     partnerFeatures: ["Multi-account environment", "Multiple propositions", "Sales team enablement", "HubSpot or CRM integration", "Custom reporting", "Dedicated GTM architecture"],
     bookCall: "Discuss your situation",
-    ppEyebrow: "For qualified clients",
-    ppTitleA: "Performance Partnership.",
-    ppTitleB: "Low tech cost. Shared upside.",
-    ppBody: "For brands already generating revenue, but missing the system. We build and run the growth machine. You share in the upside the system delivers.",
-    ppAdmit: "Admission",
-    ppAdmitList: ["Proven B2B proposition with customers", "Healthy margins and deal value", "Transparent CRM and sales data", "Clear attribution agreements upfront"],
-    ppTechLabel: "Min. tech cost",
-    ppTechValue: "$550 — 1,100",
-    ppTechSuffix: "/ month",
-    ppShareLabel: "Revenue share",
-    ppShareValue: "5 — 15%",
-    ppShareSuffix: "of attributed revenue",
-    ppFine1: "Only on clearly scoped revenue generated or influenced by the system. Attribution is agreed upfront.",
-    ppFine2a: "We regularly invest in start-ups with a barter structure.",
-    ppFine2link: "See the terms",
-    ppFine2b: "and join our hub.",
     addOnsEyebrow: "BOOST PACKAGES",
     addOnsTitle: "Extend your B2B Engine.",
     addOnsSub: "Expand your base package with extra capacity, reach, CRM setup or content. Your engine grows with your commercial ambition, without hiring a bigger team.",
@@ -617,103 +585,6 @@ const CallBoostSection = ({ lang }: { lang: Lang }) => {
   );
 };
 
-export const PerformancePartnership = ({ lang, currency, rate }: { lang: Lang; currency: Currency; rate: number }) => {
-  const tt = T[lang];
-  const fmt = makeFmt(currency, rate);
-  const ppTechValue = `${fmt(500)} — ${fmt(1000)}`;
-  return (
-  <motion.div
-    initial={{ opacity: 0, y: 16 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true, margin: "-50px" }}
-    transition={{ duration: 0.5 }}
-    className="relative rounded-2xl border border-primary/25 bg-gradient-to-br from-primary/10 via-card to-card p-6 md:p-10 overflow-hidden"
-  >
-    <div className="absolute inset-0 pointer-events-none opacity-40 bg-[radial-gradient(circle_at_top_right,hsl(var(--primary)/0.25),transparent_60%)]" />
-
-    <div className="relative grid lg:grid-cols-[1.2fr_1fr] gap-8 lg:gap-12 items-start">
-      <div>
-        <div className="flex items-center gap-2 mb-4">
-          <Handshake className="w-4 h-4 text-primary" />
-          <span className="text-[10px] font-display font-semibold tracking-[0.22em] uppercase text-primary/90">
-            {tt.ppEyebrow}
-          </span>
-        </div>
-        <h3 className="font-display font-bold text-2xl md:text-4xl leading-tight tracking-tight mb-4">
-          {tt.ppTitleA}
-          <br />
-          <span className="text-muted-foreground font-normal text-xl md:text-2xl">
-            {tt.ppTitleB}
-          </span>
-        </h3>
-        <p className="text-muted-foreground text-base leading-relaxed max-w-xl mb-6">
-          {tt.ppBody}
-        </p>
-
-        <p className="text-[11px] font-display font-semibold tracking-[0.18em] uppercase text-primary/80 mb-3">
-          {tt.ppAdmit}
-        </p>
-        <ul className="space-y-2 text-sm">
-          {tt.ppAdmitList.map((item) => (
-            <li key={item} className="flex items-start gap-2.5">
-              <Check className="w-4 h-4 text-primary mt-0.5 shrink-0" />
-              <span className="text-foreground/90">{item}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-5">
-        <div className="rounded-xl border border-border bg-background/40 backdrop-blur p-5">
-          <p className="text-[10px] font-display font-semibold tracking-[0.2em] uppercase text-muted-foreground mb-3">
-            {tt.ppTechLabel}
-          </p>
-          <div className="flex items-baseline gap-1 mb-1">
-            <span className="font-display font-bold text-3xl tracking-tight">{ppTechValue}</span>
-          </div>
-          <p className="text-xs text-muted-foreground">{tt.ppTechSuffix}</p>
-        </div>
-        <div className="rounded-xl border border-primary/40 bg-primary/10 p-5">
-          <p className="text-[10px] font-display font-semibold tracking-[0.2em] uppercase text-primary/90 mb-3">
-            {tt.ppShareLabel}
-          </p>
-          <div className="flex items-baseline gap-1 mb-1">
-            <span className="font-display font-bold text-3xl tracking-tight">{tt.ppShareValue}</span>
-          </div>
-          <p className="text-xs text-muted-foreground">{tt.ppShareSuffix}</p>
-        </div>
-        <div className="sm:col-span-2 rounded-xl border border-dashed border-primary/25 bg-background/30 p-5">
-          <p className="text-xs text-muted-foreground leading-relaxed">
-            {tt.ppFine1}
-          </p>
-        </div>
-        <div className="sm:col-span-2 rounded-xl border border-dashed border-primary/25 bg-background/30 p-5">
-          <p className="text-xs text-muted-foreground leading-relaxed">
-            {tt.ppFine2a}{" "}
-            <a
-              href="https://rebelforce-hubs.com/rebel-force"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-primary underline underline-offset-2 hover:text-primary/80"
-            >
-              {tt.ppFine2link}
-            </a>{" "}
-            {tt.ppFine2b}
-          </p>
-        </div>
-        <div className="sm:col-span-2">
-          <Button variant="hero" size="lg" asChild className="w-full group">
-            <CtaLink intent="bespreekSituatie" location="Pricing Performance Partnership">
-              {tt.ctaTalk}
-            </CtaLink>
-          </Button>
-        </div>
-      </div>
-    </div>
-  </motion.div>
-  );
-};
-
 const BillingToggle = ({
   yearly,
   onChange,
@@ -758,11 +629,10 @@ const BillingToggle = ({
 interface PricingSectionProps {
   language?: Lang;
   currency?: Currency;
-  showPerformancePartnership?: boolean;
   showAddOns?: boolean;
 }
 
-const PricingSection = ({ language = "nl", currency, showPerformancePartnership = true, showAddOns = true }: PricingSectionProps = {}) => {
+const PricingSection = ({ language = "nl", currency, showAddOns = true }: PricingSectionProps = {}) => {
   const [yearly, setYearly] = useState(false);
   const { currency: ctxCurrency, rates } = useCurrency();
   const lang: Lang = language;
@@ -815,13 +685,6 @@ const PricingSection = ({ language = "nl", currency, showPerformancePartnership 
 
         {/* Call Boost */}
         {showAddOns && <CallBoostSection lang={lang} />}
-
-        {/* Performance Partnership */}
-        {showPerformancePartnership && (
-          <div className="mt-12 md:mt-16">
-            <PerformancePartnership lang={lang} currency={cur} rate={rate} />
-          </div>
-        )}
 
         {/* Bottom note */}
         <motion.div
