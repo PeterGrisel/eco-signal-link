@@ -33,3 +33,11 @@ export const B2B_PROCESSEN: string[] = [
   "Content en merk",
   "Adoptie in het team",
 ];
+
+/** Waarom losse AI-klussen niet optellen en een brein met context wel. */
+export const CONTEXT_VERGELIJKING: { kop: string; los: string; brein: string }[] = [
+  { kop: "Kent uw bedrijf", los: "Nee, elke opdracht begint bij nul", brein: "Ja, vanuit het groeiplan en alles wat al getest is" },
+  { kop: "Leert van resultaat", los: "Nee, de klus is af en klaar", brein: "Ja, elke reactie en elk gesprek voedt de volgende stap" },
+  { kop: "Wat u overhoudt", los: "Een lijst of tool die veroudert", brein: "Een systeem dat elke maand slimmer wordt" },
+  { kop: "Telt op", los: "Nee", brein: "Ja, de waarde stapelt" },
+];

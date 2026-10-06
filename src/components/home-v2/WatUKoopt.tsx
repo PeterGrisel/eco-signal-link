@@ -37,6 +37,14 @@ export function WatUKoopt() {
         ))}
       </ol>
 
+      <Reveal className="mb-[18px]">
+        <p className="rounded-brand border border-brand-line bg-brand-paper px-5 py-4 text-[14px] text-brand-ink-2">
+          <b className="font-semibold text-brand-ink">AI zonder context snapt niet wat u doet.</b> Eén keer een
+          leadlijst laten maken of een scraper laten bouwen telt niet op: morgen begint het weer bij nul. Het brein
+          onthoudt uw doel, uw markt en alles wat getest is, en wordt daardoor elke maand slimmer.
+        </p>
+      </Reveal>
+
       <MenuKaarten />
 
       <Reveal className="mt-10 flex flex-wrap items-center gap-3">
