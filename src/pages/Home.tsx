@@ -7,6 +7,7 @@ import { Footer } from "@/components/v2/Footer";
 import { Marquee } from "@/components/v2/Marquee";
 import { Nav } from "@/components/v2/Nav";
 import { Hero } from "@/components/home-v2/Hero";
+import { BreinFuncties } from "@/components/home-v2/BreinFuncties";
 import { WerkomgevingSectie } from "@/components/werkomgeving/Sectie";
 import {
   Alternatieven,
