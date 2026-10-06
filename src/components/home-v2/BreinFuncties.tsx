@@ -104,11 +104,11 @@ export function BreinFuncties() {
       />
 
       {/* Het brein als machine: draaibaar, met vijf functies als stations. */}
-      <Reveal index={0}>
-        <div
-          ref={machineRef}
-          className="overflow-hidden rounded-brand border border-brand-line bg-black"
-        >
+      {/* De ref staat buiten Reveal: Reveal vervangt zijn eigen element bij de
+          scroll-animatie, waardoor een observer op een element erbinnen doodgaat. */}
+      <div ref={machineRef}>
+        <Reveal index={0}>
+          <div className="overflow-hidden rounded-brand border border-brand-line bg-black">
           {machineLaden ? (
             <Suspense
               fallback={
