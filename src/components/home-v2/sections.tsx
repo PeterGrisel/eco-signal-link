@@ -664,58 +664,6 @@ export function HetProtocol() {
   );
 }
 
-/* ── 04 · De alternatieven ─────────────────────────────────────────────── */
-
-/**
- * Naast welke andere routes de bezoeker ons afweegt. Eerlijk over wat die
- * routes opleveren, want het alternatief noemen werkt beter dan doen alsof het
- * niet bestaat.
- */
-export function Alternatieven() {
-  const routes = [
-    {
-      naam: "Zelf bouwen met tools",
-      body: "Apollo, een e-mailtool en een middag knutselen. Snel opgezet, en daarna niemand die de lijsten schoonhoudt, de signalen weegt of merkt dat de flow al drie weken stilstaat.",
-    },
-    {
-      naam: "Een SDR aannemen",
-      body: "Werving, inwerken en een vast salaris vanaf dag één. Na een half jaar weet u pas of het werkt, en vertrekt hij, dan begint u opnieuw. De kennis zat in zijn hoofd.",
-    },
-    {
-      naam: "B2B Groeimachine",
-      body: "De engine draait binnen dertig dagen op uw eigen data en CRM. Wij sturen en ondersteunen, na negentig dagen is het maandelijks opzegbaar, en wat er gebouwd is blijft van u.",
-      ons: true,
-    },
-  ];
-  return (
-    <Section>
-      <SectionHeader
-        eyebrow="De afweging"
-        title="Drie manieren om aan nieuwe opportunities te komen."
-        lead="Wij zijn niet de enige route, en soms niet de juiste. Dit is wat de andere twee u kosten."
-      />
-      <div className="grid gap-[22px] md:grid-cols-3">
-        {routes.map((route, i) => (
-          <Reveal key={route.naam} index={i} className="h-full">
-            <article
-              className={`flex h-full flex-col overflow-hidden rounded-brand border p-6 ${
-                route.ons
-                  ? "border-brand-accent bg-brand-tint"
-                  : "border-brand-line bg-brand-paper"
-              }`}
-            >
-              <h3 className="mb-2.5 font-display text-[19px] font-bold tracking-[-0.02em]">
-                {route.naam}
-              </h3>
-              <p className="text-[13.5px] text-brand-ink-2">{route.body}</p>
-            </article>
-          </Reveal>
-        ))}
-      </div>
-    </Section>
-  );
-}
-
 /* ── 06 · Hoe het werkt ─────────────────────────────────────────────────── */
 
 export function HoeHetWerkt() {
