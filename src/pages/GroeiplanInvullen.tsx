@@ -11,11 +11,12 @@ import { Reveal } from "@/components/v2/Reveal";
 import { Section } from "@/components/v2/Section";
 import { SectionHeader } from "@/components/v2/SectionHeader";
 import { Button as V2Button } from "@/components/v2/Button";
+import { GROEIPLAN_STAPPEN } from "@/data/breinAanpak";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { usePageMeta } from "@/hooks/usePageMeta";
-import { Download, Loader2, Lock, Calendar, CheckCircle2 } from "lucide-react";
+import { Download, Loader2, Calendar, CheckCircle2 } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -90,7 +91,6 @@ const GroeiplanInvullen = () => {
   const [company, setCompany] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [unlocked, setUnlocked] = useState(isKlant);
   const [emailError, setEmailError] = useState("");
   const [values, setValues] = useState<Record<string, string>>(
     () => Object.fromEntries(CELLS.map((c) => [c.id, ""])),
@@ -105,19 +105,7 @@ const GroeiplanInvullen = () => {
     na: CELLS.filter((c) => c.phase === "na"),
   }), []);
 
-  const unlock = () => {
-    const r = emailSchema.safeParse(email);
-    if (!r.success) {
-      setEmailError(r.error.issues[0].message);
-      return;
-    }
-    setEmailError("");
-    setUnlocked(true);
-    toast({ title: "Aan de slag", description: "Vul de negen vakken in en download uw groeiplan." });
-  };
-
   const handleDownload = async () => {
-    if (!unlocked) return;
     if (!isKlant) {
       const r = emailSchema.safeParse(email);
       if (!r.success) {
@@ -254,67 +242,20 @@ const GroeiplanInvullen = () => {
           <SectionHeader
             eyebrow="Invullen"
             title="Vul uw groeiplan in."
-            lead="Vul het samen met uw team in en download het als PDF op één A4."
+            lead="Maak het, download het en plan een vrijblijvend adviesgesprek. Het formulier staat open: u kunt direct beginnen."
           />
 
-          {!unlocked && (
-            <div className="mb-10 max-w-2xl rounded-brand border border-brand-line bg-brand-paper p-6 md:p-8">
-              <div className="mb-3 flex items-center gap-2 text-brand-accent-ink">
-                <Lock className="h-4 w-4" />
-                <span className="font-mono text-[10px] font-bold uppercase tracking-[0.18em]">Toegang</span>
-              </div>
-              <h3 className="mb-2 font-display text-xl font-bold tracking-[-0.015em]">Eerst uw e-mailadres</h3>
-              <p className="mb-5 text-[14px] text-brand-ink-2">
-                Vul uw zakelijke e-mail in. Daarna kunt u uw groeiplan invullen en als PDF downloaden.
-              </p>
-              <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => { setEmail(e.target.value); setEmailError(""); }}
-                  onKeyDown={(e) => { if (e.key === "Enter") unlock(); }}
-                  placeholder="naam@bedrijf.nl"
-                  aria-label="Zakelijk e-mailadres"
-                  className="flex-1 rounded-brand border border-brand-line bg-brand-paper px-4 py-3 text-[15px] placeholder:text-brand-ink-3 focus:border-brand-accent focus:outline-none"
-                />
-                <V2Button onClick={unlock} type="button">Start invullen</V2Button>
-              </div>
-              {emailError && <p className="mt-2 text-sm text-red-600">{emailError}</p>}
-            </div>
-          )}
-
-          {/* Identiteit + download */}
-          {unlocked && (
-            <div className="mb-6 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-              <div className="grid max-w-2xl flex-1 grid-cols-1 gap-3 sm:grid-cols-2">
-                <input
-                  type="text"
-                  value={company}
-                  onChange={(e) => setCompany(e.target.value)}
-                  placeholder="Bedrijfsnaam"
-                  aria-label="Bedrijfsnaam"
-                  className="rounded-brand border border-brand-line bg-brand-paper px-4 py-2.5 text-sm placeholder:text-brand-ink-3 focus:border-brand-accent focus:outline-none"
-                />
-                <input
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="Naam"
-                  aria-label="Naam"
-                  className="rounded-brand border border-brand-line bg-brand-paper px-4 py-2.5 text-sm placeholder:text-brand-ink-3 focus:border-brand-accent focus:outline-none"
-                />
-              </div>
-              <button
-                type="button"
-                onClick={handleDownload}
-                disabled={downloading}
-                className="inline-flex items-center justify-center rounded-full bg-brand-ink px-6 py-3 text-sm font-semibold text-white transition hover:bg-brand-accent-ink disabled:opacity-60"
-              >
-                {downloading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Download className="mr-2 h-4 w-4" />}
-                Download PDF
-              </button>
-            </div>
-          )}
+          <ol className="mb-8 grid gap-[10px] sm:grid-cols-3">
+            {GROEIPLAN_STAPPEN.map((st, n) => (
+              <li key={st.stap} className="rounded-brand border border-brand-line bg-brand-paper px-5 py-4">
+                <span className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-brand-accent-ink">
+                  {String(n + 1).padStart(2, "0")}
+                </span>
+                <p className="mt-1 font-display text-[15px] font-bold">{st.stap}</p>
+                <p className="mt-1 text-[12.5px] leading-snug text-brand-ink-2">{st.uitleg}</p>
+              </li>
+            ))}
+          </ol>
 
           {/* Het plan, voor scherm en PDF */}
           <div className="overflow-x-auto">
@@ -360,8 +301,7 @@ const GroeiplanInvullen = () => {
                               t.style.height = "auto";
                               t.style.height = t.scrollHeight + "px";
                             }}
-                            placeholder={unlocked ? "Vul hier in" : ""}
-                            disabled={!unlocked}
+                            placeholder="Vul hier in"
                             aria-label={cell.title}
                             rows={4}
                             className="min-h-[90px] w-full resize-y overflow-hidden border-0 bg-transparent text-sm placeholder:text-brand-ink-3/60 focus:outline-none focus:ring-0"
@@ -379,6 +319,53 @@ const GroeiplanInvullen = () => {
               </div>
             </div>
           </div>
+
+          {/* Downloaden: hier vragen we pas om gegevens. */}
+          <div className="mt-8 rounded-brand border border-brand-line bg-brand-paper p-6 md:p-8">
+            <h3 className="mb-1 font-display text-xl font-bold tracking-[-0.015em]">Download uw groeiplan</h3>
+            <p className="mb-5 text-[14px] text-brand-ink-2">
+              Vul uw gegevens in en download het als PDF op één A4.
+            </p>
+            <div className="grid gap-3 md:grid-cols-[1fr_1fr_1.3fr_auto] md:items-start">
+              <input
+                type="text"
+                value={company}
+                onChange={(e) => setCompany(e.target.value)}
+                placeholder="Bedrijfsnaam"
+                aria-label="Bedrijfsnaam"
+                className="rounded-brand border border-brand-line bg-brand-paper px-4 py-3 text-sm placeholder:text-brand-ink-3 focus:border-brand-accent focus:outline-none"
+              />
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Naam"
+                aria-label="Naam"
+                className="rounded-brand border border-brand-line bg-brand-paper px-4 py-3 text-sm placeholder:text-brand-ink-3 focus:border-brand-accent focus:outline-none"
+              />
+              <div>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => { setEmail(e.target.value); setEmailError(""); }}
+                  onKeyDown={(e) => { if (e.key === "Enter") handleDownload(); }}
+                  placeholder="naam@bedrijf.nl"
+                  aria-label="Zakelijk e-mailadres"
+                  className="w-full rounded-brand border border-brand-line bg-brand-paper px-4 py-3 text-sm placeholder:text-brand-ink-3 focus:border-brand-accent focus:outline-none"
+                />
+                {emailError && <p className="mt-1.5 text-sm text-red-600">{emailError}</p>}
+              </div>
+              <button
+                type="button"
+                onClick={handleDownload}
+                disabled={downloading}
+                className="inline-flex items-center justify-center rounded-brand bg-brand-accent px-6 py-3 text-sm font-semibold text-brand-ink transition hover:bg-brand-accent/90 disabled:opacity-60"
+              >
+                {downloading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Download className="mr-2 h-4 w-4" />}
+                Download PDF
+              </button>
+            </div>
+          </div>
         </Section>
       </main>
 
@@ -392,7 +379,7 @@ const GroeiplanInvullen = () => {
               <span className="font-mono text-[11px] tracking-[0.25em] uppercase">Plan gedownload</span>
             </div>
             <DialogTitle className="text-2xl font-display">
-              Bespreek uw groeiplan met Peter
+              Plan een vrijblijvend adviesgesprek
             </DialogTitle>
             <DialogDescription className="text-[#CBC3B8]">
               Uw groeiplan staat op papier. In 30 minuten bespreken we samen welke vakken het hardst aan optimalisatie toe zijn en hoe u dat versnelt.
@@ -412,7 +399,7 @@ const GroeiplanInvullen = () => {
             >
               <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
                 <Calendar className="h-4 w-4 mr-2" />
-                Boek een gratis call
+                Plan het adviesgesprek
               </a>
             </Button>
           </DialogFooter>

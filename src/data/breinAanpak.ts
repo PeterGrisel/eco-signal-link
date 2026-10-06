@@ -25,3 +25,10 @@ export const CONTEXT_VERGELIJKING: { kop: string; los: string; brein: string }[]
   { kop: "Wat u overhoudt", los: "Een lijst of tool die veroudert", brein: "Een systeem dat elke maand slimmer wordt" },
   { kop: "Telt op", los: "Nee", brein: "Ja" },
 ];
+
+/** De drie stappen van het groeiplan: maken, downloaden, gesprek plannen. */
+export const GROEIPLAN_STAPPEN: { stap: string; uitleg: string }[] = [
+  { stap: "Maak", uitleg: "Vul de negen vakken in, samen met uw team." },
+  { stap: "Download", uitleg: "Uw groeiplan als PDF op één A4." },
+  { stap: "Plan", uitleg: "Een vrijblijvend adviesgesprek over uw groeiplan." },
+];

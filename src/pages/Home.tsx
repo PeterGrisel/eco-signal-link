@@ -1,3 +1,4 @@
+import { GroeiplanCta } from "@/components/v2/GroeiplanCta";
 import { useEffect, useMemo } from "react";
 import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 import JsonLd from "@/components/JsonLd";
@@ -106,6 +107,7 @@ const Home = () => {
             ]}
           />
 
+          <GroeiplanCta />
           <WieZitErachter />
           <Hero />
           <Vragen />

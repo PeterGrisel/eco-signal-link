@@ -4,6 +4,7 @@ import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 import JsonLd from "@/components/JsonLd";
 import PageLoader from "@/components/PageLoader";
 import TalkCard from "@/components/TalkCard";
+import { GroeiplanCta } from "@/components/v2/GroeiplanCta";
 import { usePageMeta } from "@/hooks/usePageMeta";
 import { Container } from "@/components/v2/Container";
 import { Faq } from "@/components/v2/Faq";
@@ -329,6 +330,8 @@ const BreinDienstPage = () => {
               </Button>
             </Reveal>
           </Section>
+
+          <GroeiplanCta />
 
           {/* Vragen. */}
           <Section tone="mist">
