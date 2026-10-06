@@ -21,7 +21,6 @@ import { trackCTA } from "@/lib/tracking";
 import { FAQ_ITEMS } from "./faq";
 import {
   MockChecklist,
-  MockHandoff,
   MockPipeline,
   MockRadar,
   MockSequence,
@@ -276,13 +275,13 @@ export function WatOnsAndersMaakt() {
   );
 }
 
-/* ── 04 · De diensten als bento ────────────────────────────────────────── */
+/* ── Outreach-vormen als bento (op /diensten/outreach-as-a-service) ───── */
 
 /**
- * De diensten in drie lagen: bovenin de drie manieren om de markt in te gaan,
- * daaronder het fundament waar ze alle drie op rusten, en onderaan alles bij
- * elkaar. `breed` legt een kaart over de volle breedte met het beeld ernaast
- * in plaats van erboven; dat leest als een band onder de drie erboven.
+ * De vormen van outreach in twee lagen: bovenin de drie manieren om de markt
+ * in te gaan, daaronder het fundament waar ze alle drie op rusten. `breed`
+ * legt een kaart over de volle breedte met het beeld ernaast in plaats van
+ * erboven; dat leest als een band onder de drie erboven.
  */
 const DIENSTEN = [
   {
@@ -310,14 +309,6 @@ const DIENSTEN = [
     mock: <MockChecklist />,
     breed: true,
   },
-  {
-    rol: "Alles samen",
-    naam: "GTM as a Service",
-    body: "De vier diensten op één engine, van signaal tot hand-off met reason codes. Vanaf € 1.500 per maand.",
-    mock: <MockHandoff />,
-    breed: true,
-    highlight: true,
-  },
 ];
 
 /**
@@ -342,13 +333,13 @@ function DienstKop({ rol, naam, body }: { rol: string; naam: string; body: strin
   );
 }
 
-export function Diensten() {
+export function OutreachVormen() {
   return (
-    <Section id="diensten" tone="mist" className="v2-gordijn">
+    <Section id="vormen" tone="paper">
       <SectionHeader
-        eyebrow="Wat u koopt"
-        title="Ontwerpt en bouwt"
-        lead="B2B Groeimachine ontwerpt en bouwt het systeem achter uw sales, marketing en RevOps. 90 dagen als pilot. Daarna maandelijks opzegbaar."
+        eyebrow="Vormen van outreach"
+        title="Nieuwe markten, named accounts of lange adem."
+        lead="Welke vorm past, hangt af van uw markt en het groeiplan. Vaak draaien ze naast elkaar, op hetzelfde fundament."
       />
       <div className="grid gap-[18px] sm:grid-cols-2 lg:grid-cols-3">
         {DIENSTEN.map((dienst, i) => (
@@ -358,13 +349,11 @@ export function Diensten() {
             className={`h-full ${dienst.breed ? "sm:col-span-2 lg:col-span-3" : ""}`}
           >
             <article
-              className={`flex h-full flex-col overflow-hidden rounded-brand border bg-brand-paper ${
-                dienst.highlight ? "border-brand-accent" : "border-brand-line"
-              }`}
+              className="flex h-full flex-col overflow-hidden rounded-brand border border-brand-line bg-brand-paper"
             >
               <span
                 aria-hidden
-                className={`h-[3px] w-full ${dienst.highlight ? "bg-brand-accent" : "bg-brand-ink"}`}
+                className="h-[3px] w-full bg-brand-ink"
               />
               {dienst.breed ? (
                 <div className="flex grow flex-col lg:flex-row lg:items-center">
@@ -732,98 +721,6 @@ export function HoeHetWerkt() {
             binnen 24 uur.
           </p>
         </div>
-      </Reveal>
-    </Section>
-  );
-}
-
-/* ── 09 · Prijzen ───────────────────────────────────────────────────────── */
-
-/**
- * De bedragen volgen `BASE_PRICES_EUR` in `PricingSection.tsx`; werk ze daar én
- * hier bij als ze wijzigen.
- */
-export function Prijzen() {
-  const pakketten = [
-    {
-      label: "Instap",
-      title: "Start Engine",
-      vanaf: "€ 1.500",
-      eenheid: "per maand",
-      body: "Uw outbound basis staat: één doelgroep, één campagneflow en de eerste lijsten.",
-      bevat: ["1 doelgroep of ICP", "1 campagneflow", "E-mailactivatie", "4 uur GTM-service per maand"],
-    },
-    {
-      label: "Meest gekozen",
-      title: "Growth Engine",
-      vanaf: "€ 2.250",
-      eenheid: "per maand",
-      body: "Structureel nieuwe kansen creëren, met signaal-gedreven lijsten en scoring.",
-      bevat: ["2 doelgroepen", "Signaal-gedreven lijsten", "E-mail en LinkedIn", "8 uur GTM-service per maand"],
-      highlight: true,
-    },
-    {
-      label: "Managed groei",
-      title: "Scale Engine",
-      vanaf: "€ 3.500",
-      eenheid: "per maand",
-      body: "Meerdere doelgroepen en kanalen, volledig managed met regie op de loop.",
-      bevat: ["3 tot 4 doelgroepen", "Dataverrijking en scoring", "CRM-sync en pipeline", "16 uur GTM-service per maand"],
-    },
-  ];
-  return (
-    <Section id="prijzen">
-      <SectionHeader
-        eyebrow="Onze prijzen"
-        title="Geen kleine lettertjes."
-        lead="Nul opstartkosten. De prijs bestaat uit onze uren en de onkosten voor de tools die onder uw engine draaien; wij sturen en ondersteunen het geheel. Wij draaien negentig dagen als pilot, daarna is het maandelijks opzegbaar. Draait u al omzet maar mist u het systeem? Dan is er een performance partnership met lage techkosten en een gedeelde upside."
-      />
-      <div className="grid items-stretch gap-[22px] md:grid-cols-3">
-        {pakketten.map((p, i) => (
-          <Reveal key={p.title} index={i} className="h-full">
-            <div
-              className={`flex h-full flex-col overflow-hidden rounded-brand border bg-brand-paper ${
-                p.highlight ? "border-brand-accent" : "border-brand-line"
-              }`}
-            >
-              <span
-                aria-hidden
-                className={`h-[3px] w-full ${p.highlight ? "bg-brand-accent" : "bg-brand-ink"}`}
-              />
-              <div className="flex grow flex-col px-6 pb-7 pt-[23px]">
-                <span className="mb-3 block font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-brand-accent-ink">
-                  {p.label}
-                </span>
-                <h3 className="mb-2 font-display text-lg font-bold tracking-[-0.015em]">
-                  {p.title}
-                </h3>
-                <p className="mb-5 text-[13.5px] text-brand-ink-2">{p.body}</p>
-                <p className="font-display text-[clamp(28px,3vw,38px)] font-black leading-none tracking-[-0.03em]">
-                  {p.vanaf}
-                </p>
-                <p className="mt-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-brand-ink-3">
-                  {p.eenheid}
-                </p>
-                <ul className="mt-5 space-y-2 border-t border-brand-line pt-5 text-[13px] text-brand-ink-2">
-                  {p.bevat.map((punt) => (
-                    <li key={punt} className="flex items-start gap-2.5">
-                      <span aria-hidden className="mt-[7px] size-[5px] shrink-0 rounded-full bg-brand-accent" />
-                      {punt}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </Reveal>
-        ))}
-      </div>
-      <Reveal className="mt-10 flex flex-wrap items-center gap-3">
-        <Button href="/pricing" variant="outline">
-          Vergelijk alle pakketten
-        </Button>
-        <Button href="/tools/pipeline-value" variant="outline">
-          Bereken uw pipelinewaarde
-        </Button>
       </Reveal>
     </Section>
   );

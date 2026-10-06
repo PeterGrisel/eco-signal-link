@@ -64,8 +64,8 @@ const DeEngine = () => {
                 handelt processtappen zelfstandig af, tot menselijke sales nodig is.
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
-                <Button href="/#prijzen">Wat het kost</Button>
-                <Button href="/#diensten" variant="invert">
+                <Button href="/pricing">Wat het kost</Button>
+                <Button href="/#prijzen" variant="invert">
                   De vier diensten
                 </Button>
               </div>

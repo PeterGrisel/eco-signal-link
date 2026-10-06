@@ -14,6 +14,10 @@ import { Section } from "@/components/v2/Section";
 import { SectionHeader } from "@/components/v2/SectionHeader";
 import { SplitHeadline, splitHeadlineText } from "@/components/v2/SplitHeadline";
 import { BREIN_DIENSTEN, vindBreinDienst } from "@/data/breinDiensten";
+import { OutreachVormen } from "@/components/home-v2/sections";
+import { MenuKaarten } from "@/components/prijzen/MenuKaarten";
+import { LOSSE_POSTEN } from "@/data/breinPrijzen";
+import { Button } from "@/components/v2/Button";
 
 const BASIS = "https://www.b2bgroeimachine.io";
 
@@ -147,6 +151,8 @@ const BreinDienstPage = () => {
             </div>
           </Section>
 
+          {dienst.slug === "outreach-as-a-service" && <OutreachVormen />}
+
           {/* Zo werkt het: vier stappen. */}
           <Section tone="paper">
             <SectionHeader
@@ -270,8 +276,46 @@ const BreinDienstPage = () => {
             </div>
           </Section>
 
-          {/* Vragen. */}
+          {/* Wat het kost: training los, de andere diensten via de menu's. */}
           <Section tone="paper">
+            {dienst.slug === "training" ? (
+              <>
+                <SectionHeader
+                  eyebrow="Wat het kost"
+                  title="Per dag, of via de opleider."
+                  lead="Training staat los van de menu's. Zo zorgt u dat de uren die het brein bespaart ook echt vrijkomen."
+                />
+                <div className="grid gap-[18px] md:grid-cols-2">
+                  {LOSSE_POSTEN.filter((p) => p.naam.startsWith("Training")).map((p, i) => (
+                    <Reveal key={p.naam} index={i} className="h-full">
+                      <article className="flex h-full flex-col rounded-brand border border-brand-line bg-brand-paper p-6">
+                        <h3 className="mb-2 font-display text-lg font-bold tracking-[-0.015em]">{p.naam}</h3>
+                        <p className="mb-5 grow text-[13.5px] text-brand-ink-2">{p.uitleg}</p>
+                        <p className="font-display text-[28px] font-black leading-none tracking-[-0.03em]">{p.prijs}</p>
+                      </article>
+                    </Reveal>
+                  ))}
+                </div>
+              </>
+            ) : (
+              <>
+                <SectionHeader
+                  eyebrow="Wat het kost"
+                  title="Onderdeel van één brein, één prijs."
+                  lead={`${dienst.naam} zit in een of meer menu's. U betaalt een derde van de uren die het brein uw team bespaart, all-in.`}
+                />
+                <MenuKaarten />
+              </>
+            )}
+            <Reveal className="mt-10">
+              <Button href="/pricing" variant="outline">
+                Zo is de prijs opgebouwd
+              </Button>
+            </Reveal>
+          </Section>
+
+          {/* Vragen. */}
+          <Section tone="mist">
             <SectionHeader eyebrow="Vragen" title={`Vragen over ${dienst.naam}.`} />
             <Faq items={dienst.faq} />
           </Section>

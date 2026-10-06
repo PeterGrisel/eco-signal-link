@@ -8,13 +8,12 @@ import { Marquee } from "@/components/v2/Marquee";
 import { Nav } from "@/components/v2/Nav";
 import { Hero } from "@/components/home-v2/Hero";
 import { BreinFuncties } from "@/components/home-v2/BreinFuncties";
+import { WatUKoopt } from "@/components/home-v2/WatUKoopt";
 import { WerkomgevingSectie } from "@/components/werkomgeving/Sectie";
 import {
   HetProtocol,
-  Diensten,
   HoeHetWerkt,
   Klantenraster,
-  Prijzen,
   Vragen,
   WieZitErachter,
 } from "@/components/home-v2/sections";
@@ -96,24 +95,20 @@ const Home = () => {
           <Klantenraster />
           <BreinFuncties />
           <HetProtocol />
-          <Diensten />
-          <Prijzen />
+          <WatUKoopt />
           <Marquee
             items={[
-              "Opportunity-engine",
-              "Outbound",
-              "ABM",
-              "RevOps",
-              "Nurturing",
-              "GTM as a Service",
+              "Commercieel brein",
+              "AI Automation",
+              "Outreach as a Service",
+              "Reporting",
+              "Training",
             ]}
           />
 
           <WieZitErachter />
           <Hero />
           <Vragen />
-
-
         </main>
         <Footer />
       </div>

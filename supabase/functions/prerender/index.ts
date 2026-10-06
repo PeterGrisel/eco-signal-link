@@ -257,45 +257,12 @@ const STATIC_PAGES: Record<string, {
     bodyContent: `<p>B2BGroeiMachine is opgericht om ambitieuze B2B-bedrijven te helpen groeien met schaalbare sales systemen. Ons team combineert expertise in sales automation, data-gedreven prospecting en multichannel outreach.</p>`,
   },
   "/pricing": {
-    title: "Pricing — B2BGroeiMachine",
-    description: "Bekijk onze pakketten voor B2B sales automation. Van Kickstart tot Scale — kies het pakket dat past bij jouw groeiambitie.",
-    h1: "Stel uw pakket samen in 4 stappen",
-    bodyContent: `
-<section>
-  <h2>Stap 1: Vaste service fee — €1.500/maand</h2>
-  <p>€0 opstartkosten, tot 5 personen, minimaal 6 maanden.</p>
-  <ul>
-    <li>Klantwerving en recruitment tegelijk</li>
-    <li>Uw ideale klant in kaart gebracht</li>
-    <li>Signalen herkennen en erop inspelen</li>
-    <li>Contact via e-mail en LinkedIn (6 tot 8 keer)</li>
-    <li>Elke reactie wordt beoordeeld</li>
-    <li>Elke twee weken een helder overzicht</li>
-    <li>Uw eigen contactpersoon</li>
-    <li>Tot 5 gebruikers</li>
-  </ul>
-</section>
-<section>
-  <h2>Stap 2: Engagement-uren (optioneel)</h2>
-  <table>
-    <tr><th>Pakket</th><th>Uren</th><th>Tarief (6 mnd)</th><th>Tarief (12 mnd)</th></tr>
-    <tr><td>Startpakket</td><td>10h/maand</td><td>€100/uur (€1.000/mnd)</td><td>€90/uur (€900/mnd)</td></tr>
-    <tr><td>Meest gekozen</td><td>20h/maand</td><td>€90/uur (€1.800/mnd)</td><td>€81/uur (€1.620/mnd)</td></tr>
-    <tr><td>Maximale output</td><td>40h/maand</td><td>€80/uur (€3.200/mnd)</td><td>€72/uur (€2.880/mnd)</td></tr>
-  </table>
-</section>
-<section>
-  <h2>Stap 3: Datahub — vanaf €499/maand</h2>
-  <p>Uw commercieel geheugen. Alle data en AI-context op één plek. Geen verplichtingen: uw data blijft van u. Werkt met uw bestaande CRM en tools.</p>
-</section>
-<section>
-  <h2>Stap 4: Add-ons</h2>
-  <ul>
-    <li><a href="${SITE_URL}/full-service-recruitment">Full Service Recruitment</a> — 15% bruto jaarsalaris</li>
-    <li><a href="${SITE_URL}/full-sales-management">Full Sales Management</a> — Prijs op aanvraag</li>
-  </ul>
-</section>`,
+    title: "Prijzen | B2B Groeimachine",
+    description: "U betaalt een derde van wat het commerciële brein uw team aan uren bespaart. All-in: onze uren, de tools en het beheer.",
+    h1: "U betaalt een derde van wat het brein bespaart.",
+    bodyContent: `<p>Bespaarde uren per functie maal € 60 uurkosten is de waarde; de prijs is een derde daarvan. Brein Start € 1.800, Brein Groei € 2.900 en Brein Scale € 4.400 per maand, all-in. 90 dagen pilot, daarna maandelijks opzegbaar. Training in-company € 2.450 per dag.</p>`,
   },
+
   "/contact": {
     title: "Contact — B2BGroeiMachine",
     description: "Neem contact op met B2BGroeiMachine. Plan een vrijblijvend gesprek over B2B sales automation en prospecting.",
