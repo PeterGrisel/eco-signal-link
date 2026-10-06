@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { usePageMeta } from "@/hooks/usePageMeta";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -30,6 +31,11 @@ const PullQuote = ({ children, inverted = false }: { children: React.ReactNode; 
 );
 
 const Brandstory = () => {
+  usePageMeta({
+    title: "Brandstory | B2B Groeimachine",
+    description: "Het verhaal achter B2B Groeimachine: waarom we bestaan, waar we in geloven en hoe we commerciële teams helpen groeien met een AI-brein.",
+    canonical: "https://www.b2bgroeimachine.io/brandstory",
+  });
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);

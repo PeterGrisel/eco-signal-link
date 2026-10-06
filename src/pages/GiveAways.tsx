@@ -16,6 +16,7 @@ const GiveAways = () => {
   usePageMeta({
     title: "Give-Aways · B2BGroeiMachine",
     description: "24 gratis B2B-templates. Eén per week. Scherp je groeisysteem aan met scorecards, canvas, checklists, frameworks en playbooks.",
+    canonical: "https://www.b2bgroeimachine.io/give-aways",
   });
 
   useEffect(() => {

@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
+import { usePageMeta } from "@/hooks/usePageMeta";
 
 const fadeIn = {
   initial: { opacity: 0, y: 16 },
@@ -166,6 +167,11 @@ const CheatsheetStats = () => {
 };
 
 const Brandbook = () => {
+  usePageMeta({
+    title: "Brandbook | B2B Groeimachine",
+    description: "De huisstijl van B2B Groeimachine: logo, kleuren, typografie en toon. Voor partners, pers en iedereen die met ons merk werkt.",
+    canonical: "https://www.b2bgroeimachine.io/brandbook",
+  });
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
   return (

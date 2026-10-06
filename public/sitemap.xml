@@ -55,11 +55,6 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.b2bgroeimachine.io/over-ons</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://www.b2bgroeimachine.io/ons-team</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -83,6 +78,12 @@
     <loc>https://www.b2bgroeimachine.io/woordenboek</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.b2bgroeimachine.io/performance-partnership</loc>
+    <lastmod>2026-10-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://www.b2bgroeimachine.io/groeistack</loc>
@@ -112,11 +113,6 @@
   <url>
     <loc>https://www.b2bgroeimachine.io/cheatsheets</loc>
     <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://www.b2bgroeimachine.io/trainingen</loc>
-    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>

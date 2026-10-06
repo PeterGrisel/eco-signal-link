@@ -40,7 +40,7 @@ const Pricing = () => {
   usePageMeta({
     title: "Prijzen | B2B Groeimachine",
     description:
-      "U betaalt een derde van wat het commerciële brein uw team aan uren bespaart. All-in: onze uren, de tools en het beheer. Bekijk de menu's en reken het uit voor uw team.",
+      "U betaalt een derde van wat het commerciële brein uw team aan uren bespaart. All-in: onze uren, tools en beheer. Bekijk de menu's en reken het uit.",
     canonical: URL,
   });
 

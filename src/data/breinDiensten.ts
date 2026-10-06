@@ -45,7 +45,7 @@ export const BREIN_DIENSTEN: BreinDienst[] = [
     meta: {
       title: "AI Automation voor sales en marketing | B2B Groeimachine",
       description:
-        "Wij automatiseren de kostbare, repeterende processen in uw sales en marketing met AI-agents die op uw eigen tools en data draaien. Wij bouwen het, koppelen het en houden het draaiende.",
+        "Wij automatiseren kostbare, repeterende processen in sales en marketing met AI-agents op uw eigen tools en data. Wij bouwen, koppelen en beheren het.",
     },
     hero: {
       eyebrow: "Dienst · AI Automation",
@@ -120,7 +120,7 @@ export const BREIN_DIENSTEN: BreinDienst[] = [
     meta: {
       title: "Outreach as a Service: mail en LinkedIn | B2B Groeimachine",
       description:
-        "Wij zetten uw e-mail- en LinkedIn-campagnes op en draaien ze voor u, op basis van uw groeiplan. De juiste accounts, het juiste bericht, op het juiste moment. Persoonlijk, nooit massaal.",
+        "Wij zetten uw e-mail- en LinkedIn-campagnes op en draaien ze voor u, op basis van uw groeiplan. Het juiste bericht op het juiste moment, nooit massaal.",
     },
     hero: {
       eyebrow: "Dienst · Outreach as a Service",
@@ -195,7 +195,7 @@ export const BREIN_DIENSTEN: BreinDienst[] = [
     meta: {
       title: "Reporting en AI-dashboards | B2B Groeimachine",
       description:
-        "Wij structureren uw commerciële data zodat AI ermee kan werken, en bouwen samen met u dashboards in Claude. U ziet wat er gebeurt, wat het oplevert en waar u moet bijsturen.",
+        "Wij structureren uw commerciële data zodat AI ermee kan werken en bouwen samen met u dashboards in Claude. U ziet wat het oplevert en waar u bijstuurt.",
     },
     hero: {
       eyebrow: "Dienst · Reporting",
