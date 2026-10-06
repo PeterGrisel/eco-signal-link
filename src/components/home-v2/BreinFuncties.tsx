@@ -1,3 +1,4 @@
+import { lazy, Suspense, useCallback, useEffect, useRef, useState } from "react";
 import { Reveal } from "@/components/v2/Reveal";
 import { Section } from "@/components/v2/Section";
 import { SectionHeader } from "@/components/v2/SectionHeader";
@@ -52,7 +53,48 @@ const FUNCTIES: { rol: string; naam: string; body: string }[] = [
   },
 ];
 
+/** Welk station in de machine hoort bij welke functiekaart. */
+const STATION_NAAR_KAART: Record<string, number> = {
+  cabinet: 0, // Leads
+  cashdesk: 1, // Resultaat / Reporting
+  admin: 2, // Taken
+  storefront: 3, // Content planning
+  engine: 4, // Outreach
+};
+
+// De 3D-machine is zwaar (three.js): pas laden als hij in beeld scrolt.
+const BreinMachine = lazy(() => import("@/components/ui/agentic-factory-3d"));
+
 export function BreinFuncties() {
+  const machineRef = useRef<HTMLDivElement>(null);
+  const [machineLaden, setMachineLaden] = useState(false);
+  const [actieveKaart, setActieveKaart] = useState<number | null>(null);
+  const herstelTimer = useRef<number | null>(null);
+
+  useEffect(() => {
+    const el = machineRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setMachineLaden(true);
+          obs.disconnect();
+        }
+      },
+      { rootMargin: "500px" }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
+  const onStation = useCallback((id: string) => {
+    const kaart = STATION_NAAR_KAART[id];
+    if (kaart === undefined) return;
+    setActieveKaart(kaart);
+    if (herstelTimer.current) window.clearTimeout(herstelTimer.current);
+    herstelTimer.current = window.setTimeout(() => setActieveKaart(null), 7000);
+  }, []);
+
   return (
     <Section id="functies" tone="paper" className="v2-gordijn">
       <SectionHeader
@@ -60,10 +102,49 @@ export function BreinFuncties() {
         title="Alles wat het brein doet, toegelicht."
         lead="Zoeken, rapporteren, plannen en uitvoeren is de basis. Dit is wat het brein verder voor u doet."
       />
-      <div className="grid gap-[18px] sm:grid-cols-2 lg:grid-cols-4">
+
+      {/* Het brein als machine: draaibaar, met vijf functies als stations. */}
+      <Reveal index={0}>
+        <div
+          ref={machineRef}
+          className="overflow-hidden rounded-brand border border-brand-line bg-black"
+        >
+          {machineLaden ? (
+            <Suspense
+              fallback={
+                <div className="grid h-[480px] place-items-center bg-black">
+                  <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-white/50">
+                    Brein start op…
+                  </p>
+                </div>
+              }
+            >
+              <BreinMachine
+                height="clamp(480px, 76vh, 720px)"
+                onStation={(id: string) => onStation(id)}
+              />
+            </Suspense>
+          ) : (
+            <div className="grid h-[480px] place-items-center bg-black">
+              <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-white/40">
+                Uw commerciële brein
+              </p>
+            </div>
+          )}
+        </div>
+      </Reveal>
+
+      <div className="mt-[18px] grid gap-[18px] sm:grid-cols-2 lg:grid-cols-4">
         {FUNCTIES.map((functie, i) => (
           <Reveal key={functie.rol} index={i} className="h-full">
-            <article className="flex h-full flex-col rounded-brand border border-brand-line bg-brand-paper p-6">
+            <article
+              data-functie={functie.rol}
+              className={`flex h-full flex-col rounded-brand border p-6 transition-colors duration-500 ${
+                actieveKaart === i
+                  ? "border-brand-accent bg-brand-accent/10"
+                  : "border-brand-line bg-brand-paper"
+              }`}
+            >
               <p className="mb-4 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-brand-accent-ink">
                 {functie.rol}
               </p>
