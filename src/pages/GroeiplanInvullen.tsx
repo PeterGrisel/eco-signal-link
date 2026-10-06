@@ -16,7 +16,7 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { usePageMeta } from "@/hooks/usePageMeta";
-import { Download, Loader2, Calendar, CheckCircle2 } from "lucide-react";
+import { Download, FileText, Loader2, Calendar, CheckCircle2 } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -105,7 +105,25 @@ const GroeiplanInvullen = () => {
     na: CELLS.filter((c) => c.phase === "na"),
   }), []);
 
-  const handleDownload = async () => {
+  /** Het groeiplan als Markdown, om als context aan een AI-assistent te geven. */
+  const alsMarkdown = () => {
+    const regels = [
+      `# 1-pagina groeiplan${company ? `: ${company}` : ""}`,
+      "",
+      [name && `Opgesteld door ${name}`, new Date().toLocaleDateString("nl-NL")].filter(Boolean).join(" · "),
+      "",
+      "Negen vakken in drie fases: voor (prospect), tijdens (lead) en na (klant).",
+    ];
+    (["voor", "tijdens", "na"] as const).forEach((phase) => {
+      regels.push("", `## ${PHASE_LABEL[phase].label.charAt(0)}${PHASE_LABEL[phase].label.slice(1).toLowerCase()} (${PHASE_LABEL[phase].sub})`);
+      grouped[phase].forEach((cell) => {
+        regels.push("", `### ${cell.num} ${cell.title}`, "", `*${cell.prompt}*`, "", values[cell.id].trim() || "_Nog niet ingevuld._");
+      });
+    });
+    return regels.join("\n") + "\n";
+  };
+
+  const handleDownload = async (formaat: "pdf" | "md" = "pdf") => {
     if (!isKlant) {
       const r = emailSchema.safeParse(email);
       if (!r.success) {
@@ -129,6 +147,21 @@ const GroeiplanInvullen = () => {
         console.warn("Opslaan mislukt:", e);
       }
 
+      const safeName = (company || "groeiplan").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+
+      if (formaat === "md") {
+        const blob = new Blob([alsMarkdown()], { type: "text/markdown;charset=utf-8" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `1-pagina-groeiplan-${safeName}.md`;
+        a.click();
+        URL.revokeObjectURL(url);
+        toast({ title: "Klaar", description: "Uw groeiplan is gedownload als Markdown." });
+        setShowBooking(true);
+        return;
+      }
+
       const node = planRef.current;
       if (!node) return;
       const canvas = await html2canvas(node, {
@@ -147,7 +180,6 @@ const GroeiplanInvullen = () => {
       const x = (pageW - w) / 2;
       const y = (pageH - h) / 2;
       pdf.addImage(imgData, "PNG", x, y, w, h);
-      const safeName = (company || "groeiplan").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
       pdf.save(`1-pagina-groeiplan-${safeName}.pdf`);
       toast({ title: "Klaar", description: "Uw groeiplan is gedownload." });
       setShowBooking(true);
@@ -324,9 +356,9 @@ const GroeiplanInvullen = () => {
           <div className="mt-8 rounded-brand border border-brand-line bg-brand-paper p-6 md:p-8">
             <h3 className="mb-1 font-display text-xl font-bold tracking-[-0.015em]">Download uw groeiplan</h3>
             <p className="mb-5 text-[14px] text-brand-ink-2">
-              Vul uw gegevens in en download het als PDF op één A4.
+              Vul uw gegevens in. Download het als PDF op één A4, of als Markdown om aan uw AI-assistent te geven.
             </p>
-            <div className="grid gap-3 md:grid-cols-[1fr_1fr_1.3fr_auto] md:items-start">
+            <div className="grid gap-3 md:grid-cols-3 lg:grid-cols-[1fr_1fr_1.2fr_auto] lg:items-start">
               <input
                 type="text"
                 value={company}
@@ -348,22 +380,34 @@ const GroeiplanInvullen = () => {
                   type="email"
                   value={email}
                   onChange={(e) => { setEmail(e.target.value); setEmailError(""); }}
-                  onKeyDown={(e) => { if (e.key === "Enter") handleDownload(); }}
+                  onKeyDown={(e) => { if (e.key === "Enter") handleDownload("pdf"); }}
                   placeholder="naam@bedrijf.nl"
                   aria-label="Zakelijk e-mailadres"
                   className="w-full rounded-brand border border-brand-line bg-brand-paper px-4 py-3 text-sm placeholder:text-brand-ink-3 focus:border-brand-accent focus:outline-none"
                 />
                 {emailError && <p className="mt-1.5 text-sm text-red-600">{emailError}</p>}
               </div>
-              <button
-                type="button"
-                onClick={handleDownload}
-                disabled={downloading}
-                className="inline-flex items-center justify-center rounded-brand bg-brand-accent px-6 py-3 text-sm font-semibold text-brand-ink transition hover:bg-brand-accent/90 disabled:opacity-60"
-              >
-                {downloading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Download className="mr-2 h-4 w-4" />}
-                Download PDF
-              </button>
+              <div className="flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  onClick={() => handleDownload("pdf")}
+                  disabled={downloading}
+                  className="inline-flex items-center justify-center rounded-brand bg-brand-accent px-5 py-3 text-sm font-semibold text-brand-ink transition hover:bg-brand-accent/90 disabled:opacity-60"
+                >
+                  {downloading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Download className="mr-2 h-4 w-4" />}
+                  Download PDF
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleDownload("md")}
+                  disabled={downloading}
+                  title="Markdown: plak of upload het als context in ChatGPT, Claude of Copilot"
+                  className="inline-flex items-center justify-center rounded-brand border border-brand-ink px-5 py-3 text-sm font-semibold text-brand-ink transition hover:bg-brand-ink hover:text-white disabled:opacity-60"
+                >
+                  <FileText className="mr-2 h-4 w-4" />
+                  Markdown voor AI
+                </button>
+              </div>
             </div>
           </div>
         </Section>
