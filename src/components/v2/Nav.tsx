@@ -4,6 +4,7 @@ import { ChevronDown, Menu, X } from "lucide-react";
 import { Container } from "./Container";
 import { ScrollProgress } from "./ScrollProgress";
 import { sectors } from "@/data/sectors";
+import { BREIN_DIENSTEN } from "@/data/breinDiensten";
 import peterAsset from "@/assets/peter.gif.asset.json";
 import { WeglotLanguageToggle } from "@/components/WeglotLanguageToggle";
 import { CurrencySwitcher } from "@/components/CurrencySwitcher";
@@ -21,10 +22,8 @@ const GROUPS: Group[] = [
   {
     label: "Diensten",
     items: [
-      { label: "Outbound", href: "/#diensten", note: "Nieuwe accounts openen" },
-      { label: "ABM", href: "/#diensten", note: "De accounts die er echt toe doen" },
-      { label: "RevOps", href: "/#diensten", note: "Het proces onder de motorkap" },
-      { label: "Nurturing", href: "/#diensten", note: "Top of mind bij wie nog niet koopt" },
+      ...BREIN_DIENSTEN.map((d) => ({ label: d.naam, href: `/diensten/${d.slug}`, note: d.note })),
+      { label: "Functies van het brein", href: "/#functies", note: "Alles wat het brein voor u doet" },
       { label: "De engine", href: "/de-engine", note: "De volledige architectuur" },
       { label: "Groeistack", href: "/groeistack", note: "Onze modulaire B2B groeistack" },
     ],

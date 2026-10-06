@@ -2,12 +2,13 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Container } from "./Container";
 import { sectors } from "@/data/sectors";
+import { BREIN_DIENSTEN } from "@/data/breinDiensten";
 
 const cols = [
   {
     title: "Diensten",
     links: [
-      ["Outbound, ABM, RevOps, Nurturing", "/#diensten"],
+      ...BREIN_DIENSTEN.map((d): [string, string] => [d.naam, `/diensten/${d.slug}`]),
       ["De engine", "/de-engine"],
       ["Groeistack", "/groeistack"],
       ["Prijzen", "/pricing"],

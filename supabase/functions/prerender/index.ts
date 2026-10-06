@@ -402,6 +402,24 @@ const STATIC_PAGES: Record<string, {
     h1: "De Pipeline Equation",
     bodyContent: `<p>Bouw een voorspelbare pipeline op basis van data: hoeveel prospects, gesprekken en proposals heeft u nodig om uw target te halen? Reken het live uit.</p>`,
   },
+  "/diensten/ai-automation": {
+    title: "AI Automation voor sales en marketing | B2B Groeimachine",
+    description: "Wij automatiseren de kostbare, repeterende processen in uw sales en marketing met AI-agents die op uw eigen tools en data draaien.",
+    h1: "AI Automation",
+    bodyContent: `<p>Het werk dat niemand wil doen, doet het brein. Wij automatiseren leadverwerking, CRM-hygiëne, opvolging, gespreksverslagen en offertes, en houden het draaiende.</p>`,
+  },
+  "/diensten/outreach-as-a-service": {
+    title: "Outreach as a Service: mail en LinkedIn | B2B Groeimachine",
+    description: "Wij zetten uw e-mail- en LinkedIn-campagnes op en draaien ze voor u, op basis van uw groeiplan. Persoonlijk, nooit massaal.",
+    h1: "Outreach as a Service",
+    bodyContent: `<p>Op basis van uw groeiplan zetten wij campagnes op via e-mail en LinkedIn, met signalen als aanleiding, persoonlijke teksten en opvolging tot in uw CRM.</p>`,
+  },
+  "/diensten/reporting": {
+    title: "Reporting en AI-dashboards | B2B Groeimachine",
+    description: "Wij structureren uw commerciële data zodat AI ermee kan werken, en bouwen samen met u dashboards in Claude.",
+    h1: "Reporting",
+    bodyContent: `<p>Eén verbonden datamodel voor sales en marketing, vastgelegde KPI-definities en dashboards in Claude die u in gewone taal kunt bevragen.</p>`,
+  },
   "/groeistack": {
     title: "Groeistack — Onze tools en methodes | B2BGroeiMachine",
     description: "Bekijk de complete groeistack: tools, integraties en methodes die wij inzetten voor signal-based prospecting en multichannel outreach. Agnostisch en modulair.",

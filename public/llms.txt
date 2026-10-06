@@ -28,6 +28,9 @@ U koopt geen Apollo, geen inboxen en geen losse workflows. U koopt een werkende 
 - [Pricing](/pricing): Geen kleine lettertjes. Duidelijke prijzen voor de pilot en doorloop.
 - [Klanten](/klanten): Bedrijven die met ons groeien.
 - [Contact](/contact): Naar contact gaan en een gratis call inplannen.
+- [AI Automation](/diensten/ai-automation): Kostbare sales- en marketingprocessen automatiseren met AI-agents.
+- [Outreach as a Service](/diensten/outreach-as-a-service): Mail- en LinkedIn-campagnes op basis van het groeiplan.
+- [Reporting](/diensten/reporting): Data gestructureerd voor AI, dashboards samen ontwikkeld in Claude.
 - [Groeistack](/groeistack): De tools en modules die we inzetten.
 - [Pipeline Equation](/pipeline-equation): Van markt naar pijplijn in een rekenmodel.
 - [Blog](/blog): Frameworks, cases en praktische gidsen over B2B-groei.
