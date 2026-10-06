@@ -115,8 +115,6 @@ const Home = () => {
           <Alternatieven />
           <Vragen />
 
-          {/* De oude hero als afsluiter: "Klaar om te schalen?" vervangt de
-              oude Kennismaken-sectie en neemt het anker #contact over. */}
         </main>
         <Footer />
       </div>
