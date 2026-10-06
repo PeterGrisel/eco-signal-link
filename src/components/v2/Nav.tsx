@@ -7,7 +7,6 @@ import { sectors } from "@/data/sectors";
 import { BREIN_DIENSTEN } from "@/data/breinDiensten";
 import peterAsset from "@/assets/peter.gif.asset.json";
 import { WeglotLanguageToggle } from "@/components/WeglotLanguageToggle";
-import { CurrencySwitcher } from "@/components/CurrencySwitcher";
 import { Logo } from "@/components/Logo";
 
 type Item = { label: string; href: string; note?: string };
@@ -267,7 +266,6 @@ export function Nav() {
               </div>
             ))}
             <div className="flex items-center gap-2 [&_button]:!text-brand-ink [&_button]:!bg-brand-ink/[0.06]">
-              <CurrencySwitcher />
               <WeglotLanguageToggle />
             </div>
             <span className="md:hidden">

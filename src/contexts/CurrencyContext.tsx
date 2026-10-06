@@ -14,15 +14,17 @@ const STORAGE_KEY = "bgm-currency";
 const RATES_KEY = "bgm-fx-rates";
 const RATES_TTL_MS = 24 * 60 * 60 * 1000;
 
+/**
+ * De valutaswitcher is van de site gehaald: prijzen staan altijd in euro.
+ * Een eerder bewaarde keuze ruimen we op, zodat niemand vastzit in dollars.
+ */
 function detectCurrency(): CurrencyCode {
-  if (typeof window === "undefined") return "EUR";
-  const stored = localStorage.getItem(STORAGE_KEY) as CurrencyCode | null;
-  if (stored && stored in CURRENCIES) return stored;
-  const langs = navigator.languages || [navigator.language];
-  for (const l of langs) {
-    const lower = l.toLowerCase();
-    if (lower.includes("gb") || lower === "en-uk") return "GBP";
-    if (lower.includes("us") || lower === "en-ca") return "USD";
+  if (typeof window !== "undefined") {
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+    } catch {
+      /* opslag niet beschikbaar */
+    }
   }
   return "EUR";
 }

@@ -4,7 +4,6 @@ import { Calculator, ArrowDown, TrendingUp, Target, BarChart3, Info } from "luci
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import type { FunnelDefaults } from "@/data/sectors";
 import { useCurrency } from "@/contexts/CurrencyContext";
-import { CurrencySwitcher } from "@/components/CurrencySwitcher";
 
 const fmtPct = (n: number) => `${n.toFixed(2)}%`;
 
@@ -161,10 +160,6 @@ const FunnelCalculatorSection = ({ defaults }: { defaults?: FunnelDefaults }) =>
             Stel uw maandomzet en ratio's in. Wij berekenen de volledige funnel, kosten, 
             CAC en meer — zodat u weet wat er nodig is. Klik op de <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-muted align-middle"><Info className="w-2.5 h-2.5 text-muted-foreground" /></span> icoontjes voor uitleg.
           </p>
-          <div className="mt-5 flex items-center gap-3">
-            <span className="text-xs uppercase tracking-[0.18em] text-muted-foreground font-display">Valuta</span>
-            <CurrencySwitcher variant="inline" />
-          </div>
         </motion.div>
 
         <div className="grid lg:grid-cols-2 gap-10 items-start">

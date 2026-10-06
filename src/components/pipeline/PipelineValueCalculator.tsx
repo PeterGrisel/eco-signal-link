@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import { Building2, Users, Activity, Calendar, Wallet, TrendingUp, RotateCcw } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 import { useCurrency } from "@/contexts/CurrencyContext";
-import { CurrencySwitcher } from "@/components/CurrencySwitcher";
 
 const DEFAULTS = {
   markt: 2000,
@@ -59,10 +58,6 @@ export default function PipelineValueCalculator() {
 
   return (
     <div>
-      <div className="mb-5 flex items-center justify-end gap-2">
-        <span className="text-xs uppercase tracking-[0.18em] text-muted-foreground font-display">Valuta</span>
-        <CurrencySwitcher variant="inline" />
-      </div>
       <div className="grid md:grid-cols-3 gap-3 md:gap-4 mb-10">
         <motion.div
           initial={{ opacity: 0, y: 12 }}

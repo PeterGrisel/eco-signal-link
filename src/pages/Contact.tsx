@@ -6,7 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import Navbar from "@/components/Navbar";
 import { Globe } from "@/components/ui/globe";
 import Footer from "@/components/Footer";
-import { Send, Loader2, Calendar, Mail, Phone, Building2 } from "lucide-react";
+import { Send, Loader2, Calendar, FileText, Mail, Phone, Building2 } from "lucide-react";
 import { z } from "zod";
 import { trackCTA, trackFormSubmit } from "@/lib/tracking";
 import { usePageMeta } from "@/hooks/usePageMeta";
@@ -196,6 +196,23 @@ const Contact = () => {
                 transition={{ delay: 0.2 }}
                 className="space-y-6"
               >
+                {/* Groeiplan: hier begint elk traject. */}
+                <div className="bg-primary/5 border border-primary/20 rounded-lg p-6">
+                  <div className="flex items-center gap-3 mb-3">
+                    <FileText className="w-5 h-5 text-primary" />
+                    <h3 className="font-display font-bold text-lg">Begin bij het groeiplan</h3>
+                  </div>
+                  <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
+                    Negen vakken. Drie fases. Het hele commerciële verhaal van uw bedrijf op één A4. Download het als
+                    PDF of als Markdown voor uw AI-assistent.
+                  </p>
+                  <Button variant="hero" size="lg" className="w-full" asChild>
+                    <a href="/groeiplan#invullen" onClick={() => trackCTA("Contact — Groeiplan", "/groeiplan#invullen")}>
+                      Maak uw groeiplan →
+                    </a>
+                  </Button>
+                </div>
+
                 {/* Demo booking */}
                 <div className="bg-primary/5 border border-primary/20 rounded-lg p-6">
                   <div className="flex items-center gap-3 mb-3">

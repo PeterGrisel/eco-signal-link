@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useCurrency } from "@/contexts/CurrencyContext";
-import { CurrencySwitcher } from "@/components/CurrencySwitcher";
 import { motion } from "framer-motion";
 import { Check, Minus, Infinity as InfinityIcon, Phone, Clock, Target, Database, FileText, Rocket } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -666,7 +665,6 @@ const PricingSection = ({ language = "nl", currency, showAddOns = true }: Pricin
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
             <BillingToggle yearly={yearly} onChange={setYearly} lang={lang} />
-            <CurrencySwitcher variant="inline" />
           </div>
         </motion.div>
 
