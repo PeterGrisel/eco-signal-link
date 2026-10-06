@@ -1467,7 +1467,7 @@ function initMachineScene(
       flight: 'flight',
     }
     function setMode(name: string) {
-      if (!Object.hasOwn(modeAliases, name)) return false
+      if (!name in modeAliases) return false
       const next = modeAliases[name]
       mode = next
       lastInteraction = performance.now()
@@ -1495,7 +1495,7 @@ function initMachineScene(
       return true
     }
     function setCamera(name: string) {
-      if (!Object.hasOwn(cameraAliases, name)) return false
+      if (!name in cameraAliases) return false
       const next = cameraAliases[name]
       cameraMode = next
       if (mode === 'order') mode = 'assembled'
