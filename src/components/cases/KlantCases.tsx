@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Reveal } from "@/components/v2/Reveal";
 import { Section } from "@/components/v2/Section";
 import { SectionHeader } from "@/components/v2/SectionHeader";
@@ -35,14 +36,24 @@ export function KlantCases({
 
 function CaseKaart({ c, tone }: { c: KlantCase; tone: "paper" | "mist" }) {
   const kaart = tone === "mist" ? "bg-brand-paper" : "bg-brand-mist";
+  // Laadt een extern logo niet, dan tonen we de naam in plaats van een kapot plaatje.
+  const [logoFout, setLogoFout] = useState(false);
   return (
     <article className={`flex h-full flex-col rounded-brand border border-brand-line p-6 md:p-7 ${kaart}`}>
       <div className="mb-5 flex items-center justify-between gap-4">
-        {c.company === "Eurofast" ? (
-          <img src={c.logo} alt={c.company} loading="lazy" className="h-5 w-auto max-w-[130px] object-contain" />
+        {c.woordmerk && logoFout ? (
+          <span className="font-display text-[17px] font-bold tracking-[-0.01em]">{c.company}</span>
+        ) : c.woordmerk ? (
+          <img
+            src={c.logo}
+            alt={c.company}
+            loading="lazy"
+            onError={() => setLogoFout(true)}
+            className="h-6 w-auto max-w-[150px] object-contain"
+          />
         ) : (
           <span className="flex items-center gap-3">
-            <img src={c.logo} alt="" loading="lazy" className="size-10 rounded-md object-cover" />
+            <img src={c.logo} alt="" loading="lazy" className="size-10 object-contain" />
             <span className="font-display text-[17px] font-bold tracking-[-0.01em]">{c.company}</span>
           </span>
         )}
