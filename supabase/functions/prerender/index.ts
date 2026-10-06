@@ -266,7 +266,7 @@ const STATIC_PAGES: Record<string, {
     title: "Prijzen | B2B Groeimachine",
     description: "Eén vaste prijs, alles erin. We starten bij uw groeiplan. Het brein helpt uw commercie te standaardiseren, te testen en makkelijk bij te sturen.",
     h1: "Eén vaste prijs. Alles erin.",
-    bodyContent: `<p>Elk abonnement start bij het groeiplan. Brein Start € 2.250, Brein Groei € 2.900 (AI-geletterdheid en adoptie inbegrepen) en Brein Scale € 4.400 per maand, all-in. 90 dagen pilot, daarna maandelijks opzegbaar.</p>`,
+    bodyContent: `<p>Elk abonnement start bij het groeiplan. Brein Start € 2.250, Brein Groei € 3.500 (AI-geletterdheid en adoptie inbegrepen) en Brein Scale € 5.500 per maand, all-in. 90 dagen pilot, daarna maandelijks opzegbaar.</p>`,
   },
 
 

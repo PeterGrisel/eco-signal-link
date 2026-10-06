@@ -84,6 +84,7 @@ export const MENUS: BreinMenu[] = [
   {
     naam: "Brein Groei",
     ids: ["leads", "outreach", "taken", "reporting"],
+    prijs: 3500,
     voorWie: "Er komen gesprekken, maar opvolging en overzicht lopen achter.",
     opbouw: "Alles van Start, plus",
     kern: "opvolgen en overzicht.",
@@ -94,6 +95,7 @@ export const MENUS: BreinMenu[] = [
   {
     naam: "Brein Scale",
     ids: FUNCTIES.map((f) => f.id),
+    prijs: 5500,
     voorWie: "U wilt het hele commerciële proces op één brein.",
     opbouw: "Alles van Groei, plus",
     kern: "zichtbaarheid en eigen AI-vaardigheid.",
