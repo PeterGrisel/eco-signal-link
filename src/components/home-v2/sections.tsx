@@ -853,7 +853,7 @@ export function WieZitErachter() {
       <SectionHeader
         eyebrow="Wie zit erachter"
         title="Er zitten proces engineers achter, geen marketing bureau."
-        lead="B2B Groeimachine is het GTM-label van Rebel Force. Wat u koopt is geen abonnement op software, maar een klein team dat het bij u komt bouwen en daarna elke week meekijkt."
+        lead="B2B Groeimachine is het AI-label van Rebel Force. Wat u koopt is geen abonnement op software, maar een klein team dat het bij u komt bouwen en daarna elke week meekijkt."
       />
 
       {/* Peter aan het woord. Zijn foto is de enige die wij hebben; komen er
