@@ -226,7 +226,7 @@ const RkcWaalwijkPage = () => {
 
         <div className="rkc-pricing-brand border-t border-border">
           <ClubCta club="RKC" accent="#FFD200" location="RKC" />
-          <PricingSection showPerformancePartnership={false} showAddOns={false} />
+          <PricingSection showAddOns={false} />
         </div>
 
         <section id="contact" className="rkc-contact scroll-mt-24 py-16 md:py-24">

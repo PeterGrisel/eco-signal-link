@@ -235,13 +235,6 @@ const Pricing = () => {
                       <b className="font-semibold text-brand-ink">{r.kop}</b> {r.tekst}
                     </li>
                   ))}
-                  <li className="rounded-brand bg-brand-mist p-4 text-[14px] text-brand-ink-2">
-                    <b className="font-semibold text-brand-ink">Al omzet, maar geen systeem?</b> Vraag naar het{" "}
-                    <Link to="/performance-partnership" className="underline underline-offset-2">
-                      performance partnership
-                    </Link>
-                    : lage techkosten en een gedeelde upside.
-                  </li>
                 </ul>
               </div>
             </div>
