@@ -1,4 +1,3 @@
-agentic-factory-3d.tsx
 'use client'
 
 import { useEffect, useRef } from 'react'
