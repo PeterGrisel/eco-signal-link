@@ -12,6 +12,7 @@ import { Section } from "@/components/v2/Section";
 import { SectionHeader } from "@/components/v2/SectionHeader";
 import { Button as V2Button } from "@/components/v2/Button";
 import { GROEIPLAN_STAPPEN } from "@/data/breinAanpak";
+import { CELLS, type Cell } from "@/data/groeiplan";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -26,26 +27,6 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { BOOKING_URL } from "@/content/copy";
-
-type Cell = {
-  id: string;
-  num: string;
-  title: string;
-  prompt: string;
-  phase: "voor" | "tijdens" | "na";
-};
-
-const CELLS: Cell[] = [
-  { id: "doelmarkt",     num: "01", title: "Mijn doelmarkt",        prompt: "Wie is mijn ideale klant en wie nadrukkelijk niet?", phase: "voor" },
-  { id: "boodschap",     num: "02", title: "Mijn boodschap",        prompt: "Welk probleem los ik op, in de woorden van mijn klant?", phase: "voor" },
-  { id: "kanalen",       num: "03", title: "Mijn kanalen",          prompt: "Waar bereik ik mijn koper en in welke volgorde?", phase: "voor" },
-  { id: "vangmechanisme",num: "04", title: "Mijn vangmechanisme",   prompt: "Hoe vang ik elke vorm van interesse?", phase: "tijdens" },
-  { id: "opwarm",        num: "05", title: "Mijn opwarmsysteem",    prompt: "Hoe bouw ik vertrouwen op tot het koopmoment?", phase: "tijdens" },
-  { id: "conversie",     num: "06", title: "Mijn conversiestrategie", prompt: "Hoe wordt een warm gesprek een getekende deal?", phase: "tijdens" },
-  { id: "ervaring",      num: "07", title: "Mijn klantervaring",    prompt: "Hoe lever ik een ervaring die wordt doorverteld?", phase: "na" },
-  { id: "waarde",        num: "08", title: "Mijn klantwaarde",      prompt: "Hoe groeit de waarde per klant, maand op maand?", phase: "na" },
-  { id: "referral",      num: "09", title: "Mijn referralmotor",    prompt: "Hoe organiseer ik aanbevelingen, in plaats van erop te hopen?", phase: "na" },
-];
 
 const PHASE_LABEL: Record<Cell["phase"], { label: string; sub: string }> = {
   voor:    { label: "VOOR",    sub: "Prospect" },
@@ -133,18 +114,22 @@ const GroeiplanInvullen = () => {
     }
     setDownloading(true);
     try {
-      // Save submission (best-effort)
-      try {
-        await supabase.from("groeiplan_submissions").insert({
-          email: email || "klant@intern",
-          company: company || null,
-          name: name || null,
-          mode: isKlant ? "klant" : "visitor",
-          fields: values,
-          source_url: typeof window !== "undefined" ? window.location.href : null,
-        });
-      } catch (e) {
-        console.warn("Opslaan mislukt:", e);
+      // Opslaan en Peter mailen via de edge function; lukt die niet, dan in elk geval opslaan.
+      const lead = {
+        email: email || "klant@intern",
+        company: company || null,
+        name: name || null,
+        mode: isKlant ? "klant" : "visitor",
+        fields: values,
+        source_url: typeof window !== "undefined" ? window.location.href : null,
+      };
+      const { error: fnError } = await supabase.functions.invoke("groeiplan-lead", {
+        body: { ...lead, format: formaat },
+      });
+      if (fnError) {
+        console.warn("groeiplan-lead mislukt, direct opslaan:", fnError);
+        const { error: insertError } = await supabase.from("groeiplan_submissions").insert(lead);
+        if (insertError) console.warn("Opslaan mislukt:", insertError);
       }
 
       const safeName = (company || "groeiplan").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");

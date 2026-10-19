@@ -3,6 +3,7 @@ import AdminLayout from "@/components/admin/AdminLayout";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { CELLS, ingevuldeVakken } from "@/data/groeiplan";
 import { Download, Inbox, Mail, RefreshCw, Trash2 } from "lucide-react";
 
 const sb = supabase as unknown as { from: (t: string) => any };
@@ -25,6 +26,19 @@ const LABELS: Record<string, string> = {
   contact_submissions: "Contact / HHW",
   groeistack_leads: "Groeistack",
   groeiplan_submissions: "Groeiplan",
+};
+
+/** Groeiplan-vakken als leesbare tekst in plaats van ruwe JSON. */
+const groeiplanSamenvatting = (fields: Record<string, unknown> | null) => {
+  const vakken = ingevuldeVakken(fields);
+  if (!vakken.length) return "Geen vakken ingevuld, alleen gedownload.";
+  return [
+    `${vakken.length} van ${CELLS.length} vakken ingevuld`,
+    ...vakken.map((v) => {
+      const kop = v.title.replace(/^Mijn /, "");
+      return `${kop.charAt(0).toUpperCase()}${kop.slice(1)}: ${v.tekst}`;
+    }),
+  ].join("\n");
 };
 
 const AdminLeads = () => {
@@ -91,7 +105,7 @@ const AdminLeads = () => {
         email: r.email,
         company: r.company,
         phone: null,
-        message: r.fields ? JSON.stringify(r.fields) : null,
+        message: groeiplanSamenvatting(r.fields),
         extra: r.source_url,
         created_at: r.created_at,
       })),
@@ -263,7 +277,7 @@ const AdminLeads = () => {
                       <span className="text-muted-foreground text-xs">{r.source}</span>
                     </td>
                     <td className="px-4 py-3 text-muted-foreground max-w-xs">
-                      <div className="line-clamp-3 whitespace-pre-wrap break-words">{r.message || "—"}</div>
+                      <div className="line-clamp-3 whitespace-pre-wrap break-words" title={r.message ?? undefined}>{r.message || "—"}</div>
                     </td>
                     <td className="px-4 py-3 text-right">
                       <Button
