@@ -49,7 +49,7 @@ serve(async (req) => {
     organization: { slug: string | null; name: string; status: string } | null;
   };
   const seen = new Set<string>();
-  const tenants = ((tenantPlaybooks ?? []) as TenantRow[]).filter((t) => {
+  const tenants = ((tenantPlaybooks ?? []) as unknown as TenantRow[]).filter((t) => {
     if (!t.organization || t.organization.status !== "active") return false;
     if (seen.has(t.organization_id)) return false;
     seen.add(t.organization_id);
