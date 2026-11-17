@@ -2,6 +2,25 @@ import { lazy, Suspense, useCallback, useEffect, useRef, useState } from "react"
 import { Reveal } from "@/components/v2/Reveal";
 import { Section } from "@/components/v2/Section";
 import { SectionHeader } from "@/components/v2/SectionHeader";
+import machinePoster from "@/assets/brein-machine-poster.jpg";
+
+/**
+ * Kan deze browser WebGL starten? Zo niet, dan laden we three.js niet eens
+ * en tonen we meteen een stilstaand beeld van de machine.
+ */
+function webglBeschikbaar(): boolean {
+  try {
+    const canvas = document.createElement("canvas");
+    const gl = (canvas.getContext("webgl2") || canvas.getContext("webgl")) as
+      | WebGLRenderingContext
+      | null;
+    if (!gl) return false;
+    gl.getExtension("WEBGL_lose_context")?.loseContext();
+    return true;
+  } catch {
+    return false;
+  }
+}
 
 /**
  * "Functies van het brein" als raster onder de werkomgeving.
@@ -68,6 +87,7 @@ const BreinMachine = lazy(() => import("@/components/ui/agentic-factory-3d"));
 export function BreinFuncties() {
   const machineRef = useRef<HTMLDivElement>(null);
   const [machineLaden, setMachineLaden] = useState(false);
+  const [geen3d, setGeen3d] = useState(false);
   const [actieveKaart, setActieveKaart] = useState<number | null>(null);
   const herstelTimer = useRef<number | null>(null);
 
@@ -77,6 +97,7 @@ export function BreinFuncties() {
     const obs = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
+          if (!webglBeschikbaar()) setGeen3d(true);
           setMachineLaden(true);
           obs.disconnect();
         }
@@ -109,7 +130,22 @@ export function BreinFuncties() {
       <div ref={machineRef}>
         <Reveal index={0}>
           <div className="overflow-hidden rounded-brand border border-brand-line bg-black">
-          {machineLaden ? (
+          {geen3d ? (
+            <figure className="relative bg-black">
+              <img
+                src={machinePoster}
+                alt="Het Commercieel Brein als machine met vijf stations: Leads, Outreach, Taken, Content en Resultaat"
+                width={960}
+                height={580}
+                loading="lazy"
+                decoding="async"
+                className="mx-auto block h-auto w-full max-w-[960px]"
+              />
+              <figcaption className="px-5 pb-5 text-center font-mono text-[10px] uppercase tracking-[0.18em] text-white/45">
+                Commercieel Brein · vijf functies, één systeem
+              </figcaption>
+            </figure>
+          ) : machineLaden ? (
             <Suspense
               fallback={
                 <div className="grid h-[480px] place-items-center bg-black">
@@ -122,6 +158,7 @@ export function BreinFuncties() {
               <BreinMachine
                 height="clamp(480px, 76vh, 720px)"
                 onStation={(id: string) => onStation(id)}
+                onUnavailable={() => setGeen3d(true)}
               />
             </Suspense>
           ) : (

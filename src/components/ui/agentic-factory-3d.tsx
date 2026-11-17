@@ -38,6 +38,8 @@ export type AgenticFactory3DProps = {
   onStation?: (id: StationId) => void
   /** The first real frame is drawn. */
   onReady?: () => void
+  /** Called when the browser cannot run WebGL, so the host can show a still. */
+  onUnavailable?: () => void
 }
 
 export default function AgenticFactory3D({
@@ -46,12 +48,13 @@ export default function AgenticFactory3D({
   embed = false,
   onStation,
   onReady,
+  onUnavailable,
 }: AgenticFactory3DProps) {
   const rootRef = useRef< HTMLDivElement>(null)
-  const handlers = useRef({ onStation, onReady })
+  const handlers = useRef({ onStation, onReady, onUnavailable })
   useEffect(() => {
-    handlers.current = { onStation, onReady }
-  }, [onStation, onReady])
+    handlers.current = { onStation, onReady, onUnavailable }
+  }, [onStation, onReady, onUnavailable])
 
   useEffect(() => {
     const root = rootRef.current
@@ -65,6 +68,7 @@ export default function AgenticFactory3D({
         embedded: embed,
         onStation: (id) => handlers.current.onStation?.(id),
         onReady: () => handlers.current.onReady?.(),
+        onUnavailable: () => handlers.current.onUnavailable?.(),
       })
     })
     return () => {
@@ -257,6 +261,8 @@ export type MachineSceneOptions = {
   embedded: boolean
   onStation?: (id: StationId) => void
   onReady?: () => void
+  /** The scene cannot start (no WebGL): the host can show a still instead. */
+  onUnavailable?: () => void
 }
 
 function initMachineScene(
@@ -295,21 +301,32 @@ function initMachineScene(
     const palette = { amber: 0xE8945A, white: 0xf4f1ea, dark: 0x171b21, steel: 0x59616b }
     const scene = new THREE.Scene()
     const camera = new THREE.PerspectiveCamera(33, frameWidth() / frameHeight(), 0.1, 150)
-    let renderer: THREE.WebGLRenderer
-    try {
-      renderer = new THREE.WebGLRenderer({
-        antialias: true,
-        alpha: true,
-        powerPreference: 'high-performance',
-      })
-    } catch (e) {
+    // Some browsers refuse the first, demanding context (no antialias support,
+    // a blocklisted GPU, Safari in low-power mode). Step down before giving up.
+    const attempts: THREE.WebGLRendererParameters[] = [
+      { antialias: true, alpha: true, powerPreference: 'high-performance' },
+      { antialias: false, alpha: true, powerPreference: 'default' },
+      { antialias: false, alpha: true, powerPreference: 'low-power', failIfMajorPerformanceCaveat: false },
+    ]
+    let renderer: THREE.WebGLRenderer | undefined
+    let lastError: unknown
+    for (const params of attempts) {
+      try {
+        renderer = new THREE.WebGLRenderer(params)
+        break
+      } catch (e) {
+        lastError = e
+      }
+    }
+    if (!renderer) {
+      options.onUnavailable?.()
       showError(
         'WebGL is niet beschikbaar. Zet hardwareversnelling aan in uw browser en ververs de pagina.'
       )
-      throw e
+      throw lastError
     }
     renderer.setClearColor(0x000000, 0)
-    renderer.setPixelRatio(Math.min(devicePixelRatio, frameWidth() < 900 ? 1.5 : 1.75))
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5))
     renderer.setSize(frameWidth(), frameHeight())
     renderer.outputColorSpace = THREE.SRGBColorSpace
     renderer.toneMapping = THREE.ACESFilmicToneMapping
@@ -1902,6 +1919,7 @@ function initMachineScene(
     })
   } catch (error) {
     console.error('Machine: failed to start', error)
+    options.onUnavailable?.()
     showError()
   }
   return dispose
