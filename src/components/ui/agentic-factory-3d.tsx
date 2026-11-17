@@ -294,6 +294,8 @@ function initMachineScene(
     for (const fn of cleanups.reverse()) fn()
     cleanups.length = 0
   }
+  // The renderer branch reports its own, clearer reason; the outer catch must not overwrite it.
+  let reported = false
   try {
     const TAU = Math.PI * 2
     const embedded = options.embedded
@@ -320,6 +322,7 @@ function initMachineScene(
     }
     if (!renderer) {
       const msg = lastError instanceof Error ? lastError.message : String(lastError)
+      reported = true
       options.onUnavailable?.(`3D-renderer start niet: ${msg}`)
       showError(
         'WebGL is niet beschikbaar. Zet hardwareversnelling aan in uw browser en ververs de pagina.'
@@ -1928,7 +1931,7 @@ function initMachineScene(
     })
   } catch (error) {
     console.error('Machine: failed to start', error)
-    options.onUnavailable?.(
+    if (!reported) options.onUnavailable?.(
       `3D-scène faalde: ${error instanceof Error ? error.message : String(error)}`
     )
     showError()
