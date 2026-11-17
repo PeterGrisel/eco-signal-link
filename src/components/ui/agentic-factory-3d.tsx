@@ -305,20 +305,55 @@ function initMachineScene(
     const camera = new THREE.PerspectiveCamera(33, frameWidth() / frameHeight(), 0.1, 150)
     // Some browsers refuse the first, demanding context (no antialias support,
     // a blocklisted GPU, Safari in low-power mode). Step down before giving up.
-    const attempts: THREE.WebGLRendererParameters[] = [
+    // We ask for the context ourselves, on a fresh canvas per attempt: a canvas
+    // that refused once keeps refusing, and the browser's own reason (the
+    // webglcontextcreationerror statusMessage) is far more useful than three's
+    // generic "Error creating WebGL context".
+    const attempts: WebGLContextAttributes[] = [
       { antialias: true, alpha: true, powerPreference: 'high-performance' },
       { antialias: false, alpha: true, powerPreference: 'default' },
-      { antialias: false, alpha: true, powerPreference: 'low-power', failIfMajorPerformanceCaveat: false },
+      { antialias: false, alpha: true, powerPreference: 'low-power' },
+      // Exactly what the availability probe asks for, which just succeeded.
+      {},
     ]
     let renderer: THREE.WebGLRenderer | undefined
     let lastError: unknown
-    for (const params of attempts) {
+    const browserReasons: string[] = []
+    for (const attrs of attempts) {
+      const canvas = document.createElement('canvas')
+      let status = ''
+      const onCreationError = (e: Event) => {
+        status = (e as WebGLContextEvent).statusMessage || ''
+      }
+      canvas.addEventListener('webglcontextcreationerror', onCreationError)
       try {
-        renderer = new THREE.WebGLRenderer(params)
+        const context = canvas.getContext('webgl2', {
+          depth: true,
+          stencil: false,
+          premultipliedAlpha: true,
+          preserveDrawingBuffer: false,
+          failIfMajorPerformanceCaveat: false,
+          ...attrs,
+        }) as WebGL2RenderingContext | null
+        if (!context) throw new Error(status || 'browser gaf geen WebGL 2-context')
+        renderer = new THREE.WebGLRenderer({
+          canvas,
+          context,
+          antialias: attrs.antialias ?? false,
+          alpha: attrs.alpha ?? true,
+          powerPreference: attrs.powerPreference ?? 'default',
+        })
         break
       } catch (e) {
         lastError = e
+        if (status) browserReasons.push(status)
+      } finally {
+        canvas.removeEventListener('webglcontextcreationerror', onCreationError)
       }
+    }
+    if (!renderer && browserReasons.length && lastError instanceof Error &&
+        !lastError.message.includes(browserReasons[0])) {
+      lastError = new Error(`${lastError.message} (${browserReasons[0]})`)
     }
     if (!renderer) {
       const msg = lastError instanceof Error ? lastError.message : String(lastError)

@@ -128,8 +128,18 @@ export function BreinFuncties() {
     });
   }, [geen3d, poging]);
 
+  // Een browser weigert soms tijdelijk een 3D-context (GPU nog bezig, oude
+  // contexten nog niet opgeruimd). Probeer daarom één keer vanzelf opnieuw.
+  const autoHerstart = useRef(0);
   const onUnavailable = useCallback((reden?: string) => {
     setGeen3d(reden || "De 3D-scène kon niet starten.");
+    if (autoHerstart.current < 1) {
+      autoHerstart.current += 1;
+      window.setTimeout(() => {
+        setGeen3d(null);
+        setPoging((p) => p + 1);
+      }, 1500);
+    }
   }, []);
 
   const onStation = useCallback((id: string) => {
