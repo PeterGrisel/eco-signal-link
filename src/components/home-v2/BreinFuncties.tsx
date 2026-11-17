@@ -3,22 +3,28 @@ import { Reveal } from "@/components/v2/Reveal";
 import { Section } from "@/components/v2/Section";
 import { SectionHeader } from "@/components/v2/SectionHeader";
 import machinePoster from "@/assets/brein-machine-poster.jpg";
+import { trackEvent } from "@/lib/tracking";
 
 /**
- * Kan deze browser WebGL starten? Zo niet, dan laden we three.js niet eens
- * en tonen we meteen een stilstaand beeld van de machine.
+ * Kan deze browser WebGL 2 starten? three.js heeft WebGL 2 nodig. Zo niet,
+ * dan geven we de reden terug en tonen we een stilstaand beeld.
  */
-function webglBeschikbaar(): boolean {
+function webglReden(): string | null {
   try {
     const canvas = document.createElement("canvas");
-    const gl = (canvas.getContext("webgl2") || canvas.getContext("webgl")) as
-      | WebGLRenderingContext
-      | null;
-    if (!gl) return false;
-    gl.getExtension("WEBGL_lose_context")?.loseContext();
-    return true;
-  } catch {
-    return false;
+    const gl2 = canvas.getContext("webgl2") as WebGL2RenderingContext | null;
+    if (gl2) {
+      gl2.getExtension("WEBGL_lose_context")?.loseContext();
+      return null;
+    }
+    const gl1 = document.createElement("canvas").getContext("webgl");
+    if (gl1) {
+      gl1.getExtension("WEBGL_lose_context")?.loseContext();
+      return "Deze browser heeft alleen WebGL 1. De machine vraagt WebGL 2.";
+    }
+    return "WebGL staat uit of is geblokkeerd in deze browser.";
+  } catch (e) {
+    return `WebGL-test faalde: ${e instanceof Error ? e.message : String(e)}`;
   }
 }
 
@@ -87,7 +93,9 @@ const BreinMachine = lazy(() => import("@/components/ui/agentic-factory-3d"));
 export function BreinFuncties() {
   const machineRef = useRef<HTMLDivElement>(null);
   const [machineLaden, setMachineLaden] = useState(false);
-  const [geen3d, setGeen3d] = useState(false);
+  // Reden waarom 3D niet start; null = 3D proberen.
+  const [geen3d, setGeen3d] = useState<string | null>(null);
+  const [poging, setPoging] = useState(0);
   const [actieveKaart, setActieveKaart] = useState<number | null>(null);
   const herstelTimer = useRef<number | null>(null);
 
@@ -97,7 +105,8 @@ export function BreinFuncties() {
     const obs = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
-          if (!webglBeschikbaar()) setGeen3d(true);
+          const reden = webglReden();
+          if (reden) setGeen3d(reden);
           setMachineLaden(true);
           obs.disconnect();
         }
@@ -106,6 +115,21 @@ export function BreinFuncties() {
     );
     obs.observe(el);
     return () => obs.disconnect();
+  }, []);
+
+  // Meet waarom 3D bij bezoekers niet start, zodat we het kunnen oplossen.
+  useEffect(() => {
+    if (!geen3d) return;
+    console.warn("Brein-machine: 3D start niet:", geen3d);
+    trackEvent("machine_3d_unavailable", "tech", geen3d, {
+      ua: navigator.userAgent,
+      dpr: window.devicePixelRatio,
+      poging,
+    });
+  }, [geen3d, poging]);
+
+  const onUnavailable = useCallback((reden?: string) => {
+    setGeen3d(reden || "De 3D-scène kon niet starten.");
   }, []);
 
   const onStation = useCallback((id: string) => {
@@ -141,8 +165,21 @@ export function BreinFuncties() {
                 decoding="async"
                 className="mx-auto block h-auto w-full max-w-[960px]"
               />
-              <figcaption className="px-5 pb-5 text-center font-mono text-[10px] uppercase tracking-[0.18em] text-white/45">
-                Commercieel Brein · vijf functies, één systeem
+              <figcaption className="flex flex-col items-center gap-3 px-5 pb-5 text-center">
+                <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/45">
+                  Commercieel Brein · vijf functies, één systeem
+                </span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setGeen3d(null);
+                    setPoging((p) => p + 1);
+                  }}
+                  className="rounded-full border border-white/20 px-4 py-2 font-mono text-[10px] uppercase tracking-[0.18em] text-white/70 transition-colors hover:border-brand-accent hover:text-brand-accent"
+                >
+                  Probeer 3D opnieuw
+                </button>
+                <span className="max-w-[60ch] text-[11px] text-white/35">{geen3d}</span>
               </figcaption>
             </figure>
           ) : machineLaden ? (
@@ -156,9 +193,10 @@ export function BreinFuncties() {
               }
             >
               <BreinMachine
+                key={poging}
                 height="clamp(480px, 76vh, 720px)"
                 onStation={(id: string) => onStation(id)}
-                onUnavailable={() => setGeen3d(true)}
+                onUnavailable={onUnavailable}
               />
             </Suspense>
           ) : (

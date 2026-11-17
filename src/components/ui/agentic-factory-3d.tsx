@@ -39,7 +39,7 @@ export type AgenticFactory3DProps = {
   /** The first real frame is drawn. */
   onReady?: () => void
   /** Called when the browser cannot run WebGL, so the host can show a still. */
-  onUnavailable?: () => void
+  onUnavailable?: (reason?: string) => void
 }
 
 export default function AgenticFactory3D({
@@ -68,7 +68,7 @@ export default function AgenticFactory3D({
         embedded: embed,
         onStation: (id) => handlers.current.onStation?.(id),
         onReady: () => handlers.current.onReady?.(),
-        onUnavailable: () => handlers.current.onUnavailable?.(),
+        onUnavailable: (reason) => handlers.current.onUnavailable?.(reason),
       })
     })
     return () => {
@@ -262,7 +262,7 @@ export type MachineSceneOptions = {
   onStation?: (id: StationId) => void
   onReady?: () => void
   /** The scene cannot start (no WebGL): the host can show a still instead. */
-  onUnavailable?: () => void
+  onUnavailable?: (reason?: string) => void
 }
 
 function initMachineScene(
@@ -319,7 +319,8 @@ function initMachineScene(
       }
     }
     if (!renderer) {
-      options.onUnavailable?.()
+      const msg = lastError instanceof Error ? lastError.message : String(lastError)
+      options.onUnavailable?.(`3D-renderer start niet: ${msg}`)
       showError(
         'WebGL is niet beschikbaar. Zet hardwareversnelling aan in uw browser en ververs de pagina.'
       )
@@ -361,7 +362,7 @@ function initMachineScene(
     const key = new THREE.DirectionalLight(0xfff1d8, 4.2)
     key.position.set(-4, 12, 7)
     key.castShadow = true
-    key.shadow.mapSize.set(2048, 2048)
+    key.shadow.mapSize.set(1024, 1024)
     Object.assign(key.shadow.camera, {
       left: -10,
       right: 10,
@@ -1385,7 +1386,8 @@ function initMachineScene(
       flightTime = 0,
       lastDraw = -1,
       visible = true,
-      contextLost = false
+      contextLost = false,
+      lostTimer = 0
     const desiredPosition = new THREE.Vector3(),
       desiredTarget = new THREE.Vector3(0, 1, 0)
     const viewDirection = new THREE.Vector3(10.5, 10.8, 17).normalize()
@@ -1635,9 +1637,16 @@ function initMachineScene(
       showError(
         'De grafische context werd onderbroken. De scène komt vanzelf terug.'
       )
+      // Komt hij niet snel terug, dan krijgt de bezoeker het stilstaande beeld.
+      window.clearTimeout(lostTimer)
+      lostTimer = window.setTimeout(() => {
+        if (contextLost) options.onUnavailable?.('De grafische kaart stopte de 3D-scène.')
+      }, 4000)
     })
+    cleanups.push(() => window.clearTimeout(lostTimer))
     listen(renderer.domElement, 'webglcontextrestored', () => {
       contextLost = false
+      window.clearTimeout(lostTimer)
       $('error').style.display = 'none'
       lastFrame = performance.now()
     })
@@ -1919,7 +1928,9 @@ function initMachineScene(
     })
   } catch (error) {
     console.error('Machine: failed to start', error)
-    options.onUnavailable?.()
+    options.onUnavailable?.(
+      `3D-scène faalde: ${error instanceof Error ? error.message : String(error)}`
+    )
     showError()
   }
   return dispose
