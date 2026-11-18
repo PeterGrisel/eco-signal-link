@@ -66,9 +66,9 @@ export function Hero() {
               <SplitHeadline lines={HEADLINE} accentClass="text-brand-accent" />
             </h2>
             <p className="mb-7 max-w-[44ch] text-[16.5px] leading-relaxed text-[#D6CEC3]">
-              B2B Groeimachine ontwerpt en bouwt het systeem achter uw sales,
-              marketing en RevOps. Negentig dagen als pilot, daarna
-              maandelijks opzegbaar.
+              Uw digitale salesmedewerker met een AI-brein. € 3.000 per maand,
+              alles inbegrepen. De basis staat in 90 dagen, daarna maandelijks
+              opzegbaar.
             </p>
             <TalkCard location="Home hero" />
 

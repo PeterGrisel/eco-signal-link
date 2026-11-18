@@ -541,7 +541,7 @@ export function HetProtocol() {
       ],
     },
     {
-      category: "Dag 1 tot 30",
+      category: "Maand 1 en 2",
       title: "De bouw",
       description:
         "Wij ontwerpen en bouwen op uw eigen data en CRM. U ziet elke week wat er staat en wat er nog mist.",
@@ -554,7 +554,7 @@ export function HetProtocol() {
       ],
     },
     {
-      category: "Dag 30",
+      category: "Dag 90",
       title: "De toets",
       description: "U legt de werkelijkheid naast de afspraak. Niet wij, u.",
       status: "upcoming",
@@ -590,7 +590,7 @@ export function HetProtocol() {
     {
       label: "Onderdeel",
       kop: "De tools",
-      body: "Data, verrijking, verzending en CRM-koppelingen. Wij rekenen de onkosten door die wij zelf voor uw engine maken.",
+      body: "Data, verrijking, verzending en CRM-koppelingen. De licenties zitten in het maandbedrag.",
     },
     {
       label: "Onderdeel",
@@ -608,7 +608,7 @@ export function HetProtocol() {
         kop={
           <SectionHeader
             eyebrow="Zo werkt de pilot"
-            title="Binnen 30 dagen live. 90 dagen testen, leren en optimaliseren. Daarna onbeperkt schaalbaar."
+            title="In 90 dagen gebouwd en bewezen. Daarna maandelijks opzegbaar en onbeperkt schaalbaar."
           />
         }
         className="max-w-[58rem]"
@@ -644,7 +644,7 @@ export function HetProtocol() {
           ))}
         </div>
         <p className="mt-5 text-[13.5px] text-brand-ink-2">
-          Geen opstartkosten. 90 dagen samen bouwen, testen en verbeteren.
+          € 3.000 per maand, alles inbegrepen. 90 dagen samen bouwen, testen en bewijzen.
           Daarna maandelijks opzegbaar.
         </p>
       </Reveal>

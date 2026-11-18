@@ -16,7 +16,6 @@ export function WerkomgevingSectie() {
     <Section id="werkomgeving" tone="deep" fill>
       <SectionHeader
         deep
-        titleAs="h1"
         eyebrow="Zo ziet het eruit"
         title="Een Commercieel Brein dat zoekt, rapporteert, plant en uitvoert."
         lead="Eén werkomgeving voor uw bronnen, tools en proces. Het systeem vindt kansen, voert taken uit en houdt alles bij. Zo wordt elke kans een afspraak."

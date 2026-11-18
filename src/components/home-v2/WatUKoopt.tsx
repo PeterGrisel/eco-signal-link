@@ -2,13 +2,11 @@ import { Button } from "@/components/v2/Button";
 import { Reveal } from "@/components/v2/Reveal";
 import { Section } from "@/components/v2/Section";
 import { SectionHeader } from "@/components/v2/SectionHeader";
-import { MenuKaarten } from "@/components/prijzen/MenuKaarten";
 import { CYCLUS } from "@/data/breinAanpak";
 
 /**
  * Hoe we werken en wat het kost, in één oogopslag: het groeiplan als doel,
- * de cyclus van het brein, en de drie abonnementen. De volledige
- * uitleg staat op /pricing.
+ * en de cyclus van het brein. De prijs staat in de sectie Investering.
  */
 export function WatUKoopt() {
   return (
@@ -45,12 +43,11 @@ export function WatUKoopt() {
         </p>
       </Reveal>
 
-      <MenuKaarten />
 
       <Reveal className="mt-10 flex flex-wrap items-center gap-3">
         <Button href="/groeiplan">Bekijk het groeiplan</Button>
-        <Button href="/pricing" variant="outline">
-          Zo werkt de prijs
+        <Button href="#investering" variant="outline">
+          Wat het kost
         </Button>
       </Reveal>
     </Section>

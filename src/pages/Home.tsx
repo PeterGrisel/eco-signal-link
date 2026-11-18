@@ -6,9 +6,14 @@ import PageLoader from "@/components/PageLoader";
 import { usePageMeta } from "@/hooks/usePageMeta";
 import { Footer } from "@/components/v2/Footer";
 import { Nav } from "@/components/v2/Nav";
-import { Klantenraster, Vragen } from "@/components/home-v2/sections";
+import { HetProtocol, Klantenraster, Vragen, WieZitErachter } from "@/components/home-v2/sections";
+import { Hero } from "@/components/home-v2/Hero";
+import { BreinFuncties } from "@/components/home-v2/BreinFuncties";
+import { WatUKoopt } from "@/components/home-v2/WatUKoopt";
+import { WerkomgevingSectie } from "@/components/werkomgeving/Sectie";
+import { GroeiplanCta } from "@/components/v2/GroeiplanCta";
+import { Marquee } from "@/components/v2/Marquee";
 import {
-  DmAfsluiter,
   DmBrein,
   DmFasering,
   DmHero,
@@ -101,17 +106,32 @@ const Home = () => {
           <DmKern />
           <DmProces />
           <DmWatIsHet />
+          <WerkomgevingSectie />
           <DmBrein />
+          <BreinFuncties />
           <DmProcessen />
           <DmSignalen />
           <DmWieDoetWat />
+          <HetProtocol />
           <DmVergelijking />
           <KlantCases />
+          <Marquee
+            items={[
+              "Digitale salesmedewerker",
+              "Prospecting",
+              "Signalen en score",
+              "Nurturing",
+              "CRM en rapportage",
+            ]}
+          />
           <DmWieWijZijn />
+          <WatUKoopt />
           <DmFasering />
           <DmInvestering />
+          <GroeiplanCta />
+          <WieZitErachter />
+          <Hero />
           <Vragen />
-          <DmAfsluiter />
         </main>
         <Footer />
       </div>

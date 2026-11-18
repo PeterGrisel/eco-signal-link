@@ -63,16 +63,11 @@ const FUNCTIES: { rol: string; naam: string; body: string }[] = [
   },
   {
     rol: "06",
-    naam: "Eigen skilllab",
-    body: "Uw team bouwt en test nieuwe vaardigheden in een eigen lab. Wat werkt, schuift door naar de praktijk.",
-  },
-  {
-    rol: "07",
     naam: "Agents",
     body: "Kleine AI-medewerkers, elk met één taak. Samen vormen ze één systeem dat doordraait.",
   },
   {
-    rol: "08",
+    rol: "07",
     naam: "Ads",
     body: "Een volledige 360-analyse van uw ads. Uw hele funnel van a tot z in kaart, push en pull, zodat u erop kunt sturen.",
   },
