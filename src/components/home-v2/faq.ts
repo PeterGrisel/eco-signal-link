@@ -15,7 +15,12 @@ export const FAQ_ITEMS: FaqItem[] = [
   {
     question: "Hoe snel staat dit operationeel?",
     answer:
-      "In vier weken staat de eerste versie: proces, datamodel, eerste connectors en de eerste hypotheses. Daarna groeit de engine mee met wat u leert. De opstartkosten zijn nul euro.",
+      "De basis staat in 90 dagen. Maand 1 is het fundament: ICP-sessie, CRM opschonen, klantprofiel en het brein vullen. In maand 2 gaat de eerste golf live. In maand 3 schalen we op en kijken we mee naar het volgende proces. Daarna is het maandelijks opzegbaar.",
+  },
+  {
+    question: "Wat kost het?",
+    answer:
+      "Eén vast bedrag van € 3.000 per maand, excl. btw. Daarin zitten het werk, de licenties en doorlopend advies. Geen uren achteraf en geen losse tool-abonnementen.",
   },
   {
     question: "Neemt de AI het gesprek over?",

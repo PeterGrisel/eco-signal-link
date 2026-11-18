@@ -1,30 +1,33 @@
 import { KlantCases } from "@/components/cases/KlantCases";
-import { GroeiplanCta } from "@/components/v2/GroeiplanCta";
 import { useEffect, useMemo } from "react";
 import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 import JsonLd from "@/components/JsonLd";
 import PageLoader from "@/components/PageLoader";
 import { usePageMeta } from "@/hooks/usePageMeta";
 import { Footer } from "@/components/v2/Footer";
-import { Marquee } from "@/components/v2/Marquee";
 import { Nav } from "@/components/v2/Nav";
-import { Hero } from "@/components/home-v2/Hero";
-import { BreinFuncties } from "@/components/home-v2/BreinFuncties";
-import { WatUKoopt } from "@/components/home-v2/WatUKoopt";
-import { WerkomgevingSectie } from "@/components/werkomgeving/Sectie";
+import { Klantenraster, Vragen } from "@/components/home-v2/sections";
 import {
-  HetProtocol,
-  HoeHetWerkt,
-  Klantenraster,
-  Vragen,
-  WieZitErachter,
-} from "@/components/home-v2/sections";
+  DmAfsluiter,
+  DmBrein,
+  DmFasering,
+  DmHero,
+  DmInvestering,
+  DmKern,
+  DmProces,
+  DmProcessen,
+  DmSignalen,
+  DmVergelijking,
+  DmWatIsHet,
+  DmWieDoetWat,
+  DmWieWijZijn,
+} from "@/components/home-v3/sections";
 import { FAQ_ITEMS } from "@/components/home-v2/faq";
 import { buildServicesSchema } from "@/data/schemaOrg";
 
-const TITLE = "B2B Groeimachine | Van omzetdoel naar opportunity flow";
+const TITLE = "B2B Groeimachine | Uw digitale salesmedewerker met een AI-brein";
 const DESCRIPTION =
-  "Wij ontwerpen en bouwen een commerciële opportunity-engine: een digitale medewerker die nieuwe kansen creëert, bewijs stapelt en uw verkopers stuurt naar het account dat nu telt.";
+  "Wij zijn uw process automation team. Een digitale salesmedewerker met een AI-brein draait uw commerciële proces, van markt tot vaste klant. € 3.000 per maand, alles inbegrepen.";
 
 /**
  * De homepage van b2bgroeimachine.io.
@@ -93,26 +96,22 @@ const Home = () => {
         <JsonLd id="home-faq-jsonld" data={faqSchema} />
         <Nav />
         <main>
-          <WerkomgevingSectie />
+          <DmHero />
           <Klantenraster />
-          <BreinFuncties />
-          <HetProtocol />
-          <WatUKoopt />
+          <DmKern />
+          <DmProces />
+          <DmWatIsHet />
+          <DmBrein />
+          <DmProcessen />
+          <DmSignalen />
+          <DmWieDoetWat />
+          <DmVergelijking />
           <KlantCases />
-          <Marquee
-            items={[
-              "Commercieel brein",
-              "AI Automation",
-              "Outreach as a Service",
-              "Reporting",
-              "Training",
-            ]}
-          />
-
-          <GroeiplanCta />
-          <WieZitErachter />
-          <Hero />
+          <DmWieWijZijn />
+          <DmFasering />
+          <DmInvestering />
           <Vragen />
+          <DmAfsluiter />
         </main>
         <Footer />
       </div>

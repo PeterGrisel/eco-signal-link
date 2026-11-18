@@ -47,8 +47,8 @@ function escapeHtml(str: string): string {
 
 const HOME_BODY = `
 <section>
-  <h1>Wij automatiseren en schalen uw B2B salesproces</h1>
-  <p>U weet precies waar uw volgende klant vandaan komt. Elke week scherper. Elke maand meer resultaat.</p>
+  <h1>Uw digitale salesmedewerker. Met een AI-brein.</h1>
+  <p>Wij zijn uw process automation team. Wij brengen de softwarekennis en de automatiseringskracht, en bouwen een digitale medewerker die uw commerciële proces draait: van markt tot vaste klant. Groeien in omzet, niet in loonkosten. € 3.000 per maand, alles inbegrepen. De basis staat in 90 dagen, daarna maandelijks opzegbaar.</p>
 </section>
 
 <section>
@@ -244,9 +244,9 @@ const STATIC_PAGES: Record<string, {
   extraHead?: string;
 }> = {
   "/": {
-    title: "B2BGroeiMachine — Wij automatiseren en schalen uw B2B salesproces",
-    description: "Wij bouwen schaalbare B2B sales engines: van prospecting tot geboekte afspraken. Proces, data en resultaat voor ambitieuze bedrijven in Nederland en België.",
-    h1: "Wij automatiseren en schalen uw B2B salesproces",
+    title: "B2B Groeimachine | Uw digitale salesmedewerker met een AI-brein",
+    description: "Wij zijn uw process automation team. Een digitale salesmedewerker met een AI-brein draait uw commerciële proces, van markt tot vaste klant. € 3.000 per maand, alles inbegrepen.",
+    h1: "Uw digitale salesmedewerker. Met een AI-brein.",
     bodyContent: HOME_BODY,
     extraHead: HOMEPAGE_EXTRA_HEAD,
   },
@@ -264,9 +264,9 @@ const STATIC_PAGES: Record<string, {
   },
   "/pricing": {
     title: "Prijzen | B2B Groeimachine",
-    description: "Eén vaste prijs, alles erin. We starten bij uw groeiplan. Het brein helpt uw commercie te standaardiseren, te testen en makkelijk bij te sturen.",
-    h1: "Eén vaste prijs. Alles erin.",
-    bodyContent: `<p>Elk abonnement start bij het groeiplan. Brein Start € 2.250, Brein Groei € 3.500 (AI-geletterdheid en adoptie inbegrepen) en Brein Scale € 5.500 per maand, all-in. 90 dagen pilot, daarna maandelijks opzegbaar.</p>`,
+    description: "Uw digitale salesmedewerker voor € 3.000 per maand, alles inbegrepen: werk, licenties en advies. De basis staat in 90 dagen, daarna maandelijks opzegbaar.",
+    h1: "€ 3.000 per maand. Alles inbegrepen.",
+    bodyContent: `<p>Eén vast bedrag per maand: het werk, de licenties en doorlopend advies. De basis staat in 90 dagen: maand 1 fundament, maand 2 de eerste golf live, maand 3 schalen. Daarna maandelijks opzegbaar en alles overdraagbaar.</p>`,
   },
 
 

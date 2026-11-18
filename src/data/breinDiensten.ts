@@ -302,7 +302,6 @@ export const BREIN_DIENSTEN: BreinDienst[] = [
         { naam: "AI-adoptie", body: "Van losse experimenten naar vaste werkwijzen. Teams passen AI toe op hun eigen processen en leggen afspraken vast." },
         { naam: "AI-pilots voor leidinggevenden", body: "Leidinggevenden kiezen een kansrijk proces, zetten een pilot op en leren sturen op resultaat en risico." },
         { naam: "Werken met agents", body: "Hoe je AI-agents taken laat uitvoeren, controleert en verbetert. Praktisch, op uw eigen tools." },
-        { naam: "Eigen skilllab", body: "Na de training bouwt uw team verder in een eigen lab. Wat werkt, schuift door naar de praktijk." },
         { naam: "In-company of open inschrijving", body: "Op locatie voor uw team, of via een opleidingscentrum samen met professionals uit andere organisaties." },
       ],
     },

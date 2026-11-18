@@ -29,7 +29,7 @@ export const KLANT_BESCHRIJVINGEN: KlantBeschrijving[] = [
   { match: ["censo"], omschrijving: "Energieadviseur voor het mkb.", behoefte: "Per doelgroep in gesprek komen, van mkb tot bakkerijen.", brein: ["Outreach"] },
   { match: ["storingservice"], omschrijving: "Storingsdienst voor aannemers en woningcorporaties.", behoefte: "Elke melding direct op de juiste plek.", brein: ["Agents"] },
   { match: ["mrmaas", "mistermaas"], omschrijving: "Helpt bedrijven hun wagenparkkosten te verlagen.", behoefte: "Facility- en HR-managers bereiken en vast opvolgen.", brein: ["Outreach", "Taken"] },
-  { match: ["dux"], omschrijving: "Data-consultancy.", behoefte: "Een commerciële motor voor de groep en AI-kennis in het team.", brein: ["Leads", "Outreach", "Skilllab"] },
+  { match: ["dux"], omschrijving: "Data-consultancy.", behoefte: "Een commerciële motor voor de groep en AI-kennis in het team.", brein: ["Leads", "Outreach"] },
   { match: ["salunova"], omschrijving: "Adviesbureau voor zorg en pharma.", behoefte: "Een eerste pharma-product in de markt zetten.", brein: ["Leads", "Outreach"] },
   { match: ["growprofs"], omschrijving: "Detacheerder van consultants.", behoefte: "Scherpere proposities en één CRM met vaste opvolging.", brein: ["Taken", "Reporting"] },
   { match: ["leister"], omschrijving: "Leverancier van hete-lucht- en kunststoflasapparatuur.", behoefte: "Accountmanagers die vanuit signalen nieuwe klanten vinden.", brein: ["Leads", "Outreach", "Taken"] },
@@ -45,7 +45,7 @@ export const KLANT_BESCHRIJVINGEN: KlantBeschrijving[] = [
   { match: ["yaskawa"], omschrijving: "Fabrikant van industriële robots, aandrijvingen en besturingen.", behoefte: "Een scherp ICP en nieuwe klanten in de Benelux.", brein: ["Leads", "Outreach"] },
   { match: ["datahub"], omschrijving: "Helpt organisaties sneller betere beslissingen te nemen met data en AI.", behoefte: "Toepassingen die het platform in de praktijk laten werken.", brein: ["Agents"] },
   { match: ["gobytes"], omschrijving: "Verkoopt refurbished laptops, desktops, smartphones en tablets.", behoefte: "Zakelijke afnemers bereiken.", brein: ["Leads", "Outreach"] },
-  { match: ["nexer"], omschrijving: "Levert cloudoplossingen, IT-beheer en security.", behoefte: "Het hele commerciële proces op één brein.", brein: ["Leads", "Outreach", "Taken", "Reporting", "Content planning", "Agents", "Skilllab", "Ads"] },
+  { match: ["nexer"], omschrijving: "Levert cloudoplossingen, IT-beheer en security.", behoefte: "Het hele commerciële proces op één brein.", brein: ["Leads", "Outreach", "Taken", "Reporting", "Content planning", "Agents", "Ads"] },
   { match: ["exes"], omschrijving: "Neemt routinematig engineeringwerk over voor de maakindustrie, uitgevoerd in India, zodat eigen engineers zich op R&D en innovatie richten.", behoefte: "Engineeringmanagers in de maakindustrie bereiken.", brein: ["Outreach"] },
   { match: ["krak"], omschrijving: "Juridisch adviesbureau voor ondernemers.", behoefte: "Nieuwe zakelijke cliënten bereiken.", brein: ["Leads", "Outreach"] },
 ];
