@@ -8,18 +8,27 @@ import {
   BREIN,
   DOET,
   DOMEINEN,
+  HANDWERK,
   FASEN,
   MAANDPRIJS,
-  NEGENTIG_DAGEN,
   NIVEAUS,
   OOK_INBEGREPEN,
-  PROCES_STAPPEN,
-  PROCESSEN,
+    PROCESSEN,
   RINGEN,
   VERGELIJKING,
   WIE_DOET_WAT,
   ZIET,
 } from "@/data/digitaleMedewerker";
+import {
+  CollegaFiguur,
+  Doorstroom,
+  LekkendProces,
+  Planning,
+  SignaalRingen,
+  Sterrenbeeld,
+  Werkdag,
+} from "./illustraties";
+import { PROCES_ICOON } from "./procesIconen";
 
 /**
  * De homepage volgens de deck "Digitale salesmedewerker": wat het is, hoe het
@@ -34,38 +43,6 @@ const Accent = ({ children }: { children: React.ReactNode }) => (
 const AccentDeep = ({ children }: { children: React.ReactNode }) => (
   <span className="text-brand-accent">{children}</span>
 );
-
-/** Een rustig sterrenbeeld: het brein als netwerk van kennis. */
-function Sterrenbeeld({ className = "" }: { className?: string }) {
-  const punten: [number, number, number][] = [
-    [50, 22, 3], [62, 30, 2], [72, 26, 2.5], [80, 40, 2], [68, 48, 3.5], [56, 44, 2],
-    [42, 38, 2.5], [34, 50, 3], [28, 62, 2], [40, 66, 2.5], [52, 70, 3], [64, 64, 2],
-    [74, 72, 2.5], [60, 82, 2], [46, 84, 2.5], [30, 78, 2],
-  ];
-  const lijnen: [number, number][] = [
-    [0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 0], [5, 6], [6, 7], [7, 8], [8, 9],
-    [9, 10], [10, 11], [11, 4], [11, 12], [10, 13], [13, 14], [14, 15], [15, 9],
-  ];
-  return (
-    <svg viewBox="0 0 100 100" className={className} aria-hidden>
-      <circle cx="54" cy="54" r="44" fill="none" stroke="currentColor" strokeOpacity="0.18" strokeDasharray="1 2" strokeWidth="0.4" />
-      {lijnen.map(([a, b], i) => (
-        <line
-          key={i}
-          x1={punten[a][0]}
-          y1={punten[a][1]}
-          x2={punten[b][0]}
-          y2={punten[b][1]}
-          stroke="#E8945A"
-          strokeWidth="0.45"
-        />
-      ))}
-      {punten.map(([x, y, r], i) => (
-        <circle key={i} cx={x} cy={y} r={r * 0.55} fill={i % 3 === 0 ? "#E8945A" : "currentColor"} />
-      ))}
-    </svg>
-  );
-}
 
 /** 1. Hero: uw digitale salesmedewerker. */
 export function DmHero() {
@@ -92,7 +69,7 @@ export function DmHero() {
           </div>
         </div>
         <Reveal className="hidden justify-center lg:flex">
-          <Sterrenbeeld className="w-full max-w-[420px] text-white" />
+          <Sterrenbeeld labels tekenIn className="w-full max-w-[440px] text-white" />
         </Reveal>
       </div>
     </Section>
@@ -157,28 +134,9 @@ export function DmProces() {
         }
         lead="Een leadgeneratiebureau stopt na de tweede stap: een lijst en één goed bericht. Maar het lekt juist daarna. Een warm signaal dat niemand ziet, een lead die niet opgevolgd wordt, een klant waar het stil blijft."
       />
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-        {PROCES_STAPPEN.map((s, i) => (
-          <Reveal key={s.naam} index={i}>
-            <div
-              className={`rounded-brand border px-3 py-4 text-center ${
-                i === PROCES_STAPPEN.length - 1
-                  ? "border-brand-accent-ink bg-brand-accent-ink text-white"
-                  : "border-brand-ink bg-brand-paper"
-              }`}
-            >
-              <p className="font-mono text-[10px] opacity-60">0{i + 1}</p>
-              <p className="font-display text-[15px] font-bold">{s.naam}</p>
-            </div>
-            {s.lek && (
-              <p className="mt-3 text-center font-mono text-[10px] font-bold uppercase leading-snug tracking-[0.1em] text-[#C0392B]">
-                <span aria-hidden className="mb-1 block text-base leading-none">●</span>
-                {s.lek}
-              </p>
-            )}
-          </Reveal>
-        ))}
-      </div>
+      <Reveal>
+        <LekkendProces />
+      </Reveal>
       <p className="mt-10 font-serif text-[17px] italic text-brand-accent-ink">
         Wij automatiseren het proces. Niet alleen de eerste hap.
       </p>
@@ -219,19 +177,19 @@ export function DmWatIsHet() {
           </>
         }
       />
-      <div className="grid gap-5 lg:grid-cols-[1fr_auto_1fr] lg:items-center">
+      <div className="grid gap-4 lg:grid-cols-[1fr_auto_auto_auto_1fr] lg:items-center">
         <Reveal>
           <Box label="Ziet · alle touchpoints" title="Alles rond uw bedrijf">
             <Lijst items={ZIET} />
           </Box>
         </Reveal>
+        <Doorstroom />
         <Reveal index={1} className="flex flex-col items-center text-center">
           <p className="mb-2 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-brand-accent-ink">Denkt · uw context</p>
-          <div className="rounded-full bg-brand-tint p-4">
-            <Sterrenbeeld className="h-36 w-36 text-brand-ink" />
-          </div>
-          <p className="mt-3 max-w-[22ch] text-[12.5px] text-brand-ink-3">Klantprofielen, proposities, persona's, drempels en regels</p>
+          <CollegaFiguur className="h-48 w-40" />
+          <p className="mt-2 max-w-[24ch] text-[12px] text-brand-ink-3">Klantprofielen, proposities, persona's, drempels en regels</p>
         </Reveal>
+        <Doorstroom />
         <Reveal index={2}>
           <Box label="Doet · gereedschapskist" title="Het werk dat volgt" accent>
             <Lijst items={DOET} />
@@ -255,15 +213,33 @@ export function DmBrein() {
         }
         lead="Het verschil zit niet in het AI-model, het zit in het brein. Hetzelfde model met uw context voert een ander gesprek: niet 'heeft u tijd?', maar een reden om nu te praten."
       />
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {BREIN.map((b, i) => (
-          <Reveal key={b.naam} index={i}>
-            <div className="h-full rounded-brand border border-brand-line bg-brand-paper p-5">
-              <h3 className="mb-1 font-display text-[16px] font-bold">{b.naam}</h3>
-              <p className="text-[13.5px] text-brand-ink-2">{b.wat}</p>
+      <div className="grid gap-4 lg:grid-cols-[1fr_240px_1fr] lg:items-center">
+        {[BREIN.slice(0, 3), null, BREIN.slice(3)].map((kolom, k) =>
+          kolom === null ? (
+            <Reveal key="kern" className="order-first flex justify-center lg:order-none">
+              <div className="rounded-full border border-brand-accent/50 bg-brand-tint p-6">
+                <Sterrenbeeld className="h-40 w-40 text-brand-ink" />
+              </div>
+            </Reveal>
+          ) : (
+            <div key={k} className="grid gap-3">
+              {kolom.map((b, i) => (
+                <Reveal key={b.naam} index={i} className="relative">
+                  <div className="rounded-brand border border-brand-ink bg-brand-paper px-5 py-4">
+                    <h3 className="font-display text-[16px] font-bold">{b.naam}</h3>
+                    <p className="text-[13px] text-brand-ink-2">{b.wat}</p>
+                  </div>
+                  <span
+                    aria-hidden
+                    className={`absolute top-1/2 hidden w-8 border-t border-dashed border-brand-accent-ink lg:block ${
+                      k === 0 ? "-right-8" : "-left-8"
+                    }`}
+                  />
+                </Reveal>
+              ))}
             </div>
-          </Reveal>
-        ))}
+          ),
+        )}
       </div>
       <p className="mt-8 font-serif text-[17px] italic text-brand-accent-ink">Elke volgende propositie gebruikt hetzelfde brein.</p>
     </Section>
@@ -288,13 +264,25 @@ export function DmProcessen() {
         {PROCESSEN.map((p, i) => (
           <Reveal key={p.nr} index={i}>
             <div className="h-full rounded-brand border border-white/15 bg-brand-deep-2 p-6">
-              <p className="mb-2 font-display text-2xl font-black text-brand-accent">{p.nr}</p>
+              <div className="mb-3 flex items-start justify-between">
+                <p className="font-display text-2xl font-black text-brand-accent">{p.nr}</p>
+                {(() => {
+                  const Icoon = PROCES_ICOON[p.nr];
+                  return <Icoon aria-hidden className="h-7 w-7 text-white/80" strokeWidth={1.5} />;
+                })()}
+              </div>
               <h3 className="mb-2 font-display text-lg font-bold text-white">{p.naam}</h3>
               <p className="text-[13.5px] text-[#CBC3B8]">{p.wat}</p>
             </div>
           </Reveal>
         ))}
       </div>
+      <Reveal className="mt-16">
+        <h3 className="mb-8 font-display text-[22px] font-extrabold tracking-[-0.02em]">
+          Een werkdag van <AccentDeep>uw digitale salesmedewerker.</AccentDeep>
+        </h3>
+        <Werkdag />
+      </Reveal>
     </Section>
   );
 }
@@ -312,7 +300,8 @@ export function DmSignalen() {
         }
         lead="Eén signaal is ruis. Gestapeld is het een reden om te bellen. We kijken in drie ringen, en een score wordt een routingregel: wie belt, wanneer en waarom."
       />
-      <div className="mb-10 grid gap-4 lg:grid-cols-3">
+      <div className="mb-12 grid items-center gap-10 lg:grid-cols-[0.9fr_1.1fr]">
+        <div className="grid gap-3">
         {RINGEN.map((r, i) => (
           <Reveal key={r.naam} index={i}>
             <div className="h-full rounded-brand border border-brand-ink bg-brand-paper p-5">
@@ -322,6 +311,10 @@ export function DmSignalen() {
             </div>
           </Reveal>
         ))}
+        </div>
+        <Reveal index={1}>
+          <SignaalRingen />
+        </Reveal>
       </div>
       <div className="space-y-3">
         {NIVEAUS.map((n, i) => (
@@ -361,6 +354,13 @@ export function DmWieDoetWat() {
           </>
         }
       />
+      <Reveal className="mb-5">
+        <div className="mb-2 flex justify-between font-mono text-[10px] font-bold uppercase tracking-[0.14em]">
+          <span className="text-brand-accent-ink">Digitale salesmedewerker</span>
+          <span>Mens</span>
+        </div>
+        <div aria-hidden className="h-3 rounded-full bg-gradient-to-r from-brand-accent via-[#F3C29E] to-brand-ink" />
+      </Reveal>
       <div className="grid gap-4 lg:grid-cols-3">
         {WIE_DOET_WAT.map((k, i) => (
           <Reveal key={k.label} index={i}>
@@ -496,28 +496,13 @@ export function DmFasering() {
         ))}
       </div>
       <Reveal>
-        <h3 className="mb-6 font-display text-[22px] font-extrabold tracking-[-0.02em]">
-          Uw eerste 90 dagen. <Accent>Maand voor maand.</Accent>
-        </h3>
+        <div className="rounded-brand bg-brand-deep p-6 text-white lg:p-8">
+          <h3 className="mb-6 font-display text-[22px] font-extrabold tracking-[-0.02em]">
+            Uw eerste 90 dagen. <AccentDeep>Week voor week.</AccentDeep>
+          </h3>
+          <Planning />
+        </div>
       </Reveal>
-      <div className="grid gap-4 lg:grid-cols-3">
-        {NEGENTIG_DAGEN.map((m, i) => (
-          <Reveal key={m.maand} index={i}>
-            <div className="h-full rounded-brand bg-brand-deep p-6 text-white">
-              <p className="mb-1 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-brand-accent">{m.maand}</p>
-              <h4 className="mb-3 font-display text-lg font-bold">{m.titel}</h4>
-              <ul className="space-y-1.5 text-[13.5px] text-[#CBC3B8]">
-                {m.punten.map((p) => (
-                  <li key={p} className="flex gap-2">
-                    <span aria-hidden className="text-brand-accent">▸</span>
-                    {p}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </Reveal>
-        ))}
-      </div>
       <p className="mt-8 font-serif text-[17px] italic text-brand-accent-ink">
         De basis staat in 90 dagen. Daarna maandelijks opzegbaar, alles overdraagbaar.
       </p>
@@ -538,8 +523,38 @@ export function DmInvestering() {
         }
         lead="Geen uren achteraf, geen losse tool-abonnementen. Onze agents doen het handwerk; dat voordeel zit in de prijs."
       />
-      <div className="grid gap-5 lg:grid-cols-[1fr_1fr]">
+      <div className="grid gap-5 lg:grid-cols-[1.25fr_1fr]">
         <Reveal>
+          <div className="h-full rounded-brand border border-brand-line bg-brand-paper p-6">
+            <table className="w-full border-collapse text-[13px]">
+              <thead>
+                <tr className="font-mono text-[9.5px] uppercase tracking-[0.14em] text-brand-ink-3">
+                  <th className="pb-2 text-left font-bold">Handwerk · basis 90 dagen</th>
+                  <th className="pb-2 text-right font-bold">Uren</th>
+                  <th className="pb-2 text-right font-bold">Waarde</th>
+                </tr>
+              </thead>
+              <tbody>
+                {HANDWERK.map((h) => (
+                  <tr key={h.post} className="border-t border-brand-line">
+                    <td className="py-2 pr-3">{h.post}</td>
+                    <td className="py-2 text-right text-brand-ink-3">{h.uren ?? "–"}</td>
+                    <td className="py-2 text-right font-semibold">{h.waarde}</td>
+                  </tr>
+                ))}
+                <tr className="bg-brand-tint">
+                  <td className="rounded-l-brand px-2 py-2.5 font-semibold">Waarde · 160 uur handwerk à € 125 + licenties</td>
+                  <td />
+                  <td className="rounded-r-brand px-2 py-2.5 text-right font-display text-[15px] font-black">± € 21.500</td>
+                </tr>
+              </tbody>
+            </table>
+            <p className="mt-3 font-mono text-[9.5px] uppercase tracking-[0.1em] text-brand-ink-3">
+              Excl. btw. Ter vergelijking: een nieuwe medewerker kost € 55k tot 70k loonkosten per jaar.
+            </p>
+          </div>
+        </Reveal>
+        <Reveal index={1}>
           <div className="h-full rounded-brand border-2 border-brand-accent bg-brand-paper p-7">
             <p className="mb-2 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-brand-accent-ink">Uw investering</p>
             <p className="font-display text-[56px] font-black leading-none tracking-[-0.03em]">
@@ -550,7 +565,7 @@ export function DmInvestering() {
             <div className="mt-6 grid gap-3 sm:grid-cols-2">
               <div className="rounded-brand border border-brand-line p-4">
                 <p className="mb-1 font-mono text-[9.5px] font-bold uppercase tracking-[0.14em] text-brand-accent-ink">Basis · 90 dagen</p>
-                <p className="text-[13.5px] text-brand-ink-2">De digitale salesmedewerker gebouwd, live en bewezen op vooraf vastgelegde KPI's.</p>
+                <p className="text-[13.5px] text-brand-ink-2">U betaalt € 9.000, voor een waarde van ± € 21.500. Gebouwd, live en bewezen op vooraf vastgelegde KPI's.</p>
               </div>
               <div className="rounded-brand border border-brand-line p-4">
                 <p className="mb-1 font-mono text-[9.5px] font-bold uppercase tracking-[0.14em] text-brand-accent-ink">Daarna · per maand</p>
@@ -559,12 +574,14 @@ export function DmInvestering() {
             </div>
           </div>
         </Reveal>
-        <Reveal index={1}>
-          <div className="h-full rounded-brand border border-brand-line bg-brand-paper p-7">
+      </div>
+      <div className="mt-5">
+        <Reveal>
+          <div className="rounded-brand border border-brand-line bg-brand-paper p-7">
             <p className="mb-4 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-brand-accent-ink">
               Ook inbegrepen · doorlopend advies via AI Fctry
             </p>
-            <div className="grid gap-4 sm:grid-cols-2">
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
               {OOK_INBEGREPEN.map((o) => (
                 <div key={o.naam}>
                   <h3 className="mb-1 font-display text-[15px] font-bold">{o.naam}</h3>

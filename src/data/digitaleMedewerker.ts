@@ -153,3 +153,15 @@ export const OOK_INBEGREPEN: { naam: string; wat: string }[] = [
   { naam: "Compliance", wat: "AVG, e-mailregels en AI-wetgeving, vóórdat het een probleem is." },
   { naam: "Data", wat: "Eigenaarschap, kwaliteit en één bron. Uw data blijft van u." },
 ];
+
+/** Wat de basis kost als het met de hand gebeurt (uit de deck). */
+export const HANDWERK: { post: string; uren: number | null; waarde: string }[] = [
+  { post: "ICP-sessie en hypothese", uren: 8, waarde: "€ 1.000" },
+  { post: "Brein en data: profielen, persona's, signalen", uren: 24, waarde: "€ 3.000" },
+  { post: "Infrastructuur: domeinen, inboxen, warm-up", uren: 8, waarde: "€ 1.000" },
+  { post: "Content: waterval van 6 contentvormen", uren: 24, waarde: "€ 3.000" },
+  { post: "Workflows, score en CRM-koppeling", uren: 32, waarde: "€ 4.000" },
+  { post: "Live: wekelijkse review en optimalisatie", uren: 52, waarde: "€ 6.500" },
+  { post: "Documentatie en overdracht", uren: 12, waarde: "€ 1.500" },
+  { post: "Licenties, 3 maanden", uren: null, waarde: "± € 1.500" },
+];
