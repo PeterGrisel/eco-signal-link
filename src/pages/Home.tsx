@@ -1,4 +1,3 @@
-import { KlantCases } from "@/components/cases/KlantCases";
 import { useEffect, useMemo } from "react";
 import BreadcrumbJsonLd from "@/components/BreadcrumbJsonLd";
 import JsonLd from "@/components/JsonLd";
@@ -6,33 +5,12 @@ import PageLoader from "@/components/PageLoader";
 import { usePageMeta } from "@/hooks/usePageMeta";
 import { Footer } from "@/components/v2/Footer";
 import { Nav } from "@/components/v2/Nav";
-import { HetProtocol, Klantenraster, Vragen, WieZitErachter } from "@/components/home-v2/sections";
-import { Hero } from "@/components/home-v2/Hero";
-import { BreinFuncties } from "@/components/home-v2/BreinFuncties";
-import { WatUKoopt } from "@/components/home-v2/WatUKoopt";
-import { WerkomgevingSectie } from "@/components/werkomgeving/Sectie";
-import { GroeiplanCta } from "@/components/v2/GroeiplanCta";
-import { Marquee } from "@/components/v2/Marquee";
-import {
-  DmBrein,
-  DmFasering,
-  DmHero,
-  DmInvestering,
-  DmKern,
-  DmProces,
-  DmProcessen,
-  DmSignalen,
-  DmVergelijking,
-  DmWatIsHet,
-  DmWieDoetWat,
-  DmWieWijZijn,
-} from "@/components/home-v3/sections";
-import { FAQ_ITEMS } from "@/components/home-v2/faq";
+import { V4Bewijs, V4Bouwen, V4Hero, V4Prijs, V4Start, V4Tekort } from "@/components/home-v4/sections";
 import { buildServicesSchema } from "@/data/schemaOrg";
 
-const TITLE = "B2B Groeimachine | Uw digitale salesmedewerker met een AI-brein";
+const TITLE = "B2B Groeimachine | Process automation voor B2B: de engineers die u mist";
 const DESCRIPTION =
-  "Wij zijn uw process automation team. Een digitale salesmedewerker met een AI-brein draait uw commerciële proces, van markt tot vaste klant. € 3.000 per maand, alles inbegrepen.";
+  "Iedereen wil AI-automatisering, bijna niemand heeft de engineers. Wij wel: een digitale salesmedewerker voor uw hele commerciële proces. € 3.000 per maand, alles inbegrepen.";
 
 /**
  * De homepage van b2bgroeimachine.io.
@@ -52,18 +30,6 @@ const Home = () => {
 
   const servicesSchema = useMemo(() => buildServicesSchema(), []);
 
-  const faqSchema = useMemo(
-    () => ({
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      mainEntity: FAQ_ITEMS.map((item) => ({
-        "@type": "Question",
-        name: item.question,
-        acceptedAnswer: { "@type": "Answer", text: item.answer },
-      })),
-    }),
-    [],
-  );
 
   // Anker uit de URL pas volgen nadat de routeovergang is uitgespeeld.
   useEffect(() => {
@@ -98,40 +64,14 @@ const Home = () => {
       <div className="min-h-screen bg-brand-paper">
         <BreadcrumbJsonLd items={[{ name: "Home", url: "https://www.b2bgroeimachine.io/" }]} />
         <JsonLd id="home-services-jsonld" data={servicesSchema} />
-        <JsonLd id="home-faq-jsonld" data={faqSchema} />
         <Nav />
         <main>
-          <DmHero />
-          <Klantenraster />
-          <DmKern />
-          <DmProces />
-          <DmWatIsHet />
-          <WerkomgevingSectie />
-          <DmBrein />
-          <BreinFuncties />
-          <DmProcessen />
-          <DmSignalen />
-          <DmWieDoetWat />
-          <HetProtocol />
-          <DmVergelijking />
-          <KlantCases />
-          <Marquee
-            items={[
-              "Digitale salesmedewerker",
-              "Prospecting",
-              "Signalen en score",
-              "Nurturing",
-              "CRM en rapportage",
-            ]}
-          />
-          <DmWieWijZijn />
-          <WatUKoopt />
-          <DmFasering />
-          <DmInvestering />
-          <GroeiplanCta />
-          <WieZitErachter />
-          <Hero />
-          <Vragen />
+          <V4Hero />
+          <V4Tekort />
+          <V4Bouwen />
+          <V4Start />
+          <V4Prijs />
+          <V4Bewijs />
         </main>
         <Footer />
       </div>
