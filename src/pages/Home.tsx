@@ -5,7 +5,7 @@ import PageLoader from "@/components/PageLoader";
 import { usePageMeta } from "@/hooks/usePageMeta";
 import { Footer } from "@/components/v2/Footer";
 import { Nav } from "@/components/v2/Nav";
-import { V4Bewijs, V4Bouwen, V4Hero, V4Prijs, V4Start, V4Tekort } from "@/components/home-v4/sections";
+import { V4Afsluiter, V4Bewijs, V4Bouwen, V4Hero, V4Prijs, V4Start, V4Tekort, V4Vragen } from "@/components/home-v4/sections";
 import { buildServicesSchema } from "@/data/schemaOrg";
 
 const TITLE = "B2B Groeimachine | Process automation voor B2B: de engineers die u mist";
@@ -72,6 +72,8 @@ const Home = () => {
           <V4Start />
           <V4Prijs />
           <V4Bewijs />
+          <V4Vragen />
+          <V4Afsluiter />
         </main>
         <Footer />
       </div>

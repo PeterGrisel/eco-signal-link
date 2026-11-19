@@ -12,17 +12,20 @@ export function KlantCases({
   dienst,
   tone = "paper",
   title = "Wat het brein bij klanten doet.",
+  eyebrow = "Klantcases",
 }: {
   dienst?: string;
   tone?: "paper" | "mist";
   title?: string;
+  /** `null` laat het label weg. */
+  eyebrow?: string | null;
 }) {
   const cases = dienst ? KLANT_CASES.filter((c) => c.diensten.includes(dienst)) : KLANT_CASES;
   if (cases.length === 0) return null;
 
   return (
     <Section tone={tone} id="cases">
-      <SectionHeader eyebrow="Klantcases" title={title} />
+      <SectionHeader eyebrow={eyebrow} title={title} />
       <div className="mt-8 grid gap-[18px] lg:grid-cols-2">
         {cases.map((c, i) => (
           <Reveal key={c.company} index={i} className="h-full">

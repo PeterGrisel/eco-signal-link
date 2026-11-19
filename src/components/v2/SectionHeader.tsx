@@ -9,7 +9,7 @@ export function SectionHeader({
   deep = false,
   titleAs: TitleTag = "h2",
 }: {
-  eyebrow: string;
+  eyebrow?: string | null;
   title: React.ReactNode;
   lead?: React.ReactNode;
   deep?: boolean;
@@ -18,7 +18,7 @@ export function SectionHeader({
 }) {
   return (
     <Reveal>
-      <Eyebrow tone={deep ? "deep" : "paper"}>{eyebrow}</Eyebrow>
+      {eyebrow && <Eyebrow tone={deep ? "deep" : "paper"}>{eyebrow}</Eyebrow>}
       <TitleTag className="mb-4 font-display text-[length:var(--v2-h2)] font-extrabold leading-[1.08] tracking-[-0.03em]">
         {title}
       </TitleTag>

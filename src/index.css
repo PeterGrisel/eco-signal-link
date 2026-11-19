@@ -679,3 +679,6 @@
 @media (prefers-reduced-motion: reduce) {
   .psv-flood, .psv-sweep { animation: none; }
 }
+
+::selection { background: rgba(232, 148, 90, .35); color: inherit; }
+:focus-visible { outline: 2px solid #E8945A; outline-offset: 3px; }
